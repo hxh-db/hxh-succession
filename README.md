@@ -7,15 +7,6 @@
 1. `site/index.html` をブラウザで表示します。
 2. 直接開く場合、ブラウザにより `fetch` が動作しない場合があります。その場合は簡易サーバーを使ってください。
 
-### 簡易サーバーの例（PowerShell）
-
-```powershell
-cd "c:\Users\supri\Desktop\claude動画作成\site"
-python -m http.server 8000
-```
-
-その後、ブラウザで `http://localhost:8000` を開きます。
-
 ## ファイル構成
 
 - `index.html` - ページ本体

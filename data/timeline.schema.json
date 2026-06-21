@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "タイムラインイベント スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["chapter", "arc", "location", "event", "participants", "summary", "type"],
+    "properties": {
+      "chapter":      { "type": "string", "minLength": 1 },
+      "arc":          { "type": "string" },
+      "day":          { "type": ["integer", "null"], "minimum": 0 },
+      "time":         { "type": ["string", "null"] },
+      "location":     { "type": "string", "minLength": 1 },
+      "event":        { "type": "string", "minLength": 1 },
+      "participants": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 1 },
+        "minItems": 1
+      },
+      "summary":      { "type": "string", "minLength": 1 },
+      "type":         {
+        "type": "string",
+        "enum": ["儀式", "暗殺", "戦闘", "会合", "発覚", "移動", "会話", "特殊"]
+      },
+      "duration":     { "type": ["integer", "null"], "minimum": 1 }
+    }
+  }
+}

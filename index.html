@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>王位継承戦データまとめ</h1>
+      <p>HUNTER×HUNTER — カキン帝国14王子・守護霊獣・護衛・タイムラインを1ページで確認</p>
+    </div>
+    <nav class="site-nav">
+      <a href="#overview">概要</a>
+      <a href="#princes">王子一覧</a>
+      <a href="#spirit-beasts">守護霊獣</a>
+      <a href="#bodyguards">護衛・ハンター</a>
+      <a href="#factions">派閥マップ</a>
+      <a href="#timeline">タイムライン</a>
+    </nav>
+  </header>
+
+  <main class="page-container">
+
+    <!-- ① 概要セクション -->
+    <section id="overview" class="section-block">
+      <div class="section-header">
+        <h2>王位継承戦とは</h2>
+        <p>カキン帝国で行われる、次期国王を決める命がけの継承ゲーム</p>
+      </div>
+
+      <div class="overview-grid">
+        <article class="overview-card">
+          <h3>基本ルール</h3>
+          <ul class="rule-list">
+            <li>継承権を持つのは14人の王子のみ</li>
+            <li>出港セレモニーへの参加が必須条件</li>
+            <li>最後の1人になった者が次の国王となる</li>
+            <li>王族殺しは一族もろとも処刑（表向き直接手を下せない）</li>
+          </ul>
+        </article>
+
+        <article class="overview-card">
+          <h3>壺中卵の儀（こちゅうらん）</h3>
+          <p class="overview-text">
+            カキン初代国王が蟲毒から発想した儀式。14王子が壺に念（ネン）を込めることで、
+            それぞれの性格・内面を反映した<strong>守護霊獣</strong>が宿る。
+            王子本人は守護霊獣を認知できないが、念能力者には見える。
+          </p>
+        </article>
+
+        <article class="overview-card">
+          <h3>舞台：ブラックホエール号</h3>
+          <p class="overview-text">
+            暗黒大陸へ向かう超大型客船。全14デッキを誇り、各王子は専用フロアに配置される。
+            密室に近い空間でありながら数万人が乗船しており、暗殺が横行する混沌の場となる。
+          </p>
+        </article>
+
+        <article class="overview-card">
+          <h3>念（ネン）能力の6系統</h3>
+          <div class="nen-types-grid">
+            <span class="nen-badge nen-強化">強化系</span>
+            <span class="nen-badge nen-放出">放出系</span>
+            <span class="nen-badge nen-具現化">具現化系</span>
+            <span class="nen-badge nen-操作">操作系</span>
+            <span class="nen-badge nen-変化">変化系</span>
+            <span class="nen-badge nen-特質">特質系</span>
+          </div>
+          <p class="overview-text" style="margin-top:10px;">守護霊獣や護衛の能力を系統で分類して確認できます。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ② 王子一覧 -->
+    <section id="princes" class="section-block">
+      <div class="section-header">
+        <h2>14王子一覧</h2>
+        <p>順位・母（王妃）・守護霊獣・念系統・生死状況を一覧で確認</p>
+      </div>
+      <div class="list-controls">
+        <label>
+          検索：
+          <input id="princeSearch" type="search" placeholder="王子名 / 王妃 / 状態" />
+        </label>
+        <label>
+          念系統：
+          <select id="princeNenFilter">
+            <option value="all">全て</option>
+            <option value="強化系">強化系</option>
+            <option value="放出系">放出系</option>
+            <option value="具現化系">具現化系</option>
+            <option value="操作系">操作系</option>
+            <option value="変化系">変化系</option>
+            <option value="特質系">特質系</option>
+          </select>
+        </label>
+        <label>
+          状態：
+          <select id="princeStatusFilter">
+            <option value="all">全て</option>
+            <option value="存命">存命</option>
+            <option value="死亡">死亡</option>
+            <option value="不明">不明</option>
+          </select>
+        </label>
+      </div>
+      <div id="prince-grid" class="card-grid"></div>
+    </section>
+
+    <!-- ③ 守護霊獣一覧 -->
+    <section id="spirit-beasts" class="section-block">
+      <div class="section-header">
+        <h2>守護霊獣一覧</h2>
+        <p>壺中卵の儀で各王子に宿った念獣。王子の性格・内面を反映した独自の能力を持つ</p>
+      </div>
+      <div class="list-controls">
+        <label>
+          念系統：
+          <select id="beastNenFilter">
+            <option value="all">全て</option>
+            <option value="強化系">強化系</option>
+            <option value="放出系">放出系</option>
+            <option value="具現化系">具現化系</option>
+            <option value="操作系">操作系</option>
+            <option value="変化系">変化系</option>
+            <option value="特質系">特質系</option>
+          </select>
+        </label>
+      </div>
+      <div id="spirit-beast-grid" class="card-grid"></div>
+    </section>
+
+    <!-- ④ 護衛・ハンター一覧 -->
+    <section id="bodyguards" class="section-block">
+      <div class="section-header">
+        <h2>護衛・ハンター一覧</h2>
+        <p>各王子に仕える護衛兵とハンター。ハンターは念能力者として継承戦の鍵を握る</p>
+      </div>
+      <div class="list-controls">
+        <label>
+          検索：
+          <input id="bodyguardSearch" type="search" placeholder="名前 / 担当王子 / 能力 / 役割" />
+        </label>
+        <label>
+          ハンター：
+          <select id="hunterFilter">
+            <option value="all">全て</option>
+            <option value="true">ハンターのみ</option>
+            <option value="false">一般護衛のみ</option>
+          </select>
+        </label>
+      </div>
+      <div id="bodyguard-grid" class="card-grid"></div>
+    </section>
+
+    <!-- ⑤ 派閥マップ -->
+    <section id="factions" class="section-block">
+      <div class="section-header">
+        <h2>派閥マップ</h2>
+        <p>継承戦で形成される同盟・陣営。単独行動から多数派工作まで各王子の戦略が絡み合う</p>
+      </div>
+      <div id="faction-grid" class="faction-grid"></div>
+    </section>
+
+    <!-- ⑥ タイムライン -->
+    <section id="timeline" class="section-block">
+      <div class="section-header">
+        <h2>タイムライン</h2>
+        <p>継承戦中の主要イベントを時系列で整理</p>
+      </div>
+
+      <div class="timeline-controls">
+        <label>
+          参加者で絞り込み：
+          <input id="participantFilter" type="search" placeholder="例: クラピカ" />
+        </label>
+        <label>
+          場所で絞り込み：
+          <select id="roomFilter">
+            <option value="all">全て</option>
+          </select>
+        </label>
+        <label>
+          種別で絞り込み：
+          <select id="typeFilter">
+            <option value="all">全て</option>
+          </select>
+        </label>
+        <button id="clearFilters" type="button">リセット</button>
+      </div>
+
+      <div class="timeline-list" id="timelineList"></div>
+
+      <div class="section-subtitle" id="room-map">
+        <h3>場所マップ</h3>
+        <p>場所ごとのイベント数。クリックで絞り込み。</p>
+      </div>
+      <div class="room-map" id="roomMap"></div>
+
+      <div class="section-subtitle">
+        <h3>場所別タイムライン</h3>
+        <p>各場所でのイベントをまとめて確認</p>
+      </div>
+      <div class="room-timeline" id="roomTimeline"></div>
+
+      <div class="section-subtitle" id="person-history">
+        <h3>人物別タイムライン</h3>
+        <p>人物ごとの出現イベントを一覧</p>
+      </div>
+      <div class="list-controls">
+        <label>
+          表示対象：
+          <select id="participantSelect">
+            <option value="all">全員</option>
+          </select>
+        </label>
+      </div>
+      <div class="person-timeline" id="personTimeline"></div>
+
+      <div class="section-subtitle" id="timeline-matrix">
+        <h3>タイムラインマトリクス</h3>
+        <p>場所×章の二次元で出来事を俯瞰</p>
+      </div>
+      <div class="timeline-matrix" id="timelineMatrix"></div>
+
+      <div class="section-subtitle">
+        <h3>ガントチャート</h3>
+        <p>各イベントの継続時間と場所を視覚化</p>
+      </div>
+      <div class="timeline-gantt" id="ganttChart"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>データはHUNTER×HUNTERの内容に基づいています。ネタバレを含みます。</p>
+  </footer>
+
+  <div class="modal-overlay hidden" id="detailModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">× 閉じる</button>
+      <h3 id="modalTitle">詳細</h3>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

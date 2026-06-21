@@ -1,0 +1,877 @@
+:root {
+  color-scheme: dark;
+  --bg: #08111f;
+  --surface: #121f33;
+  --surface-alt: #162743;
+  --text: #f3f8ff;
+  --muted: #9bb3cc;
+  --accent: #72c7ff;
+  --accent-strong: #3bb8ff;
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* 生死バッジ */
+  --status-alive: #2ecc71;
+  --status-dead: #e74c3c;
+  --status-unknown: #95a5a6;
+
+  /* 念系統カラー */
+  --nen-強化: #f39c12;
+  --nen-放出: #e74c3c;
+  --nen-具現化: #9b59b6;
+  --nen-操作: #27ae60;
+  --nen-変化: #3498db;
+  --nen-特質: #e91e8c;
+
+  /* イベント種別カラー */
+  --type-暗殺: #ff4757;
+  --type-戦闘: #ff6b6b;
+  --type-儀式: #a78bfa;
+  --type-会合: #2ecc71;
+  --type-発覚: #ffd93d;
+  --type-移動: #4ecdc4;
+  --type-会話: #f39c12;
+  --type-特殊: #e91e8c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+  background: linear-gradient(180deg, #06101e 0%, #121f33 100%);
+  color: var(--text);
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  padding: 32px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.site-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+}
+
+.site-header p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.site-nav {
+  max-width: 1080px;
+  margin: 24px auto 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1px solid rgba(114, 199, 255, 0.25);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  transition: background 140ms ease;
+}
+
+.site-nav a:hover {
+  background: rgba(114, 199, 255, 0.1);
+}
+
+/* ===== ページ全体 ===== */
+.page-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.section-block {
+  margin-bottom: 64px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0 0 6px;
+  font-size: 1.75rem;
+}
+
+.section-header p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.section-subtitle {
+  margin-top: 36px;
+  margin-bottom: 8px;
+}
+
+.section-subtitle h3 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.section-subtitle p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ===== カードグリッド ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.card.clickable {
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.card.clickable:hover {
+  transform: translateY(-2px);
+  border-color: rgba(114, 199, 255, 0.35);
+}
+
+.card h3 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.card dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.card dd {
+  margin: 0 0 6px;
+  color: var(--text);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* ===== 生死バッジ ===== */
+.status-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.status-badge.status-存命 {
+  background: rgba(46, 204, 113, 0.18);
+  color: var(--status-alive);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+}
+
+.status-badge.status-死亡 {
+  background: rgba(231, 76, 60, 0.18);
+  color: var(--status-dead);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+}
+
+.status-badge.status-不明 {
+  background: rgba(149, 165, 166, 0.18);
+  color: var(--status-unknown);
+  border: 1px solid rgba(149, 165, 166, 0.3);
+}
+
+/* ===== ハンターバッジ ===== */
+.hunter-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(114, 199, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(114, 199, 255, 0.3);
+  flex-shrink: 0;
+}
+
+/* ===== 念系統バッジ ===== */
+.nen-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.nen-badge.nen-強化系, .nen-badge.nen-強化 {
+  background: rgba(243, 156, 18, 0.18);
+  color: var(--nen-強化);
+  border: 1px solid rgba(243, 156, 18, 0.35);
+}
+.nen-badge.nen-放出系, .nen-badge.nen-放出 {
+  background: rgba(231, 76, 60, 0.18);
+  color: var(--nen-放出);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+}
+.nen-badge.nen-具現化系, .nen-badge.nen-具現化 {
+  background: rgba(155, 89, 182, 0.18);
+  color: var(--nen-具現化);
+  border: 1px solid rgba(155, 89, 182, 0.35);
+}
+.nen-badge.nen-操作系, .nen-badge.nen-操作 {
+  background: rgba(39, 174, 96, 0.18);
+  color: var(--nen-操作);
+  border: 1px solid rgba(39, 174, 96, 0.35);
+}
+.nen-badge.nen-変化系, .nen-badge.nen-変化 {
+  background: rgba(52, 152, 219, 0.18);
+  color: var(--nen-変化);
+  border: 1px solid rgba(52, 152, 219, 0.35);
+}
+.nen-badge.nen-特質系, .nen-badge.nen-特質 {
+  background: rgba(233, 30, 140, 0.18);
+  color: var(--nen-特質);
+  border: 1px solid rgba(233, 30, 140, 0.35);
+}
+
+/* ===== 概要セクション ===== */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.overview-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.overview-card h3 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.overview-text {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.overview-text strong {
+  color: var(--text);
+}
+
+.rule-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 2;
+  font-size: 0.95rem;
+}
+
+.nen-types-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ===== 派閥グリッド ===== */
+.faction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.faction-card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border-left-width: 4px;
+}
+
+.faction-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.faction-leader {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.faction-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.faction-member-chip {
+  font-size: 0.82rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.faction-strategy {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ===== フィルタコントロール ===== */
+.timeline-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin: 22px 0;
+}
+
+.timeline-controls label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-controls select,
+.timeline-controls input {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.timeline-controls button {
+  margin-left: auto;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(114, 199, 255, 0.25);
+  background: rgba(59, 184, 255, 0.1);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.list-controls {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.list-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.list-controls input,
+.list-controls select {
+  min-width: 200px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+/* ===== タイムラインリスト ===== */
+.timeline-list {
+  display: grid;
+  gap: 14px;
+}
+
+.timeline-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.timeline-item h3 {
+  margin: 0 0 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.event-type {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.timeline-item .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.timeline-item .meta span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.timeline-item p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* イベント種別カラー */
+.timeline-item.type-暗殺, .matrix-cell.type-暗殺,
+.gantt-bar.type-暗殺 { --event-color: var(--type-暗殺); border-left-color: var(--type-暗殺); }
+.timeline-item.type-戦闘, .matrix-cell.type-戦闘,
+.gantt-bar.type-戦闘 { --event-color: var(--type-戦闘); border-left-color: var(--type-戦闘); }
+.timeline-item.type-儀式, .matrix-cell.type-儀式,
+.gantt-bar.type-儀式 { --event-color: var(--type-儀式); border-left-color: var(--type-儀式); }
+.timeline-item.type-会合, .matrix-cell.type-会合,
+.gantt-bar.type-会合 { --event-color: var(--type-会合); border-left-color: var(--type-会合); }
+.timeline-item.type-発覚, .matrix-cell.type-発覚,
+.gantt-bar.type-発覚 { --event-color: var(--type-発覚); border-left-color: var(--type-発覚); }
+.timeline-item.type-移動, .matrix-cell.type-移動,
+.gantt-bar.type-移動 { --event-color: var(--type-移動); border-left-color: var(--type-移動); }
+.timeline-item.type-会話, .matrix-cell.type-会話,
+.gantt-bar.type-会話 { --event-color: var(--type-会話); border-left-color: var(--type-会話); }
+.timeline-item.type-特殊, .matrix-cell.type-特殊,
+.gantt-bar.type-特殊 { --event-color: var(--type-特殊); border-left-color: var(--type-特殊); }
+
+.event-type {
+  background: rgba(var(--event-color-rgb, 255,255,255), 0.12);
+  color: var(--event-color, var(--accent));
+}
+
+/* ===== 参加者チップ ===== */
+.participant-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.participant-chip {
+  border: 1px solid rgba(114, 199, 255, 0.25);
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: rgba(114, 199, 255, 0.08);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.84rem;
+}
+
+.participant-chip:hover {
+  background: rgba(114, 199, 255, 0.16);
+}
+
+/* ===== 部屋マップ ===== */
+.room-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.room-map-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.room-map-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(114, 199, 255, 0.35);
+}
+
+.room-map-card h4 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+}
+
+.room-map-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ===== 部屋別タイムライン ===== */
+.room-timeline {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.room-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.room-card h4 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.room-event {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.room-event:last-child {
+  border-bottom: none;
+}
+
+.room-event strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.room-event span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+/* ===== 人物別タイムライン ===== */
+.person-timeline {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.person-event {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.person-event strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.person-event span {
+  color: var(--muted);
+  display: block;
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+}
+
+.person-event p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+/* ===== タイムラインマトリクス ===== */
+.timeline-matrix {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.matrix-grid {
+  display: grid;
+  width: max-content;
+  min-width: 100%;
+  grid-template-columns: 180px repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.matrix-cell,
+.matrix-header-cell {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.matrix-header-cell {
+  background: rgba(114, 199, 255, 0.06);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.matrix-room-cell {
+  background: rgba(255, 255, 255, 0.03);
+  font-weight: 700;
+}
+
+.matrix-event-cell {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-left: 3px solid var(--event-color, var(--accent));
+}
+
+.matrix-event-cell strong {
+  display: block;
+  font-size: 0.88rem;
+}
+
+.matrix-event-cell span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ===== ガントチャート ===== */
+.timeline-gantt {
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.gantt-row {
+  display: flex;
+  margin-bottom: 14px;
+  gap: 12px;
+  align-items: center;
+}
+
+.gantt-label {
+  width: 140px;
+  flex-shrink: 0;
+  font-size: 0.88rem;
+  padding-right: 12px;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.gantt-timeline {
+  flex: 1;
+  position: relative;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  min-width: 400px;
+}
+
+.gantt-bar {
+  height: 26px;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 0.75rem;
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0.88;
+  transition: opacity 140ms ease;
+  background: rgba(114, 199, 255, 0.2);
+  border-left: 3px solid var(--event-color, var(--accent));
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.gantt-bar:hover {
+  opacity: 1;
+}
+
+/* ===== モーダル ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 24, 0.88);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+
+.modal-card {
+  width: min(720px, calc(100% - 40px));
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(12, 24, 40, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 0 16px auto;
+  display: block;
+}
+
+.modal-card h3 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
+.modal-card .detail-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.modal-card .detail-list dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modal-card .detail-list dd {
+  margin: 0 0 8px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.modal-card h4 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.modal-card .event-list {
+  display: grid;
+  gap: 12px;
+}
+
+.modal-card .event-item {
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+}
+
+.modal-card .event-item strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.modal-card .event-item span {
+  color: var(--muted);
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.modal-card .event-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== フッター ===== */
+.site-footer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 24px 40px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 700px) {
+  .site-nav {
+    padding: 0 24px;
+    justify-content: center;
+  }
+
+  .timeline-item h3 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faction-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -11,11 +11,29 @@ let princesData = [];
 let bodyguardsData = [];
 let spiritBeastsData = [];
 let factionsData = [];
+let PRINCE_MAP = {}; // 正式名 → { rank, short }
 
 async function loadJson(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
   return res.json();
+}
+
+// ===== 名前フォーマット =====
+
+function buildPrinceMap(princes) {
+  princes.forEach((p) => {
+    const short = p.name.split("＝")[0];
+    PRINCE_MAP[p.name] = { rank: p.rank, short };
+  });
+}
+
+// 王子の正式名 → 「第N王子 名前」、それ以外はそのまま
+function formatRoyalName(name) {
+  if (!name) return name;
+  const entry = PRINCE_MAP[name];
+  if (entry) return `第${entry.rank}王子${entry.short}`;
+  return name;
 }
 
 // ===== バッジ生成ユーティリティ =====
@@ -31,7 +49,6 @@ function makeStatusBadge(status) {
 function makeNenBadge(nenType) {
   if (!nenType) return null;
   const span = document.createElement("span");
-  const key = nenType.replace("系", "");
   span.className = `nen-badge nen-${nenType}`;
   span.textContent = nenType;
   return span;
@@ -44,14 +61,32 @@ function makeHunterBadge() {
   return span;
 }
 
+// ===== キャラクターアバター =====
+
+function makeAvatar(label, nenType) {
+  const div = document.createElement("div");
+  div.className = "char-avatar";
+  if (nenType) {
+    div.classList.add(`nen-avatar-${nenType.replace("系", "")}`);
+  }
+  div.textContent = label;
+  // 文字数が多い場合は小さくする
+  if (label.length >= 3) div.style.fontSize = "0.7rem";
+  return div;
+}
+
 // ===== カード共通 =====
 
-function createCard(title, items, badges = [], onClick = null) {
+function createCard(title, items, badges = [], onClick = null, avatar = null) {
   const card = document.createElement("article");
   card.className = "card";
   if (typeof onClick === "function") {
     card.classList.add("clickable");
     card.addEventListener("click", onClick);
+  }
+
+  if (avatar) {
+    card.appendChild(avatar);
   }
 
   const heading = document.createElement("h3");
@@ -95,7 +130,8 @@ function renderPrinces(princes) {
       makeStatusBadge(p.status),
       makeNenBadge(p.nen_type)
     ];
-    grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.name, "prince")));
+    const avatar = makeAvatar(`第${p.rank}`, p.nen_type);
+    grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.name, "prince"), avatar));
   });
 }
 
@@ -134,12 +170,12 @@ function renderSpiritBeasts(beasts) {
   }
   beasts.forEach((b) => {
     const items = [
-      { label: "担当王子", value: b.prince },
+      { label: "担当王子", value: formatRoyalName(b.prince) },
       { label: "外見・形態", value: b.appearance || "不明" },
       { label: "能力", value: b.ability || "不明" }
     ];
     const badges = [makeNenBadge(b.nen_type)];
-    grid.appendChild(createCard(b.name || `${b.prince}の守護霊獣`, items, badges));
+    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges));
   });
 }
 
@@ -164,7 +200,7 @@ function renderBodyguards(guards) {
   }
   guards.forEach((g) => {
     const items = [
-      { label: "担当王子", value: g.prince },
+      { label: "担当王子", value: formatRoyalName(g.prince) },
       { label: "念系統", value: g.nen_type || "不明" },
       { label: "能力", value: g.ability || "不明" },
       { label: "役割", value: g.role },
@@ -173,7 +209,9 @@ function renderBodyguards(guards) {
     const badges = [];
     if (g.is_hunter) badges.push(makeHunterBadge());
     badges.push(makeNenBadge(g.nen_type));
-    grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.name, "bodyguard")));
+    const initial = g.name.charAt(0);
+    const avatar = makeAvatar(initial, g.nen_type);
+    grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.name, "bodyguard"), avatar));
   });
 }
 
@@ -203,7 +241,8 @@ function setupBodyguardSearch() {
 
 const FACTION_COLORS = [
   "#3498db", "#e74c3c", "#2ecc71", "#f39c12",
-  "#9b59b6", "#1abc9c", "#e91e8c", "#ff7675"
+  "#9b59b6", "#1abc9c", "#e91e8c", "#ff7675",
+  "#fd9644", "#a29bfe", "#00cec9"
 ];
 
 function renderFactions(factions) {
@@ -222,7 +261,7 @@ function renderFactions(factions) {
 
     const leader = document.createElement("span");
     leader.className = "faction-leader";
-    leader.textContent = `リーダー: ${f.leader || "なし"}`;
+    leader.textContent = `リーダー: ${formatRoyalName(f.leader) || "なし"}`;
     card.appendChild(leader);
 
     const membersDiv = document.createElement("div");
@@ -230,7 +269,7 @@ function renderFactions(factions) {
     (f.members || []).forEach((m) => {
       const chip = document.createElement("span");
       chip.className = "faction-member-chip";
-      chip.textContent = m;
+      chip.textContent = formatRoyalName(m);
       membersDiv.appendChild(chip);
     });
     card.appendChild(membersDiv);
@@ -250,7 +289,6 @@ function parseTimeString(value) {
   if (!value) return Number.MAX_SAFE_INTEGER;
   const match = String(value).match(/^(\d{1,2}):(\d{2})$/);
   if (match) return parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
-  // "第NNN話" → 話数で並べる
   const chapMatch = String(value).match(/第(\d+)話/);
   if (chapMatch) return parseInt(chapMatch[1], 10);
   return 0;
@@ -266,7 +304,7 @@ function createParticipantChip(name) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "participant-chip";
-  btn.textContent = name;
+  btn.textContent = formatRoyalName(name);
   btn.addEventListener("click", () => {
     document.getElementById("participantFilter").value = name;
     applyFilter();
@@ -389,7 +427,8 @@ function setupFilters(events) {
 
   getUniqueParticipants(timelineEvents).forEach((name) => {
     const opt = document.createElement("option");
-    opt.value = opt.textContent = name;
+    opt.value = name;
+    opt.textContent = formatRoyalName(name);
     participantSelect.appendChild(opt);
   });
 
@@ -462,7 +501,8 @@ function renderRoomTimeline(events) {
       const label = e.chapter || (e.day != null ? `${e.day}日目` : e.time) || "";
       strong.textContent = `${label} — ${e.event}`;
       const detail = document.createElement("span");
-      detail.textContent = `${e.type || "出来事"} / ${(e.participants || []).join(" / ")}`;
+      const formattedParticipants = (e.participants || []).map(formatRoyalName).join(" / ");
+      detail.textContent = `${e.type || "出来事"} / ${formattedParticipants}`;
       row.append(strong, detail);
       card.appendChild(row);
     });
@@ -484,7 +524,7 @@ function renderPersonTimeline(personName) {
     const p = document.createElement("p");
     p.textContent = personName === "all"
       ? "表示するイベントがありません。"
-      : `${personName} に関わるイベントが見つかりませんでした。`;
+      : `${formatRoyalName(personName)} に関わるイベントが見つかりませんでした。`;
     container.appendChild(p);
     return;
   }
@@ -556,8 +596,9 @@ function renderTimelineMatrix(events) {
         const strong = document.createElement("strong");
         strong.textContent = matched.length === 1 ? matched[0].event : `${matched.length} 件`;
         const span = document.createElement("span");
+        const formattedParticipants = (matched[0].participants || []).map(formatRoyalName).join(" / ");
         span.textContent = matched.length === 1
-          ? `${matched[0].type || "出来事"} / ${(matched[0].participants || []).join(" / ")}`
+          ? `${matched[0].type || "出来事"} / ${formattedParticipants}`
           : matched.map((e) => e.event).join(", ");
         cell.append(strong, span);
       }
@@ -646,7 +687,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "時刻", value: record.time || "—" },
       { label: "場所", value: getLocationKey(record) },
       { label: "種別", value: record.type || "出来事" },
-      { label: "参加者", value: (record.participants || []).join(" / ") },
+      { label: "参加者", value: (record.participants || []).map(formatRoyalName).join(" / ") },
       { label: "詳細", value: record.summary }
     ];
   } else if (category === "prince") {
@@ -668,7 +709,7 @@ function showDetailModal(name, category, eventData = null) {
     if (!record) return;
     titleEl.textContent = record.name;
     details = [
-      { label: "担当王子", value: record.prince || "不明" },
+      { label: "担当王子", value: formatRoyalName(record.prince) || "不明" },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.ability || "不明" },
       { label: "役割", value: record.role || "不明" },
@@ -740,6 +781,8 @@ async function init() {
     bodyguardsData = bodyguards;
     spiritBeastsData = spiritBeasts;
     factionsData = factions;
+
+    buildPrinceMap(princesData);
 
     renderPrinces(princesData);
     setupPrinceSearch();

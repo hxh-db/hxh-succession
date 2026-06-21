@@ -188,7 +188,7 @@ function renderSpiritBeasts(beasts) {
       { label: "能力", value: b.ability || "不明" }
     ];
     const badges = [makeNenBadge(b.nen_type)];
-    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges));
+    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges, () => showDetailModal(b.name, "spiritBeast")));
   });
 }
 
@@ -222,7 +222,7 @@ function renderBodyguards(guards) {
     const badges = [];
     if (g.is_hunter) badges.push(makeHunterBadge());
     badges.push(makeNenBadge(g.nen_type));
-    const initial = g.name.charAt(0);
+    const initial = g.name.slice(0, 2);
     const avatar = makeAvatar(initial, g.nen_type, g.image || null);
     grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.name, "bodyguard"), avatar));
   });
@@ -776,6 +776,16 @@ function showDetailModal(name, category, eventData = null) {
       { label: "参加者", value: (record.participants || []).map(formatRoyalName).join(" / ") },
       { label: "詳細", value: record.summary }
     ];
+  } else if (category === "spiritBeast") {
+    record = spiritBeastsData.find((b) => b.name === name);
+    if (!record) return;
+    titleEl.textContent = record.name;
+    details = [
+      { label: "担当王子", value: formatRoyalName(record.prince) },
+      { label: "外見・形態", value: record.appearance || "不明" },
+      { label: "念系統", value: record.nen_type || "不明" },
+      { label: "能力", value: record.ability || "不明" }
+    ];
   } else if (category === "prince") {
     record = princesData.find((p) => p.name === name);
     if (!record) return;
@@ -816,9 +826,10 @@ function showDetailModal(name, category, eventData = null) {
   content.appendChild(dl);
 
   const relatedEvents = category !== "event"
-    ? timelineEvents.filter((e) =>
-        (e.participants || []).some((p) => p === record.name)
-      )
+    ? timelineEvents.filter((e) => {
+        const searchName = category === "spiritBeast" ? record.prince : record.name;
+        return (e.participants || []).some((p) => p === searchName);
+      })
     : [];
 
   if (relatedEvents.length > 0) {

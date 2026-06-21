@@ -7,7 +7,7 @@
     "ability": "緋の眼発動時に特質系化。6本の鎖の念能力（皇帝の時間・絶対的な束縛・制約と誓約など）。念講習を主催し護衛全体を育成。皇帝の時間で念習得速度を5倍に高める",
     "role": "第14王子ワブル・第8王妃オイトの護衛統括",
     "note": "ツェリードニヒを最大の標的とする。ツベッパとの同盟を仲介。本来の系統は放出系だが緋の眼発動で特質系へ変化",
-    "image": "images/characters/kurapika.jpg"
+    "image": "images/characters/kurapika.png"
   },
   {
     "name": "センリツ（旋律）",
@@ -17,7 +17,7 @@
     "ability": "音楽を使った念能力。「癒しの旋律」で体の不調を緩和、「闇のソナタ一節」で対象を死傷させる。心音・嘘を聞き分ける超聴力",
     "role": "第10王子カチョウ護衛",
     "note": "クラピカの依頼で乗船。カチョウの逃走計画に深く関与。双子の心音を読んで脱出を支援",
-    "image": "images/characters/senritsu.jpg"
+    "image": "images/characters/senritsu.png"
   },
   {
     "name": "バショウ",
@@ -27,7 +27,7 @@
     "ability": "俳句で呪文を詠んだ条件を具現化する念能力「俳句（ハイクー）」。詠んだ内容が現実に具現化される",
     "role": "第5王子ツベッパ護衛",
     "note": "クラピカの依頼で乗船。俳人ハンター。ツベッパ＝ワブル同盟の架け橋的役割",
-    "image": "images/characters/basho.jpg"
+    "image": "images/characters/basho.png"
   },
   {
     "name": "ハンゾー",
@@ -37,7 +37,7 @@
     "ability": "忍術・格闘技の達人。「ハンゾースキル」で分身・変装等を行う強化系念能力。身体能力が異常に高い",
     "role": "第12王子モモゼ護衛（後に第13王子マラヤームへ強制転属）",
     "note": "モモゼ暗殺犯タフディーをその後始末した。セヴァンチの命令でマラヤームへ転属させられたがその隙にモモゼが暗殺された",
-    "image": "images/characters/hanzo.jpg"
+    "image": "images/characters/hanzo.png"
   },
   {
     "name": "ビスケット＝クルーガー",
@@ -47,7 +47,7 @@
     "ability": "変化系念能力・身体強化の達人。マッサージによる急速回復も可能。見た目と異なり実力は超一流のハンター",
     "role": "第12王子モモゼ護衛（モモゼ死亡後はワブル陣営サポートへ移行）",
     "note": "クラピカの依頼で乗船。セヴァンチ王妃の命令でマラヤーム護衛へ強制転属させられた隙を突かれてモモゼが暗殺された",
-    "image": "images/characters/biskit.jpg"
+    "image": "images/characters/biskit.png"
   },
   {
     "name": "ビル",
@@ -57,7 +57,7 @@
     "ability": "「スタチュー（彫像）」で標的を小像化する操作系念能力。小像は本来の力を失い無力化される",
     "role": "第14王子ワブル護衛チームメンバー",
     "note": "クラピカの念講習に参加。ハンター協会員として派遣",
-    "image": "images/characters/bill.jpg"
+    "image": "images/characters/bill.png"
   },
   {
     "name": "テータ",
@@ -67,7 +67,7 @@
     "ability": "念は未習得。高い忠誠心と献身性を持つ侍女。後に念の教師役を決意",
     "role": "第4王子ツェリードニヒの侍女・護衛",
     "note": "ツェリードニヒの念能力習得に付き添い、守護霊獣の異常な能力と王子の残虐性を間近で目撃する",
-    "image": "images/characters/teta.jpg"
+    "image": "images/characters/teta.png"
   },
   {
     "name": "ゴリルー",
@@ -77,7 +77,7 @@
     "ability": "強化系念能力を持つ精鋭兵士。カキン国軍の軍人としての訓練も受けた高水準の戦闘員",
     "role": "第1王子ベンジャミン私設兵（国軍准将）",
     "note": "ベンジャミン軍の中核を担う14名の念能力者私設兵の一人。船内の情報収集・監視任務を担当",
-    "image": "images/characters/goriru.jpg"
+    "image": "images/characters/goriru.png"
   },
   {
     "name": "カカオ",
@@ -87,7 +87,7 @@
     "ability": "ハルケンブルグの羽の刻印を帯びた強化系念能力者。刻印保持者が集結すると連動して能力が増幅する",
     "role": "第9王子ハルケンブルグ護衛私設兵",
     "note": "ハルケンブルグのクーデター計画に参加した精鋭私設兵の一人。羽の刻印による集合念の核となる",
-    "image": "images/characters/kakao.jpg"
+    "image": "images/characters/kakao.png"
   },
   {
     "name": "タフディー",
@@ -97,7 +97,7 @@
     "ability": "念能力は持たないが格闘技・絞殺技術に長けた暗殺者。セヴァンチ王妃直属の工作員",
     "role": "第12王子モモゼ護衛（実態：セヴァンチ王妃配下の暗殺者）",
     "note": "セヴァンチの命令でモモゼを絞殺（モモゼを犠牲にして第13王子マラヤームを守るため）。直後にハンゾーによって殺害された",
-    "image": "images/characters/tafdhi.jpg"
+    "image": "images/characters/tafdhi.png"
   },
   {
     "name": "ブフェルギン",
@@ -107,7 +107,7 @@
     "ability": "放出系念能力者。詳細な戦闘能力は描写なし",
     "role": "第1王子ベンジャミン私設兵（念講習へのスパイ潜入担当）",
     "note": "クラピカの念講習に偽装参加者として潜入し参加者情報・指導内容をベンジャミンに報告。ベンジャミンの14名念能力者私設兵の一人",
-    "image": "images/characters/bufurugin.jpg"
+    "image": "images/characters/bufurugin.png"
   },
   {
     "name": "ズバダ",
@@ -117,7 +117,7 @@
     "ability": "強化系念能力を持つ精鋭護衛。ツェリードニヒの側近として念習得過程を支援",
     "role": "第4王子ツェリードニヒの私設兵護衛",
     "note": "ツェリードニヒの異常な念の才能の成長を間近で目撃。守護霊獣「人面馬」の制裁能力の影響を受けた護衛の一人",
-    "image": "images/characters/zubada.jpg"
+    "image": "images/characters/zubada.png"
   },
   {
     "name": "サイールド",
@@ -127,7 +127,7 @@
     "ability": "念は未習得。現地採用の護衛として乗船",
     "role": "第14王子ワブル護衛（出港直後にベンジャミン陣営に拘束）",
     "note": "出港直後にカキン軍（ベンジャミン配下）に身柄を拘束される。これによりワブル陣営の護衛戦力が早期に低下した",
-    "image": "images/characters/saild.jpg"
+    "image": "images/characters/saild.png"
   },
   {
     "name": "オウケル",
@@ -137,6 +137,6 @@
     "ability": "ハルケンブルグの羽の刻印を帯びた精鋭兵士。集合念の発動要員として機能する",
     "role": "第9王子ハルケンブルグ護衛私設兵",
     "note": "ハルケンブルグのクーデター計画に参加した私設兵の一人。刻印による精神的統一体の構成員",
-    "image": "images/characters/owkel.jpg"
+    "image": "images/characters/owkel.png"
   }
 ]

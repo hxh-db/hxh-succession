@@ -10,7 +10,7 @@
     "status": "存命",
     "faction_note": "軍事覇権派。私設兵14名の念能力者を船全体に配備し、他王子暗殺と情報収集を並行",
     "note": "カキン王国軍事最高副顧問。「ベンジャミンバトン」で死んだ私設兵の念能力を継承する",
-    "image": "images/characters/p01.jpg"
+    "image": "images/characters/p01.png"
   },
   {
     "rank": 2,
@@ -23,7 +23,7 @@
     "status": "存命",
     "faction_note": "独自行動・攻撃的。死後強まる念「100万回生きた猫」で自身を殺した者を道連れにして復活",
     "note": "ベンジャミンへの攻撃意志を明確にしているが単独行動",
-    "image": "images/characters/p02.jpg"
+    "image": "images/characters/p02.png"
   },
   {
     "rank": 3,
@@ -36,7 +36,7 @@
     "status": "存命",
     "faction_note": "念能力者収集派。守護霊獣のコインを配ることで多数の念能力者をチョウライ陣営に取り込む謀略派",
     "note": "他の王子と肌の色が異なる。念系統は不明",
-    "image": "images/characters/p03.jpg"
+    "image": "images/characters/p03.png"
   },
   {
     "rank": 4,
@@ -49,7 +49,7 @@
     "status": "存命",
     "faction_note": "念の天才。わずか数週間で特質系能力を複数習得。クラピカの本命ターゲット",
     "note": "「刹那の10秒（テン・セカンズ）」で未来予知。連続殺人趣味の危険人物。クルタ族の緋の眼を大量収集",
-    "image": "images/characters/p04.jpg"
+    "image": "images/characters/p04.png"
   },
   {
     "rank": 5,
@@ -62,7 +62,7 @@
     "status": "存命",
     "faction_note": "情報・防衛連合派。クラピカ（ワブル陣営）との和平協定を締結した実利派",
     "note": "守護霊獣は変化系・共存型で体内に薬品を生成する",
-    "image": "images/characters/p05.jpg"
+    "image": "images/characters/p05.png"
   },
   {
     "rank": 6,
@@ -75,7 +75,7 @@
     "status": "存命",
     "faction_note": "宗教布教派。タイソン教の布教活動を継続し、信者を護衛・実働部隊として活用",
     "note": "「タイソン教典」を配布した者に念獣が宿り幸福感を与えながらオーラを吸収し続ける",
-    "image": "images/characters/p06.jpg"
+    "image": "images/characters/p06.png"
   },
   {
     "rank": 7,
@@ -88,7 +88,7 @@
     "status": "存命",
     "faction_note": "享楽主義的で継承戦への積極性は低い。念獣による罠設置で他者を操る受動的戦術",
     "note": "守護霊獣は具現化系・半強制操作型で標的の欲望を具現化した罠を張る",
-    "image": "images/characters/p07.jpg"
+    "image": "images/characters/p07.png"
   },
   {
     "rank": 8,
@@ -101,7 +101,7 @@
     "status": "死亡",
     "faction_note": "享楽主義的王子。ベンジャミン私設兵により早期暗殺される",
     "note": "念獣はガスを吐き吸った者をサレサレの信奉者にする操作系。継承戦序盤で最初の脱落者となる",
-    "image": "images/characters/p08.jpg"
+    "image": "images/characters/p08.png"
   },
   {
     "rank": 9,
@@ -114,7 +114,7 @@
     "status": "死亡（意識はナスビーに憑依）",
     "faction_note": "反継承戦クーデター派。継承戦廃止を目指し父王ナスビーへのクーデターを企図したが失敗",
     "note": "最高学府を飛び級卒業の秀才。羽の刻印を持つ者が集まり意思統一で絶大な念能力を発揮する",
-    "image": "images/characters/p09.jpg"
+    "image": "images/characters/p09.png"
   },
   {
     "rank": 10,
@@ -127,7 +127,7 @@
     "status": "死亡（念獣がフウゲツを守護中）",
     "faction_note": "フウゲツとの脱出逃避派。センリツに助けを求め継承戦からの離脱を計画",
     "note": "「2人セゾン（キミガイナイ）」。死亡後、カチョウの姿をした念獣がフウゲツを守護し続ける",
-    "image": "images/characters/p10.jpg"
+    "image": "images/characters/p10.png"
   },
   {
     "rank": 11,
@@ -140,7 +140,7 @@
     "status": "存命（継承戦から事実上離脱）",
     "faction_note": "「秘密の扉（マジカルワーム）」で下層デッキへ脱出。継承戦から離脱した事実上唯一の王子",
     "note": "姉カチョウの自己犠牲により「行きの扉」能力を引き継ぎ脱出成功",
-    "image": "images/characters/p11.jpg"
+    "image": "images/characters/p11.png"
   },
   {
     "rank": 12,
@@ -153,7 +153,7 @@
     "status": "死亡",
     "faction_note": "護衛をセヴァンチ王妃に奪われ無防備状態にされ護衛タフディーに殺害",
     "note": "編み物が好きな少女。ハンゾーが護衛に就いていたが隙を突かれた。タフディーはその後ハンゾーに殺される",
-    "image": "images/characters/p12.jpg"
+    "image": "images/characters/p12.png"
   },
   {
     "rank": 13,
@@ -166,7 +166,7 @@
     "status": "存命（念空間に籠城中）",
     "faction_note": "籠城・完全孤立派。守護霊獣が生む念空間に引きこもり暗黒大陸到着まで生存を図る",
     "note": "姉モモゼの死後、守護霊獣が急激に変貌・肥大化した。幼児のため護衛・母セヴァンチが判断",
-    "image": "images/characters/p13.jpg"
+    "image": "images/characters/p13.png"
   },
   {
     "rank": 14,
@@ -179,6 +179,6 @@
     "status": "存命",
     "faction_note": "ワブル＝ツベッパ同盟の名義リーダー。実質は母オイトとクラピカが主導",
     "note": "赤ちゃんの王子。クラピカが護衛統括として念講習を主催し護衛陣を強化",
-    "image": "images/characters/p14.jpg"
+    "image": "images/characters/p14.png"
   }
 ]

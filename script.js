@@ -3,6 +3,7 @@ const DATA = {
   bodyguards: "data/bodyguards.json",
   spiritBeasts: "data/spirit_beasts.json",
   factions: "data/factions.json",
+  mafia: "data/mafia.json",
   timeline: "data/timeline.json"
 };
 
@@ -11,6 +12,7 @@ let princesData = [];
 let bodyguardsData = [];
 let spiritBeastsData = [];
 let factionsData = [];
+let mafiaData = [];
 let PRINCE_MAP = {}; // 正式名 → { rank, short }
 
 async function loadJson(path) {
@@ -63,15 +65,26 @@ function makeHunterBadge() {
 
 // ===== キャラクターアバター =====
 
-function makeAvatar(label, nenType) {
+function makeAvatar(label, nenType, imageSrc = null) {
   const div = document.createElement("div");
   div.className = "char-avatar";
   if (nenType) {
     div.classList.add(`nen-avatar-${nenType.replace("系", "")}`);
   }
-  div.textContent = label;
-  // 文字数が多い場合は小さくする
-  if (label.length >= 3) div.style.fontSize = "0.7rem";
+  if (imageSrc) {
+    const img = document.createElement("img");
+    img.alt = label;
+    img.src = imageSrc;
+    img.onerror = () => {
+      img.remove();
+      div.textContent = label;
+      if (label.length >= 3) div.style.fontSize = "0.7rem";
+    };
+    div.appendChild(img);
+  } else {
+    div.textContent = label;
+    if (label.length >= 3) div.style.fontSize = "0.7rem";
+  }
   return div;
 }
 
@@ -130,7 +143,7 @@ function renderPrinces(princes) {
       makeStatusBadge(p.status),
       makeNenBadge(p.nen_type)
     ];
-    const avatar = makeAvatar(`第${p.rank}`, p.nen_type);
+    const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null);
     grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.name, "prince"), avatar));
   });
 }
@@ -210,7 +223,7 @@ function renderBodyguards(guards) {
     if (g.is_hunter) badges.push(makeHunterBadge());
     badges.push(makeNenBadge(g.nen_type));
     const initial = g.name.charAt(0);
-    const avatar = makeAvatar(initial, g.nen_type);
+    const avatar = makeAvatar(initial, g.nen_type, g.image || null);
     grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.name, "bodyguard"), avatar));
   });
 }
@@ -278,6 +291,79 @@ function renderFactions(factions) {
     strategy.className = "faction-strategy";
     strategy.textContent = f.strategy || "";
     card.appendChild(strategy);
+
+    grid.appendChild(card);
+  });
+}
+
+// ===== 下層勢力マップ（マフィア） =====
+
+const MAFIA_COLORS = ["#e74c3c", "#9b59b6", "#3498db", "#2c3e50"];
+
+function renderMafia(mafiaList) {
+  const grid = document.getElementById("mafia-grid");
+  grid.innerHTML = "";
+  mafiaList.forEach((org, i) => {
+    const card = document.createElement("article");
+    card.className = "mafia-card";
+    const color = MAFIA_COLORS[i % MAFIA_COLORS.length];
+    card.style.borderLeftColor = color;
+
+    const title = document.createElement("h3");
+    title.textContent = org.name;
+    title.style.color = color;
+    card.appendChild(title);
+
+    const meta = document.createElement("div");
+    meta.className = "mafia-meta";
+    [
+      `組長: ${org.leader}`,
+      `ケツモチ: ${org.ketsu_mochi}`,
+      `拠点: ${org.tier}`
+    ].forEach((text) => {
+      const span = document.createElement("span");
+      span.textContent = text;
+      meta.appendChild(span);
+    });
+    card.appendChild(meta);
+
+    const membersDiv = document.createElement("div");
+    membersDiv.className = "mafia-members";
+    (org.members || []).forEach((member) => {
+      const row = document.createElement("div");
+      row.className = "mafia-member-row";
+
+      const nameWrap = document.createElement("div");
+      nameWrap.className = "mafia-member-header";
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "mafia-member-name";
+      nameSpan.textContent = member.name;
+      const roleSpan = document.createElement("span");
+      roleSpan.className = "mafia-member-role";
+      roleSpan.textContent = member.role;
+      nameWrap.append(nameSpan, roleSpan);
+      if (member.nen_type) nameWrap.appendChild(makeNenBadge(member.nen_type));
+
+      const ability = document.createElement("p");
+      ability.className = "mafia-member-ability";
+      ability.textContent = member.ability || "能力不明";
+
+      row.append(nameWrap, ability);
+      membersDiv.appendChild(row);
+    });
+    card.appendChild(membersDiv);
+
+    const purpose = document.createElement("p");
+    purpose.className = "mafia-purpose";
+    purpose.textContent = `目的: ${org.purpose}`;
+    card.appendChild(purpose);
+
+    if (org.note) {
+      const note = document.createElement("p");
+      note.className = "mafia-note";
+      note.textContent = org.note;
+      card.appendChild(note);
+    }
 
     grid.appendChild(card);
   });
@@ -769,11 +855,12 @@ function closeDetailModal() {
 
 async function init() {
   try {
-    const [princes, bodyguards, spiritBeasts, factions, timeline] = await Promise.all([
+    const [princes, bodyguards, spiritBeasts, factions, mafia, timeline] = await Promise.all([
       loadJson(DATA.princes),
       loadJson(DATA.bodyguards),
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
+      loadJson(DATA.mafia),
       loadJson(DATA.timeline)
     ]);
 
@@ -781,6 +868,7 @@ async function init() {
     bodyguardsData = bodyguards;
     spiritBeastsData = spiritBeasts;
     factionsData = factions;
+    mafiaData = mafia;
 
     buildPrinceMap(princesData);
 
@@ -794,6 +882,7 @@ async function init() {
     setupBodyguardSearch();
 
     renderFactions(factionsData);
+    renderMafia(mafiaData);
 
     setupDetailModal();
     setupFilters(timeline);

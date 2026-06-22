@@ -177,6 +177,7 @@ function renderPrinces(princes) {
       { label: "年齢", value: p.age != null ? `${p.age}歳` : "不明" },
       { label: "母（王妃）", value: p.queen || "不明" },
       { label: "部屋", value: p.room || "未配置" },
+      { label: "本人の念能力", value: p.nen_ability || "不明" },
       { label: "守護霊獣", value: p.spirit_beast_name || "不明" },
       { label: "陣営メモ", value: p.faction_note || "" },
       { label: "備考", value: p.notes || "" }
@@ -939,7 +940,8 @@ function showDetailModal(name, category, eventData = null) {
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
       { label: "母（王妃）", value: record.queen || "不明" },
       { label: "部屋", value: record.room || "未配置" },
-      { label: "念系統", value: record.nen_type || "不明" },
+      { label: "本人の念系統", value: record.nen_type || "不明" },
+      { label: "本人の念能力", value: record.nen_ability || "不明" },
       { label: "守護霊獣", value: record.spirit_beast_name || "不明" },
       { label: "状態", value: record.status || "不明" },
       { label: "陣営", value: record.faction_note || "" },

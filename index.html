@@ -140,10 +140,26 @@
         <h2>護衛・ハンター一覧</h2>
         <p>各王子に仕える護衛兵とハンター。ハンターは念能力者として継承戦の鍵を握る</p>
       </div>
+      <div class="category-legend">
+        <strong>分類の凡例：</strong>
+        <span><b>私設兵</b> = 王子本人が直接雇う念能力者の私兵</span>
+        <span><b>王妃所属兵</b> = 王妃に忠誠を持つ監視・スパイ役の兵士</span>
+        <span><b>王室警備兵</b> = 念能力を前提としない一般警備staff</span>
+        <span><b>従事者</b> = 王子に付き添う非戦闘員（兵士兼任の場合あり）</span>
+        <span><b>ハンター（クラピカ経由）</b> = クラピカが個人的に依頼し雇用</span>
+        <span><b>ハンター（協専）</b> = ビヨンド陣営経由で暗黒大陸渡航任務のために雇用</span>
+        <span><b>ハンター（協会派遣）</b> = ハンター協会が乗船渡航のために派遣</span>
+      </div>
       <div class="list-controls">
         <label>
           検索：
           <input id="bodyguardSearch" type="search" placeholder="名前 / 担当王子 / 能力 / 役割" />
+        </label>
+        <label>
+          分類：
+          <select id="bodyguardCategoryFilter">
+            <option value="all">全て</option>
+          </select>
         </label>
         <label>
           ハンター：
@@ -158,6 +174,13 @@
           <select id="bodyguardGroupToggle">
             <option value="flat">通常表示</option>
             <option value="camp" selected>陣営別表示</option>
+          </select>
+        </label>
+        <label>
+          形式：
+          <select id="bodyguardViewMode">
+            <option value="card" selected>カード表示</option>
+            <option value="table">テーブル表示</option>
           </select>
         </label>
       </div>

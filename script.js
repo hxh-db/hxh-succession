@@ -251,6 +251,7 @@ function setupBeastNenFilter() {
 
 function createBodyguardCard(g) {
   const items = [
+    { label: "分類", value: g.soldier_category || "不明" },
     { label: "陣営", value: g.camp || "不明" },
     { label: "念系統", value: g.nen_type || "不明" },
     { label: "能力", value: g.nen_ability || "不明" },
@@ -258,12 +259,31 @@ function createBodyguardCard(g) {
     { label: "備考", value: g.notes }
   ];
   const badges = [];
+  if (g.soldier_category) badges.push(makeCategoryBadge(g.soldier_category));
   if (g.is_hunter) badges.push(makeHunterBadge());
   badges.push(makeNenBadge(g.nen_type));
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
   const avatar = makeAvatar(initial, g.nen_type, g.image || null);
   return createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+}
+
+const CATEGORY_CLASS_MAP = {
+  "私設兵": "shisetsuhei",
+  "王妃所属兵": "ouhi",
+  "王室警備兵": "keibihei",
+  "従事者": "juujisha",
+  "ハンター（クラピカ経由）": "hunter-kurapika",
+  "ハンター（協専）": "hunter-kyousen",
+  "ハンター（協会派遣）": "hunter-kyoukai"
+};
+
+function makeCategoryBadge(category) {
+  const span = document.createElement("span");
+  const cls = CATEGORY_CLASS_MAP[category] || "other";
+  span.className = `category-badge category-${cls}`;
+  span.textContent = category;
+  return span;
 }
 
 // 陣営名 → 紐づく王子のrank（陣営名が王子camp名と一致しない場合は末尾に回す）
@@ -273,18 +293,61 @@ function getCampRank(camp) {
 }
 
 let bodyguardGroupByCamp = true;
+let bodyguardViewMode = "card";
+
+function createBodyguardRow(g) {
+  const tr = document.createElement("tr");
+  tr.className = "bodyguard-row";
+  tr.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
+
+  const cells = [
+    g.name,
+    g.soldier_category || "不明",
+    g.camp || "不明",
+    g.role || "不明",
+    [g.nen_type, g.nen_ability].filter(Boolean).join(" / ") || "不明",
+    g.notes || ""
+  ];
+  cells.forEach((text, i) => {
+    const td = document.createElement("td");
+    if (i === 1 && g.soldier_category) {
+      td.appendChild(makeCategoryBadge(g.soldier_category));
+    } else {
+      td.textContent = text;
+    }
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
+function renderBodyguardsTable(guards, container) {
+  const table = document.createElement("table");
+  table.className = "bodyguard-table";
+  const thead = document.createElement("thead");
+  thead.innerHTML = "<tr><th>名前</th><th>分類</th><th>陣営</th><th>役割</th><th>念系統・能力</th><th>備考</th></tr>";
+  table.appendChild(thead);
+  const tbody = document.createElement("tbody");
+  guards.forEach((g) => tbody.appendChild(createBodyguardRow(g)));
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
 
 function renderBodyguards(guards) {
   const grid = document.getElementById("bodyguard-grid");
   grid.innerHTML = "";
   grid.classList.toggle("grouped", bodyguardGroupByCamp);
+  grid.classList.toggle("table-mode", bodyguardViewMode === "table");
   if (guards.length === 0) {
     grid.textContent = "該当する護衛が見つかりませんでした。";
     return;
   }
 
   if (!bodyguardGroupByCamp) {
-    guards.forEach((g) => grid.appendChild(createBodyguardCard(g)));
+    if (bodyguardViewMode === "table") {
+      renderBodyguardsTable(guards, grid);
+    } else {
+      guards.forEach((g) => grid.appendChild(createBodyguardCard(g)));
+    }
     return;
   }
 
@@ -304,31 +367,51 @@ function renderBodyguards(guards) {
       heading.textContent = `${camp}（${groups[camp].length}名）`;
       section.appendChild(heading);
 
-      const subGrid = document.createElement("div");
-      subGrid.className = "card-grid camp-grid";
-      groups[camp].forEach((g) => subGrid.appendChild(createBodyguardCard(g)));
-      section.appendChild(subGrid);
+      if (bodyguardViewMode === "table") {
+        renderBodyguardsTable(groups[camp], section);
+      } else {
+        const subGrid = document.createElement("div");
+        subGrid.className = "card-grid camp-grid";
+        groups[camp].forEach((g) => subGrid.appendChild(createBodyguardCard(g)));
+        section.appendChild(subGrid);
+      }
 
       grid.appendChild(section);
     });
+}
+
+function setupBodyguardCategoryFilter() {
+  const categoryFilter = document.getElementById("bodyguardCategoryFilter");
+  const categories = [...new Set(bodyguardsData.map((g) => g.soldier_category).filter(Boolean))];
+  categories.forEach((cat) => {
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    categoryFilter.appendChild(opt);
+  });
 }
 
 function setupBodyguardSearch() {
   const searchInput = document.getElementById("bodyguardSearch");
   const hunterFilter = document.getElementById("hunterFilter");
   const groupToggle = document.getElementById("bodyguardGroupToggle");
+  const categoryFilter = document.getElementById("bodyguardCategoryFilter");
+  const viewModeSelect = document.getElementById("bodyguardViewMode");
 
   function apply() {
     const q = searchInput.value.trim().toLowerCase();
     const hf = hunterFilter.value;
+    const cf = categoryFilter.value;
     bodyguardGroupByCamp = groupToggle.value === "camp";
+    bodyguardViewMode = viewModeSelect.value;
     const filtered = bodyguardsData.filter((g) => {
       const textMatch = !q || [g.name, g.camp, g.nen_ability, g.role, g.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
       const hunterMatch = hf === "all"
         || (hf === "true" && g.is_hunter)
         || (hf === "false" && !g.is_hunter);
-      return textMatch && hunterMatch;
+      const categoryMatch = cf === "all" || g.soldier_category === cf;
+      return textMatch && hunterMatch && categoryMatch;
     });
     renderBodyguards(filtered);
   }
@@ -336,6 +419,8 @@ function setupBodyguardSearch() {
   searchInput.addEventListener("input", apply);
   hunterFilter.addEventListener("change", apply);
   groupToggle.addEventListener("change", apply);
+  categoryFilter.addEventListener("change", apply);
+  viewModeSelect.addEventListener("change", apply);
 }
 
 // ===== 派閥マップ =====
@@ -952,6 +1037,7 @@ function showDetailModal(name, category, eventData = null) {
     if (!record) return;
     titleEl.textContent = record.name;
     details = [
+      { label: "分類", value: record.soldier_category || "不明" },
       { label: "陣営", value: record.camp || "不明" },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.nen_ability || "不明" },
@@ -1104,6 +1190,7 @@ async function init() {
     setupBeastNenFilter();
 
     renderBodyguards(bodyguardsData);
+    setupBodyguardCategoryFilter();
     setupBodyguardSearch();
 
     renderFactions(factionsData);

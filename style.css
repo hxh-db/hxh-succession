@@ -394,6 +394,108 @@ body {
   border: 1px solid rgba(233, 30, 140, 0.35);
 }
 
+/* ===== 護衛分類バッジ・凡例 ===== */
+.category-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.category-badge.category-shisetsuhei {
+  background: rgba(114, 199, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(114, 199, 255, 0.3);
+}
+.category-badge.category-ouhi {
+  background: rgba(233, 30, 140, 0.15);
+  color: #e91e8c;
+  border: 1px solid rgba(233, 30, 140, 0.3);
+}
+.category-badge.category-keibihei {
+  background: rgba(149, 165, 166, 0.15);
+  color: var(--status-unknown);
+  border: 1px solid rgba(149, 165, 166, 0.3);
+}
+.category-badge.category-juujisha {
+  background: rgba(46, 204, 113, 0.15);
+  color: var(--status-alive);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+.category-badge.category-hunter-kurapika,
+.category-badge.category-hunter-kyousen,
+.category-badge.category-hunter-kyoukai {
+  background: rgba(243, 156, 18, 0.15);
+  color: #f39c12;
+  border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.category-legend {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.category-legend strong {
+  color: var(--text);
+  width: 100%;
+}
+
+.category-legend b {
+  color: var(--text);
+}
+
+/* ===== 護衛テーブル表示 ===== */
+.bodyguard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.bodyguard-table th,
+.bodyguard-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.bodyguard-table th {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+
+.bodyguard-table tbody tr.bodyguard-row {
+  cursor: pointer;
+}
+
+.bodyguard-table tbody tr.bodyguard-row:hover {
+  background: rgba(114, 199, 255, 0.06);
+}
+
+#bodyguard-grid.table-mode {
+  display: block;
+}
+
+#bodyguard-grid.table-mode.grouped .camp-group {
+  overflow-x: auto;
+}
+
 /* ===== 概要セクション ===== */
 .overview-grid {
   display: grid;

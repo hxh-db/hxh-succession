@@ -50,10 +50,22 @@ function formatRoyalName(token) {
 
 // ===== バッジ生成ユーティリティ =====
 
+// "死亡（意識はバルサミルコに憑依）" のような複合ステータス文字列から
+// バッジ色・フィルタ判定用の基本カテゴリ（存命/死亡/拘束/不明）を取り出す
+function getStatusCategory(status) {
+  if (!status) return null;
+  if (status.startsWith("死亡")) return "死亡";
+  if (status.startsWith("存命")) return "存命";
+  if (status.startsWith("拘束")) return "拘束";
+  if (status.startsWith("倒れる")) return "不明";
+  if (status.startsWith("操作中")) return "不明";
+  return "不明";
+}
+
 function makeStatusBadge(status) {
   if (!status) return null;
   const span = document.createElement("span");
-  span.className = `status-badge status-${status}`;
+  span.className = `status-badge status-${getStatusCategory(status)}`;
   span.textContent = status;
   return span;
 }
@@ -70,6 +82,16 @@ function makeHunterBadge() {
   const span = document.createElement("span");
   span.className = "hunter-badge";
   span.textContent = "ハンター";
+  return span;
+}
+
+// カード一覧に「関連イベントN件」を表示し、モーダルを開く前に件数が分かるようにする
+function makeEventCountBadge(record, category) {
+  const count = getRelatedEvents(record, category).length;
+  if (count === 0) return null;
+  const span = document.createElement("span");
+  span.className = "event-count-badge";
+  span.textContent = `関連イベント ${count}件`;
   return span;
 }
 
@@ -161,7 +183,8 @@ function renderPrinces(princes) {
     ];
     const badges = [
       makeStatusBadge(p.status),
-      makeNenBadge(p.nen_type)
+      makeNenBadge(p.nen_type),
+      makeEventCountBadge(p, "prince")
     ];
     const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null);
     grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.id, "prince"), avatar));
@@ -181,7 +204,7 @@ function setupPrinceSearch() {
       const textMatch = !q || [p.name, p.queen, p.room, p.status, p.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
       const nenMatch = nen === "all" || p.nen_type === nen;
-      const statusMatch = st === "all" || p.status === st;
+      const statusMatch = st === "all" || getStatusCategory(p.status) === st;
       return textMatch && nenMatch && statusMatch;
     });
     renderPrinces(filtered);
@@ -236,6 +259,7 @@ function createBodyguardCard(g) {
   const badges = [];
   if (g.is_hunter) badges.push(makeHunterBadge());
   badges.push(makeNenBadge(g.nen_type));
+  badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
   const avatar = makeAvatar(initial, g.nen_type, g.image || null);
   return createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
@@ -587,9 +611,7 @@ function resetFilters() {
   applyFilter();
 }
 
-function setupFilters(events) {
-  eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
-
+function setupFilters() {
   const roomFilter = document.getElementById("roomFilter");
   const typeFilter = document.getElementById("typeFilter");
   const participantSelect = document.getElementById("participantSelect");
@@ -965,26 +987,33 @@ function showDetailModal(name, category, eventData = null) {
   const relatedEvents = category !== "event" ? getRelatedEvents(record, category) : [];
 
   if (relatedEvents.length > 0) {
-    const h4 = document.createElement("h4");
-    h4.textContent = "関連イベント";
-    content.appendChild(h4);
+    const details = document.createElement("details");
+    details.className = "related-events-spoiler";
+
+    const summary = document.createElement("summary");
+    summary.textContent = `関連イベント（${relatedEvents.length}件）`;
+    details.appendChild(summary);
 
     const list = document.createElement("div");
     list.className = "event-list";
-    relatedEvents.forEach((e) => {
-      const item = document.createElement("div");
-      item.className = "event-item";
-      const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
-      const strong = document.createElement("strong");
-      strong.textContent = `${label} | ${e.description}`;
-      const meta = document.createElement("span");
-      meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
-      const p = document.createElement("p");
-      p.textContent = e.notes || "";
-      item.append(strong, meta, p);
-      list.appendChild(item);
-    });
-    content.appendChild(list);
+    relatedEvents
+      .slice()
+      .sort((a, b) => sortKey(a) - sortKey(b))
+      .forEach((e) => {
+        const item = document.createElement("div");
+        item.className = "event-item";
+        const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
+        const strong = document.createElement("strong");
+        strong.textContent = `${label} | ${e.description}`;
+        const meta = document.createElement("span");
+        meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
+        const p = document.createElement("p");
+        p.textContent = e.notes || "";
+        item.append(strong, meta, p);
+        list.appendChild(item);
+      });
+    details.appendChild(list);
+    content.appendChild(details);
   }
 
   modal.classList.remove("hidden");
@@ -1024,6 +1053,7 @@ async function init() {
     bodyguardsData = charactersData.filter((c) =>
       ["hunter", "soldier", "attendant"].includes(c.type) && c.position_code
     );
+    eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
 
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
@@ -1041,7 +1071,7 @@ async function init() {
     renderMafia(mafiaData);
 
     setupDetailModal();
-    setupFilters(events);
+    setupFilters();
 
     scrollToCurrentHash();
   } catch (err) {

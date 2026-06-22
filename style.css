@@ -295,6 +295,12 @@ body {
   border: 1px solid rgba(149, 165, 166, 0.3);
 }
 
+.status-badge.status-拘束 {
+  background: rgba(243, 156, 18, 0.18);
+  color: #f39c12;
+  border: 1px solid rgba(243, 156, 18, 0.35);
+}
+
 /* ===== ハンターバッジ ===== */
 .hunter-badge {
   display: inline-block;
@@ -306,6 +312,46 @@ body {
   color: var(--accent);
   border: 1px solid rgba(114, 199, 255, 0.3);
   flex-shrink: 0;
+}
+
+/* ===== 関連イベント件数バッジ（カード一覧） ===== */
+.event-count-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(155, 89, 182, 0.15);
+  color: #b07cd1;
+  border: 1px solid rgba(155, 89, 182, 0.3);
+  flex-shrink: 0;
+}
+
+/* ===== 関連イベントの折りたたみ（モーダル） ===== */
+.related-events-spoiler summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent);
+  padding: 8px 0;
+  list-style: none;
+}
+
+.related-events-spoiler summary::-webkit-details-marker {
+  display: none;
+}
+
+.related-events-spoiler summary::before {
+  content: "▶ ";
+  font-size: 0.75em;
+}
+
+.related-events-spoiler[open] summary::before {
+  content: "▼ ";
+}
+
+.related-events-spoiler .event-list {
+  margin-top: 6px;
 }
 
 /* ===== 念系統バッジ ===== */

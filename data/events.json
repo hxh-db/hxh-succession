@@ -8,13 +8,17 @@
     "time_end": null,
     "type": "会議",
     "description": "ネテロが十二支んに暗黒大陸渡航の指令を出す",
-    "characters": ["HA-001"],
+    "characters": [
+      "HA-001"
+    ],
     "room": null,
     "location": "ハンター協会",
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["ネテロの司令：暗黒大陸からリターンを持ち帰ること"],
+    "revealed_facts": [
+      "ネテロの司令：暗黒大陸からリターンを持ち帰ること"
+    ],
     "mysteries": [],
     "notes": "十二支ん10名出席"
   },
@@ -27,7 +31,9 @@
     "time_end": null,
     "type": "会議",
     "description": "V5がビヨンドのハント（捜索）を十二支んに命令し、達成される",
-    "characters": ["BYD-001"],
+    "characters": [
+      "BYD-001"
+    ],
     "room": null,
     "location": "V5",
     "camp": null,
@@ -50,13 +56,22 @@
     "time_end": null,
     "type": "出来事",
     "description": "レオリオとクラピカが十二支んに加入",
-    "characters": ["HA-004", "P14-H01", "BYD-002", "BYD-003", "P04"],
+    "characters": [
+      "HA-004",
+      "P14-H01",
+      "BYD-002",
+      "BYD-003",
+      "P04"
+    ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["渡航期間は2ヶ月", "ツェリードニヒがヒノメを保有"],
+    "revealed_facts": [
+      "渡航期間は2ヶ月",
+      "ツェリードニヒがヒノメを保有"
+    ],
     "mysteries": [],
     "notes": "登場：クラピカ、ジン、パリストン、ツェリードニヒ。クラピカの目的はヒノメの奪還"
   },
@@ -69,13 +84,17 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ネテロが暗黒大陸渡航経験者だったと判明。危険なためV5に働きかけ渡航を禁止させたことが分かる",
-    "characters": ["HA-001"],
+    "characters": [
+      "HA-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["ドンフリークスが暗黒大陸を探検中"],
+    "revealed_facts": [
+      "ドンフリークスが暗黒大陸を探検中"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -88,7 +107,10 @@
     "time_end": null,
     "type": "出来事",
     "description": "ジンがビヨンド組のナンバー2になる",
-    "characters": ["BYD-002", "BYD-001"],
+    "characters": [
+      "BYD-002",
+      "BYD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -107,7 +129,9 @@
     "time_end": null,
     "type": "発症",
     "description": "ゴンが念を使えなくなる",
-    "characters": ["HA-005"],
+    "characters": [
+      "HA-005"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -126,7 +150,12 @@
     "time_end": null,
     "type": "出来事",
     "description": "クラピカの審査によりビヨンドチーム全員がハンター試験不合格となる",
-    "characters": ["P14-H01", "BYD-001", "BYD-002", "BYD-003"],
+    "characters": [
+      "P14-H01",
+      "BYD-001",
+      "BYD-002",
+      "BYD-003"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -145,7 +174,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "ジンがNo.2であることをビヨンドチームが正式に認める",
-    "characters": ["BYD-002"],
+    "characters": [
+      "BYD-002"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -164,10 +195,14 @@
     "time_end": null,
     "type": "念講習",
     "description": "下位王子の警護兵にハンター試験を受けさせる方針が決定。ツェリードニヒ警護兵5名が合格",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": null,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -188,14 +223,31 @@
     "time_end": null,
     "type": "会議",
     "description": "継承戦のルールが確認され、全王子の守護霊獣が発現する",
-    "characters": ["P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08", "P09", "P10", "P11", "P12", "P13", "P14"],
+    "characters": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14"
+    ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["カキンの血族でないと守護霊獣が出ないらしいが、ホイコーロの子でない場合はどうなるか？ビヨンドの子供の場合は？"],
+    "mysteries": [
+      "カキンの血族でないと守護霊獣が出ないらしいが、ホイコーロの子でない場合はどうなるか？ビヨンドの子供の場合は？"
+    ],
     "notes": ""
   },
   {
@@ -207,7 +259,14 @@
     "time_end": null,
     "type": "移動",
     "description": "クラピカチーム6人の各王子への割り振りが決定する",
-    "characters": ["P14-H01", "P10-H01", "P05-H01", "P12-H01", "P12-H02", "P14-H02"],
+    "characters": [
+      "P14-H01",
+      "P10-H01",
+      "P05-H01",
+      "P12-H01",
+      "P12-H02",
+      "P14-H02"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -229,7 +288,9 @@
     "time_end": null,
     "type": "戦闘",
     "description": "クロロとヒソカの戦いが行われる（351〜356話にかけて）",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -248,7 +309,12 @@
     "time_end": null,
     "type": "移動",
     "description": "幻影旅団がブラックホエール号に乗船する",
-    "characters": ["SPD-001", "SPD-002", "SPD-003", "SPD-004"],
+    "characters": [
+      "SPD-001",
+      "SPD-002",
+      "SPD-003",
+      "SPD-004"
+    ],
     "room": null,
     "location": "ブラックホエール号",
     "camp": null,
@@ -267,7 +333,9 @@
     "time_end": null,
     "type": "殺害",
     "description": "ヒソカが旅団員2名を殺害する",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": null,
     "location": "ブラックホエール号",
     "camp": null,
@@ -286,7 +354,12 @@
     "time_end": null,
     "type": "会議",
     "description": "出航前夜祭が開催される",
-    "characters": ["P01-P01", "P01-P02", "P14-H01", "Q08"],
+    "characters": [
+      "P01-P01",
+      "P01-P02",
+      "P14-H01",
+      "Q08"
+    ],
     "room": null,
     "location": "ブラックホエール号",
     "camp": null,
@@ -311,7 +384,10 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["航海期間は2ヶ月", "3週間後に給油予定"],
+    "revealed_facts": [
+      "航海期間は2ヶ月",
+      "3週間後に給油予定"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -324,15 +400,26 @@
     "time_end": "12:30",
     "type": "殺害",
     "description": "ウッディー殺害",
-    "characters": ["P14-P02"],
-    "status_effects": [{"character": "P14-P02", "status": "死亡"}],
+    "characters": [
+      "P14-P02"
+    ],
+    "status_effects": [
+      {
+        "character": "P14-P02",
+        "status": "死亡"
+      }
+    ],
     "room": 1014,
     "location": "1014号室 トイレ",
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["殺害犯人は誰か？"],
+    "mysteries": [
+      "殺害犯人は誰か？"
+    ],
     "notes": ""
   },
   {
@@ -347,7 +434,9 @@
     "characters": [],
     "room": 1014,
     "location": "1014号室 廊下",
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -363,10 +452,14 @@
     "time_end": null,
     "type": "殺害",
     "description": "操られたサイールドがワブル警備兵3名を殺害する",
-    "characters": ["P14-P01"],
+    "characters": [
+      "P14-P01"
+    ],
     "room": 1014,
     "location": "1014号室",
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -385,14 +478,27 @@
     "time_end": null,
     "type": "拘束",
     "description": "操られたサイールドが捕獲される。ワブル警護が11人から2人に減少",
-    "characters": ["P14-P01", "P14-H01", "P14-H02", "P14-H03"],
+    "characters": [
+      "P14-P01",
+      "P14-H01",
+      "P14-H02",
+      "P14-H03"
+    ],
     "status_effects": [
-      {"character": "P14-P01", "status": "存命（拘束中）"},
-      {"character": "P14-H03", "status": "死亡"}
+      {
+        "character": "P14-P01",
+        "status": "存命（拘束中）"
+      },
+      {
+        "character": "P14-H03",
+        "status": "死亡"
+      }
     ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -402,7 +508,9 @@
       "クラピカの能力：スチールチェーン（人差し指）",
       "モモゼ警備兵内訳：王室警備兵6名（第1〜第6王妃のスパイ1名ずつ）。調理師免許あり"
     ],
-    "mysteries": ["ビルが提案する3つの脱出方法はそれぞれカートン・パリストン・ビヨンドの協力が必要"],
+    "mysteries": [
+      "ビルが提案する3つの脱出方法はそれぞれカートン・パリストン・ビヨンドの協力が必要"
+    ],
     "notes": "シーン：14,12エリア。登場人物：クラピカ、セヴァンチ、マラヤーム、モモゼ、ハルケンブルグ"
   },
   {
@@ -414,10 +522,16 @@
     "time_end": null,
     "type": "会議",
     "description": "テータとサルコフがツェリードニヒの念能力育成方針を決意する",
-    "characters": ["P04-M01", "P04-P02", "P04"],
+    "characters": [
+      "P04-M01",
+      "P04-P02",
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -437,10 +551,16 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ベンジャミンの私設兵体制が明らかになる",
-    "characters": ["P01", "P01-P01", "P01-P02"],
+    "characters": [
+      "P01",
+      "P01-P01",
+      "P01-P02"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -461,10 +581,18 @@
     "time_end": null,
     "type": "移動",
     "description": "ワブル警護にベンジャミン私設兵ビンセントが王室警護兵として追加される。ビンセントが従者サンドラを殺害して自死し、代わりにバビマイナが追加される",
-    "characters": ["P14", "P01-P03", "P14-M01", "P01-P04"],
+    "characters": [
+      "P14",
+      "P01-P03",
+      "P14-M01",
+      "P01-P04"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営", "ベンジャミン陣営"],
+    "camp": [
+      "ワブル陣営",
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -480,13 +608,20 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ビンセントの能力詳細が判明する",
-    "characters": ["P14", "P01-P03"],
+    "characters": [
+      "P14",
+      "P01-P03"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["ビンセントの念能力はエアブロウと推測されるが、スチールチェーンで拘束されたため詳細は確定できなかった"],
+    "revealed_facts": [
+      "ビンセントの念能力はエアブロウと推測されるが、スチールチェーンで拘束されたため詳細は確定できなかった"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -499,10 +634,15 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "オイト王妃にサイールドの能力（虫を操る）が付与される",
-    "characters": ["Q08", "P14-P01"],
+    "characters": [
+      "Q08",
+      "P14-P01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -518,10 +658,18 @@
     "time_end": null,
     "type": "移動",
     "description": "クラピカ・オイト・ワブルがチョウライの部屋を訪問し念について講習する予定が決まる",
-    "characters": ["P14-H01", "Q08", "P14", "P03"],
+    "characters": [
+      "P14-H01",
+      "Q08",
+      "P14",
+      "P03"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["ワブル陣営", "チョウライ陣営"],
+    "camp": [
+      "ワブル陣営",
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -537,7 +685,10 @@
     "time_end": null,
     "type": "出来事",
     "description": "出航から4時間。各王子エリアの様子が描かれる。ハルケンブルグが夢から覚める",
-    "characters": ["P09", "SPD-001"],
+    "characters": [
+      "P09",
+      "SPD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -556,10 +707,15 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "オイトがステルスドルフィンを発動しゴキブリを捕獲、マラヤームの部屋を偵察する",
-    "characters": ["Q08", "P13"],
+    "characters": [
+      "Q08",
+      "P13"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -575,18 +731,30 @@
     "time_end": null,
     "type": "殺害",
     "description": "タフディーがモモゼを絞殺。モモゼ監視兵6名が拘束される",
-    "status_effects": [{"character": "P12", "status": "死亡"}],
-    "characters": ["P12", "P12-Q05"],
+    "status_effects": [
+      {
+        "character": "P12",
+        "status": "死亡"
+      }
+    ],
+    "characters": [
+      "P12",
+      "P12-Q05"
+    ],
     "room": 1012,
     "location": "1012号室",
-    "camp": ["モモゼ陣営"],
+    "camp": [
+      "モモゼ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
       "マラヤーム護衛内訳：従事者6名、監視兵6名、マラヤーム警備兵2名、ハンター1名（ビスケット）、モモゼ警備兵・ハンター9名（ハンゾー）",
       "念講習会参加者は1,3,4,5,7,8,9,10,11,13の警護兵各2名"
     ],
-    "mysteries": ["スィンコスィンコ所属兵タフディーは念について詳しいのか？"],
+    "mysteries": [
+      "スィンコスィンコ所属兵タフディーは念について詳しいのか？"
+    ],
     "notes": "出航から9時間後"
   },
   {
@@ -598,14 +766,22 @@
     "time_end": null,
     "type": "発症",
     "description": "クラピカがエンペラータイムの限界で倒れる",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["エンペラータイムは3時間が限界。超過すると9時間失神する"],
-    "mysteries": ["失神時間は奪った能力に左右されるのか？"],
+    "revealed_facts": [
+      "エンペラータイムは3時間が限界。超過すると9時間失神する"
+    ],
+    "mysteries": [
+      "失神時間は奪った能力に左右されるのか？"
+    ],
     "notes": ""
   },
   {
@@ -617,10 +793,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "クラピカが起床する（9時間睡眠）",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -636,7 +816,25 @@
     "time_end": null,
     "type": "念講習",
     "description": "念講習会が開始される。参加者16名（自覚した念能力者2名・隠れた念能力者4名を含む）の内訳が判明",
-    "characters": ["P14-H01", "P13-H01", "P13-G01", "P11-M01", "P11-M02", "P10-M01", "P10-M02", "P09-P03", "P09-P04", "P08-G01", "P07-G01", "P05-P01", "P05-G01", "P04-P03", "P04-P04", "P03-P01", "P01-P06"],
+    "characters": [
+      "P14-H01",
+      "P13-H01",
+      "P13-G01",
+      "P11-M01",
+      "P11-M02",
+      "P10-M01",
+      "P10-M02",
+      "P09-P03",
+      "P09-P04",
+      "P08-G01",
+      "P07-G01",
+      "P05-P01",
+      "P05-G01",
+      "P04-P03",
+      "P04-P04",
+      "P03-P01",
+      "P01-P06"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -645,7 +843,11 @@
     "revealed_facts": [
       "参加者内訳：13警護ベレレインテ（ハンター・念能力者）、13警護バリゲン（セヴァンチ所属兵）、11従事者イラルディア、11従事者ラジオラス、10従事者ロベリー、10従事者ユウリ、9警護シェジュール（ハルケンブルグ私設兵）、9警護ユビライ（ハルケンブルグ私設兵）、8警護ムシャホ（スィンコスィンコ所属兵隊長）、7警護サトビ（ドゥアズル所属兵）、5警護マオール（ツベッパ私設兵隊長）、5警護ロンギ（ツベッパ私設兵・潜伏中の念能力者）、4警護ミュハン（ツェリードニヒ私設兵）、4警護ダンジン（ツェリードニヒ私設兵）、3警護テンフトリ（チョウライ私設兵）、1警護ヒュリコフ（ベンジャミン私設兵・念能力者）"
     ],
-    "mysteries": ["潜伏している4人の念能力者は誰か", "ヒュリコフの任務は何か", "サイレントマジョリティーの能力者は誰か"],
+    "mysteries": [
+      "潜伏している4人の念能力者は誰か",
+      "ヒュリコフの任務は何か",
+      "サイレントマジョリティーの能力者は誰か"
+    ],
     "notes": ""
   },
   {
@@ -657,8 +859,18 @@
     "time_end": null,
     "type": "殺害",
     "description": "念講習会中にバリゲンが殺害される（サイレントマジョリティーの能力）",
-    "status_effects": [{"character": "P13-G01", "status": "死亡"}],
-    "characters": ["P14-H01", "P13-G01", "P10-M01", "P04-P03"],
+    "status_effects": [
+      {
+        "character": "P13-G01",
+        "status": "死亡"
+      }
+    ],
+    "characters": [
+      "P14-H01",
+      "P13-G01",
+      "P10-M01",
+      "P04-P03"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -669,7 +881,9 @@
       "ミュハンは犯人ではない",
       "サイレントマジョリティーのターゲットは10人"
     ],
-    "mysteries": ["トドメを刺したのはハシトウかサカタか"],
+    "mysteries": [
+      "トドメを刺したのはハシトウかサカタか"
+    ],
     "notes": "5,6,5という数字の意味は不明"
   },
   {
@@ -682,12 +896,14 @@
     "type": "拘束",
     "description": "モモゼ殺害容疑で従事者が逮捕される。エリア10に捜査官が派遣され72時間監視がつく",
     "characters": [],
-    "room": null,
-    "location": "エリア14",
+    "room": 1014,
+    "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["シマヌとビルは犯人ではないと判明"],
+    "revealed_facts": [
+      "シマヌとビルは犯人ではないと判明"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -700,7 +916,9 @@
     "time_end": null,
     "type": "念講習",
     "description": "念講習会が再開される（棄権者なし）",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -719,7 +937,12 @@
     "time_end": null,
     "type": "情報収集",
     "description": "マフィア3家のケツモチ（血盟主）が判明する",
-    "characters": ["SWU-001", "EII-001", "SAA-001", "SPD-001"],
+    "characters": [
+      "SWU-001",
+      "EII-001",
+      "SAA-001",
+      "SPD-001"
+    ],
     "room": null,
     "location": "第5層",
     "camp": null,
@@ -742,10 +965,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "モモゼの遺体が棺に納められる",
-    "characters": ["P12"],
+    "characters": [
+      "P12"
+    ],
     "room": null,
     "location": null,
-    "camp": ["モモゼ陣営"],
+    "camp": [
+      "モモゼ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -761,7 +988,12 @@
     "time_end": null,
     "type": "情報収集",
     "description": "サイレントマジョリティーの潜伏念能力者の絞り込みが進む",
-    "characters": ["P09-P03", "P09-P04", "P10-M01", "P05-G01"],
+    "characters": [
+      "P09-P03",
+      "P09-P04",
+      "P10-M01",
+      "P05-G01"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -784,10 +1016,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "捜査官がエリア10で第六王妃セイコに聴取するが黙秘される",
-    "characters": ["Q06"],
-    "room": null,
-    "location": "エリア10",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "characters": [
+      "Q06"
+    ],
+    "room": 1010,
+    "location": null,
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -803,14 +1039,26 @@
     "time_end": null,
     "type": "殺害",
     "description": "ハンゾーが分身の術を使い、モモゼ殺害犯タフディー（ナゴマムの相方）を殺害する",
-    "status_effects": [{"character": "P12-Q05", "status": "死亡"}],
-    "characters": ["P12-H01", "P12-Q05"],
+    "status_effects": [
+      {
+        "character": "P12-Q05",
+        "status": "死亡"
+      }
+    ],
+    "characters": [
+      "P12-H01",
+      "P12-Q05"
+    ],
     "room": 1013,
-    "location": "エリア13",
-    "camp": ["マラヤーム陣営"],
+    "location": null,
+    "camp": [
+      "マラヤーム陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["マラヤームの守護霊獣が巨大化する"],
+    "revealed_facts": [
+      "マラヤームの守護霊獣が巨大化する"
+    ],
     "mysteries": [],
     "notes": "タフディーは「ナゴマムの相方」と記述される（ナゴマムの正体は未確認）"
   },
@@ -823,10 +1071,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "リハンがサレサレの守護霊獣を観察する",
-    "characters": ["P08"],
+    "characters": [
+      "P08"
+    ],
     "room": 1008,
-    "location": "エリア8",
-    "camp": ["サレサレ陣営"],
+    "location": null,
+    "camp": [
+      "サレサレ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -842,10 +1094,15 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "タイソンの念獣がイズナビと協専ハンターに憑くが、オラーウ（ベンジャミン私設兵）には憑かない",
-    "characters": ["P06", "P01-P07"],
+    "characters": [
+      "P06",
+      "P01-P07"
+    ],
     "room": 1006,
-    "location": "エリア6",
-    "camp": ["タイソン陣営"],
+    "location": null,
+    "camp": [
+      "タイソン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -861,10 +1118,16 @@
     "time_end": null,
     "type": "契約",
     "description": "ハルケンブルグ・チョウライの私設兵とクラピカの間で協定案が出される",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
-    "location": "エリア14",
-    "camp": ["ワブル陣営", "ハルケンブルグ陣営", "チョウライ陣営"],
+    "location": null,
+    "camp": [
+      "ワブル陣営",
+      "ハルケンブルグ陣営",
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -880,10 +1143,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "マラヤームの守護霊獣が能力を発動し、兵士が消失する。念獣は小さくなる",
-    "characters": ["P13"],
+    "characters": [
+      "P13"
+    ],
     "room": 1013,
-    "location": "エリア13",
-    "camp": ["マラヤーム陣営"],
+    "location": null,
+    "camp": [
+      "マラヤーム陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -899,10 +1166,15 @@
     "time_end": null,
     "type": "出来事",
     "description": "カミーラがベンジャミン私設兵ムッセに、ベンジャミン殺害を予告する",
-    "characters": ["P02", "P01-P08"],
+    "characters": [
+      "P02",
+      "P01-P08"
+    ],
     "room": 1002,
-    "location": "エリア2",
-    "camp": ["カミーラ陣営"],
+    "location": null,
+    "camp": [
+      "カミーラ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -918,11 +1190,22 @@
     "time_end": null,
     "type": "殺害",
     "description": "ムッセがカミーラを銃撃。ネコノナマエが発動しムッセが死亡する",
-    "characters": ["P02", "P01-P08"],
-    "status_effects": [{"character": "P01-P08", "status": "死亡"}],
+    "characters": [
+      "P02",
+      "P01-P08"
+    ],
+    "status_effects": [
+      {
+        "character": "P01-P08",
+        "status": "死亡"
+      }
+    ],
     "room": 1002,
     "location": null,
-    "camp": ["カミーラ陣営", "ベンジャミン陣営"],
+    "camp": [
+      "カミーラ陣営",
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -938,10 +1221,16 @@
     "time_end": null,
     "type": "戦闘",
     "description": "カミーラがエリア1に移動し兵士2名を銃撃。ヒュリコフは生存、もう1名は死亡",
-    "characters": ["P02", "P01-P06"],
+    "characters": [
+      "P02",
+      "P01-P06"
+    ],
     "room": 1001,
-    "location": "エリア1",
-    "camp": ["カミーラ陣営", "ベンジャミン陣営"],
+    "location": null,
+    "camp": [
+      "カミーラ陣営",
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -957,10 +1246,16 @@
     "time_end": null,
     "type": "戦闘",
     "description": "カミーラが1001号室に入室しベンジャミンを銃撃するが、念により無傷",
-    "characters": ["P02", "P01"],
+    "characters": [
+      "P02",
+      "P01"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["カミーラ陣営", "ベンジャミン陣営"],
+    "camp": [
+      "カミーラ陣営",
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -976,10 +1271,16 @@
     "time_end": null,
     "type": "拘束",
     "description": "ヒュリコフがカミーラの腕を折り拘束する。ムッセの能力（シークレットウィンドウ）がカミーラに憑く",
-    "characters": ["P02", "P01-P06", "P01-P08"],
+    "characters": [
+      "P02",
+      "P01-P06",
+      "P01-P08"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -995,14 +1296,21 @@
     "time_end": null,
     "type": "出来事",
     "description": "モモゼの部屋が閉鎖される。1013号室は空室のまま。1014号室に1013号室から電話が入る",
-    "characters": ["P14"],
+    "characters": [
+      "P14"
+    ],
     "room": 1013,
-    "location": "エリア12,13,14",
-    "camp": ["モモゼ陣営", "ワブル陣営"],
+    "location": "1012号室・1013号室・1014号室",
+    "camp": [
+      "モモゼ陣営",
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["空室のはずの1013号室からの電話は誰がかけたのか？"],
+    "mysteries": [
+      "空室のはずの1013号室からの電話は誰がかけたのか？"
+    ],
     "notes": ""
   },
   {
@@ -1014,14 +1322,23 @@
     "time_end": null,
     "type": "会議",
     "description": "ウェルゲーがクラピカと通話。モモゼ殺害犯人の情報を共有する",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": null,
-    "location": "エリア12,14",
-    "camp": ["モモゼ陣営", "ワブル陣営"],
+    "location": "1012号室・1014号室",
+    "camp": [
+      "モモゼ陣営",
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["出航から37時間30分経過（逆算すると出航は日曜日12:00）"],
-    "mysteries": ["ウェルゲーはハンター協会員がカキン王国を内側から崩そうとしていると疑っている"],
+    "revealed_facts": [
+      "出航から37時間30分経過（逆算すると出航は日曜日12:00）"
+    ],
+    "mysteries": [
+      "ウェルゲーはハンター協会員がカキン王国を内側から崩そうとしていると疑っている"
+    ],
     "notes": "図表：各王子の兵士内訳"
   },
   {
@@ -1033,10 +1350,14 @@
     "time_end": null,
     "type": "移動",
     "description": "フウゲツが守護霊獣の能力でエリア11に移動する",
-    "characters": ["P11"],
+    "characters": [
+      "P11"
+    ],
     "room": 1011,
-    "location": "エリア10→11",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": "1010号室→1011号室",
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1052,10 +1373,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "リハンがサレサレの守護霊獣の能力を観察する",
-    "characters": ["P08"],
+    "characters": [
+      "P08"
+    ],
     "room": 1008,
-    "location": "エリア8",
-    "camp": ["サレサレ陣営"],
+    "location": null,
+    "camp": [
+      "サレサレ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1071,10 +1396,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "チョウライの守護霊獣がコインを吐き出す",
-    "characters": ["P03"],
+    "characters": [
+      "P03"
+    ],
     "room": 1003,
-    "location": "エリア3",
-    "camp": ["チョウライ陣営"],
+    "location": null,
+    "camp": [
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1090,7 +1419,9 @@
     "time_end": null,
     "type": "鳴動",
     "description": "1度目の鳴動：モモゼへのお祈り",
-    "characters": ["P12"],
+    "characters": [
+      "P12"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -1109,10 +1440,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ハルケンブルグを監視していたウンマ所属兵がオルズニーからシカクに交代したことが判明する",
-    "characters": ["P09"],
+    "characters": [
+      "P09"
+    ],
     "room": 1009,
-    "location": "エリア9",
-    "camp": ["ハルケンブルグ陣営"],
+    "location": null,
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1128,10 +1463,14 @@
     "time_end": null,
     "type": "移動",
     "description": "ハルケンブルグが父ホイコーロに直訴するため向かう",
-    "characters": ["P09"],
+    "characters": [
+      "P09"
+    ],
     "room": 1009,
-    "location": "エリア9",
-    "camp": ["ハルケンブルグ陣営"],
+    "location": null,
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1147,13 +1486,19 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "フウゲツが守護霊獣の能力を再使用しようとするが発動できない",
-    "characters": ["P11"],
+    "characters": [
+      "P11"
+    ],
     "room": 1011,
-    "location": "エリア11",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": null,
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["秘密の扉（マジカルワーム）の能力は1日1回のみ使用可能"],
+    "revealed_facts": [
+      "秘密の扉（マジカルワーム）の能力は1日1回のみ使用可能"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -1166,10 +1511,15 @@
     "time_end": null,
     "type": "念講習",
     "description": "ハンゾーが肉体に戻る。ビスケットがウェルゲーに念を教え、ウェルゲーが魅了される。ベレレインテが退室。マラヤームの守護霊獣の能力の詳細が分かる",
-    "characters": ["P12-H01", "P12-H02"],
+    "characters": [
+      "P12-H01",
+      "P12-H02"
+    ],
     "room": 1013,
-    "location": "エリア13",
-    "camp": ["マラヤーム陣営"],
+    "location": null,
+    "camp": [
+      "マラヤーム陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1185,10 +1535,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "カミーラが釈放される",
-    "characters": ["P02"],
+    "characters": [
+      "P02"
+    ],
     "room": null,
     "location": null,
-    "camp": ["カミーラ陣営"],
+    "camp": [
+      "カミーラ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1204,8 +1558,17 @@
     "time_end": null,
     "type": "殺害",
     "description": "念講習会中にミュハンが殺害される（サイレントマジョリティーの能力）。参加者が騒ぎベレレインテがたしなめる",
-    "status_effects": [{"character": "P04-P03", "status": "死亡"}],
-    "characters": ["P14-H01", "P04-P03", "P13-H01"],
+    "status_effects": [
+      {
+        "character": "P04-P03",
+        "status": "死亡"
+      }
+    ],
+    "characters": [
+      "P14-H01",
+      "P04-P03",
+      "P13-H01"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -1224,10 +1587,15 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "カチョウがモスキート音でセンリツにメッセージを送る",
-    "characters": ["P10", "P10-H01"],
+    "characters": [
+      "P10",
+      "P10-H01"
+    ],
     "room": 1010,
-    "location": "エリア10",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": null,
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1243,13 +1611,19 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "フウゲツが秘密の扉の能力を再確認するため入口横へ移動しようとする",
-    "characters": ["P11"],
+    "characters": [
+      "P11"
+    ],
     "room": 1011,
-    "location": "エリア11",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": null,
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["秘密の扉の能力は1日1回のみという制限が改めて確認される"],
+    "revealed_facts": [
+      "秘密の扉の能力は1日1回のみという制限が改めて確認される"
+    ],
     "mysteries": [],
     "notes": "4日目深夜（未明）"
   },
@@ -1262,10 +1636,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "ミュハン殺害が私設兵によりツェリードニヒに報告される。念講習会継続の意思を伝達。ツェリードニヒが水見式を行い、水が腐る",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
-    "location": "エリア4",
-    "camp": ["ツェリードニヒ陣営"],
+    "location": null,
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1281,10 +1659,16 @@
     "time_end": null,
     "type": "会議",
     "description": "カチョウが晩餐会でのショー実施を母セイコに相談する",
-    "characters": ["P10", "Q06", "P10-H02"],
+    "characters": [
+      "P10",
+      "Q06",
+      "P10-H02"
+    ],
     "room": 1010,
-    "location": "エリア10",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": null,
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1300,7 +1684,10 @@
     "time_end": null,
     "type": "契約",
     "description": "シャ＝ア一家と幻影旅団が協力。クロロ・シズク・ボノレノフの組と他組がそれぞれ別行動を取る",
-    "characters": ["SAA-001", "SPD-001"],
+    "characters": [
+      "SAA-001",
+      "SPD-001"
+    ],
     "room": null,
     "location": "第5層 中央食堂",
     "camp": null,
@@ -1319,7 +1706,11 @@
     "time_end": null,
     "type": "移動",
     "description": "ノブナガ・フェイタン・フィンクスが組み、4層に移動する",
-    "characters": ["SPD-002", "SPD-003", "SPD-004"],
+    "characters": [
+      "SPD-002",
+      "SPD-003",
+      "SPD-004"
+    ],
     "room": null,
     "location": "第4層",
     "camp": null,
@@ -1338,14 +1729,18 @@
     "time_end": null,
     "type": "殺害",
     "description": "ルイーニーが3層で20人を殺害する",
-    "characters": ["EII-002"],
+    "characters": [
+      "EII-002"
+    ],
     "room": null,
     "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["ルイーニーのLvは21。20人殺害後イタズラでさらに1人死亡しているならLv22ではないか？"],
+    "mysteries": [
+      "ルイーニーのLvは21。20人殺害後イタズラでさらに1人死亡しているならLv22ではないか？"
+    ],
     "notes": ""
   },
   {
@@ -1357,7 +1752,13 @@
     "time_end": null,
     "type": "情報収集",
     "description": "シュウ＝ウ一家・シャ＝ア一家・エイ＝イ一家の組織詳細が判明する",
-    "characters": ["SWU-001", "SWU-002", "SAA-001", "SAA-002", "EII-001"],
+    "characters": [
+      "SWU-001",
+      "SWU-002",
+      "SAA-001",
+      "SAA-002",
+      "EII-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -1368,7 +1769,9 @@
       "シャ＝ア一家：組長ブロッコ＝リー、ケツモチルズールス、若頭オウ＝ケンイ（念能力者）、構成員約250人",
       "エイ＝イ一家：組長モレナ＝プルード（父はホイコーロ）、ケツモチツェリードニヒ、構成員23人（モレナ含む）"
     ],
-    "mysteries": ["モレナとツェリードニヒが兄妹である可能性。二人の母親は誰か？もしモレナとツェリードニヒが兄妹ならツェリードニヒはビヨンドの子供ではなくなる"],
+    "mysteries": [
+      "モレナとツェリードニヒが兄妹である可能性。二人の母親は誰か？もしモレナとツェリードニヒが兄妹ならツェリードニヒはビヨンドの子供ではなくなる"
+    ],
     "notes": ""
   },
   {
@@ -1380,14 +1783,18 @@
     "time_end": null,
     "type": "情報収集",
     "description": "カシューがミザイストムと接触し証言する",
-    "characters": ["HA-002"],
+    "characters": [
+      "HA-002"
+    ],
     "room": null,
     "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["カシューは『ルイーニーに殺されずに済んだ』と証言。ルイーニーが殺したのは19人なのか？ミザイストムの『20人もの命を素早く奪った』という証言と矛盾する"],
+    "mysteries": [
+      "カシューは『ルイーニーに殺されずに済んだ』と証言。ルイーニーが殺したのは19人なのか？ミザイストムの『20人もの命を素早く奪った』という証言と矛盾する"
+    ],
     "notes": ""
   },
   {
@@ -1399,7 +1806,10 @@
     "time_end": null,
     "type": "出来事",
     "description": "オウとノブナガたちが出会う",
-    "characters": ["SAA-002", "SPD-002"],
+    "characters": [
+      "SAA-002",
+      "SPD-002"
+    ],
     "room": null,
     "location": "シャ＝ア一家アジト手前",
     "camp": null,
@@ -1418,7 +1828,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "フランクリンとイットクが出会う",
-    "characters": ["SAA-003"],
+    "characters": [
+      "SAA-003"
+    ],
     "room": null,
     "location": "食堂",
     "camp": null,
@@ -1456,7 +1868,10 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ミザイストムがイルミ＝カルトと遭遇。イルミがフリーパスIDを所持しており、旅団の乗船をミザイストムに確認させる。クラピカに伝えるべきか悩む。ミザイストムがフウゲツとも遭遇する",
-    "characters": ["HA-002", "P11"],
+    "characters": [
+      "HA-002",
+      "P11"
+    ],
     "room": null,
     "location": "第3層展望室",
     "camp": null,
@@ -1475,7 +1890,10 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ミザイストムがフウゲツを尋問。部下のハンターがセンリツに電話し、フウゲツの逃走防止を指示する（実際はハンター暗号で『カチョウ・フウゲツ両王子の逃走を全力でサポートしろ』という意味）",
-    "characters": ["HA-002", "P11"],
+    "characters": [
+      "HA-002",
+      "P11"
+    ],
     "room": null,
     "location": "中央警察署（第3層）",
     "camp": null,
@@ -1494,10 +1912,16 @@
     "time_end": null,
     "type": "拘束",
     "description": "フウゲツに司法局より72時間の監視がつく。司法局員がセンリツに言い寄る",
-    "characters": ["P10-H01", "P11", "Q06"],
+    "characters": [
+      "P10-H01",
+      "P11",
+      "Q06"
+    ],
     "room": 1010,
     "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1513,10 +1937,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "サレサレ警護兵にサレサレの守護霊獣の分身が憑く（煙を吸って70時間経過）。リハンが異邦人（プレデター）を発動しサレサレの守護霊獣を捕食。リハンは48時間念能力が使用不可になり、フウゲツ王子警護のウショウヒと交代する",
-    "characters": ["P08"],
+    "characters": [
+      "P08"
+    ],
     "room": 1008,
     "location": null,
-    "camp": ["サレサレ陣営"],
+    "camp": [
+      "サレサレ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1532,13 +1960,19 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ウショウヒの能力の詳細が解説される",
-    "characters": ["P11"],
+    "characters": [
+      "P11"
+    ],
     "room": 1011,
     "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["出航より104時間経過（5日目木曜日PM8:00）"],
+    "revealed_facts": [
+      "出航より104時間経過（5日目木曜日PM8:00）"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -1551,10 +1985,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "ハルケンブルグが父ホイコーロに会い継承戦の停止を要請するが断られる。銃撃するが無傷。自殺を図るが守護霊獣に止められる",
-    "characters": ["P09"],
+    "characters": [
+      "P09"
+    ],
     "room": null,
     "location": "王室",
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1570,11 +2008,21 @@
     "time_end": null,
     "type": "鳴動",
     "description": "2度目の鳴動：ハルケンブルグがシカクを矢の能力で攻撃し、スミドリの人格を入れる",
-    "characters": ["P09", "P07-G06"],
-    "status_effects": [{"character": "P07-G06", "status": "操作中（人格がスミドリに乗っ取られる）"}],
+    "characters": [
+      "P09",
+      "P07-G06"
+    ],
+    "status_effects": [
+      {
+        "character": "P07-G06",
+        "status": "操作中（人格がスミドリに乗っ取られる）"
+      }
+    ],
     "room": 1009,
     "location": "1009号室",
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": "鳴動",
     "series_index": 2,
     "revealed_facts": [],
@@ -1590,15 +2038,27 @@
     "time_end": null,
     "type": "死亡",
     "description": "サレサレが死亡する。ウショウヒが能力を使用",
-    "characters": ["P08", "P11-G01"],
-    "status_effects": [{"character": "P08", "status": "死亡"}],
+    "characters": [
+      "P08",
+      "P11-G01"
+    ],
+    "status_effects": [
+      {
+        "character": "P08",
+        "status": "死亡"
+      }
+    ],
     "room": 1008,
     "location": null,
-    "camp": ["サレサレ陣営"],
+    "camp": [
+      "サレサレ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["ウショウヒの能力の詳細"],
+    "mysteries": [
+      "ウショウヒの能力の詳細"
+    ],
     "notes": "出航より176時間経過（8日目PM8:00、日曜日）"
   },
   {
@@ -1610,7 +2070,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "晩餐会開催。サレサレは欠席（『晩餐会で世界を変える』はサレサレのライブ予定を指していたと判明）。晩餐会は90分間。センリツがフルートを演奏",
-    "characters": ["P10-H01"],
+    "characters": [
+      "P10-H01"
+    ],
     "room": null,
     "location": "晩餐会場",
     "camp": null,
@@ -1629,15 +2091,30 @@
     "time_end": null,
     "type": "脱出",
     "description": "キーニがカチョウとフウゲツを救命艇に移動させ自死。カチョウとフウゲツが脱出するが、カチョウは死亡。フウゲツはマジカルワームで船に戻り生還する",
-    "characters": ["P10", "P11", "P10-H02"],
+    "characters": [
+      "P10",
+      "P11",
+      "P10-H02"
+    ],
     "status_effects": [
-      {"character": "P10", "status": "死亡（念獣がフウゲツを守護中）"},
-      {"character": "P11", "status": "存命（継承戦から事実上離脱）"},
-      {"character": "P10-H02", "status": "死亡"}
+      {
+        "character": "P10",
+        "status": "死亡（念獣がフウゲツを守護中）"
+      },
+      {
+        "character": "P11",
+        "status": "存命（継承戦から事実上離脱）"
+      },
+      {
+        "character": "P10-H02",
+        "status": "死亡"
+      }
     ],
     "room": null,
     "location": "晩餐会場",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1653,7 +2130,10 @@
     "time_end": null,
     "type": "会議",
     "description": "ノブナガ・フィンクスたちがマフィアのバランスについて説明を受け、モレナのヒットマンをターゲットにする",
-    "characters": ["SPD-002", "SPD-003"],
+    "characters": [
+      "SPD-002",
+      "SPD-003"
+    ],
     "room": null,
     "location": "シャ＝ア一家アジト",
     "camp": null,
@@ -1672,14 +2152,20 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "1004号室で従事者が死体を片付けている。ツェリードニヒが電話でモレナがV2エリアにいないことを伝える。ツェリードニヒが念の修行を再開し、能力が発現して念獣が現れる",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["1004号室で片付けられていた死体は誰のものか？"],
+    "mysteries": [
+      "1004号室で片付けられていた死体は誰のものか？"
+    ],
     "notes": "図表：ツェリードニヒの念獣と守護霊獣のビジュアル"
   },
   {
@@ -1691,10 +2177,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ツェリードニヒが念の修行を行う",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1710,10 +2200,16 @@
     "time_end": null,
     "type": "殺害",
     "description": "テータがツェリードニヒを銃撃するが無傷。花が見える（センリツの能力の影響）。テータが倒れる。ツェリードニヒがセンリツを部屋に招待するよう部下に指示する",
-    "characters": ["P04", "P04-M01", "P10-H01"],
+    "characters": [
+      "P04",
+      "P04-M01",
+      "P10-H01"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1729,11 +2225,20 @@
     "time_end": null,
     "type": "発症",
     "description": "テータが目を覚ます。顔にツェリードニヒの守護霊獣のマーキングが付いている",
-    "characters": ["P04-M01"],
-    "status_effects": [{"character": "P04-M01", "status": "存命（守護霊獣のマーキングあり）"}],
+    "characters": [
+      "P04-M01"
+    ],
+    "status_effects": [
+      {
+        "character": "P04-M01",
+        "status": "存命（守護霊獣のマーキングあり）"
+      }
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1749,7 +2254,9 @@
     "time_end": null,
     "type": "情報収集",
     "description": "センリツが司法局から尋問を受ける（他王子からの招待を防ぐ目的）",
-    "characters": ["P10-H01"],
+    "characters": [
+      "P10-H01"
+    ],
     "room": null,
     "location": "司法局（第2層）",
     "camp": null,
@@ -1768,11 +2275,21 @@
     "time_end": null,
     "type": "死亡",
     "description": "ハルケンブルグが能力を検証。シカクに乗り移ったスミドリが自死しシカクが死亡。スミドリは自分の体に戻る",
-    "characters": ["P09", "P07-G06"],
-    "status_effects": [{"character": "P07-G06", "status": "死亡"}],
+    "characters": [
+      "P09",
+      "P07-G06"
+    ],
+    "status_effects": [
+      {
+        "character": "P07-G06",
+        "status": "死亡"
+      }
+    ],
     "room": 1009,
     "location": null,
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1788,7 +2305,10 @@
     "time_end": null,
     "type": "念講習",
     "description": "念講習会でラジオラスが一番覚えが良いとクラピカに評される",
-    "characters": ["P14-H01", "P11-M02"],
+    "characters": [
+      "P14-H01",
+      "P11-M02"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -1807,10 +2327,15 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ツェリードニヒの4大行修行が完了していることにサルコフが驚く。1秒以内に絶になることを目標にする。ツェリードニヒに心境の変化が見られる",
-    "characters": ["P04", "P04-P02"],
+    "characters": [
+      "P04",
+      "P04-P02"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1826,10 +2351,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "8日目の出来事がツェリードニヒ視点で再現される",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1845,13 +2374,21 @@
     "time_end": null,
     "type": "念講習",
     "description": "ラジオラス・マオール・ユウリが念能力を使えるようになる。ビルの能力が強化系（球根『ハルジオン』、種を発芽させる）と判明",
-    "characters": ["P14-H01", "P14-H02", "P11-M02", "P05-P01", "P10-M02"],
+    "characters": [
+      "P14-H01",
+      "P14-H02",
+      "P11-M02",
+      "P05-P01",
+      "P10-M02"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["念能力の『攻撃』の定義には治療や貸与も含まれる"],
+    "revealed_facts": [
+      "念能力の『攻撃』の定義には治療や貸与も含まれる"
+    ],
     "mysteries": [],
     "notes": "図表：念能力の攻撃の定義"
   },
@@ -1864,10 +2401,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "リハンが心の声で自分の能力の弱点を説明する。ツベッパがサレサレ暗殺に気づき、次に自分が狙われていると察知する",
-    "characters": ["P05"],
+    "characters": [
+      "P05"
+    ],
     "room": 1005,
     "location": null,
-    "camp": ["ツベッパ陣営"],
+    "camp": [
+      "ツベッパ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1883,10 +2424,14 @@
     "time_end": null,
     "type": "鳴動",
     "description": "4度目の鳴動：クラピカが気づく",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": "鳴動",
     "series_index": 4,
     "revealed_facts": [],
@@ -1902,10 +2447,20 @@
     "time_end": null,
     "type": "情報収集",
     "description": "シカクが自死した時の1007号室の状況が判明する",
-    "characters": ["P07", "P01-P09", "P07-P01", "HA-006", "P05-H01", "P07-G03", "P07-G02"],
+    "characters": [
+      "P07",
+      "P01-P09",
+      "P07-P01",
+      "HA-006",
+      "P05-H01",
+      "P07-G03",
+      "P07-G02"
+    ],
     "room": 1007,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -1915,7 +2470,9 @@
       "シカクが死んだ時に鳴動が止まった",
       "鳴動の破壊力は『音速を超える直径5mの火球』で直撃すれば死亡レベル"
     ],
-    "mysteries": ["操られている間は鳴動が鳴り続けるのか？"],
+    "mysteries": [
+      "操られている間は鳴動が鳴り続けるのか？"
+    ],
     "notes": "場所：V.VIPエリア監視居住区（ベンジャミン）。ベンジャミン陣営は監視勾留措置を受けている"
   },
   {
@@ -1927,14 +2484,27 @@
     "time_end": null,
     "type": "鳴動",
     "description": "ベンジャミンとバルサミルコが4度目の鳴動に気づく。ビクトから緊急連絡が入り、ハルケンブルグと交戦して攻撃を受ける（操作される）",
-    "characters": ["P01", "P09", "P01-P05"],
+    "characters": [
+      "P01",
+      "P09",
+      "P01-P05"
+    ],
     "status_effects": [
-      {"character": "P01-P05", "status": "存命（ハルケンブルグの意識が憑依）"},
-      {"character": "P09", "status": "拘束（意識はバルサミルコに憑依）"}
+      {
+        "character": "P01-P05",
+        "status": "存命（ハルケンブルグの意識が憑依）"
+      },
+      {
+        "character": "P09",
+        "status": "拘束（意識はバルサミルコに憑依）"
+      }
     ],
     "room": null,
     "location": "V.VIPエリア監視居住区（ベンジャミン）",
-    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -1953,10 +2523,16 @@
     "time_end": null,
     "type": "拘束",
     "description": "バルサミルコの通報でハルケンブルグが拘束される。バルサミルコは第一回公判時にハルケンブルグを暗殺する計画を立てる",
-    "characters": ["P09", "P01"],
+    "characters": [
+      "P09",
+      "P01"
+    ],
     "room": null,
     "location": null,
-    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1972,10 +2548,15 @@
     "time_end": null,
     "type": "出来事",
     "description": "ジュリアーノがタイソン教典を読み込む。タイソンがジュリアーノのバースデーをサプライズで祝う",
-    "characters": ["P06", "P06-P01"],
+    "characters": [
+      "P06",
+      "P06-P01"
+    ],
     "room": 1006,
     "location": null,
-    "camp": ["タイソン陣営"],
+    "camp": [
+      "タイソン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -1991,14 +2572,26 @@
     "time_end": null,
     "type": "情報収集",
     "description": "シカク自殺時に1007号室にいたドゥアズル所属兵5人の内訳が判明する",
-    "characters": ["P07", "P07-G04", "P07-G05", "P07-P02", "HA-007"],
+    "characters": [
+      "P07",
+      "P07-G04",
+      "P07-G05",
+      "P07-P02",
+      "HA-007"
+    ],
     "room": 1007,
     "location": null,
-    "camp": ["ルズールス陣営"],
+    "camp": [
+      "ルズールス陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["就寝中だったのはドゥアズル所属兵のオデッサ・ガドー、私設兵のマクネ、ハンター協会員のスカルト"],
-    "mysteries": ["シカクがルズールスの玄関で自殺した理由"],
+    "revealed_facts": [
+      "就寝中だったのはドゥアズル所属兵のオデッサ・ガドー、私設兵のマクネ、ハンター協会員のスカルト"
+    ],
+    "mysteries": [
+      "シカクがルズールスの玄関で自殺した理由"
+    ],
     "notes": "図表：シカク自殺時に1007号室にいたドゥアズル所属兵5人の内訳"
   },
   {
@@ -2010,10 +2603,29 @@
     "time_end": null,
     "type": "会議",
     "description": "カミーラ私設兵の内訳が判明。王子を呪殺し除念師をあぶり出すための策略が検討される。サラヘルが念講習会に参加しワブルに呪いをかけることを決める",
-    "characters": ["P02", "P02-P01", "P02-P02", "P02-P03", "P02-P04", "P02-P05", "P02-P06", "P02-P07", "P02-P08", "P02-P09", "P02-P10", "P02-P11", "P02-P12", "P02-P13", "P02-P14", "P02-P15"],
+    "characters": [
+      "P02",
+      "P02-P01",
+      "P02-P02",
+      "P02-P03",
+      "P02-P04",
+      "P02-P05",
+      "P02-P06",
+      "P02-P07",
+      "P02-P08",
+      "P02-P09",
+      "P02-P10",
+      "P02-P11",
+      "P02-P12",
+      "P02-P13",
+      "P02-P14",
+      "P02-P15"
+    ],
     "room": null,
     "location": "V.VIPエリア監視居住区（カミーラ）",
-    "camp": ["カミーラ陣営"],
+    "camp": [
+      "カミーラ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -2032,10 +2644,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "テンフトリが念に目覚め、コインをもらう。コベントバ（ベンジャミン私設兵）が拾ったコインの数字が10になる",
-    "characters": ["P03"],
+    "characters": [
+      "P03"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["チョウライ陣営"],
+    "camp": [
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2051,14 +2667,23 @@
     "time_end": null,
     "type": "会議",
     "description": "チョウライがオニオール組長に会い、念について調べるよう依頼する。チョウライの父親がオニオールだと判明する",
-    "characters": ["P03", "SWU-001"],
+    "characters": [
+      "P03",
+      "SWU-001"
+    ],
     "room": null,
     "location": null,
-    "camp": ["チョウライ陣営"],
+    "camp": [
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["チョウライの父親はオニオール＝ロンポウ（シュウ＝ウ一家組長）"],
-    "mysteries": ["チョウライは兄弟が3人死んだことを把握していたが、ツベッパとカミーラは把握していなかった。トウチョウレイが教えたのか？ドゥアズルが監視兵の情報を伝えていないのか？"],
+    "revealed_facts": [
+      "チョウライの父親はオニオール＝ロンポウ（シュウ＝ウ一家組長）"
+    ],
+    "mysteries": [
+      "チョウライは兄弟が3人死んだことを把握していたが、ツベッパとカミーラは把握していなかった。トウチョウレイが教えたのか？ドゥアズルが監視兵の情報を伝えていないのか？"
+    ],
     "notes": ""
   },
   {
@@ -2070,7 +2695,10 @@
     "time_end": null,
     "type": "会議",
     "description": "ヒンリギとオニオールが電話。4層にヒソカはいないと判明。3層でヒソカを探しながらモレナを殺すようヒンリギに指示が出る",
-    "characters": ["SWU-001", "SWU-002"],
+    "characters": [
+      "SWU-001",
+      "SWU-002"
+    ],
     "room": null,
     "location": "第4層",
     "camp": null,
@@ -2089,7 +2717,11 @@
     "time_end": null,
     "type": "戦闘",
     "description": "ヒンリギ・ザクロ・リンチが3層に移動。エイ＝イ一家構成員2名と戦闘し、ヒンリギが3層の軍を能力で殺害する",
-    "characters": ["SWU-002", "SWU-003", "SWU-004"],
+    "characters": [
+      "SWU-002",
+      "SWU-003",
+      "SWU-004"
+    ],
     "room": null,
     "location": "第3層",
     "camp": null,
@@ -2108,7 +2740,11 @@
     "time_end": null,
     "type": "戦闘",
     "description": "ヒンリギ・ザクロ・リンチが3層を捜査。エイ＝イ一家構成員バドイユ・クオロール・デヴェラレスがヒンリギと対峙し、バドイユが殺害される",
-    "characters": ["SWU-002", "SWU-003", "SWU-004"],
+    "characters": [
+      "SWU-002",
+      "SWU-003",
+      "SWU-004"
+    ],
     "room": null,
     "location": "第3層",
     "camp": null,
@@ -2146,7 +2782,10 @@
     "time_end": null,
     "type": "戦闘",
     "description": "ザクロとリンチがヒソカに遭遇。リンチがヒソカのカウンターで倒れる",
-    "characters": ["SWU-003", "SWU-004"],
+    "characters": [
+      "SWU-003",
+      "SWU-004"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2165,7 +2804,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "ドツンケがヒソカのサイン色紙を手に入れようと画策する（締め切りまで4日）",
-    "characters": ["SAA-004"],
+    "characters": [
+      "SAA-004"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2184,7 +2825,9 @@
     "time_end": null,
     "type": "戦闘",
     "description": "幻影旅団とルイーニー（エイ＝イ一家構成員）がシャ＝ア一家アジトで対峙する",
-    "characters": ["EII-002"],
+    "characters": [
+      "EII-002"
+    ],
     "room": null,
     "location": "シャ＝ア一家アジト",
     "camp": null,
@@ -2203,8 +2846,16 @@
     "time_end": null,
     "type": "殺害",
     "description": "ノブナガがルイーニーを殺害する",
-    "status_effects": [{"character": "EII-002", "status": "死亡"}],
-    "characters": ["SPD-002", "EII-002"],
+    "status_effects": [
+      {
+        "character": "EII-002",
+        "status": "死亡"
+      }
+    ],
+    "characters": [
+      "SPD-002",
+      "EII-002"
+    ],
     "room": null,
     "location": "シャ＝ア一家アジト",
     "camp": null,
@@ -2223,7 +2874,9 @@
     "time_end": null,
     "type": "発症",
     "description": "ザクロが目を覚ます。ヒソカに映画に誘われた後失神していたらしい",
-    "characters": ["SWU-003"],
+    "characters": [
+      "SWU-003"
+    ],
     "room": null,
     "location": "第4層",
     "camp": null,
@@ -2242,7 +2895,9 @@
     "time_end": null,
     "type": "会議",
     "description": "ヒンリギがヒソカに会い、大人しくしているよう依頼。V.VIPエリアに部屋を用意する",
-    "characters": ["SWU-002"],
+    "characters": [
+      "SWU-002"
+    ],
     "room": null,
     "location": "シネコン（第4層）",
     "camp": null,
@@ -2261,14 +2916,18 @@
     "time_end": null,
     "type": "出来事",
     "description": "オウが伍長にワイロを渡し、モレナの場所まで案内させる。3101号室を開けると伍長が消える",
-    "characters": ["SAA-002"],
+    "characters": [
+      "SAA-002"
+    ],
     "room": 3101,
     "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["伍長はなぜ消えたのか"],
+    "mysteries": [
+      "伍長はなぜ消えたのか"
+    ],
     "notes": ""
   },
   {
@@ -2287,7 +2946,9 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["3101号室の空間の正体は何か"],
+    "mysteries": [
+      "3101号室の空間の正体は何か"
+    ],
     "notes": ""
   },
   {
@@ -2299,13 +2960,19 @@
     "time_end": null,
     "type": "殺害",
     "description": "タッシが殺害される。モレナの狙いはツェリードニヒの私設兵に恋のエチュード（サイキンオセン）を感染させることと判明",
-    "characters": ["EII-001"],
+    "characters": [
+      "EII-001"
+    ],
     "room": null,
     "location": "モレナアジト",
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["モレナの狙いはツェリードニヒの私設兵への恋のエチュード感染"],
+    "revealed_facts": [
+      "モレナの狙いはツェリードニヒの私設兵への恋のエチュード感染"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -2318,7 +2985,9 @@
     "time_end": null,
     "type": "戦闘",
     "description": "軍がエイ＝イ一家のアジトに突入。シャ＝ア一家構成員の死体が発見される",
-    "characters": ["EII-001"],
+    "characters": [
+      "EII-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2337,10 +3006,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "ツェリードニヒの王立軍学校4期生時代の友人6人が登場する",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": null,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2375,7 +3048,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "幻影旅団結成の回想",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2394,7 +3069,9 @@
     "time_end": null,
     "type": "出来事",
     "description": "幻影旅団結成の回想・続き",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2413,7 +3090,9 @@
     "time_end": null,
     "type": "情報収集",
     "description": "幻影旅団が3101号室の罠について考察する",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": 3101,
     "location": null,
     "camp": null,
@@ -2432,7 +3111,10 @@
     "time_end": null,
     "type": "移動",
     "description": "ヒンリギが発信器を付けて罠にかかり移動する。誰もいない場所に着く。ノブナガが追いかけてくる",
-    "characters": ["SWU-002", "SPD-002"],
+    "characters": [
+      "SWU-002",
+      "SPD-002"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2451,14 +3133,19 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ヨコタニの能力によりヒンリギ・ノブナガがアジトから追い出される。ヒンリギは発信器をアジトに仕掛けておく",
-    "characters": ["SWU-002", "SPD-002"],
+    "characters": [
+      "SWU-002",
+      "SPD-002"
+    ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["『器官』とは何を指すのか"],
+    "mysteries": [
+      "『器官』とは何を指すのか"
+    ],
     "notes": ""
   },
   {
@@ -2470,7 +3157,9 @@
     "time_end": null,
     "type": "情報収集",
     "description": "発信器の情報からモレナが第2層にいることが判明する",
-    "characters": ["EII-001"],
+    "characters": [
+      "EII-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2489,10 +3178,19 @@
     "time_end": null,
     "type": "情報収集",
     "description": "タイソンの私設兵の設定（コードネーム）が判明する",
-    "characters": ["P06", "P06-P02", "P06-P03", "P06-P04", "P06-P05", "P06-P06"],
+    "characters": [
+      "P06",
+      "P06-P02",
+      "P06-P03",
+      "P06-P04",
+      "P06-P05",
+      "P06-P06"
+    ],
     "room": 1006,
     "location": null,
-    "camp": ["タイソン陣営"],
+    "camp": [
+      "タイソン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [
@@ -2511,10 +3209,17 @@
     "time_end": null,
     "type": "情報収集",
     "description": "カチョウの死にセイコも気づく。センリツが悔いるが、幽霊となったカチョウに励まされやる気が出る。カイザルが上位王子の暗殺を企てる。フウゲツの能力が複数回使用可能になりつつあるが、やつれている",
-    "characters": ["P10-H01", "P11", "Q06", "JUD-001"],
+    "characters": [
+      "P10-H01",
+      "P11",
+      "Q06",
+      "JUD-001"
+    ],
     "room": 1010,
     "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2530,7 +3235,10 @@
     "time_end": null,
     "type": "念講習",
     "description": "念講習会でロンギが念能力者であると明かす",
-    "characters": ["P14-H01", "P05-G01"],
+    "characters": [
+      "P14-H01",
+      "P05-G01"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -2549,13 +3257,18 @@
     "time_end": null,
     "type": "念講習",
     "description": "ロンギが念能力者だと判明するが、サイレントマジョリティーの犯人ではないと分かる",
-    "characters": ["P14-H01", "P05-G01"],
+    "characters": [
+      "P14-H01",
+      "P05-G01"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["ロンギはツベッパ私設兵ではなくドゥアズル所属兵。マカハ（王立軍学校2期生・強いソエモノ）も同様"],
+    "revealed_facts": [
+      "ロンギはツベッパ私設兵ではなくドゥアズル所属兵。マカハ（王立軍学校2期生・強いソエモノ）も同様"
+    ],
     "mysteries": [],
     "notes": ""
   },
@@ -2568,14 +3281,21 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "壺中卵の儀でソエモノに共通の印が発現する。死後に発動する協力型の邪悪な念であることが判明",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": ["強いソエモノは10人以上存在し、死後に王子を呪い殺す", "王子の中にビヨンドの子がいる"],
-    "mysteries": ["ビヨンドの子はワブル王子なのか？（オイトの反応から推測）"],
+    "revealed_facts": [
+      "強いソエモノは10人以上存在し、死後に王子を呪い殺す",
+      "王子の中にビヨンドの子がいる"
+    ],
+    "mysteries": [
+      "ビヨンドの子はワブル王子なのか？（オイトの反応から推測）"
+    ],
     "notes": ""
   },
   {
@@ -2587,10 +3307,16 @@
     "time_end": null,
     "type": "契約",
     "description": "ツベッパ陣営への攻撃停止条件が定められる。14日9:00までツベッパ陣営に攻撃しないことが条件で、破ると一週間絶になる。1014号室に9:00ツベッパ陣営がいれば契約は一週間更新される",
-    "characters": ["P14-H01", "P05"],
+    "characters": [
+      "P14-H01",
+      "P05"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営", "ツベッパ陣営"],
+    "camp": [
+      "ワブル陣営",
+      "ツベッパ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2606,7 +3332,10 @@
     "time_end": null,
     "type": "出来事",
     "description": "ロンギがビヨンドの子である王子を殺すことを宣言する。バビマイナが考え事をする",
-    "characters": ["P05-G01", "P01-P04"],
+    "characters": [
+      "P05-G01",
+      "P01-P04"
+    ],
     "room": 1014,
     "location": null,
     "camp": null,
@@ -2625,7 +3354,10 @@
     "time_end": null,
     "type": "会議",
     "description": "ビヨンドがカイザルとの面会を希望する",
-    "characters": ["BYD-001", "JUD-001"],
+    "characters": [
+      "BYD-001",
+      "JUD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -2644,10 +3376,17 @@
     "time_end": null,
     "type": "契約",
     "description": "テンフトリがチョウライに、ツベッパ陣営・ワブル陣営との和平条約締結を報告する",
-    "characters": ["P03", "P03-P01"],
+    "characters": [
+      "P03",
+      "P03-P01"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["チョウライ陣営", "ツベッパ陣営", "ワブル陣営"],
+    "camp": [
+      "チョウライ陣営",
+      "ツベッパ陣営",
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2663,10 +3402,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ツベッパの守護霊獣が出現する",
-    "characters": ["P05"],
+    "characters": [
+      "P05"
+    ],
     "room": 1005,
     "location": null,
-    "camp": ["ツベッパ陣営"],
+    "camp": [
+      "ツベッパ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2682,10 +3425,15 @@
     "time_end": null,
     "type": "出来事",
     "description": "バルサミルコが細菌毒を靴に仕込む",
-    "characters": ["P01", "P01-P05"],
+    "characters": [
+      "P01",
+      "P01-P05"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2701,10 +3449,14 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ツェリードニヒが絶になるまでのスピードを9.67秒まで短縮する",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2720,10 +3472,15 @@
     "time_end": null,
     "type": "会議",
     "description": "カチョウ（幽霊）とセンリツが打ち合わせ、フウゲツに注射の跡があることを発見する",
-    "characters": ["P10-H01", "P11"],
+    "characters": [
+      "P10-H01",
+      "P11"
+    ],
     "room": null,
     "location": "司法局",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": [
+      "カチョウ＝フウゲツ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2739,7 +3496,9 @@
     "time_end": null,
     "type": "会議",
     "description": "カイザルが打ち合わせに加わり、ルズールス暗殺を企てる",
-    "characters": ["JUD-001"],
+    "characters": [
+      "JUD-001"
+    ],
     "room": null,
     "location": "司法局",
     "camp": null,
@@ -2758,10 +3517,16 @@
     "time_end": null,
     "type": "情報収集",
     "description": "フウゲツがベンジャミンに手紙を渡す。カイザルがカマをかけてベンジャミンが特殊戒厳令を使おうとしていることを見破る",
-    "characters": ["P11", "P01", "JUD-001"],
+    "characters": [
+      "P11",
+      "P01",
+      "JUD-001"
+    ],
     "room": null,
     "location": "VIPエリア",
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2777,10 +3542,17 @@
     "time_end": null,
     "type": "出来事",
     "description": "フウゲツがルズールスに手紙を渡す。ルズールスは内容をカイザルにも公開する。バショウがお祓いの俳句をフウゲツに渡す",
-    "characters": ["P11", "P07", "P05-H01", "JUD-001"],
+    "characters": [
+      "P11",
+      "P07",
+      "P05-H01",
+      "JUD-001"
+    ],
     "room": 1007,
     "location": null,
-    "camp": ["ルズールス陣営"],
+    "camp": [
+      "ルズールス陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2796,10 +3568,14 @@
     "time_end": null,
     "type": "出来事",
     "description": "クラピカも手紙の内容を確認する",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2815,10 +3591,17 @@
     "time_end": null,
     "type": "出来事",
     "description": "バルサミルコがハルケンブルグの私設兵を分散させ、一人にさせる",
-    "characters": ["P01", "P09", "P01-P05"],
+    "characters": [
+      "P01",
+      "P09",
+      "P01-P05"
+    ],
     "room": null,
     "location": "第2層 司法省ビル検察・裁判所エリア入口",
-    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2834,10 +3617,16 @@
     "time_end": null,
     "type": "会議",
     "description": "ウンマがハルケンブルグと電話する",
-    "characters": ["Q01", "P09"],
+    "characters": [
+      "Q01",
+      "P09"
+    ],
     "room": null,
     "location": "01号室（王妃）",
-    "camp": ["ウンマ陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ウンマ陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2853,10 +3642,18 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "バルサミルコがビクトと会い軍用手話で気を引き足止めする間に、ハルケンブルグが『少年は残酷な弓を射る』を発動する",
-    "characters": ["P01", "P09", "P01-P05", "P01-P10"],
+    "characters": [
+      "P01",
+      "P09",
+      "P01-P05",
+      "P01-P10"
+    ],
     "room": null,
     "location": "第2層 司法省ビル検察・裁判所エリア入口",
-    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2872,10 +3669,15 @@
     "time_end": null,
     "type": "会議",
     "description": "司法省の兵士からベンジャミンへ電話。裁判延期を連絡。バルサミルコが電話を引き継ぎ今日中に成果を見せると伝える",
-    "characters": ["P01", "P01-P05"],
+    "characters": [
+      "P01",
+      "P01-P05"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2891,13 +3693,20 @@
     "time_end": null,
     "type": "出来事",
     "description": "フウゲツがベンジャミンの部屋を訪れ手紙の内容を確認させる。ハルケンブルグの親がウンマだと伝えられるが信じない",
-    "characters": ["P11", "P01"],
+    "characters": [
+      "P11",
+      "P01"
+    ],
     "room": 1001,
     "location": null,
-    "camp": ["ベンジャミン陣営"],
+    "camp": [
+      "ベンジャミン陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["手紙は各王子に渡されたが、4,9,13の王子には渡せていない"],
+    "revealed_facts": [
+      "手紙は各王子に渡されたが、4,9,13の王子には渡せていない"
+    ],
     "mysteries": [],
     "notes": "木曜日の夜にルズールス暗殺実行を決意する動きがある"
   },
@@ -2910,10 +3719,15 @@
     "time_end": null,
     "type": "会議",
     "description": "クラピカがオイトに、手紙の内容を公開する許可を求める",
-    "characters": ["P14-H01", "Q08"],
+    "characters": [
+      "P14-H01",
+      "Q08"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2929,10 +3743,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "チョウライが硬貨の秘密を検討する。部下の意見が凡庸すぎるためクラピカへの電話を指示する",
-    "characters": ["P03"],
+    "characters": [
+      "P03"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["チョウライ陣営"],
+    "camp": [
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2948,8 +3766,17 @@
     "time_end": null,
     "type": "死亡",
     "description": "面会に立ち会った司法局員ウォーリオ＝ベイが倒れたとカイザルが知らされる。面会後、間もなくハルケンブルグが死ぬと聞かされる",
-    "status_effects": [{"character": "JUD-002", "status": "倒れる（詳細不明）"}],
-    "characters": ["JUD-001", "JUD-002", "P09"],
+    "status_effects": [
+      {
+        "character": "JUD-002",
+        "status": "倒れる（詳細不明）"
+      }
+    ],
+    "characters": [
+      "JUD-001",
+      "JUD-002",
+      "P09"
+    ],
     "room": null,
     "location": "司法省",
     "camp": null,
@@ -2968,10 +3795,17 @@
     "time_end": null,
     "type": "殺害",
     "description": "バルサミルコがハルケンブルグを毒殺したことを報告。バルサミルコの中にハルケンブルグが憑いていたことが明かされる",
-    "characters": ["P01", "P09", "P01-P05"],
+    "characters": [
+      "P01",
+      "P09",
+      "P01-P05"
+    ],
     "room": null,
     "location": null,
-    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -2987,10 +3821,14 @@
     "time_end": null,
     "type": "念講習",
     "description": "手紙の内容を明日再開する念講習会で公開すると伝える",
-    "characters": ["P14-H01"],
+    "characters": [
+      "P14-H01"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3006,10 +3844,17 @@
     "time_end": null,
     "type": "移動",
     "description": "クラピカとオイトがチョウライに会いに行く",
-    "characters": ["P14-H01", "Q08", "P03"],
+    "characters": [
+      "P14-H01",
+      "Q08",
+      "P03"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["ワブル陣営", "チョウライ陣営"],
+    "camp": [
+      "ワブル陣営",
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3025,10 +3870,16 @@
     "time_end": null,
     "type": "情報収集",
     "description": "クラピカがコインについての考察をチョウライに伝え、コインを受け取る",
-    "characters": ["P14-H01", "P03"],
+    "characters": [
+      "P14-H01",
+      "P03"
+    ],
     "room": 1003,
     "location": null,
-    "camp": ["ワブル陣営", "チョウライ陣営"],
+    "camp": [
+      "ワブル陣営",
+      "チョウライ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3044,10 +3895,14 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ハルケンブルグが自身の能力をモノローグで説明する",
-    "characters": ["P09"],
+    "characters": [
+      "P09"
+    ],
     "room": null,
     "location": "司法省",
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3063,14 +3918,20 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "ツェリードニヒが絶になる時間を3.496秒まで短縮する",
-    "characters": ["P04"],
+    "characters": [
+      "P04"
+    ],
     "room": 1004,
     "location": null,
-    "camp": ["ツェリードニヒ陣営"],
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["3.496秒を裏返すと『96hE』と読める。96時間後に終わる（End）という暗示か？"],
+    "mysteries": [
+      "3.496秒を裏返すと『96hE』と読める。96時間後に終わる（End）という暗示か？"
+    ],
     "notes": ""
   },
   {
@@ -3082,10 +3943,15 @@
     "time_end": null,
     "type": "念講習",
     "description": "クラピカ・ビル・シマヌが翌日再開する念講習会の打ち合わせを行う",
-    "characters": ["P14-H01", "P14-H02"],
+    "characters": [
+      "P14-H01",
+      "P14-H02"
+    ],
     "room": 1014,
     "location": null,
-    "camp": ["ワブル陣営"],
+    "camp": [
+      "ワブル陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3101,11 +3967,20 @@
     "time_end": null,
     "type": "死亡",
     "description": "ハルケンブルグが死亡する",
-    "characters": ["P09"],
-    "status_effects": [{"character": "P09", "status": "死亡（意識はバルサミルコに憑依したまま存続）"}],
+    "characters": [
+      "P09"
+    ],
+    "status_effects": [
+      {
+        "character": "P09",
+        "status": "死亡（意識はバルサミルコに憑依したまま存続）"
+      }
+    ],
     "room": null,
     "location": "司法省",
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
@@ -3121,7 +3996,9 @@
     "time_end": null,
     "type": "移動",
     "description": "ボノレノフがVIPエリアに移動しヒソカを発見する",
-    "characters": ["SPD-001"],
+    "characters": [
+      "SPD-001"
+    ],
     "room": null,
     "location": "VIPエリア",
     "camp": null,
@@ -3140,7 +4017,10 @@
     "time_end": null,
     "type": "情報収集",
     "description": "オウとモレナが裏で繋がっていることが判明する",
-    "characters": ["SAA-002", "EII-001"],
+    "characters": [
+      "SAA-002",
+      "EII-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -3159,7 +4039,11 @@
     "time_end": null,
     "type": "契約",
     "description": "シュウ＝ウ一家・シャ＝ア一家・幻影旅団が結託する",
-    "characters": ["SWU-001", "SAA-001", "SPD-001"],
+    "characters": [
+      "SWU-001",
+      "SAA-001",
+      "SPD-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
@@ -3178,14 +4062,18 @@
     "time_end": null,
     "type": "情報収集",
     "description": "ドッグマンのLvが62と判明。モレナが目的の能力を持つ人物を探していることが分かる",
-    "characters": ["EII-001"],
+    "characters": [
+      "EII-001"
+    ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": ["モレナの目的はおそらく船の沈没"],
+    "mysteries": [
+      "モレナの目的はおそらく船の沈没"
+    ],
     "notes": ""
   }
 ]

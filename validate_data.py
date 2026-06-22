@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 JSON データの検証スクリプト
-princes.json, spirit_beasts.json, bodyguards.json, factions.json, timeline.json
+characters.json, events.json, spirit_beasts.json, factions.json, mafia.json
 を対応するスキーマファイルで検証します。
 """
 
@@ -49,11 +49,11 @@ def main():
     base = Path(__file__).parent / "data"
 
     files = [
-        ("princes.json",      "princes.schema.json"),
-        ("spirit_beasts.json", None),
-        ("bodyguards.json",   "bodyguards.schema.json"),
-        ("factions.json",     None),
-        ("timeline.json",     "timeline.schema.json"),
+        ("characters.json",     "characters.schema.json"),
+        ("events.json",         "events.schema.json"),
+        ("spirit_beasts.json",  "spirit_beasts.schema.json"),
+        ("factions.json",       "factions.schema.json"),
+        ("mafia.json",          "mafia.schema.json"),
     ]
 
     all_ok = True

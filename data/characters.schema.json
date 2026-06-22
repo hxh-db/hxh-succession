@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "キャラクター一覧 スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "type", "name", "status", "is_hunter"],
+    "properties": {
+      "id": { "type": "string", "minLength": 1 },
+      "type": {
+        "type": "string",
+        "enum": ["prince", "queen", "hunter", "soldier", "attendant", "mafia", "phantom_troupe", "official"]
+      },
+      "position_code": { "type": ["string", "null"] },
+      "current_assignment": { "type": ["string", "null"] },
+      "rank": { "type": ["integer", "null"], "minimum": 1, "maximum": 14 },
+      "name": { "type": "string", "minLength": 1 },
+      "age": { "type": ["integer", "null"], "minimum": 0 },
+      "affiliation": { "type": ["string", "null"] },
+      "queen": { "type": ["string", "null"] },
+      "camp": { "type": ["string", "null"] },
+      "children": { "type": "array", "items": { "type": "string" } },
+      "mission": { "type": ["string", "null"] },
+      "role": { "type": ["string", "null"] },
+      "room": { "type": ["string", "integer", "null"] },
+      "location": { "type": ["string", "null"] },
+      "nen_type": { "type": ["string", "null"] },
+      "nen_ability": { "type": ["string", "null"] },
+      "spirit_beast_name": { "type": ["string", "null"] },
+      "status": { "type": "string", "minLength": 1 },
+      "status_log": { "type": "array" },
+      "is_hunter": { "type": "boolean" },
+      "faction_note": { "type": ["string", "null"] },
+      "notes": { "type": ["string", "null"] },
+      "image": { "type": ["string", "null"] }
+    }
+  }
+}

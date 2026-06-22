@@ -935,6 +935,15 @@ function closeDetailModal() {
 
 // ===== 初期化 =====
 
+// データ描画前に走るブラウザのフラグメントスクロールは、描画後にレイアウトが
+// 大きく伸びるとズレるため、描画完了後に改めてスクロールし直す
+function scrollToCurrentHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  const target = document.getElementById(id);
+  if (target) target.scrollIntoView();
+}
+
 async function init() {
   try {
     const [characters, events, spiritBeasts, factions, mafia] = await Promise.all([
@@ -972,6 +981,8 @@ async function init() {
 
     setupDetailModal();
     setupFilters(events);
+
+    scrollToCurrentHash();
   } catch (err) {
     console.error("データの読み込みに失敗しました", err);
   }

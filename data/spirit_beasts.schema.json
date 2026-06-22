@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "守護霊獣一覧 スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["prince", "name"],
+    "properties": {
+      "prince": { "type": "string", "minLength": 1 },
+      "name": { "type": "string", "minLength": 1 },
+      "appearance": { "type": ["string", "null"] },
+      "nen_type": { "type": ["string", "null"] },
+      "ability": { "type": ["string", "null"] }
+    }
+  }
+}

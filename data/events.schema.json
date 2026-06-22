@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "タイムラインイベント スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "chapter", "description", "characters"],
+    "properties": {
+      "id": { "type": "string", "minLength": 1 },
+      "chapter": { "type": "integer", "minimum": 1 },
+      "chapter_title": { "type": ["string", "null"] },
+      "day": { "type": ["integer", "null"] },
+      "time_start": { "type": ["string", "null"], "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+      "time_end": { "type": ["string", "null"], "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+      "type": { "type": ["string", "null"] },
+      "description": { "type": "string", "minLength": 1 },
+      "characters": { "type": "array", "items": { "type": "string" } },
+      "room": { "type": ["string", "integer", "null"] },
+      "location": { "type": ["string", "null"] },
+      "camp": { "type": ["array", "null"], "items": { "type": "string" } },
+      "series": { "type": ["string", "null"] },
+      "series_index": { "type": ["integer", "null"] },
+      "revealed_facts": { "type": "array", "items": { "type": "string" } },
+      "mysteries": { "type": "array", "items": { "type": "string" } },
+      "notes": { "type": ["string", "null"] }
+    }
+  }
+}

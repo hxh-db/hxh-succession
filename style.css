@@ -211,6 +211,8 @@ body {
   object-fit: cover;
   border-radius: 50%;
   display: block;
+  /* 線画素材が白背景のため乗算ブレンドで念系統カラーを透過させ、ダークテーマに馴染ませる */
+  mix-blend-mode: multiply;
 }
 
 .nen-avatar-強化  { background: var(--nen-強化); }

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "派閥マップ スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["name", "leader", "members"],
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "leader": { "type": ["string", "null"] },
+      "members": { "type": "array", "items": { "type": "string" } },
+      "strategy": { "type": ["string", "null"] }
+    }
+  }
+}

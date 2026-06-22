@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "下層勢力（マフィア）マップ スキーマ",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["name", "leader", "purpose", "members"],
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "leader": { "type": ["string", "null"] },
+      "ketsu_mochi": { "type": ["string", "null"] },
+      "base_layer": { "type": ["string", "null"] },
+      "purpose": { "type": ["string", "null"] },
+      "note": { "type": ["string", "null"] },
+      "members": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["name", "role"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "role": { "type": "string" },
+            "nen_type": { "type": ["string", "null"] },
+            "ability": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

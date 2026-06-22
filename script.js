@@ -98,6 +98,16 @@ function makeAvatar(label, nenType, imageSrc = null) {
   return div;
 }
 
+function makeBeastImage(src, alt) {
+  if (!src) return null;
+  const img = document.createElement("img");
+  img.className = "beast-image";
+  img.alt = alt || "守護霊獣";
+  img.src = src;
+  img.onerror = () => img.remove();
+  return img;
+}
+
 // ===== カード共通 =====
 
 function createCard(title, items, badges = [], onClick = null, avatar = null) {
@@ -198,7 +208,8 @@ function renderSpiritBeasts(beasts) {
       { label: "能力", value: b.ability || "不明" }
     ];
     const badges = [makeNenBadge(b.nen_type)];
-    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges, () => showDetailModal(b.name, "spiritBeast")));
+    const beastImage = makeBeastImage(b.image, b.name);
+    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges, () => showDetailModal(b.name, "spiritBeast"), beastImage));
   });
 }
 
@@ -214,37 +225,78 @@ function setupBeastNenFilter() {
 
 // ===== 護衛・ハンター一覧 =====
 
+function createBodyguardCard(g) {
+  const items = [
+    { label: "陣営", value: g.camp || "不明" },
+    { label: "念系統", value: g.nen_type || "不明" },
+    { label: "能力", value: g.nen_ability || "不明" },
+    { label: "役割", value: g.role },
+    { label: "備考", value: g.notes }
+  ];
+  const badges = [];
+  if (g.is_hunter) badges.push(makeHunterBadge());
+  badges.push(makeNenBadge(g.nen_type));
+  const initial = g.name.slice(0, 2);
+  const avatar = makeAvatar(initial, g.nen_type, g.image || null);
+  return createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+}
+
+// 陣営名 → 紐づく王子のrank（陣営名が王子camp名と一致しない場合は末尾に回す）
+function getCampRank(camp) {
+  const p = princesData.find((pr) => pr.camp === camp);
+  return p ? p.rank : 999;
+}
+
+let bodyguardGroupByCamp = false;
+
 function renderBodyguards(guards) {
   const grid = document.getElementById("bodyguard-grid");
   grid.innerHTML = "";
+  grid.classList.toggle("grouped", bodyguardGroupByCamp);
   if (guards.length === 0) {
     grid.textContent = "該当する護衛が見つかりませんでした。";
     return;
   }
-  guards.forEach((g) => {
-    const items = [
-      { label: "陣営", value: g.camp || "不明" },
-      { label: "念系統", value: g.nen_type || "不明" },
-      { label: "能力", value: g.nen_ability || "不明" },
-      { label: "役割", value: g.role },
-      { label: "備考", value: g.notes }
-    ];
-    const badges = [];
-    if (g.is_hunter) badges.push(makeHunterBadge());
-    badges.push(makeNenBadge(g.nen_type));
-    const initial = g.name.slice(0, 2);
-    const avatar = makeAvatar(initial, g.nen_type, g.image || null);
-    grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar));
-  });
+
+  if (!bodyguardGroupByCamp) {
+    guards.forEach((g) => grid.appendChild(createBodyguardCard(g)));
+    return;
+  }
+
+  const groups = guards.reduce((acc, g) => {
+    const camp = g.camp || "陣営不明";
+    (acc[camp] = acc[camp] || []).push(g);
+    return acc;
+  }, {});
+
+  Object.keys(groups)
+    .sort((a, b) => getCampRank(a) - getCampRank(b))
+    .forEach((camp) => {
+      const section = document.createElement("div");
+      section.className = "camp-group";
+      const heading = document.createElement("h3");
+      heading.className = "camp-group-title";
+      heading.textContent = `${camp}（${groups[camp].length}名）`;
+      section.appendChild(heading);
+
+      const subGrid = document.createElement("div");
+      subGrid.className = "card-grid camp-grid";
+      groups[camp].forEach((g) => subGrid.appendChild(createBodyguardCard(g)));
+      section.appendChild(subGrid);
+
+      grid.appendChild(section);
+    });
 }
 
 function setupBodyguardSearch() {
   const searchInput = document.getElementById("bodyguardSearch");
   const hunterFilter = document.getElementById("hunterFilter");
+  const groupToggle = document.getElementById("bodyguardGroupToggle");
 
   function apply() {
     const q = searchInput.value.trim().toLowerCase();
     const hf = hunterFilter.value;
+    bodyguardGroupByCamp = groupToggle.value === "camp";
     const filtered = bodyguardsData.filter((g) => {
       const textMatch = !q || [g.name, g.camp, g.nen_ability, g.role, g.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
@@ -258,6 +310,7 @@ function setupBodyguardSearch() {
 
   searchInput.addEventListener("input", apply);
   hunterFilter.addEventListener("change", apply);
+  groupToggle.addEventListener("change", apply);
 }
 
 // ===== 派閥マップ =====
@@ -874,6 +927,14 @@ function showDetailModal(name, category, eventData = null) {
       { label: "役割", value: record.role || "不明" },
       { label: "備考", value: record.notes || "" }
     ];
+  }
+
+  if (category === "spiritBeast" && record.image) {
+    const modalBeastImage = makeBeastImage(record.image, record.name);
+    if (modalBeastImage) {
+      modalBeastImage.className = "beast-image modal-beast-image";
+      content.appendChild(modalBeastImage);
+    }
   }
 
   const dl = document.createElement("dl");

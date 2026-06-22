@@ -10,7 +10,8 @@
       "name": { "type": "string", "minLength": 1 },
       "appearance": { "type": ["string", "null"] },
       "nen_type": { "type": ["string", "null"] },
-      "ability": { "type": ["string", "null"] }
+      "ability": { "type": ["string", "null"] },
+      "image": { "type": ["string", "null"] }
     }
   }
 }

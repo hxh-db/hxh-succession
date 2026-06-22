@@ -222,6 +222,50 @@ body {
 .nen-avatar-変化  { background: var(--nen-変化); }
 .nen-avatar-特質  { background: var(--nen-特質); }
 
+/* ===== 守護霊獣画像 ===== */
+.beast-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  display: block;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+}
+
+.modal-beast-image {
+  height: 240px;
+  margin-bottom: 18px;
+}
+
+/* ===== 陣営別グループ表示（護衛） ===== */
+#bodyguard-grid.grouped {
+  display: block;
+  margin-top: 20px;
+}
+
+.camp-group {
+  margin-bottom: 32px;
+}
+
+.camp-group:last-child {
+  margin-bottom: 0;
+}
+
+.camp-group-title {
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  font-size: 1.05rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+
+.camp-grid {
+  margin-top: 0;
+}
+
 /* ===== 生死バッジ ===== */
 .status-badge {
   display: inline-block;

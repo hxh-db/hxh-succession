@@ -1,19 +1,20 @@
 const DATA = {
-  princes: "data/princes.json",
-  bodyguards: "data/bodyguards.json",
+  characters: "data/characters.json",
+  events: "data/events.json",
   spiritBeasts: "data/spirit_beasts.json",
   factions: "data/factions.json",
-  mafia: "data/mafia.json",
-  timeline: "data/timeline.json"
+  mafia: "data/mafia.json"
 };
 
-let timelineEvents = [];
+let charactersData = [];
 let princesData = [];
 let bodyguardsData = [];
+let eventsData = [];
 let spiritBeastsData = [];
 let factionsData = [];
 let mafiaData = [];
-let PRINCE_MAP = {}; // 正式名 → { rank, short }
+let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
+let CHAR_MAP = {}; // id → character
 
 async function loadJson(path) {
   const res = await fetch(path);
@@ -30,12 +31,21 @@ function buildPrinceMap(princes) {
   });
 }
 
-// 王子の正式名 → 「第N王子 名前」、それ以外はそのまま
-function formatRoyalName(name) {
-  if (!name) return name;
-  const entry = PRINCE_MAP[name];
+function buildCharMap(characters) {
+  characters.forEach((c) => { CHAR_MAP[c.id] = c; });
+}
+
+// キャラID／王子の正式名 → 表示名。それ以外（無名キャラの素の名前文字列）はそのまま
+function formatRoyalName(token) {
+  if (!token) return token;
+  const char = CHAR_MAP[token];
+  if (char) {
+    if (char.type === "prince") return `第${char.rank}王子${char.name.split("＝")[0]}`;
+    return char.name;
+  }
+  const entry = PRINCE_MAP[token];
   if (entry) return `第${entry.rank}王子${entry.short}`;
-  return name;
+  return token;
 }
 
 // ===== バッジ生成ユーティリティ =====
@@ -137,14 +147,14 @@ function renderPrinces(princes) {
       { label: "部屋", value: p.room || "未配置" },
       { label: "守護霊獣", value: p.spirit_beast_name || "不明" },
       { label: "陣営メモ", value: p.faction_note || "" },
-      { label: "備考", value: p.note || "" }
+      { label: "備考", value: p.notes || "" }
     ];
     const badges = [
       makeStatusBadge(p.status),
       makeNenBadge(p.nen_type)
     ];
     const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null);
-    grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.name, "prince"), avatar));
+    grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.id, "prince"), avatar));
   });
 }
 
@@ -158,7 +168,7 @@ function setupPrinceSearch() {
     const nen = nenFilter.value;
     const st = statusFilter.value;
     const filtered = princesData.filter((p) => {
-      const textMatch = !q || [p.name, p.queen, p.room, p.status, p.note]
+      const textMatch = !q || [p.name, p.queen, p.room, p.status, p.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
       const nenMatch = nen === "all" || p.nen_type === nen;
       const statusMatch = st === "all" || p.status === st;
@@ -213,18 +223,18 @@ function renderBodyguards(guards) {
   }
   guards.forEach((g) => {
     const items = [
-      { label: "担当王子", value: formatRoyalName(g.prince) },
+      { label: "陣営", value: g.camp || "不明" },
       { label: "念系統", value: g.nen_type || "不明" },
-      { label: "能力", value: g.ability || "不明" },
+      { label: "能力", value: g.nen_ability || "不明" },
       { label: "役割", value: g.role },
-      { label: "備考", value: g.note }
+      { label: "備考", value: g.notes }
     ];
     const badges = [];
     if (g.is_hunter) badges.push(makeHunterBadge());
     badges.push(makeNenBadge(g.nen_type));
     const initial = g.name.slice(0, 2);
     const avatar = makeAvatar(initial, g.nen_type, g.image || null);
-    grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.name, "bodyguard"), avatar));
+    grid.appendChild(createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar));
   });
 }
 
@@ -236,7 +246,7 @@ function setupBodyguardSearch() {
     const q = searchInput.value.trim().toLowerCase();
     const hf = hunterFilter.value;
     const filtered = bodyguardsData.filter((g) => {
-      const textMatch = !q || [g.name, g.prince, g.ability, g.role, g.note]
+      const textMatch = !q || [g.name, g.camp, g.nen_ability, g.role, g.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
       const hunterMatch = hf === "all"
         || (hf === "true" && g.is_hunter)
@@ -319,7 +329,7 @@ function renderMafia(mafiaList) {
     [
       `組長: ${org.leader}`,
       `ケツモチ: ${org.ketsu_mochi}`,
-      `拠点: ${org.tier}`
+      `拠点: ${org.base_layer}`
     ].forEach((text) => {
       const span = document.createElement("span");
       span.textContent = text;
@@ -369,30 +379,50 @@ function renderMafia(mafiaList) {
   });
 }
 
-// ===== タイムライン =====
+// ===== タイムライン（events.json） =====
 
 function parseTimeString(value) {
-  if (!value) return Number.MAX_SAFE_INTEGER;
+  if (!value) return null;
   const match = String(value).match(/^(\d{1,2}):(\d{2})$/);
   if (match) return parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
-  const chapMatch = String(value).match(/第(\d+)話/);
-  if (chapMatch) return parseInt(chapMatch[1], 10);
-  return 0;
+  return null;
 }
 
+// 章番号＋イベントID内の連番で並べる（dayがnullの章も正しい順序に収まる）
 function sortKey(event) {
-  if (event.day != null) return event.day * 10000 + (parseTimeString(event.time) || 0);
-  if (event.chapter) return parseTimeString(event.chapter);
-  return parseTimeString(event.time);
+  const seq = parseInt(String(event.id).split("-")[1], 10) || 0;
+  return event.chapter * 1000 + seq;
 }
 
-function createParticipantChip(name) {
+function getDuration(event) {
+  const start = parseTimeString(event.time_start);
+  const end = parseTimeString(event.time_end);
+  if (start != null && end != null && end > start) return end - start;
+  return 30;
+}
+
+function getChapterLabel(event) {
+  return `第${event.chapter}話${event.chapter_title ? "：" + event.chapter_title : ""}`;
+}
+
+function getTimeLabel(event) {
+  if (!event.time_start) return null;
+  return event.time_end ? `${event.time_start}〜${event.time_end}` : event.time_start;
+}
+
+function getLocationKey(event) {
+  if (event.location) return event.location;
+  if (event.room) return `${event.room}号室`;
+  return "場所不明";
+}
+
+function createParticipantChip(token) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "participant-chip";
-  btn.textContent = formatRoyalName(name);
+  btn.textContent = formatRoyalName(token);
   btn.addEventListener("click", () => {
-    document.getElementById("participantFilter").value = name;
+    document.getElementById("participantFilter").value = formatRoyalName(token);
     applyFilter();
   });
   return btn;
@@ -404,7 +434,7 @@ function createTimelineCard(event) {
   item.className = `timeline-item ${typeClass}`;
 
   const title = document.createElement("h3");
-  title.textContent = event.event;
+  title.textContent = event.description;
 
   const typeTag = document.createElement("span");
   typeTag.className = "event-type";
@@ -421,25 +451,42 @@ function createTimelineCard(event) {
     meta.appendChild(span);
   };
 
-  if (event.chapter) addMeta(event.chapter);
+  addMeta(getChapterLabel(event));
   if (event.day != null) addMeta(`${event.day}日目`);
-  if (event.time) addMeta(`時刻: ${event.time}`);
-  if (event.location || event.room) addMeta(`場所: ${event.location || event.room}`);
+  const timeLabel = getTimeLabel(event);
+  if (timeLabel) addMeta(`時刻: ${timeLabel}`);
+  addMeta(`場所: ${getLocationKey(event)}`);
 
   const participantWrapper = document.createElement("div");
   participantWrapper.className = "participant-list";
   participantWrapper.textContent = "参加者: ";
-  (event.participants || []).forEach((name, i) => {
+  (event.characters || []).forEach((token, i) => {
     if (i > 0) participantWrapper.appendChild(document.createTextNode(" / "));
-    participantWrapper.appendChild(createParticipantChip(name));
+    participantWrapper.appendChild(createParticipantChip(token));
   });
 
   meta.appendChild(participantWrapper);
   item.appendChild(meta);
 
-  const detail = document.createElement("p");
-  detail.textContent = event.summary;
-  item.appendChild(detail);
+  if (event.notes) {
+    const detail = document.createElement("p");
+    detail.textContent = event.notes;
+    item.appendChild(detail);
+  }
+
+  if ((event.revealed_facts || []).length > 0) {
+    const facts = document.createElement("p");
+    facts.className = "event-facts";
+    facts.textContent = `分かったこと: ${event.revealed_facts.join(" / ")}`;
+    item.appendChild(facts);
+  }
+
+  if ((event.mysteries || []).length > 0) {
+    const mysteries = document.createElement("p");
+    mysteries.className = "event-mysteries";
+    mysteries.textContent = `謎: ${event.mysteries.join(" / ")}`;
+    item.appendChild(mysteries);
+  }
 
   return item;
 }
@@ -449,25 +496,21 @@ function getUniqueValues(list, key) {
 }
 
 function getUniqueParticipants(events) {
-  return [...new Set(events.flatMap((e) => e.participants || []))].sort();
-}
-
-function getLocationKey(event) {
-  return event.location || event.room || "未設定";
+  return [...new Set(events.flatMap((e) => e.characters || []))];
 }
 
 function applyFilter() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedType = document.getElementById("typeFilter").value;
-  const participantQuery = document.getElementById("participantFilter").value.trim();
+  const participantQuery = document.getElementById("participantFilter").value.trim().toLowerCase();
 
-  const filtered = timelineEvents.filter((event) => {
+  const filtered = eventsData.filter((event) => {
     const loc = getLocationKey(event);
     const roomMatch = selectedRoom === "all" || loc === selectedRoom;
     const typeMatch = selectedType === "all" || event.type === selectedType;
     const participantMatch = participantQuery === ""
-      || (event.participants || []).some((p) =>
-          p.toLowerCase().includes(participantQuery.toLowerCase())
+      || (event.characters || []).some((c) =>
+          formatRoyalName(c).toLowerCase().includes(participantQuery) || c.toLowerCase().includes(participantQuery)
         );
     return roomMatch && typeMatch && participantMatch;
   });
@@ -492,31 +535,33 @@ function resetFilters() {
 }
 
 function setupFilters(events) {
-  timelineEvents = [...events].sort((a, b) => sortKey(a) - sortKey(b));
+  eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
 
   const roomFilter = document.getElementById("roomFilter");
   const typeFilter = document.getElementById("typeFilter");
   const participantSelect = document.getElementById("participantSelect");
 
-  const locations = [...new Set(timelineEvents.map(getLocationKey))].filter(Boolean).sort();
+  const locations = [...new Set(eventsData.map(getLocationKey))].filter(Boolean).sort();
   locations.forEach((loc) => {
     const opt = document.createElement("option");
     opt.value = opt.textContent = loc;
     roomFilter.appendChild(opt);
   });
 
-  getUniqueValues(timelineEvents, "type").forEach((type) => {
+  getUniqueValues(eventsData, "type").forEach((type) => {
     const opt = document.createElement("option");
     opt.value = opt.textContent = type;
     typeFilter.appendChild(opt);
   });
 
-  getUniqueParticipants(timelineEvents).forEach((name) => {
-    const opt = document.createElement("option");
-    opt.value = name;
-    opt.textContent = formatRoyalName(name);
-    participantSelect.appendChild(opt);
-  });
+  getUniqueParticipants(eventsData)
+    .sort((a, b) => formatRoyalName(a).localeCompare(formatRoyalName(b), "ja"))
+    .forEach((token) => {
+      const opt = document.createElement("option");
+      opt.value = token;
+      opt.textContent = formatRoyalName(token);
+      participantSelect.appendChild(opt);
+    });
 
   participantSelect.addEventListener("change", () =>
     renderPersonTimeline(participantSelect.value)
@@ -526,7 +571,7 @@ function setupFilters(events) {
   document.getElementById("participantFilter").addEventListener("input", applyFilter);
   document.getElementById("clearFilters").addEventListener("click", resetFilters);
 
-  renderRoomMap(timelineEvents);
+  renderRoomMap(eventsData);
   renderPersonTimeline("all");
   applyFilter();
 }
@@ -584,10 +629,10 @@ function renderRoomTimeline(events) {
       const row = document.createElement("div");
       row.className = "room-event";
       const strong = document.createElement("strong");
-      const label = e.chapter || (e.day != null ? `${e.day}日目` : e.time) || "";
-      strong.textContent = `${label} — ${e.event}`;
+      const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
+      strong.textContent = `${label} — ${e.description}`;
       const detail = document.createElement("span");
-      const formattedParticipants = (e.participants || []).map(formatRoyalName).join(" / ");
+      const formattedParticipants = (e.characters || []).map(formatRoyalName).join(" / ");
       detail.textContent = `${e.type || "出来事"} / ${formattedParticipants}`;
       row.append(strong, detail);
       card.appendChild(row);
@@ -597,20 +642,18 @@ function renderRoomTimeline(events) {
   });
 }
 
-function renderPersonTimeline(personName) {
+function renderPersonTimeline(token) {
   const container = document.getElementById("personTimeline");
   container.innerHTML = "";
-  const filtered = personName === "all"
-    ? timelineEvents
-    : timelineEvents.filter((e) =>
-        (e.participants || []).some((p) => p === personName)
-      );
+  const filtered = token === "all"
+    ? eventsData
+    : eventsData.filter((e) => (e.characters || []).some((c) => c === token));
 
   if (filtered.length === 0) {
     const p = document.createElement("p");
-    p.textContent = personName === "all"
+    p.textContent = token === "all"
       ? "表示するイベントがありません。"
-      : `${formatRoyalName(personName)} に関わるイベントが見つかりませんでした。`;
+      : `${formatRoyalName(token)} に関わるイベントが見つかりませんでした。`;
     container.appendChild(p);
     return;
   }
@@ -619,18 +662,20 @@ function renderPersonTimeline(personName) {
     const item = document.createElement("div");
     item.className = "person-event";
 
-    const label = e.chapter || (e.day != null ? `${e.day}日目` : "") || e.time || "";
+    const label = e.day != null ? `${getChapterLabel(e)} | ${e.day}日目` : getChapterLabel(e);
     const strong = document.createElement("strong");
-    strong.textContent = label ? `${label} | ${e.event}` : e.event;
+    strong.textContent = `${label} | ${e.description}`;
     item.appendChild(strong);
 
     const meta = document.createElement("span");
     meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
     item.appendChild(meta);
 
-    const p = document.createElement("p");
-    p.textContent = e.summary;
-    item.appendChild(p);
+    if (e.notes) {
+      const p = document.createElement("p");
+      p.textContent = e.notes;
+      item.appendChild(p);
+    }
 
     container.appendChild(item);
   });
@@ -644,8 +689,7 @@ function renderTimelineMatrix(events) {
     return;
   }
 
-  const chapters = [...new Set(events.map((e) => e.chapter || e.time).filter(Boolean))]
-    .sort((a, b) => parseTimeString(a) - parseTimeString(b));
+  const chapters = [...new Set(events.map((e) => e.chapter))].sort((a, b) => a - b);
   const locations = [...new Set(events.map(getLocationKey))].filter(Boolean).sort();
 
   const grid = document.createElement("div");
@@ -654,13 +698,13 @@ function renderTimelineMatrix(events) {
 
   const blank = document.createElement("div");
   blank.className = "matrix-header-cell";
-  blank.textContent = "場所 \\ 章/時";
+  blank.textContent = "場所 \\ 話";
   grid.appendChild(blank);
 
   chapters.forEach((ch) => {
     const h = document.createElement("div");
     h.className = "matrix-header-cell";
-    h.textContent = ch;
+    h.textContent = `第${ch}話`;
     grid.appendChild(h);
   });
 
@@ -674,18 +718,18 @@ function renderTimelineMatrix(events) {
       const cell = document.createElement("div");
       cell.className = "matrix-cell";
       const matched = events.filter(
-        (e) => getLocationKey(e) === loc && (e.chapter || e.time) === ch
+        (e) => getLocationKey(e) === loc && e.chapter === ch
       );
       if (matched.length > 0) {
         const typeClass = matched[0].type ? `type-${matched[0].type}` : "";
         cell.classList.add("matrix-event-cell", typeClass);
         const strong = document.createElement("strong");
-        strong.textContent = matched.length === 1 ? matched[0].event : `${matched.length} 件`;
+        strong.textContent = matched.length === 1 ? matched[0].description : `${matched.length} 件`;
         const span = document.createElement("span");
-        const formattedParticipants = (matched[0].participants || []).map(formatRoyalName).join(" / ");
+        const formattedParticipants = (matched[0].characters || []).map(formatRoyalName).join(" / ");
         span.textContent = matched.length === 1
           ? `${matched[0].type || "出来事"} / ${formattedParticipants}`
-          : matched.map((e) => e.event).join(", ");
+          : matched.map((e) => e.description).join(", ");
         cell.append(strong, span);
       }
       grid.appendChild(cell);
@@ -729,14 +773,14 @@ function renderGanttChart(events) {
       bar.className = `gantt-bar${e.type ? ` type-${e.type}` : ""}`;
 
       const startKey = sortKey(e);
-      const dur = e.duration || 5;
+      const dur = getDuration(e);
       const startPct = ((startKey - minKey) / range) * 100;
       const widthPct = (dur / range) * 100;
       bar.style.left = startPct + "%";
       bar.style.width = Math.max(widthPct, 4) + "%";
-      bar.textContent = e.event;
-      bar.title = `${e.chapter || e.time || ""} - ${e.event}`;
-      bar.addEventListener("click", () => showDetailModal(e.event, "event", e));
+      bar.textContent = e.description;
+      bar.title = `${getChapterLabel(e)} - ${e.description}`;
+      bar.addEventListener("click", () => showDetailModal(e.id, "event", e));
 
       timeline.appendChild(bar);
     });
@@ -756,6 +800,17 @@ function setupDetailModal() {
   });
 }
 
+function getRelatedEvents(record, category) {
+  let id = record.id;
+  let name = record.name;
+  if (category === "spiritBeast") {
+    const prince = charactersData.find((c) => c.name === record.prince);
+    id = prince ? prince.id : null;
+    name = record.prince;
+  }
+  return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
+}
+
 function showDetailModal(name, category, eventData = null) {
   const modal = document.getElementById("detailModal");
   const titleEl = document.getElementById("modalTitle");
@@ -763,19 +818,27 @@ function showDetailModal(name, category, eventData = null) {
   content.innerHTML = "";
 
   let record, details;
+  let extraSections = [];
 
   if (category === "event" && eventData) {
     record = eventData;
-    titleEl.textContent = record.event;
+    titleEl.textContent = record.description;
     details = [
-      { label: "章", value: record.chapter || "—" },
+      { label: "章", value: getChapterLabel(record) },
       { label: "日", value: record.day != null ? `${record.day}日目` : "—" },
-      { label: "時刻", value: record.time || "—" },
+      { label: "時刻", value: getTimeLabel(record) || "—" },
       { label: "場所", value: getLocationKey(record) },
+      { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" },
-      { label: "参加者", value: (record.participants || []).map(formatRoyalName).join(" / ") },
-      { label: "詳細", value: record.summary }
+      { label: "参加者", value: (record.characters || []).map(formatRoyalName).join(" / ") },
+      { label: "詳細", value: record.notes || "" }
     ];
+    if ((record.revealed_facts || []).length > 0) {
+      extraSections.push({ heading: "分かったこと", lines: record.revealed_facts });
+    }
+    if ((record.mysteries || []).length > 0) {
+      extraSections.push({ heading: "謎", lines: record.mysteries });
+    }
   } else if (category === "spiritBeast") {
     record = spiritBeastsData.find((b) => b.name === name);
     if (!record) return;
@@ -787,7 +850,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "能力", value: record.ability || "不明" }
     ];
   } else if (category === "prince") {
-    record = princesData.find((p) => p.name === name);
+    record = princesData.find((p) => p.id === name);
     if (!record) return;
     titleEl.textContent = `第${record.rank}王子 ${record.name}`;
     details = [
@@ -798,18 +861,18 @@ function showDetailModal(name, category, eventData = null) {
       { label: "守護霊獣", value: record.spirit_beast_name || "不明" },
       { label: "状態", value: record.status || "不明" },
       { label: "陣営", value: record.faction_note || "" },
-      { label: "備考", value: record.note || "" }
+      { label: "備考", value: record.notes || "" }
     ];
   } else {
-    record = bodyguardsData.find((g) => g.name === name);
+    record = bodyguardsData.find((g) => g.id === name);
     if (!record) return;
     titleEl.textContent = record.name;
     details = [
-      { label: "担当王子", value: formatRoyalName(record.prince) || "不明" },
+      { label: "陣営", value: record.camp || "不明" },
       { label: "念系統", value: record.nen_type || "不明" },
-      { label: "能力", value: record.ability || "不明" },
+      { label: "能力", value: record.nen_ability || "不明" },
       { label: "役割", value: record.role || "不明" },
-      { label: "備考", value: record.note || "" }
+      { label: "備考", value: record.notes || "" }
     ];
   }
 
@@ -825,12 +888,20 @@ function showDetailModal(name, category, eventData = null) {
   });
   content.appendChild(dl);
 
-  const relatedEvents = category !== "event"
-    ? timelineEvents.filter((e) => {
-        const searchName = category === "spiritBeast" ? record.prince : record.name;
-        return (e.participants || []).some((p) => p === searchName);
-      })
-    : [];
+  extraSections.forEach(({ heading, lines }) => {
+    const h4 = document.createElement("h4");
+    h4.textContent = heading;
+    content.appendChild(h4);
+    const ul = document.createElement("ul");
+    lines.forEach((line) => {
+      const li = document.createElement("li");
+      li.textContent = line;
+      ul.appendChild(li);
+    });
+    content.appendChild(ul);
+  });
+
+  const relatedEvents = category !== "event" ? getRelatedEvents(record, category) : [];
 
   if (relatedEvents.length > 0) {
     const h4 = document.createElement("h4");
@@ -842,13 +913,13 @@ function showDetailModal(name, category, eventData = null) {
     relatedEvents.forEach((e) => {
       const item = document.createElement("div");
       item.className = "event-item";
-      const label = e.chapter || (e.day != null ? `${e.day}日目` : e.time) || "";
+      const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
       const strong = document.createElement("strong");
-      strong.textContent = label ? `${label} | ${e.event}` : e.event;
+      strong.textContent = `${label} | ${e.description}`;
       const meta = document.createElement("span");
       meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
       const p = document.createElement("p");
-      p.textContent = e.summary;
+      p.textContent = e.notes || "";
       item.append(strong, meta, p);
       list.appendChild(item);
     });
@@ -866,22 +937,26 @@ function closeDetailModal() {
 
 async function init() {
   try {
-    const [princes, bodyguards, spiritBeasts, factions, mafia, timeline] = await Promise.all([
-      loadJson(DATA.princes),
-      loadJson(DATA.bodyguards),
+    const [characters, events, spiritBeasts, factions, mafia] = await Promise.all([
+      loadJson(DATA.characters),
+      loadJson(DATA.events),
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
-      loadJson(DATA.mafia),
-      loadJson(DATA.timeline)
+      loadJson(DATA.mafia)
     ]);
 
-    princesData = princes;
-    bodyguardsData = bodyguards;
+    charactersData = characters;
     spiritBeastsData = spiritBeasts;
     factionsData = factions;
     mafiaData = mafia;
 
+    princesData = charactersData.filter((c) => c.type === "prince").sort((a, b) => a.rank - b.rank);
+    bodyguardsData = charactersData.filter((c) =>
+      ["hunter", "soldier", "attendant"].includes(c.type) && c.position_code
+    );
+
     buildPrinceMap(princesData);
+    buildCharMap(charactersData);
 
     renderPrinces(princesData);
     setupPrinceSearch();
@@ -896,7 +971,7 @@ async function init() {
     renderMafia(mafiaData);
 
     setupDetailModal();
-    setupFilters(timeline);
+    setupFilters(events);
   } catch (err) {
     console.error("データの読み込みに失敗しました", err);
   }

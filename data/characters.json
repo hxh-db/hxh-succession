@@ -155,10 +155,10 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 382,
         "status": "死亡",
-        "cause": "ベンジャミン私設兵による暗殺",
-        "killer": null
+        "cause": "リハンに守護霊獣を捕食された後、ウショウヒの能力により死亡（詳細な能力内容は不明）",
+        "killer": "P11-G01"
       }
     ],
     "is_hunter": false,
@@ -179,18 +179,24 @@
     "nen_type": "強化系",
     "nen_ability": "羽の刻印を持つ者が集結すると絶大な念能力を発揮。統一意志のもとオーラ矢を射出して標的の意思を操る",
     "spirit_beast_name": "鳥型一ツ目鬼念獣",
-    "status": "死亡（意識はナスビーに憑依）",
+    "status": "死亡（意識はバルサミルコに憑依したまま存続）",
     "status_log": [
       {
-        "chapter": null,
-        "status": "死亡（意識はナスビーに憑依）",
-        "cause": "クーデター失敗後、意識がナスビー国王に憑依",
+        "chapter": 389,
+        "status": "拘束（意識はバルサミルコに憑依）",
+        "cause": "矢の能力（操作系）で直撃したバルサミルコに意識が憑依。憑依後のバルサミルコの通報により本来の肉体が拘束される",
         "killer": null
+      },
+      {
+        "chapter": 404,
+        "status": "死亡（意識はバルサミルコに憑依したまま存続）",
+        "cause": "拘束中の本来の肉体がバルサミルコ（自身が憑依した体）の手により毒殺される",
+        "killer": "P01-P05"
       }
     ],
     "is_hunter": false,
     "faction_note": "反継承戦クーデター派。継承戦廃止を目指し父王ナスビーへのクーデターを企図したが失敗",
-    "notes": "最高学府を飛び級卒業の秀才",
+    "notes": "最高学府を飛び級卒業の秀才。ch389で矢の能力がバルサミルコに直撃し意識が憑依。本来の肉体はch403-404でバルサミルコ（憑依した自分自身）に毒殺された",
     "image": "images/characters/p09.png"
   },
   {
@@ -209,7 +215,7 @@
     "status": "死亡（念獣がフウゲツを守護中）",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 383,
         "status": "死亡（念獣がフウゲツを守護中）",
         "cause": "フウゲツを逃がすための自己犠牲",
         "killer": null
@@ -234,7 +240,14 @@
     "nen_ability": "秘密の扉（マジカルワーム）：行きの扉でカチョウの犠牲により継承戦の行われる第1層から下層デッキへの脱出に成功",
     "spirit_beast_name": "秘密の扉（マジカルワーム）",
     "status": "存命（継承戦から事実上離脱）",
-    "status_log": [],
+    "status_log": [
+      {
+        "chapter": 383,
+        "status": "存命（継承戦から事実上離脱）",
+        "cause": "カチョウの自己犠牲によりマジカルワームで下層デッキへ脱出",
+        "killer": null
+      }
+    ],
     "is_hunter": false,
     "faction_note": "「秘密の扉（マジカルワーム）」で下層デッキへ脱出。継承戦から離脱した事実上唯一の王子",
     "notes": "姉カチョウの自己犠牲により「行きの扉」能力を引き継ぎ脱出成功",
@@ -256,10 +269,10 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 368,
         "status": "死亡",
         "cause": "タフディーによる絞殺（セヴァンチ王妃の命令）",
-        "killer": "タフディー"
+        "killer": "P12-Q05"
       }
     ],
     "is_hunter": false,
@@ -568,8 +581,15 @@
     "mission": "護衛",
     "role": "第4王子ツェリードニヒの侍女・護衛",
     "room": "第1層 1004号室",
-    "status": "存命",
-    "status_log": [],
+    "status": "存命（守護霊獣のマーキングあり）",
+    "status_log": [
+      {
+        "chapter": 385,
+        "status": "存命（守護霊獣のマーキングあり）",
+        "cause": "ツェリードニヒを銃撃した後に倒れ、目覚めると顔に守護霊獣（人面馬）のマーキングが付いていた",
+        "killer": null
+      }
+    ],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "念は未習得。高い忠誠心と献身性を持つ侍女。後に念の教師役を決意",
@@ -707,10 +727,10 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 372,
         "status": "死亡",
-        "cause": "モモゼ暗殺直後にハンゾーに殺害",
-        "killer": "ハンゾー"
+        "cause": "モモゼ暗殺後、ハンゾーの分身の術により殺害",
+        "killer": "P12-H01"
       }
     ],
     "is_hunter": false,
@@ -810,10 +830,10 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 393,
         "status": "死亡",
         "cause": "シャ＝ア一家のアジトに単独乗り込みノブナガに額を刀で刺されて死亡",
-        "killer": "ノブナガ＝ハザマ"
+        "killer": "SPD-002"
       }
     ],
     "is_hunter": false,
@@ -1203,12 +1223,19 @@
     "mission": "護衛",
     "role": "ベンジャミンの参謀格の私設兵",
     "room": 1001,
-    "status": "存命",
-    "status_log": [],
+    "status": "存命（ハルケンブルグの意識が憑依）",
+    "status_log": [
+      {
+        "chapter": 389,
+        "status": "存命（ハルケンブルグの意識が憑依）",
+        "cause": "ハルケンブルグの矢の能力（操作系）を直撃で受け、意識を憑依される",
+        "killer": null
+      }
+    ],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ハルケンブルグ拘束・毒殺を主導。最終的にハルケンブルグの念が憑いていたことが判明（ch403-404）",
+    "notes": "ch389でハルケンブルグの能力を受け憑依される。以後その意識のままハルケンブルグ本来の肉体を拘束・毒殺へ誘導。ch403-404で憑依の事実が判明",
     "image": null
   },
   {
@@ -1934,6 +1961,38 @@
     "image": null
   },
   {
+    "id": "P07-G06",
+    "position_code": "P07-G06",
+    "current_assignment": null,
+    "type": "soldier",
+    "name": "シカク",
+    "affiliation": "ルズールス陣営",
+    "camp": "ルズールス陣営",
+    "mission": "護衛",
+    "role": "ルズールス陣営の関係者",
+    "room": 1007,
+    "status": "死亡",
+    "status_log": [
+      {
+        "chapter": 382,
+        "status": "操作中（人格がスミドリに乗っ取られる）",
+        "cause": "ハルケンブルグの矢の能力により遠隔操作・人格侵入を受ける",
+        "killer": null
+      },
+      {
+        "chapter": 386,
+        "status": "死亡",
+        "cause": "乗り移っていたスミドリが自死したことに伴い死亡。スミドリ自身は自分の体に帰還",
+        "killer": null
+      }
+    ],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_ability": null,
+    "notes": "ch389でシカク自死時（実際はスミドリの自死）の1007号室の状況が回想される。鳴動はシカクが死んだ瞬間に止まった",
+    "image": null
+  },
+  {
     "id": "P07-P01",
     "position_code": "P07-P01",
     "current_assignment": null,
@@ -2121,6 +2180,25 @@
     "nen_type": "不明",
     "nen_ability": "ch386でクラピカに『一番覚えが良い』と評される。ch388で念能力を習得",
     "notes": "ch369念講習会参加",
+    "image": null
+  },
+  {
+    "id": "P11-G01",
+    "position_code": "P11-G01",
+    "current_assignment": null,
+    "type": "soldier",
+    "name": "ウショウヒ",
+    "affiliation": "カチョウ＝フウゲツ陣営",
+    "camp": "カチョウ＝フウゲツ陣営",
+    "mission": "護衛",
+    "role": "フウゲツ王子警護",
+    "room": 1011,
+    "status": "存命",
+    "status_log": [],
+    "is_hunter": false,
+    "nen_type": "不明",
+    "nen_ability": "詳細不明。サレサレの守護霊獣を倒した後のサレサレ死亡に関与",
+    "notes": "ch381でリハン（48時間念能力使用不可）と交代しフウゲツ警護に入る。ch382でサレサレ死亡時に能力を使用（能力の詳細は謎のまま）",
     "image": null
   },
   {

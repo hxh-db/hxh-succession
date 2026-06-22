@@ -337,7 +337,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第一王妃。ベンジャミンとツェリードニヒの母。2子を持つため王妃陣営名を使用",
-    "image": null
+    "image": "images/characters/queen-unma.png"
   },
   {
     "id": "Q02",
@@ -359,7 +359,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第二王妃。カミーラ・ツベッパ・ルズールス・ハルケンブルグの母。4子を持つ最多子の王妃",
-    "image": null
+    "image": "images/characters/queen-duazul.png"
   },
   {
     "id": "Q03",
@@ -397,7 +397,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第四王妃。タイソンの母。1子のみのためタイソン陣営名を使用",
-    "image": null
+    "image": "images/characters/queen-katrono.png"
   },
   {
     "id": "Q05",
@@ -416,7 +416,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第五王妃。サレサレの母。1子のみのためサレサレ陣営名を使用。タフディー（P12-Q05）はスィンコスィンコ所属の監視工作員",
-    "image": null
+    "image": "images/characters/queen-swinkoswinko.png"
   },
   {
     "id": "Q06",
@@ -436,7 +436,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第六王妃。カチョウ・フウゲツの母。双子の子を持ち、2子が同一陣営のためカチョウ＝フウゲツ陣営名を使用（例外ルール）",
-    "image": null
+    "image": "images/characters/queen-seiko.png"
   },
   {
     "id": "Q07",
@@ -456,7 +456,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第七王妃。モモゼ・マラヤームの母。マラヤームを溺愛しモモゼを犠牲にしてマラヤームを守護（例外ルール）。モモゼ側の護衛を剥奪してタフディーに暗殺させた",
-    "image": null
+    "image": "images/characters/queen-sevanchi.png"
   },
   {
     "id": "Q08",
@@ -475,7 +475,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第八王妃。ワブルの母。クラピカと協力してワブル陣営を実質的に主導。念を習得するため修行中",
-    "image": null
+    "image": "images/characters/queen-oito.png"
   },
   {
     "id": "P14-H01",
@@ -936,7 +936,7 @@
     "nen_type": "特質系",
     "nen_ability": "盗賊の極意（スキルハンター）：他者の念能力を盗んで使用できる。後に複数能力の同時発動が可能に進化",
     "notes": "ヒソカの捜索・抹殺（イルミからの依頼）。暗黒大陸への独自の関心も持つ。カキンマフィアとは組んでいないが成り行きでシュウ＝ウ・シャ＝ア一家と共通の敵（モレナ）を持つ構図",
-    "image": null
+    "image": "images/characters/pt-chrollo.png"
   },
   {
     "id": "SPD-002",
@@ -952,7 +952,7 @@
     "nen_type": "強化系",
     "nen_ability": "エン（円）内に入った者を刀で斬ることができる",
     "notes": "モレナを敵視して積極的に追跡。エイ＝イ一家の幹部ルイーニーを討伐",
-    "image": null
+    "image": "images/characters/pt-nobunaga.png"
   },
   {
     "id": "SPD-003",
@@ -968,7 +968,7 @@
     "nen_type": "強化系",
     "nen_ability": "デメンション（回転数）：腕を一定回数回すたびにパンチが強化される蓄積型能力",
     "notes": null,
-    "image": null
+    "image": "images/characters/pt-phinks.png"
   },
   {
     "id": "SPD-004",
@@ -984,7 +984,7 @@
     "nen_type": "変化系",
     "nen_ability": "ペインパッカー（苦痛の支配者）：受けたダメージを放出するか太陽放射に変えて敵に浴びせるかを選べる",
     "notes": null,
-    "image": null
+    "image": "images/characters/pt-feitan.png"
   },
   {
     "id": "HA-001",
@@ -1214,7 +1214,7 @@
     "nen_type": null,
     "nen_ability": "エアブロウと推測されるが拘束のため詳細不明",
     "notes": "ch363〜364。能力検証前に自死。死亡時、能力エアブロウはベンジャミンバトンによりベンジャミンに継承された",
-    "image": null,
+    "image": "images/characters/vincent.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1234,7 +1234,7 @@
     "nen_type": null,
     "nen_ability": "部屋全体に円（バリア）を張れる念能力。系統不明だが、私設兵長バルサミルコ＝マイトはカウンター型と推測している",
     "notes": "ch363で追加。ch401で考え事をする様子が描かれる",
-    "image": null,
+    "image": "images/characters/babimyna.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1267,7 +1267,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389でハルケンブルグと人格が入れ替わる（ハルケンブルグ本来の肉体にはバルサミルコの人格が入る）。以後ハルケンブルグの人格がバルサミルコの肉体を主導し、本来の肉体を拘束・毒殺へ誘導。ch404の毒殺後はバルサミルコ本来の人格が優位に復帰し、ハルケンブルグの人格は裏に同居する状態になった",
-    "image": null,
+    "image": "images/characters/balsamilco.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1307,7 +1307,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch372。タイソンの念獣（目玉ジャクシ）が憑かなかった人物",
-    "image": null,
+    "image": "images/characters/orau.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1334,7 +1334,7 @@
     "nen_type": null,
     "nen_ability": "裏窓の鳥（シークレットウインドウ）：死亡時、ベンジャミンバトンによりベンジャミンに継承される（カミーラに憑くわけではない）",
     "notes": "ch372-373。能力はカミーラではなくベンジャミンが継承した",
-    "image": null,
+    "image": "images/characters/musse.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1354,7 +1354,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時の1007号室在室者",
-    "image": null,
+    "image": "images/characters/kanjidol.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1374,7 +1374,7 @@
     "nen_type": null,
     "nen_ability": "表裏一体（タックルシールド）：攻防一体の技",
     "notes": "ch389で緊急連絡、ch403でバルサミルコと接触し軍用手話で足止め役を担う。なお、一時モモゼ暗殺容疑で拘束されていたとの記録もある（時期不明、後に任務に復帰したとみられる）",
-    "image": null,
+    "image": "images/characters/vict.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1394,7 +1394,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ベンジャミン担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/moswana.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1414,7 +1414,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、チョウライ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/bucket.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1434,7 +1434,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ツェリードニヒ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/hignori.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1454,7 +1454,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ツベッパ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/gidal.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1474,7 +1474,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、タイソン担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/burvena.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1494,7 +1494,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ルズールス担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/lisamsetta.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1514,7 +1514,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、サレサレ担当の呪殺要員。サレサレ死亡に伴い担当を解かれた",
-    "image": null,
+    "image": "images/characters/nukuocon.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1534,7 +1534,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ハルケンブルグ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/kako.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1554,7 +1554,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、カチョウ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/mozbe.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1574,7 +1574,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、フウゲツ担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/meshush.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1594,7 +1594,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、モモゼ担当の呪殺要員。モモゼ死亡に伴い担当を解かれた",
-    "image": null,
+    "image": "images/characters/cavic.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1614,7 +1614,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、マラヤーム担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/taler.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1634,7 +1634,7 @@
     "nen_type": null,
     "nen_ability": "呪詛（カミーラ私設兵共有の呪殺念能力）：対象の持ち物を入手して日々念じ続け、決行時に対象物を燃やして灰を飲み、小刀で自害することで発動する。距離に応じて数時間〜3ヵ月の時間差で対象のオーラを奪い死に至らせる",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち、ワブル担当の呪殺要員",
-    "image": null,
+    "image": "images/characters/sarahell.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1654,7 +1654,7 @@
     "nen_type": null,
     "nen_ability": "除念（詳細不明）",
     "notes": "カミーラ私設兵14名（呪殺担当13名＋除念師1名）のうち唯一の除念師。私設兵たちが放つ呪詛が他陣営の除念師に解かれないよう備える役割を持つ",
-    "image": null,
+    "image": "images/characters/umanma.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1674,7 +1674,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "カミーラ陣営の執事長",
-    "image": null,
+    "image": "images/characters/fukataki.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1694,7 +1694,7 @@
     "nen_type": null,
     "nen_ability": "念を使用可能（詳細不明）",
     "notes": "テータと共にツェリードニヒに念を教える役目を担う。ツェリードニヒの修行に立ち会う",
-    "image": null,
+    "image": "images/characters/salkov.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1741,7 +1741,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加。当初サイレントマジョリティーの犯人と疑われたが冤罪と判明",
-    "image": null,
+    "image": "images/characters/myuhan.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1761,7 +1761,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/danjin.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1781,7 +1781,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch400。センリツをツェリードニヒの部屋に招待したいと伝える",
-    "image": null,
+    "image": "images/characters/vantine.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1801,7 +1801,7 @@
     "nen_type": "不明",
     "nen_ability": "ch388の念講習会で念能力を使えるようになる",
     "notes": "ch365でクラピカに電話。ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/maor.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1821,7 +1821,7 @@
     "nen_type": "不明",
     "nen_ability": "舌の裏に隠された『目』の刻印を持つ『ソエモノ』の一人。死後に発動する協力型の邪悪な念を共有し、能力値が高められている",
     "notes": "ch369から潜伏していた念能力者の一人。ch401でビヨンド＝ネテロの実の娘であることを自ら明かす。ビヨンドは約30年前からカキン帝国で暗躍し、上級兵士と意図的に子を成していた（ソエモノは10名以上）。オイト王妃が恐怖し、クラピカとの間で相互不可侵の契約が結ばれた。王族の中にも別のビヨンドの子がいることを告白。なお、表向きは第5王子ツベッパの私設兵として登録されていた",
-    "image": null,
+    "image": "images/characters/longhi.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -1841,7 +1841,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。タイソン教典を読み込む。タイソンにバースデーを祝われる。参考資料では「チャラ男（仮）」と呼ばれていた人物と同一人物。イズナビのことを「イズさん」と呼ぶ",
-    "image": null,
+    "image": "images/characters/giuliano.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1861,7 +1861,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch400。タイソン陣営の私設兵は全員設定（コードネーム）を持つ",
-    "image": null,
+    "image": "images/characters/madwig.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1881,7 +1881,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch400",
-    "image": null,
+    "image": "images/characters/himonce.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1901,7 +1901,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch400",
-    "image": null,
+    "image": "images/characters/anzel.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1921,7 +1921,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch400",
-    "image": null,
+    "image": "images/characters/hyuga.png",
     "soldier_category": "私設兵"
   },
   {
@@ -1961,7 +1961,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/satobi.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -1981,7 +1981,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカクの来訪に玄関で対応した人物",
-    "image": null,
+    "image": "images/characters/rice.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2001,7 +2001,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時に1007号室の主寝室にいた",
-    "image": null,
+    "image": "images/characters/famule.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2021,7 +2021,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時、就寝中だった",
-    "image": null,
+    "image": "images/characters/odessa.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2041,7 +2041,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時、就寝中だった",
-    "image": null,
+    "image": "images/characters/gadeau.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2074,7 +2074,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389でシカク自死時（実際はスミドリの自死）の1007号室の状況が回想される。鳴動はシカクが死んだ瞬間に止まった",
-    "image": null,
+    "image": "images/characters/shikaku.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2094,7 +2094,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時に1007号室の主寝室にいた",
-    "image": null,
+    "image": "images/characters/bharate.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2114,7 +2114,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch389。シカク自死時、就寝中だった",
-    "image": null,
+    "image": "images/characters/macne.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2134,7 +2134,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/mushaho.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2154,7 +2154,7 @@
     "nen_type": "不明",
     "nen_ability": "無自覚の念能力者と判明（ch372）",
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/shedule.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2174,7 +2174,7 @@
     "nen_type": "不明",
     "nen_ability": "無自覚の念能力者と判明（ch372）",
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/yuhirai.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2201,7 +2201,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加。ch370でサイレントマジョリティーに憑かれた者と判明し拘束",
-    "image": null,
+    "image": "images/characters/roberry.png",
     "soldier_category": "従事者"
   },
   {
@@ -2221,7 +2221,7 @@
     "nen_type": "不明",
     "nen_ability": "ch388の念講習会で念能力を使えるようになる",
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/yuuri.png",
     "soldier_category": "従事者"
   },
   {
@@ -2248,7 +2248,7 @@
     "nen_type": null,
     "nen_ability": "部屋全体に円（バリア）を張れる念能力。ch377時点でフウゲツがマジカルワームでカチョウの部屋に出現したことを察知していた",
     "notes": "ch377で晩餐会ショーの護衛役。ch383で双子の脱出を成功させ自死",
-    "image": null,
+    "image": "images/characters/keeney.png",
     "soldier_category": "ハンター（協専）"
   },
   {
@@ -2268,7 +2268,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/illardia.png",
     "soldier_category": "従事者"
   },
   {
@@ -2288,7 +2288,7 @@
     "nen_type": "不明",
     "nen_ability": "ch386でクラピカに『一番覚えが良い』と評される。ch388で念能力を習得",
     "notes": "ch369念講習会参加",
-    "image": null,
+    "image": "images/characters/ladiolus.png",
     "soldier_category": "従事者"
   },
   {
@@ -2308,7 +2308,7 @@
     "nen_type": "不明",
     "nen_ability": "詳細不明。サレサレの守護霊獣を倒した後のサレサレ死亡に関与",
     "notes": "ch381でリハン（48時間念能力使用不可）と交代しフウゲツ警護に入る。ch382でサレサレ死亡時に能力を使用（能力の詳細は謎のまま）",
-    "image": null,
+    "image": "images/characters/yushohi.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2328,7 +2328,7 @@
     "nen_type": "不明",
     "nen_ability": null,
     "notes": "ch369念講習会参加。ch376で念講習会参加者をたしなめる",
-    "image": null,
+    "image": "images/characters/belerainte.png",
     "soldier_category": "ハンター（クラピカ経由）"
   },
   {
@@ -2355,7 +2355,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会参加。ch370で殺害される",
-    "image": null,
+    "image": "images/characters/barrigen.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2409,7 +2409,7 @@
     "nen_type": "具現化系",
     "nen_ability": "船や車に変身できる念能力",
     "notes": "ch360-361。ビルが提案する脱出方法の一つに彼の能力（変身）が必要だった",
-    "image": null,
+    "image": "images/characters/kurton.png",
     "soldier_category": "ハンター（協専）"
   },
   {
@@ -2561,7 +2561,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "モモゼ殺害容疑として拘束中",
-    "image": null,
+    "image": "images/characters/nipaper.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2581,7 +2581,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "モモゼ殺害容疑として拘束中。調理師免許を持っている",
-    "image": null,
+    "image": "images/characters/bladge.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2601,7 +2601,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "モモゼ殺害容疑として拘束中",
-    "image": null,
+    "image": "images/characters/laroc.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2621,7 +2621,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "モモゼ殺害容疑として拘束中",
-    "image": null,
+    "image": "images/characters/nagmum.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -2883,7 +2883,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ベンジャミンの14名念能力者私設兵の一人。第3王子チョウライの監視を担当",
-    "image": null,
+    "image": "images/characters/coventoba.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2903,7 +2903,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ベンジャミンの14名念能力者私設兵の一人。第5王子ツベッパの監視を担当",
-    "image": null,
+    "image": "images/characters/butch.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2923,7 +2923,7 @@
     "nen_type": null,
     "nen_ability": "異邦人（プレデター）：リハンがターゲットを定めると、リハンの中でプレデターが育ち始める。ターゲットの能力が未知の状態であるほど、正確に分析できた時に強いプレデターが育つ。サレサレの守護霊獣の分身を捕食した際に発動し、使用後48時間は念能力が使用不可になった",
     "notes": "ベンジャミンの14名念能力者私設兵の一人。サレサレの守護霊獣を観察・捕食する任務についていたが、ch382のプレデター発動後48時間の念能力使用不可状態になり、フウゲツ王子警護のウショウヒ（P11-G01）と交代した",
-    "image": null,
+    "image": "images/characters/rihan.png",
     "soldier_category": "私設兵"
   },
   {
@@ -2990,7 +2990,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "第1王妃ウンマ所属の監視兵。カミーラにより銃殺された",
-    "image": null,
+    "image": "images/characters/wolfe.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -3010,7 +3010,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "ch369念講習会に出席",
-    "image": null,
+    "image": "images/characters/slakka.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -3030,7 +3030,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": "クラピカの師匠。クラピカの依頼でタイソン陣営の護衛として乗船",
-    "image": null,
+    "image": "images/characters/izunavi.png",
     "soldier_category": "ハンター（クラピカ経由）"
   },
   {
@@ -3090,7 +3090,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": null,
-    "image": null,
+    "image": "images/characters/ryoji.png",
     "soldier_category": "王妃所属兵"
   },
   {
@@ -3110,7 +3110,7 @@
     "nen_type": null,
     "nen_ability": null,
     "notes": null,
-    "image": null,
+    "image": "images/characters/bachaem.png",
     "soldier_category": "王妃所属兵"
   },
   {

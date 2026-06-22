@@ -431,7 +431,7 @@
     "time_end": "12:30",
     "type": "殺害",
     "description": "ワブル警備兵4名も殺害される",
-    "characters": [],
+    "characters": ["P14-P03"],
     "room": 1014,
     "location": "1014号室 廊下",
     "camp": [
@@ -441,6 +441,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
+    "status_effects": [{"character": "P14-P03", "status": "死亡"}],
     "notes": "氏名不明4名。登場人物：ワブル警備兵、カチョウ警備兵"
   },
   {
@@ -482,7 +483,9 @@
       "P14-P01",
       "P14-H01",
       "P14-H02",
-      "P14-H03"
+      "P14-H03",
+      "P12-Q05",
+      "P12-G02"
     ],
     "status_effects": [
       {
@@ -739,7 +742,10 @@
     ],
     "characters": [
       "P12",
-      "P12-Q05"
+      "P12-Q05",
+      "P12-G02",
+      "P13-M01",
+      "P13-G02"
     ],
     "room": 1012,
     "location": "1012号室",
@@ -1323,7 +1329,8 @@
     "type": "会議",
     "description": "ウェルゲーがクラピカと通話。モモゼ殺害犯人の情報を共有する",
     "characters": [
-      "P14-H01"
+      "P14-H01",
+      "JUD-003"
     ],
     "room": null,
     "location": "1012号室・1014号室",
@@ -1686,7 +1693,9 @@
     "description": "シャ＝ア一家と幻影旅団が協力。クロロ・シズク・ボノレノフの組と他組がそれぞれ別行動を取る",
     "characters": [
       "SAA-001",
-      "SPD-001"
+      "SPD-001",
+      "SPD-006",
+      "SPD-007"
     ],
     "room": null,
     "location": "第5層 中央食堂",
@@ -1829,7 +1838,8 @@
     "type": "出来事",
     "description": "フランクリンとイットクが出会う",
     "characters": [
-      "SAA-003"
+      "SAA-003",
+      "SPD-005"
     ],
     "room": null,
     "location": "食堂",
@@ -2743,8 +2753,12 @@
     "characters": [
       "SWU-002",
       "SWU-003",
-      "SWU-004"
+      "SWU-004",
+      "EII-003",
+      "EII-004",
+      "EII-005"
     ],
+    "status_effects": [{"character": "EII-003", "status": "死亡"}],
     "room": null,
     "location": "第3層",
     "camp": null,
@@ -2763,7 +2777,7 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "死亡したバドイユがミーシャ＝ハオの能力（死後の念）で操られる",
-    "characters": [],
+    "characters": ["EII-003", "EII-006"],
     "room": null,
     "location": null,
     "camp": null,
@@ -2939,7 +2953,7 @@
     "time_end": null,
     "type": "念能力使用",
     "description": "3101号室にいた老人にナイフを刺すと消える。タッシが部屋に入ると同様に消える",
-    "characters": [],
+    "characters": ["EII-007"],
     "room": 3101,
     "location": "第3層",
     "camp": null,
@@ -2961,8 +2975,10 @@
     "type": "殺害",
     "description": "タッシが殺害される。モレナの狙いはツェリードニヒの私設兵に恋のエチュード（サイキンオセン）を感染させることと判明",
     "characters": [
-      "EII-001"
+      "EII-001",
+      "EII-007"
     ],
+    "status_effects": [{"character": "EII-007", "status": "死亡"}],
     "room": null,
     "location": "モレナアジト",
     "camp": [
@@ -3135,7 +3151,8 @@
     "description": "ヨコタニの能力によりヒンリギ・ノブナガがアジトから追い出される。ヒンリギは発信器をアジトに仕掛けておく",
     "characters": [
       "SWU-002",
-      "SPD-002"
+      "SPD-002",
+      "EII-008"
     ],
     "room": null,
     "location": null,
@@ -3259,7 +3276,8 @@
     "description": "ロンギが念能力者だと判明するが、サイレントマジョリティーの犯人ではないと分かる",
     "characters": [
       "P14-H01",
-      "P05-G01"
+      "P05-G01",
+      "P05-G02"
     ],
     "room": 1014,
     "location": null,
@@ -3282,7 +3300,9 @@
     "type": "念能力使用",
     "description": "壺中卵の儀でソエモノに共通の印が発現する。死後に発動する協力型の邪悪な念であることが判明",
     "characters": [
-      "P14-H01"
+      "P14-H01",
+      "P05-G01",
+      "P05-G02"
     ],
     "room": 1014,
     "location": null,
@@ -3997,7 +4017,7 @@
     "type": "移動",
     "description": "ボノレノフがVIPエリアに移動しヒソカを発見する",
     "characters": [
-      "SPD-001"
+      "SPD-007"
     ],
     "room": null,
     "location": "VIPエリア",

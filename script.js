@@ -271,7 +271,7 @@ function getCampRank(camp) {
   return p ? p.rank : 999;
 }
 
-let bodyguardGroupByCamp = false;
+let bodyguardGroupByCamp = true;
 
 function renderBodyguards(guards) {
   const grid = document.getElementById("bodyguard-grid");
@@ -886,6 +886,13 @@ function getRelatedEvents(record, category) {
   return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
 }
 
+// position_code が "P09-..." のように王子IDで始まる護衛・私設兵・従事者を抽出
+// （雇用主が王妃でも、現在その王子を警護していれば対象になる）
+function getGuardsForPrince(prince) {
+  const prefix = `${prince.id}-`;
+  return bodyguardsData.filter((g) => g.position_code && g.position_code.startsWith(prefix));
+}
+
 function showDetailModal(name, category, eventData = null) {
   const modal = document.getElementById("detailModal");
   const titleEl = document.getElementById("modalTitle");
@@ -983,6 +990,36 @@ function showDetailModal(name, category, eventData = null) {
     });
     content.appendChild(ul);
   });
+
+  if (category === "prince") {
+    const guards = getGuardsForPrince(record);
+    if (guards.length > 0) {
+      const guardDetails = document.createElement("details");
+      guardDetails.className = "related-events-spoiler";
+
+      const guardSummary = document.createElement("summary");
+      guardSummary.textContent = `警護兵士（${guards.length}件）`;
+      guardDetails.appendChild(guardSummary);
+
+      const guardList = document.createElement("div");
+      guardList.className = "event-list";
+      guards.forEach((g) => {
+        const item = document.createElement("div");
+        item.className = "event-item clickable";
+        item.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
+        const strong = document.createElement("strong");
+        strong.textContent = g.name;
+        const meta = document.createElement("span");
+        meta.textContent = `${g.camp || "陣営不明"} / ${g.role || "役割不明"}`;
+        const p = document.createElement("p");
+        p.textContent = g.notes || "";
+        item.append(strong, meta, p);
+        guardList.appendChild(item);
+      });
+      guardDetails.appendChild(guardList);
+      content.appendChild(guardDetails);
+    }
+  }
 
   const relatedEvents = category !== "event" ? getRelatedEvents(record, category) : [];
 

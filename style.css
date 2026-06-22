@@ -1037,6 +1037,16 @@ body {
   border: 1px solid var(--border);
 }
 
+.modal-card .event-item.clickable {
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.modal-card .event-item.clickable:hover {
+  background: rgba(114, 199, 255, 0.08);
+  border-color: var(--accent);
+}
+
 .modal-card .event-item strong {
   display: block;
   margin-bottom: 6px;

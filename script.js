@@ -250,9 +250,11 @@ function setupBeastNenFilter() {
 // ===== 護衛・ハンター一覧 =====
 
 function createBodyguardCard(g) {
+  const outside = isOutsidePlacement(g);
   const items = [
     { label: "分類", value: g.soldier_category || "不明" },
-    { label: "陣営", value: g.camp || "不明" },
+    { label: "配置先", value: g.camp || "不明" },
+    { label: "所属", value: g.affiliation || "不明" },
     { label: "念系統", value: g.nen_type || "不明" },
     { label: "能力", value: g.nen_ability || "不明" },
     { label: "役割", value: g.role },
@@ -260,12 +262,20 @@ function createBodyguardCard(g) {
   ];
   const badges = [];
   if (g.soldier_category) badges.push(makeCategoryBadge(g.soldier_category));
+  if (outside) badges.push(makeOutsidePlacementBadge());
   if (g.is_hunter) badges.push(makeHunterBadge());
   badges.push(makeNenBadge(g.nen_type));
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
   const avatar = makeAvatar(initial, g.nen_type, g.image || null);
   return createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+}
+
+function makeOutsidePlacementBadge() {
+  const span = document.createElement("span");
+  span.className = "outside-placement-badge";
+  span.textContent = "他陣営からの配置";
+  return span;
 }
 
 const CATEGORY_CLASS_MAP = {
@@ -299,11 +309,13 @@ function createBodyguardRow(g) {
   const tr = document.createElement("tr");
   tr.className = "bodyguard-row";
   tr.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
+  const outside = isOutsidePlacement(g);
 
   const cells = [
     g.name,
     g.soldier_category || "不明",
     g.camp || "不明",
+    g.affiliation || "不明",
     g.role || "不明",
     [g.nen_type, g.nen_ability].filter(Boolean).join(" / ") || "不明",
     g.notes || ""
@@ -312,6 +324,9 @@ function createBodyguardRow(g) {
     const td = document.createElement("td");
     if (i === 1 && g.soldier_category) {
       td.appendChild(makeCategoryBadge(g.soldier_category));
+    } else if (i === 3) {
+      td.textContent = text;
+      if (outside) td.appendChild(makeOutsidePlacementBadge());
     } else {
       td.textContent = text;
     }
@@ -324,7 +339,7 @@ function renderBodyguardsTable(guards, container) {
   const table = document.createElement("table");
   table.className = "bodyguard-table";
   const thead = document.createElement("thead");
-  thead.innerHTML = "<tr><th>名前</th><th>分類</th><th>陣営</th><th>役割</th><th>念系統・能力</th><th>備考</th></tr>";
+  thead.innerHTML = "<tr><th>名前</th><th>分類</th><th>配置先</th><th>所属</th><th>役割</th><th>念系統・能力</th><th>備考</th></tr>";
   table.appendChild(thead);
   const tbody = document.createElement("tbody");
   guards.forEach((g) => tbody.appendChild(createBodyguardRow(g)));
@@ -405,7 +420,7 @@ function setupBodyguardSearch() {
     bodyguardGroupByCamp = groupToggle.value === "camp";
     bodyguardViewMode = viewModeSelect.value;
     const filtered = bodyguardsData.filter((g) => {
-      const textMatch = !q || [g.name, g.camp, g.nen_ability, g.role, g.notes]
+      const textMatch = !q || [g.name, g.camp, g.affiliation, g.nen_ability, g.role, g.notes]
         .filter(Boolean).some((v) => v.toLowerCase().includes(q));
       const hunterMatch = hf === "all"
         || (hf === "true" && g.is_hunter)
@@ -972,11 +987,19 @@ function getRelatedEvents(record, category) {
   return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
 }
 
-// position_code が "P09-..." のように王子IDで始まる護衛・私設兵・従事者を抽出
-// （雇用主が王妃でも、現在その王子を警護していれば対象になる）
+// 「警護兵士」= 現在その王子の部屋・陣営に配置されている全員（camp一致）。
+// 雇用主（affiliation）が別の王子・王妃である「他陣営からの配置者」も含む点に注意。
+// 一方、position_codeの接頭辞は「誰の私設兵として登録されているか」という台帳上の
+// 所属を表すだけで、現在の配置先とは別物（他陣営に潜伏中のスパイなどで両者がズレる）。
 function getGuardsForPrince(prince) {
-  const prefix = `${prince.id}-`;
-  return bodyguardsData.filter((g) => g.position_code && g.position_code.startsWith(prefix));
+  if (!prince.camp) return [];
+  return bodyguardsData.filter((g) => g.camp === prince.camp);
+}
+
+// 配置先（camp）と真の所属（affiliation）が一致しない場合、他陣営からの配置者と判定
+function isOutsidePlacement(guard) {
+  if (!guard.camp || !guard.affiliation) return false;
+  return !guard.affiliation.startsWith(guard.camp.replace(/陣営$/, ""));
 }
 
 function showDetailModal(name, category, eventData = null) {
@@ -1038,7 +1061,8 @@ function showDetailModal(name, category, eventData = null) {
     titleEl.textContent = record.name;
     details = [
       { label: "分類", value: record.soldier_category || "不明" },
-      { label: "陣営", value: record.camp || "不明" },
+      { label: "配置先", value: record.camp || "不明" },
+      { label: "所属", value: record.affiliation || "不明" },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.nen_ability || "不明" },
       { label: "役割", value: record.role || "不明" },
@@ -1085,20 +1109,25 @@ function showDetailModal(name, category, eventData = null) {
       const guardDetails = document.createElement("details");
       guardDetails.className = "related-events-spoiler";
 
+      const outsideCount = guards.filter(isOutsidePlacement).length;
       const guardSummary = document.createElement("summary");
-      guardSummary.textContent = `警護兵士（${guards.length}件）`;
+      guardSummary.textContent = outsideCount > 0
+        ? `警護兵士（${guards.length}件・他陣営からの配置 ${outsideCount}件含む）`
+        : `警護兵士（${guards.length}件）`;
       guardDetails.appendChild(guardSummary);
 
       const guardList = document.createElement("div");
       guardList.className = "event-list";
       guards.forEach((g) => {
+        const outside = isOutsidePlacement(g);
         const item = document.createElement("div");
         item.className = "event-item clickable";
         item.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
         const strong = document.createElement("strong");
         strong.textContent = g.name;
+        if (outside) strong.appendChild(makeOutsidePlacementBadge());
         const meta = document.createElement("span");
-        meta.textContent = `${g.camp || "陣営不明"} / ${g.role || "役割不明"}`;
+        meta.textContent = `所属: ${g.affiliation || "不明"} / ${g.role || "役割不明"}`;
         const p = document.createElement("p");
         p.textContent = g.notes || "";
         item.append(strong, meta, p);

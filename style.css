@@ -433,6 +433,20 @@ body {
   border: 1px solid rgba(243, 156, 18, 0.3);
 }
 
+.outside-placement-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--status-dead);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 .category-legend {
   background: var(--surface-alt);
   border: 1px solid var(--border);

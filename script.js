@@ -95,6 +95,46 @@ function makeEventCountBadge(record, category) {
   return span;
 }
 
+// ===== フィルター用ピル（バッジ型トグル）UI =====
+// 既存の<select>を見た目だけピルボタン群に差し替える。差し替え後も同じidを
+// 持ち、.valueプロパティと'change'イベントを提供するため、呼び出し側の
+// フィルターロジックは変更不要
+function pillify(id) {
+  const selectEl = document.getElementById(id);
+  if (!selectEl || selectEl.tagName !== "SELECT") return;
+
+  const container = document.createElement("div");
+  container.className = "pill-filter";
+  container.id = id;
+  let currentValue = selectEl.value || "all";
+
+  function render() {
+    container.innerHTML = "";
+    Array.from(selectEl.options).forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill" + (opt.value === currentValue ? " active" : "");
+      btn.textContent = opt.textContent;
+      btn.dataset.value = opt.value;
+      btn.addEventListener("click", () => {
+        if (currentValue === opt.value) return;
+        currentValue = opt.value;
+        render();
+        container.dispatchEvent(new Event("change"));
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  Object.defineProperty(container, "value", {
+    get() { return currentValue; },
+    set(v) { currentValue = v; render(); }
+  });
+
+  render();
+  selectEl.replaceWith(container);
+}
+
 // ===== キャラクターアバター =====
 
 function makeAvatar(label, nenType, imageSrc = null) {
@@ -262,19 +302,30 @@ function createBodyguardCard(g) {
   ];
   const badges = [];
   if (g.soldier_category) badges.push(makeCategoryBadge(g.soldier_category));
-  if (outside) badges.push(makeOutsidePlacementBadge());
+  if (outside) badges.push(makeOutsidePlacementBadge(g));
   if (g.is_hunter) badges.push(makeHunterBadge());
   badges.push(makeNenBadge(g.nen_type));
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
   const avatar = makeAvatar(initial, g.nen_type, g.image || null);
-  return createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+  const card = createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+  if (outside) card.classList.add(`outside-${getOutsidePlacementKind(g).cls}-card`);
+  return card;
 }
 
-function makeOutsidePlacementBadge() {
+// 王妃所属兵＝王妃の意向で配置される「監視」、それ以外（他陣営の私設兵など）は
+// 真の雇い主の意図で送り込まれた「潜入」として見た目を分ける
+function getOutsidePlacementKind(guard) {
+  return guard.soldier_category === "王妃所属兵"
+    ? { label: "監視中", icon: "👁️", cls: "watching" }
+    : { label: "潜入中", icon: "⚠️", cls: "infiltrating" };
+}
+
+function makeOutsidePlacementBadge(guard) {
+  const kind = getOutsidePlacementKind(guard);
   const span = document.createElement("span");
-  span.className = "outside-placement-badge";
-  span.textContent = "他陣営からの配置";
+  span.className = `outside-placement-badge outside-${kind.cls}`;
+  span.textContent = `${kind.icon} ${kind.label}`;
   return span;
 }
 
@@ -326,7 +377,7 @@ function createBodyguardRow(g) {
       td.appendChild(makeCategoryBadge(g.soldier_category));
     } else if (i === 3) {
       td.textContent = text;
-      if (outside) td.appendChild(makeOutsidePlacementBadge());
+      if (outside) td.appendChild(makeOutsidePlacementBadge(g));
     } else {
       td.textContent = text;
     }
@@ -404,6 +455,7 @@ function setupBodyguardCategoryFilter() {
     opt.textContent = cat;
     categoryFilter.appendChild(opt);
   });
+  pillify("bodyguardCategoryFilter");
 }
 
 function setupBodyguardSearch() {
@@ -557,6 +609,79 @@ function renderMafia(mafiaList) {
   });
 }
 
+// ===== 下層勢力 相関図 =====
+// mafia.json本文（purpose/note）から読み取れる関係性を一覧化したもの
+const MAFIA_RELATIONS = [
+  { a: "シュウ＝ウ一家", b: "エイ＝イ一家", type: "敵対" },
+  { a: "シュウ＝ウ一家", b: "シャ＝ア一家", type: "協力" },
+  { a: "シュウ＝ウ一家", b: "幻影旅団（スパイダー）", type: "中立（成り行きで共通の敵）" },
+  { a: "エイ＝イ一家", b: "シャ＝ア一家", type: "敵対" },
+  { a: "エイ＝イ一家", b: "幻影旅団（スパイダー）", type: "敵視される" },
+  { a: "シャ＝ア一家", b: "幻影旅団（スパイダー）", type: "中立（成り行きで共通の敵）" }
+];
+
+const RELATION_CLASS_MAP = {
+  "協力": "ally",
+  "敵対": "hostile",
+  "敵視される": "hostile",
+  "中立（成り行きで共通の敵）": "neutral"
+};
+
+function findRelation(nameA, nameB) {
+  return MAFIA_RELATIONS.find((r) =>
+    (r.a === nameA && r.b === nameB) || (r.a === nameB && r.b === nameA)
+  );
+}
+
+function renderMafiaRelationMatrix(mafiaList) {
+  const container = document.getElementById("mafia-relation-matrix");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const names = mafiaList.map((m) => m.name);
+  const table = document.createElement("table");
+  table.className = "relation-table";
+
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  headRow.appendChild(document.createElement("th"));
+  names.forEach((n) => {
+    const th = document.createElement("th");
+    th.textContent = n;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  names.forEach((rowName) => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = rowName;
+    tr.appendChild(th);
+    names.forEach((colName) => {
+      const td = document.createElement("td");
+      if (rowName === colName) {
+        td.className = "relation-self";
+        td.textContent = "—";
+      } else {
+        const rel = findRelation(rowName, colName);
+        if (rel) {
+          td.className = `relation-${RELATION_CLASS_MAP[rel.type] || "neutral"}`;
+          td.textContent = rel.type;
+        } else {
+          td.className = "relation-unknown";
+          td.textContent = "不明";
+        }
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
 // ===== タイムライン（events.json） =====
 
 function parseTimeString(value) {
@@ -681,6 +806,7 @@ function applyFilter() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedType = document.getElementById("typeFilter").value;
   const participantQuery = document.getElementById("participantFilter").value.trim().toLowerCase();
+  const sortOrder = document.getElementById("timelineSortOrder").value;
 
   const filtered = eventsData.filter((event) => {
     const loc = getLocationKey(event);
@@ -692,6 +818,8 @@ function applyFilter() {
         );
     return roomMatch && typeMatch && participantMatch;
   });
+
+  if (sortOrder === "desc") filtered.reverse();
 
   renderTimeline(filtered);
   renderRoomTimeline(filtered);
@@ -709,6 +837,7 @@ function resetFilters() {
   document.getElementById("roomFilter").value = "all";
   document.getElementById("typeFilter").value = "all";
   document.getElementById("participantFilter").value = "";
+  document.getElementById("timelineSortOrder").value = "asc";
   applyFilter();
 }
 
@@ -729,6 +858,7 @@ function setupFilters() {
     opt.value = opt.textContent = type;
     typeFilter.appendChild(opt);
   });
+  pillify("typeFilter");
 
   getUniqueParticipants(eventsData)
     .sort((a, b) => formatRoyalName(a).localeCompare(formatRoyalName(b), "ja"))
@@ -744,6 +874,7 @@ function setupFilters() {
   );
   document.getElementById("roomFilter").addEventListener("change", applyFilter);
   document.getElementById("typeFilter").addEventListener("change", applyFilter);
+  document.getElementById("timelineSortOrder").addEventListener("change", applyFilter);
   document.getElementById("participantFilter").addEventListener("input", applyFilter);
   document.getElementById("clearFilters").addEventListener("click", resetFilters);
 
@@ -1125,7 +1256,7 @@ function showDetailModal(name, category, eventData = null) {
         item.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
         const strong = document.createElement("strong");
         strong.textContent = g.name;
-        if (outside) strong.appendChild(makeOutsidePlacementBadge());
+        if (outside) strong.appendChild(makeOutsidePlacementBadge(g));
         const meta = document.createElement("span");
         meta.textContent = `所属: ${g.affiliation || "不明"} / ${g.role || "役割不明"}`;
         const p = document.createElement("p");
@@ -1212,6 +1343,11 @@ async function init() {
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
 
+    pillify("princeNenFilter");
+    pillify("princeStatusFilter");
+    pillify("beastNenFilter");
+    pillify("hunterFilter");
+
     renderPrinces(princesData);
     setupPrinceSearch();
 
@@ -1224,6 +1360,7 @@ async function init() {
 
     renderFactions(factionsData);
     renderMafia(mafiaData);
+    renderMafiaRelationMatrix(mafiaData);
 
     setupDetailModal();
     setupFilters();

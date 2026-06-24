@@ -209,6 +209,12 @@
         <p>ブラックホエール号下層デッキ（第3〜5層）で暗躍するカキン三大マフィアと幻影旅団。王位継承戦の裏で独自の覇権争いが展開される</p>
       </div>
       <div id="mafia-grid" class="mafia-grid"></div>
+
+      <div class="section-subtitle">
+        <h3>下層勢力 相関図</h3>
+        <p>マフィア3家と幻影旅団の協力・敵対関係を一覧で確認</p>
+      </div>
+      <div id="mafia-relation-matrix" class="mafia-relation-matrix"></div>
     </section>
 
     <!-- ⑦ タイムライン -->
@@ -233,6 +239,13 @@
           種別で絞り込み：
           <select id="typeFilter">
             <option value="all">全て</option>
+          </select>
+        </label>
+        <label>
+          並び順：
+          <select id="timelineSortOrder">
+            <option value="asc" selected>古い順</option>
+            <option value="desc">新しい順</option>
           </select>
         </label>
         <button id="clearFilters" type="button">リセット</button>

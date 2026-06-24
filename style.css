@@ -440,11 +440,30 @@ body {
   padding: 2px 8px;
   border-radius: 999px;
   margin-left: 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.outside-placement-badge.outside-infiltrating {
   background: rgba(231, 76, 60, 0.15);
   color: var(--status-dead);
   border: 1px solid rgba(231, 76, 60, 0.3);
-  white-space: nowrap;
-  vertical-align: middle;
+}
+
+.outside-placement-badge.outside-watching {
+  background: rgba(243, 156, 18, 0.15);
+  color: #f39c12;
+  border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.card.outside-infiltrating-card {
+  background: rgba(231, 76, 60, 0.06);
+  border-color: rgba(231, 76, 60, 0.25);
+}
+
+.card.outside-watching-card {
+  background: rgba(243, 156, 18, 0.06);
+  border-color: rgba(243, 156, 18, 0.25);
 }
 
 .category-legend {
@@ -696,6 +715,59 @@ body {
   line-height: 1.5;
 }
 
+.mafia-relation-matrix {
+  overflow-x: auto;
+}
+
+.relation-table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  width: 100%;
+}
+
+.relation-table th,
+.relation-table td {
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.relation-table thead th {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.relation-table tbody th {
+  color: var(--accent);
+  text-align: left;
+  font-weight: 700;
+}
+
+.relation-self {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.relation-ally {
+  background: rgba(46, 204, 113, 0.15);
+  color: var(--status-alive);
+}
+
+.relation-hostile {
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--status-dead);
+}
+
+.relation-neutral {
+  background: rgba(243, 156, 18, 0.12);
+  color: #f39c12;
+}
+
+.relation-unknown {
+  color: var(--muted);
+}
+
 /* ===== フィルタコントロール ===== */
 .timeline-controls {
   display: flex;
@@ -748,6 +820,35 @@ body {
   gap: 8px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.pill-filter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.pill.active {
+  background: var(--accent);
+  color: #08111f;
+  border-color: var(--accent);
+  font-weight: 700;
 }
 
 .list-controls input,

@@ -87,6 +87,37 @@ body {
   background: rgba(114, 199, 255, 0.1);
 }
 
+.primary-nav {
+  max-width: 1080px;
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.primary-nav-link {
+  padding: 12px 16px;
+  border: 1px solid rgba(114, 199, 255, 0.2);
+  border-radius: 14px 14px 0 0;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--muted);
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.primary-nav-link:hover,
+.primary-nav-link:focus-visible {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.primary-nav-link.active {
+  color: #08111f;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
 /* ===== ページ全体 ===== */
 .page-container {
   max-width: 1080px;
@@ -96,6 +127,350 @@ body {
 
 .section-block {
   margin-bottom: 64px;
+}
+
+.primary-view[hidden] {
+  display: none;
+}
+
+/* ===== 全キャラクター名鑑 ===== */
+.character-camp-nav,
+.timeline-period-tabs,
+.place-group-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 10px;
+  scrollbar-width: thin;
+}
+
+.character-camp-nav-button,
+.timeline-period-tab,
+.place-group-tab {
+  flex: 0 0 auto;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.character-camp-nav-button.active,
+.timeline-period-tab.active,
+.place-group-tab.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #08111f;
+  font-weight: 700;
+}
+
+.character-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: end;
+  margin: 20px 0 12px;
+}
+
+.character-controls > label { flex: 1 1 280px; }
+.character-controls > label input { width: 100%; }
+.advanced-character-filters { flex: 1 1 100%; }
+.advanced-character-filters summary {
+  width: fit-content;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .86rem;
+}
+.advanced-character-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .025);
+}
+
+.character-camp-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  background: #e8f1ec;
+  color: #315b43;
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.room-people-panel {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d8ded9;
+  border-radius: 14px;
+  background: #f7faf8;
+}
+
+.room-people-panel h3 { margin: 0 0 .7rem; font-size: 1rem; }
+.room-people-panel .room-visitors-title {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d8ded9;
+}
+.room-people-list { display: flex; flex-wrap: wrap; gap: .45rem; }
+.room-person-chip {
+  border: 1px solid #b9c9be;
+  border-radius: 999px;
+  background: #fff;
+  color: #284b36;
+  padding: .35rem .7rem;
+  cursor: pointer;
+}
+.room-person-chip:hover { background: #e8f1ec; }
+
+.timeline-schedule {
+  max-width: 100%;
+  border: 1px solid #d8ded9;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.schedule-selected-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #d8ded9;
+}
+.schedule-selected-heading h4 { margin: 0; font-size: 1.1rem; }
+.schedule-selected-heading span { color: #68736b; }
+
+.schedule-place-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 14px;
+  padding: 14px;
+}
+.schedule-place-column {
+  overflow: hidden;
+  border: 1px solid #d8ded9;
+  border-radius: 12px;
+  background: #f7faf8;
+}
+.schedule-place-column > h4 {
+  margin: 0;
+  padding: 11px 13px;
+  background: #273d31;
+  color: #fff;
+  font-size: .9rem;
+}
+.schedule-time-stream { padding: 12px; }
+
+.timeline-schedule-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: .78rem;
+}
+
+.timeline-schedule-table th,
+.timeline-schedule-table td {
+  min-width: 150px;
+  max-width: 190px;
+  padding: .55rem;
+  border-right: 1px solid #e3e7e4;
+  border-bottom: 1px solid #e3e7e4;
+  vertical-align: top;
+}
+
+.timeline-schedule-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #273d31;
+  color: #fff;
+  text-align: left;
+}
+
+.timeline-schedule-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  min-width: 170px;
+}
+
+.timeline-schedule-table tbody th {
+  background: #eef3ef;
+  color: #273d31;
+}
+
+.schedule-empty { color: #a7aea9; text-align: center; }
+.schedule-event {
+  display: block;
+  width: 100%;
+  margin: 0 0 .4rem;
+  padding: .65rem .7rem;
+  border: 0;
+  border-left: 3px solid #8e6f34;
+  border-radius: 5px;
+  background: #f8f3e8;
+  color: #273128;
+  text-align: left;
+  line-height: 1.45;
+  cursor: pointer;
+}
+.schedule-event strong,
+.schedule-event span,
+.schedule-event small { display: block; }
+.schedule-event strong { margin-bottom: .25rem; color: #75591f; font-size: .72rem; }
+.schedule-event span { font-weight: 700; }
+.schedule-event small { margin-top: .35rem; color: #68736b; }
+.schedule-event:hover { background: #efe3ca; }
+.schedule-more { color: #68736b; font-size: .72rem; }
+.schedule-note { margin: .75rem; color: #68736b; font-size: .8rem; }
+
+.character-controls label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.character-controls input,
+.character-controls select {
+  min-width: 220px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.character-result-summary {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.character-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.directory-character-card {
+  min-width: 0;
+  align-self: start;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.directory-character-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.directory-character-top .char-avatar {
+  width: 54px;
+  height: 54px;
+  margin: 0;
+}
+
+.directory-character-identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.directory-character-identity h3 {
+  margin: 0 0 7px;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.character-type-badge,
+.spirit-beast-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid rgba(114, 199, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(114, 199, 255, 0.1);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.character-type-king,
+.character-type-queen,
+.character-type-prince {
+  border-color: rgba(243, 156, 18, 0.35);
+  background: rgba(243, 156, 18, 0.13);
+  color: #f5b041;
+}
+
+.character-type-mafia,
+.character-type-phantom_troupe {
+  border-color: rgba(231, 76, 60, 0.35);
+  background: rgba(231, 76, 60, 0.12);
+  color: #ff7675;
+}
+
+.spirit-beast-badge {
+  border-color: rgba(155, 89, 182, 0.35);
+  background: rgba(155, 89, 182, 0.13);
+  color: #c39bd3;
+}
+
+.directory-character-details dl {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.directory-spirit-beast {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid rgba(155, 89, 182, 0.25);
+  border-radius: 12px;
+  background: rgba(155, 89, 182, 0.07);
+}
+
+.directory-spirit-beast .beast-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.directory-spirit-beast h4 {
+  margin: 0 0 6px;
+  color: #c39bd3;
+  font-size: 0.88rem;
+}
+
+.directory-spirit-beast p,
+.parentage-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.parentage-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid #f39c12;
+  background: rgba(243, 156, 18, 0.08);
 }
 
 .section-header {
@@ -188,6 +563,104 @@ body {
   color: var(--text);
   line-height: 1.5;
   font-size: 0.95rem;
+}
+
+/* ===== 人物コンパクトカード ===== */
+.compact-person-grid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.compact-person-card {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.compact-person-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.compact-person-summary .char-avatar {
+  width: 52px;
+  height: 52px;
+  margin: 0;
+}
+
+.compact-person-identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.compact-person-identity h3 {
+  margin: 0 0 7px;
+  font-size: 1rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.compact-person-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.compact-person-details {
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.compact-person-details summary {
+  padding-top: 10px;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.compact-person-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.compact-person-details summary::after {
+  content: " ＋";
+}
+
+.compact-person-details[open] summary::after {
+  content: " −";
+}
+
+.compact-person-details dl {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0 0;
+}
+
+.compact-person-details dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.compact-person-details dd {
+  margin: 0 0 7px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.compact-person-card.outside-infiltrating-card {
+  background: rgba(231, 76, 60, 0.06);
+  border-color: rgba(231, 76, 60, 0.25);
+}
+
+.compact-person-card.outside-watching-card {
+  background: rgba(243, 156, 18, 0.06);
+  border-color: rgba(243, 156, 18, 0.25);
 }
 
 /* ===== キャラクターアバター ===== */
@@ -991,21 +1464,21 @@ body {
 }
 
 /* イベント種別カラー */
-.timeline-item.type-暗殺, .matrix-cell.type-暗殺,
+.timeline-item.type-暗殺, .matrix-cell.type-暗殺, .room-area-event.type-暗殺,
 .gantt-bar.type-暗殺 { --event-color: var(--type-暗殺); border-left-color: var(--type-暗殺); }
-.timeline-item.type-戦闘, .matrix-cell.type-戦闘,
+.timeline-item.type-戦闘, .matrix-cell.type-戦闘, .room-area-event.type-戦闘,
 .gantt-bar.type-戦闘 { --event-color: var(--type-戦闘); border-left-color: var(--type-戦闘); }
-.timeline-item.type-儀式, .matrix-cell.type-儀式,
+.timeline-item.type-儀式, .matrix-cell.type-儀式, .room-area-event.type-儀式,
 .gantt-bar.type-儀式 { --event-color: var(--type-儀式); border-left-color: var(--type-儀式); }
-.timeline-item.type-会合, .matrix-cell.type-会合,
+.timeline-item.type-会合, .matrix-cell.type-会合, .room-area-event.type-会合,
 .gantt-bar.type-会合 { --event-color: var(--type-会合); border-left-color: var(--type-会合); }
-.timeline-item.type-発覚, .matrix-cell.type-発覚,
+.timeline-item.type-発覚, .matrix-cell.type-発覚, .room-area-event.type-発覚,
 .gantt-bar.type-発覚 { --event-color: var(--type-発覚); border-left-color: var(--type-発覚); }
-.timeline-item.type-移動, .matrix-cell.type-移動,
+.timeline-item.type-移動, .matrix-cell.type-移動, .room-area-event.type-移動,
 .gantt-bar.type-移動 { --event-color: var(--type-移動); border-left-color: var(--type-移動); }
-.timeline-item.type-会話, .matrix-cell.type-会話,
+.timeline-item.type-会話, .matrix-cell.type-会話, .room-area-event.type-会話,
 .gantt-bar.type-会話 { --event-color: var(--type-会話); border-left-color: var(--type-会話); }
-.timeline-item.type-特殊, .matrix-cell.type-特殊,
+.timeline-item.type-特殊, .matrix-cell.type-特殊, .room-area-event.type-特殊,
 .gantt-bar.type-特殊 { --event-color: var(--type-特殊); border-left-color: var(--type-特殊); }
 
 .event-type {
@@ -1068,6 +1541,107 @@ body {
   margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* ===== エリア別タイムライン ===== */
+.room-area-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 16px 0 12px;
+}
+
+.room-area-tab {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.room-area-tab:hover,
+.room-area-tab:focus-visible {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.room-area-tab.active {
+  color: #08111f;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.room-area-summary {
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.room-area-timeline {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding-left: 24px;
+}
+
+.room-area-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 7px;
+  width: 2px;
+  background: rgba(114, 199, 255, 0.2);
+}
+
+.room-area-event {
+  --event-color: var(--accent);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--event-color);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px 16px;
+}
+
+.room-area-marker {
+  position: absolute;
+  top: 20px;
+  left: -27px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #08111f;
+  border-radius: 50%;
+  background: var(--event-color);
+  box-shadow: 0 0 0 2px var(--event-color);
+}
+
+.room-area-event-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.room-area-event h4 {
+  margin: 9px 0 5px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.room-area-event p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 
 /* ===== 部屋別タイムライン ===== */
@@ -1412,6 +1986,31 @@ body.modal-open {
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 700px) {
+  .primary-nav {
+    margin-top: 18px;
+  }
+
+  .primary-nav-link {
+    padding: 10px 6px;
+    border-radius: 10px 10px 0 0;
+    font-size: 0.84rem;
+  }
+
+  .character-controls,
+  .character-controls label {
+    width: 100%;
+  }
+
+  .character-controls input,
+  .character-controls select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .character-directory {
+    grid-template-columns: 1fr;
+  }
+
   .site-nav {
     padding: 0 24px;
     justify-content: center;

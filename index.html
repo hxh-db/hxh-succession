@@ -10,239 +10,96 @@
   <header class="site-header">
     <div class="header-inner">
       <h1>王位継承戦データまとめ</h1>
-      <p>HUNTER×HUNTER — カキン帝国14王子・守護霊獣・護衛・タイムラインを1ページで確認</p>
+      <p>人物・場所・時間の3つの軸から、カキン王位継承戦を確認</p>
     </div>
-    <nav class="site-nav">
-      <a href="#overview">概要</a>
-      <a href="#princes">王子一覧</a>
-      <a href="#spirit-beasts">守護霊獣</a>
-      <a href="#bodyguards">護衛・ハンター</a>
-      <a href="#factions">派閥マップ</a>
-      <a href="#mafia">下層勢力</a>
-      <a href="#timeline">タイムライン</a>
+    <nav class="primary-nav" aria-label="メインメニュー">
+      <a class="primary-nav-link active" href="#characters" data-primary-view="characters">キャラクター</a>
+      <a class="primary-nav-link" href="#places" data-primary-view="places">場所別</a>
+      <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">時間別</a>
     </nav>
   </header>
 
   <main class="page-container">
-
-    <!-- ① 概要セクション -->
-    <section id="overview" class="section-block">
+    <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
-        <h2>王位継承戦とは</h2>
-        <p>カキン帝国で行われる、次期国王を決める命がけの継承ゲーム</p>
+        <h2>キャラクター一覧</h2>
+        <p>まず陣営を選び、必要な人物だけを確認できます</p>
       </div>
-
-      <div class="overview-grid">
-        <article class="overview-card">
-          <h3>基本ルール</h3>
-          <ul class="rule-list">
-            <li>継承権を持つのは14人の王子のみ</li>
-            <li>出港セレモニーへの参加が必須条件</li>
-            <li>最後の1人になった者が次の国王となる</li>
-            <li>王族殺しは一族もろとも処刑（表向き直接手を下せない）</li>
-          </ul>
-        </article>
-
-        <article class="overview-card">
-          <h3>壺中卵の儀（こちゅうらん）</h3>
-          <p class="overview-text">
-            カキン初代国王が蟲毒から発想した儀式。14王子が壺に念（ネン）を込めることで、
-            それぞれの性格・内面を反映した<strong>守護霊獣</strong>が宿る。
-            王子本人は守護霊獣を認知できないが、念能力者には見える。
-          </p>
-        </article>
-
-        <article class="overview-card">
-          <h3>舞台：ブラックホエール号</h3>
-          <p class="overview-text">
-            暗黒大陸へ向かう超大型客船。全14デッキを誇り、各王子は専用フロアに配置される。
-            密室に近い空間でありながら数万人が乗船しており、暗殺が横行する混沌の場となる。
-          </p>
-        </article>
-
-        <article class="overview-card">
-          <h3>念（ネン）能力の6系統</h3>
-          <div class="nen-types-grid">
-            <span class="nen-badge nen-強化">強化系</span>
-            <span class="nen-badge nen-放出">放出系</span>
-            <span class="nen-badge nen-具現化">具現化系</span>
-            <span class="nen-badge nen-操作">操作系</span>
-            <span class="nen-badge nen-変化">変化系</span>
-            <span class="nen-badge nen-特質">特質系</span>
+      <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
+      <div class="character-controls">
+        <label>
+          人物を検索
+          <input id="characterSearch" type="search" placeholder="名前を入力" />
+        </label>
+        <details class="advanced-character-filters">
+          <summary>さらに絞り込む</summary>
+          <div class="advanced-character-filter-grid">
+        <label>
+          分類
+          <select id="characterTypeFilter">
+            <option value="all">全員</option>
+            <option value="royal">王族</option>
+            <option value="hunter">ハンター</option>
+            <option value="soldier">護衛・兵士</option>
+            <option value="attendant">従事者</option>
+            <option value="mafia">マフィア</option>
+            <option value="phantom_troupe">幻影旅団</option>
+            <option value="official">司法・政府関係者</option>
+          </select>
+        </label>
+        <label>
+          所属陣営
+          <select id="characterCampFilter"><option value="all">すべての陣営</option></select>
+        </label>
+        <label>
+          護衛・関係王子
+          <select id="characterPrinceFilter"><option value="all">すべての王子</option></select>
+        </label>
           </div>
-          <p class="overview-text" style="margin-top:10px;">守護霊獣や護衛の能力を系統で分類して確認できます。</p>
-        </article>
+        </details>
       </div>
+      <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
+      <div id="characterDirectory" class="character-directory"></div>
     </section>
 
-    <!-- ② 王子一覧 -->
-    <section id="princes" class="section-block">
+    <section id="places" class="primary-view" data-primary-panel="places" hidden>
       <div class="section-header">
-        <h2>14王子一覧</h2>
-        <p>順位・母（王妃）・守護霊獣・念系統・生死状況を一覧で確認</p>
+        <h2>場所別</h2>
+        <p>エリアを選択して、その場所で起きた出来事を時系列で確認</p>
       </div>
-      <div class="list-controls">
-        <label>
-          検索：
-          <input id="princeSearch" type="search" placeholder="王子名 / 王妃 / 状態" />
-        </label>
-        <label>
-          念系統：
-          <select id="princeNenFilter">
-            <option value="all">全て</option>
-            <option value="強化系">強化系</option>
-            <option value="放出系">放出系</option>
-            <option value="具現化系">具現化系</option>
-            <option value="操作系">操作系</option>
-            <option value="変化系">変化系</option>
-            <option value="特質系">特質系</option>
-          </select>
-        </label>
-        <label>
-          状態：
-          <select id="princeStatusFilter">
-            <option value="all">全て</option>
-            <option value="存命">存命</option>
-            <option value="死亡">死亡</option>
-            <option value="不明">不明</option>
-          </select>
-        </label>
-      </div>
-      <div id="prince-grid" class="card-grid"></div>
+      <div class="place-group-tabs" id="placeGroupTabs" role="group" aria-label="階層を選択"></div>
+      <div class="room-area-tabs" id="roomAreaTabs" role="group" aria-label="部屋を選択"></div>
+      <p class="room-area-summary" id="roomAreaSummary" aria-live="polite"></p>
+      <section class="room-people-panel" aria-labelledby="roomPeopleTitle">
+        <h3 id="roomPeopleTitle">現在この場所にいる人物</h3>
+        <div id="roomPeople" class="room-people-list"></div>
+        <h3 class="room-visitors-title">過去に登場・訪問した人物</h3>
+        <div id="roomVisitors" class="room-people-list"></div>
+      </section>
+      <div class="room-area-timeline" id="roomTimeline"></div>
     </section>
 
-    <!-- ③ 守護霊獣一覧 -->
-    <section id="spirit-beasts" class="section-block">
+    <section id="timeline" class="primary-view" data-primary-panel="timeline" hidden>
       <div class="section-header">
-        <h2>守護霊獣一覧</h2>
-        <p>壺中卵の儀で各王子に宿った念獣。王子の性格・内面を反映した独自の能力を持つ</p>
-      </div>
-      <div class="list-controls">
-        <label>
-          念系統：
-          <select id="beastNenFilter">
-            <option value="all">全て</option>
-            <option value="強化系">強化系</option>
-            <option value="放出系">放出系</option>
-            <option value="具現化系">具現化系</option>
-            <option value="操作系">操作系</option>
-            <option value="変化系">変化系</option>
-            <option value="特質系">特質系</option>
-          </select>
-        </label>
-      </div>
-      <div id="spirit-beast-grid" class="card-grid"></div>
-    </section>
-
-    <!-- ④ 護衛・ハンター一覧 -->
-    <section id="bodyguards" class="section-block">
-      <div class="section-header">
-        <h2>護衛・ハンター一覧</h2>
-        <p>各王子に仕える護衛兵とハンター。ハンターは念能力者として継承戦の鍵を握る</p>
-      </div>
-      <div class="category-legend">
-        <strong>分類の凡例：</strong>
-        <span><b>私設兵</b> = 王子本人が直接雇う念能力者の私兵</span>
-        <span><b>王妃所属兵</b> = 王妃に忠誠を持つ監視・スパイ役の兵士</span>
-        <span><b>王室警備兵</b> = 念能力を前提としない一般警備staff</span>
-        <span><b>従事者</b> = 王子に付き添う非戦闘員（兵士兼任の場合あり）</span>
-        <span><b>ハンター（クラピカ経由）</b> = クラピカが個人的に依頼し雇用</span>
-        <span><b>ハンター（協専）</b> = ビヨンド陣営経由で暗黒大陸渡航任務のために雇用</span>
-        <span><b>ハンター（協会派遣）</b> = ハンター協会が乗船渡航のために派遣</span>
-      </div>
-      <div class="category-legend">
-        <strong>「配置先」と「所属」の違い：</strong>
-        <span><b>配置先</b> = 現在どの王子の部屋・陣営に物理的にいるか（警護兵士一覧はこちらで集計）</span>
-        <span><b>所属</b> = 本当の雇い主・忠誠先（王妃やライバル王子の場合もある）</span>
-        <span><span class="outside-placement-badge" style="margin-left:0;">他陣営からの配置</span> = 配置先と所属が異なる、潜伏中のスパイや王妃の監視兵</span>
-      </div>
-      <div class="list-controls">
-        <label>
-          検索：
-          <input id="bodyguardSearch" type="search" placeholder="名前 / 担当王子 / 能力 / 役割" />
-        </label>
-        <label>
-          分類：
-          <select id="bodyguardCategoryFilter">
-            <option value="all">全て</option>
-          </select>
-        </label>
-        <label>
-          ハンター：
-          <select id="hunterFilter">
-            <option value="all">全て</option>
-            <option value="true">ハンターのみ</option>
-            <option value="false">一般護衛のみ</option>
-          </select>
-        </label>
-        <label>
-          表示：
-          <select id="bodyguardGroupToggle">
-            <option value="flat">通常表示</option>
-            <option value="camp" selected>陣営別表示</option>
-          </select>
-        </label>
-        <label>
-          形式：
-          <select id="bodyguardViewMode">
-            <option value="card" selected>カード表示</option>
-            <option value="table">テーブル表示</option>
-          </select>
-        </label>
-      </div>
-      <div id="bodyguard-grid" class="card-grid"></div>
-    </section>
-
-    <!-- ⑤ 派閥マップ -->
-    <section id="factions" class="section-block">
-      <div class="section-header">
-        <h2>派閥マップ</h2>
-        <p>継承戦で形成される同盟・陣営。単独行動から多数派工作まで各王子の戦略が絡み合う</p>
-      </div>
-      <div id="faction-grid" class="faction-grid"></div>
-    </section>
-
-    <!-- ⑥ 下層勢力マップ -->
-    <section id="mafia" class="section-block">
-      <div class="section-header">
-        <h2>下層勢力マップ</h2>
-        <p>ブラックホエール号下層デッキ（第3〜5層）で暗躍するカキン三大マフィアと幻影旅団。王位継承戦の裏で独自の覇権争いが展開される</p>
-      </div>
-      <div id="mafia-grid" class="mafia-grid"></div>
-
-      <div class="section-subtitle">
-        <h3>下層勢力 相関図</h3>
-        <p>マフィア3家と幻影旅団の協力・敵対関係を一覧で確認</p>
-      </div>
-      <div id="mafia-relation-matrix" class="mafia-relation-matrix"></div>
-    </section>
-
-    <!-- ⑦ タイムライン -->
-    <section id="timeline" class="section-block">
-      <div class="section-header">
-        <h2>タイムライン</h2>
-        <p>継承戦中の主要イベントを時系列で整理</p>
+        <h2>時間別</h2>
+        <p>日付を選び、その日に各場所で起きた出来事を確認</p>
       </div>
 
       <div class="timeline-controls">
         <label>
-          参加者で絞り込み：
-          <input id="participantFilter" type="search" placeholder="例: クラピカ" />
+          参加者
+          <input id="participantFilter" type="search" placeholder="例：クラピカ" />
         </label>
         <label>
-          場所で絞り込み：
-          <select id="roomFilter">
-            <option value="all">全て</option>
-          </select>
+          場所
+          <select id="roomFilter"><option value="all">全て</option></select>
         </label>
         <label>
-          種別で絞り込み：
-          <select id="typeFilter">
-            <option value="all">全て</option>
-          </select>
+          種別
+          <select id="typeFilter"><option value="all">全て</option></select>
         </label>
         <label>
-          並び順：
+          並び順
           <select id="timelineSortOrder">
             <option value="asc" selected>古い順</option>
             <option value="desc">新しい順</option>
@@ -251,54 +108,45 @@
         <button id="clearFilters" type="button">リセット</button>
       </div>
 
-      <div class="timeline-view-tabs" role="tablist" aria-label="タイムラインの表示形式">
-        <button id="timeline-tab-events" class="timeline-view-tab active" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-events" data-view="events">イベント一覧</button>
-        <button id="timeline-tab-rooms" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-rooms" data-view="rooms">場所別</button>
+      <div class="timeline-view-tabs" role="tablist" aria-label="時間別の表示形式">
+        <button id="timeline-tab-schedule" class="timeline-view-tab active" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">日付から見る</button>
+        <button id="timeline-tab-events" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-events" data-view="events">イベント一覧</button>
         <button id="timeline-tab-person" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-person" data-view="person">人物別</button>
-        <button id="timeline-tab-matrix" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-matrix" data-view="matrix">マトリクス</button>
-        <button id="timeline-tab-gantt" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-gantt" data-view="gantt">ガント</button>
       </div>
 
-      <div id="timeline-panel-events" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-events">
+      <div id="timeline-panel-schedule" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-schedule">
+        <div class="section-subtitle">
+          <h3>日付別タイムライン</h3>
+          <p>日付を選ぶと、その日の出来事を場所ごとに表示します。</p>
+        </div>
+        <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
+        <div id="timelineSchedule" class="timeline-schedule"></div>
+      </div>
+
+      <div id="timeline-panel-events" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-events" hidden>
         <p id="timelineResultSummary" class="timeline-result-summary" aria-live="polite"></p>
         <div class="timeline-list" id="timelineList"></div>
         <button id="timelineLoadMore" class="timeline-load-more hidden" type="button">さらに表示</button>
       </div>
 
-      <div id="timeline-panel-rooms" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-rooms" hidden>
-        <div class="section-subtitle" id="room-map">
-          <h3>場所マップ</h3>
-          <p>場所ごとのイベント数。クリックで絞り込み。</p>
-        </div>
-        <div class="room-map" id="roomMap"></div>
-
-        <div class="section-subtitle">
-          <h3>場所別タイムライン</h3>
-          <p>各場所でのイベントをまとめて確認</p>
-        </div>
-        <div class="room-timeline" id="roomTimeline"></div>
-      </div>
-
       <div id="timeline-panel-person" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-person" hidden>
-        <div class="section-subtitle" id="person-history">
+        <div class="section-subtitle">
           <h3>人物別タイムライン</h3>
           <p>人物を選ぶと、その人物が登場するイベントだけを表示します。</p>
         </div>
         <div class="list-controls">
           <label>
-            表示対象：
-            <select id="participantSelect">
-              <option value="">人物を選択</option>
-            </select>
+            表示対象
+            <select id="participantSelect"><option value="">人物を選択</option></select>
           </label>
         </div>
         <div class="person-timeline" id="personTimeline" aria-live="polite"></div>
       </div>
 
       <div id="timeline-panel-matrix" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-matrix" hidden>
-        <div class="section-subtitle" id="timeline-matrix">
+        <div class="section-subtitle">
           <h3>タイムラインマトリクス</h3>
-          <p>場所×章の二次元で出来事を俯瞰。横にスクロールして確認できます。</p>
+          <p>場所×話数の二次元表示。横にスクロールして確認できます。</p>
         </div>
         <div class="timeline-matrix" id="timelineMatrix"></div>
       </div>

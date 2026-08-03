@@ -14,8 +14,11 @@ let spiritBeastsData = [];
 let factionsData = [];
 let mafiaData = [];
 let filteredEventsData = [];
-let activeTimelineView = "events";
+let activeTimelineView = "schedule";
 let timelineVisibleCount = 30;
+let activeRoomAreaId = "room-1001";
+let activePlaceGroupId = "layer-1";
+let activeTimelinePeriodId = "day-1";
 let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
@@ -44,12 +47,18 @@ function formatRoyalName(token) {
   if (!token) return token;
   const char = CHAR_MAP[token];
   if (char) {
-    if (char.type === "prince") return `第${char.rank}王子${char.name.split("＝")[0]}`;
-    return char.name;
+    if (char.type === "prince") return `第${char.rank}王子 ${getDisplayName(char)}`;
+    if (char.type === "queen") return `第${char.rank}王妃 ${getDisplayName(char)}`;
+    return getDisplayName(char);
   }
   const entry = PRINCE_MAP[token];
   if (entry) return `第${entry.rank}王子${entry.short}`;
-  return token;
+  return token === "ナスビー＝ホイコーロ" ? token : String(token).replace(/＝ホイコーロ/g, "");
+}
+
+function getDisplayName(character) {
+  if (!character) return "";
+  return character.id === "KNG-001" ? character.name : character.name.replace(/＝ホイコーロ/g, "");
 }
 
 // ===== バッジ生成ユーティリティ =====
@@ -86,6 +95,25 @@ function makeHunterBadge() {
   const span = document.createElement("span");
   span.className = "hunter-badge";
   span.textContent = "ハンター";
+  return span;
+}
+
+const CHARACTER_TYPE_LABELS = {
+  king: "国王",
+  prince: "王子",
+  queen: "王妃",
+  hunter: "ハンター",
+  soldier: "護衛・兵士",
+  attendant: "従事者",
+  mafia: "マフィア",
+  phantom_troupe: "幻影旅団",
+  official: "司法・政府"
+};
+
+function makeCharacterTypeBadge(type) {
+  const span = document.createElement("span");
+  span.className = `character-type-badge character-type-${type}`;
+  span.textContent = CHARACTER_TYPE_LABELS[type] || type;
   return span;
 }
 
@@ -323,7 +351,42 @@ function createBodyguardCard(g) {
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
   const avatar = makeAvatar(initial, g.nen_type, g.image || null);
-  const card = createCard(g.name, items, badges, () => showDetailModal(g.id, "bodyguard"), avatar);
+  const card = document.createElement("article");
+  card.className = "compact-person-card";
+
+  const summary = document.createElement("div");
+  summary.className = "compact-person-summary";
+  summary.appendChild(avatar);
+
+  const identity = document.createElement("div");
+  identity.className = "compact-person-identity";
+  const heading = document.createElement("h3");
+  heading.textContent = g.name;
+  const badgeList = document.createElement("div");
+  badgeList.className = "compact-person-badges";
+  badges.forEach((badge) => { if (badge) badgeList.appendChild(badge); });
+  identity.append(heading, badgeList);
+  summary.appendChild(identity);
+  card.appendChild(summary);
+
+  const details = document.createElement("details");
+  details.className = "compact-person-details";
+  const detailsToggle = document.createElement("summary");
+  detailsToggle.textContent = "詳細";
+  details.appendChild(detailsToggle);
+
+  const dl = document.createElement("dl");
+  items.forEach(({ label, value }) => {
+    if (!value && value !== 0) return;
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    dl.append(dt, dd);
+  });
+  details.appendChild(dl);
+  card.appendChild(details);
+
   if (outside) card.classList.add(`outside-${getOutsidePlacementKind(g).cls}-card`);
   return card;
 }
@@ -418,6 +481,7 @@ function renderBodyguards(guards) {
   grid.innerHTML = "";
   grid.classList.toggle("grouped", bodyguardGroupByCamp);
   grid.classList.toggle("table-mode", bodyguardViewMode === "table");
+  grid.classList.toggle("compact-person-grid", bodyguardViewMode === "card" && !bodyguardGroupByCamp);
   if (guards.length === 0) {
     grid.textContent = "該当する護衛が見つかりませんでした。";
     return;
@@ -452,7 +516,7 @@ function renderBodyguards(guards) {
         renderBodyguardsTable(groups[camp], section);
       } else {
         const subGrid = document.createElement("div");
-        subGrid.className = "card-grid camp-grid";
+        subGrid.className = "card-grid camp-grid compact-person-grid";
         groups[camp].forEach((g) => subGrid.appendChild(createBodyguardCard(g)));
         section.appendChild(subGrid);
       }
@@ -503,6 +567,252 @@ function setupBodyguardSearch() {
   groupToggle.addEventListener("change", apply);
   categoryFilter.addEventListener("change", apply);
   viewModeSelect.addEventListener("change", apply);
+}
+
+// ===== 全キャラクター名鑑 =====
+
+function getKnownParentIds(character) {
+  if (Array.isArray(character.parent_ids)) return character.parent_ids;
+  if (character.type === "prince") {
+    const mother = charactersData.find(
+      (candidate) => candidate.type === "queen" && (candidate.children || []).includes(character.id)
+    );
+    return ["KNG-001", mother?.id].filter(Boolean);
+  }
+  if (["P05-G01", "P05-G02"].includes(character.id)) return ["BYD-001"];
+  return [];
+}
+
+function getKnownChildIds(character) {
+  if (Array.isArray(character.children)) return character.children;
+  if (character.id === "KNG-001") return princesData.map((prince) => prince.id);
+  if (character.id === "BYD-001") {
+    return charactersData
+      .filter((candidate) => ["P05-G01", "P05-G02"].includes(candidate.id))
+      .map((candidate) => candidate.id);
+  }
+  return [];
+}
+
+function getRelationshipNames(ids) {
+  return ids.map((id) => formatRoyalName(id)).join(" / ");
+}
+
+function getRelatedPrinceIds(character) {
+  if (character.type === "prince") return [character.id];
+  if (character.type === "queen") return character.children || [];
+  const text = [character.camp, character.affiliation, character.role, character.notes].filter(Boolean).join(" ");
+  const ids = princesData.filter((prince) => {
+    const shortName = getDisplayName(prince);
+    return text.includes(shortName) || text.includes(`第${prince.rank}王子`) || character.id.startsWith(`${prince.id}-`);
+  }).map((prince) => prince.id);
+  return [...new Set(ids)];
+}
+
+function createCharacterDirectoryCard(character) {
+  const card = document.createElement("article");
+  card.className = "directory-character-card";
+
+  const top = document.createElement("div");
+  top.className = "directory-character-top";
+  const avatarLabel = character.type === "prince" ? `第${character.rank}` : character.name.slice(0, 2);
+  top.appendChild(makeAvatar(avatarLabel, character.nen_type, character.image || null));
+
+  const identity = document.createElement("div");
+  identity.className = "directory-character-identity";
+  const heading = document.createElement("h3");
+  heading.textContent = character.type === "prince"
+    ? `第${character.rank}王子 ${getDisplayName(character)}`
+    : character.type === "queen"
+      ? `第${character.rank}王妃 ${getDisplayName(character)}`
+      : getDisplayName(character);
+  const badges = document.createElement("div");
+  badges.className = "compact-person-badges";
+  badges.appendChild(makeCharacterTypeBadge(character.type));
+  if (character.camp) {
+    const campBadge = document.createElement("span");
+    campBadge.className = "character-camp-badge";
+    campBadge.textContent = character.camp.replace(/＝ホイコーロ/g, "");
+    badges.appendChild(campBadge);
+  }
+  identity.append(heading, badges);
+  top.appendChild(identity);
+  card.appendChild(top);
+
+  const details = document.createElement("details");
+  details.className = "compact-person-details directory-character-details";
+  const toggle = document.createElement("summary");
+  toggle.textContent = "詳細";
+  details.appendChild(toggle);
+
+  const parentIds = getKnownParentIds(character);
+  const childIds = getKnownChildIds(character);
+  const rows = [
+    { label: "親", value: parentIds.length ? getRelationshipNames(parentIds) : null },
+    { label: "子供", value: childIds.length ? getRelationshipNames(childIds) : null },
+    { label: "所属", value: character.affiliation },
+    { label: "陣営", value: character.camp },
+    { label: "配置・部屋", value: character.room || character.location },
+    { label: "役割", value: character.role },
+    { label: "状態", value: character.status },
+    { label: "念系統", value: character.nen_type },
+    { label: "念能力", value: character.nen_ability },
+    { label: "備考", value: character.notes }
+  ];
+
+  const dl = document.createElement("dl");
+  rows.forEach(({ label, value }) => {
+    if (!value && value !== 0) return;
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    dl.append(dt, dd);
+  });
+  details.appendChild(dl);
+
+  if (character.type === "prince") {
+    const beast = spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character));
+    if (beast) {
+      const beastSection = document.createElement("section");
+      beastSection.className = "directory-spirit-beast";
+      const beastImage = makeBeastImage(beast.image, beast.name);
+      if (beastImage) beastSection.appendChild(beastImage);
+      const beastText = document.createElement("div");
+      const beastHeading = document.createElement("h4");
+      beastHeading.textContent = `守護霊獣：${beast.name || "名称不明"}`;
+      const beastDescription = document.createElement("p");
+      beastDescription.textContent = [beast.appearance, beast.ability].filter(Boolean).join("｜") || "詳細不明";
+      beastText.append(beastHeading, beastDescription);
+      beastSection.appendChild(beastText);
+      details.appendChild(beastSection);
+    }
+  }
+
+  if (character.id === "BYD-001") {
+    const note = document.createElement("p");
+    note.className = "parentage-note";
+    note.textContent = "確認済みの実子はロンギとマカハ。ほかにも10名以上のソエモノと、王族内に実子がいることが判明しているが、全員の氏名は未確定。";
+    details.appendChild(note);
+  }
+  if (character.id === "KNG-001") {
+    const note = document.createElement("p");
+    note.className = "parentage-note";
+    note.textContent = "14王子の公的な父。王族内にビヨンドの実子がいることが示されているため、血縁上の父子関係には未確定要素がある。";
+    details.appendChild(note);
+  }
+
+  card.appendChild(details);
+  return card;
+}
+
+function getCharacterTypeGroup(character) {
+  if (["king", "queen", "prince"].includes(character.type)) return "royal";
+  return character.type;
+}
+
+function sortCharacters(a, b) {
+  const order = { king: 0, queen: 1, prince: 2, hunter: 3, soldier: 4, attendant: 5, official: 6, mafia: 7, phantom_troupe: 8 };
+  const typeDiff = (order[a.type] ?? 99) - (order[b.type] ?? 99);
+  if (typeDiff !== 0) return typeDiff;
+  if (a.rank != null || b.rank != null) return (a.rank ?? 999) - (b.rank ?? 999);
+  return a.name.localeCompare(b.name, "ja");
+}
+
+function renderCharacterDirectory(characters) {
+  const container = document.getElementById("characterDirectory");
+  const summary = document.getElementById("characterResultSummary");
+  container.innerHTML = "";
+  characters.slice().sort(sortCharacters).forEach((character) => {
+    container.appendChild(createCharacterDirectoryCard(character));
+  });
+  summary.textContent = `${characters.length}名を表示（登録総数 ${charactersData.length}名）`;
+}
+
+function setupCharacterDirectory() {
+  const search = document.getElementById("characterSearch");
+  const typeFilter = document.getElementById("characterTypeFilter");
+  const campFilter = document.getElementById("characterCampFilter");
+  const princeFilter = document.getElementById("characterPrinceFilter");
+  [...new Set(charactersData.map((character) => character.camp).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
+      const option = document.createElement("option");
+      option.value = camp;
+      option.textContent = camp.replace(/＝ホイコーロ/g, "");
+      campFilter.appendChild(option);
+    });
+  princesData.slice().sort((a, b) => a.rank - b.rank).forEach((prince) => {
+    const option = document.createElement("option");
+    option.value = prince.id;
+    option.textContent = `第${prince.rank}王子 ${getDisplayName(prince)}`;
+    princeFilter.appendChild(option);
+  });
+
+  const quickNav = document.getElementById("characterCampNav");
+  const quickGroups = [
+    { id: "royal", label: "王族" },
+    ...princesData.slice().sort((a, b) => a.rank - b.rank).map((prince) => ({
+      id: prince.id,
+      label: `第${prince.rank}王子 ${getDisplayName(prince)}`
+    })),
+    { id: "hunter", label: "ハンター協会" },
+    { id: "mafia", label: "マフィア" },
+    { id: "phantom_troupe", label: "幻影旅団" },
+    { id: "official", label: "司法・政府" },
+    { id: "all", label: "全員" }
+  ];
+  const apply = () => {
+    const query = search.value.trim().toLowerCase();
+    const type = typeFilter.value;
+    const camp = campFilter.value;
+    const princeId = princeFilter.value;
+    const filtered = charactersData.filter((character) => {
+      const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
+      const beast = character.type === "prince"
+        ? spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character))
+        : null;
+      const searchable = [
+        character.name, character.affiliation, character.camp, character.role,
+        character.nen_ability, character.notes, beast?.name, beast?.ability
+      ].filter(Boolean).join(" ").toLowerCase();
+      const campMatch = camp === "all" || character.camp === camp;
+      const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
+      return typeMatch && campMatch && princeMatch && (!query || searchable.includes(query));
+    });
+    renderCharacterDirectory(filtered);
+  };
+  search.addEventListener("input", apply);
+  typeFilter.addEventListener("change", apply);
+  campFilter.addEventListener("change", apply);
+  princeFilter.addEventListener("change", apply);
+
+  quickGroups.forEach((group) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `character-camp-nav-button${group.id === "royal" ? " active" : ""}`;
+    button.textContent = group.label;
+    button.setAttribute("aria-pressed", String(group.id === "royal"));
+    button.addEventListener("click", () => {
+      quickNav.querySelectorAll("button").forEach((candidate) => {
+        const active = candidate === button;
+        candidate.classList.toggle("active", active);
+        candidate.setAttribute("aria-pressed", String(active));
+      });
+      search.value = "";
+      campFilter.value = "all";
+      if (group.id.startsWith("P")) {
+        typeFilter.value = "all";
+        princeFilter.value = group.id;
+      } else {
+        princeFilter.value = "all";
+        typeFilter.value = group.id;
+      }
+      apply();
+    });
+    quickNav.appendChild(button);
+  });
+  typeFilter.value = "royal";
+  apply();
 }
 
 // ===== 派閥マップ =====
@@ -734,6 +1044,42 @@ function getLocationKey(event) {
   return "場所不明";
 }
 
+const ROOM_AREA_DEFINITIONS = [
+  ...Array.from({ length: 14 }, (_, index) => {
+    const room = String(1001 + index);
+    return { id: `room-${room}`, label: room };
+  }),
+  { id: "judicial", label: "司法省" },
+  { id: "layer-2", label: "第2層" },
+  { id: "layer-3", label: "第3層" },
+  { id: "layer-4", label: "第4層" },
+  { id: "layer-5", label: "第5層" },
+  { id: "other", label: "その他" }
+];
+
+function getRoomAreaIds(event) {
+  const location = getLocationKey(event);
+  const ids = ROOM_AREA_DEFINITIONS
+    .filter((area) => area.id.startsWith("room-") && location.includes(`${area.label}号室`))
+    .map((area) => area.id);
+
+  if (/司法|捜査室|検察|裁判所/.test(location)) {
+    ids.push("judicial");
+  }
+  if (/第2層/.test(location)) {
+    ids.push("layer-2");
+  } else if (/第3層|3101号室|中央警察署/.test(location)) {
+    ids.push("layer-3");
+  } else if (/第4層|シネコン|シュウ＝ウ一家/.test(location)) {
+    ids.push("layer-4");
+  } else if (/第5層|シャ＝ア一家/.test(location)) {
+    ids.push("layer-5");
+  }
+
+  if (ids.length === 0) ids.push("other");
+  return [...new Set(ids)];
+}
+
 function createParticipantChip(token) {
   const btn = document.createElement("button");
   btn.type = "button";
@@ -892,11 +1238,12 @@ function setupFilters() {
 
 function renderActiveTimelineView() {
   const events = filteredEventsData;
-  if (activeTimelineView === "events") {
+  if (activeTimelineView === "schedule") {
+    renderTimelineSchedule(events);
+  } else if (activeTimelineView === "events") {
     renderTimeline(events);
   } else if (activeTimelineView === "rooms") {
-    renderRoomMap(events);
-    renderRoomTimeline(events);
+    renderRoomAreaTimeline(events);
   } else if (activeTimelineView === "person") {
     const token = document.getElementById("participantSelect").value;
     renderPersonTimeline(token, events);
@@ -959,73 +1306,258 @@ function renderTimeline(events) {
   loadMore.textContent = remaining > 0 ? `さらに表示（残り${remaining}件）` : "さらに表示";
 }
 
-function renderRoomMap(events) {
-  const container = document.getElementById("roomMap");
-  container.innerHTML = "";
-  const counts = events.reduce((acc, e) => {
-    const loc = getLocationKey(e);
-    acc[loc] = (acc[loc] || 0) + 1;
-    return acc;
-  }, {});
+function renderRoomAreaTimeline(events) {
+  const groupTabs = document.getElementById("placeGroupTabs");
+  const tabs = document.getElementById("roomAreaTabs");
+  const summary = document.getElementById("roomAreaSummary");
+  const container = document.getElementById("roomTimeline");
+  const peopleContainer = document.getElementById("roomPeople");
+  const visitorsContainer = document.getElementById("roomVisitors");
+  const counts = new Map(ROOM_AREA_DEFINITIONS.map((area) => [area.id, 0]));
 
-  Object.keys(counts).sort().forEach((loc) => {
-    const card = document.createElement("article");
-    card.className = "room-map-card";
-    card.tabIndex = 0;
-    card.setAttribute("role", "button");
-    const selectRoom = () => {
-      document.getElementById("roomFilter").value = loc;
-      applyFilter();
-      window.location.hash = "#timeline";
-    };
-    card.addEventListener("click", selectRoom);
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        selectRoom();
+  events.forEach((event) => {
+    getRoomAreaIds(event).forEach((areaId) => counts.set(areaId, counts.get(areaId) + 1));
+  });
+
+  const placeGroups = [
+    { id: "layer-1", label: "第1層・王子居住区" },
+    { id: "layer-2", label: "第2層" },
+    { id: "layer-3", label: "第3層" },
+    { id: "layer-4", label: "第4層" },
+    { id: "layer-5", label: "第5層" },
+    { id: "judicial", label: "司法省" },
+    { id: "other", label: "その他" }
+  ];
+  groupTabs.innerHTML = "";
+  placeGroups.forEach((group) => {
+    const button = document.createElement("button");
+    const active = group.id === activePlaceGroupId;
+    button.type = "button";
+    button.className = `place-group-tab${active ? " active" : ""}`;
+    button.setAttribute("aria-pressed", String(active));
+    button.textContent = group.label;
+    button.addEventListener("click", () => {
+      activePlaceGroupId = group.id;
+      if (group.id === "layer-1") {
+        if (!activeRoomAreaId.startsWith("room-")) activeRoomAreaId = "room-1001";
+      } else {
+        activeRoomAreaId = group.id;
       }
+      renderRoomAreaTimeline(eventsData);
     });
-    const h4 = document.createElement("h4");
-    h4.textContent = loc;
-    const p = document.createElement("p");
-    p.textContent = `${counts[loc]} 件のイベント`;
-    card.append(h4, p);
-    container.appendChild(card);
+    groupTabs.appendChild(button);
+  });
+
+  tabs.innerHTML = "";
+  const visibleAreas = activePlaceGroupId === "layer-1"
+    ? ROOM_AREA_DEFINITIONS.filter((area) => area.id.startsWith("room-"))
+    : [];
+  visibleAreas.forEach((area) => {
+    const button = document.createElement("button");
+    const active = area.id === activeRoomAreaId;
+    button.type = "button";
+    button.className = `room-area-tab${active ? " active" : ""}`;
+    button.setAttribute("aria-pressed", String(active));
+    button.textContent = `${area.label}（${counts.get(area.id)}）`;
+    button.addEventListener("click", () => {
+      activeRoomAreaId = area.id;
+      renderRoomAreaTimeline(eventsData);
+    });
+    tabs.appendChild(button);
+  });
+  tabs.hidden = visibleAreas.length === 0;
+
+  const selectedArea = ROOM_AREA_DEFINITIONS.find((area) => area.id === activeRoomAreaId);
+  const selectedEvents = events
+    .filter((event) => getRoomAreaIds(event).includes(activeRoomAreaId))
+    .slice()
+    .sort((a, b) => sortKey(a) - sortKey(b));
+
+  const participantIds = new Set(selectedEvents.flatMap((event) => event.characters || []));
+  const currentPeople = charactersData.filter((character) => {
+    const locationText = [character.room, character.location].filter(Boolean).join(" ");
+    return locationText && getRoomAreaIds({ location: locationText }).includes(activeRoomAreaId);
+  }).sort(sortCharacters);
+  const currentIds = new Set(currentPeople.map((character) => character.id));
+  const visitors = charactersData.filter((character) =>
+    !currentIds.has(character.id) && (participantIds.has(character.id) || participantIds.has(character.name))
+  ).sort(sortCharacters);
+
+  const renderPeopleChips = (target, people, emptyText) => {
+    target.innerHTML = "";
+    if (people.length === 0) {
+      target.textContent = emptyText;
+      return;
+    }
+    people.forEach((character) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "room-person-chip";
+      chip.textContent = formatRoyalName(character.id);
+      chip.title = character.role || character.camp || "人物詳細を表示";
+      chip.addEventListener("click", () => {
+        activatePrimaryView("characters");
+        const search = document.getElementById("characterSearch");
+        search.value = getDisplayName(character);
+        search.dispatchEvent(new Event("input"));
+      });
+      target.appendChild(chip);
+    });
+  };
+  renderPeopleChips(peopleContainer, currentPeople, "現在地が登録されている人物はいません。");
+  renderPeopleChips(visitorsContainer, visitors, "過去の登場人物は登録されていません。");
+
+  summary.textContent = `${selectedArea.label}：現在${currentPeople.length}名・訪問${visitors.length}名・${selectedEvents.length}件の出来事`;
+  container.innerHTML = "";
+  if (selectedEvents.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "timeline-empty-state";
+    empty.textContent = "現在の絞り込み条件に一致する出来事はありません。";
+    container.appendChild(empty);
+    return;
+  }
+
+  selectedEvents.forEach((event) => {
+    const item = document.createElement("article");
+    item.className = `room-area-event${event.type ? ` type-${event.type}` : ""}`;
+
+    const marker = document.createElement("div");
+    marker.className = "room-area-marker";
+    marker.setAttribute("aria-hidden", "true");
+
+    const content = document.createElement("div");
+    content.className = "room-area-event-content";
+    const meta = document.createElement("div");
+    meta.className = "room-area-event-meta";
+    const chapter = document.createElement("strong");
+    chapter.textContent = event.day != null
+      ? `${getChapterLabel(event)}・${event.day}日目`
+      : getChapterLabel(event);
+    const type = document.createElement("span");
+    type.className = "event-type";
+    type.textContent = event.type || "出来事";
+    meta.append(chapter, type);
+
+    const description = document.createElement("h4");
+    description.textContent = event.description;
+    const detail = document.createElement("p");
+    const participants = (event.characters || []).map(formatRoyalName).join(" / ") || "不明";
+    detail.textContent = `${getLocationKey(event)}｜${participants}`;
+    content.append(meta, description, detail);
+    item.append(marker, content);
+    container.appendChild(item);
   });
 }
 
-function renderRoomTimeline(events) {
-  const container = document.getElementById("roomTimeline");
+const TIMELINE_PERIODS = [
+  { id: "preboard", label: "乗船前" },
+  { id: "ritual", label: "乗船2か月前（壺中卵の儀）" },
+  { id: "day-0", label: "0日目" },
+  ...Array.from({ length: 12 }, (_, index) => ({ id: `day-${index + 1}`, label: `${index + 1}日目` }))
+];
+
+function inferEventDay(event) {
+  if (event.day != null) return Number(event.day);
+  const chapter = Number(event.chapter);
+  if (chapter === 371) return 2;
+  if (chapter >= 378 && chapter <= 380) return 4;
+  if (chapter === 381) return 5;
+  if (chapter === 382) return 6;
+  if (chapter >= 383 && chapter <= 387) return 8;
+  if (chapter >= 388 && chapter <= 391) return 9;
+  if (chapter >= 392 && chapter <= 400) return 10;
+  if (chapter >= 401 && chapter <= 404) return 11;
+  if (chapter >= 405) return 12;
+  return null;
+}
+
+function getEventPeriodId(event) {
+  if (Number(event.chapter) === 349) return "ritual";
+  const day = inferEventDay(event);
+  if (day != null) return `day-${Math.max(0, Math.min(12, day))}`;
+  if (Number(event.chapter) === 358) return "day-0";
+  return "preboard";
+}
+
+function renderTimelineSchedule(events) {
+  const tabs = document.getElementById("timelinePeriodTabs");
+  const container = document.getElementById("timelineSchedule");
+  tabs.innerHTML = "";
   container.innerHTML = "";
-  const grouped = events.reduce((acc, e) => {
-    const loc = getLocationKey(e);
-    if (!acc[loc]) acc[loc] = [];
-    acc[loc].push(e);
-    return acc;
-  }, {});
-
-  Object.keys(grouped).sort().forEach((loc) => {
-    const card = document.createElement("article");
-    card.className = "room-card";
-    const h4 = document.createElement("h4");
-    h4.textContent = loc;
-    card.appendChild(h4);
-
-    grouped[loc].sort((a, b) => sortKey(a) - sortKey(b)).forEach((e) => {
-      const row = document.createElement("div");
-      row.className = "room-event";
-      const strong = document.createElement("strong");
-      const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
-      strong.textContent = `${label} — ${e.description}`;
-      const detail = document.createElement("span");
-      const formattedParticipants = (e.characters || []).map(formatRoyalName).join(" / ");
-      detail.textContent = `${e.type || "出来事"} / ${formattedParticipants}`;
-      row.append(strong, detail);
-      card.appendChild(row);
+  TIMELINE_PERIODS.forEach((period) => {
+    const count = events.filter((event) => getEventPeriodId(event) === period.id).length;
+    const button = document.createElement("button");
+    const active = period.id === activeTimelinePeriodId;
+    button.type = "button";
+    button.className = `timeline-period-tab${active ? " active" : ""}`;
+    button.setAttribute("aria-pressed", String(active));
+    button.textContent = `${period.label} ${count}`;
+    button.addEventListener("click", () => {
+      activeTimelinePeriodId = period.id;
+      renderTimelineSchedule(events);
     });
-
-    container.appendChild(card);
+    tabs.appendChild(button);
   });
+
+  const selectedPeriod = TIMELINE_PERIODS.find((period) => period.id === activeTimelinePeriodId);
+  const selectedEvents = events
+    .filter((event) => getEventPeriodId(event) === activeTimelinePeriodId)
+    .slice().sort((a, b) => sortKey(a) - sortKey(b));
+
+  const heading = document.createElement("div");
+  heading.className = "schedule-selected-heading";
+  const title = document.createElement("h4");
+  title.textContent = selectedPeriod.label;
+  const count = document.createElement("span");
+  count.textContent = `${selectedEvents.length}件`;
+  heading.append(title, count);
+  container.appendChild(heading);
+
+  if (selectedEvents.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "timeline-empty-state";
+    empty.textContent = "登録されている出来事はありません。";
+    container.appendChild(empty);
+  } else {
+    const columns = document.createElement("div");
+    columns.className = "schedule-place-columns";
+    ROOM_AREA_DEFINITIONS.forEach((area) => {
+      const areaEvents = selectedEvents.filter((event) => getRoomAreaIds(event).includes(area.id));
+      if (areaEvents.length === 0) return;
+      const section = document.createElement("section");
+      section.className = "schedule-place-column";
+      const areaHeading = document.createElement("h4");
+      areaHeading.textContent = `${area.label}（${areaEvents.length}）`;
+      section.appendChild(areaHeading);
+      const stream = document.createElement("div");
+      stream.className = "schedule-time-stream";
+      areaEvents.forEach((event) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "schedule-event";
+        const time = document.createElement("strong");
+        time.textContent = getTimeLabel(event) || getChapterLabel(event);
+        const description = document.createElement("span");
+        description.textContent = event.description;
+        const participants = document.createElement("small");
+        participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
+        item.append(time, description, participants);
+        item.addEventListener("click", () => {
+          modalReturnFocus = item;
+          showDetailModal(event.id, "event", event);
+        });
+        stream.appendChild(item);
+      });
+      section.appendChild(stream);
+      columns.appendChild(section);
+    });
+    container.appendChild(columns);
+  }
+
+  const note = document.createElement("p");
+  note.className = "schedule-note";
+  note.textContent = "※ 日付未入力の出来事は、同じ話数帯の確定日を基準に配置しています。";
+  container.appendChild(note);
 }
 
 function renderPersonTimeline(token, sourceEvents = eventsData) {
@@ -1450,6 +1982,33 @@ function setupBackToTop() {
   updateVisibility();
 }
 
+function activatePrimaryView(view, updateHash = false) {
+  const validView = ["characters", "places", "timeline"].includes(view) ? view : "characters";
+  document.querySelectorAll("[data-primary-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.primaryPanel !== validView;
+  });
+  document.querySelectorAll("[data-primary-view]").forEach((link) => {
+    const active = link.dataset.primaryView === validView;
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+  if (validView === "places") renderRoomAreaTimeline(eventsData);
+  if (updateHash) history.replaceState(null, "", `#${validView}`);
+  window.scrollTo({ top: 0 });
+}
+
+function setupPrimaryNavigation() {
+  document.querySelectorAll("[data-primary-view]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      activatePrimaryView(link.dataset.primaryView, true);
+    });
+  });
+  window.addEventListener("hashchange", () => activatePrimaryView(location.hash.slice(1)));
+  activatePrimaryView(location.hash.slice(1) || "characters");
+}
+
 // ===== 初期化 =====
 
 // データ描画前に走るブラウザのフラグメントスクロールは、描画後にレイアウトが
@@ -1485,31 +2044,18 @@ async function init() {
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
 
-    pillify("princeNenFilter");
-    pillify("princeStatusFilter");
-    pillify("beastNenFilter");
-    pillify("hunterFilter");
-
-    renderPrinces(princesData);
-    setupPrinceSearch();
-
-    renderSpiritBeasts(spiritBeastsData);
-    setupBeastNenFilter();
-
-    renderBodyguards(bodyguardsData);
-    setupBodyguardCategoryFilter();
-    setupBodyguardSearch();
-
-    renderFactions(factionsData);
-    renderMafia(mafiaData);
-    renderMafiaRelationMatrix(mafiaData);
-
+    renderCharacterDirectory(charactersData);
+    setupCharacterDirectory();
     setupDetailModal();
     setupTimelineTabs();
     setupFilters();
+    renderRoomAreaTimeline(eventsData);
     setupBackToTop();
+    setupPrimaryNavigation();
 
-    scrollToCurrentHash();
+    if (!["characters", "places", "timeline"].includes(location.hash.slice(1))) {
+      scrollToCurrentHash();
+    }
   } catch (err) {
     console.error("データの読み込みに失敗しました", err);
   }

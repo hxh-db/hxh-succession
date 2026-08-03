@@ -251,45 +251,65 @@
         <button id="clearFilters" type="button">リセット</button>
       </div>
 
-      <div class="timeline-list" id="timelineList"></div>
+      <div class="timeline-view-tabs" role="tablist" aria-label="タイムラインの表示形式">
+        <button id="timeline-tab-events" class="timeline-view-tab active" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-events" data-view="events">イベント一覧</button>
+        <button id="timeline-tab-rooms" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-rooms" data-view="rooms">場所別</button>
+        <button id="timeline-tab-person" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-person" data-view="person">人物別</button>
+        <button id="timeline-tab-matrix" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-matrix" data-view="matrix">マトリクス</button>
+        <button id="timeline-tab-gantt" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-gantt" data-view="gantt">ガント</button>
+      </div>
 
-      <div class="section-subtitle" id="room-map">
-        <h3>場所マップ</h3>
-        <p>場所ごとのイベント数。クリックで絞り込み。</p>
+      <div id="timeline-panel-events" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-events">
+        <p id="timelineResultSummary" class="timeline-result-summary" aria-live="polite"></p>
+        <div class="timeline-list" id="timelineList"></div>
+        <button id="timelineLoadMore" class="timeline-load-more hidden" type="button">さらに表示</button>
       </div>
-      <div class="room-map" id="roomMap"></div>
 
-      <div class="section-subtitle">
-        <h3>場所別タイムライン</h3>
-        <p>各場所でのイベントをまとめて確認</p>
-      </div>
-      <div class="room-timeline" id="roomTimeline"></div>
+      <div id="timeline-panel-rooms" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-rooms" hidden>
+        <div class="section-subtitle" id="room-map">
+          <h3>場所マップ</h3>
+          <p>場所ごとのイベント数。クリックで絞り込み。</p>
+        </div>
+        <div class="room-map" id="roomMap"></div>
 
-      <div class="section-subtitle" id="person-history">
-        <h3>人物別タイムライン</h3>
-        <p>人物ごとの出現イベントを一覧</p>
+        <div class="section-subtitle">
+          <h3>場所別タイムライン</h3>
+          <p>各場所でのイベントをまとめて確認</p>
+        </div>
+        <div class="room-timeline" id="roomTimeline"></div>
       </div>
-      <div class="list-controls">
-        <label>
-          表示対象：
-          <select id="participantSelect">
-            <option value="all">全員</option>
-          </select>
-        </label>
-      </div>
-      <div class="person-timeline" id="personTimeline"></div>
 
-      <div class="section-subtitle" id="timeline-matrix">
-        <h3>タイムラインマトリクス</h3>
-        <p>場所×章の二次元で出来事を俯瞰</p>
+      <div id="timeline-panel-person" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-person" hidden>
+        <div class="section-subtitle" id="person-history">
+          <h3>人物別タイムライン</h3>
+          <p>人物を選ぶと、その人物が登場するイベントだけを表示します。</p>
+        </div>
+        <div class="list-controls">
+          <label>
+            表示対象：
+            <select id="participantSelect">
+              <option value="">人物を選択</option>
+            </select>
+          </label>
+        </div>
+        <div class="person-timeline" id="personTimeline" aria-live="polite"></div>
       </div>
-      <div class="timeline-matrix" id="timelineMatrix"></div>
 
-      <div class="section-subtitle">
-        <h3>ガントチャート</h3>
-        <p>各イベントの継続時間と場所を視覚化</p>
+      <div id="timeline-panel-matrix" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-matrix" hidden>
+        <div class="section-subtitle" id="timeline-matrix">
+          <h3>タイムラインマトリクス</h3>
+          <p>場所×章の二次元で出来事を俯瞰。横にスクロールして確認できます。</p>
+        </div>
+        <div class="timeline-matrix" id="timelineMatrix"></div>
       </div>
-      <div class="timeline-gantt" id="ganttChart"></div>
+
+      <div id="timeline-panel-gantt" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-gantt" hidden>
+        <div class="section-subtitle">
+          <h3>ガントチャート</h3>
+          <p>各イベントの継続時間と場所を視覚化</p>
+        </div>
+        <div class="timeline-gantt" id="ganttChart"></div>
+      </div>
     </section>
   </main>
 
@@ -297,9 +317,11 @@
     <p>データはHUNTER×HUNTERの内容に基づいています。ネタバレを含みます。</p>
   </footer>
 
-  <div class="modal-overlay hidden" id="detailModal">
+  <button id="backToTop" class="back-to-top hidden" type="button" aria-label="ページ上部へ戻る">↑</button>
+
+  <div class="modal-overlay hidden" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-card">
-      <button class="modal-close" id="modalClose">× 閉じる</button>
+      <button class="modal-close" id="modalClose" type="button">× 閉じる</button>
       <h3 id="modalTitle">詳細</h3>
       <div id="modalContent"></div>
     </div>

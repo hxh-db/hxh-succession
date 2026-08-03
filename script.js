@@ -13,6 +13,10 @@ let eventsData = [];
 let spiritBeastsData = [];
 let factionsData = [];
 let mafiaData = [];
+let filteredEventsData = [];
+let activeTimelineView = "events";
+let timelineVisibleCount = 30;
+let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
 
@@ -177,7 +181,18 @@ function createCard(title, items, badges = [], onClick = null, avatar = null) {
   card.className = "card";
   if (typeof onClick === "function") {
     card.classList.add("clickable");
-    card.addEventListener("click", onClick);
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.addEventListener("click", () => {
+      card.focus();
+      onClick();
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        onClick();
+      }
+    });
   }
 
   if (avatar) {
@@ -820,17 +835,9 @@ function applyFilter() {
   });
 
   if (sortOrder === "desc") filtered.reverse();
-
-  renderTimeline(filtered);
-  renderRoomTimeline(filtered);
-  renderRoomMap(filtered);
-  renderTimelineMatrix(filtered);
-  renderGanttChart(filtered);
-
-  const personSelect = document.getElementById("participantSelect");
-  if (personSelect && personSelect.value !== "all") {
-    renderPersonTimeline(personSelect.value);
-  }
+  filteredEventsData = filtered;
+  timelineVisibleCount = 30;
+  renderActiveTimelineView();
 }
 
 function resetFilters() {
@@ -869,24 +876,87 @@ function setupFilters() {
       participantSelect.appendChild(opt);
     });
 
-  participantSelect.addEventListener("change", () =>
-    renderPersonTimeline(participantSelect.value)
-  );
+  participantSelect.addEventListener("change", renderActiveTimelineView);
   document.getElementById("roomFilter").addEventListener("change", applyFilter);
   document.getElementById("typeFilter").addEventListener("change", applyFilter);
   document.getElementById("timelineSortOrder").addEventListener("change", applyFilter);
   document.getElementById("participantFilter").addEventListener("input", applyFilter);
   document.getElementById("clearFilters").addEventListener("click", resetFilters);
+  document.getElementById("timelineLoadMore").addEventListener("click", () => {
+    timelineVisibleCount += 30;
+    renderTimeline(filteredEventsData);
+  });
 
-  renderRoomMap(eventsData);
-  renderPersonTimeline("all");
   applyFilter();
+}
+
+function renderActiveTimelineView() {
+  const events = filteredEventsData;
+  if (activeTimelineView === "events") {
+    renderTimeline(events);
+  } else if (activeTimelineView === "rooms") {
+    renderRoomMap(events);
+    renderRoomTimeline(events);
+  } else if (activeTimelineView === "person") {
+    const token = document.getElementById("participantSelect").value;
+    renderPersonTimeline(token, events);
+  } else if (activeTimelineView === "matrix") {
+    renderTimelineMatrix(events);
+  } else if (activeTimelineView === "gantt") {
+    renderGanttChart(events);
+  }
+}
+
+function activateTimelineView(view, moveFocus = false) {
+  const tabs = Array.from(document.querySelectorAll(".timeline-view-tab"));
+  const selectedTab = tabs.find((tab) => tab.dataset.view === view);
+  if (!selectedTab) return;
+
+  activeTimelineView = view;
+  tabs.forEach((tab) => {
+    const active = tab === selectedTab;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+    const panel = document.getElementById(tab.getAttribute("aria-controls"));
+    if (panel) panel.hidden = !active;
+  });
+
+  renderActiveTimelineView();
+  if (moveFocus) selectedTab.focus();
+}
+
+function setupTimelineTabs() {
+  const tabs = Array.from(document.querySelectorAll(".timeline-view-tab"));
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateTimelineView(tab.dataset.view));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = null;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = tabs.length - 1;
+      if (nextIndex == null) return;
+      event.preventDefault();
+      activateTimelineView(tabs[nextIndex].dataset.view, true);
+    });
+  });
+  activateTimelineView(activeTimelineView);
 }
 
 function renderTimeline(events) {
   const container = document.getElementById("timelineList");
+  const summary = document.getElementById("timelineResultSummary");
+  const loadMore = document.getElementById("timelineLoadMore");
   container.innerHTML = "";
-  events.forEach((e) => container.appendChild(createTimelineCard(e)));
+  const visibleEvents = events.slice(0, timelineVisibleCount);
+  visibleEvents.forEach((e) => container.appendChild(createTimelineCard(e)));
+  summary.textContent = events.length === 0
+    ? "条件に一致するイベントはありません。"
+    : `${events.length}件中 ${visibleEvents.length}件を表示`;
+  const remaining = events.length - visibleEvents.length;
+  loadMore.classList.toggle("hidden", remaining <= 0);
+  loadMore.textContent = remaining > 0 ? `さらに表示（残り${remaining}件）` : "さらに表示";
 }
 
 function renderRoomMap(events) {
@@ -901,10 +971,19 @@ function renderRoomMap(events) {
   Object.keys(counts).sort().forEach((loc) => {
     const card = document.createElement("article");
     card.className = "room-map-card";
-    card.addEventListener("click", () => {
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    const selectRoom = () => {
       document.getElementById("roomFilter").value = loc;
       applyFilter();
       window.location.hash = "#timeline";
+    };
+    card.addEventListener("click", selectRoom);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectRoom();
+      }
     });
     const h4 = document.createElement("h4");
     h4.textContent = loc;
@@ -949,18 +1028,21 @@ function renderRoomTimeline(events) {
   });
 }
 
-function renderPersonTimeline(token) {
+function renderPersonTimeline(token, sourceEvents = eventsData) {
   const container = document.getElementById("personTimeline");
   container.innerHTML = "";
-  const filtered = token === "all"
-    ? eventsData
-    : eventsData.filter((e) => (e.characters || []).some((c) => c === token));
+  if (!token) {
+    const p = document.createElement("p");
+    p.className = "timeline-empty-state";
+    p.textContent = "表示する人物を選択してください。";
+    container.appendChild(p);
+    return;
+  }
+  const filtered = sourceEvents.filter((e) => (e.characters || []).some((c) => c === token));
 
   if (filtered.length === 0) {
     const p = document.createElement("p");
-    p.textContent = token === "all"
-      ? "表示するイベントがありません。"
-      : `${formatRoyalName(token)} に関わるイベントが見つかりませんでした。`;
+    p.textContent = `${formatRoyalName(token)} に関わるイベントが見つかりませんでした。`;
     container.appendChild(p);
     return;
   }
@@ -998,10 +1080,16 @@ function renderTimelineMatrix(events) {
 
   const chapters = [...new Set(events.map((e) => e.chapter))].sort((a, b) => a - b);
   const locations = [...new Set(events.map(getLocationKey))].filter(Boolean).sort();
+  const eventsByCell = new Map();
+  events.forEach((event) => {
+    const key = `${getLocationKey(event)}\u0000${event.chapter}`;
+    if (!eventsByCell.has(key)) eventsByCell.set(key, []);
+    eventsByCell.get(key).push(event);
+  });
 
   const grid = document.createElement("div");
   grid.className = "matrix-grid";
-  grid.style.gridTemplateColumns = `180px repeat(${chapters.length}, minmax(140px, 1fr))`;
+  grid.style.gridTemplateColumns = `180px repeat(${chapters.length}, 160px)`;
 
   const blank = document.createElement("div");
   blank.className = "matrix-header-cell";
@@ -1024,9 +1112,7 @@ function renderTimelineMatrix(events) {
     chapters.forEach((ch) => {
       const cell = document.createElement("div");
       cell.className = "matrix-cell";
-      const matched = events.filter(
-        (e) => getLocationKey(e) === loc && e.chapter === ch
-      );
+      const matched = eventsByCell.get(`${loc}\u0000${ch}`) || [];
       if (matched.length > 0) {
         const typeClass = matched[0].type ? `type-${matched[0].type}` : "";
         cell.classList.add("matrix-event-cell", typeClass);
@@ -1087,7 +1173,15 @@ function renderGanttChart(events) {
       bar.style.width = Math.max(widthPct, 4) + "%";
       bar.textContent = e.description;
       bar.title = `${getChapterLabel(e)} - ${e.description}`;
+      bar.tabIndex = 0;
+      bar.setAttribute("role", "button");
       bar.addEventListener("click", () => showDetailModal(e.id, "event", e));
+      bar.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          showDetailModal(e.id, "event", e);
+        }
+      });
 
       timeline.appendChild(bar);
     });
@@ -1104,6 +1198,28 @@ function setupDetailModal() {
   document.getElementById("modalClose").addEventListener("click", closeDetailModal);
   modal.addEventListener("click", (ev) => {
     if (ev.target === modal) closeDetailModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (modal.classList.contains("hidden")) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeDetailModal();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = Array.from(modal.querySelectorAll(
+      "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])"
+    )).filter((element) => !element.hidden);
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 }
 
@@ -1135,6 +1251,7 @@ function isOutsidePlacement(guard) {
 
 function showDetailModal(name, category, eventData = null) {
   const modal = document.getElementById("detailModal");
+  const wasHidden = modal.classList.contains("hidden");
   const titleEl = document.getElementById("modalTitle");
   const content = document.getElementById("modalContent");
   content.innerHTML = "";
@@ -1253,7 +1370,15 @@ function showDetailModal(name, category, eventData = null) {
         const outside = isOutsidePlacement(g);
         const item = document.createElement("div");
         item.className = "event-item clickable";
+        item.tabIndex = 0;
+        item.setAttribute("role", "button");
         item.addEventListener("click", () => showDetailModal(g.id, "bodyguard"));
+        item.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showDetailModal(g.id, "bodyguard");
+          }
+        });
         const strong = document.createElement("strong");
         strong.textContent = g.name;
         if (outside) strong.appendChild(makeOutsidePlacementBadge(g));
@@ -1301,11 +1426,28 @@ function showDetailModal(name, category, eventData = null) {
     content.appendChild(details);
   }
 
+  if (wasHidden) modalReturnFocus = document.activeElement;
   modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  document.getElementById("modalClose").focus();
 }
 
 function closeDetailModal() {
-  document.getElementById("detailModal").classList.add("hidden");
+  const modal = document.getElementById("detailModal");
+  modal.classList.add("hidden");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  if (modalReturnFocus && document.contains(modalReturnFocus)) modalReturnFocus.focus();
+  modalReturnFocus = null;
+}
+
+function setupBackToTop() {
+  const button = document.getElementById("backToTop");
+  const updateVisibility = () => button.classList.toggle("hidden", window.scrollY < 900);
+  button.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  updateVisibility();
 }
 
 // ===== 初期化 =====
@@ -1363,7 +1505,9 @@ async function init() {
     renderMafiaRelationMatrix(mafiaData);
 
     setupDetailModal();
+    setupTimelineTabs();
     setupFilters();
+    setupBackToTop();
 
     scrollToCurrentHash();
   } catch (err) {

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "BACKLOG-001",
+    "priority": "high",
+    "topic": "第411話から第415話の原作再照合",
+    "reason": "ユーザーの確認メモから仮登録済み。原作ページで表記・人物識別・相対時刻を再照合する",
+    "required_source": "原作または公式配信",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-002",
+    "priority": "high",
+    "topic": "日付未設定イベント51件の確認",
+    "reason": "画面では話数帯から推定しているが、確定日との区別が必要",
+    "required_source": "各該当話の時刻・日付表示",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-003",
+    "priority": "medium",
+    "topic": "人物の現在地と初期配置の分離",
+    "reason": "roomが最新位置と初期配置の両方に使われている",
+    "required_source": "人物ごとの最終登場話",
+    "status": "in_progress"
+  },
+  {
+    "id": "BACKLOG-004",
+    "priority": "medium",
+    "topic": "仮称人物の原作表記確認",
+    "reason": "複数名をまとめたレコードや仮称レコードが残っている",
+    "required_source": "人物初登場話と最新登場話",
+    "status": "needs_original_review"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "official-viz-chapters",
+    "title": "VIZ - Hunter x Hunter Chapters",
+    "url": "https://www.viz.com/shonenjump/chapters/hunter-x-hunter",
+    "source_type": "official",
+    "supports": "公式公開話数の確認",
+    "checked_at": "2026-08-03",
+    "notes": "確認時点で第414話まで公開"
+  },
+  {
+    "id": "welge-secondary-check",
+    "title": "王位継承戦の警護人一覧",
+    "url": "https://hunter-hunter-battle-royale.firebaseapp.com/",
+    "source_type": "secondary",
+    "supports": "ウェルゲーが第7王妃所属兵で第13王子警護兵隊長であること",
+    "checked_at": "2026-08-03",
+    "notes": "第374話の原作確認を優先する"
+  },
+  {
+    "id": "user-original-ch406-410",
+    "title": "ユーザー提供の原作画像 第406〜410話",
+    "url": null,
+    "source_type": "original_user_provided",
+    "supports": "第406〜410話の人物・出来事・日時・場所・状態変化",
+    "checked_at": "2026-08-03",
+    "notes": "全50枚を確認。画像自体はサイトおよびリポジトリへ保存・転載しない。提供された画像データを最優先の根拠として扱う"
+  },
+  {
+    "id": "user-notes-ch411-415",
+    "title": "ユーザー原作確認メモ 第411〜415話",
+    "url": null,
+    "source_type": "user_transcription",
+    "supports": "第411〜415話の人物・出来事・日時・場所",
+    "checked_at": "2026-08-03",
+    "notes": "本誌には誤字、確認メモには転記ミスの可能性がある。提供画像、410話以前の単行本情報と矛盾する場合はそちらを優先。ページ画像による再照合待ち"
+  }
+]

@@ -45,6 +45,36 @@ def validate_json_file(data_path, schema_path):
     return len(errors) == 0, errors
 
 
+def validate_cross_references(base):
+    errors = []
+    with open(base / "characters.json", encoding="utf-8") as f:
+        characters = json.load(f)
+    with open(base / "events.json", encoding="utf-8") as f:
+        events = json.load(f)
+
+    ids = [character["id"] for character in characters]
+    names = [character["name"] for character in characters]
+    id_set = set(ids)
+    name_set = set(names)
+
+    for label, values in (("人物ID", ids), ("人物名", names)):
+        duplicates = sorted({value for value in values if values.count(value) > 1})
+        for value in duplicates:
+            errors.append(f"{label}が重複しています: {value}")
+
+    for character in characters:
+        for relation_id in (character.get("children") or []) + (character.get("parent_ids") or []):
+            if relation_id not in id_set:
+                errors.append(f"人物関係の参照先がありません: {character['id']} -> {relation_id}")
+
+    for event in events:
+        for token in event.get("characters") or []:
+            if token not in id_set and token not in name_set:
+                errors.append(f"イベント人物の参照先がありません: {event['id']} -> {token}")
+
+    return errors
+
+
 def main():
     base = Path(__file__).parent / "data"
 
@@ -73,6 +103,16 @@ def main():
             for e in errors:
                 print(f"    - {e}")
             all_ok = False
+
+    print("\n検証中: ファイル間の参照")
+    cross_errors = validate_cross_references(base)
+    if cross_errors:
+        print("  エラー:")
+        for error in cross_errors:
+            print(f"    - {error}")
+        all_ok = False
+    else:
+        print("  OK")
 
     print("\n" + "=" * 60)
     if all_ok:

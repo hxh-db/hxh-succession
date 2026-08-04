@@ -432,7 +432,10 @@
     "type": "殺害",
     "description": "ワブル警備兵4名も殺害される",
     "characters": [
-      "P14-P03"
+      "P14-U01",
+      "P14-U02",
+      "P14-U03",
+      "P14-U04"
     ],
     "room": 1014,
     "location": "1014号室 廊下",
@@ -445,7 +448,19 @@
     "mysteries": [],
     "status_effects": [
       {
-        "character": "P14-P03",
+        "character": "P14-U01",
+        "status": "死亡"
+      },
+      {
+        "character": "P14-U02",
+        "status": "死亡"
+      },
+      {
+        "character": "P14-U03",
+        "status": "死亡"
+      },
+      {
+        "character": "P14-U04",
         "status": "死亡"
       }
     ],
@@ -751,8 +766,10 @@
       "P12",
       "P12-Q05",
       "P12-G02",
-      "P13-M01",
-      "P13-G02"
+      "P12-G03",
+      "P12-G04",
+      "P12-G05",
+      "P12-G06"
     ],
     "room": 1012,
     "location": "1012号室",
@@ -805,7 +822,7 @@
     "time_start": "06:00",
     "time_end": null,
     "type": "出来事",
-    "description": "クラピカが起床する（9時間睡眠）",
+        "description": "クラピカがエンペラータイム超過による9時間の失神から目覚める",
     "characters": [
       "P14-H01"
     ],
@@ -861,7 +878,7 @@
       "ヒュリコフの任務は何か",
       "サイレントマジョリティーの能力者は誰か"
     ],
-    "notes": ""
+        "notes": "作中に『2日目 AM9:00』の明記あり。参加者16名とは講習を受ける側の人数で、講師のクラピカは別"
   },
   {
     "id": "E370-001",
@@ -897,7 +914,7 @@
     "mysteries": [
       "トドメを刺したのはハシトウかサカタか"
     ],
-    "notes": "5,6,5という数字の意味は不明"
+        "notes": "2日目9:00開始の第1回念講習会中。5・6・5という数字の意味は不明"
   },
   {
     "id": "E371-001",
@@ -1337,12 +1354,12 @@
     "description": "ウェルゲーがクラピカと通話。モモゼ殺害犯人の情報を共有する",
     "characters": [
       "P14-H01",
-      "JUD-003"
+      "P13-G03"
     ],
     "room": null,
-    "location": "1012号室・1014号室",
+    "location": "1013号室・1014号室",
     "camp": [
-      "モモゼ陣営",
+      "マラヤーム陣営",
       "ワブル陣営"
     ],
     "series": null,
@@ -2014,7 +2031,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "時間範囲：6日目〜8日目"
+        "notes": "6日目に王への直訴を開始。警護兵が銃を下ろすまで4日かかったという台詞があるため、382話内の場面は6日目〜8日目にまたがる"
   },
   {
     "id": "E382-002",
@@ -2044,7 +2061,7 @@
     "series_index": 2,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "シカクは就寝中だった"
+        "notes": "シカクは就寝中だった。王への直訴後、8日目20:00の晩餐会より前。作中にこの場面の日付表示はないため日付は未確定"
   },
   {
     "id": "E382-003",
@@ -2054,7 +2071,7 @@
     "time_start": "20:00",
     "time_end": null,
     "type": "死亡",
-    "description": "サレサレが死亡する。ウショウヒが能力を使用",
+        "description": "8日目20:00の晩餐会開始後、サレサレが死亡する。ウショウヒが能力を使用",
     "characters": [
       "P08",
       "P11-G01"
@@ -2500,20 +2517,17 @@
     "time_start": "11:30",
     "time_end": null,
     "type": "鳴動",
-    "description": "ベンジャミンとバルサミルコが4度目の鳴動に気づく。ビクトから緊急連絡が入り、ハルケンブルグと交戦して攻撃を受ける（操作される）",
+        "description": "ベンジャミンとバルサミルコが4度目の鳴動に気づく。ビクトから緊急連絡が入り、ハルケンブルグと交戦したビクトが矢の攻撃を受ける",
     "characters": [
       "P01",
       "P09",
-      "P01-P05"
+                           "P01-P05",
+                           "P01-P10"
     ],
     "status_effects": [
       {
-        "character": "P01-P05",
-        "status": "存命（ハルケンブルグと人格が入れ替わる）"
-      },
-      {
-        "character": "P09",
-        "status": "拘束（人格がバルサミルコと入れ替わる）"
+                                   "character": "P01-P10",
+                                   "status": "操作中（ハルケンブルグの矢を受け、人格交換が発生）"
       }
     ],
     "room": null,
@@ -2529,7 +2543,7 @@
       "ビクトの能力『表裏一体（タックルシールド）』は攻防一体の技"
     ],
     "mysteries": [],
-    "notes": ""
+        "notes": "この時点でバルサミルコ本人は攻撃を受けていない。バルサミルコとの人格交換は404話へ続く別件"
   },
   {
     "id": "E389-003",
@@ -3523,7 +3537,7 @@
       "P11"
     ],
     "room": null,
-    "location": "司法局",
+        "location": "第2層司法省",
     "camp": [
       "カチョウ＝フウゲツ陣営"
     ],
@@ -3533,12 +3547,12 @@
     "mysteries": [],
     "notes": ""
   },
-  {
-    "id": "E402-006",
+    {
+        "id": "E402-006",
     "chapter": 402,
     "chapter_title": "手紙",
     "day": 11,
-    "time_start": "06:00",
+        "time_start": "08:00",
     "time_end": null,
     "type": "会議",
     "description": "カイザルが打ち合わせに加わり、ルズールス暗殺を企てる",
@@ -3546,13 +3560,13 @@
       "JUD-001"
     ],
     "room": null,
-    "location": "司法局",
+        "location": "第2層司法省",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+        "notes": "11日目（水曜日）AM8:00の明記あり"
   },
   {
     "id": "E402-007",
@@ -3980,8 +3994,8 @@
     ],
     "notes": ""
   },
-  {
-    "id": "E404-004",
+    {
+        "id": "E404-004",
     "chapter": 404,
     "chapter_title": "思惑",
     "day": 11,
@@ -4002,7 +4016,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+        "notes": "第2回念講習会は翌12日目（木曜日）午前9:00から1014号室で開催予定。新たな私設兵1名が加わる予定"
   },
   {
     "id": "E404-005",
@@ -4012,7 +4026,7 @@
     "time_start": null,
     "time_end": null,
     "type": "死亡",
-    "description": "ハルケンブルグ本来の肉体（中身はバルサミルコの人格）が毒殺され死亡。これによりバルサミルコの肉体内に残っていたハルケンブルグの人格は後退し、バルサミルコ本来の人格が表に戻る",
+        "description": "ハルケンブルグ本来の肉体（中身はバルサミルコの人格）が死亡。生き残ったバルサミルコの肉体では、まずバルサミルコ本来の人格が表に戻り、その後ハルケンブルグの人格が同居する",
     "characters": [
       "P09",
       "P01-P05"
@@ -4028,18 +4042,21 @@
       }
     ],
     "room": null,
-    "location": "司法省",
+        "location": "第2層司法省",
     "camp": [
       "ハルケンブルグ陣営"
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
+        "revealed_facts": [
+            "入れ替わった二つの肉体の一方が死ぬと、生存側の本来の人格が先に自分の肉体へ戻り、続いて死亡側に入っていた人格が生存側へ戻って同居する",
+            "ハルケンブルグの人格には、バルサミルコの肉体で行動方針を決めるまで約10時間の猶予がある"
+        ],
     "mysteries": [],
     "notes": "午前中に死亡。第3層から第2層中央階段経由で正午に第1層安置室へ遺体搬送予定"
   },
-  {
-    "id": "E405-001",
+    {
+        "id": "E405-001",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
@@ -4057,10 +4074,10 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "ボノレノフは幻影旅団員"
+        "notes": "ボノレノフは幻影旅団員。405話内に日付・時刻の明記はなく、404話の11日目と406話の12日目の間のどこかは確定できない"
   },
-  {
-    "id": "E405-002",
+    {
+        "id": "E405-002",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
@@ -4079,10 +4096,10 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+        "notes": "405話内に日付・時刻の明記なし"
   },
-  {
-    "id": "E405-003",
+    {
+        "id": "E405-003",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
@@ -4102,10 +4119,10 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+        "notes": "405話内に日付・時刻の明記なし"
   },
-  {
-    "id": "E405-004",
+    {
+        "id": "E405-004",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
@@ -4125,6 +4142,197 @@
     "mysteries": [
       "モレナの目的はおそらく船の沈没"
     ],
-    "notes": ""
+        "notes": "405話内に日付・時刻の明記なし"
+  },
+  {
+    "id": "E406-001",
+    "chapter": 406,
+    "chapter_title": "神器",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "捜査",
+    "description": "ザクロとカイザルが処理場でリンチの遺体を確認。ザクロは、自分と行動していたリンチが別人だったと気づく",
+    "characters": ["SWU-003", "SWU-004"],
+    "room": null,
+    "location": "第3層 処理場",
+    "camp": ["チョウライ陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["第392話でヒソカとして現れた人物はボノレノフ", "リンチはボノレノフに殺害されていた"],
+    "mysteries": [],
+    "notes": "原作第406話を確認。遺体発見場面とザクロの回想から確定"
+  },
+  {
+    "id": "E406-002",
+    "chapter": 406,
+    "chapter_title": "神器",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "情報収集",
+    "description": "ノブナガ・フィンクス・フェイタンがエイ＝イ一家のアジトへの経路を探り、カキン王家の三種の神器と継承戦の仕組みを考察する",
+    "characters": ["SPD-002", "SPD-003", "SPD-004"],
+    "room": null,
+    "location": "第3層 3101号室周辺・船内通路",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["カキン王家の神器は壺中卵・儀座禅仏・吉兆丸の三つ"],
+    "mysteries": ["神器を盗んだ場合に継承戦へどのような影響が出るか"],
+    "notes": "原作第406話を確認"
+  },
+  {
+    "id": "E407-001",
+    "chapter": 407,
+    "chapter_title": "交渉",
+    "day": 12,
+    "time_start": "13:00",
+    "time_end": null,
+    "type": "拉致",
+    "description": "ハルケンブルグの葬列通過直前、ボークセンが仲間から離れた隙に拉致され、モレナのアジトへ連行される",
+    "characters": ["EII-T01", "EII-001"],
+    "room": null,
+    "location": "第3層から第2層 エイ＝イ一家アジト",
+    "camp": ["エイ＝イ一家"],
+    "series": "モレナとボークセンの交渉ゲーム",
+    "series_index": 1,
+    "revealed_facts": ["継承戦12日目（木曜日）13時"],
+    "mysteries": [],
+    "notes": "原作第407話の日時表示を確認"
+  },
+  {
+    "id": "E407-002",
+    "chapter": 407,
+    "chapter_title": "交渉",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "交渉",
+    "description": "モレナがボークセンへ加入を求め、質問と選択をカードで進める交渉ゲームを開始する",
+    "characters": ["EII-001", "EII-T01", "EII-008"],
+    "room": null,
+    "location": "第2層 エイ＝イ一家アジト",
+    "camp": ["エイ＝イ一家"],
+    "series": "モレナとボークセンの交渉ゲーム",
+    "series_index": 2,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "原作第407話を確認"
+  },
+  {
+    "id": "E408-001",
+    "chapter": 408,
+    "chapter_title": "交渉②",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "交渉",
+    "description": "ボークセンが質問カードを使い、モレナの目的・能力・エイ＝イ一家の条件を確認する",
+    "characters": ["EII-001", "EII-T01"],
+    "room": null,
+    "location": "第2層 エイ＝イ一家アジト",
+    "camp": ["エイ＝イ一家"],
+    "series": "モレナとボークセンの交渉ゲーム",
+    "series_index": 3,
+    "revealed_facts": ["モレナの目的はカキンの滅亡と人を殺すこと", "感染者はレベル20超で独自の念能力を得て、レベル100で新たな感染源になれる"],
+    "mysteries": [],
+    "notes": "原作第408話を確認"
+  },
+  {
+    "id": "E409-001",
+    "chapter": 409,
+    "chapter_title": "交渉③",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "交渉",
+    "description": "交渉ゲームが進行し、ボークセンはモレナの能力と自身に求められる役割を聞き出す。船内には特殊戒厳令が発令される",
+    "characters": ["EII-001", "EII-T01"],
+    "room": null,
+    "location": "第2層 エイ＝イ一家アジト／船内各層",
+    "camp": ["エイ＝イ一家"],
+    "series": "モレナとボークセンの交渉ゲーム",
+    "series_index": 4,
+    "revealed_facts": ["特殊戒厳令では国王軍が強い権限を持ち、各層の移動と通信が制限される"],
+    "mysteries": [],
+    "notes": "原作第409話を確認"
+  },
+  {
+    "id": "E410-001",
+    "chapter": 410,
+    "chapter_title": "交渉④",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "契約",
+    "description": "ボークセンはRカードを最後に残して交渉ゲームに勝利した後、自分の意思でYesへ変更し、エイ＝イ一家への加入を選ぶ",
+    "characters": ["EII-001", "EII-T01"],
+    "room": null,
+    "location": "第2層 エイ＝イ一家アジト",
+    "camp": ["エイ＝イ一家"],
+    "series": "モレナとボークセンの交渉ゲーム",
+    "series_index": 5,
+    "revealed_facts": ["ボークセンはレベル0でエイ＝イ一家に加入", "加入の目的はモレナの能力と計画を把握し、元の仲間を守ること"],
+    "mysteries": ["ボークセンが発現する念能力"],
+    "notes": "原作第410話を確認。ゲーム上の勝利と、その後の加入選択を区別"
+  },
+  {
+    "id": "E410-002",
+    "chapter": 410,
+    "chapter_title": "交渉④",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "戒厳令",
+    "description": "特殊戒厳令下で国王軍が各層を制圧。第3王子チョウライが第2層へ移動したことが判明し、ベンジャミンは残る王子を早急に確保する方針を取る",
+    "characters": ["P01", "P03"],
+    "room": null,
+    "location": "第1層・第2層・第3層",
+    "camp": ["ベンジャミン陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["特殊戒厳令発令から40分経過", "第3王子チョウライは第2層へ移動"],
+    "mysteries": [],
+    "notes": "原作第410話を確認"
+  },
+  {
+    "id": "E411-001", "chapter": 411, "chapter_title": null, "day": 12, "time_start": "08:00", "time_end": null, "type": "連絡", "description": "ハルケンブルグの人格が宿るバルサミルコがベンジャミンへ電話し、葬列は13時出発・14時に第1層斎場到着、私設兵は解散後に第2層以下へ再配備されると報告する", "characters": ["P01-P05", "P01", "P09"], "room": null, "location": "第2層 司法省", "camp": ["ハルケンブルグ陣営", "ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "ユーザー提供の第411話確認情報"
+  },
+  {
+    "id": "E411-002", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "呪詛", "description": "従者に変装したサラヘルが302号室の念講習会へ参加する準備をし、第14王子への呪詛を開始。成功時の後任にカコを指名する", "characters": ["P02-P13", "P02-P08", "P14"], "room": 302, "location": "第3層 302号室", "camp": ["カミーラ陣営"], "series": null, "series_index": null, "revealed_facts": ["開始時点の見込みでは呪詛の蓄積に約1週間"], "mysteries": [], "notes": "ユーザー提供の第411話確認情報"
+  },
+  {
+    "id": "E411-003", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "念講習", "description": "1014号室で第2回念講習会が開催され、室内26名のうち18名が参加。クラピカは第14王子が継承戦へ参加していないと公表する", "characters": ["P14-H01", "P13-H01", "P13-M01", "P11-M01", "P11-M02", "P11-M03", "P10-M02", "P10-M03", "P10-M04", "P07-G01", "P07-G07", "P07-G05", "P02-P13", "P03-P02", "P05-P01", "P04-P06", "P04-P04", "P01-P04", "P01-P06"], "room": 1014, "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 1, "revealed_facts": ["講習参加者は18名", "サラヘルの呪詛はこの時点で約5日後に成功する見込み"], "mysteries": ["第14王子が継承戦へ参加していない理由"], "notes": "特殊戒厳令発動5時間前。スラッカは不参加"
+  },
+  {
+    "id": "E412-001", "chapter": 412, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "情報判明", "description": "第14王子従事者の名がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "characters": ["P14-M02", "P14-H01"], "room": 1014, "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 2, "revealed_facts": ["シマノは誤称で本名はシマヌ"], "mysteries": [], "notes": "特殊戒厳令発動48時間前という作中表示は、他の時刻情報との整合確認が必要"
+  },
+  {
+    "id": "E412-002", "chapter": 412, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "情報判明", "description": "船内にいる第14王子の男児は替え玉であり、本物の第14王子は娘で所在不明と判明する", "characters": ["P14"], "room": 1014, "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": ["本物の第14王子の所在", "男児の替え玉の正体"], "notes": "ユーザー提供の第412話確認情報。既存の第14王子レコードは表示互換のため維持し、真偽関係を謎として登録"
+  },
+  {
+    "id": "E413-001", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "13:45", "time_end": null, "type": "確認", "description": "遺体安置室でハルケンブルグの遺体を前に、ナスビーと王室執事と思われる人物が魂が肉体に宿っていることを確認する", "characters": ["P09", "KNG-001"], "room": null, "location": "第1層 遺体安置室", "camp": ["カキン王家"], "series": null, "series_index": null, "revealed_facts": ["ハルケンブルグの魂は生きている"], "mysteries": ["ナスビーに同行した人物の氏名と役職"], "notes": "特殊戒厳令発動30分前"
+  },
+  {
+    "id": "E413-002", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "13:45", "time_end": null, "type": "攻撃", "description": "1001号室で鳴動が起き、ハルケンブルグが矢を放つ。ベンジャミンは人格を入れ替える能力とハルケンブルグの魂の生存に気づく", "characters": ["P09", "P01", "P01-P05"], "room": 1001, "location": "第1層 1001号室", "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "特殊戒厳令発動30分前"
+  },
+  {
+    "id": "E413-003", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "14:15", "time_end": null, "type": "戒厳令", "description": "ベンジャミンがTSK-17を発症。6時間前にヒュリコフから感染しており、特殊戒厳令が発動する", "characters": ["P01", "P01-P06"], "room": 1001, "location": "第1層 1001号室", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": ["ヒュリコフはビヨンド＝ネテロを父に持つソエモノ", "ヒュリコフの目的はベンジャミンを守護霊獣の力で神格化すること"], "mysteries": ["TSK-17の詳細", "ベンジャミンの容体と継承戦への影響"], "notes": "特殊戒厳令の基準時刻"
+  },
+  {
+    "id": "E414-001", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:10", "time_end": null, "type": "殺害", "description": "1007号室休憩室でカンジドルがルズールス私設兵2名を殺害する", "characters": ["P01-P09", "P07-U01", "P07-U02"], "status_effects": [{"character": "P07-U01", "status": "死亡"}, {"character": "P07-U02", "status": "死亡"}], "room": 1007, "location": "第1層 1007号室休憩室", "camp": ["ベンジャミン陣営", "ルズールス陣営"], "series": null, "series_index": null, "revealed_facts": ["ベンジャミン側近兵はカンジドル"], "mysteries": [], "notes": "ユーザー提供の第414話確認情報"
+  },
+  {
+    "id": "E414-002", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:00", "time_end": null, "type": "準備", "description": "特殊戒厳令発動に向けた各陣営の準備行動が進む。ルズールスは薬物を処分し、ウショウヒとチヤマシは1009号室への突入を準備する", "characters": ["P07", "P11-G01", "P01-P16"], "room": null, "location": "第1層 1005号室・1009号室前", "camp": ["ルズールス陣営", "ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "特殊戒厳令発動15分前"
+  },
+  {
+    "id": "E414-003", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "13:50", "time_end": null, "type": "連絡", "description": "クラピカが船外のハンターへ本物の第14王子である娘の捜索を依頼する", "characters": ["P14-H01", "P14"], "room": 1014, "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "本誌表記は『11日目（水曜日）PM1:50・特殊戒厳令25分前』だが、410話以前の時系列と戒厳令発動12日目14:15を優先し、12日目13:50として採用。11日目表記は本誌側の誤記候補"
+  },
+  {
+    "id": "E415-001", "chapter": 415, "chapter_title": null, "day": null, "period": "ritual", "time_start": null, "time_end": null, "type": "呪詛", "description": "壺中卵の儀の時期、船外の自室でヒュリコフが能力を発動し、ビヨンドから掛けられた呪いを見破る", "characters": ["P01-P06", "BYD-001"], "room": null, "location": "船外 ヒュリコフ自室", "camp": null, "series": null, "series_index": null, "revealed_facts": ["ヒュリコフは死亡時に第1〜第8王子の誰かを呪殺するソエモノ"], "mysteries": ["呪殺対象となる王子"], "notes": "出航約2か月前（壺中卵の儀）"
+  },
+  {
+    "id": "E415-002", "chapter": 415, "chapter_title": null, "day": 12, "time_start": "14:15", "time_end": "14:35", "type": "戒厳令", "description": "特殊戒厳令発動後、各王子陣営が対応。ツベッパは1001号室へ移動を開始し、ルズールスとライスは裏口からシャ＝ア一家へ逃亡、ビスケは1013号室の念空間で籠城を決める", "characters": ["P02", "P03", "P04", "P05", "P01-P13", "P07", "P07-G02", "P12-H02"], "room": null, "location": "第1層 王子居住区", "camp": null, "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "14:35、オイトと第14王子はベンジャミンの恩赦により処分保留"
   }
 ]

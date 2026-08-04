@@ -22,6 +22,7 @@
       "children": { "type": "array", "items": { "type": "string" } },
       "parent_ids": { "type": "array", "items": { "type": "string" } },
       "mission": { "type": ["string", "null"] },
+      "target": { "type": ["string", "null"] },
       "role": { "type": ["string", "null"] },
       "room": { "type": ["string", "integer", "null"] },
       "location": { "type": ["string", "null"] },
@@ -33,7 +34,12 @@
       "is_hunter": { "type": "boolean" },
       "faction_note": { "type": ["string", "null"] },
       "notes": { "type": ["string", "null"] },
+      "spoiler_notes": { "type": ["string", "null"] },
       "image": { "type": ["string", "null"] }
+      ,"is_placeholder": { "type": "boolean" }
+      ,"identity_status": { "type": "string", "enum": ["named", "unnamed_confirmed", "provisional"] }
+      ,"source_chapter": { "type": ["integer", "null"], "minimum": 1 }
+      ,"group_key": { "type": ["string", "null"] }
     }
   }
 }

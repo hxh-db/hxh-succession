@@ -10,12 +10,13 @@
   <header class="site-header">
     <div class="header-inner">
       <h1>王位継承戦データまとめ</h1>
-      <p>人物・場所・時間の3つの軸から、カキン王位継承戦を確認</p>
+      <p>基礎知識と、人物・場所・時間の3つの軸からカキン王位継承戦を確認</p>
     </div>
     <nav class="primary-nav" aria-label="メインメニュー">
       <a class="primary-nav-link active" href="#characters" data-primary-view="characters">キャラクター</a>
       <a class="primary-nav-link" href="#places" data-primary-view="places">場所別</a>
       <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">時間別</a>
+      <a class="primary-nav-link" href="#guide" data-primary-view="guide">基礎ガイド</a>
     </nav>
   </header>
 
@@ -48,8 +49,8 @@
           </select>
         </label>
         <label>
-          所属陣営
-          <select id="characterCampFilter"><option value="all">すべての陣営</option></select>
+          配置・護衛先
+          <select id="characterCampFilter"><option value="all">すべての配置先</option></select>
         </label>
         <label>
           護衛・関係王子
@@ -158,6 +159,85 @@
         </div>
         <div class="timeline-gantt" id="ganttChart"></div>
       </div>
+    </section>
+
+    <section id="guide" class="primary-view" data-primary-panel="guide" hidden>
+      <div class="section-header">
+        <p class="section-kicker">はじめて見る人向け</p>
+        <h2>王位継承戦 基礎ガイド</h2>
+        <p>人物相関や出来事を追う前に、継承戦の前提と守護霊獣をまとめて確認できます</p>
+      </div>
+
+      <div class="guide-summary">
+        <p><strong>カキン王国の14王子</strong>が、暗黒大陸へ向かうブラックホエール号の船内で次期国王の座を争う継承戦。王子本人だけでなく、王妃・護衛・ハンター・司法省・マフィアまで思惑が交差します。</p>
+        <a href="#characters" class="guide-jump-link" data-primary-view="characters">14王子と関係者を見る →</a>
+      </div>
+
+      <div class="overview-grid">
+        <article class="overview-card">
+          <h3>王位継承戦とは？</h3>
+          <ul class="rule-list">
+            <li>カキン王国の次期国王を決める儀式</li>
+            <li>継承候補は正妻の子である14人の王子</li>
+            <li>ブラックホエール号出航後、船内で進行</li>
+            <li>表向きの王族殺しは重罪。各陣営は護衛や能力を介して争う</li>
+          </ul>
+        </article>
+
+        <article class="overview-card">
+          <h3>壺中卵の儀</h3>
+          <p class="overview-text">初代国王が遺した壺に王子が血を捧げ、壺から現れた妖精の卵を飲む儀式。儀式を経た王子には、その資質や性格を反映した守護霊獣が宿ります。</p>
+        </article>
+
+        <article class="overview-card">
+          <h3>守護霊獣の原則</h3>
+          <ul class="rule-list">
+            <li>王子本人には自分の守護霊獣が見えない</li>
+            <li>王子の意思で自由に操ることはできない</li>
+            <li>守護霊獣同士は互いを直接攻撃しない</li>
+            <li>王子のオーラを糧とし、能力には未解明の部分も多い</li>
+          </ul>
+        </article>
+
+        <article class="overview-card">
+          <h3>情報を見る3つの軸</h3>
+          <ul class="guide-axis-list">
+            <li><strong>人物</strong><span>王子・王妃・護衛・所属を追う</span></li>
+            <li><strong>場所</strong><span>各号室と階層の出来事を追う</span></li>
+            <li><strong>時間</strong><span>乗船前から12日目以降まで追う</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="guide-section-heading">
+        <div>
+          <p class="section-kicker">14王子に宿る念獣</p>
+          <h3>守護霊獣一覧</h3>
+          <p>画像と要点を一覧で確認。カードを押すと詳しい能力が開きます。</p>
+        </div>
+        <label class="guide-beast-filter">
+          念系統
+          <select id="beastNenFilter">
+            <option value="all">すべて</option>
+            <option value="強化系">強化系</option>
+            <option value="放出系">放出系</option>
+            <option value="具現化系">具現化系</option>
+            <option value="操作系">操作系</option>
+            <option value="変化系">変化系</option>
+            <option value="特質系">特質系</option>
+          </select>
+        </label>
+      </div>
+      <div id="spirit-beast-grid" class="card-grid beast-guide-grid"></div>
+
+      <div class="guide-section-heading basic-character-heading">
+        <div>
+          <p class="section-kicker">継承戦の前提に関わる人物</p>
+          <h3>船外・背景人物</h3>
+          <p>船内の人物一覧から外した、継承戦の背景を理解するための人物です。</p>
+        </div>
+      </div>
+      <div id="basicCharacterDirectory" class="character-directory basic-character-directory"></div>
     </section>
   </main>
 

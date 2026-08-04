@@ -1,5 +1,6 @@
 const DATA = {
   characters: "data/characters.json",
+  characterImages: "data/character_images.json",
   events: "data/events.json",
   spiritBeasts: "data/spirit_beasts.json",
   factions: "data/factions.json",
@@ -19,9 +20,11 @@ let timelineVisibleCount = 30;
 let activeRoomAreaId = "room-1001";
 let activePlaceGroupId = "layer-1";
 let activeTimelinePeriodId = "day-1";
+let activeCharacterAffiliation = null;
 let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
+const BASIC_CHARACTER_IDS = new Set(["HA-001", "HA-005", "BYD-002", "BYD-003"]);
 
 async function loadJson(path) {
   const res = await fetch(path);
@@ -47,8 +50,8 @@ function formatRoyalName(token) {
   if (!token) return token;
   const char = CHAR_MAP[token];
   if (char) {
-    if (char.type === "prince") return `第${char.rank}王子 ${getDisplayName(char)}`;
-    if (char.type === "queen") return `第${char.rank}王妃 ${getDisplayName(char)}`;
+    if (char.type === "prince") return `第${char.rank}王子${getDisplayName(char)}`;
+    if (char.type === "queen") return `第${char.rank}王妃${getDisplayName(char)}`;
     return getDisplayName(char);
   }
   const entry = PRINCE_MAP[token];
@@ -59,6 +62,83 @@ function formatRoyalName(token) {
 function getDisplayName(character) {
   if (!character) return "";
   return character.id === "KNG-001" ? character.name : character.name.replace(/＝ホイコーロ/g, "");
+}
+
+function formatDisplayText(value) {
+  if (value == null) return value;
+  return String(value)
+    .replace(/ch(\d+)/gi, "$1話")
+    .replace(/[（(]P\d{2}-[A-Z]\d+[）)]/g, "")
+    .replace(/ketsu_mochi（血盟主）/g, "ケツモチ")
+    .replace(/幻影旅団（スパイダー）/g, "幻影旅団")
+    .replace(/＝ホイコーロ/g, "");
+}
+
+function formatRoomLabel(value) {
+  if (value == null || value === "") return null;
+  const text = String(value).replace(/\s+/g, "");
+  const room = text.match(/(10\d{2})号室?$/)?.[1] || (/^10\d{2}$/.test(text) ? text : null);
+  if (room) return `1層${room}号室`;
+  return text.replace(/^第([1-5])層/, "$1層");
+}
+
+function formatAssignment(character) {
+  if (!character.camp) return null;
+  if (["king", "queen", "prince", "mafia"].includes(character.type)) return null;
+  return formatGroupReference(formatDisplayText(character.camp).replace(/陣営$/, ""));
+}
+
+function formatGroupReference(value) {
+  let result = value;
+  [...princesData, ...charactersData.filter((candidate) => candidate.type === "queen")].forEach((royal) => {
+    const shortName = getDisplayName(royal);
+    const prefix = royal.type === "prince" ? `第${royal.rank}王子` : `第${royal.rank}王妃`;
+    if (!result.includes(`${prefix}${shortName}`)) result = result.replaceAll(shortName, `${prefix}${shortName}`);
+  });
+  return result;
+}
+
+function formatAffiliation(character) {
+  if (!character.affiliation) return null;
+  let value = formatGroupReference(formatDisplayText(character.affiliation).replace(/陣営$/, ""));
+  if (character.soldier_category === "私設兵" && !/私設兵/.test(value)) value += "私設兵";
+  if (character.soldier_category === "王妃所属兵" && !/王妃.*兵|所属兵/.test(value)) value += "所属兵";
+  return value;
+}
+
+function getNenClassLabel(character) {
+  const first = (eventsData.find((event) => event.id === "E369-002")?.characters || []).includes(character.id);
+  const second = (eventsData.find((event) => event.id === "E411-003")?.characters || []).includes(character.id);
+  if (character.id === "P14-H01") return "第一回・第二回念講習会の講師";
+  if (first && second) return "第一回・第二回とも参加";
+  if (first) return "第一回念講習会に参加";
+  if (second) return "第二回念講習会に参加";
+  return null;
+}
+
+function formatLocationLabel(value) {
+  if (!value) return "場所不明";
+  return String(value)
+    .replace(/第([1-5])層/g, "$1層")
+    .replace(/1層\s+(10\d{2}号室)/g, "1層$1")
+    .replace(/(^|[^\d])(10\d{2})(?!号室)/g, "$1$2号室");
+}
+
+function getCharacterLocationHistory(character) {
+  const transitions = [];
+  eventsData.forEach((event) => {
+    if (!(event.characters || []).includes(character.id)) return;
+    const location = formatLocationLabel(getLocationKey(event));
+    if (!location || location === "場所不明") return;
+    if (transitions.at(-1)?.location === location) return;
+    const timing = [
+      `${event.chapter}話`,
+      event.day != null ? `${event.day}日目` : null,
+      getTimeLabel(event)
+    ].filter(Boolean).join("・");
+    transitions.push({ location, timing });
+  });
+  return transitions.map(({ location, timing }) => `${timing}：${location}`).join(" → ");
 }
 
 // ===== バッジ生成ユーティリティ =====
@@ -114,16 +194,6 @@ function makeCharacterTypeBadge(type) {
   const span = document.createElement("span");
   span.className = `character-type-badge character-type-${type}`;
   span.textContent = CHARACTER_TYPE_LABELS[type] || type;
-  return span;
-}
-
-// カード一覧に「関連イベントN件」を表示し、モーダルを開く前に件数が分かるようにする
-function makeEventCountBadge(record, category) {
-  const count = getRelatedEvents(record, category).length;
-  if (count === 0) return null;
-  const span = document.createElement("span");
-  span.className = "event-count-badge";
-  span.textContent = `関連イベント ${count}件`;
   return span;
 }
 
@@ -255,7 +325,7 @@ function renderPrinces(princes) {
     return;
   }
   princes.forEach((p) => {
-    const title = `第${p.rank}王子 ${p.name}`;
+    const title = `第${p.rank}王子${getDisplayName(p)}`;
     const items = [
       { label: "年齢", value: p.age != null ? `${p.age}歳` : "不明" },
       { label: "母（王妃）", value: p.queen || "不明" },
@@ -601,7 +671,11 @@ function getRelationshipNames(ids) {
 function getRelatedPrinceIds(character) {
   if (character.type === "prince") return [character.id];
   if (character.type === "queen") return character.children || [];
-  const text = [character.camp, character.affiliation, character.role, character.notes].filter(Boolean).join(" ");
+  if (character.type === "mafia") return character.id === "SWU-001" ? ["P03"] : [];
+  // 関係王子は構造化済みの所属・配置だけで判定する。
+  // 備考や役割の文章を含めると、「カミーラを拘束した」だけの人物まで
+  // カミーラ関係者として誤分類される。呪殺対象も王子側の人物を意味しないため使用しない。
+  const text = [character.camp, character.affiliation].filter(Boolean).join(" ");
   const ids = princesData.filter((prince) => {
     const shortName = getDisplayName(prince);
     return text.includes(shortName) || text.includes(`第${prince.rank}王子`) || character.id.startsWith(`${prince.id}-`);
@@ -622,17 +696,35 @@ function createCharacterDirectoryCard(character) {
   identity.className = "directory-character-identity";
   const heading = document.createElement("h3");
   heading.textContent = character.type === "prince"
-    ? `第${character.rank}王子 ${getDisplayName(character)}`
+    ? `第${character.rank}王子${getDisplayName(character)}`
     : character.type === "queen"
-      ? `第${character.rank}王妃 ${getDisplayName(character)}`
+      ? `第${character.rank}王妃${getDisplayName(character)}`
       : getDisplayName(character);
   const badges = document.createElement("div");
   badges.className = "compact-person-badges";
   badges.appendChild(makeCharacterTypeBadge(character.type));
-  if (character.camp) {
-    const campBadge = document.createElement("span");
-    campBadge.className = "character-camp-badge";
-    campBadge.textContent = character.camp.replace(/＝ホイコーロ/g, "");
+  const assignment = formatAssignment(character);
+  const usesAffiliationTag = ["soldier", "mafia"].includes(character.type);
+  const tagValue = usesAffiliationTag ? formatAffiliation(character) : assignment;
+  const tagFilterValue = usesAffiliationTag ? character.affiliation : character.camp;
+  if (tagValue) {
+    const clickable = usesAffiliationTag;
+    const campBadge = document.createElement(clickable ? "button" : "span");
+    if (clickable) campBadge.type = "button";
+    campBadge.className = `character-camp-badge${clickable ? " character-filter-tag" : ""}`;
+    campBadge.textContent = tagValue;
+    if (clickable) {
+      campBadge.title = `${tagValue}の人物を表示`;
+      campBadge.addEventListener("click", () => {
+        activatePrimaryView("characters", true);
+        document.getElementById("characterSearch").value = "";
+        document.getElementById("characterTypeFilter").value = "all";
+        document.getElementById("characterCampFilter").value = "all";
+        document.getElementById("characterPrinceFilter").value = "all";
+        activeCharacterAffiliation = tagFilterValue;
+        document.dispatchEvent(new Event("character-affiliation-filter"));
+      });
+    }
     badges.appendChild(campBadge);
   }
   identity.append(heading, badges);
@@ -645,19 +737,22 @@ function createCharacterDirectoryCard(character) {
   toggle.textContent = "詳細";
   details.appendChild(toggle);
 
-  const parentIds = getKnownParentIds(character);
-  const childIds = getKnownChildIds(character);
   const rows = [
-    { label: "親", value: parentIds.length ? getRelationshipNames(parentIds) : null },
-    { label: "子供", value: childIds.length ? getRelationshipNames(childIds) : null },
-    { label: "所属", value: character.affiliation },
-    { label: "陣営", value: character.camp },
-    { label: "配置・部屋", value: character.room || character.location },
-    { label: "役割", value: character.role },
-    { label: "状態", value: character.status },
+    { label: "親", value: getKnownParentIds(character).length ? getRelationshipNames(getKnownParentIds(character)) : null },
+    { label: "子供", value: getKnownChildIds(character).length ? getRelationshipNames(getKnownChildIds(character)) : null },
+    { label: "所属", value: formatAffiliation(character) },
+    { label: "配置・護衛先", value: assignment },
+    { label: "登録上の現在地", value: formatRoomLabel(character.room || character.location) },
+    { label: "所在・移動履歴", value: getCharacterLocationHistory(character) },
+    { label: "任務", value: formatDisplayText(character.mission) },
+    { label: "任務対象", value: formatDisplayText(character.target) },
+    { label: "役割", value: formatDisplayText(character.role) },
+    { label: "状態", value: formatDisplayText(character.status) },
     { label: "念系統", value: character.nen_type },
-    { label: "念能力", value: character.nen_ability },
-    { label: "備考", value: character.notes }
+    { label: "念能力", value: formatDisplayText(character.nen_ability) },
+    { label: "念講習会", value: getNenClassLabel(character) },
+    { label: "備考", value: formatDisplayText(character.notes) },
+    { label: "判明情報", value: formatDisplayText(character.spoiler_notes) }
   ];
 
   const dl = document.createElement("dl");
@@ -715,6 +810,30 @@ function sortCharacters(a, b) {
   const order = { king: 0, queen: 1, prince: 2, hunter: 3, soldier: 4, attendant: 5, official: 6, mafia: 7, phantom_troupe: 8 };
   const typeDiff = (order[a.type] ?? 99) - (order[b.type] ?? 99);
   if (typeDiff !== 0) return typeDiff;
+  if (a.type === "soldier" && b.type === "soldier") {
+    const assignmentRank = (character) => {
+      const assignment = [character.camp, character.current_assignment, character.room].filter(Boolean).join(" ");
+      const prince = princesData.find((candidate) => {
+        const name = getDisplayName(candidate);
+        return assignment.includes(name) || assignment.includes(`第${candidate.rank}王子`);
+      });
+      if (prince) return prince.rank;
+      const roomNumber = String(character.room || "").match(/10(0[1-9]|1[0-4])/)?.[0];
+      return roomNumber ? Number(roomNumber) - 1000 : 99;
+    };
+    const rankDiff = assignmentRank(a) - assignmentRank(b);
+    if (rankDiff !== 0) return rankDiff;
+    const soldierPriority = (character) => {
+      if (character.mission === "監視") return 90;
+      const categoryOrder = { "私設兵": 0, "王室警備兵": 10, "王妃所属兵": 30 };
+      return categoryOrder[character.soldier_category] ?? 20;
+    };
+    const priorityDiff = soldierPriority(a) - soldierPriority(b);
+    if (priorityDiff !== 0) return priorityDiff;
+    const targetRank = (character) => Number(String(character.target || "").match(/第(\d+)王子/)?.[1] || 99);
+    const targetDiff = targetRank(a) - targetRank(b);
+    if (targetDiff !== 0) return targetDiff;
+  }
   if (a.rank != null || b.rank != null) return (a.rank ?? 999) - (b.rank ?? 999);
   return a.name.localeCompare(b.name, "ja");
 }
@@ -726,7 +845,15 @@ function renderCharacterDirectory(characters) {
   characters.slice().sort(sortCharacters).forEach((character) => {
     container.appendChild(createCharacterDirectoryCard(character));
   });
-  summary.textContent = `${characters.length}名を表示（登録総数 ${charactersData.length}名）`;
+  summary.textContent = characters.length === 0 ? "条件に一致する人物はいません。" : "絞り込み結果";
+}
+
+function renderBasicCharacters() {
+  const container = document.getElementById("basicCharacterDirectory");
+  container.innerHTML = "";
+  charactersData.filter((character) => BASIC_CHARACTER_IDS.has(character.id))
+    .sort(sortCharacters)
+    .forEach((character) => container.appendChild(createCharacterDirectoryCard(character)));
 }
 
 function setupCharacterDirectory() {
@@ -734,17 +861,18 @@ function setupCharacterDirectory() {
   const typeFilter = document.getElementById("characterTypeFilter");
   const campFilter = document.getElementById("characterCampFilter");
   const princeFilter = document.getElementById("characterPrinceFilter");
-  [...new Set(charactersData.map((character) => character.camp).filter(Boolean))]
+  const onboardCharacters = charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id));
+  [...new Set(onboardCharacters.map((character) => character.camp).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
       const option = document.createElement("option");
       option.value = camp;
-      option.textContent = camp.replace(/＝ホイコーロ/g, "");
+      option.textContent = `${formatDisplayText(camp).replace(/陣営$/, "")}への配置`;
       campFilter.appendChild(option);
     });
   princesData.slice().sort((a, b) => a.rank - b.rank).forEach((prince) => {
     const option = document.createElement("option");
     option.value = prince.id;
-    option.textContent = `第${prince.rank}王子 ${getDisplayName(prince)}`;
+    option.textContent = `第${prince.rank}王子${getDisplayName(prince)}`;
     princeFilter.appendChild(option);
   });
 
@@ -753,10 +881,12 @@ function setupCharacterDirectory() {
     { id: "royal", label: "王族" },
     ...princesData.slice().sort((a, b) => a.rank - b.rank).map((prince) => ({
       id: prince.id,
-      label: `第${prince.rank}王子 ${getDisplayName(prince)}`
+      label: `第${prince.rank}王子${getDisplayName(prince)}`
     })),
     { id: "hunter", label: "ハンター協会" },
-    { id: "mafia", label: "マフィア" },
+    { id: "mafia-swu", label: "シュウ＝ウ一家", affiliation: "シュウ＝ウ一家" },
+    { id: "mafia-eii", label: "エイ＝イ一家", affiliation: "エイ＝イ一家" },
+    { id: "mafia-saa", label: "シャ＝ア一家", affiliation: "シャ＝ア一家" },
     { id: "phantom_troupe", label: "幻影旅団" },
     { id: "official", label: "司法・政府" },
     { id: "all", label: "全員" }
@@ -766,25 +896,34 @@ function setupCharacterDirectory() {
     const type = typeFilter.value;
     const camp = campFilter.value;
     const princeId = princeFilter.value;
-    const filtered = charactersData.filter((character) => {
+    const filtered = onboardCharacters.filter((character) => {
       const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
       const beast = character.type === "prince"
         ? spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character))
         : null;
       const searchable = [
         character.name, character.affiliation, character.camp, character.role,
-        character.nen_ability, character.notes, beast?.name, beast?.ability
+        character.nen_ability, character.notes, character.mission, character.target, formatAffiliation(character),
+        formatAssignment(character), getNenClassLabel(character), beast?.name, beast?.ability
       ].filter(Boolean).join(" ").toLowerCase();
       const campMatch = camp === "all" || character.camp === camp;
+      const affiliationMatch = !activeCharacterAffiliation
+        || character.affiliation === activeCharacterAffiliation
+        || character.affiliation?.startsWith(`${activeCharacterAffiliation}（`);
       const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
-      return typeMatch && campMatch && princeMatch && (!query || searchable.includes(query));
+      return typeMatch && campMatch && affiliationMatch && princeMatch && (!query || searchable.includes(query));
     });
     renderCharacterDirectory(filtered);
   };
-  search.addEventListener("input", apply);
-  typeFilter.addEventListener("change", apply);
-  campFilter.addEventListener("change", apply);
-  princeFilter.addEventListener("change", apply);
+  const clearAffiliationAndApply = () => {
+    activeCharacterAffiliation = null;
+    apply();
+  };
+  search.addEventListener("input", clearAffiliationAndApply);
+  typeFilter.addEventListener("change", clearAffiliationAndApply);
+  campFilter.addEventListener("change", clearAffiliationAndApply);
+  princeFilter.addEventListener("change", clearAffiliationAndApply);
+  document.addEventListener("character-affiliation-filter", apply);
 
   quickGroups.forEach((group) => {
     const button = document.createElement("button");
@@ -799,10 +938,15 @@ function setupCharacterDirectory() {
         candidate.setAttribute("aria-pressed", String(active));
       });
       search.value = "";
+      activeCharacterAffiliation = null;
       campFilter.value = "all";
       if (group.id.startsWith("P")) {
         typeFilter.value = "all";
         princeFilter.value = group.id;
+      } else if (group.affiliation) {
+        princeFilter.value = "all";
+        typeFilter.value = "mafia";
+        activeCharacterAffiliation = group.affiliation;
       } else {
         princeFilter.value = "all";
         typeFilter.value = group.id;
@@ -1030,7 +1174,7 @@ function getDuration(event) {
 }
 
 function getChapterLabel(event) {
-  return `第${event.chapter}話${event.chapter_title ? "：" + event.chapter_title : ""}`;
+  return `${event.chapter}話${event.chapter_title ? "：" + event.chapter_title : ""}`;
 }
 
 function getTimeLabel(event) {
@@ -1040,7 +1184,7 @@ function getTimeLabel(event) {
 
 function getLocationKey(event) {
   if (event.location) return event.location;
-  if (event.room) return `${event.room}号室`;
+  if (event.room) return formatRoomLabel(event.room);
   return "場所不明";
 }
 
@@ -1049,7 +1193,6 @@ const ROOM_AREA_DEFINITIONS = [
     const room = String(1001 + index);
     return { id: `room-${room}`, label: room };
   }),
-  { id: "judicial", label: "司法省" },
   { id: "layer-2", label: "第2層" },
   { id: "layer-3", label: "第3層" },
   { id: "layer-4", label: "第4層" },
@@ -1064,7 +1207,7 @@ function getRoomAreaIds(event) {
     .map((area) => area.id);
 
   if (/司法|捜査室|検察|裁判所/.test(location)) {
-    ids.push("judicial");
+    ids.push("layer-2");
   }
   if (/第2層/.test(location)) {
     ids.push("layer-2");
@@ -1300,10 +1443,10 @@ function renderTimeline(events) {
   visibleEvents.forEach((e) => container.appendChild(createTimelineCard(e)));
   summary.textContent = events.length === 0
     ? "条件に一致するイベントはありません。"
-    : `${events.length}件中 ${visibleEvents.length}件を表示`;
+    : "絞り込み結果";
   const remaining = events.length - visibleEvents.length;
   loadMore.classList.toggle("hidden", remaining <= 0);
-  loadMore.textContent = remaining > 0 ? `さらに表示（残り${remaining}件）` : "さらに表示";
+  loadMore.textContent = "さらに表示";
 }
 
 function renderRoomAreaTimeline(events) {
@@ -1313,19 +1456,12 @@ function renderRoomAreaTimeline(events) {
   const container = document.getElementById("roomTimeline");
   const peopleContainer = document.getElementById("roomPeople");
   const visitorsContainer = document.getElementById("roomVisitors");
-  const counts = new Map(ROOM_AREA_DEFINITIONS.map((area) => [area.id, 0]));
-
-  events.forEach((event) => {
-    getRoomAreaIds(event).forEach((areaId) => counts.set(areaId, counts.get(areaId) + 1));
-  });
-
   const placeGroups = [
     { id: "layer-1", label: "第1層・王子居住区" },
     { id: "layer-2", label: "第2層" },
     { id: "layer-3", label: "第3層" },
     { id: "layer-4", label: "第4層" },
     { id: "layer-5", label: "第5層" },
-    { id: "judicial", label: "司法省" },
     { id: "other", label: "その他" }
   ];
   groupTabs.innerHTML = "";
@@ -1358,7 +1494,7 @@ function renderRoomAreaTimeline(events) {
     button.type = "button";
     button.className = `room-area-tab${active ? " active" : ""}`;
     button.setAttribute("aria-pressed", String(active));
-    button.textContent = `${area.label}（${counts.get(area.id)}）`;
+    button.textContent = area.label;
     button.addEventListener("click", () => {
       activeRoomAreaId = area.id;
       renderRoomAreaTimeline(eventsData);
@@ -1407,7 +1543,7 @@ function renderRoomAreaTimeline(events) {
   renderPeopleChips(peopleContainer, currentPeople, "現在地が登録されている人物はいません。");
   renderPeopleChips(visitorsContainer, visitors, "過去の登場人物は登録されていません。");
 
-  summary.textContent = `${selectedArea.label}：現在${currentPeople.length}名・訪問${visitors.length}名・${selectedEvents.length}件の出来事`;
+  summary.textContent = `${selectedArea.label}の人物と出来事`;
   container.innerHTML = "";
   if (selectedEvents.length === 0) {
     const empty = document.createElement("p");
@@ -1472,6 +1608,8 @@ function inferEventDay(event) {
 }
 
 function getEventPeriodId(event) {
+  if (event.period === "ritual") return "ritual";
+  if (event.period === "preboard") return "preboard";
   if (Number(event.chapter) === 349) return "ritual";
   const day = inferEventDay(event);
   if (day != null) return `day-${Math.max(0, Math.min(12, day))}`;
@@ -1485,13 +1623,12 @@ function renderTimelineSchedule(events) {
   tabs.innerHTML = "";
   container.innerHTML = "";
   TIMELINE_PERIODS.forEach((period) => {
-    const count = events.filter((event) => getEventPeriodId(event) === period.id).length;
     const button = document.createElement("button");
     const active = period.id === activeTimelinePeriodId;
     button.type = "button";
     button.className = `timeline-period-tab${active ? " active" : ""}`;
     button.setAttribute("aria-pressed", String(active));
-    button.textContent = `${period.label} ${count}`;
+    button.textContent = period.label;
     button.addEventListener("click", () => {
       activeTimelinePeriodId = period.id;
       renderTimelineSchedule(events);
@@ -1508,9 +1645,7 @@ function renderTimelineSchedule(events) {
   heading.className = "schedule-selected-heading";
   const title = document.createElement("h4");
   title.textContent = selectedPeriod.label;
-  const count = document.createElement("span");
-  count.textContent = `${selectedEvents.length}件`;
-  heading.append(title, count);
+  heading.appendChild(title);
   container.appendChild(heading);
 
   if (selectedEvents.length === 0) {
@@ -1527,7 +1662,7 @@ function renderTimelineSchedule(events) {
       const section = document.createElement("section");
       section.className = "schedule-place-column";
       const areaHeading = document.createElement("h4");
-      areaHeading.textContent = `${area.label}（${areaEvents.length}）`;
+      areaHeading.textContent = area.label;
       section.appendChild(areaHeading);
       const stream = document.createElement("div");
       stream.className = "schedule-time-stream";
@@ -1755,13 +1890,31 @@ function setupDetailModal() {
   });
 }
 
+const SPIRIT_BEAST_EVENT_IDS = {
+  P01: ["E349-001"],
+  P02: ["E349-001"],
+  P03: ["E349-001", "E374-004", "E389-007", "E404-001"],
+  P04: ["E349-001", "E384-002", "E385-003"],
+  P05: ["E349-001", "E402-002"],
+  P06: ["E349-001", "E372-005"],
+  P07: ["E349-001"],
+  P08: ["E349-001", "E372-004", "E374-003", "E381-003"],
+  P09: ["E349-001", "E382-001", "E382-002", "E389-002", "E413-002"],
+  P10: ["E349-001", "E383-002", "E400-003"],
+  P11: ["E349-001", "E374-002", "E375-004", "E383-002", "E400-003"],
+  P12: ["E349-001", "E360-001"],
+  P13: ["E349-001", "E372-003", "E372-007", "E375-005"],
+  P14: ["E349-001"]
+};
+
 function getRelatedEvents(record, category) {
   let id = record.id;
   let name = record.name;
   if (category === "spiritBeast") {
     const prince = charactersData.find((c) => c.name === record.prince);
     id = prince ? prince.id : null;
-    name = record.prince;
+    const eventIds = new Set(SPIRIT_BEAST_EVENT_IDS[id] || []);
+    return eventsData.filter((event) => eventIds.has(event.id));
   }
   return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
 }
@@ -1802,7 +1955,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" },
       { label: "参加者", value: (record.characters || []).map(formatRoyalName).join(" / ") },
-      { label: "詳細", value: record.notes || "" }
+      { label: "詳細", value: formatDisplayText(record.notes) || "" }
     ];
     if ((record.revealed_facts || []).length > 0) {
       extraSections.push({ heading: "分かったこと", lines: record.revealed_facts });
@@ -1823,17 +1976,17 @@ function showDetailModal(name, category, eventData = null) {
   } else if (category === "prince") {
     record = princesData.find((p) => p.id === name);
     if (!record) return;
-    titleEl.textContent = `第${record.rank}王子 ${record.name}`;
+    titleEl.textContent = `第${record.rank}王子${getDisplayName(record)}`;
     details = [
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
       { label: "母（王妃）", value: record.queen || "不明" },
-      { label: "部屋", value: record.room || "未配置" },
+      { label: "部屋", value: formatRoomLabel(record.room) || "未配置" },
       { label: "本人の念系統", value: record.nen_type || "不明" },
       { label: "本人の念能力", value: record.nen_ability || "不明" },
       { label: "守護霊獣", value: record.spirit_beast_name || "不明" },
       { label: "状態", value: record.status || "不明" },
       { label: "陣営", value: record.faction_note || "" },
-      { label: "備考", value: record.notes || "" }
+      { label: "備考", value: formatDisplayText(record.notes) || "" }
     ];
   } else {
     record = bodyguardsData.find((g) => g.id === name);
@@ -1841,12 +1994,16 @@ function showDetailModal(name, category, eventData = null) {
     titleEl.textContent = record.name;
     details = [
       { label: "分類", value: record.soldier_category || "不明" },
-      { label: "配置先", value: record.camp || "不明" },
-      { label: "所属", value: record.affiliation || "不明" },
+      { label: "配置・護衛先", value: formatAssignment(record) || "不明" },
+      { label: "所属", value: formatAffiliation(record) || "不明" },
+      { label: "現在地", value: formatRoomLabel(record.room || record.location) || "不明" },
+      { label: "任務", value: formatDisplayText(record.mission) || "不明" },
+      { label: "任務対象", value: formatDisplayText(record.target) || "" },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.nen_ability || "不明" },
       { label: "役割", value: record.role || "不明" },
-      { label: "備考", value: record.notes || "" }
+      { label: "念講習会", value: getNenClassLabel(record) || "" },
+      { label: "備考", value: formatDisplayText(record.notes) || "" }
     ];
   }
 
@@ -1933,7 +2090,7 @@ function showDetailModal(name, category, eventData = null) {
     details.className = "related-events-spoiler";
 
     const summary = document.createElement("summary");
-    summary.textContent = `関連イベント（${relatedEvents.length}件）`;
+    summary.textContent = "関連イベント";
     details.appendChild(summary);
 
     const list = document.createElement("div");
@@ -1983,7 +2140,7 @@ function setupBackToTop() {
 }
 
 function activatePrimaryView(view, updateHash = false) {
-  const validView = ["characters", "places", "timeline"].includes(view) ? view : "characters";
+  const validView = ["characters", "places", "timeline", "guide"].includes(view) ? view : "characters";
   document.querySelectorAll("[data-primary-panel]").forEach((panel) => {
     panel.hidden = panel.dataset.primaryPanel !== validView;
   });
@@ -2022,15 +2179,20 @@ function scrollToCurrentHash() {
 
 async function init() {
   try {
-    const [characters, events, spiritBeasts, factions, mafia] = await Promise.all([
+    const [characters, characterImages, events, spiritBeasts, factions, mafia] = await Promise.all([
       loadJson(DATA.characters),
+      loadJson(DATA.characterImages),
       loadJson(DATA.events),
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
       loadJson(DATA.mafia)
     ]);
 
-    charactersData = characters;
+    const imageByCharacterId = new Map(characterImages.map((entry) => [entry.id, entry]));
+    charactersData = characters.map((character) => {
+      const imageEntry = imageByCharacterId.get(character.id);
+      return imageEntry ? { ...character, image: imageEntry.image, image_source_url: imageEntry.source_url } : character;
+    });
     spiritBeastsData = spiritBeasts;
     factionsData = factions;
     mafiaData = mafia;
@@ -2044,8 +2206,11 @@ async function init() {
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
 
-    renderCharacterDirectory(charactersData);
+    renderCharacterDirectory(charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id)));
+    renderBasicCharacters();
+    renderSpiritBeasts(spiritBeastsData);
     setupCharacterDirectory();
+    setupBeastNenFilter();
     setupDetailModal();
     setupTimelineTabs();
     setupFilters();
@@ -2053,7 +2218,7 @@ async function init() {
     setupBackToTop();
     setupPrimaryNavigation();
 
-    if (!["characters", "places", "timeline"].includes(location.hash.slice(1))) {
+    if (!["characters", "places", "timeline", "guide"].includes(location.hash.slice(1))) {
       scrollToCurrentHash();
     }
   } catch (err) {

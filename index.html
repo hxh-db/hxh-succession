@@ -27,6 +27,7 @@
         <p>まず陣営を選び、必要な人物だけを確認できます</p>
       </div>
       <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
+      <div id="characterSubNav" class="character-sub-nav" aria-label="人物グループの内訳"></div>
       <div class="character-controls">
         <label>
           人物を検索
@@ -59,8 +60,14 @@
           </div>
         </details>
       </div>
+      <div class="character-view-switch" role="group" aria-label="人物の表示形式">
+        <button id="characterViewCards" class="active" type="button" aria-pressed="true">カード表示</button>
+        <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
+        <label class="assignment-only-toggle"><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
+      </div>
       <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
       <div id="characterDirectory" class="character-directory"></div>
+      <div id="characterAssignmentTable" class="character-assignment-table" hidden></div>
     </section>
 
     <section id="places" class="primary-view" data-primary-panel="places" hidden>
@@ -71,8 +78,9 @@
       <div class="place-group-tabs" id="placeGroupTabs" role="group" aria-label="階層を選択"></div>
       <div class="room-area-tabs" id="roomAreaTabs" role="group" aria-label="部屋を選択"></div>
       <p class="room-area-summary" id="roomAreaSummary" aria-live="polite"></p>
+      <p class="location-basis-note">人物の所在地は、登録済みイベントから確認できる最新位置です。基準話数と確度を併記します。</p>
       <section class="room-people-panel" aria-labelledby="roomPeopleTitle">
-        <h3 id="roomPeopleTitle">現在この場所にいる人物</h3>
+        <h3 id="roomPeopleTitle">登録上の最新配置</h3>
         <div id="roomPeople" class="room-people-list"></div>
         <h3 class="room-visitors-title">過去に登場・訪問した人物</h3>
         <div id="roomVisitors" class="room-people-list"></div>
@@ -85,6 +93,10 @@
         <h2>時間別</h2>
         <p>日付を選び、その日に各場所で起きた出来事を確認</p>
       </div>
+      <aside class="uncollected-warning" aria-label="単行本未収録情報について">
+        <strong>411話以降は単行本未収録時点の暫定データです。</strong>
+        <span>掲載時の表記や日付に矛盾する可能性があるため、確定情報と分けて表示します。</span>
+      </aside>
 
       <div class="timeline-controls">
         <label>
@@ -118,7 +130,7 @@
       <div id="timeline-panel-schedule" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-schedule">
         <div class="section-subtitle">
           <h3>日付別タイムライン</h3>
-          <p>日付を選ぶと、その日の出来事を場所ごとに表示します。</p>
+          <p>日付を選ぶと、出来事を時刻順に並べます。同じ時刻に別の場所で起きた出来事は横並びで表示します。</p>
         </div>
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>

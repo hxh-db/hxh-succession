@@ -6,6 +6,7 @@ characters.json, events.json, spirit_beasts.json, factions.json, mafia.json
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -63,14 +64,31 @@ def validate_cross_references(base):
             errors.append(f"{label}が重複しています: {value}")
 
     for character in characters:
+        room = character.get("room")
+        if room is not None and not isinstance(room, str):
+            errors.append(f"人物の部屋表記が文字列ではありません: {character['id']} -> {room}")
         for relation_id in (character.get("children") or []) + (character.get("parent_ids") or []):
             if relation_id not in id_set:
                 errors.append(f"人物関係の参照先がありません: {character['id']} -> {relation_id}")
 
     for event in events:
+        room = event.get("room")
+        if room is not None and not isinstance(room, str):
+            errors.append(f"イベントの部屋表記が文字列ではありません: {event['id']} -> {room}")
         for token in event.get("characters") or []:
             if token not in id_set and token not in name_set:
                 errors.append(f"イベント人物の参照先がありません: {event['id']} -> {token}")
+        for token in (event.get("character_locations") or {}):
+            if token not in id_set:
+                errors.append(f"人物別所在地の参照先がありません: {event['id']} -> {token}")
+            if token not in (event.get("characters") or []):
+                errors.append(f"人物別所在地の人物がイベント参加者に含まれていません: {event['id']} -> {token}")
+
+    for source_name, records in (("人物", characters), ("イベント", events)):
+        for record in records:
+            for key, value in record.items():
+                if isinstance(value, str) and re.search(r"\bch\d+\b", value, re.IGNORECASE):
+                    errors.append(f"{source_name}に旧話数表記が残っています: {record['id']} -> {key}")
 
     return errors
 

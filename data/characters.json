@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "KNG-001",
     "type": "king",
@@ -201,7 +201,7 @@
       {
         "chapter": 389,
         "status": "拘束（人格がバルサミルコと入れ替わる）",
-        "cause": "矢の能力（操作系）の直撃を受けたバルサミルコと人格が入れ替わる。ハルケンブルグ本来の肉体（中身はバルサミルコの人格）はその後拘束される。以後ch403-404まではハルケンブルグの人格がバルサミルコの肉体を主導した",
+        "cause": "矢の能力（操作系）の直撃を受けたバルサミルコと人格が入れ替わる。ハルケンブルグ本来の肉体（中身はバルサミルコの人格）はその後拘束される。以後403話-404まではハルケンブルグの人格がバルサミルコの肉体を主導した",
         "killer": null
       },
       {
@@ -213,7 +213,7 @@
     ],
     "is_hunter": false,
     "faction_note": "反継承戦クーデター派。継承戦廃止を目指し父王ナスビーへのクーデターを企図したが失敗",
-    "notes": "最高学府を飛び級卒業の秀才。ch389で矢の能力がバルサミルコに直撃し人格が入れ替わる。本来の肉体（中身はバルサミルコの人格）はch404で毒殺され死亡。バルサミルコの肉体に残ったハルケンブルグの人格は、バルサミルコ本来の人格の裏に同居する状態になった",
+    "notes": "最高学府を飛び級卒業の秀才。389話で矢の能力がバルサミルコに直撃し人格が入れ替わる。本来の肉体（中身はバルサミルコの人格）は404話で毒殺され死亡。バルサミルコの肉体に残ったハルケンブルグの人格は、バルサミルコ本来の人格の裏に同居する状態になった",
     "image": "images/characters/p09.png"
   },
   {
@@ -504,12 +504,12 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "第14王子ワブル・第8王妃オイトの護衛統括",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
     "nen_type": "特質系",
-    "nen_ability": "緋の眼発動時に特質系化。6本の鎖の念能力（皇帝の時間・絶対的な束縛・制約と誓約など）。皇帝の時間で念習得速度を5倍に高める",
+    "nen_ability": "緋の眼発動時に特質系化。6本の鎖の念能力（皇帝の時間・絶対的な束縛・制約と誓約など）。人差し指のスチールチェーンで他者の念能力を奪い、ステルスドルフィンを通じて使用できる。皇帝の時間で念習得速度を5倍に高める",
     "faction_note": "ツベッパ＝ワブル同盟の仲介役",
     "notes": "ツェリードニヒを最大の標的とする。本来の系統は放出系だが緋の眼発動で特質系へ変化",
     "image": "images/characters/kurapika.png",
@@ -741,7 +741,7 @@
     "is_hunter": false,
     "nen_type": "放出系",
     "nen_ability": "裏窓（リトルアイ）：オーラの球を放って虫など実在する小動物（ハムスター程度まで）を捕獲し、操ることでその生物が感知する情報を遠隔から得る放出系（操作系寄り）の能力。念獣は捕獲対象にできず実在する生物に限られる",
-    "notes": "ch361で能力が判明。出港直後に拘束され、ワブル陣営の護衛戦力が早期に低下した。後にモモゼの守護霊獣に操られてワブル警備兵3名を殺害している（本来の意思によるものではない）",
+    "notes": "361話で能力が判明。出港直後に拘束され、ワブル陣営の護衛戦力が早期に低下した。後にモモゼの守護霊獣に操られてワブル警備兵3名を殺害している（本来の意思によるものではない）",
     "image": "images/characters/saild.png",
     "soldier_category": "私設兵"
   },
@@ -1100,7 +1100,7 @@
     "is_hunter": true,
     "nen_type": "放出系",
     "nen_ability": "地面に拳を叩き付け、離れた場所からオーラの拳を発生させて攻撃する技。腫瘍や血栓の除去など医療目的にも応用可能",
-    "notes": "ch343でクラピカと共に十二支んに加入。会長クァルタに十二支ん「亥」として推薦され、暗黒大陸渡航では医療班を担当",
+    "notes": "343話でクラピカと共に十二支んに加入。会長クァルタに十二支ん「亥」として推薦され、暗黒大陸渡航では医療班を担当",
     "image": null
   },
   {
@@ -1125,7 +1125,7 @@
     ],
     "is_hunter": true,
     "nen_type": null,
-    "nen_ability": "ch345で念が使えなくなった",
+    "nen_ability": "345話で念が使えなくなった",
     "notes": "クラピカ、ジン、ツェリードニヒと同席する場面に登場",
     "image": null
   },
@@ -1165,7 +1165,7 @@
     "is_hunter": true,
     "nen_type": "不明（公式未開示）",
     "nen_ability": null,
-    "notes": "ゴンの父。ダブルスターハンターでトリプルスター相当の実力者。レイザーを打倒・捕獲した実績を持つ。ネテロ会長は彼を世界五大念能力者の一人と評した。ch344でNo.2就任、ch347でビヨンドチームに承認される",
+    "notes": "ゴンの父。ダブルスターハンターでトリプルスター相当の実力者。レイザーを打倒・捕獲した実績を持つ。ネテロ会長は彼を世界五大念能力者の一人と評した。344話でNo.2就任、347話でビヨンドチームに承認される",
     "image": null
   },
   {
@@ -1184,7 +1184,7 @@
     "is_hunter": true,
     "nen_type": "不明（公式未開示）",
     "nen_ability": null,
-    "notes": "前会長ネテロの相手役（スパーリングパートナー）を務めた実力者。ch343でクラピカ・ツェリードニヒらと共に登場",
+    "notes": "前会長ネテロの相手役（スパーリングパートナー）を務めた実力者。343話でクラピカ・ツェリードニヒらと共に登場",
     "image": null
   },
   {
@@ -1229,7 +1229,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "面会に立ち会った局員。ch403で倒れたとカイザルに報告される",
+    "notes": "面会に立ち会った局員。403話で倒れたとカイザルに報告される",
     "image": null
   },
   {
@@ -1242,7 +1242,7 @@
     "camp": "ワブル陣営",
     "mission": "監視",
     "role": "ワブル王室警護兵として追加されたベンジャミン私設兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -1255,7 +1255,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "エアブロウと推測されるが拘束のため詳細不明",
-    "notes": "ch363〜364。能力検証前に自死。死亡時、能力エアブロウはベンジャミンバトンによりベンジャミンに継承された",
+    "notes": "363話〜364。能力検証前に自死。死亡時、能力エアブロウはベンジャミンバトンによりベンジャミンに継承された",
     "image": "images/characters/vincent.png",
     "soldier_category": "私設兵"
   },
@@ -1269,13 +1269,13 @@
     "camp": "ワブル陣営",
     "mission": "監視",
     "role": "ワブル王室警護兵として追加されたベンジャミン私設兵（ビンセントの後任）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "部屋全体に円（バリア）を張れる念能力。系統不明だが、私設兵長バルサミルコ＝マイトはカウンター型と推測している",
-    "notes": "ch363で追加。ch401で考え事をする様子が描かれる",
+    "notes": "363話で追加。401話で考え事をする様子が描かれる",
     "image": "images/characters/babimyna.png",
     "soldier_category": "私設兵"
   },
@@ -1289,13 +1289,13 @@
     "camp": "ベンジャミン陣営",
     "mission": "護衛",
     "role": "ベンジャミンの参謀格の私設兵（兵隊長）",
-    "room": 1001,
+    "room": "1層1001号室",
     "status": "存命（バルサミルコ本来の人格が優位に復帰。ハルケンブルグの人格は裏に同居）",
     "status_log": [
       {
         "chapter": 389,
         "status": "存命（ハルケンブルグと人格が入れ替わる）",
-        "cause": "ハルケンブルグの矢の能力（操作系）を受け、ハルケンブルグ本来の肉体にいた人格と入れ替わる。以後ch403-404まではハルケンブルグの人格がバルサミルコの肉体を主導した",
+        "cause": "ハルケンブルグの矢の能力（操作系）を受け、ハルケンブルグ本来の肉体にいた人格と入れ替わる。以後403話-404まではハルケンブルグの人格がバルサミルコの肉体を主導した",
         "killer": null
       },
       {
@@ -1308,7 +1308,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389でハルケンブルグと人格が入れ替わる（ハルケンブルグ本来の肉体にはバルサミルコの人格が入る）。以後ハルケンブルグの人格がバルサミルコの肉体を主導し、本来の肉体を拘束・毒殺へ誘導。ch404の毒殺後はバルサミルコ本来の人格が優位に復帰し、ハルケンブルグの人格は裏に同居する状態になった",
+    "notes": "389話でハルケンブルグと人格が入れ替わる（ハルケンブルグ本来の肉体にはバルサミルコの人格が入る）。以後ハルケンブルグの人格がバルサミルコの肉体を主導し、本来の肉体を拘束・毒殺へ誘導。404話の毒殺後はバルサミルコ本来の人格が優位に復帰し、ハルケンブルグの人格は裏に同居する状態になった",
     "image": "images/characters/balsamilco.png",
     "soldier_category": "私設兵"
   },
@@ -1322,12 +1322,12 @@
     "camp": "ベンジャミン陣営",
     "mission": "護衛",
     "role": "1警護（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "ch369念講習会で隠れた念能力者の一人として参加",
+    "nen_ability": "369話念講習会で隠れた念能力者の一人として参加",
     "notes": "カミーラ襲撃時に生存（もう1名は死亡）。カミーラの腕を折り拘束した",
     "image": null,
     "soldier_category": "私設兵"
@@ -1342,13 +1342,13 @@
     "camp": "タイソン陣営",
     "mission": "監視",
     "role": "タイソン陣営に配置されたベンジャミン私設兵",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch372。タイソンの念獣（目玉ジャクシ）が憑かなかった人物",
+    "notes": "372話。タイソンの念獣（目玉ジャクシ）が憑かなかった人物",
     "image": "images/characters/orau.png",
     "soldier_category": "私設兵"
   },
@@ -1362,7 +1362,7 @@
     "camp": "ベンジャミン陣営",
     "mission": "護衛",
     "role": "ベンジャミン私設兵",
-    "room": 1001,
+    "room": "1層1001号室",
     "status": "死亡",
     "status_log": [
       {
@@ -1375,7 +1375,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "裏窓の鳥（シークレットウインドウ）：死亡時、ベンジャミンバトンによりベンジャミンに継承される（カミーラに憑くわけではない）",
-    "notes": "ch372-373。能力はカミーラではなくベンジャミンが継承した",
+    "notes": "372話-373。能力はカミーラではなくベンジャミンが継承した",
     "image": "images/characters/musse.png",
     "soldier_category": "私設兵"
   },
@@ -1389,7 +1389,7 @@
     "camp": "ルズールス陣営",
     "mission": "監視",
     "role": "ルズールス1007号室に配置されたベンジャミン私設兵・第1王子側近兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1409,13 +1409,13 @@
     "camp": "ベンジャミン陣営",
     "mission": "護衛",
     "role": "ベンジャミン陣営の私設兵",
-    "room": 1001,
+    "room": "1層1001号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "表裏一体（タックルシールド）：攻防一体の技",
-    "notes": "ch389で緊急連絡、ch403でバルサミルコと接触し軍用手話で足止め役を担う。なお、一時モモゼ暗殺容疑で拘束されていたとの記録もある（時期不明、後に任務に復帰したとみられる）",
+    "notes": "389話で緊急連絡、403話でバルサミルコと接触し軍用手話で足止め役を担う。なお、一時モモゼ暗殺容疑で拘束されていたとの記録もある（時期不明、後に任務に復帰したとみられる）",
     "image": "images/characters/vict.png",
     "soldier_category": "私設兵"
   },
@@ -1430,7 +1430,7 @@
     "mission": "呪殺",
     "target": "第1王子ベンジャミン",
     "role": "カミーラ私設兵（ベンジャミン担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1451,7 +1451,7 @@
     "mission": "呪殺",
     "target": "第3王子チョウライ",
     "role": "カミーラ私設兵（チョウライ担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1472,7 +1472,7 @@
     "mission": "呪殺",
     "target": "第4王子ツェリードニヒ",
     "role": "カミーラ私設兵（ツェリードニヒ担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1493,7 +1493,7 @@
     "mission": "呪殺",
     "target": "第5王子ツベッパ",
     "role": "カミーラ私設兵（ツベッパ担当・準協会員）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1514,7 +1514,7 @@
     "mission": "呪殺",
     "target": "第6王子タイソン",
     "role": "カミーラ私設兵（タイソン担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1535,7 +1535,7 @@
     "mission": "呪殺",
     "target": "第7王子ルズールス",
     "role": "カミーラ私設兵（ルズールス担当・準協会員）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1556,7 +1556,7 @@
     "mission": "呪殺",
     "target": "第8王子サレサレ",
     "role": "カミーラ私設兵（サレサレ担当・担当外れ）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1577,7 +1577,7 @@
     "mission": "呪殺",
     "target": "第9王子ハルケンブルグ",
     "role": "カミーラ私設兵（ハルケンブルグ担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1598,7 +1598,7 @@
     "mission": "呪殺",
     "target": "第10王子カチョウ",
     "role": "カミーラ私設兵（カチョウ担当・準協会員）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1619,7 +1619,7 @@
     "mission": "呪殺",
     "target": "第11王子フウゲツ",
     "role": "カミーラ私設兵（フウゲツ担当・準協会員）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1640,7 +1640,7 @@
     "mission": "呪殺",
     "target": "第12王子モモゼ",
     "role": "カミーラ私設兵（モモゼ担当・担当外れ）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1661,7 +1661,7 @@
     "mission": "呪殺",
     "target": "第13王子マラヤーム",
     "role": "カミーラ私設兵（マラヤーム担当）",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1682,7 +1682,7 @@
     "mission": "呪殺",
     "target": "第14王子ワブル",
     "role": "カミーラ私設兵隊長（ワブル担当）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1702,7 +1702,7 @@
     "camp": "カミーラ陣営",
     "mission": "護衛",
     "role": "除念師",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1722,7 +1722,7 @@
     "camp": "カミーラ陣営",
     "mission": "護衛",
     "role": "執事長",
-    "room": 1002,
+    "room": "1層1002号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -1757,18 +1757,18 @@
     "position_code": "P03-P01",
     "current_assignment": null,
     "type": "soldier",
-    "name": "ランフトリ",
+    "name": "テンフトリ",
     "affiliation": "チョウライ陣営",
     "camp": "チョウライ陣営",
     "mission": "護衛",
-    "role": "3警護（念講習会参加者）",
-    "room": 1014,
+    "role": "第3王子チョウライ私設兵（念講習会参加者）",
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "ch389で念に目覚める。コインを受け取る",
-    "notes": "ch369念講習会参加。ch402でツベッパ・ワブル陣営との和平条約締結をチョウライに報告",
+    "nen_ability": "389話で念に目覚め、チョウライの守護霊獣が生み出したコインを受け取る",
+    "notes": "369話の第1回念講習会と411話の第2回念講習会に参加。402話でツベッパ・ワブル陣営との和平条約締結をチョウライに報告。旧登録名「ランフトリ」は誤記のためテンフトリへ統合",
     "image": null,
     "soldier_category": "私設兵"
   },
@@ -1782,7 +1782,7 @@
     "camp": "ツェリードニヒ陣営",
     "mission": "護衛",
     "role": "4警護（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -1795,7 +1795,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加。当初サイレントマジョリティーの犯人と疑われたが冤罪と判明",
+    "notes": "369話念講習会参加。当初サイレントマジョリティーの犯人と疑われたが冤罪と判明",
     "image": "images/characters/myuhan.png",
     "soldier_category": "私設兵"
   },
@@ -1809,13 +1809,13 @@
     "camp": "ツェリードニヒ陣営",
     "mission": "護衛",
     "role": "4警護（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加",
+    "notes": "369話念講習会参加",
     "image": "images/characters/danjin.png",
     "soldier_category": "私設兵"
   },
@@ -1829,13 +1829,13 @@
     "camp": "ツェリードニヒ陣営",
     "mission": "護衛",
     "role": "私設兵隊長",
-    "room": 1004,
+    "room": "1層1004号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400。センリツをツェリードニヒの部屋に招待したいと伝える",
+    "notes": "400話。センリツをツェリードニヒの部屋に招待したいと伝える",
     "image": "images/characters/vantine.png",
     "soldier_category": "私設兵"
   },
@@ -1849,13 +1849,13 @@
     "camp": "ツベッパ陣営",
     "mission": "護衛",
     "role": "私設兵隊長（5警護・念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "ch388の念講習会で念能力を使えるようになる",
-    "notes": "ch365でクラピカに電話。ch369念講習会参加",
+    "nen_ability": "388話の念講習会で念能力を使えるようになる",
+    "notes": "365話でクラピカに電話。369話念講習会参加",
     "image": "images/characters/maor.png",
     "soldier_category": "私設兵"
   },
@@ -1866,17 +1866,17 @@
     "type": "soldier",
     "name": "ロンギ",
     "parent_ids": ["BYD-001"],
-    "affiliation": "ドゥアズル陣営（表向き）／ビヨンド＝ネテロの実子（ch401で判明）",
+    "affiliation": "ドゥアズル陣営（表向き）／ビヨンド＝ネテロの実子（401話で判明）",
     "camp": "ツベッパ陣営",
     "mission": "護衛",
     "role": "5警護（念講習会参加者）。表向きはドゥアズル所属兵（ツベッパも実子のため護衛任務）だが、正体はビヨンド＝ネテロの娘",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
     "nen_ability": "舌の裏に隠された『目』の刻印を持つ『ソエモノ』の一人。死後に発動する協力型の邪悪な念を共有し、能力値が高められている",
-    "notes": "ch369から潜伏していた念能力者の一人。ch401でビヨンド＝ネテロの実の娘であることを自ら明かす。ビヨンドは約30年前からカキン帝国で暗躍し、上級兵士と意図的に子を成していた（ソエモノは10名以上）。オイト王妃が恐怖し、クラピカとの間で相互不可侵の契約が結ばれた。王族の中にも別のビヨンドの子がいることを告白。なお、表向きは第5王子ツベッパの私設兵として登録されていた",
+    "notes": "369話から潜伏していた念能力者の一人。401話でビヨンド＝ネテロの実の娘であることを自ら明かす。ビヨンドは約30年前からカキン帝国で暗躍し、上級兵士と意図的に子を成していた（ソエモノは10名以上）。オイト王妃が恐怖し、クラピカとの間で相互不可侵の契約が結ばれた。王族の中にも別のビヨンドの子がいることを告白。なお、表向きは第5王子ツベッパの私設兵として登録されていた",
     "image": "images/characters/longhi.png",
     "soldier_category": "王妃所属兵"
   },
@@ -1890,13 +1890,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "タイソン教の信者・私設兵（通称「チャラ男」）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。タイソン教典を読み込む。タイソンにバースデーを祝われる。参考資料では「チャラ男（仮）」と呼ばれていた人物と同一人物。イズナビのことを「イズさん」と呼ぶ",
+    "notes": "389話。タイソン教典を読み込む。タイソンにバースデーを祝われる。参考資料では「チャラ男（仮）」と呼ばれていた人物と同一人物。イズナビのことを「イズさん」と呼ぶ",
     "image": "images/characters/giuliano.png",
     "soldier_category": "私設兵"
   },
@@ -1910,13 +1910,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "私設兵（コードネーム：記憶喪失のヒットマン）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400。タイソン陣営の私設兵は全員設定（コードネーム）を持つ",
+    "notes": "400話。タイソン陣営の私設兵は全員設定（コードネーム）を持つ",
     "image": "images/characters/madwig.png",
     "soldier_category": "私設兵"
   },
@@ -1930,13 +1930,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "私設兵（コードネーム：世界的大スター）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400",
+    "notes": "400話",
     "image": "images/characters/himonce.png",
     "soldier_category": "私設兵"
   },
@@ -1950,13 +1950,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "私設兵（コードネーム：タイソン王子の弟）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400",
+    "notes": "400話",
     "image": "images/characters/anzel.png",
     "soldier_category": "私設兵"
   },
@@ -1970,13 +1970,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "私設兵（コードネーム：伝説の家庭教師）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400",
+    "notes": "400話",
     "image": "images/characters/hyuga.png",
     "soldier_category": "私設兵"
   },
@@ -1990,13 +1990,13 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "私設兵（コードネーム：お嫁さんを探しに来たムニー星の王子）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch400",
+    "notes": "400話",
     "image": null,
     "soldier_category": "私設兵"
   },
@@ -2010,13 +2010,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "7警護（念講習会参加者）。ドゥアズル所属兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加",
+    "notes": "369話念講習会参加",
     "image": "images/characters/satobi.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2030,13 +2030,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ドゥアズル所属兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカクの来訪に玄関で対応した人物",
+    "notes": "389話。シカクの来訪に玄関で対応した人物",
     "image": "images/characters/rice.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2050,13 +2050,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ドゥアズル所属兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時に1007号室の主寝室にいた",
+    "notes": "389話。シカク自死時に1007号室の主寝室にいた",
     "image": "images/characters/famule.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2070,13 +2070,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ドゥアズル所属兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時、就寝中だった",
+    "notes": "389話。シカク自死時、就寝中だった",
     "image": "images/characters/odessa.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2090,13 +2090,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ドゥアズル所属兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時、就寝中だった",
+    "notes": "389話。シカク自死時、就寝中だった",
     "image": "images/characters/gadeau.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2110,7 +2110,7 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ルズールス陣営の関係者",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "死亡",
     "status_log": [
       {
@@ -2129,7 +2129,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389でシカク自死時（実際はスミドリの自死）の1007号室の状況が回想される。鳴動はシカクが死んだ瞬間に止まった",
+    "notes": "389話でシカク自死時（実際はスミドリの自死）の1007号室の状況が回想される。鳴動はシカクが死んだ瞬間に止まった",
     "image": "images/characters/shikaku.png",
     "soldier_category": "私設兵"
   },
@@ -2143,13 +2143,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "ルズールス私設兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時に1007号室の主寝室にいた",
+    "notes": "389話。シカク自死時に1007号室の主寝室にいた",
     "image": "images/characters/bharate.png",
     "soldier_category": "私設兵"
   },
@@ -2163,13 +2163,13 @@
     "camp": "ルズールス陣営",
     "mission": "護衛",
     "role": "私設兵",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時、就寝中だった",
+    "notes": "389話。シカク自死時、就寝中だった",
     "image": "images/characters/macne.png",
     "soldier_category": "私設兵"
   },
@@ -2183,13 +2183,13 @@
     "camp": "サレサレ陣営",
     "mission": "護衛",
     "role": "8警護（念講習会参加者）。スィンコスィンコ所属兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加",
+    "notes": "369話念講習会参加",
     "image": "images/characters/mushaho.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2203,13 +2203,13 @@
     "camp": "ハルケンブルグ陣営",
     "mission": "護衛",
     "role": "9警護（念講習会参加者）。ハルケンブルグ私設兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "無自覚の念能力者と判明（ch372）",
-    "notes": "ch369念講習会参加",
+    "nen_ability": "無自覚の念能力者と判明（372話）",
+    "notes": "369話念講習会参加",
     "image": "images/characters/shedule.png",
     "soldier_category": "私設兵"
   },
@@ -2223,13 +2223,13 @@
     "camp": "ハルケンブルグ陣営",
     "mission": "護衛",
     "role": "9警護（念講習会参加者）。ハルケンブルグ私設兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "無自覚の念能力者と判明（ch372）",
-    "notes": "ch369念講習会参加",
+    "nen_ability": "無自覚の念能力者と判明（372話）",
+    "notes": "369話念講習会参加",
     "image": "images/characters/yuhirai.png",
     "soldier_category": "私設兵"
   },
@@ -2243,7 +2243,7 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "10従事者（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "拘束",
     "status_log": [
       {
@@ -2256,7 +2256,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加。ch370でサイレントマジョリティーに憑かれた者と判明し拘束",
+    "notes": "369話念講習会参加。370話でサイレントマジョリティーに憑かれた者と判明し拘束",
     "image": "images/characters/roberry.png",
     "soldier_category": "従事者"
   },
@@ -2270,13 +2270,13 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "10従事者（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "ch388の念講習会で念能力を使えるようになる",
-    "notes": "ch369念講習会参加",
+    "nen_ability": "388話の念講習会で念能力を使えるようになる",
+    "notes": "369話念講習会参加",
     "image": "images/characters/yuuri.png",
     "soldier_category": "従事者"
   },
@@ -2290,7 +2290,7 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "カチョウ警護兵",
-    "room": 1010,
+    "room": "1層1010号室",
     "status": "死亡",
     "status_log": [
       {
@@ -2302,8 +2302,8 @@
     ],
     "is_hunter": true,
     "nen_type": null,
-    "nen_ability": "部屋全体に円（バリア）を張れる念能力。ch377時点でフウゲツがマジカルワームでカチョウの部屋に出現したことを察知していた",
-    "notes": "ch377で晩餐会ショーの護衛役。ch383で双子の脱出を成功させ自死",
+    "nen_ability": "部屋全体に円（バリア）を張れる念能力。377話時点でフウゲツがマジカルワームでカチョウの部屋に出現したことを察知していた",
+    "notes": "377話で晩餐会ショーの護衛役。383話で双子の脱出を成功させ自死",
     "image": "images/characters/keeney.png",
     "soldier_category": "ハンター（協専）"
   },
@@ -2317,13 +2317,13 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "11従事者（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加",
+    "notes": "369話念講習会参加",
     "image": "images/characters/illardia.png",
     "soldier_category": "従事者"
   },
@@ -2337,13 +2337,13 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "11従事者（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "ch386でクラピカに『一番覚えが良い』と評される。ch388で念能力を習得",
-    "notes": "ch369念講習会参加",
+    "nen_ability": "386話でクラピカに『一番覚えが良い』と評される。388話で念能力を習得",
+    "notes": "369話念講習会参加",
     "image": "images/characters/ladiolus.png",
     "soldier_category": "従事者"
   },
@@ -2357,13 +2357,13 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "護衛",
     "role": "フウゲツ王子警護",
-    "room": 1011,
+    "room": "1層1011号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
     "nen_ability": "詳細不明。サレサレの守護霊獣を倒した後のサレサレ死亡に関与",
-    "notes": "ch381でリハン（48時間念能力使用不可）と交代しフウゲツ警護に入る。ch382でサレサレ死亡時に能力を使用（能力の詳細は謎のまま）",
+    "notes": "381話でリハン（48時間念能力使用不可）と交代しフウゲツ警護に入る。382話でサレサレ死亡時に能力を使用（能力の詳細は謎のまま）",
     "image": "images/characters/yushohi.png",
     "soldier_category": "私設兵"
   },
@@ -2377,13 +2377,13 @@
     "camp": "マラヤーム陣営",
     "mission": "護衛",
     "role": "13警護（念講習会参加者）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
     "nen_type": "不明",
     "nen_ability": null,
-    "notes": "ch369念講習会参加。ch376で念講習会参加者をたしなめる",
+    "notes": "369話念講習会参加。376話で念講習会参加者をたしなめる",
     "image": "images/characters/belerainte.png",
     "soldier_category": "ハンター（クラピカ経由）"
   },
@@ -2397,7 +2397,7 @@
     "camp": "マラヤーム陣営",
     "mission": "護衛",
     "role": "13警護（念講習会参加者）。セヴァンチ所属兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -2410,7 +2410,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会参加。ch370で殺害される",
+    "notes": "369話念講習会参加。370話で殺害される",
     "image": "images/characters/barrigen.png",
     "soldier_category": "王妃所属兵"
   },
@@ -2424,7 +2424,7 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "ワブル従者",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -2437,7 +2437,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch363",
+    "notes": "363話",
     "image": null,
     "soldier_category": "従事者"
   },
@@ -2451,7 +2451,7 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "ワブル警備兵（協専ハンター）",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -2464,7 +2464,7 @@
     "is_hunter": true,
     "nen_type": "具現化系",
     "nen_ability": "船や車に変身できる念能力",
-    "notes": "ch360-361。ビルが提案する脱出方法の一つに彼の能力（変身）が必要だった",
+    "notes": "360話-361。ビルが提案する脱出方法の一つに彼の能力（変身）が必要だった",
     "image": "images/characters/kurton.png",
     "soldier_category": "ハンター（協専）"
   },
@@ -2477,14 +2477,14 @@
     "camp": null,
     "mission": null,
     "role": "ハンター協会員",
-    "room": 1007,
+    "room": "1層1007号室",
     "location": null,
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時、ルズールスの1007号室にバショウと共に在室",
+    "notes": "389話。シカク自死時、ルズールスの1007号室にバショウと共に在室",
     "image": null
   },
   {
@@ -2496,14 +2496,14 @@
     "camp": null,
     "mission": null,
     "role": "ハンター協会員",
-    "room": 1007,
+    "room": "1層1007号室",
     "location": null,
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch389。シカク自死時、就寝中だった",
+    "notes": "389話。シカク自死時、就寝中だった",
     "image": null
   },
   {
@@ -2516,76 +2516,76 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "ワブル警備兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
         "chapter": 359,
         "status": "死亡",
-        "cause": "サイレントマジョリティーの能力により殺害（死亡時刻12時15分-12時30分）",
+        "cause": "原因不明の攻撃で死亡（発見時刻12時15分-12時30分）",
         "killer": null
       }
     ],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "出航直後に殺害された最初の犠牲者。犯人は不明。第14王子の初期警護メンバーはハンター以外全て監視役だったとされる",
+    "notes": "出航直後、1014号室のトイレで全身の血を抜かれた状態で発見された。犯人・能力の使用者は不明。第14王子の初期警護メンバーはハンター以外全て監視役だったとされる",
     "image": null,
     "soldier_category": "王室警備兵"
   },
   {
-    "id": "P14-U01", "type": "soldier", "name": "ワブル王室警備兵1（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": 1014, "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に何者かに殺害される", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch359で存在と死亡を確認。個人名・個人識別情報は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-CH359"
+    "id": "P14-U01", "type": "soldier", "name": "ワブル王室警備兵1（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": "1層1014号室", "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に原因不明の攻撃で死亡", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "359話で存在と死亡を確認。個人名・個人識別情報・死因の詳細は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-359話"
   },
   {
-    "id": "P14-U02", "type": "soldier", "name": "ワブル王室警備兵2（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": 1014, "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に何者かに殺害される", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch359で存在と死亡を確認。個人名・個人識別情報は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-CH359"
+    "id": "P14-U02", "type": "soldier", "name": "ワブル王室警備兵2（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": "1層1014号室", "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に原因不明の攻撃で死亡", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "359話で存在と死亡を確認。個人名・個人識別情報・死因の詳細は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-359話"
   },
   {
-    "id": "P14-U03", "type": "soldier", "name": "ワブル王室警備兵3（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": 1014, "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に何者かに殺害される", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch359で存在と死亡を確認。個人名・個人識別情報は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-CH359"
+    "id": "P14-U03", "type": "soldier", "name": "ワブル王室警備兵3（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": "1層1014号室", "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に原因不明の攻撃で死亡", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "359話で存在と死亡を確認。個人名・個人識別情報・死因の詳細は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-359話"
   },
   {
-    "id": "P14-U04", "type": "soldier", "name": "ワブル王室警備兵4（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": 1014, "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーと共に何者かに殺害される", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch359で存在と死亡を確認。個人名・個人識別情報は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-CH359"
+    "id": "P14-U04", "type": "soldier", "name": "ワブル王室警備兵4（仮称）", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "mission": "護衛", "role": "氏名不明のワブル王室警備兵", "room": "1層1014号室", "status": "死亡", "status_log": [{"chapter": 359, "status": "死亡", "cause": "出航直後、ウッディーとは別に原因不明の攻撃で死亡", "killer": null}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "359話最終ページで死亡を確認。個人名・個人識別情報・死因の詳細は未判明", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 359, "group_key": "P14-ROYAL-GUARDS-359話"
   },
   {
-    "id": "P13-A01", "type": "attendant", "name": "マラヤーム従事者1（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A01", "type": "attendant", "name": "マラヤーム従事者1（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-A02", "type": "attendant", "name": "マラヤーム従事者2（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A02", "type": "attendant", "name": "マラヤーム従事者2（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-A03", "type": "attendant", "name": "マラヤーム従事者3（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A03", "type": "attendant", "name": "マラヤーム従事者3（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-A04", "type": "attendant", "name": "マラヤーム従事者4（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A04", "type": "attendant", "name": "マラヤーム従事者4（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-A05", "type": "attendant", "name": "マラヤーム従事者5（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A05", "type": "attendant", "name": "マラヤーム従事者5（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-A06", "type": "attendant", "name": "マラヤーム従事者6（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-CH368"
+    "id": "P13-A06", "type": "attendant", "name": "マラヤーム従事者6（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "従事", "role": "氏名不明のマラヤーム従事者", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で6名の存在を確認", "image": null, "soldier_category": "従事者", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-ATTENDANTS-368話"
   },
   {
-    "id": "P13-G02A", "type": "soldier", "name": "マラヤーム警備兵1（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "護衛", "role": "氏名不明のマラヤーム警備兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で2名の存在を確認", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-GUARDS-CH368"
+    "id": "P13-G02A", "type": "soldier", "name": "マラヤーム警備兵1（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "護衛", "role": "氏名不明のマラヤーム警備兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で2名の存在を確認", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-GUARDS-368話"
   },
   {
-    "id": "P13-G02B", "type": "soldier", "name": "マラヤーム警備兵2（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "護衛", "role": "氏名不明のマラヤーム警備兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で2名の存在を確認", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-GUARDS-CH368"
+    "id": "P13-G02B", "type": "soldier", "name": "マラヤーム警備兵2（仮称）", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "mission": "護衛", "role": "氏名不明のマラヤーム警備兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で2名の存在を確認", "image": null, "soldier_category": "王室警備兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-GUARDS-368話"
   },
   {
-    "id": "P13-W01", "type": "soldier", "name": "マラヤーム監視兵1（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W01", "type": "soldier", "name": "マラヤーム監視兵1（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
-    "id": "P13-W02", "type": "soldier", "name": "マラヤーム監視兵2（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W02", "type": "soldier", "name": "マラヤーム監視兵2（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
-    "id": "P13-W03", "type": "soldier", "name": "マラヤーム監視兵3（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W03", "type": "soldier", "name": "マラヤーム監視兵3（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
-    "id": "P13-W04", "type": "soldier", "name": "マラヤーム監視兵4（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W04", "type": "soldier", "name": "マラヤーム監視兵4（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
-    "id": "P13-W05", "type": "soldier", "name": "マラヤーム監視兵5（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W05", "type": "soldier", "name": "マラヤーム監視兵5（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
-    "id": "P13-W06", "type": "soldier", "name": "マラヤーム監視兵6（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": 1013, "status": "状態不明（ch368時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ch368で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-CH368"
+    "id": "P13-W06", "type": "soldier", "name": "マラヤーム監視兵6（仮称）", "affiliation": "上位王妃陣営（詳細不明）", "camp": "マラヤーム陣営", "mission": "監視", "role": "氏名・所属王妃不明のマラヤーム監視兵", "room": "1層1013号室", "status": "状態不明（368話時点で存命）", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "368話で監視兵6名の存在を確認", "image": null, "soldier_category": "王妃所属兵", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 368, "group_key": "P13-WATCHERS-368話"
   },
   {
     "id": "P12-G02",
@@ -2597,7 +2597,7 @@
     "camp": "モモゼ陣営",
     "mission": "監視",
     "role": "モモゼ警備兵（第2王妃スパイ）",
-    "room": 1012,
+    "room": "1層1012号室",
     "status": "拘束",
     "status_log": [],
     "is_hunter": false,
@@ -2617,7 +2617,7 @@
     "camp": "モモゼ陣営",
     "mission": "監視",
     "role": "モモゼ警備兵（第3王妃スパイ）",
-    "room": 1012,
+    "room": "1層1012号室",
     "status": "拘束",
     "status_log": [],
     "is_hunter": false,
@@ -2637,7 +2637,7 @@
     "camp": "モモゼ陣営",
     "mission": "監視",
     "role": "モモゼ警備兵（第4王妃スパイ）",
-    "room": 1012,
+    "room": "1層1012号室",
     "status": "拘束",
     "status_log": [],
     "is_hunter": false,
@@ -2657,7 +2657,7 @@
     "camp": "モモゼ陣営",
     "mission": "監視",
     "role": "モモゼ警備兵（第6王妃スパイ）",
-    "room": 1012,
+    "room": "1層1012号室",
     "status": "拘束",
     "status_log": [],
     "is_hunter": false,
@@ -2677,13 +2677,13 @@
     "camp": "モモゼ陣営",
     "mission": "監視",
     "role": "モモゼ警備兵（第1王妃スパイ）",
-    "room": 1012,
+    "room": "1層1012号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch361『モモゼ警備兵内訳：王室警備兵6名（第1〜第6王妃のスパイ1名ずつ）。調理師免許あり』のうち、第1王妃所属のスパイのみ氏名が原文・参考資料いずれにも未判明のため仮称",
+    "notes": "361話『モモゼ警備兵内訳：王室警備兵6名（第1〜第6王妃のスパイ1名ずつ）。調理師免許あり』のうち、第1王妃所属のスパイのみ氏名が原文・参考資料いずれにも未判明のため仮称",
     "is_placeholder": true,
     "identity_status": "unnamed_confirmed",
     "source_chapter": 361,
@@ -2704,7 +2704,7 @@
     "is_hunter": false,
     "nen_type": "強化系",
     "nen_ability": "狂砕弾（マシンガン）：両腕を機関砲に変形させ、圧縮したオーラを砲弾として連射する",
-    "notes": "本編からの既存メンバー。ch379でイットクと食堂で接触",
+    "notes": "本編からの既存メンバー。379話でイットクと食堂で接触",
     "image": null
   },
   {
@@ -2720,7 +2720,7 @@
     "is_hunter": false,
     "nen_type": "操作系",
     "nen_ability": "クリーナー（スモーキー・ヴァキューム）：掃除機型の道具に物を吸い込み、高速で射出して攻撃する",
-    "notes": "本編からの既存メンバー。ch377-378でクロロ・ボノレノフと共に行動",
+    "notes": "本編からの既存メンバー。377話-378でクロロ・ボノレノフと共に行動",
     "image": null
   },
   {
@@ -2736,7 +2736,7 @@
     "is_hunter": false,
     "nen_type": "強化系",
     "nen_ability": "骨を媒介とした格闘術。詳細な念能力名は本編未公開",
-    "notes": "本編からの既存メンバー。ch377-378でクロロ・シズクと共に行動。ch405でVIPエリアに移動しヒソカを発見",
+    "notes": "本編からの既存メンバー。377話-378でクロロ・シズクと共に行動。405話でVIPエリアに移動しヒソカを発見",
     "image": null
   },
   {
@@ -2760,7 +2760,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch391でクオロール・デヴェラレスと共にヒンリギと対峙し殺害される。ch392で死後、ミーシャ＝ハオの能力（死後の念）により操られる",
+    "notes": "391話でクオロール・デヴェラレスと共にヒンリギと対峙し殺害される。392話で死後、ミーシャ＝ハオの能力（死後の念）により操られる",
     "image": null
   },
   {
@@ -2777,7 +2777,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch391でバドイユ・デヴェラレスと共にヒンリギと対峙",
+    "notes": "391話でバドイユ・デヴェラレスと共にヒンリギと対峙",
     "image": null
   },
   {
@@ -2794,7 +2794,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch391でバドイユ・クオロールと共にヒンリギと対峙",
+    "notes": "391話でバドイユ・クオロールと共にヒンリギと対峙",
     "image": null
   },
   {
@@ -2811,7 +2811,7 @@
     "is_hunter": false,
     "nen_type": "不明",
     "nen_ability": "死後の念：死亡したバドイユを操る能力。発動条件・系統など詳細は不明",
-    "notes": "ch392で言及。バドイユが死後に操られる原因とされる人物だが、本人の素性・モレナとの関係は本文未詳",
+    "notes": "392話で言及。バドイユが死後に操られる原因とされる人物だが、本人の素性・モレナとの関係は本文未詳",
     "image": null
   },
   {
@@ -2825,13 +2825,13 @@
     "camp": "ツベッパ陣営",
     "mission": "護衛",
     "role": "王立軍学校2期生。強いソエモノ。ドゥアズル所属兵（ツベッパも実子のため護衛任務）",
-    "room": 1005,
+    "room": "1層1005号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
     "nen_ability": "強いソエモノの一人。死後に発動する協力型の邪悪な念を共有する",
-    "notes": "ch401でロンギと同じくドゥアズル所属兵と判明。ロンギと並んで名前が挙がる",
+    "notes": "401話でロンギと同じくドゥアズル所属兵と判明。ロンギと並んで名前が挙がる",
     "image": null,
     "soldier_category": "王妃所属兵"
   },
@@ -2842,7 +2842,7 @@
     "affiliation": "不明",
     "camp": null,
     "role": "3101号室の隠しアジトに入り込んだ人物",
-    "room": 3101,
+    "room": "3層3101号室",
     "location": "第3層",
     "status": "死亡",
     "status_log": [
@@ -2856,7 +2856,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch394。3101号室の老人消失現象を確かめるため部屋に入り、同様に消失。その後モレナのアジトで殺害される。旅団かシャ＝ア一家側の人物と推測されるが本文未確定",
+    "notes": "394話。3101号室の老人消失現象を確かめるため部屋に入り、同様に消失。その後モレナのアジトで殺害される。旅団かシャ＝ア一家側の人物と推測されるが本文未確定",
     "image": null
   },
   {
@@ -2872,8 +2872,8 @@
     "status_log": [],
     "is_hunter": false,
     "nen_type": "不明",
-    "nen_ability": "詳細不明。ch399でアジトの罠を発動しヒンリギ・ノブナガを追い出した",
-    "notes": "ch399。モレナ陣営かアジト防衛要員と推測されるが所属は本文未確定",
+    "nen_ability": "詳細不明。399話でアジトの罠を発動しヒンリギ・ノブナガを追い出した",
+    "notes": "399話。モレナ陣営かアジト防衛要員と推測されるが所属は本文未確定",
     "image": null
   },
   {
@@ -2906,7 +2906,7 @@
     "camp": "チョウライ陣営",
     "mission": "監視",
     "role": "チョウライ陣営に配置されたベンジャミン私設兵",
-    "room": 1003,
+    "room": "1層1003号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -2926,7 +2926,7 @@
     "camp": "ツベッパ陣営",
     "mission": "監視",
     "role": "ツベッパ陣営に配置されたベンジャミン私設兵",
-    "room": 1005,
+    "room": "1層1005号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -2946,7 +2946,7 @@
     "camp": "サレサレ陣営",
     "mission": "監視",
     "role": "サレサレ陣営に配置されたベンジャミン私設兵。後にフウゲツ警護へ移動",
-    "room": 1008,
+    "room": "1層1008号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -2966,7 +2966,7 @@
     "camp": "ハルケンブルグ陣営",
     "mission": "監視",
     "role": "ハルケンブルグ陣営に配置されたベンジャミン私設兵",
-    "room": 1009,
+    "room": "1層1009号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -2990,7 +2990,7 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "監視",
     "role": "カチョウ陣営に配置されたベンジャミン私設兵",
-    "room": 1010,
+    "room": "1層1010号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -3014,11 +3014,11 @@
     "camp": "ベンジャミン陣営",
     "mission": "監視",
     "role": "ベンジャミン警護（第1王妃所属兵）",
-    "room": 1001,
+    "room": "1層1001号室",
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 361,
         "status": "死亡",
         "cause": "カミーラに銃殺される",
         "killer": "P02"
@@ -3041,13 +3041,13 @@
     "camp": "チョウライ陣営",
     "mission": "監視",
     "role": "チョウライ警護（第2王妃所属兵）",
-    "room": 1003,
+    "room": "1層1003号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch369念講習会に出席",
+    "notes": "369話念講習会に出席",
     "image": "images/characters/slakka.png",
     "soldier_category": "王妃所属兵"
   },
@@ -3061,7 +3061,7 @@
     "camp": "タイソン陣営",
     "mission": "護衛",
     "role": "第6王子タイソン護衛（クラピカ経由のハンター）",
-    "room": 1006,
+    "room": "1層1006号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
@@ -3080,7 +3080,7 @@
     "affiliation": "ビヨンドチーム（協専）",
     "camp": "ルズールス陣営",
     "mission": "護衛",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
@@ -3104,7 +3104,7 @@
     "affiliation": "ビヨンドチーム（協専）",
     "camp": "ルズールス陣営",
     "mission": "護衛",
-    "room": 1007,
+    "room": "1層1007号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": true,
@@ -3129,7 +3129,7 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "監視",
     "role": "フウゲツ警護（第6王妃所属兵）",
-    "room": 1011,
+    "room": "1層1011号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -3149,7 +3149,7 @@
     "camp": "カチョウ＝フウゲツ陣営",
     "mission": "監視",
     "role": "フウゲツ警護（第6王妃所属兵）",
-    "room": 1011,
+    "room": "1層1011号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
@@ -3169,13 +3169,13 @@
     "camp": "マラヤーム陣営",
     "mission": "監視",
     "role": "マラヤーム警護・兵隊長（第7王妃所属兵）",
-    "room": 1013,
+    "room": "1層1013号室",
     "status": "存命",
     "status_log": [],
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "ch364・ch374でクラピカと通話。モモゼ殺害犯の情報を共有し、ハンター協会員を警戒する。ビスケットが本来の姿を見せたことで念の存在を理解する",
+    "notes": "364話・374話でクラピカと通話。モモゼ殺害犯の情報を共有し、ハンター協会員を警戒する。ビスケットが本来の姿を見せたことで念の存在を理解する",
     "image": null,
     "soldier_category": "王妃所属兵"
   },
@@ -3189,11 +3189,11 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "ワブル警護兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
-        "chapter": null,
+        "chapter": 361,
         "status": "死亡",
         "cause": "第12王子モモゼの霊獣により操られたサイールドにより殺害",
         "killer": "P14-P01"
@@ -3206,7 +3206,7 @@
     "is_placeholder": true,
     "identity_status": "unnamed_confirmed",
     "source_chapter": 360,
-    "group_key": "P14-GUARDS-CH360",
+    "group_key": "P14-GUARDS-360話",
     "image": null,
     "soldier_category": "王室警備兵"
   },
@@ -3220,7 +3220,7 @@
     "camp": "ワブル陣営",
     "mission": "護衛",
     "role": "ワブル警護兵",
-    "room": 1014,
+    "room": "1層1014号室",
     "status": "死亡",
     "status_log": [
       {
@@ -3237,7 +3237,7 @@
     "is_placeholder": true,
     "identity_status": "unnamed_confirmed",
     "source_chapter": 360,
-    "group_key": "P14-GUARDS-CH360",
+    "group_key": "P14-GUARDS-360話",
     "image": null,
     "soldier_category": "王室警備兵"
   },
@@ -3260,36 +3260,77 @@
     "image": null
   },
   {
-    "id": "P13-M01", "type": "attendant", "name": "ナイペイ", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "role": "第13王子従事者", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+    "id": "JUD-003",
+    "position_code": null,
+    "type": "official",
+    "name": "クレアパトロ",
+    "aliases": ["クレア"],
+    "affiliation": "カキン王国司法機関",
+    "camp": null,
+    "mission": "司法",
+    "role": "第1層最高裁判官",
+    "room": "第1層 最高裁判官室",
+    "location": "第1層 最高裁判官室",
+    "status": "存命",
+    "status_log": [],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_ability": null,
+    "notes": "371話で初登場。376話で第1王子ベンジャミンと第2王子カミーラに関する審理を担当。412話でビヨンドと以前から面識があることが判明",
+    "image": null
   },
   {
-    "id": "P11-M03", "type": "attendant", "name": "トネアスタ", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第11王子従事者", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+    "id": "P09-P05", "position_code": "P09-P05", "type": "soldier", "name": "スミドリ", "affiliation": "ハルケンブルグ陣営", "camp": "ハルケンブルグ陣営", "mission": "護衛", "role": "第9王子ハルケンブルグ私設兵", "room": "第1層 1009号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": "ハルケンブルグの能力により、シカクの肉体へ人格が移る", "notes": "382話でシカクの肉体へ人格が移る。386話でシカクの肉体を自死させ、自分の肉体へ帰還", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P10-M03", "type": "attendant", "name": "ロッコリー", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第10王子従事者", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+    "id": "P04-L01", "position_code": "P04-L01", "type": "soldier", "name": "オトシン", "affiliation": "第4王子ツェリードニヒ私設兵", "camp": "ツェリードニヒ陣営", "mission": "護衛", "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵", "room": "第3層", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "394話で登場。ツェリードニヒやボークセンらと王立軍学校時代の同期", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P10-M04", "type": "attendant", "name": "ルズルラ", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第10王子従事者", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+    "id": "P04-L02", "position_code": "P04-L02", "type": "soldier", "name": "モーモリー", "affiliation": "第4王子ツェリードニヒ私設兵", "camp": "ツェリードニヒ陣営", "mission": "護衛", "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵", "room": "第3層", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "394話で登場。ツェリードニヒやボークセンらと王立軍学校時代の同期", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P07-G07", "type": "soldier", "name": "ハビェッチ", "affiliation": "ドゥアズル陣営（第2王妃所属兵）", "camp": "ルズールス陣営", "role": "第7王子警護兵", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+    "id": "P04-L03", "position_code": "P04-L03", "type": "soldier", "name": "王立軍学校同期兵A（仮称）", "affiliation": "第4王子ツェリードニヒ私設兵", "camp": "ツェリードニヒ陣営", "mission": "護衛", "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵", "room": "第3層", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "394話で登場。固有名は未判明", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 394, "group_key": "P04-MILITARY-SCHOOL-FRIENDS", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P03-P02", "type": "soldier", "name": "テンフトリ", "affiliation": "チョウライ陣営", "camp": "チョウライ陣営", "role": "第3王子私設兵", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者。ランフトリとは別人として登録", "image": null
+    "id": "P04-L04", "position_code": "P04-L04", "type": "soldier", "name": "王立軍学校同期兵B（仮称）", "affiliation": "第4王子ツェリードニヒ私設兵", "camp": "ツェリードニヒ陣営", "mission": "護衛", "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵", "room": "第3層", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "394話で登場。固有名は未判明", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 394, "group_key": "P04-MILITARY-SCHOOL-FRIENDS", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P04-P06", "type": "soldier", "name": "ギッパー", "affiliation": "ツェリードニヒ陣営", "camp": "ツェリードニヒ陣営", "role": "第4王子私設兵", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ボークセンと入れ替わりで第1層へ配属。死亡したミュハンの後任", "image": null
+    "id": "P04-L05", "position_code": "P04-L05", "type": "soldier", "name": "王立軍学校同期兵C（仮称）", "affiliation": "第4王子ツェリードニヒ私設兵", "camp": "ツェリードニヒ陣営", "mission": "護衛", "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵", "room": "第3層", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "394話で登場。固有名は未判明", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 394, "group_key": "P04-MILITARY-SCHOOL-FRIENDS", "image": null, "soldier_category": "私設兵"
   },
   {
-    "id": "P14-M02", "type": "attendant", "name": "シマヌ", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "role": "第14王子従事者", "room": 1014, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第412話で本名の発音がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "aliases": ["シマノ"], "image": null
+    "id": "P09-G01", "position_code": "P09-G01", "type": "soldier", "name": "オルズニー", "affiliation": "ウンマ陣営（第1王妃所属兵）", "camp": "ハルケンブルグ陣営", "mission": "監視", "role": "第9王子ハルケンブルグ監視（第1王妃所属兵）", "room": "第1層 1009号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "375話で、ハルケンブルグの監視担当をシカクと交代したことが判明", "image": null, "soldier_category": "王妃所属兵"
   },
   {
-    "id": "P01-P16", "type": "soldier", "name": "チヤマシ", "affiliation": "ベンジャミン陣営", "camp": "ベンジャミン陣営", "role": "第1王子私設兵", "room": 1001, "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第414話でウショウヒと1009号室前に配置", "image": null
+    "id": "EII-009", "position_code": null, "type": "mafia", "name": "ドッグマン", "affiliation": "エイ＝イ一家", "camp": "エイ＝イ一家", "mission": null, "role": "エイ＝イ一家構成員", "room": "第2層 エイ＝イ一家アジト", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": "強化系", "nen_ability": "嗅覚を強化し、対象の素質を判別する", "notes": "405話でレベル62と判明。モレナの指示で、目的に適した能力を持つ人物を探す", "image": null
   },
   {
-    "id": "P07-U01", "type": "soldier", "name": "ルズールス私設兵・額タトゥーの金髪（仮称）", "affiliation": "ルズールス陣営", "camp": "ルズールス陣営", "role": "第7王子私設兵", "room": 1007, "status": "死亡", "status_log": [{"chapter": 414, "status": "死亡", "cause": "1007号室休憩室でカンジドルに殺害", "killer": "P01-P09"}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "額にタトゥーがある金髪の人物", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 414, "group_key": "CH414-1007-VICTIMS", "image": null
+    "id": "P13-M01", "type": "attendant", "name": "ナイペイ", "affiliation": "マラヤーム陣営", "camp": "マラヤーム陣営", "role": "第13王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
   },
   {
-    "id": "P07-U02", "type": "soldier", "name": "ルズールス私設兵・歯抜けの金髪（仮称）", "affiliation": "ルズールス陣営", "camp": "ルズールス陣営", "role": "第7王子私設兵", "room": 1007, "status": "死亡", "status_log": [{"chapter": 414, "status": "死亡", "cause": "1007号室休憩室でカンジドルに殺害", "killer": "P01-P09"}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "歯が抜けた金髪の人物", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 414, "group_key": "CH414-1007-VICTIMS", "image": null
+    "id": "P11-M03", "type": "attendant", "name": "トネアスタ", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第11王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+  },
+  {
+    "id": "P10-M03", "type": "attendant", "name": "ロッコリー", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第10王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+  },
+  {
+    "id": "P10-M04", "type": "attendant", "name": "ルズルラ", "affiliation": "カチョウ＝フウゲツ陣営", "camp": "カチョウ＝フウゲツ陣営", "role": "第10王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+  },
+  {
+    "id": "P07-G07", "type": "soldier", "name": "ハビェッチ", "affiliation": "ドゥアズル陣営（第2王妃所属兵）", "camp": "ルズールス陣営", "role": "第7王子警護兵", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第411話の第2回念講習会参加者", "image": null
+  },
+  {
+    "id": "P04-P06", "type": "soldier", "name": "ギッパー", "affiliation": "ツェリードニヒ陣営", "camp": "ツェリードニヒ陣営", "role": "第4王子私設兵", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ボークセンと入れ替わりで第1層へ配属。死亡したミュハンの後任", "image": null
+  },
+  {
+    "id": "P14-M02", "type": "attendant", "name": "シマヌ", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "role": "第14王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第412話で本名の発音がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "aliases": ["シマノ"], "image": null
+  },
+  {
+    "id": "P01-P16", "type": "soldier", "name": "チヤマシ", "affiliation": "ベンジャミン陣営", "camp": "ベンジャミン陣営", "role": "第1王子私設兵", "room": "1層1001号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第414話でウショウヒと1009号室前に配置", "image": null
+  },
+  {
+    "id": "P07-U01", "type": "soldier", "name": "ルズールス私設兵・額タトゥーの金髪（仮称）", "affiliation": "ルズールス陣営", "camp": "ルズールス陣営", "role": "第7王子私設兵", "room": "1層1007号室", "status": "死亡", "status_log": [{"chapter": 414, "status": "死亡", "cause": "1007号室休憩室でカンジドルに殺害", "killer": "P01-P09"}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "額にタトゥーがある金髪の人物", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 414, "group_key": "414話-1007-VICTIMS", "image": null
+  },
+  {
+    "id": "P07-U02", "type": "soldier", "name": "ルズールス私設兵・歯抜けの金髪（仮称）", "affiliation": "ルズールス陣営", "camp": "ルズールス陣営", "role": "第7王子私設兵", "room": "1層1007号室", "status": "死亡", "status_log": [{"chapter": 414, "status": "死亡", "cause": "1007号室休憩室でカンジドルに殺害", "killer": "P01-P09"}], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "歯が抜けた金髪の人物", "is_placeholder": true, "identity_status": "unnamed_confirmed", "source_chapter": 414, "group_key": "414話-1007-VICTIMS", "image": null
   }
 ]

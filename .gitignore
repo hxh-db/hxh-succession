@@ -1,0 +1,3 @@
+# Local source-image attachments and machine-specific evidence paths
+.codex-remote-attachments/
+data/SCREENSHOT_EVIDENCE_INDEX.md

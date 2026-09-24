@@ -356,6 +356,19 @@ body {
 .certainty-provisional { color: #ff9f43; background: rgba(255, 159, 67, .12); border-style: dashed; }
 .certainty-unknown { color: #95a5a6; background: rgba(149, 165, 166, .1); border-style: dashed; }
 
+.time-estimate-badge {
+  display: inline-flex !important;
+  width: fit-content;
+  margin: 3px 0;
+  padding: 2px 7px;
+  border: 1px dashed #b7781b;
+  border-radius: 999px;
+  background: #fff0d3;
+  color: #8f5708;
+  font-size: .65rem;
+  font-weight: 800;
+}
+
 .chronology-kind-badge {
   display: inline-flex;
   width: fit-content;
@@ -578,7 +591,7 @@ button.character-filter-tag:focus-visible {
 .chronological-row {
   position: relative;
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: 88px minmax(0, 1fr);
   gap: 18px;
   padding: 10px 0 16px;
 }
@@ -601,6 +614,13 @@ button.character-filter-tag:focus-visible {
   border-style: dashed;
   border-color: #95a5a6;
   color: #68736b;
+}
+
+.time-estimated .chronological-time {
+  border-style: dashed;
+  border-color: #b7781b;
+  background: #fff4dd;
+  color: #815213;
 }
 
 .chronological-events {
@@ -2321,8 +2341,8 @@ body.modal-open {
   .assignment-only-toggle { width: 100%; margin-left: 0; }
 
   .chronological-axis { padding: 8px 10px 16px; }
-  .chronological-axis::before { left: 51px; }
-  .chronological-row { grid-template-columns: 48px minmax(0, 1fr); gap: 11px; }
+  .chronological-axis::before { left: 59px; }
+  .chronological-row { grid-template-columns: 64px minmax(0, 1fr); gap: 11px; }
   .chronological-time { padding: 5px 3px; font-size: .68rem; }
   .chronological-events { grid-template-columns: 1fr; }
 

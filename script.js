@@ -11,6 +11,7 @@ let charactersData = [];
 let princesData = [];
 let bodyguardsData = [];
 let eventsData = [];
+let inferredTimePlacements = new Map();
 let spiritBeastsData = [];
 let factionsData = [];
 let mafiaData = [];
@@ -1407,6 +1408,65 @@ function getTimeLabel(event) {
   return event.time_end ? `${event.time_start}〜${event.time_end}` : event.time_start;
 }
 
+function makeTimeEstimateBadge() {
+  const badge = document.createElement("span");
+  badge.className = "time-estimate-badge";
+  badge.textContent = "推測";
+  badge.title = "原作に時刻の明記はありません。同日の確定時刻と話数順から画面上で仮配置しています。";
+  return badge;
+}
+
+function getTimelineTimePlacement(event) {
+  const exactMinutes = parseTimeString(event.time_start);
+  if (exactMinutes != null) return { minutes: exactMinutes, label: event.time_start, estimated: false };
+  return inferredTimePlacements.get(event.id) || null;
+}
+
+function buildInferredTimePlacements(events) {
+  const placements = new Map();
+  const byDay = new Map();
+  events.forEach((event) => {
+    if (event.day == null) return;
+    const day = Number(event.day);
+    if (!byDay.has(day)) byDay.set(day, []);
+    byDay.get(day).push(event);
+  });
+
+  byDay.forEach((dayEvents) => {
+    const ordered = dayEvents.slice().sort((a, b) => sortKey(a) - sortKey(b));
+    const anchors = ordered
+      .map((event, index) => ({ index, minutes: parseTimeString(event.time_start) }))
+      .filter((anchor) => anchor.minutes != null);
+    if (anchors.length === 0) return;
+
+    ordered.forEach((event, index) => {
+      if (parseTimeString(event.time_start) != null) return;
+      if (["flashback", "reference", "setting"].includes(getChronologyKind(event))) return;
+      const before = anchors.filter((anchor) => anchor.index < index).at(-1);
+      const after = anchors.find((anchor) => anchor.index > index);
+      let minutes;
+      if (before && after && before.minutes <= after.minutes) {
+        const progress = (index - before.index) / (after.index - before.index);
+        minutes = before.minutes + (after.minutes - before.minutes) * progress;
+      } else if (before) {
+        minutes = before.minutes + (index - before.index) * 15;
+      } else if (after) {
+        minutes = after.minutes - (after.index - index) * 15;
+      }
+      if (minutes == null) return;
+      const rounded = Math.max(0, Math.min(1439, Math.round(minutes / 15) * 15));
+      const hour = Math.floor(rounded / 60);
+      const minute = String(rounded % 60).padStart(2, "0");
+      placements.set(event.id, {
+        minutes: rounded,
+        label: `${hour}:${minute}頃？`,
+        estimated: true
+      });
+    });
+  });
+  return placements;
+}
+
 function getLocationKey(event) {
   if (event.location) return event.location;
   if (event.room) return formatRoomLabel(event.room);
@@ -1499,6 +1559,13 @@ function createTimelineCard(event) {
   if (event.day != null) addMeta(`${event.day}日目`);
   const timeLabel = getTimeLabel(event);
   if (timeLabel) addMeta(`時刻: ${timeLabel}`);
+  else {
+    const estimate = inferredTimePlacements.get(event.id);
+    if (estimate) {
+      addMeta(`時刻: ${estimate.label}`);
+      meta.appendChild(makeTimeEstimateBadge());
+    }
+  }
   addMeta(`場所: ${getLocationKey(event)}`);
   meta.appendChild(makeCertaintyBadge(event));
 
@@ -1929,31 +1996,35 @@ function renderTimelineSchedule(events) {
     empty.textContent = "登録されている出来事はありません。";
     container.appendChild(empty);
   } else {
-    const orderedEvents = selectedEvents.slice().sort((a, b) => {
-      const aTime = parseTimeString(a.time_start);
-      const bTime = parseTimeString(b.time_start);
-      if (aTime == null && bTime != null) return 1;
-      if (aTime != null && bTime == null) return -1;
-      if (aTime != null && bTime != null && aTime !== bTime) return aTime - bTime;
-      return sortKey(a) - sortKey(b);
+    const orderedEvents = selectedEvents.map((event) => ({
+      event,
+      placement: getTimelineTimePlacement(event)
+    })).sort((a, b) => {
+      if (!a.placement && b.placement) return 1;
+      if (a.placement && !b.placement) return -1;
+      if (a.placement && b.placement && a.placement.minutes !== b.placement.minutes) {
+        return a.placement.minutes - b.placement.minutes;
+      }
+      return sortKey(a.event) - sortKey(b.event);
     });
     const groups = new Map();
-    orderedEvents.forEach((event) => {
-      const key = event.time_start || "unknown";
+    orderedEvents.forEach(({ event, placement }) => {
+      const key = placement ? `${placement.estimated ? "estimated" : "exact"}:${placement.minutes}` : "unknown";
       if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(event);
+      groups.get(key).push({ event, placement });
     });
     const axis = document.createElement("div");
     axis.className = "chronological-axis";
     groups.forEach((groupEvents, timeKey) => {
+      const placement = groupEvents[0].placement;
       const row = document.createElement("section");
-      row.className = `chronological-row${timeKey === "unknown" ? " time-unknown" : ""}`;
+      row.className = `chronological-row${timeKey === "unknown" ? " time-unknown" : placement.estimated ? " time-estimated" : ""}`;
       const timeColumn = document.createElement("div");
       timeColumn.className = "chronological-time";
-      timeColumn.textContent = timeKey === "unknown" ? "時刻不明" : timeKey;
+      timeColumn.textContent = placement ? placement.label : "時刻不明";
       const eventGrid = document.createElement("div");
       eventGrid.className = "chronological-events";
-      groupEvents.forEach((event) => {
+      groupEvents.forEach(({ event, placement: eventPlacement }) => {
         const item = document.createElement("article");
         item.className = "schedule-event";
         item.setAttribute("role", "button");
@@ -1975,6 +2046,7 @@ function renderTimelineSchedule(events) {
         const participants = document.createElement("small");
         participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
         item.append(location, chapter, makeCertaintyBadge(event));
+        if (eventPlacement?.estimated) item.appendChild(makeTimeEstimateBadge());
         if (activeTimelinePeriodId === "unknown") item.appendChild(makeChronologyBadge(event));
         item.append(description, participants);
         item.addEventListener("click", () => {
@@ -1997,7 +2069,7 @@ function renderTimelineSchedule(events) {
 
   const note = document.createElement("p");
   note.className = "schedule-note";
-  note.textContent = "※ 日付未入力の出来事は推定配置せず「日付不明」へ、411話以降は「暫定」へ分離しています。";
+  note.textContent = "※ 「頃？」と「推測」は見やすさのため、同日の確定時刻と話数順から仮配置した目安です。実際の時刻や経過時間は示しません。手がかりのない出来事は「時刻不明」、日付未入力は「日付不明」、411話以降は「暫定」に分けています。";
   container.appendChild(note);
 }
 
@@ -2253,10 +2325,11 @@ function showDetailModal(name, category, eventData = null) {
   if (category === "event" && eventData) {
     record = eventData;
     titleEl.textContent = record.description;
+    const estimatedTime = inferredTimePlacements.get(record.id);
     details = [
       { label: "章", value: getChapterLabel(record) },
       { label: "日", value: record.day != null ? `${record.day}日目` : "—" },
-      { label: "時刻", value: getTimeLabel(record) || "—" },
+      { label: "時刻", value: getTimeLabel(record) || (estimatedTime ? `${estimatedTime.label}（推測）` : "—") },
       { label: "場所", value: getLocationKey(record) },
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" },
@@ -2508,6 +2581,7 @@ async function init() {
       ["hunter", "soldier", "attendant"].includes(c.type) && c.position_code
     );
     eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
+    inferredTimePlacements = buildInferredTimePlacements(eventsData);
 
     buildPrinceMap(princesData);
     buildCharMap(charactersData);

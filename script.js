@@ -79,6 +79,19 @@ function formatDisplayText(value) {
     .replace(/＝ホイコーロ/g, "");
 }
 
+function formatPublicDetailText(value) {
+  if (value == null) return value;
+  return formatDisplayText(value)
+    .replace(/ユーザー提供の原作画像（[^）]*）(?:で確認|に基づく|を根拠とする)[。]?/g, "")
+    .replace(/ユーザー提供の原作画像（[^）]*）で/g, "作中で")
+    .replace(/ユーザー提供の原作画像（[^）]*）/g, "作中の描写")
+    .replace(/ユーザー提供の原作画像/g, "作中の描写")
+    .replace(/原作画像/g, "作中の描写")
+    .replace(/原作では/g, "作中では")
+    .replace(/^。+/, "")
+    .trim();
+}
+
 function formatRoomLabel(value) {
   if (value == null || value === "") return null;
   const text = String(value).replace(/\s+/g, "");
@@ -1412,7 +1425,7 @@ function makeTimeEstimateBadge() {
   const badge = document.createElement("span");
   badge.className = "time-estimate-badge";
   badge.textContent = "推測";
-  badge.title = "原作に時刻の明記はありません。同日の確定時刻と話数順から画面上で仮配置しています。";
+  badge.title = "作中に確定時刻の明記はありません。前後の描写から画面上で仮配置しています。";
   return badge;
 }
 
@@ -1434,13 +1447,18 @@ function buildInferredTimePlacements(events) {
 
   byDay.forEach((dayEvents) => {
     const ordered = dayEvents.slice().sort((a, b) => sortKey(a) - sortKey(b));
+    ordered.forEach((event) => {
+      const minutes = parseTimeString(event.time_estimate);
+      if (parseTimeString(event.time_start) != null || minutes == null) return;
+      placements.set(event.id, { minutes, label: `${event.time_estimate}頃？`, estimated: true });
+    });
     const anchors = ordered
-      .map((event, index) => ({ index, minutes: parseTimeString(event.time_start) }))
+      .map((event, index) => ({ index, minutes: parseTimeString(event.time_start) ?? parseTimeString(event.time_estimate) }))
       .filter((anchor) => anchor.minutes != null);
     if (anchors.length === 0) return;
 
     ordered.forEach((event, index) => {
-      if (parseTimeString(event.time_start) != null) return;
+      if (parseTimeString(event.time_start) != null || placements.has(event.id)) return;
       if (["flashback", "reference", "setting"].includes(getChronologyKind(event))) return;
       const before = anchors.filter((anchor) => anchor.index < index).at(-1);
       const after = anchors.find((anchor) => anchor.index > index);
@@ -1582,8 +1600,8 @@ function createTimelineCard(event) {
 
   if (event.notes) {
     const detail = document.createElement("p");
-    detail.textContent = event.notes;
-    item.appendChild(detail);
+    detail.textContent = formatPublicDetailText(event.notes);
+    if (detail.textContent) item.appendChild(detail);
   }
 
   if ((event.revealed_facts || []).length > 0) {
@@ -2107,8 +2125,8 @@ function renderPersonTimeline(token, sourceEvents = eventsData) {
 
     if (e.notes) {
       const p = document.createElement("p");
-      p.textContent = e.notes;
-      item.appendChild(p);
+      p.textContent = formatPublicDetailText(e.notes);
+      if (p.textContent) item.appendChild(p);
     }
 
     container.appendChild(item);
@@ -2334,7 +2352,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" },
       { label: "参加者", value: (record.characters || []).map(formatRoyalName).join(" / ") },
-      { label: "詳細", value: formatDisplayText(record.notes) || "" }
+      { label: "詳細", value: formatPublicDetailText(record.notes) || "" }
     ];
     if ((record.revealed_facts || []).length > 0) {
       extraSections.push({ heading: "分かったこと", lines: record.revealed_facts });
@@ -2365,7 +2383,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "守護霊獣", value: record.spirit_beast_name || "不明" },
       { label: "状態", value: record.status || "不明" },
       { label: "陣営", value: record.faction_note || "" },
-      { label: "備考", value: formatDisplayText(record.notes) || "" }
+      { label: "備考", value: formatPublicDetailText(record.notes) || "" }
     ];
   } else {
     record = bodyguardsData.find((g) => g.id === name);
@@ -2382,7 +2400,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "能力", value: record.nen_ability || "不明" },
       { label: "役割", value: record.role || "不明" },
       { label: "念講習会", value: getNenClassLabel(record) || "" },
-      { label: "備考", value: formatDisplayText(record.notes) || "" }
+      { label: "備考", value: formatPublicDetailText(record.notes) || "" }
     ];
   }
 
@@ -2486,8 +2504,9 @@ function showDetailModal(name, category, eventData = null) {
         const meta = document.createElement("span");
         meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
         const p = document.createElement("p");
-        p.textContent = e.notes || "";
-        item.append(strong, meta, p);
+        p.textContent = formatPublicDetailText(e.notes) || "";
+        item.append(strong, meta);
+        if (p.textContent) item.appendChild(p);
         list.appendChild(item);
       });
     details.appendChild(list);

@@ -54,7 +54,7 @@ python validate_data.py
 
 ## 拡張ポイント
 
-- `data/events.json` にイベントを追加（必須: `id`, `chapter`, `description`, `characters`。任意: `time_start`/`time_end`, `room`/`location`, `revealed_facts`, `mysteries` 等）
+- `data/events.json` にイベントを追加（必須: `id`, `chapter`, `description`, `characters`。任意: `time_start`/`time_end`, `time_estimate`, `room`/`location`, `revealed_facts`, `mysteries` 等）。確定していない時刻は `time_start` に入れず、根拠のある目安なら `time_estimate` に記録する
 - `images/characters/` にポートレートを追加し、`characters.json` の該当キャラに `image` フィールドを設定
 - イベント種別（`type` フィールド）を拡張する場合は `style.css` に `.timeline-item.type-<種別>` 等の色定義を追記
 - カスタムフィルター機能の追加

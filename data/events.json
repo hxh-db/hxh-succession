@@ -630,12 +630,11 @@
     "day": 1,
     "time_start": null,
     "time_end": null,
-    "type": "会議",
-    "description": "テータとサルコフがツェリードニヒの念能力育成方針を決意する",
+    "type": "協議",
+    "description": "テータとサルコフがツェリードニヒの念習得をどう扱うか協議する",
     "characters": [
       "P04-M01",
-      "P04-P02",
-      "P04"
+      "P04-P02"
     ],
     "room": "1層1004号室",
     "location": null,
@@ -645,12 +644,67 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [
-      "念が使えるのはテータとサルコフのみ",
-      "テータ・サルコフの目標：ツェリードニヒに念を教えてオーラ容量を削ること",
-      "ルズールス（第7王子）の当初方針：ツベッパに最初は同調する"
+      "ツェリードニヒの側近で念を使えるのはテータとサルコフの2人"
     ],
-    "mysteries": [],
-    "notes": "図表：守護霊獣のルール・ビジュアル"
+    "mysteries": ["ツェリードニヒが念を習得した場合の影響"],
+    "notes": "第362話の会話を確認。ツェリードニヒ本人はこの協議の場にいない。念習得を促進することを2人の合意目標として扱わない"
+  },
+  {
+    "id": "E362-002",
+    "chapter": 362,
+    "chapter_title": "決意",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "異変",
+    "description": "複数の警護人が床に倒れ、周囲の者が驚く",
+    "characters": [],
+    "room": null,
+    "location": "第1層 王子居住区",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["複数の警護人が倒れている場面が描かれる"],
+    "mysteries": ["警護人が倒れた原因、サレサレの守護霊獣との関係、意識・負傷の状態"],
+    "notes": "第362話の画面描写。直前にサレサレと守護霊獣が描かれるが、現場の号室や因果関係は明示されない"
+  },
+  {
+    "id": "E362-003",
+    "chapter": 362,
+    "chapter_title": "決意",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "守護霊獣との接触",
+    "description": "ツェリードニヒの守護霊獣がテータに接近し、異形の口を開く",
+    "characters": ["P04-M01", "P04-P02"],
+    "room": null,
+    "location": "第1層 ツェリードニヒ居住区周辺",
+    "camp": ["ツェリードニヒ陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["テータはツェリードニヒの守護霊獣を目の前にする"],
+    "mysteries": ["この接近の意図と守護霊獣の能力"],
+    "notes": "第362話終盤の描写。能力の発動やテータへの加害は、この場面だけでは確定しない"
+  },
+  {
+    "id": "E362-004",
+    "chapter": 362,
+    "chapter_title": "決意",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "決意",
+    "description": "テータがツェリードニヒの念習得を阻止すると決意する",
+    "characters": ["P04-M01"],
+    "room": null,
+    "location": "第1層 ツェリードニヒ居住区周辺",
+    "camp": ["ツェリードニヒ陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["テータはツェリードニヒを『決して念など会得してはいけない人間』と考える"],
+    "mysteries": ["テータが具体的にどの手段を取るか"],
+    "notes": "第362話末尾のテータの独白。後の行動を先取りして、この時点で殺害計画が確定したとは書かない"
   },
   {
     "id": "E363-002",

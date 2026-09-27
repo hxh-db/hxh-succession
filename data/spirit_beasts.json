@@ -49,8 +49,8 @@
   },
   {
     "prince": "ルズールス＝ホイコーロ",
-    "name": "巨大虫型念獣",
-    "appearance": "巨大な虫型の念獣",
+    "name": "四足獣型念獣",
+    "appearance": "馬を思わせる大きな四足獣で、頭部に複数の突起があり、長い舌を垂らしている",
     "nen_type": "具現化系",
     "ability": "具現化系・半強制操作型。標的の欲望を具現化した罠を設置し、罠にかかった者を操作する",
     "image": "images/beasts/beast-luzurus.png"

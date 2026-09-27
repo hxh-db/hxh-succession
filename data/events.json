@@ -653,36 +653,6 @@
     "notes": "図表：守護霊獣のルール・ビジュアル"
   },
   {
-    "id": "E363-001",
-    "chapter": 363,
-    "chapter_title": "念獣",
-    "day": 1,
-    "time_start": null,
-    "time_end": null,
-    "type": "情報収集",
-    "description": "ベンジャミンの私設兵体制が明らかになる",
-    "characters": [
-      "P01",
-      "P01-P01",
-      "P01-P02"
-    ],
-    "room": "1層1001号室",
-    "location": null,
-    "camp": [
-      "ベンジャミン陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "ベンジャミンは念能力者で私設兵もおそらく全員能力者",
-      "王室警護兵は正式な国王軍兵でなければならない",
-      "ベンジャミンの私設兵は国王軍兵のため下位王子の警護に転用可能。ただしツェリードニヒは拒否権を持つ",
-      "ベンジャミン私設兵は15名"
-    ],
-    "mysteries": [],
-    "notes": "図表：王子の寝室見取り図、ベンジャミン私設兵全員（15名）。登場：ベンジャミン、バルサミルコ"
-  },
-  {
     "id": "E363-002",
     "chapter": 363,
     "chapter_title": "念獣",
@@ -690,12 +660,10 @@
     "time_start": null,
     "time_end": null,
     "type": "移動",
-    "description": "ワブル警護にベンジャミン私設兵ビンセントが王室警護兵として追加される。ビンセントが従者サンドラを殺害して自死し、代わりにバビマイナが追加される",
+    "description": "ベンジャミン私設兵ビンセントがワブルの王室警護兵として1014号室に配属される",
     "characters": [
       "P14",
-      "P01-P03",
-      "P14-M01",
-      "P01-P04"
+      "P01-P03"
     ],
     "room": "1層1014号室",
     "location": null,
@@ -707,31 +675,39 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "サンドラはワブル従者"
+    "notes": "ベンジャミンの私設兵は国王軍兵として下位王子の警護に配置できる"
   },
   {
-    "id": "E364-001",
-    "chapter": 364,
-    "chapter_title": "思惑",
+    "id": "E363-003",
+    "chapter": 363,
+    "chapter_title": "念獣",
     "day": 1,
     "time_start": null,
     "time_end": null,
-    "type": "情報収集",
-    "description": "ビンセントの能力詳細が判明する",
-    "characters": [
-      "P14",
-      "P01-P03"
-    ],
+    "type": "殺害",
+    "description": "ビンセントがワブルの従者サンドラを殺害し、自死する",
+    "characters": ["P01-P03", "P14-M01"],
     "room": "1層1014号室",
     "location": null,
-    "camp": [
-      "ワブル陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "ビンセントの念能力はエアブロウと推測されるが、スチールチェーンで拘束されたため詳細は確定できなかった"
-    ],
+    "camp": ["ワブル陣営", "ベンジャミン陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "ビンセントの死亡とサンドラの殺害を一連の襲撃として記録"
+  },
+  {
+    "id": "E363-004",
+    "chapter": 363,
+    "chapter_title": "念獣",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "移動",
+    "description": "ビンセントの後任としてバビマイナがワブルの警護に加わる",
+    "characters": ["P01-P04", "P14"],
+    "room": "1層1014号室",
+    "location": null,
+    "camp": ["ワブル陣営", "ベンジャミン陣営"],
+    "revealed_facts": [],
     "mysteries": [],
     "notes": ""
   },
@@ -794,7 +770,7 @@
     "time_start": "16:00",
     "time_end": null,
     "type": "出来事",
-    "description": "出航から4時間。各王子エリアの様子が描かれる。ハルケンブルグが夢から覚める",
+    "description": "ハルケンブルグが夢から覚める",
     "characters": [
       "P09",
       "SPD-001"
@@ -932,7 +908,7 @@
     "time_start": "09:00",
     "time_end": null,
     "type": "念講習",
-    "description": "1014号室で第1回念講習会が開始される。参加者16名（自覚した念能力者2名・潜伏している念能力者4名を含む）の内訳が判明",
+    "description": "1014号室で第1回念講習会が始まる",
     "characters": [
       "P14-H01",
       "P13-H01",
@@ -955,9 +931,10 @@
     "room": "1層1014号室",
     "location": "第1層 1014号室",
     "camp": null,
-    "series": null,
-    "series_index": null,
+    "series": "第1回念講習会",
+    "series_index": 1,
     "revealed_facts": [
+      "参加者は講師のクラピカを除く16名。自覚した念能力者2名と潜伏中の念能力者4名を含む",
       "参加者内訳：13警護ベレレインテ（ハンター・念能力者）、13警護バリゲン（セヴァンチ所属兵）、11従事者イラルディア、11従事者ラジオラス、10従事者ロベリー、10従事者ユウリ、9警護シェジュール（ハルケンブルグ私設兵）、9警護ユヒライ（ハルケンブルグ私設兵）、8警護ムシャホ（スィンコスィンコ所属兵隊長）、7警護サトビ（ドゥアズル所属兵）、5警護マオール（ツベッパ私設兵隊長）、5警護ロンギ（ツベッパ私設兵・潜伏中の念能力者）、4警護ミュハン（ツェリードニヒ私設兵）、4警護ダンジン（ツェリードニヒ私設兵）、3警護テンフトリ（チョウライ私設兵）、1警護ヒュリコフ（ベンジャミン私設兵・念能力者）"
     ],
     "mysteries": [
@@ -1074,41 +1051,13 @@
     "location": "第1層 1014号室",
     "camp": null,
     "series": "第1回念講習会",
-    "series_index": 1,
+    "series_index": 2,
     "revealed_facts": [
       "講習会の再開後も棄権者はいない",
       "講習会は王子や王妃の死亡・事件捜査とは別に継続される"
     ],
     "mysteries": [],
     "notes": "作中の時刻表示は2日目AM9:45"
-  },
-  {
-    "id": "E371-003",
-    "chapter": 371,
-    "chapter_title": "任務",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "情報収集",
-    "description": "マフィア3家のケツモチ（血盟主）が判明する",
-    "characters": [
-      "SWU-001",
-      "EII-001",
-      "SAA-001",
-      "SPD-001"
-    ],
-    "room": null,
-    "location": "第5層",
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "シュウ＝ウ一家のケツモチはチョウライ（資金力と数が多い）",
-      "エイ＝イ一家のケツモチはツェリードニヒ",
-      "シャ＝ア一家のケツモチはルズールス"
-    ],
-    "mysteries": [],
-    "notes": "登場人物：旅団、シャ＝ア一家。図表：マフィアのケツモチ。予定：土曜日にシノギを受け取りに来る"
   },
   {
     "id": "E371-004",
@@ -1486,12 +1435,10 @@
     "time_start": null,
     "time_end": null,
     "type": "拘束",
-    "description": "ヒュリコフがカミーラの腕を折り拘束する。死亡したムッセの能力「シークレットウインドウ」は、ベンジャミンバトンによりベンジャミンへ継承される",
+    "description": "ヒュリコフがカミーラの腕を折り、1001号室で拘束する",
     "characters": [
       "P02",
-      "P01-P06",
-      "P01-P08",
-      "P01"
+      "P01-P06"
     ],
     "room": "1層1001号室",
     "location": null,
@@ -1502,7 +1449,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "シークレットウインドウがカミーラに憑くのではなく、ムッセの死亡後にベンジャミンが継承する"
+    "notes": ""
   },
   {
     "id": "E373-005",
@@ -1512,28 +1459,54 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "モモゼ死亡後に1012号室が閉鎖される。1013号室にいたマラヤーム一行が所在不明となり、1014号室へ状況が伝えられる",
+    "description": "モモゼの死後、1012号室が閉鎖される",
     "characters": [
-      "P12",
-      "P13",
-      "P13-G03",
-      "P14"
+      "P12"
     ],
-    "room": null,
-    "location": "第1層 1012号室・1013号室・1014号室",
+    "room": "1層1012号室",
+    "location": "第1層 1012号室",
     "camp": [
-      "モモゼ陣営",
-      "マラヤーム陣営",
-      "ワブル陣営"
+      "モモゼ陣営"
     ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [
-      "マラヤーム一行の所在",
-      "1013号室から一行が消えた経緯"
-    ],
-    "notes": "第13王子側から第14王子側へ状況が伝達される描写。1013号室からの正体不明の電話としては扱わない"
+    "mysteries": [],
+    "notes": ""
+  },
+  {
+    "id": "E373-006",
+    "chapter": 373,
+    "chapter_title": "継承",
+    "day": 2,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "ムッセの死後、ベンジャミンがベンジャミンバトンで『シークレットウインドウ』を継承する",
+    "characters": ["P01", "P01-P08"],
+    "room": "1層1001号室",
+    "location": null,
+    "camp": ["ベンジャミン陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "カミーラに憑くのではなくベンジャミンへ継承される"
+  },
+  {
+    "id": "E373-007",
+    "chapter": 373,
+    "chapter_title": "継承",
+    "day": 2,
+    "time_start": null,
+    "time_end": null,
+    "type": "連絡",
+    "description": "マラヤーム一行の所在が確認できず、その状況が1014号室へ伝えられる",
+    "characters": ["P13", "P13-G03", "P14"],
+    "room": null,
+    "location": "第1層 1013号室・1014号室",
+    "camp": ["マラヤーム陣営", "ワブル陣営"],
+    "revealed_facts": [],
+    "mysteries": ["マラヤーム一行の所在", "1013号室から一行が消えた経緯"],
+    "notes": "第13王子側から第14王子側へ伝達。正体不明の電話とは扱わない"
   },
   {
     "id": "E374-001",
@@ -1598,7 +1571,7 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "リハンがサレサレの守護霊獣を観察し、周囲に広がる影響と能力の性質を分析する",
+    "description": "リハンが守護霊獣の影響が1008号室内に広がっていることに気付く",
     "characters": [
       "P08",
       "P01-P13"
@@ -1670,8 +1643,8 @@
     "day": 3,
     "time_start": null,
     "time_end": null,
-    "type": "情報収集",
-    "description": "ハルケンブルグを監視していたウンマ所属兵がオルズニーからシカクに交代したことが判明する",
+    "type": "交代",
+    "description": "ハルケンブルグの監視担当がオルズニーからシカクに交代する",
     "characters": [
       "P09",
       "P09-G01",
@@ -1744,12 +1717,9 @@
     "time_start": null,
     "time_end": null,
     "type": "念講習",
-    "description": "ハンゾーが肉体に戻る。ビスケットがウェルゲーに念の基礎を教える。ベレレインテが1013号室を退室する",
+    "description": "ハンゾーが分身の術を解き、肉体に戻る",
     "characters": [
-      "P12-H01",
-      "P12-H02",
-      "P13-H01",
-      "P13-G03"
+      "P12-H01"
     ],
     "room": "1層1013号室",
     "location": "第1層 1013号室",
@@ -1760,7 +1730,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "図表：各王子の守護霊獣の説明（タイソン、カミーラ、ツベッパ、ルズールス、ハルケンブルグ）。能力の詳細は別イベントで未解決として扱う"
+    "notes": ""
   },
   {
     "id": "E375-006",
@@ -1794,6 +1764,40 @@
       "1013号室と外部の出入り・通信の可否"
     ],
     "notes": "ユーザー提供の原作画像（第375話全10ページ）を根拠とする。守護霊獣の具体的な仕組みは後続話で明かされるため断定しない"
+  },
+  {
+    "id": "E375-007",
+    "chapter": 375,
+    "chapter_title": "説得",
+    "day": 3,
+    "time_start": null,
+    "time_end": null,
+    "type": "念講習",
+    "description": "ビスケットがウェルゲーに念の基礎を教える",
+    "characters": ["P12-H02", "P13-G03"],
+    "room": "1層1013号室",
+    "location": "第1層 1013号室",
+    "camp": ["マラヤーム陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": ""
+  },
+  {
+    "id": "E375-008",
+    "chapter": 375,
+    "chapter_title": "説得",
+    "day": 3,
+    "time_start": null,
+    "time_end": null,
+    "type": "移動",
+    "description": "ベレレインテが1013号室を退室する",
+    "characters": ["P13-H01"],
+    "room": "1層1013号室",
+    "location": "第1層 1013号室",
+    "camp": ["マラヤーム陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": ""
   },
   {
     "id": "E376-001",
@@ -1846,7 +1850,7 @@
     "location": "第1層 1014号室",
     "camp": null,
     "series": "第1回念講習会",
-    "series_index": 1,
+    "series_index": 3,
     "revealed_facts": [
       "ミュハンの死因はサイレントマジョリティーによるものとして、講習参加者に共有される"
     ],
@@ -1913,7 +1917,7 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "ミュハン殺害が私設兵によりツェリードニヒに報告される。念講習会継続の意思を伝達後、ツェリードニヒが水見式を行い、水が変質して腐臭を放つ",
+    "description": "ミュハン殺害と念講習会継続の意思がツェリードニヒに伝えられる",
     "characters": [
       "P04"
     ],
@@ -1924,41 +1928,26 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [
-      "水見式で水が著しく変質し腐臭を放つ異常が起きる",
-      "水見式の反応はツェリードニヒが特質系である可能性を示すが、この時点では本人も断定していない"
-    ],
+    "revealed_facts": [],
     "mysteries": [],
-    "notes": "水見式の異常反応と系統の関係は作中人物の認識にとどめ、確定表記にはしない"
+    "notes": ""
   },
   {
-    "id": "E376-006",
+    "id": "E376-007",
     "chapter": 376,
     "chapter_title": "決意",
-    "day": 3,
+    "day": 4,
     "time_start": null,
     "time_end": null,
-    "type": "能力解説",
-    "description": "チョウライの守護霊獣のコインは、所持者が条件を満たすことで念獣の能力を発現させる媒介であることが説明される",
-    "characters": [
-      "P03"
-    ],
-    "room": null,
-    "location": "第1層 王子居住区",
-    "camp": [
-      "チョウライ陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "コインの所持者が条件を満たすことが、守護霊獣の能力発現の契機となる",
-      "守護霊獣は具現化系・複合型の能力として説明される"
-    ],
-    "mysteries": [
-      "コイン所持者が満たすべき条件の詳細",
-      "発現する能力の具体的効果"
-    ],
-    "notes": "第376話内の説明に基づく。能力の詳細は未解明として保持"
+    "type": "念能力使用",
+    "description": "ツェリードニヒが水見式を行い、水が変質して腐臭を放つ",
+    "characters": ["P04"],
+    "room": "1層1004号室",
+    "location": null,
+    "camp": ["ツェリードニヒ陣営"],
+    "revealed_facts": ["水見式の反応は特質系を示す可能性があるが、この時点では本人も断定していない"],
+    "mysteries": [],
+    "notes": "系統は作中人物の推測にとどめる"
   },
   {
     "id": "E377-001",
@@ -2056,37 +2045,6 @@
     "notes": ""
   },
   {
-    "id": "E378-003",
-    "chapter": 378,
-    "chapter_title": "均衡",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "情報収集",
-    "description": "シュウ＝ウ一家・シャ＝ア一家・エイ＝イ一家の組織詳細が判明する",
-    "characters": [
-      "SWU-001",
-      "SWU-002",
-      "SAA-001",
-      "SAA-002",
-      "EII-001"
-    ],
-    "room": null,
-    "location": null,
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "シュウ＝ウ一家：組長オニオール＝ロンポウ（ホイコーロ異母兄弟）、ケツモチチョウライ、若頭ヒンリギ＝ビガンダフノ",
-      "シャ＝ア一家：組長ブロッコ＝リー、ケツモチルズールス、若頭オウ＝ケンイ（念能力者）、構成員約250人",
-      "エイ＝イ一家：組長モレナ＝プルード（父はホイコーロ）、ケツモチツェリードニヒ、構成員23人（モレナ含む）"
-    ],
-    "mysteries": [
-      "モレナとツェリードニヒが兄妹である可能性。二人の母親は誰か？もしモレナとツェリードニヒが兄妹ならツェリードニヒはビヨンドの子供ではなくなる"
-    ],
-    "notes": ""
-  },
-  {
     "id": "E379-001",
     "chapter": 379,
     "chapter_title": "共闘",
@@ -2180,16 +2138,32 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "ミザイストムがイルミ＝カルトと遭遇。イルミがフリーパスIDを所持しており、旅団の乗船をミザイストムに確認させる。クラピカに伝えるべきか悩む。ミザイストムがフウゲツとも遭遇する",
+    "description": "ミザイストムがイルミ＝カルトと遭遇し、旅団の乗船を確認する",
     "characters": [
-      "HA-002",
-      "P11"
+      "HA-002"
     ],
     "room": null,
     "location": "第3層展望室",
     "camp": null,
     "series": null,
     "series_index": null,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "イルミはフリーパスIDを所持。ミザイストムはクラピカへ伝えるべきか悩む"
+  },
+  {
+    "id": "E380-003",
+    "chapter": 380,
+    "chapter_title": "警報",
+    "day": 4,
+    "time_start": null,
+    "time_end": null,
+    "type": "遭遇",
+    "description": "ミザイストムがフウゲツと遭遇する",
+    "characters": ["HA-002", "P11"],
+    "room": null,
+    "location": "第3層展望室",
+    "camp": null,
     "revealed_facts": [],
     "mysteries": [],
     "notes": ""
@@ -2202,7 +2176,7 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "ミザイストムがフウゲツを尋問。部下のハンターがセンリツに電話し、フウゲツの逃走防止を指示する（実際はハンター暗号で『カチョウ・フウゲツ両王子の逃走を全力でサポートしろ』という意味）",
+    "description": "ミザイストムが中央警察署でフウゲツを尋問する",
     "characters": [
       "HA-002",
       "P11"
@@ -2249,8 +2223,9 @@
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "サレサレ警護兵にサレサレの守護霊獣の分身が憑く（煙を吸って70時間経過）。リハンが異邦人（プレデター）を発動しサレサレの守護霊獣を捕食。リハンは48時間念能力が使用不可になり、フウゲツ王子警護のウショウヒと交代する",
+    "description": "リハンが異邦人（プレデター）を発動し、サレサレの守護霊獣を捕食する",
     "characters": [
+      "P01-P13",
       "P08"
     ],
     "room": "1層1008号室",
@@ -2262,32 +2237,42 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "警護兵は煙を吸って70時間後、守護霊獣の分身を宿していた。使用後のリハンは48時間念能力を使えない"
   },
   {
-    "id": "E381-004",
+    "id": "E381-005",
     "chapter": 381,
     "chapter_title": "捕食",
     "day": 5,
-    "time_start": "20:00",
+    "time_start": null,
+    "time_estimate": "20:00",
     "time_end": null,
-    "type": "情報収集",
-    "description": "ウショウヒの能力の詳細が解説される",
-    "characters": [
-      "P11"
-    ],
-    "room": "1層1011号室",
-    "location": null,
-    "camp": [
-      "カチョウ＝フウゲツ陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "出航より104時間経過（5日目木曜日PM8:00）"
-    ],
+    "type": "移動",
+    "description": "念能力を48時間使えなくなったリハンが警護任務から外れ、ウショウヒと交代する",
+    "characters": ["P01-P13", "P11-G01"],
+    "room": null,
+    "location": "第1層 1008号室・1011号室",
+    "camp": ["ベンジャミン陣営"],
+    "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "ウショウヒはフウゲツ王子の警護を担当。5日目20:00の表示は近接場面の目安で、交代自体の確定時刻ではない"
+  },
+  {
+    "id": "E381-006",
+    "chapter": 381,
+    "chapter_title": "捕食",
+    "day": 5,
+    "time_start": null,
+    "time_end": null,
+    "type": "連絡",
+    "description": "ミザイストムの部下がセンリツに電話し、カチョウとフウゲツの逃走支援を暗号で指示する",
+    "characters": ["HA-002", "P10-H01"],
+    "room": null,
+    "location": "中央警察署からの通話",
+    "camp": null,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "表向きは『フウゲツの逃走を防止しろ』と伝え、ハンター暗号では両王子を全力で支援する意味"
   },
   {
     "id": "E382-001",
@@ -2383,7 +2368,7 @@
     "time_start": "21:30",
     "time_end": null,
     "type": "出来事",
-    "description": "晩餐会開催。サレサレは欠席（『晩餐会で世界を変える』はサレサレのライブ予定を指していたと判明）。晩餐会は90分間。センリツがフルートを演奏",
+    "description": "センリツが晩餐会でフルートを演奏する",
     "characters": [
       "P10-H01"
     ],
@@ -2394,17 +2379,18 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "晩餐会は90分間。サレサレは欠席し、予定していたライブは行われない"
   },
   {
     "id": "E383-002",
     "chapter": 383,
     "chapter_title": "脱出",
     "day": 8,
-    "time_start": "21:30",
+    "time_start": null,
+    "time_estimate": "21:30",
     "time_end": null,
     "type": "脱出",
-    "description": "キーニがカチョウとフウゲツを救命艇に移動させ自死。救命艇での脱出を試みるが『無数の手』に阻まれ失敗しカチョウが死亡。フウゲツはマジカルワーム（カチョウ担当の復路）で自室に戻り生還する",
+    "description": "キーニが両王子を救命艇へ移して自死し、カチョウは船外への脱出を阻まれて死亡する",
     "characters": [
       "P10",
       "P11",
@@ -2416,16 +2402,12 @@
         "status": "死亡（念獣がフウゲツを守護中）"
       },
       {
-        "character": "P11",
-        "status": "存命（船内に留まる。継承戦から離脱はしていない）"
-      },
-      {
         "character": "P10-H02",
         "status": "死亡"
       }
     ],
     "room": null,
-    "location": "晩餐会場",
+    "location": "救命艇・船外への出口",
     "camp": [
       "カチョウ＝フウゲツ陣営"
     ],
@@ -2433,7 +2415,25 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "図表：カチョウフウゲツの守護霊獣"
+    "notes": "脱出を阻む『無数の手』が現れる。21:30は晩餐会の時刻であり、カチョウ死亡の確定時刻ではない"
+  },
+  {
+    "id": "E383-003",
+    "chapter": 383,
+    "chapter_title": "脱出",
+    "day": 8,
+    "time_start": null,
+    "time_end": null,
+    "type": "帰還",
+    "description": "フウゲツがマジカルワームで自室へ戻り、生還する",
+    "characters": ["P11"],
+    "status_effects": [{"character": "P11", "status": "存命（船内に留まる。継承戦から離脱はしていない）"}],
+    "room": "1層1011号室",
+    "location": "救命艇から第1層 1011号室へ",
+    "camp": ["カチョウ＝フウゲツ陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "カチョウ担当の復路を使う。カチョウの死後、守護霊獣がフウゲツを守る"
   },
   {
     "id": "E384-001",
@@ -2464,8 +2464,8 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "念能力使用",
-    "description": "1004号室で従事者が死体を片付けている。ツェリードニヒが電話でモレナがV2エリアにいないことを伝える。ツェリードニヒが念の修行を再開し、能力が発現して念獣が現れる",
+    "type": "連絡",
+    "description": "ツェリードニヒが電話で、モレナはV2エリアにいないと伝える",
     "characters": [
       "P04"
     ],
@@ -2480,7 +2480,24 @@
     "mysteries": [
       "1004号室で片付けられていた死体は誰のものか？"
     ],
-    "notes": "図表：ツェリードニヒの念獣と守護霊獣のビジュアル"
+    "notes": "1004号室では従事者が身元不明の遺体を片付けている"
+  },
+  {
+    "id": "E384-003",
+    "chapter": 384,
+    "chapter_title": "抗争",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "ツェリードニヒが念の修行を再開し、念獣が現れる",
+    "characters": ["P04"],
+    "room": "1層1004号室",
+    "location": null,
+    "camp": ["ツェリードニヒ陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "ツェリードニヒの念獣と守護霊獣の姿が描かれる"
   },
   {
     "id": "E385-001",
@@ -2588,7 +2605,7 @@
     "time_start": null,
     "time_end": null,
     "type": "死亡",
-    "description": "ハルケンブルグが能力を検証。シカクに乗り移ったスミドリが自死しシカクが死亡。スミドリは自分の体に戻る",
+    "description": "シカクに乗り移ったスミドリが1007号室で自死し、シカクが死亡する",
     "characters": [
       "P09",
       "P07-G06",
@@ -2600,16 +2617,17 @@
         "status": "死亡"
       }
     ],
-    "room": "1層1009号室",
-    "location": null,
+    "room": "1層1007号室",
+    "location": "第1層 1007号室玄関",
+    "character_locations": {"P09": "1層1009号室", "P07-G06": "1層1007号室", "P09-P05": "1層1007号室"},
     "camp": [
       "ハルケンブルグ陣営"
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["シカクの死とともに鳴動が止まる"],
+    "mysteries": ["シカクがルズールスの部屋の玄関で自死した理由"],
+    "notes": "ハルケンブルグの能力検証の結果、スミドリは自分の肉体に戻る。389話では当時の1007号室の配置が後から説明される。主寝室にはルズールス、バラーテ、リッジ、バショウ、ファムール、カンジドル。玄関でシカクに対応したのはライス。オデッサ、ガドー、マクネ、スカルトは就寝中"
   },
   {
     "id": "E386-003",
@@ -2656,29 +2674,6 @@
     "revealed_facts": [],
     "mysteries": [],
     "notes": "「裏表のある女がかわいい」という発言"
-  },
-  {
-    "id": "E387-001",
-    "chapter": 387,
-    "chapter_title": "再現",
-    "day": 8,
-    "time_start": "19:35",
-    "time_end": null,
-    "type": "情報収集",
-    "description": "8日目の出来事がツェリードニヒ視点で再現される",
-    "characters": [
-      "P04"
-    ],
-    "room": "1層1004号室",
-    "location": null,
-    "camp": [
-      "ツェリードニヒ陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": "図表：ツェリードニヒの念能力の解説"
   },
   {
     "id": "E388-001",
@@ -2752,43 +2747,6 @@
     "revealed_facts": [],
     "mysteries": [],
     "notes": ""
-  },
-  {
-    "id": "E389-001",
-    "chapter": 389,
-    "chapter_title": "呪詛",
-    "day": 9,
-    "time_start": "10:00",
-    "time_end": null,
-    "type": "情報収集",
-    "description": "シカクが自死した時の1007号室の状況が判明する",
-    "characters": [
-      "P07",
-      "P01-P09",
-      "P07-P01",
-      "HA-006",
-      "P07-H01",
-      "P07-G03",
-      "P07-G02"
-    ],
-    "room": "1層1007号室",
-    "location": null,
-    "camp": [
-      "ベンジャミン陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "カンジドル（ベンジャミン私設兵）は主寝室にいた。同室にはルズールス、ルズールス私設兵バラーテ、ハンター協会のリッジとバショウ、ドゥアズル所属兵ファムールがいた",
-      "ルズールスは合法薬を使いながら映画を見ていた",
-      "玄関でシカクに対応したのはドゥアズル所属兵ライス",
-      "シカクが死んだ時に鳴動が止まった",
-      "鳴動の破壊力は『音速を超える直径5mの火球』で直撃すれば死亡レベル"
-    ],
-    "mysteries": [
-      "操られている間は鳴動が鳴り続けるのか？"
-    ],
-    "notes": "場所：V.VIPエリア監視居住区（ベンジャミン）。ベンジャミン陣営は監視勾留措置を受けている"
   },
   {
     "id": "E389-002",
@@ -2876,37 +2834,6 @@
     "notes": ""
   },
   {
-    "id": "E389-005",
-    "chapter": 389,
-    "chapter_title": "呪詛",
-    "day": 9,
-    "time_start": null,
-    "time_end": null,
-    "type": "情報収集",
-    "description": "シカク自殺時に1007号室にいたドゥアズル所属兵5人の内訳が判明する",
-    "characters": [
-      "P07",
-      "P07-G04",
-      "P07-G05",
-      "P07-P02",
-      "HA-007"
-    ],
-    "room": "1層1007号室",
-    "location": null,
-    "camp": [
-      "ルズールス陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "就寝中だったのはドゥアズル所属兵のオデッサ・ガドー、私設兵のマクネ、ハンター協会員のスカルト"
-    ],
-    "mysteries": [
-      "シカクがルズールスの玄関で自殺した理由"
-    ],
-    "notes": "図表：シカク自殺時に1007号室にいたドゥアズル所属兵5人の内訳"
-  },
-  {
     "id": "E389-006",
     "chapter": 389,
     "chapter_title": "呪詛",
@@ -2914,7 +2841,7 @@
     "time_start": null,
     "time_end": null,
     "type": "会議",
-    "description": "カミーラ私設兵の内訳が判明。王子を呪殺し除念師をあぶり出すための策略が検討される。サラヘルが念講習会に参加しワブルに呪いをかけることを決める",
+    "description": "カミーラ陣営が呪殺によって除念師をあぶり出す策を検討する",
     "characters": [
       "P02",
       "P02-P01",
@@ -2955,11 +2882,10 @@
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "テンフトリが念に目覚め、コインをもらう。コベントバ（ベンジャミン私設兵）が拾ったコインの数字が10になる",
+    "description": "テンフトリが念に目覚め、チョウライのコインを受け取る",
     "characters": [
       "P03",
-      "P03-P01",
-      "P01-P11"
+      "P03-P01"
     ],
     "room": "1層1003号室",
     "location": null,
@@ -2973,6 +2899,40 @@
     "notes": ""
   },
   {
+    "id": "E389-008",
+    "chapter": 389,
+    "chapter_title": "呪詛",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "決定",
+    "description": "サラヘルが念講習会に潜入し、ワブルに呪いをかけることを決める",
+    "characters": ["P02-P13", "P14"],
+    "room": null,
+    "location": "V.VIPエリア監視居住区（カミーラ）",
+    "camp": ["カミーラ陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "実行は後の第2回念講習会に向けた準備へ続く"
+  },
+  {
+    "id": "E389-009",
+    "chapter": 389,
+    "chapter_title": "呪詛",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "コベントバが拾ったチョウライのコインの数字が10になる",
+    "characters": ["P01-P11"],
+    "room": "1層1003号室",
+    "location": null,
+    "camp": ["ベンジャミン陣営"],
+    "revealed_facts": [],
+    "mysteries": ["数字が増える条件と効果"],
+    "notes": ""
+  },
+  {
     "id": "E390-001",
     "chapter": 390,
     "chapter_title": "衝突①",
@@ -2980,7 +2940,7 @@
     "time_start": null,
     "time_end": null,
     "type": "会議",
-    "description": "チョウライがオニオール組長に会い、念について調べるよう依頼する。チョウライの父親がオニオールだと判明する",
+    "description": "チョウライがオニオール組長に会い、念について調べるよう依頼する",
     "characters": [
       "P03",
       "SWU-001"
@@ -3381,48 +3341,6 @@
     "notes": "『旅団とエイ＝イ一家は似ている』というノブナガの発言から回想シーンに入る"
   },
   {
-    "id": "E396-001",
-    "chapter": 396,
-    "chapter_title": "結成②",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "出来事",
-    "description": "幻影旅団結成の回想",
-    "characters": [
-      "SPD-001"
-    ],
-    "room": null,
-    "location": null,
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": "回想パート。具体的な出来事の詳細は未記録"
-  },
-  {
-    "id": "E397-001",
-    "chapter": 397,
-    "chapter_title": "結成③",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "出来事",
-    "description": "幻影旅団結成の回想・続き",
-    "characters": [
-      "SPD-001"
-    ],
-    "room": null,
-    "location": null,
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": "回想パート。具体的な出来事の詳細は未記録"
-  },
-  {
     "id": "E398-001",
     "chapter": 398,
     "chapter_title": "探索",
@@ -3498,8 +3416,9 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "発信器の情報からモレナが第2層にいることが判明する",
+    "description": "ヒンリギが発信器の情報を追い、モレナの第2層滞在を確認する",
     "characters": [
+      "SWU-002",
       "EII-001"
     ],
     "room": null,
@@ -3512,50 +3431,16 @@
     "notes": ""
   },
   {
-    "id": "E400-002",
-    "chapter": 400,
-    "chapter_title": "秘匿",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "情報収集",
-    "description": "タイソンの私設兵の設定（コードネーム）が判明する",
-    "characters": [
-      "P06",
-      "P06-P02",
-      "P06-P03",
-      "P06-P04",
-      "P06-P05",
-      "P06-P06"
-    ],
-    "room": "1層1006号室",
-    "location": null,
-    "camp": [
-      "タイソン陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "私設兵の設定：マドウィッグ（記憶喪失のヒットマン）、ヒマンセ（世界的大スター）、エンゼール（タイソン王子の弟）、ヒュウガ（伝説の家庭教師）、ムニー星の王子（お嫁さんを探しに来た）",
-      "タイソン教典は下位王子とその母親に渡している"
-    ],
-    "mysteries": [],
-    "notes": ""
-  },
-  {
     "id": "E400-003",
     "chapter": 400,
     "chapter_title": "秘匿",
     "day": 10,
     "time_start": null,
     "time_end": null,
-    "type": "情報収集",
-    "description": "カチョウの死にセイコも気づく。センリツが悔いるが、幽霊となったカチョウに励まされやる気が出る。カイザルが上位王子の暗殺を企てる。フウゲツの能力が複数回使用可能になりつつあるが、やつれている",
+    "type": "出来事",
+    "description": "セイコがカチョウの死を知る",
     "characters": [
-      "P10-H01",
-      "P11",
-      "Q06",
-      "JUD-001"
+      "Q06"
     ],
     "room": "1層1010号室",
     "location": null,
@@ -3566,7 +3451,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "原文ではセヴァンチと記載（セイコの誤記の可能性）。センリツへの面会人：チョウライ（演奏鑑賞を打診しコインを渡す）、ヴァンタイン（ツェリードニヒ私設兵隊長、招待を伝える）"
+    "notes": "セイコの名前は原文でセヴァンチと記載されており、誤記の可能性がある"
   },
   {
     "id": "E400-004",
@@ -3575,17 +3460,46 @@
     "day": 10,
     "time_start": null,
     "time_end": null,
-    "type": "念講習",
-    "description": "念講習会でロンギが念能力者であると明かす",
-    "characters": [
-      "P14-H01",
-      "P05-G01"
-    ],
-    "room": "1層1014号室",
+    "type": "対話",
+    "description": "カチョウの守護霊獣がセンリツを励ます",
+    "characters": ["P10", "P10-H01"],
+    "room": "1層1010号室",
     "location": null,
-    "camp": null,
-    "series": null,
-    "series_index": null,
+    "camp": ["カチョウ＝フウゲツ陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "センリツは脱出失敗を悔いていた。チョウライとヴァンタインもセンリツに面会を求める"
+  },
+  {
+    "id": "E400-005",
+    "chapter": 400,
+    "chapter_title": "秘匿",
+    "day": 10,
+    "time_start": null,
+    "time_end": null,
+    "type": "計画",
+    "description": "カイザルが上位王子の暗殺を企てる",
+    "characters": ["JUD-001"],
+    "room": null,
+    "location": null,
+    "camp": ["カチョウ＝フウゲツ陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": ""
+  },
+  {
+    "id": "E400-006",
+    "chapter": 400,
+    "chapter_title": "秘匿",
+    "day": 10,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "フウゲツが秘密の扉を繰り返し使えるようになる一方、衰弱する",
+    "characters": ["P11"],
+    "room": "1層1011号室",
+    "location": null,
+    "camp": ["カチョウ＝フウゲツ陣営"],
     "revealed_facts": [],
     "mysteries": [],
     "notes": ""
@@ -3598,7 +3512,7 @@
     "time_start": "11:45",
     "time_end": null,
     "type": "念講習",
-    "description": "ロンギが念能力者だと判明するが、サイレントマジョリティーの犯人ではないと分かる",
+    "description": "ロンギが念能力者であることを明かし、クラピカがサイレントマジョリティーの犯人ではないと確認する",
     "characters": [
       "P14-H01",
       "P05-G01",
@@ -3894,11 +3808,10 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "フウゲツがルズールスに手紙を渡す。ルズールスは内容をカイザルにも公開する。バショウがお祓いの俳句をフウゲツに渡す",
+    "description": "フウゲツがルズールスに手紙を渡し、ルズールスがカイザルにも内容を見せる",
     "characters": [
       "P11",
       "P07",
-      "P07-H01",
       "JUD-001"
     ],
     "room": "1層1007号室",
@@ -3931,6 +3844,23 @@
     ],
     "series": null,
     "series_index": null,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": ""
+  },
+  {
+    "id": "E402-010",
+    "chapter": 402,
+    "chapter_title": "手紙",
+    "day": 11,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "バショウがフウゲツにお祓いの俳句を渡す",
+    "characters": ["P07-H01", "P11"],
+    "room": "1層1007号室",
+    "location": null,
+    "camp": ["ルズールス陣営", "カチョウ＝フウゲツ陣営"],
     "revealed_facts": [],
     "mysteries": [],
     "notes": ""
@@ -4450,16 +4380,16 @@
     "time_start": null,
     "time_end": null,
     "type": "捜査",
-    "description": "ザクロとカイザルが処理場でリンチの遺体を確認。ザクロは、自分と行動していたリンチが別人だったと気づく",
-    "characters": ["SWU-003", "SWU-004"],
+    "description": "ザクロとカイザルが処理場でリンチの遺体を確認する",
+    "characters": ["SWU-003", "SWU-004", "JUD-001"],
     "room": null,
     "location": "第3層 処理場",
-    "camp": ["チョウライ陣営"],
-    "series": "第1回念講習会",
-    "series_index": 1,
+    "camp": ["シュウ＝ウ一家"],
+    "series": null,
+    "series_index": null,
     "revealed_facts": ["第392話でヒソカとして現れた人物はボノレノフ", "リンチはボノレノフに殺害されていた"],
     "mysteries": [],
-    "notes": "原作第406話を確認。遺体発見場面とザクロの回想から確定"
+    "notes": "ザクロは遺体の死亡時期から、自分と行動していた『リンチ』が別人だったと気づく"
   },
   {
     "id": "E406-002",
@@ -4548,14 +4478,14 @@
     "time_start": null,
     "time_end": null,
     "type": "交渉",
-    "description": "交渉ゲームが進行し、ボークセンはモレナの能力と自身に求められる役割を聞き出す。船内には特殊戒厳令が発令される",
+    "description": "ボークセンが交渉ゲームでモレナの能力と自身に求められる役割を聞き出す",
     "characters": ["EII-001", "EII-T01"],
     "room": null,
-    "location": "第2層 エイ＝イ一家アジト／船内各層",
+    "location": "第2層 エイ＝イ一家アジト",
     "camp": ["エイ＝イ一家"],
     "series": "モレナとボークセンの交渉ゲーム",
     "series_index": 4,
-    "revealed_facts": ["特殊戒厳令では国王軍が強い権限を持ち、各層の移動と通信が制限される"],
+    "revealed_facts": [],
     "mysteries": [],
     "notes": "原作第409話を確認"
   },
@@ -4586,17 +4516,34 @@
     "time_start": null,
     "time_end": null,
     "type": "戒厳令",
-    "description": "特殊戒厳令下で国王軍が各層を制圧。第3王子チョウライが第2層へ移動したことが判明し、ベンジャミンは残る王子を早急に確保する方針を取る",
-    "characters": ["P01", "P03"],
-    "character_locations": {"P01": "1層1001号室", "P03": "第2層"},
+    "description": "特殊戒厳令下で国王軍が各層を制圧する",
+    "characters": ["P01"],
+    "character_locations": {"P01": "1層1001号室"},
     "room": null,
     "location": "第1層・第2層・第3層",
     "camp": ["ベンジャミン陣営"],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["特殊戒厳令発令から40分経過", "第3王子チョウライは第2層へ移動"],
+    "revealed_facts": ["特殊戒厳令発令から40分経過", "第3王子チョウライは第2層へ移動済み"],
     "mysteries": [],
     "notes": "原作第410話を確認"
+  },
+  {
+    "id": "E410-003",
+    "chapter": 410,
+    "chapter_title": "交渉④",
+    "day": 12,
+    "time_start": null,
+    "time_end": null,
+    "type": "命令",
+    "description": "ベンジャミンが残る王子の早期確保を命じる",
+    "characters": ["P01"],
+    "room": "1層1001号室",
+    "location": null,
+    "camp": ["ベンジャミン陣営"],
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": ""
   },
   {
     "id": "E411-001", "chapter": 411, "chapter_title": null, "day": 12, "time_start": "08:00", "time_end": null, "type": "連絡", "description": "ハルケンブルグの人格が宿るバルサミルコがベンジャミンへ電話し、葬列は13時に司法院を出発して14時頃に第1層斎場へ到着する予定、私設兵は解散後に第2層以下へ再配備されると報告する", "characters": ["P01-P05", "P01", "P09"], "character_locations": {"P01-P05": "第2層 司法省", "P01": "1層1001号室", "P09": "第2層 司法省（バルサミルコの肉体）"}, "room": null, "location": "第2層 司法省", "camp": ["ハルケンブルグ陣営", "ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": ["12日目（水曜日）AM8:00、司法省内"], "mysteries": [], "notes": "ユーザー提供の原作画像（第411話全ページ）で確認"
@@ -4605,10 +4552,10 @@
     "id": "E411-002", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "呪詛", "description": "従者に変装したサラヘルが302号室の念講習会へ参加する準備をし、第14王子への呪詛を開始。成功時の後任にカコを指名する", "characters": ["P02-P13", "P02-P08", "P14"], "room": "3層302号室", "location": "第3層 302号室", "camp": ["カミーラ陣営"], "series": null, "series_index": null, "revealed_facts": ["開始時点の見込みでは呪詛の蓄積に約1週間", "サラヘルは兵隊長の姿を外向きの仮面と説明する"], "mysteries": [], "notes": "ユーザー提供の原作画像（第411話全ページ）で確認。呪詛の蓄積日数は原作画像と従来メモを照合した値"
   },
   {
-    "id": "E411-003", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "念講習", "description": "1014号室で第2回念講習会が開催され、室内26名のうち入門クラス9名・初級クラス9名の計18名が参加。クラピカは第14王子が継承戦の資格を有していないと公表する", "characters": ["P14-H01", "P13-H01", "P13-M01", "P11-M01", "P11-M02", "P11-M03", "P10-M02", "P10-M03", "P10-M04", "P07-G01", "P07-G07", "P07-G05", "P02-P13", "P03-P01", "P03-G01", "P05-P01", "P04-P06", "P04-P04", "P01-P04", "P01-P06"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 1, "revealed_facts": ["講習参加者は入門クラス9名・初級クラス9名の計18名", "第14王子は継承戦の資格を有していない", "サラヘルの呪詛はこの時点で約5日後に成功する見込み"], "mysteries": ["第14王子が継承戦の資格を有していない具体的理由"], "notes": "ユーザー提供の原作画像（第411話全ページ）で確認。スラッカは会場で入門クラスへの参加を申し出るが、この時点で18名に加わったことは確認できない。特殊戒厳令までの正確な残時間は未確定"
+    "id": "E411-003", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "念講習", "description": "1014号室で第2回念講習会が始まる", "characters": ["P14-H01", "P13-H01", "P13-M01", "P11-M01", "P11-M02", "P11-M03", "P10-M02", "P10-M03", "P10-M04", "P07-G01", "P07-G07", "P07-G05", "P02-P13", "P03-P01", "P03-G01", "P05-P01", "P04-P06", "P04-P04", "P01-P04", "P01-P06"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 1, "revealed_facts": ["室内26名のうち入門クラス9名・初級クラス9名の計18名が参加"], "mysteries": [], "notes": "スラッカは入門クラスへの参加を申し出るが、この時点で18名に加わったことは確認できない。開始の正確な時刻は未確定"
   },
   {
-    "id": "E412-001", "chapter": 412, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "情報判明", "description": "第14王子従事者の名がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "characters": ["P14-M02", "P14-H01"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 2, "revealed_facts": ["シマノは誤称で本名はシマヌ"], "mysteries": [], "notes": "ユーザー提供の原作画像（第412話全ページ）で講習会の継続と相対時刻表示を確認。シマヌ表記は既存の原作確認メモを維持する。作中には特殊戒厳令発令5時間前と約48時間前の両表示があり、時系列の確定値には採用しない"
+    "id": "E411-004", "chapter": 411, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "発言", "description": "クラピカが講習会で第14王子には継承戦の資格がないと公表する", "characters": ["P14-H01", "P14"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": "第2回念講習会", "series_index": 2, "revealed_facts": [], "mysteries": ["第14王子に資格がない具体的理由"], "notes": "サラヘルの呪詛はこの時点で約5日後に成功する見込み"
   },
   {
     "id": "E412-002", "chapter": 412, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "情報判明", "description": "船内にいる第14王子の男児は替え玉であり、本物の第14王子は娘で所在不明と判明する", "characters": ["P14", "P14-H01", "Q08"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": null, "series_index": null, "revealed_facts": ["船内にいる第14王子の男児は替え玉", "本物の第14王子は娘で所在不明"], "mysteries": ["本物の第14王子の所在", "男児の替え玉の正体"], "notes": "ユーザー提供の原作画像（第412話全ページ）で確認。既存の第14王子レコードは表示互換のため維持し、真偽関係を出来事・謎として管理する"
@@ -4629,19 +4576,31 @@
     "id": "E414-001", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:10", "time_end": null, "type": "殺害", "description": "1007号室休憩室でカンジドルがルズールス私設兵2名を殺害する", "characters": ["P01-P09", "P07-U01", "P07-U02"], "status_effects": [{"character": "P07-U01", "status": "死亡"}, {"character": "P07-U02", "status": "死亡"}], "room": "1層1007号室", "location": "第1層 1007号室休憩室", "camp": ["ベンジャミン陣営", "ルズールス陣営"], "series": null, "series_index": null, "revealed_facts": ["ベンジャミン側近兵はカンジドル", "1007号室の殺害は特殊戒厳令発令5分前に起きる"], "mysteries": [], "notes": "ユーザー提供の原作画像（第414話全10ページ）で1007号室の死傷・カンジドルの関与・発令5分前表示を確認"
   },
   {
-    "id": "E414-002", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:00", "time_end": null, "type": "準備", "description": "特殊戒厳令発動に向けた各陣営の準備行動が進む。ルズールスは薬物を処分し、ウショウヒとチヤマシは1009号室への突入を準備する", "characters": ["P07", "P11-G01", "P01-P16"], "character_locations": {"P07": "1層1005号室", "P11-G01": "1層1009号室前", "P01-P16": "1層1009号室前"}, "room": null, "location": "第1層 1005号室・1009号室前", "camp": ["ルズールス陣営", "ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "ユーザー提供の原作画像（第414話全10ページ）で特殊戒厳令直前の王子居住区の警備・各陣営の準備を確認。発令15分前の配置は既存の原作確認メモと照合済み"
+    "id": "E414-002", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:00", "time_end": null, "type": "準備", "description": "特殊戒厳令の発令前、ルズールスが薬物を処分する", "characters": ["P07"], "room": "1層1007号室", "location": "第1層 1007号室", "camp": ["ルズールス陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "発令15分前の場面"
   },
   {
     "id": "E414-003", "chapter": 414, "chapter_title": null, "day": null, "time_start": null, "time_end": null, "type": "連絡", "description": "クラピカが船外のハンターへ本物の第14王子である娘の捜索を依頼する", "characters": ["P14-H01", "P14"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ワブル陣営"], "series": null, "series_index": null, "revealed_facts": ["継承戦終了まで残り49日"], "mysteries": ["本物の第14王子の所在", "第14王子とビヨンドの子・呪詛に関する仮説の真偽"], "notes": "ユーザー提供の原作画像（第414話全10ページ）で1014号室の情報共有・捜索方針を確認。画像に確認できる時期情報は『継承戦終了まで残り49日』であり、日付・時刻は未確定として保持"
   },
   {
+    "id": "E414-004", "chapter": 414, "chapter_title": null, "day": 12, "time_start": "14:00", "time_end": null, "type": "準備", "description": "ウショウヒとチヤマシが1009号室への突入を準備する", "characters": ["P11-G01", "P01-P16"], "room": "1層1009号室", "location": "第1層 1009号室前", "camp": ["ベンジャミン陣営"], "revealed_facts": [], "mysteries": [], "notes": "発令15分前の場面"
+  },
+  {
     "id": "E415-001", "chapter": 415, "chapter_title": null, "day": null, "period": "ritual", "time_start": null, "time_end": null, "type": "呪詛", "description": "壺中卵の儀の時期、船外の自室でヒュリコフが能力を発動し、ビヨンドから掛けられた呪いを見破る", "characters": ["P01-P06", "BYD-001"], "room": null, "location": "船外 ヒュリコフ自室", "camp": null, "series": null, "series_index": null, "revealed_facts": ["ヒュリコフは死亡時に第1〜第8王子の誰かを呪殺するソエモノ"], "mysteries": ["呪殺対象となる王子", "画面に表示されるP×4098と不明能力者の意味", "呪いの解除条件"], "notes": "ユーザー提供の原作画像（第415話全10ページ）で確認。出航約2か月前（壺中卵の儀）の場面。画面上の数値・能力者名・呪殺対象は未確定のまま保持"
   },
   {
-    "id": "E415-002", "chapter": 415, "chapter_title": null, "day": 12, "time_start": "14:15", "time_end": "14:35", "type": "戒厳令", "description": "特殊戒厳令発動後、各王子陣営が対応。ツベッパは1001号室へ移動を開始し、ルズールスとライスは裏口からシャ＝ア一家へ逃亡、ビスケは1013号室の念空間で籠城を決める", "characters": ["P02", "P03", "P04", "P05", "P01-P13", "P07", "P07-G02", "P12-H02"], "character_locations": {"P02": "第2層 第2王子居住区", "P03": "第2層", "P04": "1層1004号室", "P05": "移動中（1層1005号室→1001号室）", "P01-P13": "1層1005号室", "P07": "シャ＝ア一家方面へ移動中", "P07-G02": "シャ＝ア一家方面へ移動中", "P12-H02": "1層1013号室（念空間）"}, "room": null, "location": "第1層 王子居住区", "camp": null, "series": null, "series_index": null, "revealed_facts": ["1014号室には特殊戒厳令発令から20分経過の表示がある", "415話404ページ2コマ目には『特殊戒厳令15分前』の表記が欠落していた"], "mysteries": ["PM1:50表記が誤記である場合の正しい時刻", "発令前・発令後の各場面の正確な順序"], "notes": "ユーザー提供の原作画像（第415話全10ページ）で、特殊戒厳令下の各王子居住区の対応を確認。12日目14:15発令を基準に保持する。ユーザー提供の冨樫義博巻末コメントにより、415話404ページ2コマ目で『特殊戒厳令15分前』が欠落していたことを反映。PM1:50は誤記で、本来は発令10分前の時刻を意図した可能性があるが、正しい数字は未確定として固定しない。14:35、オイトと第14王子はベンジャミンの恩赦により処分保留"
+    "id": "E415-002", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "移動", "description": "特殊戒厳令下でツベッパが1001号室へ移動を始める", "characters": ["P05"], "room": null, "location": "第1層 1005号室から1001号室へ", "camp": ["ツベッパ陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": ["この場面の正確な時刻"], "notes": "発令前後の場面順序には未確定部分がある"
   },
   {
-    "id": "E416-001", "chapter": 416, "chapter_title": null, "day": 12, "time_start": "14:15", "time_end": null, "type": "戒厳令", "description": "特殊戒厳令が発令され、王子居住区に武装兵が展開する。ベンジャミン側はTSK-17の発症から死亡までを12時間と説明する", "characters": ["P01", "P01-P06"], "room": null, "location": "第1層 王子居住区", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": ["特殊戒厳令は12日目木曜日PM2:15に発令", "TSK-17は発症から死亡まで12時間と説明される"], "mysteries": ["TSK-17の正確な感染・発症機序", "戒厳令下での各王子陣営の処遇"], "notes": "ユーザー提供の原作画像（第416話全10ページ）で確認。発令表示は既存の12日目14:15基準と整合"
+    "id": "E415-003", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "脱出", "description": "ルズールスとライスが裏口からシャ＝ア一家方面へ逃れる", "characters": ["P07", "P07-G02"], "room": "1層1007号室", "location": "第1層 1007号室からシャ＝ア一家方面へ", "camp": ["ルズールス陣営"], "revealed_facts": [], "mysteries": [], "notes": "特殊戒厳令下の対応。正確な移動時刻は未確定"
+  },
+  {
+    "id": "E415-004", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "籠城", "description": "ビスケットが1013号室の念空間にとどまることを決める", "characters": ["P12-H02"], "room": "1層1013号室", "location": "第1層 1013号室の念空間", "camp": ["マラヤーム陣営"], "revealed_facts": [], "mysteries": [], "notes": "特殊戒厳令下の対応"
+  },
+  {
+    "id": "E415-005", "chapter": 415, "chapter_title": null, "day": 12, "time_start": "14:35", "time_end": null, "type": "決定", "description": "ベンジャミンがオイトと第14王子の処分を保留する", "characters": ["P01", "Q08", "P14"], "room": "1層1014号室", "location": "第1層 1014号室", "camp": ["ベンジャミン陣営", "ワブル陣営"], "revealed_facts": ["特殊戒厳令発令から20分後"], "mysteries": [], "notes": "ベンジャミンの恩赦による処分保留"
+  },
+  {
+    "id": "E416-001", "chapter": 416, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "戒厳令", "description": "特殊戒厳令下で武装兵が王子居住区に展開する", "characters": ["P01", "P01-P06"], "room": null, "location": "第1層 王子居住区", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": ["TSK-17は発症から死亡まで12時間と説明される"], "mysteries": ["TSK-17の正確な感染・発症機序", "戒厳令下での各王子陣営の処遇"], "notes": "12日目14:15の発令自体はE413-003に記録。武装兵の展開時刻は確定していない"
   },
   {
     "id": "E416-002", "chapter": 416, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "制圧", "description": "ベンジャミン側の武装兵が第4王子の1004号室周辺を制圧する。ベンジャミンは第4王子への対応を自ら行うため、他の兵に手出しを禁じる", "characters": ["P01", "P04"], "room": "1層1004号室", "location": "第1層 1004号室周辺", "camp": ["ベンジャミン陣営", "ツェリードニヒ陣営"], "series": null, "series_index": null, "revealed_facts": ["第4王子への対応はベンジャミン自身が担当する方針"], "mysteries": ["1004号室で銃撃を受けた人物の身元と状態", "第4王子の守護霊獣・能力が制圧に与える影響"], "notes": "ユーザー提供の原作画像（第416話全10ページ）で、1004号室表示・武装制圧・ベンジャミンの指示を確認。死傷者は画像の判読だけで確定しない"

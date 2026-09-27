@@ -7,7 +7,7 @@
 - `index.html` - メインの HTML（概要／14王子一覧／守護霊獣一覧／護衛・ハンター一覧／派閥マップ／下層勢力マップ／タイムライン）
 - `style.css` - スタイル定義
   - イベント種別の色は `.timeline-item.type-<種別>` を参照
-  - キャラクターアバターは念系統カラーの円に `mix-blend-mode: multiply` で線画ポートレート（白背景）を重ねている。新しい色を追加する場合は `.nen-avatar-<系統名>` の `background` も合わせて定義する
+  - キャラクターアバターは白背景の線画が見やすい薄色の円で表示する。`mix-blend-mode: multiply` は使わず、念系統ごとの差は淡い背景・枠色で表す
 - `script.js` - 描画ロジック、フィルタ、ガント描画など
 - `data/characters.json` - キャラクター全件（`type`: prince/queen/hunter/soldier/attendant/mafia/phantom_troupe/official）
 - `data/events.json` - タイムラインのイベント全件
@@ -38,8 +38,9 @@ python validate_data.py
 4. 問題なければそのまま commit します（`pip install jsonschema` が未導入の場合は事前に入れてください）。
 
 ## キャラクターポートレートの追加
-- `images/characters/` に PNG を追加し、`characters.json` の該当レコードの `image` にパスを設定します。
-- 線画（白背景）を想定したCSS処理（`mix-blend-mode: multiply`）になっているため、白背景の線画素材であればそのまま追加するだけでテーマに馴染みます。背景が透過でない写真調の画像を使う場合は見た目が変わるので要確認。
+- `images/characters/` に画像を追加し、`characters.json` の `image` または `data/character_images.json` の該当IDにパスと出典URLを設定します。
+- 氏名不明の仮称人物には、容姿とレコードの一対一対応が確認できる場合だけ画像を付けます。人数だけが判明しているレコードへ別人の顔を流用しません。
+- 白背景の線画はそのまま表示し、淡い背景・枠色で視認性を保ちます。
 
 ## イベント種別（type）の追加
 - 新しい種別を追加する場合、`style.css` に `.timeline-item.type-あなたの種別` と対応する色（`border-left-color` 等）を追記してください。

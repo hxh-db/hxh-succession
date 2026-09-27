@@ -994,16 +994,17 @@ button.character-filter-tag:focus-visible {
   justify-content: center;
   font-size: 1rem;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  color: #30465c;
+  text-shadow: none;
   margin: 0 auto 10px;
   flex-shrink: 0;
-  background: #5a6a7a;
-  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: #edf3f8;
+  border: 2px solid #c7d8e8;
   letter-spacing: -0.02em;
   line-height: 1.1;
   text-align: center;
   user-select: none;
+  overflow: hidden;
 }
 
 .char-avatar img {
@@ -1012,16 +1013,15 @@ button.character-filter-tag:focus-visible {
   object-fit: cover;
   border-radius: 50%;
   display: block;
-  /* 線画素材が白背景のため乗算ブレンドで念系統カラーを透過させ、ダークテーマに馴染ませる */
-  mix-blend-mode: multiply;
+  background: #fff;
 }
 
-.nen-avatar-強化  { background: var(--nen-強化); }
-.nen-avatar-放出  { background: var(--nen-放出); }
-.nen-avatar-具現化 { background: var(--nen-具現化); }
-.nen-avatar-操作  { background: var(--nen-操作); }
-.nen-avatar-変化  { background: var(--nen-変化); }
-.nen-avatar-特質  { background: var(--nen-特質); }
+.nen-avatar-強化  { background: #fff1db; border-color: #f2c985; }
+.nen-avatar-放出  { background: #ffebea; border-color: #efa49c; }
+.nen-avatar-具現化 { background: #f5eaff; border-color: #d4ade9; }
+.nen-avatar-操作  { background: #e6f7ef; border-color: #9bdab9; }
+.nen-avatar-変化  { background: #e9f4ff; border-color: #a5c9ee; }
+.nen-avatar-特質  { background: #fdeafa; border-color: #e6abd7; }
 
 /* ===== 守護霊獣画像 ===== */
 .beast-image {

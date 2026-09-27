@@ -1568,6 +1568,9 @@ button.character-filter-tag:focus-visible {
   font-size: 0.9rem;
 }
 
+#participantFilter { min-width: 210px; max-width: 280px; }
+#roomFilter { min-width: 280px; }
+
 .timeline-controls button {
   margin-left: auto;
   padding: 8px 16px;

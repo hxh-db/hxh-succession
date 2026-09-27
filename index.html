@@ -72,7 +72,7 @@
     <section id="timeline" class="primary-view" data-primary-panel="timeline" hidden>
       <div class="section-header">
         <h2>時間・場所別</h2>
-        <p>日付を選んで全体の流れを確認し、場所で絞ると各部屋のタイムラインを表示できます</p>
+        <p>日付を軸に、人物・場所・イベント種類で継承戦の流れを絞り込めます</p>
       </div>
       <aside class="uncollected-warning" aria-label="単行本未収録情報について">
         <strong>411話以降は単行本未収録時点の暫定データです。</strong>
@@ -81,16 +81,16 @@
 
       <div class="timeline-controls">
         <label>
-          参加者
-          <input id="participantFilter" type="search" placeholder="例：クラピカ" />
+          人物
+          <select id="participantFilter"><option value="all">すべての人物</option></select>
         </label>
         <label>
           場所で絞る
           <select id="roomFilter"><option value="all">すべての場所</option></select>
         </label>
         <label>
-          種別
-          <select id="typeFilter"><option value="all">全て</option></select>
+          イベント種類
+          <select id="typeFilter"><option value="all">すべて</option></select>
         </label>
         <label>
           並び順
@@ -102,56 +102,15 @@
         <button id="clearFilters" type="button">リセット</button>
       </div>
 
-      <div class="timeline-view-tabs" role="tablist" aria-label="時間・場所別の表示形式">
-        <button id="timeline-tab-schedule" class="timeline-view-tab active" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">日付から見る</button>
-        <button id="timeline-tab-events" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-events" data-view="events">イベント一覧</button>
-        <button id="timeline-tab-person" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-person" data-view="person">人物別</button>
-      </div>
-
-      <div id="timeline-panel-schedule" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-schedule">
+      <div id="timeline-panel-schedule" class="timeline-view-panel">
         <div class="section-subtitle">
           <h3>日付別タイムライン</h3>
-          <p>日付を選ぶと、出来事を時刻順に並べます。上の「場所で絞る」から部屋や階層を選ぶと、その場所だけを表示します。</p>
+          <p>「全部」で全日程を通して確認できます。人物・場所・大まかなイベント種類を組み合わせて絞り込めます。</p>
         </div>
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>
       </div>
 
-      <div id="timeline-panel-events" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-events" hidden>
-        <p id="timelineResultSummary" class="timeline-result-summary" aria-live="polite"></p>
-        <div class="timeline-list" id="timelineList"></div>
-        <button id="timelineLoadMore" class="timeline-load-more hidden" type="button">さらに表示</button>
-      </div>
-
-      <div id="timeline-panel-person" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-person" hidden>
-        <div class="section-subtitle">
-          <h3>人物別タイムライン</h3>
-          <p>人物を選ぶと、その人物が登場するイベントだけを表示します。</p>
-        </div>
-        <div class="list-controls">
-          <label>
-            表示対象
-            <select id="participantSelect"><option value="">人物を選択</option></select>
-          </label>
-        </div>
-        <div class="person-timeline" id="personTimeline" aria-live="polite"></div>
-      </div>
-
-      <div id="timeline-panel-matrix" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-matrix" hidden>
-        <div class="section-subtitle">
-          <h3>タイムラインマトリクス</h3>
-          <p>場所×話数の二次元表示。横にスクロールして確認できます。</p>
-        </div>
-        <div class="timeline-matrix" id="timelineMatrix"></div>
-      </div>
-
-      <div id="timeline-panel-gantt" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-gantt" hidden>
-        <div class="section-subtitle">
-          <h3>ガントチャート</h3>
-          <p>各イベントの継続時間と場所を視覚化</p>
-        </div>
-        <div class="timeline-gantt" id="ganttChart"></div>
-      </div>
     </section>
 
     <section id="guide" class="primary-view" data-primary-panel="guide" hidden>

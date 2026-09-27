@@ -1489,16 +1489,31 @@ function getLocationKey(event) {
   return "場所不明";
 }
 
+const PRINCE_ROOM_LABELS = [
+  "第1王子 ベンジャミン", "第2王子 カミーラ", "第3王子 チョウライ", "第4王子 ツェリードニヒ",
+  "第5王子 ツベッパ", "第6王子 タイソン", "第7王子 ルズールス", "第8王子 サレサレ",
+  "第9王子 ハルケンブルグ", "第10王子 カチョウ", "第11王子 フウゲツ", "第12王子 モモゼ",
+  "第13王子 マラヤーム", "第14王子 ワブル"
+];
+
 const ROOM_AREA_DEFINITIONS = [
+  { id: "ceremony", label: "出航セレモニー会場", group: "主要会場" },
   ...Array.from({ length: 14 }, (_, index) => {
     const room = String(1001 + index);
-    return { id: `room-${room}`, label: `第1層 ${room}号室`, room };
+    return {
+      id: `room-${room}`,
+      label: `${room}号室｜${PRINCE_ROOM_LABELS[index]}`,
+      room,
+      group: "第1層 王子居住区"
+    };
   }),
-  { id: "layer-2", label: "第2層" },
-  { id: "layer-3", label: "第3層" },
-  { id: "layer-4", label: "第4層" },
-  { id: "layer-5", label: "第5層" },
-  { id: "other", label: "その他" }
+  { id: "layer-1-other", label: "第1層 その他", group: "階層・その他" },
+  { id: "layer-2", label: "第2層", group: "階層・その他" },
+  { id: "layer-3", label: "第3層", group: "階層・その他" },
+  { id: "layer-4", label: "第4層", group: "階層・その他" },
+  { id: "layer-5", label: "第5層", group: "階層・その他" },
+  { id: "other", label: "船内・船外のその他", group: "階層・その他" },
+  { id: "unknown", label: "場所不明", group: "階層・その他" }
 ];
 
 function getRoomAreaIds(event) {
@@ -1506,6 +1521,8 @@ function getRoomAreaIds(event) {
   const ids = ROOM_AREA_DEFINITIONS
     .filter((area) => area.room && location.includes(`${area.room}号室`))
     .map((area) => area.id);
+
+  if (/出航セレモニー会場/.test(location)) ids.push("ceremony");
 
   if (/司法|捜査室|検察|裁判所/.test(location)) {
     ids.push("layer-2");
@@ -1520,7 +1537,11 @@ function getRoomAreaIds(event) {
     ids.push("layer-5");
   }
 
-  if (ids.length === 0) ids.push("other");
+  if (ids.length === 0 && /第1層|1層|V\.VIP|VIP|王子居住/.test(location)) {
+    ids.push("layer-1-other");
+  }
+
+  if (ids.length === 0) ids.push(location === "場所不明" ? "unknown" : "other");
   return [...new Set(ids)];
 }
 
@@ -1530,9 +1551,8 @@ function filterTimelineByEventLocation(event) {
   if (Array.from(roomFilter.options).some((option) => option.value === destination)) {
     roomFilter.value = destination;
   }
-  activeTimelinePeriodId = getEventPeriodId(event);
+  activeTimelinePeriodId = "all";
   activatePrimaryView("timeline", true);
-  activateTimelineView("schedule");
   applyFilter();
   document.querySelector(".timeline-controls")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -1543,7 +1563,7 @@ function createParticipantChip(token) {
   btn.className = "participant-chip";
   btn.textContent = formatRoyalName(token);
   btn.addEventListener("click", () => {
-    document.getElementById("participantFilter").value = formatRoyalName(token);
+    document.getElementById("participantFilter").value = token;
     applyFilter();
   });
   return btn;
@@ -1628,23 +1648,42 @@ function getUniqueParticipants(events) {
   return [...new Set(events.flatMap((e) => e.characters || []))];
 }
 
+const EVENT_TYPE_GROUPS = [
+  { id: "nen", label: "念・守護霊獣" },
+  { id: "incident", label: "戦闘・事件" },
+  { id: "information", label: "情報・調査" },
+  { id: "conversation", label: "会話・交渉" },
+  { id: "movement", label: "移動・配置" },
+  { id: "planning", label: "指示・計画" },
+  { id: "system", label: "制度・儀式" },
+  { id: "other", label: "その他" }
+];
+
+function getEventTypeGroup(event) {
+  const text = `${event.type || ""} ${event.description || ""}`;
+  if (/念|守護霊獣|霊獣|鳴動|空間異常/.test(text)) return "nen";
+  if (/移動|配置|配属|展開|交代|帰還|脱出|籠城|訪問|警護体制|人員離脱/.test(text)) return "movement";
+  if (/儀式|契約|辞退|継承条件|定時報告|緊急放送/.test(text)) return "system";
+  if (/殺|死亡|自死|暗殺|襲撃|戦闘|交戦|攻撃|制圧|拘束|拉致|呪詛|発症|異変|異常/.test(text)) return "incident";
+  if (/情報|捜査|偵察|確認|発覚|判明|遠隔視|能力判断|感染|観察/.test(text)) return "information";
+  if (/会議|会合|協議|交渉|面会|対話|会話|発言|説明|共闘|連絡|選択/.test(text)) return "conversation";
+  if (/命令|指示|決定|計画|準備|方針|警戒/.test(text)) return "planning";
+  return "other";
+}
+
 function applyFilter() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedType = document.getElementById("typeFilter").value;
-  const participantQuery = document.getElementById("participantFilter").value.trim().toLowerCase();
-  const sortOrder = document.getElementById("timelineSortOrder").value;
+  const selectedParticipant = document.getElementById("participantFilter").value;
 
   const filtered = eventsData.filter((event) => {
     const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
-    const typeMatch = selectedType === "all" || event.type === selectedType;
-    const participantMatch = participantQuery === ""
-      || (event.characters || []).some((c) =>
-          formatRoyalName(c).toLowerCase().includes(participantQuery) || c.toLowerCase().includes(participantQuery)
-        );
+    const typeMatch = selectedType === "all" || getEventTypeGroup(event) === selectedType;
+    const participantMatch = selectedParticipant === "all"
+      || (event.characters || []).includes(selectedParticipant);
     return roomMatch && typeMatch && participantMatch;
   });
 
-  if (sortOrder === "desc") filtered.reverse();
   filteredEventsData = filtered;
   timelineVisibleCount = 30;
   renderActiveTimelineView();
@@ -1652,14 +1691,13 @@ function applyFilter() {
 
 function getTimelineEventsIgnoringType() {
   const selectedRoom = document.getElementById("roomFilter").value;
-  const participantQuery = document.getElementById("participantFilter").value.trim().toLowerCase();
+  const selectedParticipant = document.getElementById("participantFilter").value;
   return eventsData.filter((event) => {
     const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
-    const participantMatch = participantQuery === ""
-      || (event.characters || []).some((token) =>
-        formatRoyalName(token).toLowerCase().includes(participantQuery) || token.toLowerCase().includes(participantQuery)
-      );
-    return roomMatch && participantMatch && getEventPeriodId(event) === activeTimelinePeriodId;
+    const participantMatch = selectedParticipant === "all"
+      || (event.characters || []).includes(selectedParticipant);
+    const periodMatch = activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId;
+    return roomMatch && participantMatch && periodMatch;
   });
 }
 
@@ -1667,7 +1705,8 @@ function refreshTypeAvailability() {
   const typeFilter = document.getElementById("typeFilter");
   if (!typeFilter?.setAvailability) return false;
   const counts = getTimelineEventsIgnoringType().reduce((result, event) => {
-    if (event.type) result[event.type] = (result[event.type] || 0) + 1;
+    const group = getEventTypeGroup(event);
+    result[group] = (result[group] || 0) + 1;
     return result;
   }, {});
   const unavailableSelection = typeFilter.value !== "all" && !counts[typeFilter.value];
@@ -1679,26 +1718,33 @@ function refreshTypeAvailability() {
 function resetFilters() {
   document.getElementById("roomFilter").value = "all";
   document.getElementById("typeFilter").value = "all";
-  document.getElementById("participantFilter").value = "";
+  document.getElementById("participantFilter").value = "all";
   document.getElementById("timelineSortOrder").value = "asc";
+  activeTimelinePeriodId = "day-1";
   applyFilter();
 }
 
 function setupFilters() {
   const roomFilter = document.getElementById("roomFilter");
   const typeFilter = document.getElementById("typeFilter");
-  const participantSelect = document.getElementById("participantSelect");
+  const participantFilter = document.getElementById("participantFilter");
 
-  ROOM_AREA_DEFINITIONS.forEach((area) => {
-    const opt = document.createElement("option");
-    opt.value = area.id;
-    opt.textContent = area.label;
-    roomFilter.appendChild(opt);
+  [...new Set(ROOM_AREA_DEFINITIONS.map((area) => area.group))].forEach((groupLabel) => {
+    const group = document.createElement("optgroup");
+    group.label = groupLabel;
+    ROOM_AREA_DEFINITIONS.filter((area) => area.group === groupLabel).forEach((area) => {
+      const opt = document.createElement("option");
+      opt.value = area.id;
+      opt.textContent = area.label;
+      group.appendChild(opt);
+    });
+    roomFilter.appendChild(group);
   });
 
-  getUniqueValues(eventsData, "type").forEach((type) => {
+  EVENT_TYPE_GROUPS.forEach((type) => {
     const opt = document.createElement("option");
-    opt.value = opt.textContent = type;
+    opt.value = type.id;
+    opt.textContent = type.label;
     typeFilter.appendChild(opt);
   });
   pillify("typeFilter");
@@ -1709,16 +1755,15 @@ function setupFilters() {
       const opt = document.createElement("option");
       opt.value = token;
       opt.textContent = formatRoyalName(token);
-      participantSelect.appendChild(opt);
+      participantFilter.appendChild(opt);
     });
 
-  participantSelect.addEventListener("change", renderActiveTimelineView);
+  participantFilter.addEventListener("change", applyFilter);
   document.getElementById("roomFilter").addEventListener("change", applyFilter);
   document.getElementById("typeFilter").addEventListener("change", applyFilter);
   document.getElementById("timelineSortOrder").addEventListener("change", applyFilter);
-  document.getElementById("participantFilter").addEventListener("input", applyFilter);
   document.getElementById("clearFilters").addEventListener("click", resetFilters);
-  document.getElementById("timelineLoadMore").addEventListener("click", () => {
+  document.getElementById("timelineLoadMore")?.addEventListener("click", () => {
     timelineVisibleCount += 30;
     renderTimeline(filteredEventsData);
   });
@@ -1796,6 +1841,7 @@ function renderTimeline(events) {
 }
 
 const TIMELINE_PERIODS = [
+  { id: "all", label: "全部" },
   { id: "preboard", label: "乗船前" },
   { id: "ritual", label: "乗船2か月前（壺中卵の儀）" },
   { id: "day-0", label: "0日目" },
@@ -1845,15 +1891,19 @@ function renderTimelineSchedule(events) {
 
   const selectedPeriod = TIMELINE_PERIODS.find((period) => period.id === activeTimelinePeriodId);
   const selectedEvents = events
-    .filter((event) => getEventPeriodId(event) === activeTimelinePeriodId)
+    .filter((event) => activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId)
     .slice().sort((a, b) => sortKey(a) - sortKey(b));
 
   const heading = document.createElement("div");
   heading.className = "schedule-selected-heading";
   const title = document.createElement("h4");
-  title.textContent = selectedPeriod.label;
+  title.textContent = selectedPeriod.id === "all" ? "全日程" : selectedPeriod.label;
   heading.appendChild(title);
-  if (activeTimelinePeriodId === "unknown") {
+  if (activeTimelinePeriodId === "all") {
+    const count = document.createElement("span");
+    count.textContent = `${selectedEvents.length}件`;
+    heading.appendChild(count);
+  } else if (activeTimelinePeriodId === "unknown") {
     const breakdown = document.createElement("span");
     const counts = selectedEvents.reduce((result, event) => {
       const kind = getChronologyKind(event);
@@ -1871,10 +1921,16 @@ function renderTimelineSchedule(events) {
     empty.textContent = "登録されている出来事はありません。";
     container.appendChild(empty);
   } else {
+    const sortOrder = document.getElementById("timelineSortOrder").value;
     const orderedEvents = selectedEvents.map((event) => ({
       event,
       placement: getTimelineTimePlacement(event)
     })).sort((a, b) => {
+      if (activeTimelinePeriodId === "all") {
+        const periodOrderA = TIMELINE_PERIODS.findIndex((period) => period.id === getEventPeriodId(a.event));
+        const periodOrderB = TIMELINE_PERIODS.findIndex((period) => period.id === getEventPeriodId(b.event));
+        if (periodOrderA !== periodOrderB) return periodOrderA - periodOrderB;
+      }
       if (!a.placement && b.placement) return 1;
       if (a.placement && !b.placement) return -1;
       if (a.placement && b.placement && a.placement.minutes !== b.placement.minutes) {
@@ -1882,9 +1938,13 @@ function renderTimelineSchedule(events) {
       }
       return sortKey(a.event) - sortKey(b.event);
     });
+    if (sortOrder === "desc") orderedEvents.reverse();
     const groups = new Map();
     orderedEvents.forEach(({ event, placement }) => {
-      const key = placement ? `${placement.estimated ? "estimated" : "exact"}:${placement.minutes}` : "unknown";
+      const periodPrefix = activeTimelinePeriodId === "all" ? `${getEventPeriodId(event)}:` : "";
+      const key = placement
+        ? `${periodPrefix}${placement.estimated ? "estimated" : "exact"}:${placement.minutes}`
+        : `${periodPrefix}unknown`;
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push({ event, placement });
     });
@@ -1893,10 +1953,12 @@ function renderTimelineSchedule(events) {
     groups.forEach((groupEvents, timeKey) => {
       const placement = groupEvents[0].placement;
       const row = document.createElement("section");
-      row.className = `chronological-row${timeKey === "unknown" ? " time-unknown" : placement.estimated ? " time-estimated" : ""}`;
+      row.className = `chronological-row${!placement ? " time-unknown" : placement.estimated ? " time-estimated" : ""}`;
       const timeColumn = document.createElement("div");
       timeColumn.className = "chronological-time";
-      timeColumn.textContent = placement ? placement.label : "時刻不明";
+      const period = TIMELINE_PERIODS.find((entry) => entry.id === getEventPeriodId(groupEvents[0].event));
+      const timeText = placement ? placement.label : "時刻不明";
+      timeColumn.textContent = activeTimelinePeriodId === "all" ? `${period?.label || "日付不明"} ${timeText}` : timeText;
       const eventGrid = document.createElement("div");
       eventGrid.className = "chronological-events";
       groupEvents.forEach(({ event, placement: eventPlacement }) => {
@@ -1922,7 +1984,7 @@ function renderTimelineSchedule(events) {
         participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
         item.append(location, chapter, makeCertaintyBadge(event));
         if (eventPlacement?.estimated) item.appendChild(makeTimeEstimateBadge());
-        if (activeTimelinePeriodId === "unknown") item.appendChild(makeChronologyBadge(event));
+        if (getEventPeriodId(event) === "unknown") item.appendChild(makeChronologyBadge(event));
         item.append(description, participants);
         item.addEventListener("click", () => {
           modalReturnFocus = item;

@@ -2437,7 +2437,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "第363話時点では生存。第364話の1014号室に遺体が描かれ、オイトたちはビンセントが殺害したと述べる。殺害の瞬間と具体的な手段は描かれない",
+    "notes": "初期従事者4名のうち、氏名判明している1名。第363話時点では生存。第364話の1014号室に遺体が描かれ、オイトたちはビンセントが殺害したと述べる。殺害の瞬間と具体的な手段は描かれない",
     "image": null,
     "soldier_category": "従事者"
   },
@@ -3322,7 +3322,67 @@
     "id": "P04-P06", "type": "soldier", "name": "ギッパー", "affiliation": "ツェリードニヒ陣営", "camp": "ツェリードニヒ陣営", "role": "第4王子私設兵", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "ボークセンと入れ替わりで第1層へ配属。死亡したミュハンの後任", "image": null
   },
   {
-    "id": "P14-M02", "type": "attendant", "name": "シマヌ", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "role": "第14王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第412話で本名の発音がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "aliases": ["シマノ"], "image": null
+    "id": "P14-M03",
+    "position_code": "P14-M03",
+    "type": "attendant",
+    "name": "ワブル従事者3（仮称）",
+    "affiliation": "ワブル陣営",
+    "camp": "ワブル陣営",
+    "mission": "従事",
+    "role": "第14王子ワブル従事者",
+    "room": "1層1014号室",
+    "status": "離脱",
+    "status_log": [
+      {
+        "chapter": 361,
+        "status": "離脱",
+        "cause": "ワブル陣営の従事者4名のうち2名が辞める。どちらの個体かは未特定",
+        "killer": null
+      }
+    ],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_ability": null,
+    "notes": "初期従事者4名のうち、氏名・個体を特定できない離脱者の仮称",
+    "is_placeholder": true,
+    "identity_status": "unnamed_confirmed",
+    "source_chapter": 361,
+    "group_key": "P14-ATTENDANTS-INITIAL",
+    "image": null,
+    "soldier_category": "従事者"
+  },
+  {
+    "id": "P14-M04",
+    "position_code": "P14-M04",
+    "type": "attendant",
+    "name": "ワブル従事者4（仮称）",
+    "affiliation": "ワブル陣営",
+    "camp": "ワブル陣営",
+    "mission": "従事",
+    "role": "第14王子ワブル従事者",
+    "room": "1層1014号室",
+    "status": "離脱",
+    "status_log": [
+      {
+        "chapter": 361,
+        "status": "離脱",
+        "cause": "ワブル陣営の従事者4名のうち2名が辞める。どちらの個体かは未特定",
+        "killer": null
+      }
+    ],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_ability": null,
+    "notes": "初期従事者4名のうち、氏名・個体を特定できない離脱者の仮称",
+    "is_placeholder": true,
+    "identity_status": "unnamed_confirmed",
+    "source_chapter": 361,
+    "group_key": "P14-ATTENDANTS-INITIAL",
+    "image": null,
+    "soldier_category": "従事者"
+  },
+  {
+    "id": "P14-M02", "type": "attendant", "name": "シマヌ", "affiliation": "ワブル陣営", "camp": "ワブル陣営", "role": "第14王子従事者", "room": "1層1014号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "初期従事者4名のうち、サンドラ殺害後も残る従事者。第412話で本名の発音がシマヌと確定。クラピカは発音を誤ってシマノと呼んでいた", "aliases": ["シマノ"], "image": null
   },
   {
     "id": "P01-P16", "type": "soldier", "name": "チヤマシ", "affiliation": "ベンジャミン陣営", "camp": "ベンジャミン陣営", "role": "第1王子私設兵", "room": "1層1001号室", "status": "存命", "status_log": [], "is_hunter": false, "nen_type": null, "nen_ability": null, "notes": "第414話でウショウヒと1009号室前に配置", "image": null

@@ -982,22 +982,141 @@
     "chapter": 366,
     "chapter_title": "其々",
     "day": 1,
-    "time_start": "16:00",
+    "time_start": null,
+    "time_estimate": "16:00",
     "time_end": null,
-    "type": "出来事",
-    "description": "ハルケンブルグが夢から覚める",
+    "type": "夢・異変",
+    "description": "ハルケンブルグが夢から覚め、夢の中で何かが起きたと確信する",
     "characters": [
       "P09",
       "SPD-001"
     ],
-    "room": null,
-    "location": null,
-    "camp": null,
+    "room": "1層1009号室",
+    "location": "第1層 1009号室",
+    "camp": ["ハルケンブルグ陣営"],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": "図表：ドゥアズル。各王子エリア（1〜13）の状況が描写される"
+    "revealed_facts": [
+      "ハルケンブルグは夢の中で何かが起きたと確信している"
+    ],
+    "mysteries": [
+      "夢の内容・原因・現実への影響"
+    ],
+    "notes": "写真3で確認。冒頭の『BW・W出航4時間後』から16:00頃と逆算した推測配置で、正確な時計時刻は描かれない"
+  },
+  {
+    "id": "E366-002",
+    "chapter": 366,
+    "chapter_title": "其々",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力運用の検討",
+    "description": "クラピカとオイトが『裏窓』を使った偵察の条件と、小動物を使うことの危険性を確認する",
+    "characters": [
+      "P14-H01",
+      "Q08",
+      "P14",
+      "P14-H02"
+    ],
+    "room": "1層1014号室",
+    "location": "第1層 1014号室",
+    "camp": ["ワブル陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "『裏窓』による偵察には満たすべき条件がある",
+      "適した小動物を見つけて能力を使う必要があり、実行時の危険性が意識されている"
+    ],
+    "mysteries": [
+      "能力の正確な使用条件と適した小動物の確保",
+      "場面に描かれる大型の念獣様の図像が何を示すか"
+    ],
+    "notes": "写真10で確認。第367話のゴキブリ偵察の実行とは分け、ここでは準備と条件確認のみを登録"
+  },
+  {
+    "id": "E366-003",
+    "chapter": 366,
+    "chapter_title": "其々",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "念修行",
+    "description": "ツェリードニヒがテータの指示でボールを浮かべるイメージの念修行を続ける",
+    "characters": [
+      "P04",
+      "P04-M01",
+      "P04-P02"
+    ],
+    "room": "1層1004号室",
+    "location": "第1層 1004号室",
+    "camp": ["ツェリードニヒ陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "両手の間にボールを浮かべるイメージを使った反復練習が指示される",
+      "短時間の練習を1日複数回、数日続ける手順が示される"
+    ],
+    "mysteries": [
+      "修行の成果と、念能力の発動条件への影響"
+    ],
+    "notes": "写真6・7・9で確認。修行の指示と成果を分け、能力の詳細な仕組みは未確定のまま保持する"
+  },
+  {
+    "id": "E366-004",
+    "chapter": 366,
+    "chapter_title": "其々",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "戦況確認・警護体制",
+    "description": "ベンジャミン陣営が全面戦争を意識しつつ、相手に余計な口実を与えないよう警護と戦況を確認する",
+    "characters": [
+      "P01",
+      "P01-P05",
+      "P01-P06"
+    ],
+    "room": "1層1001号室",
+    "location": "第1層 1001号室",
+    "camp": ["ベンジャミン陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "全面戦争は避けにくいと認識しながらも、相手に余計な口実を与えない方針が示される",
+      "ベンジャミン側で各陣営の動向と警護状況が確認される"
+    ],
+    "mysteries": [
+      "確認後にベンジャミン陣営が取る具体的な行動"
+    ],
+    "notes": "写真7・10で確認。戦争方針の共有として記録し、具体的な攻撃命令とは断定しない"
+  },
+  {
+    "id": "E366-005",
+    "chapter": 366,
+    "chapter_title": "其々",
+    "day": 1,
+    "time_start": null,
+    "time_end": null,
+    "type": "警護体制の共有",
+    "description": "チョウライ側で王子の警護と、配置された私設兵・王妃所属兵の協力関係を確認する",
+    "characters": [
+      "P03",
+      "P01-P11",
+      "P03-G01"
+    ],
+    "room": "1層1003号室",
+    "location": "第1層 1003号室",
+    "camp": ["チョウライ陣営", "ベンジャミン陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "コベントバ（第1王子私設兵）とスラッカ（第2王妃所属兵）が1003号室周辺の警護に関わっている",
+      "チョウライ側で警護の分担と支援が話題になる"
+    ],
+    "mysteries": [
+      "各警護兵の長期的な配置と、情報共有の範囲"
+    ],
+    "notes": "写真6・9で確認。365話の入室・念の説明の登録とは分け、警護兵の配置と連携に絞る"
   },
   {
     "id": "E367-001",

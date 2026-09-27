@@ -94,8 +94,8 @@ function formatRoomLabel(value) {
   if (value == null || value === "") return null;
   const text = String(value).replace(/\s+/g, "");
   const room = text.match(/(10\d{2})号室?$/)?.[1] || (/^10\d{2}$/.test(text) ? text : null);
-  if (room) return `1層${room}号室`;
-  return text.replace(/^第([1-5])層/, "$1層");
+  if (room) return `第1層 ${room}号室`;
+  return formatLocationLabel(text);
 }
 
 function formatAssignment(character) {
@@ -135,9 +135,10 @@ function getNenClassLabel(character) {
 function formatLocationLabel(value) {
   if (!value) return "場所不明";
   return String(value)
-    .replace(/第([1-5])層/g, "$1層")
-    .replace(/1層\s+(10\d{2}号室)/g, "1層$1")
-    .replace(/(^|[^\d])(10\d{2})(?!号室)/g, "$1$2号室");
+    .replace(/第?([1-5])層\s*/g, "第$1層 ")
+    .replace(/(^|[^\d])(10\d{2})(?!号室)/g, "$1$2号室")
+    .replace(/\s+([・／])/g, "$1")
+    .trim();
 }
 
 function getCharacterLocationHistory(character) {
@@ -1484,7 +1485,7 @@ function buildInferredTimePlacements(events) {
 }
 
 function getLocationKey(event) {
-  if (event.location) return event.location;
+  if (event.location) return formatLocationLabel(event.location);
   if (event.room) return formatRoomLabel(event.room);
   return "場所不明";
 }
@@ -1504,7 +1505,7 @@ const ROOM_AREA_DEFINITIONS = [
       id: `room-${room}`,
       label: `${room}号室｜${PRINCE_ROOM_LABELS[index]}`,
       room,
-      group: "第1層 王子居住区"
+      group: "第1層 1001〜1014号室"
     };
   }),
   { id: "layer-1-other", label: "第1層 その他", group: "階層・その他" },

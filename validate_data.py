@@ -57,6 +57,9 @@ def validate_cross_references(base):
     names = [character["name"] for character in characters]
     id_set = set(ids)
     name_set = set(names)
+    prince_room = re.compile(r"^第1層 10(?:0[1-9]|1[0-4])号室$")
+    prince_room_reference = re.compile(r"10(?:0[1-9]|1[0-4])号室")
+    noncanonical_place = re.compile(r"王子居住区|エリア\d+|第\d+王子居室|の居室")
 
     for label, values in (("人物ID", ids), ("人物名", names)):
         duplicates = sorted({value for value in values if values.count(value) > 1})
@@ -67,6 +70,8 @@ def validate_cross_references(base):
         room = character.get("room")
         if room is not None and not isinstance(room, str):
             errors.append(f"人物の部屋表記が文字列ではありません: {character['id']} -> {room}")
+        elif room and prince_room_reference.search(room) and not prince_room.fullmatch(room):
+            errors.append(f"人物の王子居住区表記が統一されていません: {character['id']} -> {room}")
         for relation_id in (character.get("children") or []) + (character.get("parent_ids") or []):
             if relation_id not in id_set:
                 errors.append(f"人物関係の参照先がありません: {character['id']} -> {relation_id}")
@@ -75,6 +80,12 @@ def validate_cross_references(base):
         room = event.get("room")
         if room is not None and not isinstance(room, str):
             errors.append(f"イベントの部屋表記が文字列ではありません: {event['id']} -> {room}")
+        elif room and prince_room_reference.search(room) and not prince_room.fullmatch(room):
+            errors.append(f"イベントの王子居住区表記が統一されていません: {event['id']} -> {room}")
+        if noncanonical_place.search(event.get("description") or ""):
+            errors.append(f"イベント本文に号室以外の王子居住区表記があります: {event['id']}")
+        if noncanonical_place.search(event.get("location") or ""):
+            errors.append(f"イベント場所に号室以外の王子居住区表記があります: {event['id']}")
         for token in event.get("characters") or []:
             if token not in id_set and token not in name_set:
                 errors.append(f"イベント人物の参照先がありません: {event['id']} -> {token}")

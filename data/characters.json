@@ -1246,7 +1246,7 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": 363,
+        "chapter": 364,
         "status": "死亡",
         "cause": "従者サンドラを殺害後、クラピカのスチールチェーンで拘束され自死",
         "killer": null
@@ -1255,7 +1255,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "エアブロウと推測されるが拘束のため詳細不明",
-    "notes": "363話〜364。能力検証前に自死。死亡時、能力エアブロウはベンジャミンバトンによりベンジャミンに継承された",
+    "notes": "363話末に1014号室へ配属され、364話の襲撃後に自死したとする既存登録。第363話画像で確認できるのは入室・対峙まで。能力エアブロウの詳細と死亡後の継承は第364話画像で再確認する",
     "image": "images/characters/vincent.png",
     "soldier_category": "私設兵"
   },
@@ -1275,7 +1275,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": "部屋全体に円（バリア）を張れる念能力。系統不明だが、私設兵長バルサミルコ＝マイトはカウンター型と推測している",
-    "notes": "363話で追加。401話で考え事をする様子が描かれる",
+    "notes": "ビンセントの後任。第363話画像にはまだ登場せず、後任派遣は第364話として暫定配置。401話で考え事をする様子が描かれる",
     "image": "images/characters/babimyna.png",
     "soldier_category": "私設兵"
   },
@@ -2428,7 +2428,7 @@
     "status": "死亡",
     "status_log": [
       {
-        "chapter": 363,
+        "chapter": 364,
         "status": "死亡",
         "cause": "ビンセントに殺害される",
         "killer": "P01-P03"
@@ -2437,7 +2437,7 @@
     "is_hunter": false,
     "nen_type": null,
     "nen_ability": null,
-    "notes": "363話",
+    "notes": "第363話画像では生存。殺害の話数は第364話へ暫定修正し、該当話の画像照合を待つ",
     "image": null,
     "soldier_category": "従事者"
   },

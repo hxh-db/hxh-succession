@@ -10,12 +10,11 @@
   <header class="site-header">
     <div class="header-inner">
       <h1>王位継承戦データまとめ</h1>
-      <p>基礎知識と、人物・場所・時間の3つの軸からカキン王位継承戦を確認</p>
+      <p>基礎知識と、人物・時間／場所の2つの軸からカキン王位継承戦を確認</p>
     </div>
     <nav class="primary-nav" aria-label="メインメニュー">
       <a class="primary-nav-link active" href="#characters" data-primary-view="characters">キャラクター</a>
-      <a class="primary-nav-link" href="#places" data-primary-view="places">場所別</a>
-      <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">時間別</a>
+      <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">時間・場所別</a>
       <a class="primary-nav-link" href="#guide" data-primary-view="guide">基礎ガイド</a>
     </nav>
   </header>
@@ -70,28 +69,10 @@
       <div id="characterAssignmentTable" class="character-assignment-table" hidden></div>
     </section>
 
-    <section id="places" class="primary-view" data-primary-panel="places" hidden>
-      <div class="section-header">
-        <h2>場所別</h2>
-        <p>エリアを選択して、その場所で起きた出来事を時系列で確認</p>
-      </div>
-      <div class="place-group-tabs" id="placeGroupTabs" role="group" aria-label="階層を選択"></div>
-      <div class="room-area-tabs" id="roomAreaTabs" role="group" aria-label="部屋を選択"></div>
-      <p class="room-area-summary" id="roomAreaSummary" aria-live="polite"></p>
-      <p class="location-basis-note">人物の所在地は、登録済みイベントから確認できる最新位置です。基準話数と確度を併記します。</p>
-      <section class="room-people-panel" aria-labelledby="roomPeopleTitle">
-        <h3 id="roomPeopleTitle">登録上の最新配置</h3>
-        <div id="roomPeople" class="room-people-list"></div>
-        <h3 class="room-visitors-title">過去に登場・訪問した人物</h3>
-        <div id="roomVisitors" class="room-people-list"></div>
-      </section>
-      <div class="room-area-timeline" id="roomTimeline"></div>
-    </section>
-
     <section id="timeline" class="primary-view" data-primary-panel="timeline" hidden>
       <div class="section-header">
-        <h2>時間別</h2>
-        <p>日付を選び、その日に各場所で起きた出来事を確認</p>
+        <h2>時間・場所別</h2>
+        <p>日付を選んで全体の流れを確認し、場所で絞ると各部屋のタイムラインを表示できます</p>
       </div>
       <aside class="uncollected-warning" aria-label="単行本未収録情報について">
         <strong>411話以降は単行本未収録時点の暫定データです。</strong>
@@ -104,8 +85,8 @@
           <input id="participantFilter" type="search" placeholder="例：クラピカ" />
         </label>
         <label>
-          場所
-          <select id="roomFilter"><option value="all">全て</option></select>
+          場所で絞る
+          <select id="roomFilter"><option value="all">すべての場所</option></select>
         </label>
         <label>
           種別
@@ -121,7 +102,7 @@
         <button id="clearFilters" type="button">リセット</button>
       </div>
 
-      <div class="timeline-view-tabs" role="tablist" aria-label="時間別の表示形式">
+      <div class="timeline-view-tabs" role="tablist" aria-label="時間・場所別の表示形式">
         <button id="timeline-tab-schedule" class="timeline-view-tab active" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">日付から見る</button>
         <button id="timeline-tab-events" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-events" data-view="events">イベント一覧</button>
         <button id="timeline-tab-person" class="timeline-view-tab" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-person" data-view="person">人物別</button>
@@ -130,7 +111,7 @@
       <div id="timeline-panel-schedule" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-schedule">
         <div class="section-subtitle">
           <h3>日付別タイムライン</h3>
-          <p>日付を選ぶと、出来事を時刻順に並べます。同じ時刻に別の場所で起きた出来事は横並びで表示します。</p>
+          <p>日付を選ぶと、出来事を時刻順に並べます。上の「場所で絞る」から部屋や階層を選ぶと、その場所だけを表示します。</p>
         </div>
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>
@@ -213,11 +194,10 @@
         </article>
 
         <article class="overview-card">
-          <h3>情報を見る3つの軸</h3>
+          <h3>情報を見る2つの軸</h3>
           <ul class="guide-axis-list">
             <li><strong>人物</strong><span>王子・王妃・護衛・所属を追う</span></li>
-            <li><strong>場所</strong><span>各号室と階層の出来事を追う</span></li>
-            <li><strong>時間</strong><span>乗船前から12日目以降まで追う</span></li>
+            <li><strong>時間・場所</strong><span>乗船前から12日目以降まで、全体または各号室・階層に絞って追う</span></li>
           </ul>
         </article>
       </div>

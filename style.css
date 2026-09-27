@@ -220,8 +220,7 @@ body {
 /* ===== 全キャラクター名鑑 ===== */
 .character-camp-nav,
 .character-sub-nav,
-.timeline-period-tabs,
-.place-group-tabs {
+.timeline-period-tabs {
   display: flex;
   gap: 8px;
   overflow-x: auto;
@@ -231,8 +230,7 @@ body {
 
 .character-camp-nav-button,
 .character-sub-nav-button,
-.timeline-period-tab,
-.place-group-tab {
+.timeline-period-tab {
   flex: 0 0 auto;
   padding: 9px 14px;
   border: 1px solid var(--border);
@@ -244,8 +242,7 @@ body {
 
 .character-camp-nav-button.active,
 .character-sub-nav-button.active,
-.timeline-period-tab.active,
-.place-group-tab.active {
+.timeline-period-tab.active {
   border-color: var(--accent);
   background: var(--accent);
   color: #08111f;
@@ -443,31 +440,6 @@ button.character-filter-tag:focus-visible {
   box-shadow: 0 0 0 2px rgba(49, 91, 67, .22);
   outline: none;
 }
-
-.room-people-panel {
-  margin: 1rem 0 1.5rem;
-  padding: 1rem;
-  border: 1px solid #d8ded9;
-  border-radius: 14px;
-  background: #f7faf8;
-}
-
-.room-people-panel h3 { margin: 0 0 .7rem; font-size: 1rem; }
-.room-people-panel .room-visitors-title {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #d8ded9;
-}
-.room-people-list { display: flex; flex-wrap: wrap; gap: .45rem; }
-.room-person-chip {
-  border: 1px solid #b9c9be;
-  border-radius: 999px;
-  background: #fff;
-  color: #284b36;
-  padding: .35rem .7rem;
-  cursor: pointer;
-}
-.room-person-chip:hover { background: #e8f1ec; }
 
 .timeline-schedule {
   max-width: 100%;
@@ -1791,21 +1763,21 @@ button.character-filter-tag:focus-visible {
 }
 
 /* イベント種別カラー */
-.timeline-item.type-暗殺, .matrix-cell.type-暗殺, .room-area-event.type-暗殺,
+.timeline-item.type-暗殺, .matrix-cell.type-暗殺,
 .gantt-bar.type-暗殺 { --event-color: var(--type-暗殺); border-left-color: var(--type-暗殺); }
-.timeline-item.type-戦闘, .matrix-cell.type-戦闘, .room-area-event.type-戦闘,
+.timeline-item.type-戦闘, .matrix-cell.type-戦闘,
 .gantt-bar.type-戦闘 { --event-color: var(--type-戦闘); border-left-color: var(--type-戦闘); }
-.timeline-item.type-儀式, .matrix-cell.type-儀式, .room-area-event.type-儀式,
+.timeline-item.type-儀式, .matrix-cell.type-儀式,
 .gantt-bar.type-儀式 { --event-color: var(--type-儀式); border-left-color: var(--type-儀式); }
-.timeline-item.type-会合, .matrix-cell.type-会合, .room-area-event.type-会合,
+.timeline-item.type-会合, .matrix-cell.type-会合,
 .gantt-bar.type-会合 { --event-color: var(--type-会合); border-left-color: var(--type-会合); }
-.timeline-item.type-発覚, .matrix-cell.type-発覚, .room-area-event.type-発覚,
+.timeline-item.type-発覚, .matrix-cell.type-発覚,
 .gantt-bar.type-発覚 { --event-color: var(--type-発覚); border-left-color: var(--type-発覚); }
-.timeline-item.type-移動, .matrix-cell.type-移動, .room-area-event.type-移動,
+.timeline-item.type-移動, .matrix-cell.type-移動,
 .gantt-bar.type-移動 { --event-color: var(--type-移動); border-left-color: var(--type-移動); }
-.timeline-item.type-会話, .matrix-cell.type-会話, .room-area-event.type-会話,
+.timeline-item.type-会話, .matrix-cell.type-会話,
 .gantt-bar.type-会話 { --event-color: var(--type-会話); border-left-color: var(--type-会話); }
-.timeline-item.type-特殊, .matrix-cell.type-特殊, .room-area-event.type-特殊,
+.timeline-item.type-特殊, .matrix-cell.type-特殊,
 .gantt-bar.type-特殊 { --event-color: var(--type-特殊); border-left-color: var(--type-特殊); }
 
 .event-type {
@@ -1868,107 +1840,6 @@ button.character-filter-tag:focus-visible {
   margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
-}
-
-/* ===== エリア別タイムライン ===== */
-.room-area-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 16px 0 12px;
-}
-
-.room-area-tab {
-  padding: 7px 12px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.82rem;
-}
-
-.room-area-tab:hover,
-.room-area-tab:focus-visible {
-  color: var(--text);
-  border-color: var(--accent);
-}
-
-.room-area-tab.active {
-  color: #08111f;
-  background: var(--accent);
-  border-color: var(--accent);
-  font-weight: 700;
-}
-
-.room-area-summary {
-  margin: 12px 0 18px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.room-area-timeline {
-  position: relative;
-  display: grid;
-  gap: 14px;
-  padding-left: 24px;
-}
-
-.room-area-timeline::before {
-  content: "";
-  position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 7px;
-  width: 2px;
-  background: rgba(114, 199, 255, 0.2);
-}
-
-.room-area-event {
-  --event-color: var(--accent);
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--event-color);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 14px 16px;
-}
-
-.room-area-marker {
-  position: absolute;
-  top: 20px;
-  left: -27px;
-  width: 12px;
-  height: 12px;
-  border: 3px solid #08111f;
-  border-radius: 50%;
-  background: var(--event-color);
-  box-shadow: 0 0 0 2px var(--event-color);
-}
-
-.room-area-event-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.room-area-event h4 {
-  margin: 9px 0 5px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.room-area-event p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.5;
 }
 
 /* ===== 部屋別タイムライン ===== */

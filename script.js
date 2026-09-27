@@ -18,8 +18,6 @@ let mafiaData = [];
 let filteredEventsData = [];
 let activeTimelineView = "schedule";
 let timelineVisibleCount = 30;
-let activeRoomAreaId = "room-1001";
-let activePlaceGroupId = "layer-1";
 let activeTimelinePeriodId = "day-1";
 let activeCharacterAffiliation = null;
 let activeCharacterSection = "royal";
@@ -1494,7 +1492,7 @@ function getLocationKey(event) {
 const ROOM_AREA_DEFINITIONS = [
   ...Array.from({ length: 14 }, (_, index) => {
     const room = String(1001 + index);
-    return { id: `room-${room}`, label: room };
+    return { id: `room-${room}`, label: `第1層 ${room}号室`, room };
   }),
   { id: "layer-2", label: "第2層" },
   { id: "layer-3", label: "第3層" },
@@ -1506,7 +1504,7 @@ const ROOM_AREA_DEFINITIONS = [
 function getRoomAreaIds(event) {
   const location = getLocationKey(event);
   const ids = ROOM_AREA_DEFINITIONS
-    .filter((area) => area.id.startsWith("room-") && location.includes(`${area.label}号室`))
+    .filter((area) => area.room && location.includes(`${area.room}号室`))
     .map((area) => area.id);
 
   if (/司法|捜査室|検察|裁判所/.test(location)) {
@@ -1526,16 +1524,17 @@ function getRoomAreaIds(event) {
   return [...new Set(ids)];
 }
 
-function openEventLocation(event) {
+function filterTimelineByEventLocation(event) {
   const destination = getRoomAreaIds(event)[0] || "other";
-  if (destination.startsWith("room-")) {
-    activePlaceGroupId = "layer-1";
-    activeRoomAreaId = destination;
-  } else {
-    activePlaceGroupId = destination;
-    activeRoomAreaId = destination;
+  const roomFilter = document.getElementById("roomFilter");
+  if (Array.from(roomFilter.options).some((option) => option.value === destination)) {
+    roomFilter.value = destination;
   }
-  activatePrimaryView("places", true);
+  activeTimelinePeriodId = getEventPeriodId(event);
+  activatePrimaryView("timeline", true);
+  activateTimelineView("schedule");
+  applyFilter();
+  document.querySelector(".timeline-controls")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function createParticipantChip(token) {
@@ -1636,8 +1635,7 @@ function applyFilter() {
   const sortOrder = document.getElementById("timelineSortOrder").value;
 
   const filtered = eventsData.filter((event) => {
-    const loc = getLocationKey(event);
-    const roomMatch = selectedRoom === "all" || loc === selectedRoom;
+    const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
     const typeMatch = selectedType === "all" || event.type === selectedType;
     const participantMatch = participantQuery === ""
       || (event.characters || []).some((c) =>
@@ -1656,7 +1654,7 @@ function getTimelineEventsIgnoringType() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const participantQuery = document.getElementById("participantFilter").value.trim().toLowerCase();
   return eventsData.filter((event) => {
-    const roomMatch = selectedRoom === "all" || getLocationKey(event) === selectedRoom;
+    const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
     const participantMatch = participantQuery === ""
       || (event.characters || []).some((token) =>
         formatRoyalName(token).toLowerCase().includes(participantQuery) || token.toLowerCase().includes(participantQuery)
@@ -1691,10 +1689,10 @@ function setupFilters() {
   const typeFilter = document.getElementById("typeFilter");
   const participantSelect = document.getElementById("participantSelect");
 
-  const locations = [...new Set(eventsData.map(getLocationKey))].filter(Boolean).sort();
-  locations.forEach((loc) => {
+  ROOM_AREA_DEFINITIONS.forEach((area) => {
     const opt = document.createElement("option");
-    opt.value = opt.textContent = loc;
+    opt.value = area.id;
+    opt.textContent = area.label;
     roomFilter.appendChild(opt);
   });
 
@@ -1734,8 +1732,6 @@ function renderActiveTimelineView() {
     renderTimelineSchedule(events);
   } else if (activeTimelineView === "events") {
     renderTimeline(events);
-  } else if (activeTimelineView === "rooms") {
-    renderRoomAreaTimeline(events);
   } else if (activeTimelineView === "person") {
     const token = document.getElementById("participantSelect").value;
     renderPersonTimeline(token, events);
@@ -1797,145 +1793,6 @@ function renderTimeline(events) {
   const remaining = events.length - visibleEvents.length;
   loadMore.classList.toggle("hidden", remaining <= 0);
   loadMore.textContent = "さらに表示";
-}
-
-function renderRoomAreaTimeline(events) {
-  const groupTabs = document.getElementById("placeGroupTabs");
-  const tabs = document.getElementById("roomAreaTabs");
-  const summary = document.getElementById("roomAreaSummary");
-  const container = document.getElementById("roomTimeline");
-  const peopleContainer = document.getElementById("roomPeople");
-  const visitorsContainer = document.getElementById("roomVisitors");
-  const placeGroups = [
-    { id: "layer-1", label: "第1層・王子居住区" },
-    { id: "layer-2", label: "第2層" },
-    { id: "layer-3", label: "第3層" },
-    { id: "layer-4", label: "第4層" },
-    { id: "layer-5", label: "第5層" },
-    { id: "other", label: "その他" }
-  ];
-  groupTabs.innerHTML = "";
-  placeGroups.forEach((group) => {
-    const button = document.createElement("button");
-    const active = group.id === activePlaceGroupId;
-    button.type = "button";
-    button.className = `place-group-tab${active ? " active" : ""}`;
-    button.setAttribute("aria-pressed", String(active));
-    button.textContent = group.label;
-    button.addEventListener("click", () => {
-      activePlaceGroupId = group.id;
-      if (group.id === "layer-1") {
-        if (!activeRoomAreaId.startsWith("room-")) activeRoomAreaId = "room-1001";
-      } else {
-        activeRoomAreaId = group.id;
-      }
-      renderRoomAreaTimeline(eventsData);
-    });
-    groupTabs.appendChild(button);
-  });
-
-  tabs.innerHTML = "";
-  const visibleAreas = activePlaceGroupId === "layer-1"
-    ? ROOM_AREA_DEFINITIONS.filter((area) => area.id.startsWith("room-"))
-    : [];
-  visibleAreas.forEach((area) => {
-    const button = document.createElement("button");
-    const active = area.id === activeRoomAreaId;
-    button.type = "button";
-    button.className = `room-area-tab${active ? " active" : ""}`;
-    button.setAttribute("aria-pressed", String(active));
-    button.textContent = area.label;
-    button.addEventListener("click", () => {
-      activeRoomAreaId = area.id;
-      renderRoomAreaTimeline(eventsData);
-    });
-    tabs.appendChild(button);
-  });
-  tabs.hidden = visibleAreas.length === 0;
-
-  const selectedArea = ROOM_AREA_DEFINITIONS.find((area) => area.id === activeRoomAreaId);
-  const selectedEvents = events
-    .filter((event) => getRoomAreaIds(event).includes(activeRoomAreaId))
-    .slice()
-    .sort((a, b) => sortKey(a) - sortKey(b));
-
-  const participantIds = new Set(selectedEvents.flatMap((event) => event.characters || []));
-  const currentPeople = charactersData.filter((character) => {
-    const latest = getLatestKnownLocation(character);
-    return latest && getRoomAreaIds({ location: latest.location }).includes(activeRoomAreaId);
-  }).sort(sortCharacters);
-  const currentIds = new Set(currentPeople.map((character) => character.id));
-  const visitors = charactersData.filter((character) =>
-    !currentIds.has(character.id) && (participantIds.has(character.id) || participantIds.has(character.name))
-  ).sort(sortCharacters);
-
-  const renderPeopleChips = (target, people, emptyText) => {
-    target.innerHTML = "";
-    if (people.length === 0) {
-      target.textContent = emptyText;
-      return;
-    }
-    people.forEach((character) => {
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "room-person-chip";
-      const latest = getLatestKnownLocation(character);
-      chip.textContent = latest ? `${formatRoyalName(character.id)}｜${latest.basis}` : formatRoyalName(character.id);
-      chip.title = latest
-        ? `${latest.basis}・${({ confirmed: "確定", provisional: "暫定", estimated: "推定", unknown: "不明" }[latest.certainty])}`
-        : (character.role || character.camp || "人物詳細を表示");
-      chip.addEventListener("click", () => {
-        activatePrimaryView("characters");
-        const search = document.getElementById("characterSearch");
-        search.value = getDisplayName(character);
-        search.dispatchEvent(new Event("input"));
-      });
-      target.appendChild(chip);
-    });
-  };
-  renderPeopleChips(peopleContainer, currentPeople, "現在地が登録されている人物はいません。");
-  renderPeopleChips(visitorsContainer, visitors, "過去の登場人物は登録されていません。");
-
-  summary.textContent = `${selectedArea.label}の人物と出来事`;
-  container.innerHTML = "";
-  if (selectedEvents.length === 0) {
-    const empty = document.createElement("p");
-    empty.className = "timeline-empty-state";
-    empty.textContent = "現在の絞り込み条件に一致する出来事はありません。";
-    container.appendChild(empty);
-    return;
-  }
-
-  selectedEvents.forEach((event) => {
-    const item = document.createElement("article");
-    item.className = `room-area-event${event.type ? ` type-${event.type}` : ""}`;
-
-    const marker = document.createElement("div");
-    marker.className = "room-area-marker";
-    marker.setAttribute("aria-hidden", "true");
-
-    const content = document.createElement("div");
-    content.className = "room-area-event-content";
-    const meta = document.createElement("div");
-    meta.className = "room-area-event-meta";
-    const chapter = document.createElement("strong");
-    chapter.textContent = event.day != null
-      ? `${getChapterLabel(event)}・${event.day}日目`
-      : getChapterLabel(event);
-    const type = document.createElement("span");
-    type.className = "event-type";
-    type.textContent = event.type || "出来事";
-    meta.append(chapter, type, makeCertaintyBadge(event));
-
-    const description = document.createElement("h4");
-    description.textContent = event.description;
-    const detail = document.createElement("p");
-    const participants = (event.characters || []).map(formatRoyalName).join(" / ") || "不明";
-    detail.textContent = `${getLocationKey(event)}｜${participants}`;
-    content.append(meta, description, detail);
-    item.append(marker, content);
-    container.appendChild(item);
-  });
 }
 
 const TIMELINE_PERIODS = [
@@ -2051,10 +1908,10 @@ function renderTimelineSchedule(events) {
         location.type = "button";
         location.className = "schedule-event-location";
         location.textContent = getLocationKey(event);
-        location.title = `${getLocationKey(event)}を場所別ページで開く`;
+        location.title = `${getLocationKey(event)}でタイムラインを絞り込む`;
         location.addEventListener("click", (clickEvent) => {
           clickEvent.stopPropagation();
-          openEventLocation(event);
+          filterTimelineByEventLocation(event);
         });
         const chapter = document.createElement("small");
         chapter.className = "schedule-event-chapter";
@@ -2538,7 +2395,8 @@ function setupBackToTop() {
 }
 
 function activatePrimaryView(view, updateHash = false) {
-  const validView = ["characters", "places", "timeline", "guide"].includes(view) ? view : "characters";
+  const requestedView = view === "places" ? "timeline" : view;
+  const validView = ["characters", "timeline", "guide"].includes(requestedView) ? requestedView : "characters";
   document.querySelectorAll("[data-primary-panel]").forEach((panel) => {
     panel.hidden = panel.dataset.primaryPanel !== validView;
   });
@@ -2548,8 +2406,7 @@ function activatePrimaryView(view, updateHash = false) {
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
-  if (validView === "places") renderRoomAreaTimeline(eventsData);
-  if (updateHash) history.replaceState(null, "", `#${validView}`);
+  if (updateHash || view === "places") history.replaceState(null, "", `#${validView}`);
   window.scrollTo({ top: 0 });
 }
 
@@ -2613,7 +2470,6 @@ async function init() {
     setupDetailModal();
     setupTimelineTabs();
     setupFilters();
-    renderRoomAreaTimeline(eventsData);
     setupBackToTop();
     setupPrimaryNavigation();
 

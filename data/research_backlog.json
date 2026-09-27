@@ -30,5 +30,29 @@
     "reason": "複数名をまとめたレコードや仮称レコードが残っている",
     "required_source": "人物初登場話と最新登場話",
     "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-005",
+    "priority": "medium",
+    "topic": "第359話の定時報告間隔",
+    "reason": "12:15と12:45の無事・異常なし報告は確認できるが、全警護に共通する15分刻みの制度か、人物ごとの報告順によるものかは確定できない",
+    "required_source": "第359話の報告台詞と王室警護の運用規則",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-006",
+    "priority": "medium",
+    "topic": "壺中卵の儀の実施時期",
+    "reason": "第360話のオイトは『1か月と少し前くらい』と述べる一方、第415話には『出航2か月前』の時点表示がある。人物の概算と後の章の時点表示のどちらが実日付に近いか未確定",
+    "required_source": "第360話・第415話の原作表記と単行本での修正有無",
+    "status": "needs_official_review"
+  },
+  {
+    "id": "BACKLOG-007",
+    "priority": "high",
+    "topic": "エンペラータイム発動の連続性",
+    "reason": "第361話では出航約2時間以内に発動する一方、第368〜369話の『3時間近い』『失神9時間』『合計12時間』は18:00頃の連続発動開始、21:00頃の失神、翌6:00覚醒で整合する。途中で解除・再発動したかを確認する必要がある",
+    "required_source": "第361・364・367〜369話の緋の眼描写と能力解除条件",
+    "status": "needs_original_review"
   }
 ]

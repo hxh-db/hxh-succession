@@ -1,7 +1,7 @@
 const DATA = {
-  characters: "data/characters.json",
+  characters: "data/characters.json?v=20260928c",
   characterImages: "data/character_images.json",
-  events: "data/events.json",
+  events: "data/events.json?v=20260928c",
   spiritBeasts: "data/spirit_beasts.json",
   factions: "data/factions.json",
   mafia: "data/mafia.json"
@@ -166,15 +166,23 @@ function getEventDateCertainty(event) {
 
 function getDateCertaintyLabel(event) {
   return {
-    confirmed: "日付確定",
-    estimated: "日付推定",
+    confirmed: "",
+    estimated: "推測",
     provisional: "単行本未収録・暫定",
     unknown: "日付不明"
   }[getEventDateCertainty(event)] || "日付不明";
 }
 
 function makeCertaintyBadge(event) {
+  if (event.is_estimate) {
+    const estimate = document.createElement("span");
+    estimate.className = "certainty-badge certainty-estimated";
+    estimate.textContent = "推測";
+    estimate.title = "作中で明示された事実ではなく、前後の描写から推測した内容です。";
+    return estimate;
+  }
   const certainty = getEventDateCertainty(event);
+  if (certainty === "confirmed") return null;
   const span = document.createElement("span");
   span.className = `certainty-badge certainty-${certainty}`;
   span.textContent = getDateCertaintyLabel(event);
@@ -1519,6 +1527,9 @@ const ROOM_AREA_DEFINITIONS = [
 
 function getRoomAreaIds(event) {
   const location = getLocationKey(event);
+  if (/全王子居室|全室/.test(location)) {
+    return ROOM_AREA_DEFINITIONS.filter((area) => area.room).map((area) => area.id);
+  }
   const ids = ROOM_AREA_DEFINITIONS
     .filter((area) => area.room && location.includes(`${area.room}号室`))
     .map((area) => area.id);
@@ -1547,7 +1558,8 @@ function getRoomAreaIds(event) {
 }
 
 function filterTimelineByEventLocation(event) {
-  const destination = getRoomAreaIds(event)[0] || "other";
+  const areaIds = getRoomAreaIds(event);
+  const destination = areaIds.length > 1 ? "all" : areaIds[0] || "other";
   const roomFilter = document.getElementById("roomFilter");
   if (Array.from(roomFilter.options).some((option) => option.value === destination)) {
     roomFilter.value = destination;
@@ -1558,14 +1570,19 @@ function filterTimelineByEventLocation(event) {
   document.querySelector(".timeline-controls")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function createParticipantChip(token) {
+function createParticipantChip(token, stopPropagation = false) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "participant-chip";
   btn.textContent = formatRoyalName(token);
-  btn.addEventListener("click", () => {
+  btn.title = `${formatRoyalName(token)}の全期間の出来事を表示`;
+  btn.addEventListener("click", (event) => {
+    if (stopPropagation) event.stopPropagation();
     document.getElementById("participantFilter").value = token;
+    activeTimelinePeriodId = "all";
+    activatePrimaryView("timeline", true);
     applyFilter();
+    document.querySelector(".timeline-active-filters")?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
   return btn;
 }
@@ -1601,11 +1618,12 @@ function createTimelineCard(event) {
     const estimate = inferredTimePlacements.get(event.id);
     if (estimate) {
       addMeta(`時刻: ${estimate.label}`);
-      meta.appendChild(makeTimeEstimateBadge());
+      if (!event.is_estimate) meta.appendChild(makeTimeEstimateBadge());
     }
   }
   addMeta(`場所: ${getLocationKey(event)}`);
-  meta.appendChild(makeCertaintyBadge(event));
+  const certaintyBadge = makeCertaintyBadge(event);
+  if (certaintyBadge) meta.appendChild(certaintyBadge);
 
   const participantWrapper = document.createElement("div");
   participantWrapper.className = "participant-list";
@@ -1687,7 +1705,46 @@ function applyFilter() {
 
   filteredEventsData = filtered;
   timelineVisibleCount = 30;
+  renderTimelineActiveFilters();
   renderActiveTimelineView();
+}
+
+function renderTimelineActiveFilters() {
+  const container = document.getElementById("timelineActiveFilters");
+  if (!container) return;
+  container.innerHTML = "";
+  const selectedRoom = document.getElementById("roomFilter").value;
+  const selectedParticipant = document.getElementById("participantFilter").value;
+  const filters = [];
+  if (selectedRoom !== "all") {
+    const room = ROOM_AREA_DEFINITIONS.find((area) => area.id === selectedRoom);
+    filters.push({ label: `場所：${room?.label || selectedRoom}`, target: "roomFilter" });
+  }
+  if (selectedParticipant !== "all") {
+    filters.push({ label: `人物：${formatRoyalName(selectedParticipant)}`, target: "participantFilter" });
+  }
+  if (filters.length === 0) {
+    const guide = document.createElement("p");
+    guide.textContent = "各イベントの場所・人物タグを押すと、その履歴だけに絞り込めます。";
+    container.appendChild(guide);
+    return;
+  }
+  const label = document.createElement("span");
+  label.className = "timeline-active-filters-label";
+  label.textContent = "絞り込み中";
+  container.appendChild(label);
+  filters.forEach((filter) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "timeline-active-filter";
+    button.textContent = `${filter.label} ×`;
+    button.title = `${filter.label}の絞り込みを解除`;
+    button.addEventListener("click", () => {
+      document.getElementById(filter.target).value = "all";
+      applyFilter();
+    });
+    container.appendChild(button);
+  });
 }
 
 function getTimelineEventsIgnoringType() {
@@ -1983,11 +2040,22 @@ function renderTimelineSchedule(events) {
         description.textContent = event.description;
         const participants = document.createElement("small");
         participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
-        item.append(location, chapter, makeCertaintyBadge(event));
-        if (eventPlacement?.estimated) item.appendChild(makeTimeEstimateBadge());
+        item.append(location, chapter);
+        const certaintyBadge = makeCertaintyBadge(event);
+        if (certaintyBadge) item.appendChild(certaintyBadge);
+        if (eventPlacement?.estimated && !event.is_estimate) item.appendChild(makeTimeEstimateBadge());
         if (getEventPeriodId(event) === "unknown") item.appendChild(makeChronologyBadge(event));
-        item.append(description, participants);
-        item.addEventListener("click", () => {
+        item.appendChild(description);
+        const participantTags = document.createElement("div");
+        participantTags.className = "participant-list schedule-participants";
+        (event.characters || []).forEach((token) => participantTags.appendChild(createParticipantChip(token, true)));
+        if (participantTags.childElementCount === 0) {
+          participants.textContent = "人物不明";
+          participantTags.appendChild(participants);
+        }
+        item.appendChild(participantTags);
+        item.addEventListener("click", (clickEvent) => {
+          if (clickEvent.target.closest("button")) return;
           modalReturnFocus = item;
           showDetailModal(event.id, "event", event);
         });

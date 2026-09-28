@@ -619,6 +619,19 @@ button.character-filter-tag:focus-visible {
 .schedule-event-location:hover,
 .schedule-event-location:focus-visible { border-color: #315b43; background: #e8f1ec; outline: none; }
 .schedule-event-chapter { margin: 0 0 .3rem !important; color: #8b948d !important; }
+.schedule-participants { margin-top: .55rem; }
+.schedule-participants .participant-chip {
+  padding: 2px 7px;
+  border-color: #9eb9a7;
+  background: #fff;
+  color: #315b43;
+  font-size: .72rem;
+}
+.schedule-participants .participant-chip:hover,
+.schedule-participants .participant-chip:focus-visible {
+  border-color: #315b43;
+  background: #e8f1ec;
+}
 
 .character-controls label {
   display: grid;
@@ -1580,6 +1593,43 @@ button.character-filter-tag:focus-visible {
   color: var(--accent);
   cursor: pointer;
   font-size: 0.9rem;
+}
+
+.timeline-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: -10px 0 20px;
+  min-height: 32px;
+}
+
+.timeline-active-filters p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+.timeline-active-filters-label {
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.timeline-active-filter {
+  padding: 5px 10px;
+  border: 1px solid rgba(114, 199, 255, .35);
+  border-radius: 999px;
+  background: rgba(114, 199, 255, .1);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: .8rem;
+}
+
+.timeline-active-filter:hover,
+.timeline-active-filter:focus-visible {
+  border-color: var(--accent);
+  background: rgba(114, 199, 255, .18);
 }
 
 /* ===== タイムライン表示切り替え ===== */

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260928" />
 </head>
 <body>
   <header class="site-header">
@@ -80,14 +80,8 @@
       </aside>
 
       <div class="timeline-controls">
-        <label>
-          人物
-          <select id="participantFilter"><option value="all">すべての人物</option></select>
-        </label>
-        <label>
-          場所で絞る
-          <select id="roomFilter"><option value="all">すべての場所</option></select>
-        </label>
+        <select id="participantFilter" hidden aria-label="人物で絞る"><option value="all">すべての人物</option></select>
+        <select id="roomFilter" hidden aria-label="場所で絞る"><option value="all">すべての場所</option></select>
         <label>
           イベント種類
           <select id="typeFilter"><option value="all">すべて</option></select>
@@ -101,6 +95,7 @@
         </label>
         <button id="clearFilters" type="button">リセット</button>
       </div>
+      <div id="timelineActiveFilters" class="timeline-active-filters" aria-live="polite"></div>
 
       <div id="timeline-panel-schedule" class="timeline-view-panel">
         <div class="section-subtitle">
@@ -159,6 +154,16 @@
             <li><strong>時間・場所</strong><span>乗船前から12日目以降まで、全体または各号室・階層に絞って追う</span></li>
           </ul>
         </article>
+
+        <article class="overview-card">
+          <h3>1014号室の初期配置</h3>
+          <p class="overview-text">第14王子ワブル陣営は、警護11名と従事者4名で開始します。</p>
+          <ul class="rule-list">
+            <li>警護11名：ハンター4名、王室警備兵7名</li>
+            <li>従事者4名：サンドラ、シマヌ、氏名不明の2名</li>
+            <li>死亡・拘束・離脱など、その後の変化はタイムラインに記録</li>
+          </ul>
+        </article>
       </div>
 
       <div class="guide-section-heading">
@@ -207,6 +212,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260928d"></script>
 </body>
 </html>

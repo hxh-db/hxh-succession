@@ -1773,6 +1773,26 @@
     "soldier_category": "私設兵"
   },
   {
+    "id": "P03-P02",
+    "position_code": "P03-P02",
+    "current_assignment": null,
+    "type": "soldier",
+    "name": "サカタ",
+    "affiliation": "チョウライ陣営",
+    "camp": "チョウライ陣営",
+    "mission": "護衛",
+    "role": "第3王子チョウライ私設兵",
+    "room": "第1層 1014号室",
+    "status": "存命",
+    "status_log": [],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_ability": null,
+    "notes": "371話でロベリーを拘束し、第6王妃セイコを提訴するため最高裁判官クレアパトロへ連絡する",
+    "image": null,
+    "soldier_category": "私設兵"
+  },
+  {
     "id": "P04-P03",
     "position_code": "P04-P03",
     "current_assignment": null,

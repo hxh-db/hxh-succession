@@ -1,3 +1,7 @@
 # Local source-image attachments and machine-specific evidence paths
 .codex-remote-attachments/
 data/SCREENSHOT_EVIDENCE_INDEX.md
+# Personal notes exported from the browser; keep them out of the public site.
+codex-notes*.json
+.local/
+__pycache__/

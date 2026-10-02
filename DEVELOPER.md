@@ -12,6 +12,7 @@
 - `data/characters.json` - キャラクター全件（`type`: prince/queen/hunter/soldier/attendant/mafia/phantom_troupe/official）
 - `data/events.json` - タイムラインのイベント全件
 - `data/spirit_beasts.json` / `data/factions.json` / `data/mafia.json` - 守護霊獣・派閥・下層マフィアのデータ
+- `data/alliances.json` - 別陣営の王子間の共闘関係。人物の `camp` と初期配置の人数には合算しない
 - `data/*.schema.json` - 上記5ファイルに対応するJSON Schema
 - `validate_data.py` - データ検証スクリプト（プロジェクトルートで実行）
 - `images/characters/*.png` - 一部キャラのポートレート。`characters.json` の `image` に存在しないパスを書くと自動で頭文字アバターにフォールバックする（`script.js` の `makeAvatar` 参照）
@@ -20,11 +21,11 @@
 このフォルダで以下を実行してください。
 
 ```powershell
-python -m http.server 8000
+python local_server.py
 ```
 
 `run_server.bat` / `run_server.ps1` でも同じことができます（ダブルクリック可）。
-その後ブラウザで `http://localhost:8000` を開いて確認してください。`index.html` を直接 `file://` で開くと `fetch` が失敗してデータが表示されないので、必ずサーバー経由にしてください。
+その後ブラウザで `http://127.0.0.1:8765/` を開いて確認してください。このローカルサーバーだけがメモを `.local/drafts.json` に自動保存します。`index.html` を直接 `file://` で開くと `fetch` が失敗してデータが表示されないので、必ずサーバー経由にしてください。
 
 ## データ編集・追加の流れ
 1. `data/events.json` にイベントを追加します。

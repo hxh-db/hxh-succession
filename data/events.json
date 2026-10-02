@@ -1685,7 +1685,8 @@
     "location": "第1層 1014号室・1010号室",
     "camp": [
       "チョウライ陣営",
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "セイコ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -1819,7 +1820,7 @@
     "room": "第1層 1010号室",
     "location": null,
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "セイコ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2277,7 +2278,8 @@
     "room": "第1層 1011号室",
     "location": "第1層 1011号室→1010号室",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "フウゲツ陣営",
+      "カチョウ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2423,7 +2425,8 @@
     "room": "第1層 1011号室",
     "location": "第1層 1011号室から1010号室へ",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "フウゲツ陣営",
+      "カチョウ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2597,7 +2600,7 @@
     "room": "第1層 1010号室",
     "location": null,
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2622,7 +2625,7 @@
     "room": "第1層 1011号室",
     "location": null,
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2692,7 +2695,8 @@
     "room": "第1層 1010号室",
     "location": "第1層 1010号室",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "セイコ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -2725,7 +2729,8 @@
     "room": "第1層 1010号室",
     "location": "第1層 1010号室周辺",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3212,7 +3217,7 @@
     "location": "第3層 展望エリア・事情聴取室",
     "camp": [
       "ハンター協会",
-      "カチョウ＝フウゲツ陣営"
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3271,7 +3276,9 @@
     "room": "第1層 1010号室",
     "location": null,
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営",
+      "セイコ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3296,7 +3303,7 @@
     ],
     "room": "第1層 1010号室",
     "location": "中央警察署からの通話",
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": ["カチョウ陣営"],
     "revealed_facts": [
       "ミザイストムはハンター暗号で双子王子の逃走支援を指示した"
     ],
@@ -3321,7 +3328,7 @@
     ],
     "room": "第1層 1010号室",
     "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "camp": ["カチョウ陣営", "フウゲツ陣営", "セイコ陣営"],
     "revealed_facts": [
       "フウゲツには72時間の監視拘束が命じられた",
       "双子王子は日曜晩餐会での演奏を計画している"
@@ -3537,7 +3544,8 @@
     "room": "第1層 1010号室",
     "location": "第1層 晩餐会場・1010号室",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3596,7 +3604,7 @@
     "room": null,
     "location": "第1層 晩餐会場・船内放送の到達範囲",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3630,7 +3638,8 @@
     "room": null,
     "location": "第1層 非常通路・救命艇発進区画",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3663,7 +3672,8 @@
     "room": null,
     "location": "船外への出口・救命艇",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3699,7 +3709,8 @@
     "room": "第1層 1011号室",
     "location": "救命艇から第1層 1011号室へ",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
@@ -3954,9 +3965,9 @@
       "ツェリードニヒ本人は銃撃後も無傷だった"
     ],
     "mysteries": [
-      "テータが見た射殺場面と現実が食い違った仕組み"
+      "未来視中に第三者が予知と現実の差を見破れる条件"
     ],
-    "notes": "21:31頃は銃撃直後の場面順に基づく推測。後に判明する未来予知能力の全仕様をこの時点の観測事実と混同しない"
+    "notes": "21:31頃は銃撃直後の場面順に基づく推測。第387話は同じ銃撃をツェリードニヒ側から再描写し、予知した射殺像と本人の現実の行動が食い違う仕組みを説明する。新たな銃撃ではない"
   },
   {
     "id": "E385-004",
@@ -4195,14 +4206,45 @@
     "notes": "サルコフはこの上達速度を異常と評価。ツェリードニヒはテータについて『裏表のある女って可愛いよな』と語り、銃撃後も修行を続けさせる"
   },
   {
+    "id": "E387-001",
+    "chapter": 387,
+    "chapter_title": "再現",
+    "day": 8,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力の発現・検証",
+    "description": "ツェリードニヒが絶の修行中に10秒先の予知夢を体験し、テータとの会話で、予知された展開を見ながら自身の行動を変えられることを確かめる",
+    "characters": [
+      "P04",
+      "P04-M01"
+    ],
+    "room": "第1層 1004号室",
+    "location": "第1層 1004号室",
+    "camp": [
+      "ツェリードニヒ陣営"
+    ],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "目を閉じて絶に入ったツェリードニヒは10秒先の予知夢を見る",
+      "ツェリードニヒは予知された展開を視認しながら自分の行動を変えられると理解する",
+      "第385話の銃撃場面では、テータが認識した射殺像とツェリードニヒが実際に取った行動が異なっていた"
+    ],
+    "mysteries": [
+      "未来視と他者の認識が食い違う範囲・限界",
+      "絶への移行速度と能力の実戦運用の関係"
+    ],
+    "notes": "章冒頭の『8日目（日曜日）19:35』は絶修行を再提示する時刻。能力を初めて体験した分刻みの時刻は不明。第385話の銃撃を王子視点で再描写する部分はE385-002・E385-003と同一事象であり、別の銃撃として数えない。能力の仕組みは王子自身の検証・推論を含み、後続話でさらに説明される"
+  },
+  {
     "id": "E388-001",
     "chapter": 388,
-    "chapter_title": "試案",
-    "day": 9,
+    "chapter_title": "思案",
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "念講習",
-    "description": "ラジオラス・マオール・ユウリが念を使えるようになる。また、ビルの『球根（ハルジオン）』が種を発芽させる強化系能力だと判明する",
+    "description": "1014号室の念講習でビルが『球根（ハルジオン）』による植物の成長促進を実演し、クラピカが能力の貸与を使って受講者にオーラを知覚させ、水見式へ進む手順を示す",
     "characters": [
       "P14-H01",
       "P14-H02",
@@ -4216,43 +4258,83 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [
-      "念能力の『攻撃』の定義には治療や貸与も含まれる"
+      "ビルの『球根』は植物の種を発芽させる強化系の能力である",
+      "念能力による攻撃の定義には、相手を治療したり能力を貸与したりする行為も含まれる",
+      "クラピカは能力の貸与を、受講者がオーラを知覚するための実演に利用した"
     ],
-    "mysteries": [],
-    "notes": "図表：念能力の攻撃の定義"
+    "mysteries": [
+      "受講者それぞれの固有の発と念系統"
+    ],
+    "notes": "章題は原作表示の『思案』。第386話の9日目の後、第388話末の10日目11:30より前の場面だが、講習そのものの作中日付・分刻みは章内で明示されない。能力の貸与によるオーラ知覚と、各受講者が固有の発を習得したことは区別する"
   },
   {
     "id": "E388-002",
     "chapter": 388,
-    "chapter_title": "試案",
-    "day": 9,
+    "chapter_title": "思案",
+    "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "情報収集",
-    "description": "リハンの独白から、自身の能力の弱点が明らかになる。ツベッパはサレサレの暗殺に気づき、次は自分が狙われると察する",
+    "type": "能力分析",
+    "description": "リハンがクラピカの能力貸与と講習の進め方を観察し、『異邦人（プレデター）』を強く育てるには対象の能力の情報を自分で推理する必要があると考える",
     "characters": [
-      "P05"
+      "P01-P13",
+      "P14-H01"
     ],
-    "room": "第1層 1005号室",
+    "room": null,
     "location": null,
     "camp": [
-      "ツベッパ陣営"
+      "ベンジャミン陣営",
+      "ワブル陣営"
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": [
+      "リハンは対象の能力を自分で推理する過程が『異邦人』の強さに関わると考えている"
+    ],
+    "mysteries": [
+      "リハンがクラピカの能力の全条件を把握できるか"
+    ],
+    "notes": "第388話のリハンの内省に基づく。既存の『ツベッパがサレサレ暗殺に気づいた』という記述は、この原作画像から確認できないため削除した。講習場面の分刻みは不明"
+  },
+  {
+    "id": "E388-004",
+    "chapter": 388,
+    "chapter_title": "思案",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "対策検討",
+    "description": "バルサミルコがシカクの自死と第9王子側の鳴動を調べ、ハルケンブルグの能力による次の攻撃への対策を考える",
+    "characters": [
+      "P01-P05",
+      "P09",
+      "P07-G06"
+    ],
+    "room": null,
+    "location": null,
+    "camp": [
+      "ベンジャミン陣営",
+      "ハルケンブルグ陣営"
+    ],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [
+      "バルサミルコは1007号室でのシカクの自死と第9王子陣営の鳴動の関連を警戒している"
+    ],
+    "mysteries": [
+      "ハルケンブルグへの対抗策の成否"
+    ],
+    "notes": "章末の10日目11:30の表示より前に置かれた分析場面。バルサミルコが第8王子の死と第9王子の動きも調べるが、ここでは推論と確定事実を区別する"
   },
   {
     "id": "E388-003",
     "chapter": 388,
-    "chapter_title": "試案",
+    "chapter_title": "思案",
     "day": 10,
     "time_start": "11:30",
     "time_end": null,
     "type": "鳴動",
-    "description": "4度目の鳴動が起き、クラピカが異変に気づく",
+    "description": "10日目11:30に4度目の鳴動が起き、1014号室のクラピカが前回からの間隔が縮まっていることに気づく",
     "characters": [
       "P14-H01"
     ],
@@ -4263,9 +4345,28 @@
     ],
     "series": "鳴動",
     "series_index": 4,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["4度目の鳴動は10日目11:30に起きた"],
+    "mysteries": ["鳴動の間隔が縮まった理由"],
+    "notes": "章末に『10日目 午前11:30』と明示。第389話は同じ鳴動をベンジャミン陣営側から描くため、E389-002と別の鳴動として数えない"
+  },
+  {
+    "id": "E389-001",
+    "chapter": 389,
+    "chapter_title": "呪詛",
+    "day": 9,
+    "time_start": "10:00",
+    "time_end": null,
+    "type": "分析",
+    "description": "バルサミルコがシカクの死と第9王子側の能力を分析し、ベンジャミンへの攻撃を警戒する",
+    "characters": ["P01-P05", "P01", "P09"],
+    "room": null,
+    "location": "V.VIPエリア監視居住区（ベンジャミン）",
+    "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["第389話の回想場面に9日目（月曜日）午前10:00の表示がある"],
+    "mysteries": ["第9王子側の能力の詳細"],
+    "notes": "9日目10:00はこの回想場面の時刻。第386話のシカク自死そのものの時刻として転用しない。第388話の分析場面と話題が重なるが、描写は別場面"
   },
   {
     "id": "E389-002",
@@ -4275,18 +4376,12 @@
     "time_start": "11:30",
     "time_end": null,
     "type": "鳴動",
-    "description": "ベンジャミンとバルサミルコが4度目の鳴動に気づく。続いてビクトから緊急連絡が入り、交戦中のビクトがハルケンブルグの矢を受ける",
+    "description": "ベンジャミンとバルサミルコが4度目の鳴動に気づく。ビクトから緊急連絡が入り、第9王子側の能力による攻撃の危険を警戒する",
     "characters": [
       "P01",
       "P09",
                            "P01-P05",
                            "P01-P10"
-    ],
-    "status_effects": [
-      {
-                                   "character": "P01-P10",
-                                   "status": "操作中（ハルケンブルグの矢を受け、人格交換が発生）"
-      }
     ],
     "room": null,
     "location": "V.VIPエリア監視居住区（ベンジャミン）",
@@ -4300,8 +4395,8 @@
       "ハルケンブルグが弓を構えると攻撃が効かなくなる",
       "ビクトの能力『表裏一体（タックルシールド）』は攻防一体の技"
     ],
-    "mysteries": [],
-        "notes": "この時点でバルサミルコ本人は攻撃を受けていない。バルサミルコとの人格交換は404話へ続く別件"
+    "mysteries": ["ビクトへの攻撃が成功したか、この時点でのビクトの状態"],
+    "notes": "第388話末の4度目の鳴動と同一事象。第389話の画面上ではビクトへの矢の命中・人格交換は確定しないため、従来の操作中扱いを撤回。バルサミルコとの人格交換は後の別件"
   },
   {
     "id": "E389-003",
@@ -4414,8 +4509,8 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["コイン授与後に本人固有の能力が生じるか"],
+    "notes": "念講習での体験と、コインによる将来の効果は分けて扱う"
   },
   {
     "id": "E389-008",
@@ -4449,7 +4544,7 @@
     "camp": ["ベンジャミン陣営"],
     "revealed_facts": [],
     "mysteries": ["数字が増える条件と効果"],
-    "notes": ""
+    "notes": "第390話冒頭はこの数字の変化を受けてコベントバが守護霊獣の能力を推測する場面"
   },
   {
     "id": "E390-001",
@@ -4459,10 +4554,11 @@
     "time_start": null,
     "time_end": null,
     "type": "会議",
-    "description": "チョウライがオニオール組長に会い、念について調べるよう依頼する",
+    "description": "コベントバがコインの数字の変化を調べる。チョウライは父オニオール組長に会い、守護霊獣と継承戦について意見を聞く",
     "characters": [
       "P03",
-      "SWU-001"
+      "SWU-001",
+      "P01-P11"
     ],
     "room": null,
     "location": null,
@@ -4475,7 +4571,7 @@
       "チョウライの父親はオニオール＝ロンポウ（シュウ＝ウ一家組長）"
     ],
     "mysteries": [
-      "チョウライは兄弟が3人死んだことを把握していたが、ツベッパとカミーラは把握していなかった。トウチョウレイが教えたのか？ドゥアズルが監視兵の情報を伝えていないのか？"
+      "チョウライの守護霊獣とコインの能力、数字が上がる条件"
     ],
     "notes": ""
   },
@@ -4509,7 +4605,7 @@
     "time_start": null,
     "time_end": null,
     "type": "戦闘",
-    "description": "ヒンリギ・ザクロ・リンチが第3層へ移動し、エイ＝イ一家の構成員2名と交戦する。ヒンリギは能力を使って第3層の軍人を殺害する",
+    "description": "ヒンリギ・ザクロ・リンチが第3層でエイ＝イ一家の構成員を捜索し、接触して交戦する。ザクロは血を操り、リンチは殴った相手の心の声を聞く。ヒンリギは銃を蛇に変えて兵士の銃を襲わせる",
     "characters": [
       "SWU-002",
       "SWU-003",
@@ -4520,9 +4616,9 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["ザクロは自身の血を操る", "リンチは殴った相手の心の声を聞く", "ヒンリギは銃を蛇に変える"],
+    "mysteries": ["接触した構成員の身元と戦闘の結末"],
+    "notes": "第390話末までに兵士の死亡は描かれない。従来の『第3層の軍人を殺害』という断定は原作画像で確認できないため削除"
   },
   {
     "id": "E391-001",
@@ -4531,12 +4627,33 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "戦闘",
-    "description": "ヒンリギ・ザクロ・リンチが第3層を捜索する。エイ＝イ一家のバドイユ・クオロール・デヴェラレスと対峙し、バドイユを殺害する",
+    "type": "捜索",
+    "description": "第3層で銃が蛇に変わったことによる混乱の後、ヒンリギはザクロとリンチにヒソカ捜索を任せ、自身はエイ＝イ一家の手掛かりを追う。機器を動物に変える能力で撮影と偵察を行う",
     "characters": [
       "SWU-002",
       "SWU-003",
-      "SWU-004",
+      "SWU-004"
+    ],
+    "room": null,
+    "location": "第3層",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["ヒンリギは機器を動物に変え、元の撮影機能を利用できる"],
+    "mysteries": ["エイ＝イ一家のアジトの位置"],
+    "notes": "第390話末から連続する場面。兵士同士の銃撃が描かれるが、この場面だけで死亡者は確定しない。C:31の表示は通路の標識で、アジトの場所を示すものとは扱わない"
+  },
+  {
+    "id": "E391-002",
+    "chapter": 391,
+    "chapter_title": "衝突②",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "戦闘",
+    "description": "ヒンリギがエイ＝イ一家のバドイユ・クオロール・デヴェラレスと交戦し、バドイユを殺害する",
+    "characters": [
+      "SWU-002",
       "EII-003",
       "EII-004",
       "EII-005"
@@ -4560,66 +4677,68 @@
     "id": "E392-001",
     "chapter": 392,
     "chapter_title": "情報",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "死亡したバドイユがミーシャ＝ハオの能力（死後の念）で操られる",
+    "description": "ヒンリギが倒したバドイユの遺体が動き出し、シュウ＝ウ一家の元構成員ミーシャ＝ハオの死後の念によって自動的に処理される",
     "characters": [
+      "SWU-002",
       "EII-003",
       "EII-006"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "ミーシャ本人は死亡しており、バドイユと同じエイ＝イ一家の構成員ではない。章内に独立した日付・時刻表示はない"
   },
   {
     "id": "E392-002",
     "chapter": 392,
     "chapter_title": "情報",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "戦闘",
-    "description": "ザクロとリンチがヒソカに遭遇。リンチがヒソカのカウンターで倒れる",
+    "type": "情報交換",
+    "description": "ヒンリギが事件の処理を軍人と協議し、エイ＝イ一家の組長モレナの所在を探るため情報を求める",
     "characters": [
-      "SWU-003",
-      "SWU-004"
+      "SWU-002"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "金銭を巡る話が出るが、この場で情報の入手やモレナの所在確定までは描かれない"
   },
   {
     "id": "E392-003",
     "chapter": 392,
     "chapter_title": "情報",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "出来事",
-    "description": "ドツンケがヒソカのサイン色紙を手に入れようと画策する（締め切りまで4日）",
+    "type": "戦闘",
+    "description": "ザクロとリンチがヒソカの姿をした人物を発見。リンチが殴りかかると反撃を受けて倒れる",
     "characters": [
-      "SAA-004"
+      "SWU-003",
+      "SWU-004",
+      "SPD-007"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "ドツンケはツドンケ（シャ＝ア一家舎弟頭）の表記揺れの可能性"
+    "notes": "この話ではヒソカの姿として描かれる。第406話でボノレノフの変身と判明。リンチの死亡は第392話の描写だけでは確定しない"
   },
   {
     "id": "E392-004",
@@ -4628,13 +4747,11 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "戦闘",
-    "description": "幻影旅団とルイーニー（エイ＝イ一家構成員）がシャ＝ア一家アジトで対峙する",
-    "characters": [
-      "EII-002"
-    ],
+    "type": "情報交換",
+    "description": "両マフィアの構成員がヒソカ捜索とエイ＝イ一家の拠点捜索について情報を持ち寄り、旅団への連絡や協力を検討する",
+    "characters": [],
     "room": null,
-    "location": "シャ＝ア一家アジト",
+    "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
@@ -4650,7 +4767,7 @@
     "time_start": null,
     "time_end": null,
     "type": "殺害",
-    "description": "ノブナガがルイーニーを殺害する",
+    "description": "シャ＝ア一家の部屋に現れたルイーニーをノブナガが刀で殺害。旅団はエイ＝イ一家の組長を追う方針を強める",
     "status_effects": [
       {
         "character": "EII-002",
@@ -4659,6 +4776,8 @@
     ],
     "characters": [
       "SPD-002",
+      "SPD-003",
+      "SPD-004",
       "EII-002"
     ],
     "room": null,
@@ -4668,7 +4787,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "図表：モレナ構成員"
+    "notes": "前話からの対峙が続く。ルイーニー死亡はこの第393話で確定。ノブナガたちはエイ＝イ一家を追う"
   },
   {
     "id": "E393-002",
@@ -4677,8 +4796,35 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "発症",
-    "description": "ザクロが目を覚まし、ヒソカに映画へ誘われた後で失神していたことが分かる",
+    "type": "会議",
+    "description": "エイ＝イ一家の拠点で構成員がルイーニー死亡の報を受け、放出系能力者の必要性や次の行動を話し合う",
+    "characters": [
+      "EII-001",
+      "EII-011",
+      "EII-012",
+      "EII-013",
+      "EII-014",
+      "EII-015",
+      "EII-016"
+    ],
+    "room": null,
+    "location": "エイ＝イ一家の拠点",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "ジェラート、デモン、ビレ、ペリゴル、ボコンテ、マトベールの職業・レベルが人物紹介に表示される。拠点の正確な号室はこの場面では明示されない"
+  },
+  {
+    "id": "E393-003",
+    "chapter": 393,
+    "chapter_title": "懇願",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "出来事",
+    "description": "倒れていたザクロが目を覚まし、ヒソカの姿をした人物がいなくなったことを知る。捜索は映画館へ向かう",
     "characters": [
       "SWU-003"
     ],
@@ -4689,17 +4835,17 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "第392話で遭遇した人物の正体はこの場面では明示されない。『ヒソカに映画へ誘われた』とは画像から確認できない"
   },
   {
-    "id": "E393-003",
+    "id": "E393-004",
     "chapter": 393,
     "chapter_title": "懇願",
     "day": null,
     "time_start": null,
     "time_end": null,
     "type": "会議",
-    "description": "ヒンリギがヒソカに接触し、騒ぎを起こさないよう求める。さらにV.VIPエリアの部屋を用意する",
+    "description": "ヒンリギが第4層の映画館でヒソカの姿をした人物に接触し、旅団との衝突を避けるためV.VIPエリアの部屋への移動を提案する",
     "characters": [
       "SWU-002"
     ],
@@ -4710,30 +4856,31 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "部屋の用意と移動は提案・調整の段階として記録する。相手の正体はこの話の場面だけで確定しない"
   },
   {
-    "id": "E393-004",
+    "id": "E393-005",
     "chapter": 393,
     "chapter_title": "懇願",
     "day": null,
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "オウが伍長に賄賂を渡してモレナのもとへ案内させるが、3101号室の扉を開けると伍長が消える",
+    "description": "オウらが軍人から情報を得て第3層の3101号室を調べ、室内で怯える老人と対面する",
     "characters": [
-      "SAA-002"
+      "SAA-002",
+      "SWU-005"
     ],
-    "room": "3層3101号室",
+    "room": "第3層 3101号室",
     "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [
-      "伍長はなぜ消えたのか"
+      "3101号室の老人とエイ＝イ一家の拠点はどうつながるのか"
     ],
-    "notes": ""
+    "notes": "伍長が消えたという旧記録は第393話の画像だけでは確認できない。3101号室は第3層の一等客室として描かれる"
   },
   {
     "id": "E394-001",
@@ -4743,11 +4890,13 @@
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "3101号室にいた老人をナイフで刺すと、老人が消える。続いてタッシも部屋に入った直後に消える",
+    "description": "ノブナガが3101号室の老人を攻撃すると老人が消え、続いてタッシも室内へ入った直後に姿を消す",
     "characters": [
+      "SPD-002",
+      "SAA-002",
       "EII-007"
     ],
-    "room": "3層3101号室",
+    "room": "第3層 3101号室",
     "location": "第3層",
     "camp": null,
     "series": null,
@@ -4756,7 +4905,7 @@
     "mysteries": [
       "3101号室の空間の正体は何か"
     ],
-    "notes": ""
+    "notes": "老人の消失は死亡の確定ではない。タッシの消失と、後にエイ＝イ一家側で殺害される場面を分けて記録する"
   },
   {
     "id": "E394-002",
@@ -4766,7 +4915,7 @@
     "time_start": null,
     "time_end": null,
     "type": "殺害",
-    "description": "タッシが殺害される。モレナがツェリードニヒの私設兵に『恋のエチュード（サイキンオセン）』を感染させようとしていることも判明する",
+    "description": "エイ＝イ一家側でタッシが殺害される。モレナは第4王子ツェリードニヒの私設兵を仲間に引き込み、能力を広げる方針を示す",
     "characters": [
       "EII-001",
       "EII-007"
@@ -4780,7 +4929,7 @@
     "room": null,
     "location": "モレナアジト",
     "camp": [
-      "ツェリードニヒ陣営"
+      "エイ＝イ一家"
     ],
     "series": null,
     "series_index": null,
@@ -4788,7 +4937,7 @@
       "モレナの狙いはツェリードニヒの私設兵への恋のエチュード感染"
     ],
     "mysteries": [],
-    "notes": ""
+    "notes": "モレナの狙いと、実際に第4王子の兵士が加入・感染した事実は区別する。構成員の職業・レベル表示は画像照合メモに記録"
   },
   {
     "id": "E394-003",
@@ -4797,19 +4946,19 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "戦闘",
-    "description": "国王軍がエイ＝イ一家のアジトへ突入し、シャ＝ア一家構成員の遺体を発見する",
+    "type": "捜索",
+    "description": "武装した兵士がエイ＝イ一家に関係する部屋を捜索し、遺体を発見する。ヒンリギは動物化した猫の映像でC:31周辺を確認する",
     "characters": [
-      "EII-001"
+      "SWU-002"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層 C:31周辺",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "発見された遺体の所属をシャ＝ア一家と断定しない。C:31の標識は確認できるが、その場所自体を現在のエイ＝イ一家アジトと確定しない"
   },
   {
     "id": "E394-004",
@@ -4819,9 +4968,8 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "ツェリードニヒの王立軍学校4期生時代の友人6人（ボークセン、オトシン、モーモリー、未命名3人）が登場する",
+    "description": "ボークセンら王立軍学校4期生の同期兵が、モレナの狙いと第4王子周辺の情勢を話し合い、自分たちの身を守る方針を考える",
     "characters": [
-      "P04",
       "EII-T01",
       "P04-L01",
       "P04-L02",
@@ -4830,7 +4978,7 @@
       "P04-L05"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層",
     "camp": [
       "ツェリードニヒ陣営"
     ],
@@ -4838,7 +4986,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "第4王子本人はこの場面に登場しない。オトシン、モーモリーのほか同期兵3人の固有名はこの話では確認できない"
   },
   {
     "id": "E395-001",
@@ -4848,16 +4996,21 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "一行が3102号室のトイレから奥の隠し部屋へ侵入するが、アジトはもぬけの殻だった",
-    "characters": [],
-    "room": "3層3102号室",
+    "description": "ノブナガらが3102号室のトイレ奥にある通路から隠し部屋へ進むが、部屋に人影はなく、エイ＝イ一家の構成員を発見できなかった",
+    "characters": [
+      "SPD-002",
+      "SPD-003",
+      "SPD-004",
+      "SAA-002"
+    ],
+    "room": "第3層 3102号室・隠し部屋",
     "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "『旅団とエイ＝イ一家は似ている』というノブナガの発言から回想シーンに入る"
+    "notes": "提供画像4枚に含まれる船内の場面のみ記録。隠し部屋が無人であることは確認できるが、逃走者の移動先や能力の仕組みは未確定。後続の幻影旅団の過去回想はユーザー指定により省略"
   },
   {
     "id": "E398-001",
@@ -4867,18 +5020,21 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "幻影旅団が3101号室の罠について考察する",
+    "description": "ノブナガらが3101号室周辺の隠し通路と消失現象を検討し、老人に扉を開けて入らせて仕組みを確かめる",
     "characters": [
-      "SPD-001"
+      "SPD-002",
+      "SPD-003",
+      "SPD-004",
+      "SAA-002"
     ],
-    "room": "3層3101号室",
-    "location": null,
+    "room": "第3層 3101号室周辺",
+    "location": "第3層",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "クロロはこの船内の場面に登場しない。老人が扉を通過しても消えない様子を確認するが、消失条件の説明は登場人物の推測として扱う"
   },
   {
     "id": "E398-002",
@@ -4888,19 +5044,19 @@
     "time_start": null,
     "time_end": null,
     "type": "移動",
-    "description": "ヒンリギが発信器を身につけたまま罠に入り、無人の場所へ転送される。ノブナガも後を追う",
+    "description": "ヒンリギが発信器を飲み込んで消失する通路に入り、無人の部屋へ移動する。ノブナガも後を追い、2人で部屋や壁を調べる",
     "characters": [
       "SWU-002",
       "SPD-002"
     ],
-    "room": null,
-    "location": null,
+    "room": "第3層 3101号室周辺から移動先の部屋",
+    "location": "移動先の位置は未確定",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "発信器の位置は調査中で、移動先をエイ＝イ一家の本拠地と確定しない。第398話末ではヒンリギとノブナガが内部の扉を調べている段階"
   },
   {
     "id": "E399-001",
@@ -4910,118 +5066,137 @@
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "ヨコタニの能力によってヒンリギとノブナガがアジトから排除される。ヒンリギは退去前に発信器をアジトへ残す",
+    "description": "ヒンリギとノブナガがエイ＝イ一家の構成員と接触し、トレベルムは攻撃の損傷を別の物へ移す能力を見せる",
     "characters": [
       "SWU-002",
       "SPD-002",
-      "EII-008"
+      "EII-017"
     ],
     "room": null,
-    "location": null,
-    "camp": null,
+    "location": "エイ＝イ一家の拠点内",
+    "camp": ["エイ＝イ一家"],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [
-      "『器官』とは何を指すのか"
-    ],
-    "notes": ""
+    "revealed_facts": ["トレベルムの放出系能力『Damage』は、受けた損傷を別の物へ移せる"],
+    "mysteries": [],
+    "notes": "能力説明欄に基づく。移した先の物や攻撃者の描写を混同せず、能力の条件は画像で確認できる範囲に留める"
+  },
+  {
+    "id": "E399-002",
+    "chapter": 399,
+    "chapter_title": "退去",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "念能力使用",
+    "description": "ヨコタニが具現化系能力『墨攻』で衛兵を出し、ヒンリギとノブナガを拠点から退去させる。ヒンリギは退去前に発信器を残す",
+    "characters": ["SWU-002", "SPD-002", "EII-008"],
+    "room": null,
+    "location": "エイ＝イ一家の拠点内から第3層へ",
+    "camp": ["エイ＝イ一家"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["『墨攻』はモレナがいるアジトでのみ使える完全防衛型の具現化系能力"],
+    "mysteries": ["この拠点の正確な位置と、発信器を残した場所の詳細"],
+    "notes": "ヨコタニの名乗りと侵入者の違法行為が発動に関わる。具現化した衛兵は侵入者を排除するが、殺傷する能力とは記録しない"
   },
   {
     "id": "E400-001",
     "chapter": 400,
     "chapter_title": "秘匿",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "ヒンリギが発信器の情報を追い、モレナの第2層滞在を確認する",
+    "description": "ヒンリギらが拠点に残した発信器を追い、反応が第2層で近づくことを確認する",
     "characters": [
       "SWU-002",
-      "EII-001"
+      "SPD-002",
+      "SPD-003",
+      "SPD-004"
     ],
     "room": null,
-    "location": null,
+    "location": "第3層から第2層",
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["発信器の反応は第2層で確認される"],
+    "mysteries": ["発信器が置かれた部屋の正確な位置と、モレナ本人の所在"],
+    "notes": "登場人物はエイ＝イ一家の拠点が第2層にあると考えるが、反応だけでモレナ本人の滞在までは確定しない"
   },
   {
     "id": "E400-003",
     "chapter": 400,
     "chapter_title": "秘匿",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "セイコがカチョウの死を知る",
+    "description": "第六王妃セイコが1010号室で娘への面会を求め、面会を制限する対応に強く抗議する",
     "characters": [
       "Q06"
     ],
     "room": "第1層 1010号室",
-    "location": null,
+    "location": "第1層",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "セイコ陣営"
     ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "セイコの名前は原文でセヴァンチと記載されており、誤記の可能性がある"
+    "notes": "この場面からセイコがカチョウの死亡を知ったとは断定しない。第六王妃セイコと第七王妃セヴァンチを混同しない"
   },
   {
     "id": "E400-004",
     "chapter": 400,
     "chapter_title": "秘匿",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "対話",
-    "description": "カチョウの守護霊獣がセンリツを励ます",
-    "characters": ["P10", "P10-H01"],
-    "room": "第1層 1010号室",
-    "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "description": "カチョウの姿をした守護霊獣がセンリツと再会し、フウゲツを守るための方策をカイザルと話し合う",
+    "characters": ["P10", "P10-H01", "JUD-001"],
+    "room": "司法局 調取室",
+    "location": "第2層 司法局",
+    "camp": ["カチョウ陣営", "フウゲツ陣営"],
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "センリツは脱出失敗を悔いていた。チョウライとヴァンタインもセンリツに面会を求める"
+    "notes": "カチョウ本人は第383話で死亡しており、この場にいるのはカチョウの姿をした守護霊獣。センリツの晩餐会演奏をめぐり複数王子から接触希望がある"
   },
   {
     "id": "E400-005",
     "chapter": 400,
     "chapter_title": "秘匿",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "計画",
-    "description": "カイザルが上位王子の暗殺を企てる",
-    "characters": ["JUD-001"],
-    "room": null,
-    "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "description": "カイザルがフウゲツの保護と継承戦への対応について、センリツとカチョウの姿をした守護霊獣に提案する",
+    "characters": ["JUD-001", "P10-H01", "P10"],
+    "room": "司法局 調取室",
+    "location": "第2層 司法局",
+    "camp": ["カチョウ陣営", "フウゲツ陣営"],
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["カイザルの本心と、提案が実行されるかどうか"],
+    "notes": "上位王子への強硬策は協議・提案段階で、暗殺の実行を記録しない。旧記録に混入していた別の話のエイ＝イ一家構成員情報を除外した"
   },
   {
     "id": "E400-006",
     "chapter": 400,
     "chapter_title": "秘匿",
-    "day": 10,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "フウゲツが秘密の扉を繰り返し使えるようになる一方、衰弱する",
+    "description": "フウゲツが『秘密の扉』による移動を試みる一方、衰弱した様子と周囲にまとわりつく邪霊が描かれる",
     "characters": ["P11"],
     "room": "第1層 1011号室",
-    "location": null,
-    "camp": ["カチョウ＝フウゲツ陣営"],
+    "location": "第1層・移動先は未確定",
+    "camp": ["フウゲツ陣営"],
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["フウゲツの消耗と邪霊の原因", "『秘密の扉』の使用可能回数が変わった理由"],
+    "notes": "フウゲツ自身は以前より扉を使えると感じているが、回数増加の原因と衰弱との因果関係はこの場面だけでは確定しない"
   },
   {
     "id": "E401-001",
@@ -5030,8 +5205,8 @@
     "day": 10,
     "time_start": "11:45",
     "time_end": null,
-    "type": "念講習",
-    "description": "ロンギが念能力者であることを明かし、クラピカがサイレントマジョリティーの犯人ではないと確認する",
+    "type": "能力開示",
+    "description": "ロンギが念能力者であることを明かし、『透明言葉』で契約を通じて相手の行動を制限する操作系能力をクラピカに示す",
     "characters": [
       "P14-H01",
       "P05-G01",
@@ -5042,11 +5217,9 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [
-      "ロンギはツベッパ私設兵ではなくドゥアズル所属兵。マカハ（王立軍学校2期生・強いソエモノ）も同様"
-    ],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["ロンギは操作系・条件型の念能力を持つ", "ロンギは自分が第14王子居住区で起きた『蛇』の念の使い手ではないと述べる"],
+    "mysteries": ["『蛇』の能力者の正体"],
+    "notes": "ロンギの否認を第三者が検証した事実とは扱わない。場面冒頭に10日目11:45の表示がある"
   },
   {
     "id": "E401-002",
@@ -5055,8 +5228,8 @@
     "day": 10,
     "time_start": null,
     "time_end": null,
-    "type": "念能力使用",
-    "description": "壺中卵の儀を受けたソエモノに共通の印が現れ、死後に発動する協力型の邪悪な念だと判明する",
+    "type": "告白",
+    "description": "ロンギがビヨンド＝ネテロの実の娘だと名乗り、自分を含む『呪いを仕込まれた子』と王子の中のビヨンドの子について語る",
     "characters": [
       "P14-H01",
       "P05-G01",
@@ -5067,14 +5240,9 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [
-      "強いソエモノ（10人以上）は舌の裏に『目』の印を持ち、死後に発動する協力型の邪悪な念で能力値が高められている",
-      "王族の中にもビヨンドの子がいる（ロンギ自身が告白）"
-    ],
-    "mysteries": [
-      "王族内のビヨンドの子は誰なのか（ワブル王子説はオイトの反応から推測されたが確証はない）"
-    ],
-    "notes": ""
+    "revealed_facts": ["ロンギはビヨンドの実子だと自ら明かす", "ロンギの口内には目のような印が描かれる"],
+    "mysteries": ["王子の中のビヨンドの子が誰か", "ロンギの語る呪いの発動条件と対象"],
+    "notes": "ビヨンドの計画、実子の人数、王子の血縁に関する情報はロンギの説明。口内の印から能力の具体的効果までは確定しない"
   },
   {
     "id": "E401-003",
@@ -5084,10 +5252,10 @@
     "time_start": null,
     "time_end": null,
     "type": "契約",
-    "description": "ツベッパ陣営への攻撃を14日9:00まで禁じる契約条件が定められる。違反すれば1週間絶となり、9:00にツベッパ陣営の者が1014号室にいれば契約は1週間更新される",
+    "description": "ロンギが第5王子と第14王子の相互不可侵を条件とする契約を提案し、クラピカとの交渉を進める",
     "characters": [
       "P14-H01",
-      "P05"
+      "P05-G01"
     ],
     "room": "第1層 1014号室",
     "location": null,
@@ -5097,9 +5265,9 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": "ツベッパが離脱するか王子が残り2名になるまでにビヨンドの子供を見つけ出すことが目標とされる"
+    "revealed_facts": ["契約は第14日目午前9時までの相互不可侵を基本とし、その時点で第5王子側が第14王子の居住区にいれば更新されるとロンギが説明する"],
+    "mysteries": ["契約が最終的に成立したか", "ロンギの能力で課される制約の全容"],
+    "notes": "画像で確認できるのは契約条件の提示と交渉。契約の締結・履行をこの時点で確定しない"
   },
   {
     "id": "E401-004",
@@ -5109,7 +5277,7 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "ロンギがビヨンド＝ネテロの実の娘であることを明かす。その説明を聞いたバビマイナは考え込む",
+    "description": "ロンギの証言を聞いたクラピカらが、王子の中にいるとされるビヨンドの子と呪いの狙いを検討する",
     "characters": [
       "P05-G01",
       "P01-P04",
@@ -5120,12 +5288,9 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [
-      "ビヨンドは約30年前からカキン帝国で暗躍し、上級兵士に意図的に子を成させていた（ソエモノは確認されている範囲で10名以上）",
-      "オイト王妃が恐怖し、クラピカとロンギの間で相互不可侵の契約が結ばれる"
-    ],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": [],
+    "mysteries": ["王子の中のビヨンドの子の正体", "呪いの仕組みとビヨンドの真意"],
+    "notes": "王子にビヨンドの子がいるというのはロンギの主張。クラピカたちの推理と、画面で実証された事実を分ける"
   },
   {
     "id": "E401-005",
@@ -5134,20 +5299,17 @@
     "day": 10,
     "time_start": "14:00",
     "time_end": null,
-    "type": "会議",
-    "description": "ビヨンドがカイザルとの面会を希望する",
-    "characters": [
-      "BYD-001",
-      "JUD-001"
-    ],
+    "type": "面会希望",
+    "description": "拘束中のビヨンドが警備兵に、話したい相手を連れてきてほしいと求める",
+    "characters": ["BYD-001"],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["ビヨンドが面会を求めた相手と目的"],
+    "notes": "10日目14:00の表示あり。この場面では相手の名前が示されず、カイザルと断定しない"
   },
   {
     "id": "E402-001",
@@ -5157,7 +5319,7 @@
     "time_start": "13:30",
     "time_end": null,
     "type": "契約",
-    "description": "テンフトリがチョウライに、ツベッパ陣営・ワブル陣営との和平条約締結を報告する",
+    "description": "チョウライが第5王子・第14王子との和平協定をめぐり、協定締結と今後の条件を側近と確認する",
     "characters": [
       "P03",
       "P03-P01"
@@ -5175,9 +5337,9 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["第3王子の居室1003号室の場面に10日目13:30の表示がある"],
+    "mysteries": ["三陣営の和平が今後どこまで維持されるか"],
+    "notes": "協定に関する発言と、今後の条件・見込みを区別する"
   },
   {
     "id": "E402-002",
@@ -5200,7 +5362,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "第5王子と第14王子の協定成立後、ツベッパの守護霊獣が姿を現す。出現の理由は登場人物の推測であり確定しない"
   },
   {
     "id": "E402-003",
@@ -5210,13 +5372,12 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "バルサミルコが細菌毒を靴に仕込む",
+    "description": "バルサミルコが靴に仕込むための細菌毒TSK-17を確認し、第9王子への使用を企てる",
     "characters": [
-      "P01",
       "P01-P05"
     ],
-    "room": "第1層 1001号室",
-    "location": null,
+    "room": null,
+    "location": "第1層・詳細な部屋は未確認",
     "camp": [
       "ベンジャミン陣営"
     ],
@@ -5224,14 +5385,14 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "画像にはTSK-17と靴への仕込みが描かれる。第9王子への感染や殺害が起きたとは記録しない"
   },
   {
     "id": "E402-004",
     "chapter": 402,
     "chapter_title": "手紙",
-    "day": 10,
-    "time_start": null,
+    "day": 11,
+    "time_start": "08:00",
     "time_end": null,
     "type": "念能力使用",
     "description": "ツェリードニヒが絶になるまでのスピードを9.67秒まで短縮する",
@@ -5247,52 +5408,53 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "11日目（水曜日）AM8:00の表示と計測値9.67秒を確認。第4王子の能力の発動条件や範囲をこの場面だけで拡張しない"
   },
   {
     "id": "E402-005",
     "chapter": 402,
     "chapter_title": "手紙",
     "day": 11,
-    "time_start": null,
+    "time_start": "06:00",
     "time_end": null,
-    "type": "会議",
-    "description": "カチョウ（幽霊）とセンリツが打ち合わせ、フウゲツに注射の跡があることを発見する",
+    "type": "状態変化",
+    "description": "フウゲツが扉を通ってカチョウの姿をした守護霊獣のもとへ戻り、体調の悪化と背中の痕が描かれる",
     "characters": [
-      "P10-H01",
+      "P10",
       "P11"
     ],
     "room": null,
-        "location": "第2層司法省",
+    "location": "第1層・移動先は未確定",
     "camp": [
-      "カチョウ＝フウゲツ陣営"
+      "カチョウ陣営",
+      "フウゲツ陣営"
     ],
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["フウゲツの体調悪化と背の痕の原因"],
+    "notes": "11日目（水曜日）AM6:00の表示。背の痕を注射の跡と断定しない。カチョウ本人は死亡しており、描写されるのはその姿の守護霊獣"
   },
     {
-        "id": "E402-006",
+    "id": "E402-006",
     "chapter": 402,
     "chapter_title": "手紙",
     "day": 11,
-        "time_start": "08:00",
+    "time_start": null,
     "time_end": null,
-    "type": "会議",
-    "description": "カイザルが打ち合わせに加わり、ルズールス暗殺を企てる",
+    "type": "計画",
+    "description": "カイザルらがフウゲツを守るため、第7王子ルズールスへの対処を検討する",
     "characters": [
       "JUD-001"
     ],
     "room": null,
-        "location": "第2層司法省",
+    "location": "詳細未確定",
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-        "notes": "11日目（水曜日）AM8:00の明記あり"
+    "mysteries": ["ルズールスがフウゲツの衰弱に関与しているか", "対処案が実行されるか"],
+    "notes": "第11日目8:00の表示はツェリードニヒの場面に付く。ここで暗殺が実行されたとは記録しない"
   },
   {
     "id": "E402-007",
@@ -5302,14 +5464,13 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "フウゲツがベンジャミンに手紙を渡す。カイザルは会話から、ベンジャミンが特殊戒厳令を使おうとしていると見抜く",
+    "description": "フウゲツ側が第1王子ベンジャミン本人への手紙の直接手渡しを求め、カイザルらが応対を進める",
     "characters": [
       "P11",
-      "P01",
       "JUD-001"
     ],
     "room": null,
-    "location": "VIPエリア",
+    "location": "第1層・第1王子居住区前",
     "camp": [
       "ベンジャミン陣営"
     ],
@@ -5317,7 +5478,7 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "画像では本人への直接手渡しを求める場面。ベンジャミンが手紙を受け取ったことや、特殊戒厳令の発動はこの場面で確定しない"
   },
   {
     "id": "E402-008",
@@ -5327,11 +5488,10 @@
     "time_start": null,
     "time_end": null,
     "type": "出来事",
-    "description": "フウゲツがルズールスに手紙を渡し、ルズールスがカイザルにも内容を見せる",
+    "description": "フウゲツがルズールス陣営に手紙を届け、ルズールスらがその内容を確認する",
     "characters": [
       "P11",
-      "P07",
-      "JUD-001"
+      "P07"
     ],
     "room": "第1層 1007号室",
     "location": null,
@@ -5365,7 +5525,31 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "旧記録の『ドツンケ』とタハオ（SAA-004）の同一視は画像で確認できないため外した。『あと4日』の発言はあるが、具体的な期限の起点はこの話だけでは不明"
+  },
+  {
+    "id": "E392-005",
+    "chapter": 392,
+    "chapter_title": "情報",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "戦闘",
+    "description": "シャ＝ア一家の部屋にルイーニーが念能力で現れ、ノブナガ・フィンクス・フェイタンと対峙する。ノブナガの斬撃を受ける前に姿を消す",
+    "characters": [
+      "SPD-002",
+      "SPD-003",
+      "SPD-004",
+      "EII-002"
+    ],
+    "room": null,
+    "location": "シャ＝ア一家アジト",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "ルイーニーの死亡は次の第393話。第392話では通路と部屋を行き来する能力が描かれる"
   },
   {
     "id": "E402-010",
@@ -5375,27 +5559,25 @@
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "バショウがフウゲツにお祓いの俳句を渡す",
+    "description": "バショウがフウゲツのためにお祓いの俳句を用意する",
     "characters": ["P07-H01", "P11"],
     "room": "第1層 1007号室",
     "location": null,
-    "camp": ["ルズールス陣営", "カチョウ＝フウゲツ陣営"],
+    "camp": ["ルズールス陣営", "フウゲツ陣営"],
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
+    "notes": "句の中に『光』を入れることで、お祓いを強めるという能力説明が描かれる。フウゲツの衰弱が治ったとは記録しない"
   },
   {
     "id": "E403-001",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": "06:45",
     "time_end": null,
     "type": "出来事",
-    "description": "バルサミルコがハルケンブルグの私設兵を分散させ、一人にさせる",
+    "description": "バルサミルコが司法省ビルの検察・裁判所エリアに入り、第9王子側の警護人数と距離を探る",
     "characters": [
-      "P01",
-      "P09",
       "P01-P05"
     ],
     "room": null,
@@ -5408,54 +5590,23 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": ""
-  },
-  {
-    "id": "E403-002",
-    "chapter": 403,
-    "chapter_title": null,
-    "day": 11,
-    "time_start": null,
-    "time_end": null,
-    "type": "会議",
-    "description": "ウンマがハルケンブルグと電話する",
-    "characters": [
-      "Q01",
-      "P09"
-    ],
-    "character_locations": {
-      "Q01": "1層01号室（第1王妃居住区）",
-      "P09": "第1層 1009号室"
-    },
-    "room": null,
-    "location": "01号室（王妃）",
-    "camp": [
-      "ウンマ陣営",
-      "ハルケンブルグ陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "notes": "11日目（水曜日）AM6:45の表示。警護が散っていることを観察するが、バルサミルコ自身が警護兵を分散させたとは記録しない"
   },
   {
     "id": "E403-003",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
-    "description": "バルサミルコがビクトと会い軍用手話で気を引き足止めする間に、ハルケンブルグが『少年は残酷な弓を射る』を発動する",
+    "description": "第9王子ハルケンブルグ側が集団で能力を発動し、放たれた矢がバルサミルコに命中する",
     "characters": [
-      "P01",
       "P09",
-      "P01-P05",
-      "P01-P10"
+      "P01-P05"
     ],
     "room": null,
-    "location": "第2層 司法省ビル検察・裁判所エリア入口",
+    "location": "第2層 司法省ビル内",
     "camp": [
       "ベンジャミン陣営",
       "ハルケンブルグ陣営"
@@ -5463,18 +5614,18 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["矢の命中後にバルサミルコの意識がどう変化したか"],
+    "notes": "距離11.25mは時刻表示ではない。ビクト本人がこの場で対面したとは記録しない"
   },
   {
     "id": "E403-004",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
-    "time_start": null,
+    "time_start": "07:50",
     "time_end": null,
     "type": "会議",
-    "description": "司法省の兵士がベンジャミンへ裁判延期を電話で知らせる。バルサミルコが電話を引き継ぎ、今日中に成果を示すと伝える",
+    "description": "バルサミルコの肉体からベンジャミンへ電話が入り、司法省での第9王子に関する成果を報告する",
     "characters": [
       "P01",
       "P01-P05"
@@ -5487,39 +5638,13 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
-  },
-  {
-    "id": "E403-005",
-    "chapter": 403,
-    "chapter_title": null,
-    "day": 11,
-    "time_start": "07:50",
-    "time_end": null,
-    "type": "出来事",
-    "description": "フウゲツが1001号室を訪れ、ベンジャミンに手紙を確認させる。ハルケンブルグの母がウンマだと聞いても、ベンジャミンは信じない",
-    "characters": [
-      "P11",
-      "P01"
-    ],
-    "room": "第1層 1001号室",
-    "location": null,
-    "camp": [
-      "ベンジャミン陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [
-      "手紙は各王子に渡されたが、4,9,13の王子には渡せていない"
-    ],
-    "mysteries": [],
-    "notes": "木曜日の夜にルズールス暗殺実行を決意する動きがある"
+    "mysteries": ["電話の話者の人格と報告内容の真偽"],
+    "notes": "11日目（水曜日）AM7:50の表示。矢の命中後の電話として描かれるが、報告を第9王子の死亡確認とは扱わない"
   },
   {
     "id": "E403-006",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": null,
     "time_end": null,
@@ -5536,19 +5661,19 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["配布された手紙には第9王子の母がウンマ第一王妃だと記されている"],
+    "mysteries": ["手紙の記述の真偽と差出人の意図"],
+    "notes": "王子の血縁は手紙に書かれた主張として記録し、独立に確認された事実とは扱わない"
   },
   {
     "id": "E403-007",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "チョウライが硬貨の秘密を検討する。部下の意見が凡庸すぎるためクラピカへの電話を指示する",
+    "description": "チョウライが守護霊獣から出る硬貨の変化を観察し、能力の情報を得るためクラピカへの連絡を指示する",
     "characters": [
       "P03"
     ],
@@ -5559,74 +5684,19 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
-  },
-  {
-    "id": "E403-008",
-    "chapter": 403,
-    "chapter_title": null,
-    "day": 11,
-    "time_start": null,
-    "time_end": null,
-    "type": "死亡",
-    "description": "カイザルは、面会に立ち会った司法局員ウォーリオ＝ベイが倒れ、ハルケンブルグも間もなく死亡すると知らされる",
-    "status_effects": [
-      {
-        "character": "JUD-002",
-        "status": "倒れる（詳細不明）"
-      }
-    ],
-    "characters": [
-      "JUD-001",
-      "JUD-002",
-      "P09"
-    ],
-    "room": null,
-    "location": "司法省",
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
-  },
-  {
-    "id": "E403-009",
-    "chapter": 403,
-    "chapter_title": null,
-    "day": 11,
-    "time_start": null,
-    "time_end": null,
-    "type": "殺害",
-    "description": "バルサミルコがハルケンブルグを毒殺したと報告する一方、バルサミルコの肉体にはハルケンブルグの人格が宿っていると明かされる",
-    "characters": [
-      "P01",
-      "P09",
-      "P01-P05"
-    ],
-    "room": null,
-    "location": null,
-    "camp": [
-      "ベンジャミン陣営",
-      "ハルケンブルグ陣営"
-    ],
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["硬貨の枚数と刻印された数字の変化が描かれる"],
+    "mysteries": ["硬貨の能力の具体的な効果と発動条件"],
+    "notes": "チョウライたちは硬貨の意味を検討するが、能力の効果をこの話で確定しない"
   },
   {
     "id": "E403-010",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": null,
     "time_end": null,
     "type": "念講習",
-    "description": "クラピカが、手紙の内容を翌日再開する念講習会で公開すると伝える",
+    "description": "クラピカが、王子たちへの手紙の内容を念講習会で公開する方針を示す",
     "characters": [
       "P14-H01"
     ],
@@ -5644,7 +5714,7 @@
   {
     "id": "E403-011",
     "chapter": 403,
-    "chapter_title": null,
+    "chapter_title": "成果",
     "day": 11,
     "time_start": null,
     "time_end": null,
@@ -5688,9 +5758,9 @@
     ],
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "revealed_facts": ["チョウライの硬貨に刻まれた数字は時間の経過とともに変化している", "クラピカが検証用に硬貨を受け取る"],
+    "mysteries": ["硬貨の能力の効果と、持ち主・枚数・経過日数が発動にどう関わるか"],
+    "notes": "クラピカが操作系・具現化系などの可能性を検討するが、系統や効果は未確定"
   },
   {
     "id": "E404-002",
@@ -5700,7 +5770,7 @@
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "ハルケンブルグが独白を通して、自身の能力と人格交換の仕組みを説明する",
+    "description": "バルサミルコの肉体にいるハルケンブルグが、矢による人格交換と元の肉体が死んだ後の展開を考える",
     "characters": [
       "P09"
     ],
@@ -5712,8 +5782,8 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-    "notes": ""
+    "mysteries": ["元の肉体が死んだ後、両者の人格がどの肉体に残るか"],
+    "notes": "人格の帰還順序や同居の可能性はこの時点ではハルケンブルグの予測。独白を検証済みの能力条件とは扱わない"
   },
   {
     "id": "E404-003",
@@ -5735,13 +5805,11 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [
-      "3.496秒を裏返すと『96hE』と読める。96時間後に終わる（End）という暗示か？"
-    ],
-    "notes": ""
+    "mysteries": [],
+    "notes": "画面の計測値は0:00:03:496。数字を反転した暗号・予言という解釈は原作画像の事実として記録しない"
   },
     {
-        "id": "E404-004",
+    "id": "E404-004",
     "chapter": 404,
     "chapter_title": "思惑",
     "day": 11,
@@ -5751,7 +5819,8 @@
     "description": "クラピカ・ビル・シマヌが翌日再開する念講習会の打ち合わせを行う",
     "characters": [
       "P14-H01",
-      "P14-H02"
+      "P14-H02",
+      "P14-M02"
     ],
     "room": "第1層 1014号室",
     "location": null,
@@ -5762,17 +5831,17 @@
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-        "notes": "第2回念講習会は翌12日目（木曜日）午前9:00から1014号室で開催予定。新たな私設兵1名が加わる予定"
+    "notes": "第2回念講習会は翌日の午前9:00から1014号室で開催予定と話す。開催自体はこの場面ではまだ確認しない"
   },
   {
     "id": "E404-005",
     "chapter": 404,
     "chapter_title": "思惑",
-    "day": 11,
+    "day": null,
     "time_start": null,
     "time_end": null,
     "type": "死亡",
-    "description": "バルサミルコの人格が入ったハルケンブルグ本来の肉体が死亡する。生き残ったバルサミルコの肉体では、まず本人の人格が表に戻り、その後ハルケンブルグの人格が同居する",
+    "description": "ハルケンブルグ本来の肉体の心拍が停止し、船内放送が第9王子の死亡を公表する",
     "characters": [
       "P09",
       "P01-P05"
@@ -5780,57 +5849,51 @@
     "status_effects": [
       {
         "character": "P09",
-        "status": "死亡（人格はバルサミルコの肉体に同居するが、現在はバルサミルコ本来の人格が優位）"
-      },
-      {
-        "character": "P01-P05",
-        "status": "存命（バルサミルコ本来の人格が優位に復帰。ハルケンブルグの人格は裏に同居）"
+        "status": "本来の肉体が死亡（人格の所在は未確認）"
       }
     ],
     "room": null,
-        "location": "第2層司法省",
+    "location": "船内の医療区画・詳細未確定",
     "camp": [
       "ハルケンブルグ陣営"
     ],
     "series": null,
     "series_index": null,
-        "revealed_facts": [
-            "入れ替わった二つの肉体の一方が死ぬと、生存側の本来の人格が先に自分の肉体へ戻り、続いて死亡側に入っていた人格が生存側へ戻って同居する",
-            "ハルケンブルグの人格には、バルサミルコの肉体で行動方針を決めるまで約10時間の猶予がある"
-        ],
-    "mysteries": [],
-    "notes": "午前中に死亡。第3層から第2層中央階段経由で正午に第1層安置室へ遺体搬送予定"
+    "revealed_facts": ["医療モニターに心拍停止が描かれる", "船内放送が第9王子の死亡を公表する"],
+    "mysteries": ["ハルケンブルグとバルサミルコの人格がその後どの肉体にあるか"],
+    "notes": "放送は『本日未明』と述べるが、この場面に航海日数の独立表示はないためdayは未設定。遺体搬送は今後の予定で、実施済みとはしない"
   },
     {
-        "id": "E405-001",
-    "chapter": 405,
-    "chapter_title": "芝居",
-    "day": null,
-    "time_start": null,
-    "time_end": null,
-    "type": "移動",
-    "description": "ボノレノフがVIPエリアに移動しヒソカを発見する",
-    "characters": [
-      "SPD-007"
-    ],
-    "room": null,
-    "location": "VIPエリア",
-    "camp": null,
-    "series": null,
-    "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-        "notes": "ボノレノフは幻影旅団員。405話内に日付・時刻の明記はなく、404話の11日目と406話の12日目の間のどこかは確定できない"
-  },
-    {
-        "id": "E405-002",
+    "id": "E405-001",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "オウとモレナが裏で繋がっていることが判明する",
+    "description": "カジノでヒソカがカード遊びをする一方、ボノレノフが変身を使って捜索を続ける",
+    "characters": [
+      "HA-008",
+      "SPD-007"
+    ],
+    "room": null,
+    "location": "カジノ・船内通路",
+    "camp": null,
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["ボノレノフは『変容』で姿を変えられる"],
+    "mysteries": ["ヒソカと幻影旅団がいつ接触するか"],
+    "notes": "カジノのヒソカと、変身したボノレノフの場面を混同しない。ボノレノフがヒソカ本人を発見したとは確認できない。405話内に日付・時刻の明記はない"
+  },
+    {
+    "id": "E405-002",
+    "chapter": 405,
+    "chapter_title": "芝居",
+    "day": null,
+    "time_start": null,
+    "time_end": null,
+    "type": "情報収集",
+    "description": "シャ＝ア一家のオウが旅団員との会話で、エイ＝イ一家やモレナについての情報を述べる",
     "characters": [
       "SAA-002",
       "EII-001"
@@ -5841,41 +5904,43 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [],
-    "mysteries": [],
-        "notes": "405話内に日付・時刻の明記なし"
+    "mysteries": ["オウとモレナの実際の関係"],
+    "notes": "オウとモレナが裏で結託していると断定しない。405話内に日付・時刻の明記なし"
   },
     {
-        "id": "E405-003",
+    "id": "E405-003",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "契約",
-    "description": "シュウ＝ウ一家・シャ＝ア一家・幻影旅団が結託する",
+    "type": "情報共有",
+    "description": "シャ＝ア一家・シュウ＝ウ一家の協力と、幻影旅団によるエイ＝イ一家捜索について話し合う",
     "characters": [
-      "SWU-001",
-      "SAA-001",
-      "SPD-001"
+      "SWU-002",
+      "SAA-002",
+      "SPD-002",
+      "SPD-003",
+      "SPD-004"
     ],
     "room": null,
     "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [],
-        "notes": "405話内に日付・時刻の明記なし"
+    "revealed_facts": ["シャ＝ア一家とシュウ＝ウ一家は協力すると説明される"],
+    "mysteries": ["両一家と旅団の協力範囲・利害の一致"],
+    "notes": "三者による正式な契約成立とは扱わない。クロロはこの会話の場に描かれていない。405話内に日付・時刻の明記なし"
   },
     {
-        "id": "E405-004",
+    "id": "E405-004",
     "chapter": 405,
     "chapter_title": "芝居",
     "day": null,
     "time_start": null,
     "time_end": null,
     "type": "情報収集",
-    "description": "ドッグマンのレベルが62に達しており、モレナが目的に合う能力者を探していることが判明する",
+    "description": "モレナが第9王子の葬送を機に対象を探す計画を示し、ドッグマンのレベル62と嗅覚強化が明かされる",
     "characters": [
       "EII-001",
       "EII-009"
@@ -5885,11 +5950,9 @@
     "camp": null,
     "series": null,
     "series_index": null,
-    "revealed_facts": [],
-    "mysteries": [
-      "モレナの目的はおそらく船の沈没"
-    ],
-        "notes": "405話内に日付・時刻の明記なし"
+    "revealed_facts": ["ドッグマンはレベル62と表示される", "嗅覚を強化して対象の素質を見分けると説明される"],
+    "mysteries": ["モレナが狙う対象の正体と具体的な目的"],
+    "notes": "葬送への参加・対象の発見は予定であり、実行済みではない。船の沈没をモレナの確定目的としない。405話内に日付・時刻の明記なし"
   },
   {
     "id": "E406-001",

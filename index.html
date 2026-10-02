@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20260928" />
+  <link rel="stylesheet" href="style.css?v=20261002c" />
 </head>
 <body>
   <header class="site-header">
@@ -20,13 +20,46 @@
   </header>
 
   <main class="page-container">
+    <section class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
+      <div>
+        <h2 id="localDraftsTitle">修正メモ</h2>
+        <p>人物や出来事の「詳細」を開いて気付いたことを書いてください。メモは自動でPCに保存します。あとでCodexに「修正メモを見て」と伝えるだけで大丈夫です。</p>
+      </div>
+      <p id="draftStorageStatus" class="local-drafts-storage-status" role="status"></p>
+      <details class="local-drafts-overview">
+        <summary>書いたメモを一覧で確認 <span id="draftCount"></span></summary>
+        <ul id="draftOverviewList"></ul>
+      </details>
+      <details class="local-drafts-backup">
+        <summary>バックアップ・復元（必要なときだけ）</summary>
+        <div class="local-drafts-transfer-actions">
+          <button id="exportLocalDrafts" type="button">JSONでバックアップ</button>
+          <button id="chooseLocalDrafts" type="button">バックアップを読み込む</button>
+          <input id="importLocalDrafts" type="file" accept=".json,application/json" hidden />
+        </div>
+        <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
+      </details>
+    </section>
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>キャラクター一覧</h2>
-        <p>まず陣営を選び、必要な人物だけを確認できます</p>
+        <p>カテゴリに応じたタグを表示します。対象が確認できた任務だけ矢印で結び、憑依には過去に成立した人格移動も含みます。</p>
       </div>
-      <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
-      <div id="characterSubNav" class="character-sub-nav" aria-label="人物グループの内訳"></div>
+      <div class="character-tag-catalog" aria-label="人物タグ一覧">
+        <div class="character-tag-row">
+          <span class="character-tag-row-label">カテゴリ</span>
+          <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
+        </div>
+        <div id="characterMissionRow" class="character-tag-row">
+          <span class="character-tag-row-label">任務</span>
+          <div id="characterMissionNav" class="character-tag-row-options" aria-label="任務タグ"></div>
+        </div>
+        <div id="characterPrinceRow" class="character-tag-row">
+          <span class="character-tag-row-label">関係王子</span>
+          <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
+        </div>
+        <div id="characterExtraTagGroups"></div>
+      </div>
       <div class="character-controls">
         <label>
           人物を検索
@@ -41,7 +74,7 @@
             <option value="all">全員</option>
             <option value="royal">王族</option>
             <option value="hunter">ハンター</option>
-            <option value="soldier">護衛・兵士</option>
+            <option value="soldier">兵士</option>
             <option value="attendant">従事者</option>
             <option value="mafia">マフィア</option>
             <option value="phantom_troupe">幻影旅団</option>
@@ -64,6 +97,7 @@
         <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
         <label class="assignment-only-toggle"><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
       </div>
+      <div id="characterActiveTag" class="character-active-tag" hidden></div>
       <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
       <div id="characterDirectory" class="character-directory"></div>
       <div id="characterAssignmentTable" class="character-assignment-table" hidden></div>
@@ -212,6 +246,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=20260928d"></script>
+  <script src="script.js?v=20261002e"></script>
 </body>
 </html>

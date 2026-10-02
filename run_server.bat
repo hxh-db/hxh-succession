@@ -1,4 +1,3 @@
 @echo off
-cd /d "%~dp0"
-python -m http.server 8000
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0run_server.ps1"
 pause

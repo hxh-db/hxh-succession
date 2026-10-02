@@ -1,26 +1,38 @@
 const DATA = {
-  characters: "data/characters.json?v=20260928c",
-  characterImages: "data/character_images.json",
-  events: "data/events.json?v=20260928c",
+  characters: "data/characters.json?v=20261002c",
+  characterTags: "data/character_tags.json?v=20261001d",
+  characterImages: "data/character_images.json?v=20261002a",
+  countOnlyCharacters: "data/count_only_characters.json?v=20261002a",
+  events: "data/events.json?v=20261002c",
+  alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json",
-  factions: "data/factions.json",
+  factions: "data/factions.json?v=20261002c",
   mafia: "data/mafia.json"
 };
 
 let charactersData = [];
+let countOnlyCharacterIds = new Set();
+
+function isDirectoryCharacter(character) {
+  return !countOnlyCharacterIds.has(character.id) && character.verification_status !== "unverified";
+}
 let princesData = [];
 let bodyguardsData = [];
 let eventsData = [];
 let inferredTimePlacements = new Map();
 let spiritBeastsData = [];
 let factionsData = [];
+let alliancesData = [];
 let mafiaData = [];
 let filteredEventsData = [];
 let activeTimelineView = "schedule";
 let timelineVisibleCount = 30;
 let activeTimelinePeriodId = "day-1";
 let activeCharacterAffiliation = null;
-let activeCharacterSection = "royal";
+let activeCharacterTagId = null;
+let characterTagDefinitions = new Map();
+let characterTagsById = new Map();
+let activeCharacterSection = "all";
 let activeCharacterSubgroup = null;
 let activeCharacterView = "cards";
 let currentCharacterResults = [];
@@ -28,6 +40,299 @@ let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
 const BASIC_CHARACTER_IDS = new Set(["HA-001", "HA-005", "BYD-002", "BYD-003"]);
+const LOCAL_DRAFTS_KEY = "hxh-succession-local-drafts-v1";
+const REOPEN_DETAIL_KEY = "hxh-succession-reopen-detail-v1";
+const DRAFT_IMPORT_STATUS_KEY = "hxh-succession-draft-import-status-v1";
+let localDrafts = { version: 1, items: {} };
+let draftStorageMode = "browser";
+let draftFileHealthy = false;
+let pendingDraftMigration = false;
+let draftSaveQueue = Promise.resolve();
+const originalRecords = new Map();
+
+const LOCAL_EDIT_FIELDS = {
+  event: [
+    { key: "description", label: "出来事", kind: "textarea", required: true },
+    { key: "day", label: "日（空欄は未設定）", kind: "number" },
+    { key: "time_start", label: "確定時刻", kind: "time" },
+    { key: "time_estimate", label: "推測時刻", kind: "time" },
+    { key: "location", label: "場所", kind: "text" },
+    { key: "type", label: "種別", kind: "text" },
+    { key: "notes", label: "詳細・備考", kind: "textarea" }
+  ],
+  prince: [
+    { key: "room", label: "部屋", kind: "text" },
+    { key: "status", label: "状態", kind: "text" },
+    { key: "nen_ability", label: "本人の念能力", kind: "textarea" },
+    { key: "notes", label: "備考", kind: "textarea" }
+  ],
+  bodyguard: [
+    { key: "room", label: "現在地", kind: "text" },
+    { key: "status", label: "状態", kind: "text" },
+    { key: "role", label: "役割", kind: "text" },
+    { key: "nen_ability", label: "能力", kind: "textarea" },
+    { key: "notes", label: "備考", kind: "textarea" }
+  ],
+  spiritBeast: [
+    { key: "appearance", label: "外見・形態", kind: "textarea" },
+    { key: "nen_type", label: "念系統", kind: "text" },
+    { key: "ability", label: "能力", kind: "textarea" }
+  ]
+};
+
+function localRecordKey(record, category) {
+  return `${category}:${category === "spiritBeast" ? record.prince : record.id}`;
+}
+
+async function loadLocalDrafts() {
+  let browserDrafts = { version: 1, items: {} };
+  try {
+    const saved = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null");
+    if (saved?.version === 1 && saved.items && typeof saved.items === "object" && !Array.isArray(saved.items)) {
+      browserDrafts = saved;
+    }
+  } catch (error) {
+    console.warn("ローカル編集の読み込みに失敗しました", error);
+  }
+  localDrafts = browserDrafts;
+  try {
+    const response = await fetch("/api/drafts", { cache: "no-store" });
+    if (!response.ok) return;
+    const serverItems = validateDraftImport(await response.json());
+    const merged = { ...serverItems };
+    for (const [key, draft] of Object.entries(browserDrafts.items)) {
+      if (!merged[key] || (Date.parse(draft.updatedAt || "") || 0) > (Date.parse(merged[key].updatedAt || "") || 0)) {
+        merged[key] = draft;
+      }
+    }
+    localDrafts = { version: 1, items: merged };
+    pendingDraftMigration = JSON.stringify(merged) !== JSON.stringify(serverItems);
+    draftStorageMode = "file";
+    draftFileHealthy = true;
+    localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
+  } catch (error) {
+    console.warn("PC上のメモファイルを読み込めませんでした", error);
+  }
+}
+
+async function saveLocalDrafts() {
+  let browserSaved = false;
+  try {
+    localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
+    browserSaved = true;
+  } catch (error) {
+    console.warn("ブラウザ内のメモ保存に失敗しました", error);
+  }
+  if (draftStorageMode !== "file") return browserSaved;
+  const snapshot = JSON.stringify(buildDraftExport());
+  draftSaveQueue = draftSaveQueue.catch(() => {}).then(async () => {
+    const response = await fetch("/api/drafts", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: snapshot
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return true;
+  });
+  try {
+    const saved = await draftSaveQueue;
+    draftFileHealthy = true;
+    updateDraftStorageStatus();
+    return saved;
+  } catch (error) {
+    draftFileHealthy = false;
+    updateDraftStorageStatus();
+    console.warn("PC上のメモファイルへ保存できませんでした", error);
+    return false;
+  }
+}
+
+function buildDraftExport() {
+  const records = [
+    ...charactersData.map((record) => ({ record, category: record.type === "prince" ? "prince" : "bodyguard" })),
+    ...eventsData.map((record) => ({ record, category: "event" })),
+    ...spiritBeastsData.map((record) => ({ record, category: "spiritBeast" }))
+  ];
+  const labels = new Map(records.map(({ record, category }) => [
+    localRecordKey(record, category), record.name || record.description || record.id
+  ]));
+  return {
+    format: "hxh-succession-local-drafts",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    items: localDrafts.items,
+    entries: Object.entries(localDrafts.items).map(([key, draft]) => ({
+      key, title: labels.get(key) || key, memo: draft.memo || "", edits: draft.edits || {}, updatedAt: draft.updatedAt || null
+    }))
+  };
+}
+
+function validateDraftImport(payload) {
+  if (payload?.format !== "hxh-succession-local-drafts" || payload.version !== 1 ||
+      !payload.items || typeof payload.items !== "object" || Array.isArray(payload.items)) {
+    throw new Error("このサイトのメモJSONではありません。");
+  }
+  const items = {};
+  for (const [key, draft] of Object.entries(payload.items)) {
+    const category = key.split(":")[0];
+    if (!LOCAL_EDIT_FIELDS[category] || !key.includes(":") ||
+        !draft || typeof draft !== "object" || Array.isArray(draft)) {
+      throw new Error("メモJSONの項目に不正な形式があります。");
+    }
+    const safe = {};
+    if (typeof draft.memo === "string") safe.memo = draft.memo;
+    if (typeof draft.updatedAt === "string") safe.updatedAt = draft.updatedAt;
+    if (draft.edits !== undefined) {
+      if (!draft.edits || typeof draft.edits !== "object" || Array.isArray(draft.edits)) {
+        throw new Error("編集内容の形式が正しくありません。");
+      }
+      safe.edits = {};
+      for (const field of LOCAL_EDIT_FIELDS[category]) {
+        if (!Object.hasOwn(draft.edits, field.key)) continue;
+        const value = draft.edits[field.key];
+        if (field.kind === "number" ? value !== null && !Number.isInteger(value)
+          : value !== null && typeof value !== "string") {
+          throw new Error("編集内容の値が正しくありません。");
+        }
+        safe.edits[field.key] = value;
+      }
+      if (category === "event" && safe.edits.time_start && safe.edits.time_estimate) {
+        throw new Error("確定時刻と推測時刻が同時に入力されています。");
+      }
+    }
+    items[key] = safe;
+  }
+  return items;
+}
+
+function renderDraftOverview() {
+  const count = document.getElementById("draftCount");
+  const list = document.getElementById("draftOverviewList");
+  if (!count || !list) return;
+  const entries = buildDraftExport().entries
+    .filter((item) => item.memo || Object.keys(item.edits).length)
+    .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
+  count.textContent = `（${entries.length}件）`;
+  list.replaceChildren();
+  if (!entries.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "まだメモはありません。";
+    list.appendChild(empty);
+    return;
+  }
+  entries.forEach((entry) => {
+    const row = document.createElement("li");
+    const title = document.createElement("strong");
+    title.textContent = entry.title;
+    const summary = entry.memo || `編集した項目：${Object.keys(entry.edits).join("、")}`;
+    row.append(title, document.createTextNode(` — ${summary.length > 160 ? `${summary.slice(0, 160)}…` : summary}`));
+    list.appendChild(row);
+  });
+}
+
+function updateDraftStorageStatus() {
+  const status = document.getElementById("draftStorageStatus");
+  if (!status) return;
+  status.textContent = draftStorageMode === "file" && draftFileHealthy
+    ? "● PCへの自動保存が有効です。公開データには反映されません。"
+    : "⚠ PCへの自動保存は無効です。専用のローカルサイトから開いてください。";
+}
+
+function setupDraftTransfer() {
+  const exportButton = document.getElementById("exportLocalDrafts");
+  const chooseButton = document.getElementById("chooseLocalDrafts");
+  const fileInput = document.getElementById("importLocalDrafts");
+  const status = document.getElementById("localDraftsTransferStatus");
+  updateDraftStorageStatus();
+  renderDraftOverview();
+  try {
+    const importedCount = sessionStorage.getItem(DRAFT_IMPORT_STATUS_KEY);
+    if (importedCount) {
+      status.textContent = `${importedCount}件を読み込みました。修正メモに反映されています。`;
+      sessionStorage.removeItem(DRAFT_IMPORT_STATUS_KEY);
+    }
+  } catch (error) {
+    console.warn("読み込み結果の表示に失敗しました", error);
+  }
+
+  exportButton.addEventListener("click", async () => {
+    const count = Object.keys(localDrafts.items).length;
+    if (!count) {
+      status.textContent = "保存済みのメモ・編集はまだありません。";
+      return;
+    }
+    const content = JSON.stringify(buildDraftExport(), null, 2) + "\n";
+    const filename = "codex-notes.json";
+    try {
+      const url = URL.createObjectURL(new Blob([content], { type: "application/json" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      status.textContent = `${count}件のJSONのダウンロードを開始しました。完了後、Codexに保存先を伝えてください。`;
+    } catch (error) {
+      status.textContent = "ファイルに保存できませんでした。";
+      console.warn("メモJSONの保存に失敗しました", error);
+    }
+  });
+
+  chooseButton.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    try {
+      const imported = validateDraftImport(JSON.parse(await file.text()));
+      const conflicts = Object.keys(imported).filter((key) => Object.hasOwn(localDrafts.items, key)).length;
+      if (conflicts && !window.confirm(`${conflicts}件はブラウザ内のメモを上書きします。読み込みますか？`)) {
+        status.textContent = "読み込みを取り消しました。";
+        return;
+      }
+      const previous = localDrafts;
+      localDrafts = { version: 1, items: { ...previous.items, ...imported } };
+      if (!await saveLocalDrafts()) {
+        localDrafts = previous;
+        localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(previous));
+        throw new Error("PCに保存できませんでした。");
+      }
+      sessionStorage.setItem(DRAFT_IMPORT_STATUS_KEY, String(Object.keys(imported).length));
+      window.location.reload();
+    } catch (error) {
+      status.textContent = `読み込めませんでした：${error.message}`;
+    } finally {
+      fileInput.value = "";
+    }
+  });
+}
+
+function applyLocalDrafts(records, categoryForRecord) {
+  records.forEach((record) => {
+    const category = categoryForRecord(record);
+    const key = localRecordKey(record, category);
+    originalRecords.set(key, { ...record });
+    const edits = localDrafts.items[key]?.edits;
+    if (!edits || typeof edits !== "object") return;
+    LOCAL_EDIT_FIELDS[category].forEach(({ key: field }) => {
+      if (Object.hasOwn(edits, field)) record[field] = edits[field];
+    });
+  });
+}
+
+function reopenDetailAfterReload(record, category, view = "modal") {
+  try {
+    sessionStorage.setItem(REOPEN_DETAIL_KEY, JSON.stringify({
+      category,
+      id: category === "spiritBeast" ? record.name : record.id,
+      view,
+      scrollY: window.scrollY
+    }));
+  } catch (error) {
+    console.warn("詳細画面の復元に失敗しました", error);
+  }
+  window.location.reload();
+}
 
 async function loadJson(path) {
   const res = await fetch(path);
@@ -116,10 +421,15 @@ function formatGroupReference(value) {
 
 function formatAffiliation(character) {
   if (!character.affiliation) return null;
+  if (character.soldier_category === "王妃所属兵") {
+    const statedAffiliation = character.affiliation.split(/[（／]/)[0];
+    const queen = charactersData.find((candidate) => candidate.type === "queen" && statedAffiliation.includes(getDisplayName(candidate)));
+    if (queen) return `第${queen.rank}王妃所属兵`;
+  }
   let value = formatGroupReference(formatDisplayText(character.affiliation).replace(/陣営$/, ""));
   if (character.soldier_category === "私設兵" && !/私設兵/.test(value)) value += "私設兵";
   if (character.soldier_category === "王妃所属兵" && !/王妃.*兵|所属兵/.test(value)) value += "所属兵";
-  return value;
+  return value.replace(/第(\d+)王子[^\s（）・]+私設兵/g, "第$1王子私設兵");
 }
 
 function getNenClassLabel(character) {
@@ -291,18 +601,40 @@ const CHARACTER_TYPE_LABELS = {
   prince: "王子",
   queen: "王妃",
   hunter: "ハンター",
-  soldier: "護衛・兵士",
+  soldier: "兵士",
   attendant: "従事者",
   mafia: "マフィア",
   phantom_troupe: "幻影旅団",
   official: "司法・政府"
 };
 
+const CHARACTER_MISSION_TAG_IDS = {
+  "護衛": "duty-protection",
+  "監視": "duty-surveillance",
+  "暗殺": "duty-assassination",
+  "呪殺": "duty-curse",
+  "従事": "duty-attendance",
+  "司法": "duty-judicial",
+  "捜査": "duty-investigation"
+};
+
 function makeCharacterTypeBadge(type) {
-  const span = document.createElement("span");
-  span.className = `character-type-badge character-type-${type}`;
-  span.textContent = CHARACTER_TYPE_LABELS[type] || type;
-  return span;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `character-type-badge character-type-${type} character-facet-category`;
+  button.textContent = CHARACTER_TYPE_LABELS[type] || type;
+  button.title = `「${button.textContent}」の人物を表示`;
+  button.addEventListener("click", () => {
+    const groupButton = document.querySelector(`#characterCampNav button[data-group-id="${type}"]`);
+    if (groupButton) {
+      activeCharacterTagId = null;
+      document.getElementById("characterPrinceFilter").value = "all";
+      groupButton.click();
+      return;
+    }
+    document.dispatchEvent(new CustomEvent("character-tag-filter", { detail: `type-${type}` }));
+  });
+  return button;
 }
 
 // ===== フィルター用ピル（バッジ型トグル）UI =====
@@ -358,13 +690,22 @@ function pillify(id) {
 
 // ===== キャラクターアバター =====
 
-function makeAvatar(label, nenType, imageSrc = null) {
+function makeAvatar(label, nenType, imageSrc = null, imageCrop = null) {
   const div = document.createElement("div");
   div.className = "char-avatar";
   if (nenType) {
     div.classList.add(`nen-avatar-${nenType.replace("系", "")}`);
   }
   if (imageSrc) {
+    if (imageCrop) {
+      div.setAttribute("role", "img");
+      div.setAttribute("aria-label", label);
+      div.style.backgroundImage = `url("${imageSrc}")`;
+      div.style.backgroundRepeat = "no-repeat";
+      div.style.backgroundSize = imageCrop.size;
+      div.style.backgroundPosition = imageCrop.position;
+      return div;
+    }
     const img = document.createElement("img");
     img.alt = label;
     img.src = imageSrc;
@@ -459,7 +800,7 @@ function renderPrinces(princes) {
       makeNenBadge(p.nen_type),
       makeEventCountBadge(p, "prince")
     ];
-    const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null);
+    const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null, p.image_crop || null);
     grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.id, "prince"), avatar));
   });
 }
@@ -539,7 +880,7 @@ function createBodyguardCard(g) {
   badges.push(makeNenBadge(g.nen_type));
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
-  const avatar = makeAvatar(initial, g.nen_type, g.image || null);
+  const avatar = makeAvatar(initial, g.nen_type, g.image || null, g.image_crop || null);
   const card = document.createElement("article");
   card.className = "compact-person-card";
 
@@ -574,6 +915,8 @@ function createBodyguardCard(g) {
     dl.append(dt, dd);
   });
   details.appendChild(dl);
+  details.dataset.localRecordKey = localRecordKey(g, "bodyguard");
+  renderLocalEditor(details, g, "bodyguard", "inline");
   card.appendChild(details);
 
   if (outside) card.classList.add(`outside-${getOutsidePlacementKind(g).cls}-card`);
@@ -802,6 +1145,79 @@ function getRelatedPrinceIds(character) {
   return [...new Set(ids)];
 }
 
+function getCharacterTags(character) {
+  const ids = new Set(characterTagsById.get(character.id) || []);
+  ids.add(`type-${character.type}`);
+  if (character.type === "soldier" && character.soldier_category) {
+    ids.add(`soldier-kind-${character.soldier_category}`);
+  }
+  if (character.type === "soldier" && character.affiliation === "ベンジャミン陣営"
+      && character.soldier_category === "私設兵") {
+    ids.add("affiliation-p01-private");
+  }
+  if (character.type === "mafia" && character.affiliation && character.affiliation !== "不明") {
+    ids.add(`mafia-family-${character.affiliation}`);
+  }
+  if (CHARACTER_MISSION_TAG_IDS[character.mission]) {
+    ids.add(CHARACTER_MISSION_TAG_IDS[character.mission]);
+  }
+  if (character.mission === "護衛" && ![...ids].some((id) => id.startsWith("guard-"))) {
+    const guardedPrince = princesData.find((prince) => prince.camp === character.camp);
+    if (guardedPrince) ids.add(`guard-${guardedPrince.id.toLowerCase()}`);
+  }
+  if (["監視", "呪殺"].includes(character.mission) && character.target) {
+    const prince = princesData.find((candidate) => character.target === `第${candidate.rank}王子${getDisplayName(candidate)}`);
+    if (prince) ids.add(`target-${prince.id.toLowerCase()}`);
+  }
+  const parentIds = new Set((character.parent_ids || []).filter((id) => id !== "KNG-001"));
+  charactersData.filter((candidate) => candidate.type === "queen" && (candidate.children || []).includes(character.id))
+    .forEach((queen) => parentIds.add(queen.id));
+  parentIds.forEach((id) => ids.add(id === "Q01" ? "family-q01-child" : `blood-parent-${id.toLowerCase()}`));
+  if (parentIds.size) ids.add("relation-blood");
+  return [...ids]
+    .map((id) => characterTagDefinitions.get(id))
+    .filter(Boolean);
+}
+
+function getCharacterTagColorClass(tag) {
+  return ({ 分類: "category", 兵種: "category", 任務: "mission", 所属: "affiliation", 護衛: "guard", 対象: "target", 血縁: "family" })[tag.category] || "other";
+}
+
+function getCharacterTagShortLabel(tag) {
+  if (["護衛", "対象"].includes(tag.category)) return tag.label.match(/^第\d+王子/)?.[0] || tag.label;
+  if (tag.id === "blood-parent-byd-001") return "ビヨンド";
+  if (tag.category === "血縁") return tag.label.replace(/^第\d+王妃/, "").replace(/の子$/, "");
+  return tag.label;
+}
+
+function makeCharacterTagButton(tag) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `character-structured-tag character-facet-${getCharacterTagColorClass(tag)}`;
+  button.textContent = getCharacterTagShortLabel(tag);
+  button.title = `「${tag.category}：${tag.label}」の人物を表示`;
+  button.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("character-tag-filter", { detail: tag.id }));
+  });
+  return button;
+}
+
+function makeCharacterTagChain(tags, sharedHead = false) {
+  const chain = document.createElement("span");
+  chain.className = "character-tag-chain";
+  tags.forEach((tag, index) => {
+    if (index) {
+      const arrow = document.createElement("span");
+      arrow.className = "character-tag-arrow";
+      arrow.textContent = sharedHead && index > 1 ? "、" : "→";
+      arrow.setAttribute("aria-hidden", "true");
+      chain.appendChild(arrow);
+    }
+    chain.appendChild(makeCharacterTagButton(tag));
+  });
+  return chain;
+}
+
 function createCharacterDirectoryCard(character) {
   const card = document.createElement("article");
   card.className = "directory-character-card";
@@ -809,7 +1225,7 @@ function createCharacterDirectoryCard(character) {
   const top = document.createElement("div");
   top.className = "directory-character-top";
   const avatarLabel = character.type === "prince" ? `第${character.rank}` : character.name.slice(0, 2);
-  top.appendChild(makeAvatar(avatarLabel, character.nen_type, character.image || null));
+  top.appendChild(makeAvatar(avatarLabel, character.nen_type, character.image || null, character.image_crop || null));
 
   const identity = document.createElement("div");
   identity.className = "directory-character-identity";
@@ -821,34 +1237,81 @@ function createCharacterDirectoryCard(character) {
       : getDisplayName(character);
   const badges = document.createElement("div");
   badges.className = "compact-person-badges";
-  badges.appendChild(makeCharacterTypeBadge(character.type));
+  if (character.type !== "soldier") badges.appendChild(makeCharacterTypeBadge(character.type));
+  const allianceLabels = character.type === "prince"
+    ? alliancesData.filter((alliance) => alliance.prince_ids.includes(character.id)).map((alliance) => ({
+      label: alliance.prince_ids.filter((id) => id !== character.id).map((id) => {
+        const partner = princesData.find((prince) => prince.id === id);
+        return partner ? `第${partner.rank}王子${getDisplayName(partner)}` : id;
+      }).join("・"),
+      note: alliance.notes
+    }))
+    : [];
+  const visibleTags = getCharacterTags(character).filter((tag) => tag.category !== "分類"
+    && !(tag.category === "兵種" && character.type === "soldier" && character.soldier_category
+      && formatAffiliation(character)?.includes(character.soldier_category)));
   const assignment = formatAssignment(character);
   const usesAffiliationTag = ["soldier", "mafia"].includes(character.type);
-  const tagValue = usesAffiliationTag ? formatAffiliation(character) : assignment;
-  const tagFilterValue = usesAffiliationTag ? character.affiliation : character.camp;
-  if (tagValue) {
-    const clickable = usesAffiliationTag;
-    const campBadge = document.createElement(clickable ? "button" : "span");
-    if (clickable) campBadge.type = "button";
-    campBadge.className = `character-camp-badge${clickable ? " character-filter-tag" : ""}`;
+  const tagValue = usesAffiliationTag ? formatAffiliation(character) : null;
+  if (tagValue && !visibleTags.some((tag) => tag.category === "所属")) {
+    const campBadge = document.createElement("button");
+    campBadge.type = "button";
+    campBadge.className = "character-camp-badge character-filter-tag";
     campBadge.textContent = tagValue;
-    if (clickable) {
-      campBadge.title = `${tagValue}の人物を表示`;
-      campBadge.addEventListener("click", () => {
-        activatePrimaryView("characters", true);
-        document.getElementById("characterSearch").value = "";
-        document.getElementById("characterTypeFilter").value = "all";
-        document.getElementById("characterCampFilter").value = "all";
-        document.getElementById("characterPrinceFilter").value = "all";
-        activeCharacterAffiliation = tagFilterValue;
-        document.dispatchEvent(new Event("character-affiliation-filter"));
-      });
-    }
+    campBadge.title = `${tagValue}の人物を表示`;
+    campBadge.addEventListener("click", () => {
+      document.getElementById("characterSearch").value = "";
+      document.getElementById("characterTypeFilter").value = "all";
+      document.getElementById("characterCampFilter").value = "all";
+      document.getElementById("characterPrinceFilter").value = "all";
+      activeCharacterTagId = null;
+      activeCharacterAffiliation = character.affiliation;
+      document.dispatchEvent(new Event("character-affiliation-filter"));
+    });
     badges.appendChild(campBadge);
   }
+  allianceLabels.forEach((alliance) => {
+    const badge = document.createElement("span");
+    badge.className = "character-alliance-badge";
+    badge.textContent = `共闘：${alliance.label}`;
+    badge.title = alliance.note;
+    badges.appendChild(badge);
+  });
   identity.append(heading, badges);
   top.appendChild(identity);
   card.appendChild(top);
+
+  if (visibleTags.length) {
+    const tagList = document.createElement("div");
+    tagList.className = "character-structured-tags";
+    tagList.setAttribute("aria-label", "人物タグ");
+    const used = new Set();
+    const mission = visibleTags.find((tag) => tag.category === "任務" && ["監視", "呪殺", "護衛"].includes(tag.label));
+    const missionTarget = mission && visibleTags.find((tag) => mission.label === "護衛"
+      ? tag.category === "護衛"
+      : tag.category === "対象" && tag.id.startsWith("target-"));
+    if (missionTarget) {
+      tagList.appendChild(makeCharacterTagChain([mission, missionTarget]));
+      used.add(mission.id);
+      used.add(missionTarget.id);
+    }
+    const possession = visibleTags.find((tag) => tag.id === "duty-possession");
+    const possessionTargets = visibleTags.filter((tag) => tag.id.startsWith("possession-target-"));
+    if (possession && possessionTargets.length) {
+      tagList.appendChild(makeCharacterTagChain([possession, ...possessionTargets], true));
+      used.add(possession.id);
+      possessionTargets.forEach((tag) => used.add(tag.id));
+    }
+    const blood = visibleTags.find((tag) => tag.id === "relation-blood");
+    const relatives = visibleTags.filter((tag) => tag.category === "血縁" && tag.id !== "relation-blood");
+    if (blood && relatives.length) {
+      tagList.appendChild(makeCharacterTagChain([blood, ...relatives], true));
+      used.add(blood.id);
+      relatives.forEach((tag) => used.add(tag.id));
+    }
+    visibleTags.filter((tag) => !used.has(tag.id)).forEach((tag) => tagList.appendChild(makeCharacterTagButton(tag)));
+    card.appendChild(tagList);
+  }
 
   const details = document.createElement("details");
   details.className = "compact-person-details directory-character-details";
@@ -863,7 +1326,9 @@ function createCharacterDirectoryCard(character) {
       rows: [
         { label: "所属", value: formatAffiliation(character) },
         { label: "配置・護衛先", value: assignment },
-        { label: "最新確認位置", value: latestLocation ? `${latestLocation.location}（${latestLocation.basis}）` : null },
+        { label: "共闘（別陣営）", value: allianceLabels.map((alliance) => alliance.label).join("・") || null },
+        { label: "人物台帳の部屋・場所", value: formatRoomLabel(character.room) },
+        { label: "最後に記録された場所", value: latestLocation ? `${latestLocation.location}（${latestLocation.basis}）` : null },
         { label: "位置の確度", value: latestLocation ? ({ confirmed: "確定", provisional: "暫定", estimated: "推定", unknown: "不明" }[latestLocation.certainty]) : null },
         { label: "任務", value: formatDisplayText(character.mission) },
         { label: "任務対象", value: formatDisplayText(character.target) },
@@ -939,6 +1404,9 @@ function createCharacterDirectoryCard(character) {
     details.appendChild(note);
   }
 
+  const editCategory = character.type === "prince" ? "prince" : "bodyguard";
+  details.dataset.localRecordKey = localRecordKey(character, editCategory);
+  renderLocalEditor(details, character, editCategory, "inline");
   card.appendChild(details);
   return card;
 }
@@ -1001,7 +1469,7 @@ function renderCharacterAssignmentTable(characters) {
     : characters;
   const table = document.createElement("table");
   const head = document.createElement("thead");
-  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最新確認位置</th></tr>";
+  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最後に記録された場所</th></tr>";
   const body = document.createElement("tbody");
   rows.forEach((character) => {
     const latest = getLatestKnownLocation(character);
@@ -1053,7 +1521,7 @@ function setCharacterView(view) {
 function renderBasicCharacters() {
   const container = document.getElementById("basicCharacterDirectory");
   container.innerHTML = "";
-  charactersData.filter((character) => BASIC_CHARACTER_IDS.has(character.id))
+  charactersData.filter((character) => BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character))
     .sort(sortCharacters)
     .forEach((character) => container.appendChild(createCharacterDirectoryCard(character)));
 }
@@ -1063,7 +1531,8 @@ function setupCharacterDirectory() {
   const typeFilter = document.getElementById("characterTypeFilter");
   const campFilter = document.getElementById("characterCampFilter");
   const princeFilter = document.getElementById("characterPrinceFilter");
-  const onboardCharacters = charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id));
+  const activeTagBar = document.getElementById("characterActiveTag");
+  const onboardCharacters = charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character));
   [...new Set(onboardCharacters.map((character) => character.camp).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
       const option = document.createElement("option");
@@ -1079,22 +1548,138 @@ function setupCharacterDirectory() {
   });
 
   const quickNav = document.getElementById("characterCampNav");
-  const subNav = document.getElementById("characterSubNav");
+  const missionNav = document.getElementById("characterMissionNav");
+  const missionRow = document.getElementById("characterMissionRow");
+  const princeNav = document.getElementById("characterPrinceNav");
+  const princeRow = document.getElementById("characterPrinceRow");
+  const extraTagGroups = document.getElementById("characterExtraTagGroups");
   const topGroups = [
     { id: "royal", label: "王族" },
-    { id: "princes", label: "王子陣営" },
-    { id: "hunter", label: "ハンター協会" },
+    { id: "hunter", label: "ハンター" },
+    { id: "soldier", label: "兵士" },
+    { id: "attendant", label: "従事者" },
     { id: "mafia", label: "マフィア" },
     { id: "phantom_troupe", label: "幻影旅団" },
     { id: "official", label: "司法・政府" },
     { id: "all", label: "全員" }
   ];
-  const apply = () => {
+  const addCatalogTag = (container, tag) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `character-catalog-tag character-facet-${getCharacterTagColorClass(tag)}`;
+    button.textContent = getCharacterTagShortLabel(tag);
+    button.dataset.tagId = tag.id;
+    button.title = `「${tag.category}：${tag.label}」の人物を表示`;
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      document.dispatchEvent(new CustomEvent("character-tag-filter", { detail: tag.id }));
+    });
+    container.appendChild(button);
+  };
+  const missionOrder = ["監視", "暗殺", "呪殺", "憑依", "従事", "護衛", "司法", "捜査"];
+  [...characterTagDefinitions.values()]
+    .filter((tag) => tag.category === "任務" && onboardCharacters.some((character) => getCharacterTags(character).some((personTag) => personTag.id === tag.id)))
+    .sort((a, b) => {
+      const aIndex = missionOrder.indexOf(a.label);
+      const bIndex = missionOrder.indexOf(b.label);
+      return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex) || a.label.localeCompare(b.label, "ja");
+    })
+    .forEach((tag) => addCatalogTag(missionNav, tag));
+  const princeAllButton = document.createElement("button");
+  princeAllButton.type = "button";
+  princeAllButton.className = "character-catalog-tag character-facet-relation";
+  princeAllButton.textContent = "すべて";
+  princeAllButton.dataset.princeId = "all";
+  princeNav.appendChild(princeAllButton);
+  princesData.slice().sort((a, b) => a.rank - b.rank).forEach((prince) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "character-catalog-tag character-facet-relation";
+    button.textContent = `第${prince.rank}王子`;
+    button.title = `第${prince.rank}王子${getDisplayName(prince)}に関係する人物を表示`;
+    button.dataset.princeId = prince.id;
+    princeNav.appendChild(button);
+  });
+  princeNav.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-prince-id]");
+    if (!button) return;
+    princeFilter.value = princeFilter.value === button.dataset.princeId ? "all" : button.dataset.princeId;
+    if (activeCharacterTagId && princeFilter.value !== "all"
+        && !onboardCharacters.some((character) => inActiveSection(character)
+          && hasTag(character, activeCharacterTagId)
+          && getRelatedPrinceIds(character).includes(princeFilter.value))) {
+      activeCharacterTagId = null;
+    }
+    activeCharacterAffiliation = null;
+    search.value = "";
+    campFilter.value = "all";
+    typeFilter.value = "all";
+    activeCharacterSubgroup = null;
+    apply();
+  });
+  const extraCategories = [...new Set([...characterTagDefinitions.values()]
+    .map((tag) => tag.category)
+    .filter((category) => !["分類", "任務"].includes(category)))];
+  const extraOrder = ["兵種", "所属", "護衛", "対象", "血縁"];
+  extraCategories.sort((a, b) => {
+    const aIndex = extraOrder.indexOf(a);
+    const bIndex = extraOrder.indexOf(b);
+    return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex) || a.localeCompare(b, "ja");
+  });
+  extraCategories.forEach((category) => {
+    const tags = [...characterTagDefinitions.values()].filter((tag) => tag.category === category && tag.id !== "relation-blood"
+      && onboardCharacters.some((character) => getCharacterTags(character).some((personTag) => personTag.id === tag.id)));
+    if (!tags.length) return;
+    if (["護衛", "対象"].includes(category)) {
+      tags.sort((a, b) => Number(a.label.match(/^第(\d+)王子/)?.[1] || 99) - Number(b.label.match(/^第(\d+)王子/)?.[1] || 99));
+    }
+    const row = document.createElement("div");
+    row.className = "character-tag-row character-tag-row-extra";
+    row.dataset.tagCategory = category;
+    const label = document.createElement("span");
+    label.className = "character-tag-row-label";
+    label.textContent = category === "護衛" ? "護衛先" : category;
+    const options = document.createElement("div");
+    options.className = "character-tag-row-options";
+    tags.forEach((tag) => addCatalogTag(options, tag));
+    row.append(label, options);
+    extraTagGroups.appendChild(row);
+  });
+  const inActiveSection = (character) => {
+    if (activeCharacterSection === "all") return true;
+    return getCharacterTypeGroup(character) === activeCharacterSection;
+  };
+  const hasTag = (character, tagId) => getCharacterTags(character).some((tag) => tag.id === tagId);
+  const renderContextualTags = () => {
+    const members = onboardCharacters.filter(inActiveSection);
+    const availableTags = new Set(members.flatMap((character) => getCharacterTags(character).map((tag) => tag.id)));
+    missionNav.querySelectorAll("button[data-tag-id]").forEach((button) => {
+      button.hidden = !availableTags.has(button.dataset.tagId);
+    });
+    missionRow.hidden = activeCharacterSection === "royal" || !missionNav.querySelector("button[data-tag-id]:not([hidden])");
+    const showPrinceTags = activeCharacterSection !== "mafia" && activeCharacterSection !== "phantom_troupe";
+    princeNav.querySelectorAll("button[data-prince-id]").forEach((button) => {
+      button.hidden = button.dataset.princeId !== "all" && (!showPrinceTags
+        || !members.some((character) => getRelatedPrinceIds(character).includes(button.dataset.princeId)));
+    });
+    princeRow.hidden = !showPrinceTags || !princeNav.querySelector("button[data-prince-id]:not([hidden]):not([data-prince-id='all'])");
+    extraTagGroups.querySelectorAll(".character-tag-row-extra").forEach((row) => {
+      row.querySelectorAll("button[data-tag-id]").forEach((button) => {
+        button.hidden = !availableTags.has(button.dataset.tagId);
+      });
+      const category = row.dataset.tagCategory;
+      row.hidden = (activeCharacterSection === "royal" && category !== "血縁")
+        || (activeCharacterSection === "mafia" && category !== "所属")
+        || !row.querySelector("button[data-tag-id]:not([hidden])");
+    });
+  };
+  const findMatchingCharacters = () => {
     const query = search.value.trim().toLowerCase();
     const type = typeFilter.value;
     const camp = campFilter.value;
     const princeId = princeFilter.value;
-    const filtered = onboardCharacters.filter((character) => {
+    return onboardCharacters.filter((character) => {
+      const sectionMatch = inActiveSection(character);
       const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
       const beast = character.type === "prince"
         ? spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character))
@@ -1105,79 +1690,111 @@ function setupCharacterDirectory() {
         formatAssignment(character), getNenClassLabel(character), beast?.name, beast?.ability
       ].filter(Boolean).join(" ").toLowerCase();
       const campMatch = camp === "all" || character.camp === camp;
+      const tagMatch = !activeCharacterTagId || hasTag(character, activeCharacterTagId);
       const affiliationMatch = !activeCharacterAffiliation
         || character.affiliation === activeCharacterAffiliation
         || character.affiliation?.startsWith(`${activeCharacterAffiliation}（`);
       const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
-      return typeMatch && campMatch && affiliationMatch && princeMatch && (!query || searchable.includes(query));
+      return sectionMatch && typeMatch && campMatch && tagMatch && affiliationMatch && princeMatch && (!query || searchable.includes(query));
     });
+  };
+  const apply = () => {
+    let filtered = findMatchingCharacters();
+    if (!filtered.length && !search.value.trim()) {
+      const releaseFilters = [
+        () => { if (!activeCharacterTagId) return false; activeCharacterTagId = null; return true; },
+        () => { if (princeFilter.value === "all") return false; princeFilter.value = "all"; return true; },
+        () => { if (!activeCharacterAffiliation) return false; activeCharacterAffiliation = null; return true; },
+        () => { if (campFilter.value === "all") return false; campFilter.value = "all"; return true; },
+        () => { if (typeFilter.value === "all") return false; typeFilter.value = "all"; return true; }
+      ];
+      for (const release of releaseFilters) {
+        if (release()) filtered = findMatchingCharacters();
+        if (filtered.length) break;
+      }
+    }
     renderCharacterDirectory(filtered);
+    document.getElementById("characterResultSummary").textContent = filtered.length
+      ? `${filtered.length}人が該当します。`
+      : "条件に一致する人物はいません。";
+    const selectedTag = characterTagDefinitions.get(activeCharacterTagId);
+    document.querySelectorAll(".character-catalog-tag[data-tag-id]").forEach((button) => {
+      const selected = button.dataset.tagId === activeCharacterTagId;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    princeNav.querySelectorAll("button").forEach((button) => {
+      const selected = button.dataset.princeId === princeFilter.value;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    activeTagBar.replaceChildren();
+    activeTagBar.className = `character-active-tag${selectedTag ? ` character-facet-${getCharacterTagColorClass(selectedTag)}` : ""}`;
+    activeTagBar.hidden = !selectedTag;
+    if (selectedTag) {
+      const label = document.createElement("span");
+      label.textContent = `選択中：${getCharacterTagShortLabel(selectedTag)}`;
+      const clear = document.createElement("button");
+      clear.type = "button";
+      clear.textContent = "解除";
+      clear.addEventListener("click", () => {
+        activeCharacterTagId = null;
+        apply();
+      });
+      activeTagBar.append(label, clear);
+    }
   };
   const clearAffiliationAndApply = () => {
     activeCharacterAffiliation = null;
     apply();
   };
-  search.addEventListener("input", clearAffiliationAndApply);
+  search.addEventListener("input", () => {
+    activeCharacterTagId = null;
+    activeCharacterAffiliation = null;
+    princeFilter.value = "all";
+    campFilter.value = "all";
+    typeFilter.value = "all";
+    apply();
+  });
   typeFilter.addEventListener("change", clearAffiliationAndApply);
   campFilter.addEventListener("change", clearAffiliationAndApply);
   princeFilter.addEventListener("change", clearAffiliationAndApply);
   document.addEventListener("character-affiliation-filter", apply);
-
-  const renderSubgroups = () => {
-    subNav.innerHTML = "";
-    let groups = [];
-    if (activeCharacterSection === "princes") {
-      groups = princesData.slice().sort((a, b) => a.rank - b.rank).map((prince) => ({
-        id: prince.id,
-        label: `第${prince.rank}王子${getDisplayName(prince)}`
-      }));
-    } else if (activeCharacterSection === "mafia") {
-      groups = [
-        { id: "mafia-swu", label: "シュウ＝ウ一家", affiliation: "シュウ＝ウ一家" },
-        { id: "mafia-eii", label: "エイ＝イ一家", affiliation: "エイ＝イ一家" },
-        { id: "mafia-saa", label: "シャ＝ア一家", affiliation: "シャ＝ア一家" }
-      ];
-    }
-    subNav.hidden = groups.length === 0;
-    groups.forEach((group, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      const active = group.id === activeCharacterSubgroup || (!activeCharacterSubgroup && index === 0);
-      if (active) activeCharacterSubgroup = group.id;
-      button.className = `character-sub-nav-button${active ? " active" : ""}`;
-      button.textContent = group.label;
-      button.setAttribute("aria-pressed", String(active));
-      button.addEventListener("click", () => {
-        activeCharacterSubgroup = group.id;
-        subNav.querySelectorAll("button").forEach((candidate) => {
-          const selected = candidate === button;
-          candidate.classList.toggle("active", selected);
-          candidate.setAttribute("aria-pressed", String(selected));
-        });
-        search.value = "";
-        campFilter.value = "all";
-        if (group.id.startsWith("P")) {
-          activeCharacterAffiliation = null;
-          typeFilter.value = "all";
-          princeFilter.value = group.id;
-        } else {
-          princeFilter.value = "all";
-          typeFilter.value = "mafia";
-          activeCharacterAffiliation = group.affiliation;
-        }
-        apply();
+  document.addEventListener("character-tag-filter", (event) => {
+    const tagId = typeof event.detail === "string" ? event.detail : event.detail?.id;
+    if (!characterTagDefinitions.has(tagId)) return;
+    activeCharacterTagId = activeCharacterTagId === tagId ? null : tagId;
+    activeCharacterAffiliation = null;
+    search.value = "";
+    typeFilter.value = "all";
+    campFilter.value = "all";
+    if (activeCharacterTagId && !onboardCharacters.some((character) => inActiveSection(character) && hasTag(character, activeCharacterTagId))) {
+      activeCharacterSection = "all";
+      activeCharacterSubgroup = null;
+      princeFilter.value = "all";
+      quickNav.querySelectorAll("button").forEach((button) => {
+        const selected = button.textContent === "全員";
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-pressed", String(selected));
       });
-      subNav.appendChild(button);
-    });
-    if (groups.length) subNav.querySelector("button")?.click();
-  };
+      renderContextualTags();
+    }
+    if (activeCharacterTagId && princeFilter.value !== "all"
+        && !onboardCharacters.some((character) => inActiveSection(character)
+          && hasTag(character, activeCharacterTagId)
+          && getRelatedPrinceIds(character).includes(princeFilter.value))) {
+      princeFilter.value = "all";
+    }
+    apply();
+  });
 
   topGroups.forEach((group) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `character-camp-nav-button${group.id === "royal" ? " active" : ""}`;
+    button.className = `character-camp-nav-button${group.id === "all" ? " active" : ""}`;
     button.textContent = group.label;
-    button.setAttribute("aria-pressed", String(group.id === "royal"));
+    button.dataset.groupId = group.id;
+    button.setAttribute("aria-pressed", String(group.id === "all"));
     button.addEventListener("click", () => {
       quickNav.querySelectorAll("button").forEach((candidate) => {
         const active = candidate === button;
@@ -1186,12 +1803,13 @@ function setupCharacterDirectory() {
       });
       search.value = "";
       activeCharacterAffiliation = null;
+      activeCharacterTagId = null;
       activeCharacterSection = group.id;
       activeCharacterSubgroup = null;
       campFilter.value = "all";
       princeFilter.value = "all";
-      typeFilter.value = group.id === "princes" ? "all" : group.id;
-      renderSubgroups();
+      typeFilter.value = "all";
+      renderContextualTags();
       apply();
     });
     quickNav.appendChild(button);
@@ -1199,8 +1817,8 @@ function setupCharacterDirectory() {
   document.getElementById("characterViewCards").addEventListener("click", () => setCharacterView("cards"));
   document.getElementById("characterViewTable").addEventListener("click", () => setCharacterView("table"));
   document.getElementById("assignmentOnly").addEventListener("change", () => renderCharacterAssignmentTable(currentCharacterResults));
-  typeFilter.value = "royal";
-  renderSubgroups();
+  typeFilter.value = "all";
+  renderContextualTags();
   setCharacterView("cards");
   apply();
 }
@@ -2259,7 +2877,7 @@ function setupDetailModal() {
     }
     if (event.key !== "Tab") return;
     const focusable = Array.from(modal.querySelectorAll(
-      "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])"
+      "button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])"
     )).filter((element) => !element.hidden);
     if (focusable.length === 0) return;
     const first = focusable[0];
@@ -2303,8 +2921,8 @@ function getRelatedEvents(record, category) {
   return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
 }
 
-// 「警護兵士」= 現在その王子の部屋・陣営に配置されている全員（camp一致）。
-// 雇用主（affiliation）が別の王子・王妃である「他陣営からの配置者」も含む点に注意。
+// 配置者 = 現在その王子の部屋・陣営に配置されている全員（camp一致）。
+// 雇用主（affiliation）が別の王子・王妃である監視担当も含むため、全員を護衛と呼ばない。
 // 一方、position_codeの接頭辞は「誰の私設兵として登録されているか」という台帳上の
 // 所属を表すだけで、現在の配置先とは別物（他陣営に潜伏中のスパイなどで両者がズレる）。
 function getGuardsForPrince(prince) {
@@ -2316,6 +2934,176 @@ function getGuardsForPrince(prince) {
 function isOutsidePlacement(guard) {
   if (!guard.camp || !guard.affiliation) return false;
   return !guard.affiliation.startsWith(guard.camp.replace(/陣営$/, ""));
+}
+
+function renderLocalEditor(container, record, category, view = "modal") {
+  const recordKey = localRecordKey(record, category);
+  const saved = localDrafts.items[recordKey] || {};
+  const section = document.createElement("section");
+  section.className = "local-editor";
+
+  const heading = document.createElement("h4");
+  heading.textContent = "自分用メモ・編集";
+  const explanation = document.createElement("p");
+  explanation.className = "local-editor-help";
+  explanation.textContent = draftStorageMode === "file"
+    ? "書くと自動でこのPCに保存されます。公開データには反映されません。"
+    : "このブラウザに保存されます。PCへの自動保存には専用のローカルサイトが必要です。";
+  section.append(heading, explanation);
+
+  const memoLabel = document.createElement("label");
+  memoLabel.className = "local-editor-label";
+  memoLabel.textContent = "気付いたことをメモ";
+  const memo = document.createElement("textarea");
+  memo.rows = 4;
+  memo.value = typeof saved.memo === "string" ? saved.memo : "";
+  memo.placeholder = "例：この時刻は再確認したい／この人物の所属に疑問あり";
+  memoLabel.appendChild(memo);
+
+  const memoButton = document.createElement("button");
+  memoButton.type = "button";
+  memoButton.className = "local-editor-button";
+  memoButton.textContent = "今すぐ保存";
+  const status = document.createElement("p");
+  status.className = "local-editor-status";
+  status.setAttribute("role", "status");
+  let memoTimer = null;
+  async function persistMemo() {
+    const text = memo.value.trim();
+    const previous = localDrafts.items[recordKey] || {};
+    if (text || Object.keys(previous.edits || {}).length > 0) {
+      localDrafts.items[recordKey] = { ...previous, memo: text, updatedAt: new Date().toISOString() };
+    } else {
+      delete localDrafts.items[recordKey];
+    }
+    const saved = await saveLocalDrafts();
+    renderDraftOverview();
+    status.textContent = saved
+      ? draftStorageMode === "file" ? "PCに保存しました。" : "ブラウザに保存しました。PCへの自動保存は無効です。"
+      : "PCに保存できませんでした。ブラウザ内の控えは残っています。";
+  }
+  memo.addEventListener("input", () => {
+    clearTimeout(memoTimer);
+    status.textContent = "保存中…";
+    memoTimer = setTimeout(() => { memoTimer = null; persistMemo(); }, 650);
+  });
+  memo.addEventListener("blur", () => {
+    if (!memoTimer) return;
+    clearTimeout(memoTimer);
+    memoTimer = null;
+    persistMemo();
+  });
+  memoButton.addEventListener("click", () => {
+    clearTimeout(memoTimer);
+    memoTimer = null;
+    persistMemo();
+  });
+  section.append(memoLabel, memoButton, status);
+
+  const editor = document.createElement("details");
+  editor.className = "local-editor-fields";
+  const summary = document.createElement("summary");
+  summary.textContent = saved.edits && Object.keys(saved.edits).length > 0
+    ? "内容を編集（ローカル編集あり）" : "内容を編集";
+  editor.appendChild(summary);
+  const form = document.createElement("form");
+  form.className = "local-editor-form";
+  const inputs = new Map();
+  LOCAL_EDIT_FIELDS[category].forEach((field) => {
+    const label = document.createElement("label");
+    label.className = "local-editor-label";
+    label.textContent = field.label;
+    const input = field.kind === "textarea" ? document.createElement("textarea") : document.createElement("input");
+    if (field.kind === "textarea") input.rows = field.key === "notes" ? 5 : 3;
+    else input.type = field.kind === "number" ? "number" : field.kind === "time" ? "time" : "text";
+    if (field.kind === "number") { input.min = "0"; input.step = "1"; }
+    if (field.required) input.required = true;
+    input.value = record[field.key] ?? "";
+    label.appendChild(input);
+    form.appendChild(label);
+    inputs.set(field.key, input);
+  });
+  if (category === "event") {
+    const timeHelp = document.createElement("p");
+    timeHelp.className = "local-editor-help";
+    timeHelp.textContent = "確定時刻と推測時刻は同時に入力できません。根拠がない場合は空欄にしてください。";
+    form.appendChild(timeHelp);
+  }
+  const formStatus = document.createElement("p");
+  formStatus.className = "local-editor-status";
+  formStatus.setAttribute("role", "status");
+  const actions = document.createElement("div");
+  actions.className = "local-editor-actions";
+  const saveButton = document.createElement("button");
+  saveButton.type = "submit";
+  saveButton.className = "local-editor-button";
+  saveButton.textContent = "編集を保存";
+  const resetButton = document.createElement("button");
+  resetButton.type = "button";
+  resetButton.className = "local-editor-button secondary";
+  resetButton.textContent = "この項目の編集を戻す";
+  resetButton.disabled = !saved.edits || Object.keys(saved.edits).length === 0;
+  actions.append(saveButton, resetButton);
+  form.append(actions, formStatus);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (memoTimer) {
+      clearTimeout(memoTimer);
+      memoTimer = null;
+      await persistMemo();
+    }
+    const values = {};
+    for (const field of LOCAL_EDIT_FIELDS[category]) {
+      const raw = inputs.get(field.key).value.trim();
+      values[field.key] = field.kind === "number" ? (raw === "" ? null : Number(raw))
+        : field.kind === "time" ? (raw || null) : raw;
+    }
+    if (category === "event" && values.time_start && values.time_estimate) {
+      formStatus.textContent = "確定時刻か推測時刻のどちらか一方にしてください。";
+      return;
+    }
+    if (category === "event" && (!Number.isInteger(values.day) && values.day !== null)) {
+      formStatus.textContent = "日は整数で入力してください。";
+      return;
+    }
+    const original = originalRecords.get(recordKey) || {};
+    const edits = {};
+    LOCAL_EDIT_FIELDS[category].forEach((field) => {
+      const baseline = field.kind === "number" || field.kind === "time"
+        ? (original[field.key] ?? null) : (original[field.key] ?? "");
+      if (values[field.key] !== baseline) edits[field.key] = values[field.key];
+    });
+    const previous = localDrafts.items[recordKey] || {};
+    if (Object.keys(edits).length || previous.memo) {
+      localDrafts.items[recordKey] = { ...previous, edits, updatedAt: new Date().toISOString() };
+    } else {
+      delete localDrafts.items[recordKey];
+    }
+    if (!await saveLocalDrafts()) {
+      formStatus.textContent = "PCに保存できませんでした。ブラウザ内の控えは残っています。";
+      return;
+    }
+    reopenDetailAfterReload(record, category, view);
+  });
+  resetButton.addEventListener("click", async () => {
+    if (memoTimer) {
+      clearTimeout(memoTimer);
+      memoTimer = null;
+      await persistMemo();
+    }
+    const previous = localDrafts.items[recordKey] || {};
+    if (previous.memo) localDrafts.items[recordKey] = { memo: previous.memo, updatedAt: new Date().toISOString() };
+    else delete localDrafts.items[recordKey];
+    if (!await saveLocalDrafts()) {
+      formStatus.textContent = "PCに変更を保存できませんでした。";
+      return;
+    }
+    reopenDetailAfterReload(record, category, view);
+  });
+  editor.appendChild(form);
+  section.appendChild(editor);
+  container.appendChild(section);
 }
 
 function showDetailModal(name, category, eventData = null) {
@@ -2425,6 +3213,8 @@ function showDetailModal(name, category, eventData = null) {
     content.appendChild(ul);
   });
 
+  renderLocalEditor(content, record, category);
+
   if (category === "prince") {
     const guards = getGuardsForPrince(record);
     if (guards.length > 0) {
@@ -2434,8 +3224,8 @@ function showDetailModal(name, category, eventData = null) {
       const outsideCount = guards.filter(isOutsidePlacement).length;
       const guardSummary = document.createElement("summary");
       guardSummary.textContent = outsideCount > 0
-        ? `警護兵士（${guards.length}件・他陣営からの配置 ${outsideCount}件含む）`
-        : `警護兵士（${guards.length}件）`;
+        ? `配置者（${guards.length}件・他陣営からの配置 ${outsideCount}件含む）`
+        : `配置者（${guards.length}件）`;
       guardDetails.appendChild(guardSummary);
 
       const guardList = document.createElement("div");
@@ -2565,44 +3355,112 @@ function scrollToCurrentHash() {
 
 async function init() {
   try {
-    const [characters, characterImages, events, spiritBeasts, factions, mafia] = await Promise.all([
+    const [characters, characterTags, characterImages, countOnlyCharacters, events, spiritBeasts, factions, mafia, allianceData] = await Promise.all([
       loadJson(DATA.characters),
+      loadJson(DATA.characterTags),
       loadJson(DATA.characterImages),
+      loadJson(DATA.countOnlyCharacters),
       loadJson(DATA.events),
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
-      loadJson(DATA.mafia)
+      loadJson(DATA.mafia),
+      loadJson(DATA.alliances)
     ]);
 
+    countOnlyCharacterIds = new Set(countOnlyCharacters.ids);
     const imageByCharacterId = new Map(characterImages.map((entry) => [entry.id, entry]));
     charactersData = characters.map((character) => {
       const imageEntry = imageByCharacterId.get(character.id);
-      return imageEntry ? { ...character, image: imageEntry.image, image_source_url: imageEntry.source_url } : character;
+      return imageEntry ? { ...character, image: imageEntry.image, image_source_url: imageEntry.source_url, image_crop: imageEntry.crop || null } : character;
     });
+    characterTagDefinitions = new Map(characterTags.definitions.map((tag) => [tag.id, tag]));
+    Object.entries(CHARACTER_TYPE_LABELS).forEach(([type, label]) => {
+      const id = `type-${type}`;
+      characterTagDefinitions.set(id, { id, category: "分類", label });
+    });
+    Object.entries(CHARACTER_MISSION_TAG_IDS).forEach(([label, id]) => {
+      characterTagDefinitions.set(id, { id, category: "任務", label });
+    });
+    [...new Set(characters.filter((candidate) => candidate.type === "soldier").map((candidate) => candidate.soldier_category).filter(Boolean))]
+      .forEach((label) => {
+        const id = `soldier-kind-${label}`;
+        characterTagDefinitions.set(id, { id, category: "兵種", label });
+      });
+    [...new Set(characters.filter((candidate) => candidate.type === "mafia").map((candidate) => candidate.affiliation).filter((value) => value && value !== "不明"))]
+      .forEach((label) => {
+        const id = `mafia-family-${label}`;
+        characterTagDefinitions.set(id, { id, category: "所属", label });
+      });
+    characterTagDefinitions.set("relation-blood", { id: "relation-blood", category: "血縁", label: "血縁" });
+    characters.filter((candidate) => candidate.type === "queen" || candidate.id === "BYD-001").forEach((parent) => {
+      if (parent.id === "Q01") return;
+      const id = `blood-parent-${parent.id.toLowerCase()}`;
+      const name = getDisplayName(parent);
+      const label = parent.type === "queen" ? `第${parent.rank}王妃${name}の子` : `${name}の子`;
+      characterTagDefinitions.set(id, { id, category: "血縁", label });
+    });
+    characters.filter((candidate) => candidate.type === "prince").forEach((prince) => {
+      const id = `target-${prince.id.toLowerCase()}`;
+      characterTagDefinitions.set(id, { id, category: "対象", label: `第${prince.rank}王子${getDisplayName(prince)}` });
+      const guardId = `guard-${prince.id.toLowerCase()}`;
+      characterTagDefinitions.set(guardId, { id: guardId, category: "護衛", label: `第${prince.rank}王子${getDisplayName(prince)}` });
+    });
+    characterTagsById = new Map(characterTags.assignments.map((entry) => [entry.character_id, entry.tag_ids]));
     spiritBeastsData = spiritBeasts;
     factionsData = factions;
+    alliancesData = allianceData.alliances;
     mafiaData = mafia;
+    await loadLocalDrafts();
+    applyLocalDrafts(charactersData, (character) => character.type === "prince" ? "prince" : "bodyguard");
+    applyLocalDrafts(events, () => "event");
+    applyLocalDrafts(spiritBeastsData, () => "spiritBeast");
 
     princesData = charactersData.filter((c) => c.type === "prince").sort((a, b) => a.rank - b.rank);
     bodyguardsData = charactersData.filter((c) =>
-      ["hunter", "soldier", "attendant"].includes(c.type) && c.position_code
+      ["hunter", "soldier", "attendant"].includes(c.type)
+      && (c.position_code || (c.type === "hunter" && c.mission === "護衛" && c.camp))
+      && isDirectoryCharacter(c)
     );
     eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
     inferredTimePlacements = buildInferredTimePlacements(eventsData);
+    if (pendingDraftMigration) await saveLocalDrafts();
 
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
 
-    renderCharacterDirectory(charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id)));
+    renderCharacterDirectory(charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character)));
     renderBasicCharacters();
     renderSpiritBeasts(spiritBeastsData);
     setupCharacterDirectory();
     setupBeastNenFilter();
     setupDetailModal();
+    setupDraftTransfer();
     setupTimelineTabs();
     setupFilters();
     setupBackToTop();
     setupPrimaryNavigation();
+
+    try {
+      const pending = JSON.parse(sessionStorage.getItem(REOPEN_DETAIL_KEY) || "null");
+      sessionStorage.removeItem(REOPEN_DETAIL_KEY);
+      if (pending?.id && pending?.category) {
+        if (pending.view === "inline") {
+          const key = `${pending.category}:${pending.id}`;
+          const details = [...document.querySelectorAll("[data-local-record-key]")]
+            .find((item) => item.dataset.localRecordKey === key);
+          if (details) {
+            details.open = true;
+            details.scrollIntoView({ block: "center" });
+          }
+        } else {
+          const event = pending.category === "event" ? eventsData.find((item) => item.id === pending.id) : null;
+          window.scrollTo(0, Number(pending.scrollY) || 0);
+          showDetailModal(pending.id, pending.category, event);
+        }
+      }
+    } catch (error) {
+      console.warn("詳細画面の復元に失敗しました", error);
+    }
 
     if (!["characters", "places", "timeline", "guide"].includes(location.hash.slice(1))) {
       scrollToCurrentHash();

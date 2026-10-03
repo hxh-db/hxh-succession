@@ -11,7 +11,9 @@
       "appearance": { "type": ["string", "null"] },
       "nen_type": { "type": ["string", "null"] },
       "ability": { "type": ["string", "null"] },
-      "image": { "type": ["string", "null"] }
+      "image": { "type": ["string", "null"] },
+      "usage_image": { "type": ["string", "null"] },
+      "usage_image_source": { "type": ["string", "null"] }
     }
   }
 }

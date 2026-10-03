@@ -38,6 +38,8 @@
 - `children` / `parent_ids`: 原作で確定した親子関係のみを登録する。
 - `public_mother_id` と `reported_biological_mother_id`: 公的な母と手紙に実母と記された人物を区別する。後者は血縁確定の `parent_ids` には入れず、表示にも未検証と明記する。
 - `suggested_father_id` / `suggested_child_id`: チョウライとオニオールのように親子関係が示唆されるが確定していない場合に使用する。`known_half_sibling_ids` は確認済みの異母兄弟、`known_sibling_ids` は兄弟と確認できるが互いの母親の同異が未確認の関係を表す。
+- `nen_user`: 本人の念使用が未確認、守護霊獣の能力だけが判明、または現在使えない等の理由で「念能力者」タグを付けない場合は `false`。`nen_ability_name` は複数の能力を持つ場合などの表示名。`nen_ability_image` は本人の念能力を示す確認済みの原作コマの切り出しのみを指定し、人物の顔写真や守護霊獣画像で代用しない。`nen_ability_image_source` に話数とコマの内容を記す。ページ全体ではなく必要なコマのみ保存する。
+- `spirit_beasts.json` の `image` は守護霊獣の外見資料、`usage_image` は能力が具体的に発現・使用された場面のコマ画像として分け、後者の出典を `usage_image_source` に記す。
 
 ## character_tags.json（試行）
 

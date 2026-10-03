@@ -1,5 +1,5 @@
 const DATA = {
-  characters: "data/characters.json?v=20261003b",
+  characters: "data/characters.json?v=20261003e",
   characterTags: "data/character_tags.json?v=20261002f",
   characterImages: "data/character_images.json?v=20261002b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
@@ -433,9 +433,15 @@ function formatAffiliation(character) {
     if (princeRank != null && character.soldier_category === "王室警備兵") return `第${princeRank}王子王室警備兵`;
   }
   let value = formatGroupReference(formatDisplayText(character.affiliation).replace(/陣営$/, ""));
+  if (character.type === "mafia") value = value.replace(/（[^）]+）$/, "");
   if (character.soldier_category === "私設兵" && !/私設兵/.test(value)) value += "私設兵";
   if (character.soldier_category === "王妃所属兵" && !/王妃.*兵|所属兵/.test(value)) value += "所属兵";
   return value.replace(/第(\d+)王子[^\s（）・]+私設兵/g, "第$1王子私設兵");
+}
+
+function getAffiliationSupplement(character) {
+  if (character.type !== "mafia") return null;
+  return character.affiliation?.match(/（([^）]+)）$/)?.[1] || null;
 }
 
 function getQueenAffiliationRank(character) {
@@ -1185,6 +1191,30 @@ function getRelatedPrinceIds(character) {
   return [...new Set(ids)];
 }
 
+function isConfirmedNenUser(character) {
+  if (typeof character.nen_user === "boolean") return character.nen_user;
+  if (/^非念能力者/.test(character.nen_type || "")) return false;
+  if (character.nen_type && !/^不明/.test(character.nen_type)) return true;
+  const ability = character.nen_ability || "";
+  return Boolean(ability && !/^(?:非念能力者|念能力は持たない|詳細不明$)/.test(ability));
+}
+
+function getNenAbilityName(character) {
+  if (character.nen_ability_name) return character.nen_ability_name;
+  const ability = character.nen_ability || "";
+  const named = ability.match(/^([^。：]{2,28}?)(?:（[^）]+）)?[：:]/);
+  if (named && !/^(?:詳細不明|念能力者だが詳細不明|念を使用可能|変化系念能力|強化系念能力)/.test(named[1])) {
+    return named[1];
+  }
+  const quoted = ability.match(/^『([^』]+)』/);
+  if (quoted) return quoted[1];
+  const rubyName = ability.match(/^([^（。：]{2,28})（[^）]+）[。、]/);
+  if (rubyName && !/^(?:念を使用可能|念能力者|強化系念能力|変化系念能力|除念)/.test(rubyName[1])) {
+    return rubyName[1];
+  }
+  return "名称未判明";
+}
+
 function getCharacterTags(character) {
   const ids = new Set(characterTagsById.get(character.id) || []);
   ids.add(`type-${character.type}`);
@@ -1196,8 +1226,9 @@ function getCharacterTags(character) {
     ids.add("affiliation-p01-private");
   }
   if (character.type === "mafia" && character.affiliation && character.affiliation !== "不明") {
-    ids.add(`mafia-family-${character.affiliation}`);
+    ids.add(`mafia-family-${formatAffiliation(character)}`);
   }
+  if (isConfirmedNenUser(character)) ids.add("nen-user");
   if (CHARACTER_MISSION_TAG_IDS[character.mission]) {
     ids.add(CHARACTER_MISSION_TAG_IDS[character.mission]);
   }
@@ -1255,7 +1286,7 @@ function getPrinceTargetTagId(target) {
 }
 
 function getCharacterTagColorClass(tag) {
-  return ({ 分類: "category", 兵種: "category", 任務: "mission", 所属: "affiliation", 護衛: "guard", 対象: "target", 血縁: "family", 念講習会: "mission", 状態: "status" })[tag.category] || "other";
+  return ({ 分類: "category", 兵種: "category", 任務: "mission", 所属: "affiliation", 護衛: "guard", 対象: "target", 血縁: "family", 念講習会: "mission", 念: "mission", 状態: "status" })[tag.category] || "other";
 }
 
 function getCharacterTagShortLabel(tag) {
@@ -1279,14 +1310,6 @@ function makeCharacterTagButton(tag) {
   button.addEventListener("click", () => {
     document.dispatchEvent(new CustomEvent("character-tag-filter", { detail: tag.id }));
   });
-  return button;
-}
-
-function makeCompositeCharacterTag(tag, label, title) {
-  const button = makeCharacterTagButton(tag);
-  button.classList.add("character-composite-tag");
-  button.textContent = label;
-  button.title = title;
   return button;
 }
 
@@ -1370,6 +1393,23 @@ function makeDeathTagChain(tag, deathRecords) {
   return chain;
 }
 
+function makeKillTagChain(tag, victims) {
+  const chain = document.createElement("span");
+  chain.className = "character-tag-chain character-kill-chain";
+  chain.appendChild(makeCharacterTagButton(tag));
+  [...new Map(victims.map((record) => [record.id, record])).values()].forEach((record, index) => {
+    const separator = document.createElement("span");
+    separator.className = "character-tag-arrow";
+    separator.textContent = index ? "+" : "→";
+    separator.setAttribute("aria-hidden", "true");
+    chain.appendChild(separator);
+    const target = makeCharacterLinkTag(record.id, "status",
+      `${formatRoyalName(record.id)}の人物カードへ移動${record.chapter ? `（${record.chapter}話）` : ""}`);
+    if (target) chain.appendChild(target);
+  });
+  return chain;
+}
+
 function makeCharacterTagChain(tags, sharedHead = false) {
   const chain = document.createElement("span");
   chain.className = "character-tag-chain";
@@ -1445,12 +1485,6 @@ function getCharacterDescriptionParagraphs(character) {
     paragraphs.push("確認済みの実子はロンギとマカハ。王族内にも実子がいることが示されているが、誰かは未確定。");
   }
 
-  const ability = formatDisplayText(character.nen_ability)?.trim() || "";
-  const abilityName = ability.split(/[：:（(]/)[0];
-  if (ability && !/^(?:非念能力者|詳細不明|不明)/.test(ability)
-      && abilityName.length > 2 && !paragraphs.join(" ").includes(abilityName)) {
-    paragraphs.push(sentence(`念能力は${ability}`));
-  }
   return paragraphs.length ? paragraphs : ["人物像を補う記述はまだ確認できていません。確認済みの出来事は下のタイムラインを参照してください。"];
 }
 
@@ -1506,6 +1540,13 @@ function createCharacterDirectoryCard(character) {
       document.dispatchEvent(new Event("character-affiliation-filter"));
     });
     badges.appendChild(campBadge);
+  }
+  const affiliationSupplement = getAffiliationSupplement(character);
+  if (affiliationSupplement) {
+    const supplement = document.createElement("span");
+    supplement.className = "character-affiliation-supplement";
+    supplement.textContent = affiliationSupplement;
+    badges.appendChild(supplement);
   }
   allianceLabels.forEach((alliance) => {
     const badge = document.createElement("span");
@@ -1566,10 +1607,7 @@ function createCharacterDirectoryCard(character) {
     const killTag = visibleTags.find((tag) => tag.id === "status-killer");
     if (killTag) {
       const victims = confirmedKillsById.get(character.id) || [];
-      const victimNames = [...new Set(victims.map((record) => formatRoyalName(record.id)))];
-      spoilerTagList.appendChild(makeCompositeCharacterTag(killTag,
-        `殺害 → ${victimNames.join("＋")}`,
-        victims.map((record) => `${formatRoyalName(record.id)}${record.chapter ? `（${record.chapter}話）` : ""}`).join(" / ")));
+      spoilerTagList.appendChild(makeKillTagChain(killTag, victims));
       used.add(killTag.id);
     }
     const deathTag = visibleTags.find((tag) => tag.id === "status-deceased");
@@ -1649,9 +1687,53 @@ function createCharacterDirectoryCard(character) {
       const beastDescription = document.createElement("p");
       beastDescription.textContent = [beast.appearance, beast.ability].filter(Boolean).join("｜") || "詳細不明";
       beastText.append(beastHeading, beastDescription);
+      if (beast.usage_image) {
+        const usageImage = makeBeastImage(beast.usage_image, `${beast.name}の使用・顕現場面`);
+        if (usageImage) {
+          usageImage.classList.add("spirit-beast-usage-image");
+          beastText.appendChild(usageImage);
+          if (beast.usage_image_source) {
+            const usageSource = document.createElement("small");
+            usageSource.className = "directory-ability-image-source";
+            usageSource.textContent = `場面：${beast.usage_image_source}`;
+            beastText.appendChild(usageSource);
+          }
+        }
+      }
       beastSection.appendChild(beastText);
       details.appendChild(beastSection);
     }
+  }
+
+  if (isConfirmedNenUser(character)) {
+    const abilitySection = document.createElement("section");
+    abilitySection.className = "directory-nen-ability";
+    if (character.nen_ability_image) {
+      const abilityImage = makeBeastImage(character.nen_ability_image, `${getDisplayName(character)}の念能力の画像`);
+      if (abilityImage) {
+        if (character.nen_ability_image_source) abilityImage.title = character.nen_ability_image_source;
+        abilitySection.appendChild(abilityImage);
+      }
+    } else {
+      const missingImage = document.createElement("span");
+      missingImage.className = "ability-image-missing";
+      missingImage.textContent = "画像未登録";
+      abilitySection.appendChild(missingImage);
+    }
+    const abilityText = document.createElement("div");
+    const abilityHeading = document.createElement("h4");
+    abilityHeading.textContent = `念能力：${getNenAbilityName(character)}`;
+    const abilityDescription = document.createElement("p");
+    abilityDescription.textContent = formatDisplayText(character.nen_ability) || "能力の詳細は未判明。";
+    abilityText.append(abilityHeading, abilityDescription);
+    if (character.nen_ability_image_source) {
+      const imageSource = document.createElement("small");
+      imageSource.className = "directory-ability-image-source";
+      imageSource.textContent = `画像：${character.nen_ability_image_source}`;
+      abilityText.appendChild(imageSource);
+    }
+    abilitySection.appendChild(abilityText);
+    details.appendChild(abilitySection);
   }
 
   details.appendChild(personTimeline);
@@ -1949,7 +2031,7 @@ function setupCharacterDirectory() {
   const extraCategories = [...new Set([...characterTagDefinitions.values()]
     .map((tag) => tag.category)
     .filter((category) => !["分類", "任務"].includes(category)))];
-  const extraOrder = ["兵種", "所属", "護衛", "対象", "血縁", "状態", "念講習会"];
+  const extraOrder = ["兵種", "所属", "護衛", "対象", "念", "血縁", "状態", "念講習会"];
   extraCategories.sort((a, b) => {
     const aIndex = extraOrder.indexOf(a);
     const bIndex = extraOrder.indexOf(b);
@@ -3558,6 +3640,23 @@ function showDetailModal(name, category, eventData = null) {
     }
   }
 
+  if (category === "spiritBeast" && record.usage_image) {
+    const usageHeading = document.createElement("h4");
+    usageHeading.textContent = "使用・顕現場面";
+    content.appendChild(usageHeading);
+    const usageImage = makeBeastImage(record.usage_image, `${record.name}の使用・顕現場面`);
+    if (usageImage) {
+      usageImage.className = "beast-image modal-spirit-beast-usage-image";
+      content.appendChild(usageImage);
+    }
+    if (record.usage_image_source) {
+      const usageSource = document.createElement("small");
+      usageSource.className = "directory-ability-image-source";
+      usageSource.textContent = `出典：${record.usage_image_source}`;
+      content.appendChild(usageSource);
+    }
+  }
+
   const dl = document.createElement("dl");
   dl.className = "detail-list";
   details.forEach(({ label, value }) => {
@@ -3756,11 +3855,12 @@ async function init() {
         const id = `soldier-kind-${label}`;
         characterTagDefinitions.set(id, { id, category: "兵種", label });
       });
-    [...new Set(characters.filter((candidate) => candidate.type === "mafia").map((candidate) => candidate.affiliation).filter((value) => value && value !== "不明"))]
+    [...new Set(characters.filter((candidate) => candidate.type === "mafia").map((candidate) => formatAffiliation(candidate)).filter((value) => value && value !== "不明"))]
       .forEach((label) => {
         const id = `mafia-family-${label}`;
         characterTagDefinitions.set(id, { id, category: "所属", label });
       });
+    characterTagDefinitions.set("nen-user", { id: "nen-user", category: "念", label: "念能力者" });
     characterTagDefinitions.set("relation-blood", { id: "relation-blood", category: "血縁", label: "血縁" });
     characterTagDefinitions.set("relation-blood-reported", { id: "relation-blood-reported", category: "血縁", label: "血縁（手紙）" });
     characterTagDefinitions.set("relation-blood-public", { id: "relation-blood-public", category: "血縁", label: "母（公的）" });

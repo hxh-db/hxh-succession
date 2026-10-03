@@ -5,7 +5,9 @@
     "appearance": "エイリアン（宇宙人）を彷彿とさせる非人間的な体型の念獣。細長い頭部と人体とは全く異なるシルエットを持つ異形の存在",
     "nen_type": null,
     "ability": "詳細は未判明。ベンジャミン本人の念「ベンジャミンバトン（星を継ぐもの）」は守護霊獣とは別に存在し、死んだ私設兵の念能力を継承する",
-    "image": "images/beasts/beast-benjamin.png"
+    "image": "images/beasts/beast-benjamin.png",
+    "usage_image": "images/beasts/usage/benjamin-guardian-beast-ch373.png",
+    "usage_image_source": "第373話・ベンジャミンの背後に本人の守護霊獣（エイリアン型念獣）が顕現している場面（写真9）。同じページで個人能力『星を継ぐもの』も説明される"
   },
   {
     "prince": "カミーラ＝ホイコーロ",
@@ -13,7 +15,9 @@
     "appearance": "乳房状の果実が無数に付いた樹木のような外見の念獣",
     "nen_type": "操作系",
     "ability": "強制型。ある条件を満たした対象の心身の自由を奪い、意のままに操作する。具体的な発動条件や実戦での使用例は未だ詳しく描かれていない。カミーラ本人の念能力「ネコノナマエ（100万回生きた猫）」とは別物で、本人は『自前の能力があるので不要』と豪語するが、いざという時には頼ることもあるとされる",
-    "image": "images/beasts/beast-camilla.png"
+    "image": "images/beasts/beast-camilla.png",
+    "usage_image": "images/beasts/usage/camilla-guardian-beast-ch372.png",
+    "usage_image_source": "第372話・1002号室の場面でカミーラの守護霊獣が本人の背後に顕現しているコマ（写真10）。操作効果の発動場面ではない"
   },
   {
     "prince": "チョウライ＝ホイコーロ",
@@ -21,7 +25,9 @@
     "appearance": "太陽とタイヤが融合したような外見の念獣。口から1日1枚コインを落とす",
     "nen_type": "具現化系",
     "ability": "1日1枚コインを産み出す。所持者が一定条件を満たすとさまざまな念能力が発現する具現化系・複合型",
-    "image": "images/beasts/beast-zhanglei.png"
+    "image": "images/beasts/beast-zhanglei.png",
+    "usage_image": "images/beasts/usage/zhanglei-coin-ch374.png",
+    "usage_image_source": "第374話・チョウライの手元にコインが空中から現れたと確認する場面（写真10）"
   },
   {
     "prince": "ツェリードニヒ＝ホイコーロ",
@@ -29,7 +35,9 @@
     "appearance": "人間の顔を持つ馬（人面馬）のような念獣",
     "nen_type": "特質系",
     "ability": "ツェリードニヒへの虚偽を察知する警告・制裁型能力。第385話でテータへ印を付け、『次に王子の質問へ嘘で答えれば人間でなくなる』と警告した。警告後の具体的な変化と全発動条件は未確定",
-    "image": "images/beasts/beast-tserriednich.png"
+    "image": "images/beasts/beast-tserriednich.png",
+    "usage_image": "images/beasts/usage/tserriednich-mark-ch385.png",
+    "usage_image_source": "第385話・守護霊獣がテータの顔に印を付け、次に王子の質問へ嘘で答えれば人間でなくなると警告する場面（写真8）"
   },
   {
     "prince": "ツベッパ＝ホイコーロ",
@@ -37,7 +45,9 @@
     "appearance": "軽自動車ほどの大きさの、車輪が付いたカエルのような念獣",
     "nen_type": "変化系",
     "ability": "変化系・共存型。「共同研究者（パートナー）」が必要な発動条件を持つ。念獣の体内でさまざまな効果を持つ薬品を生成する",
-    "image": "images/beasts/beast-tubeppa.png"
+    "image": "images/beasts/beast-tubeppa.png",
+    "usage_image": "images/beasts/usage/tubeppa-manifest-ch362.png",
+    "usage_image_source": "第362話・ツベッパの側に車輪付きカエル型の守護霊獣が顕現しているコマ（写真3）。薬品生成の場面ではない"
   },
   {
     "prince": "タイソン＝ホイコーロ",
@@ -45,7 +55,9 @@
     "appearance": "目玉のようなオタマジャクシ（ジャクシ）の群れ",
     "nen_type": "特質系",
     "ability": "「タイソン教典」を受け取った者（信者）に目玉ジャクシが宿り、宿主に幸福感を与えながら継続的にオーラを吸収し続ける",
-    "image": "images/beasts/beast-tyson.png"
+    "image": "images/beasts/beast-tyson.png",
+    "usage_image": "images/beasts/usage/tyson-eye-jacks-ch372.png",
+    "usage_image_source": "第372話・1006号室の寝台周辺に目玉ジャクシが現れ、警護側へ憑く様子が描かれる場面（写真4）"
   },
   {
     "prince": "ルズールス＝ホイコーロ",
@@ -53,7 +65,9 @@
     "appearance": "馬を思わせる大きな四足獣で、頭部に複数の突起があり、長い舌を垂らしている",
     "nen_type": "具現化系",
     "ability": "具現化系・半強制操作型。標的の欲望を具現化した罠を設置し、罠にかかった者を操作する",
-    "image": "images/beasts/beast-luzurus.png"
+    "image": "images/beasts/beast-luzurus.png",
+    "usage_image": "images/beasts/usage/luzurus-manifest-ch362.png",
+    "usage_image_source": "第362話・ルズールスの側に四足獣型の守護霊獣が顕現しているコマ（写真3）。罠の発動場面ではない"
   },
   {
     "prince": "サレサレ＝ホイコーロ",
@@ -61,7 +75,9 @@
     "appearance": "複数の口を持つ球体型の念獣",
     "nen_type": "操作系",
     "ability": "操作系・拡散誘導型。球体からガスを吐き出し、一定量を吸い込んだ者をサレサレの信奉者（操り人形）にする",
-    "image": "images/beasts/beast-salesale.png"
+    "image": "images/beasts/beast-salesale.png",
+    "usage_image": "images/beasts/usage/salesale-beast-ch381.png",
+    "usage_image_source": "第381話・サレサレの守護霊獣が居室内に顕現し、寝台周辺へ煙状オーラを広げる場面（写真8）"
   },
   {
     "prince": "ハルケンブルグ＝ホイコーロ",
@@ -69,7 +85,9 @@
     "appearance": "鳥の特徴を持つ一ツ目鬼の形をした念獣",
     "nen_type": "強化系",
     "ability": "強化系・相互協力型。羽の刻印を持つ支持者が集まり統一意志を持つほど力が増大し、迎撃・防御不能のオーラ矢を放つ。第386話の実証では、支持者の人格を標的の肉体へ移し、標的の死後に支持者の人格を元の肉体へ戻した。人格移動要員の選出条件や標的人格の状態は未確定",
-    "image": "images/beasts/beast-halkenburg.png"
+    "image": "images/beasts/beast-halkenburg.png",
+    "usage_image": "images/beasts/usage/halkenburg-beast-shield-ch382.png",
+    "usage_image_source": "第382話・銃撃時に守護霊獣がハルケンブルグを覆い、王子を守る鎧となる場面（写真6）"
   },
   {
     "prince": "カチョウ＝ホイコーロ",
@@ -77,7 +95,9 @@
     "appearance": "無形（形を持たない）。フウゲツの念獣と対になっている双子協力型",
     "nen_type": null,
     "ability": "双子の相互協力型。カチョウが死亡後、カチョウの姿をとった念獣がフウゲツの傍で守護し続ける",
-    "image": null
+    "image": null,
+    "usage_image": "images/beasts/usage/kacho-kimi-ga-inai-ch400.png",
+    "usage_image_source": "第400話・カチョウの姿をとった念獣がフウゲツの居室に現れ、会話する場面（写真4）"
   },
   {
     "prince": "フウゲツ＝ホイコーロ",
@@ -85,15 +105,19 @@
     "appearance": "ワーム（虫）状の生物。カチョウの念獣と対になっている双子協力型",
     "nen_type": null,
     "ability": "双子の相互協力型。行きの扉はフウゲツ、帰りの扉はカチョウが担う。この能力でフウゲツは継承戦の行われる第1層から下層デッキへの脱出に成功",
-    "image": "images/beasts/beast-fugetsu.png"
+    "image": "images/beasts/beast-fugetsu.png",
+    "usage_image": "images/beasts/usage/fugetsu-door-ch400.png",
+    "usage_image_source": "第400話・フウゲツが『秘密の扉』を使って1010号室へ戻ってきた場面（写真7）"
   },
   {
     "prince": "モモゼ＝ホイコーロ",
     "name": "モモゼの守護霊獣",
     "appearance": "ネズミのような外見の、巨大なゆるキャラ風の念獣",
     "nen_type": null,
-    "ability": "詳細能力は描写なし。モモゼが早期に死亡したため全容は未解明",
-    "image": "images/beasts/beast-momoze.png"
+    "ability": "強制操作型。第361話でサイールドを操作していたことが判明。対象選定・発動条件・操作の仕組みなど全容は未解明",
+    "image": "images/beasts/beast-momoze.png",
+    "usage_image": "images/beasts/usage/momoze-beast-control-ch361.png",
+    "usage_image_source": "第361話・モモゼの守護霊獣が寄生型の小獣を介してサイールドを操作している場面（写真6）"
   },
   {
     "prince": "マラヤーム＝ホイコーロ",
@@ -101,7 +125,9 @@
     "appearance": "初期は空中を泳ぐ龍のような優雅な姿。姉モモゼの死後、急激に変貌して巨大な恐竜型怪物になった。体中にトゲが生えている",
     "nen_type": null,
     "ability": "念空間を生み出し外界から隔絶する。マラヤームの精神状態（恐怖・ストレス・トラウマ）を反映して姿と力が変化する。念空間内に籠城することで暗黒大陸到着まで生存可能",
-    "image": "images/beasts/beast-marayam.png"
+    "image": "images/beasts/beast-marayam.png",
+    "usage_image": "images/beasts/usage/marayam-space-ch372.png",
+    "usage_image_source": "第372話・1013号室でマラヤームの守護霊獣が巨大な姿で現れ、警護兵が近づけない場面（写真10）"
   },
   {
     "prince": "ワブル＝ホイコーロ",

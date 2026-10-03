@@ -500,6 +500,12 @@ body {
   font-weight: 700;
 }
 
+.character-affiliation-supplement {
+  align-self: center;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
 .character-alliance-badge {
   display: inline-flex;
   align-items: center;
@@ -974,7 +980,8 @@ button.character-type-badge.character-facet-category {
 
 .basic-character-heading { margin-top: 34px; }
 
-.directory-spirit-beast {
+.directory-spirit-beast,
+.directory-nen-ability {
   display: grid;
   grid-template-columns: 72px 1fr;
   gap: 12px;
@@ -986,24 +993,64 @@ button.character-type-badge.character-facet-category {
   background: rgba(155, 89, 182, 0.07);
 }
 
-.directory-spirit-beast .beast-image {
+.directory-spirit-beast .beast-image,
+.directory-nen-ability .beast-image,
+.ability-image-missing {
   width: 72px;
   height: 72px;
   border-radius: 10px;
   object-fit: cover;
 }
 
-.directory-spirit-beast h4 {
+.directory-nen-ability { border-color: rgba(98, 216, 190, 0.28); background: rgba(98, 216, 190, 0.07); }
+.ability-image-missing {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+  font-size: .7rem;
+  text-align: center;
+}
+
+.directory-spirit-beast h4,
+.directory-nen-ability h4 {
   margin: 0 0 6px;
   color: #c39bd3;
   font-size: 0.88rem;
 }
 
-.directory-spirit-beast p {
+.directory-nen-ability h4 { color: #62d8be; }
+
+.directory-spirit-beast p,
+.directory-nen-ability p {
   margin: 0;
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.55;
+}
+
+.directory-ability-image-source {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.directory-spirit-beast .spirit-beast-usage-image {
+  width: min(100%, 320px);
+  height: auto;
+  max-height: 210px;
+  margin: 10px 0 0;
+  object-fit: contain;
+  object-position: left top;
+}
+
+.modal-spirit-beast-usage-image {
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+  object-position: left top;
 }
 
 .section-header {

@@ -266,6 +266,14 @@ body {
 #characterExtraTagGroups { display: grid; gap: 10px; }
 .character-tag-row-extra { border-top: 1px solid var(--border); padding-top: 9px; }
 .character-tag-row-extra .character-tag-row-label { padding-top: 5px; }
+.character-spoiler-filters { border-top: 1px solid var(--border); padding-top: 9px; }
+.character-spoiler-filters summary { color: var(--muted); cursor: pointer; font-size: .82rem; font-weight: 700; }
+.character-spoiler-filters[hidden] { display: none; }
+#characterSpoilerTagRows { display: grid; gap: 10px; margin-top: 9px; }
+.spoilers-revealed .character-spoiler-filters > summary,
+.spoilers-revealed .character-spoiler-details > summary { display: none; }
+.spoilers-revealed #characterSpoilerTagRows,
+.spoilers-revealed .character-spoiler-details .character-structured-tags { margin-top: 0; }
 
 .character-catalog-tag {
   padding: 5px 10px;
@@ -780,6 +788,10 @@ button.character-filter-tag:focus-visible {
   gap: 6px;
   margin-top: 12px;
 }
+.character-spoiler-details { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
+.character-spoiler-details summary { color: var(--muted); cursor: pointer; font-size: .78rem; font-weight: 700; }
+.character-spoiler-details[open] summary { color: var(--accent); }
+.character-spoiler-details .character-structured-tags { margin-top: 8px; }
 .character-tag-chain {
   display: inline-flex;
   flex-wrap: wrap;
@@ -792,7 +804,12 @@ button.character-filter-tag:focus-visible {
   font-size: .8rem;
   font-weight: 700;
 }
+.character-tag-context {
+  color: var(--muted);
+  font-size: .72rem;
+}
 .character-structured-tag { padding: 4px 9px; font-size: .78rem; line-height: 1.35; }
+.character-composite-tag { max-width: 100%; white-space: normal; overflow-wrap: anywhere; text-align: left; }
 .character-structured-tag:hover,
 .character-structured-tag:focus-visible,
 .character-active-tag button:hover,
@@ -817,6 +834,30 @@ button.character-filter-tag:focus-visible {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.04);
 }
+
+.directory-character-expanded { grid-column: 1 / -1; }
+
+.directory-person-timeline {
+  margin-top: 18px;
+  border: 1px solid #d8ded9;
+  border-radius: 14px;
+  background: #fff;
+  color: #273128;
+  overflow: hidden;
+}
+
+.directory-person-timeline-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #d8ded9;
+}
+
+.directory-person-timeline-heading h4 { margin: 0; font-size: .92rem; }
+.directory-person-timeline-heading span { color: #68736b; font-size: .8rem; }
+.directory-person-timeline .chronological-events { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
 
 .directory-character-top {
   display: flex;
@@ -873,6 +914,7 @@ button.character-type-badge:focus-visible {
 .character-facet-guard { --facet-color: #9edf6e; }
 .character-facet-target { --facet-color: #ff8ea8; }
 .character-facet-family { --facet-color: #f3a7ea; }
+.character-facet-status { --facet-color: #ff9b80; }
 .character-facet-other { --facet-color: #c6cfdb; }
 
 .character-structured-tag[class*="character-facet-"],
@@ -919,6 +961,23 @@ button.character-type-badge.character-facet-category {
   overflow-y: auto;
   padding-right: 4px;
 }
+
+.character-source-notes {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.character-source-notes h4,
+.character-source-notes h5 {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: .82rem;
+}
+
+.character-source-notes h5 { margin-top: 12px; }
+.character-source-notes p { margin: 0; font-size: .85rem; line-height: 1.65; white-space: pre-line; }
 
 .basic-character-heading { margin-top: 34px; }
 
@@ -974,6 +1033,23 @@ button.character-type-badge.character-facet-category {
 .section-header p {
   margin: 0;
   color: var(--muted);
+}
+
+.character-view-switch .character-spoiler-toggle {
+  padding: 8px 13px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.character-view-switch .character-spoiler-toggle[aria-pressed="true"] {
+  background: var(--accent);
+  color: #08111f;
 }
 
 .section-subtitle {

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261002c" />
+  <link rel="stylesheet" href="style.css?v=20261003d" />
 </head>
 <body>
   <header class="site-header">
@@ -43,7 +43,7 @@
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>キャラクター一覧</h2>
-        <p>カテゴリに応じたタグを表示します。対象が確認できた任務だけ矢印で結び、憑依には過去に成立した人格移動も含みます。</p>
+        <p id="characterSpoilerHelp">所属・任務を先に表示し、血縁や任務先の変化、死亡・殺害の情報は各人物の「ネタバレ＋」で開けます。手紙や描写による親子説は未確定情報として区別します。</p>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
         <div class="character-tag-row">
@@ -59,6 +59,10 @@
           <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
         </div>
         <div id="characterExtraTagGroups"></div>
+        <details id="characterSpoilerTagGroups" class="character-spoiler-filters" hidden>
+          <summary>ネタバレの絞り込み＋</summary>
+          <div id="characterSpoilerTagRows"></div>
+        </details>
       </div>
       <div class="character-controls">
         <label>
@@ -95,6 +99,7 @@
       <div class="character-view-switch" role="group" aria-label="人物の表示形式">
         <button id="characterViewCards" class="active" type="button" aria-pressed="true">カード表示</button>
         <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
+        <button id="characterSpoilerToggle" class="character-spoiler-toggle" type="button" aria-pressed="false">ネタバレ解除</button>
         <label class="assignment-only-toggle"><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
       </div>
       <div id="characterActiveTag" class="character-active-tag" hidden></div>
@@ -246,6 +251,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=20261002e"></script>
+  <script src="script.js?v=20261003d"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "scope": "pilot",
-  "notes": "表示の試行用。第1王子私設兵の所属タグは台帳の所属と兵種から一括生成する。監視先は明示されたtargetから、護衛先は明示タグまたは台帳のcampから表示する。現在地からは推測しない。憑依は人格移動が成立した過去の例も含む。血縁はchildren・parent_idsから表示する。原作話数ごとの全面監査は今後行う。",
+  "notes": "表示の試行用。第1王子私設兵の所属タグは台帳の所属と兵種から一括生成する。監視・暗殺・従事の対象は明示されたtargetから、護衛先は明示タグまたは台帳のcampから表示する。現在地からは推測しない。憑依は人格移動が成立した過去の例も含む。血縁は人物カードで一つのタグにまとめ、公的な母と手紙・親子説の推測情報を注記で区別する。原作話数ごとの全面監査は今後行う。",
   "definitions": [
     { "id": "affiliation-p01-private", "category": "所属", "label": "第1王子私設兵" },
     { "id": "affiliation-p02-private", "category": "所属", "label": "第2王子私設兵" },
@@ -14,7 +14,7 @@
     { "id": "target-p14", "category": "対象", "label": "第14王子ワブル" },
     { "id": "possession-target-P07-G06", "category": "対象", "label": "シカク" },
     { "id": "possession-target-P01-P05", "category": "対象", "label": "バルサミルコ" },
-    { "id": "family-q01-child", "category": "血縁", "label": "第1王妃ウンマの子" }
+    { "id": "family-q01-child", "category": "血縁", "label": "第1王妃ウンマ" }
   ],
   "assignments": [
     { "character_id": "P09", "tag_ids": ["duty-possession", "possession-target-P01-P05"] },

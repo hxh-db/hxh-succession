@@ -37,7 +37,7 @@
 - `status`: 最新確認時点の状態。
 - `children` / `parent_ids`: 原作で確定した親子関係のみを登録する。
 - `public_mother_id` と `reported_biological_mother_id`: 公的な母と手紙に実母と記された人物を区別する。後者は血縁確定の `parent_ids` には入れず、表示にも未検証と明記する。
-- `suggested_father_id` / `suggested_child_id`: チョウライとオニオールのように親子関係が示唆されるが確定していない場合に使用する。`known_half_sibling_ids` は確認済みの異母兄弟を表す。
+- `suggested_father_id` / `suggested_child_id`: チョウライとオニオールのように親子関係が示唆されるが確定していない場合に使用する。`known_half_sibling_ids` は確認済みの異母兄弟、`known_sibling_ids` は兄弟と確認できるが互いの母親の同異が未確認の関係を表す。
 
 ## character_tags.json（試行）
 

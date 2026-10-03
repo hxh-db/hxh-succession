@@ -1,5 +1,5 @@
 const DATA = {
-  characters: "data/characters.json?v=20261003a",
+  characters: "data/characters.json?v=20261003b",
   characterTags: "data/character_tags.json?v=20261002f",
   characterImages: "data/character_images.json?v=20261002b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
@@ -1166,6 +1166,7 @@ function getBloodRelations(character) {
   if (character.suggested_child_id) add(character.suggested_child_id, "実子説", true);
   const siblingIds = character.known_half_sibling_ids || (character.known_half_sibling_id ? [character.known_half_sibling_id] : []);
   siblingIds.forEach((id) => add(id, "異母兄弟"));
+  (character.known_sibling_ids || []).forEach((id) => add(id, "兄弟（母親の同異は未確認）"));
   return [...relations.values()];
 }
 
@@ -1242,6 +1243,7 @@ function getCharacterTags(character) {
   }
   (character.known_half_sibling_ids || (character.known_half_sibling_id ? [character.known_half_sibling_id] : []))
     .forEach((id) => ids.add(`blood-half-sibling-${id.toLowerCase()}`));
+  (character.known_sibling_ids || []).forEach((id) => ids.add(`blood-sibling-${id.toLowerCase()}`));
   return [...ids]
     .map((id) => characterTagDefinitions.get(id))
     .filter(Boolean);
@@ -1432,6 +1434,10 @@ function getCharacterDescriptionParagraphs(character) {
     ? [character.known_half_sibling_id] : []);
   if (siblingIds.length && !/異母兄弟|腹違い/.test(explanation)) {
     paragraphs.push(`${siblingIds.map((id) => formatRoyalName(id)).join("・")}とは異母兄弟にあたる。`);
+  }
+  const knownSiblingIds = character.known_sibling_ids || [];
+  if (knownSiblingIds.length && !knownSiblingIds.every((id) => explanation.includes(getDisplayName(CHAR_MAP[id])))) {
+    paragraphs.push(`${knownSiblingIds.map((id) => formatRoyalName(id)).join("・")}とは父を同じくする兄弟だが、互いの母親の同異は未確認。`);
   }
   const beyondParent = getKnownParentIds(character).includes("BYD-001");
   if (beyondParent && !explanation.includes("ビヨンド")) paragraphs.push("ビヨンド＝ネテロの実子。");
@@ -3791,6 +3797,14 @@ async function init() {
         const relative = characters.find((candidate) => candidate.id === id);
         if (relative) characterTagDefinitions.set(`blood-half-sibling-${id.toLowerCase()}`, {
           id: `blood-half-sibling-${id.toLowerCase()}`, category: "血縁", label: `${relative.name.split("＝")[0]}（異母兄弟）`
+        });
+      });
+    characters.filter((candidate) => candidate.known_sibling_ids?.length)
+      .flatMap((candidate) => candidate.known_sibling_ids)
+      .forEach((id) => {
+        const relative = characters.find((candidate) => candidate.id === id);
+        if (relative) characterTagDefinitions.set(`blood-sibling-${id.toLowerCase()}`, {
+          id: `blood-sibling-${id.toLowerCase()}`, category: "血縁", label: `${relative.name.split("＝")[0]}（兄弟・母未確認）`
         });
       });
     characters.filter((candidate) => candidate.type === "prince").forEach((prince) => {

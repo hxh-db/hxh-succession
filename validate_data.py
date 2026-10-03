@@ -52,11 +52,14 @@ def validate_cross_references(base):
         characters = json.load(f)
     with open(base / "events.json", encoding="utf-8") as f:
         events = json.load(f)
+    with open(base / "open_questions.json", encoding="utf-8") as f:
+        questions = json.load(f)
 
     ids = [character["id"] for character in characters]
     names = [character["name"] for character in characters]
     id_set = set(ids)
     name_set = set(names)
+    event_ids = {event["id"] for event in events}
     prince_room = re.compile(r"^第1層 10(?:0[1-9]|1[0-4])号室$")
     prince_room_reference = re.compile(r"10(?:0[1-9]|1[0-4])号室")
     noncanonical_place = re.compile(r"王子居住区|エリア\d+|第\d+王子居室|の居室")
@@ -95,10 +98,18 @@ def validate_cross_references(base):
             if token not in (event.get("characters") or []):
                 errors.append(f"人物別所在地の人物がイベント参加者に含まれていません: {event['id']} -> {token}")
 
+    question_ids = [question["id"] for question in questions]
+    for question_id in sorted({value for value in question_ids if question_ids.count(value) > 1}):
+        errors.append(f"未解決事項IDが重複しています: {question_id}")
+    for question in questions:
+        for event_id in question["related_event_ids"]:
+            if event_id not in event_ids:
+                errors.append(f"未解決事項の出来事参照先がありません: {question['id']} -> {event_id}")
+
     for source_name, records in (("人物", characters), ("イベント", events)):
         for record in records:
             for key, value in record.items():
-                if isinstance(value, str) and re.search(r"\bch\d+\b", value, re.IGNORECASE):
+                if isinstance(value, str) and not key.endswith("_image") and re.search(r"\bch\d+\b", value, re.IGNORECASE):
                     errors.append(f"{source_name}に旧話数表記が残っています: {record['id']} -> {key}")
 
     return errors
@@ -113,6 +124,7 @@ def main():
         ("spirit_beasts.json",  "spirit_beasts.schema.json"),
         ("factions.json",       "factions.schema.json"),
         ("mafia.json",          "mafia.schema.json"),
+        ("open_questions.json", "open_questions.schema.json"),
     ]
 
     all_ok = True

@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261003f" />
+  <link rel="stylesheet" href="style.css?v=20261004a" />
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
       <h1>王位継承戦データまとめ</h1>
-      <p>基礎知識と、人物・時間／場所の2つの軸からカキン王位継承戦を確認</p>
+      <p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p>
     </div>
     <nav class="primary-nav" aria-label="メインメニュー">
       <a class="primary-nav-link active" href="#characters" data-primary-view="characters">キャラクター</a>
-      <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">時間・場所別</a>
-      <a class="primary-nav-link" href="#guide" data-primary-view="guide">基礎ガイド</a>
+      <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">出来事</a>
+      <a class="primary-nav-link" href="#guide" data-primary-view="guide">基礎資料</a>
     </nav>
   </header>
 
@@ -110,21 +110,33 @@
 
     <section id="timeline" class="primary-view" data-primary-panel="timeline" hidden>
       <div class="section-header">
-        <h2>時間・場所別</h2>
-        <p>日付を軸に、人物・場所・イベント種類で継承戦の流れを絞り込めます</p>
+        <h2>出来事一覧</h2>
+        <p>作中の出来事を時系列・話数別に確認できます。第420話までのネタバレを含みます。</p>
       </div>
-      <aside class="uncollected-warning" aria-label="単行本未収録情報について">
-        <strong>411話以降は単行本未収録時点の暫定データです。</strong>
-        <span>掲載時の表記や日付に矛盾する可能性があるため、確定情報と分けて表示します。</span>
+      <aside class="uncollected-warning" aria-label="暫定データについて">
+        <strong>411話以降は暫定データとして表示しています。</strong>
+        <span>掲載時の表記や日付は、後から確認できる資料との差異が生じる可能性があるため、確定情報と分けています。</span>
       </aside>
 
-      <div class="timeline-controls">
-        <select id="participantFilter" hidden aria-label="人物で絞る"><option value="all">すべての人物</option></select>
-        <select id="roomFilter" hidden aria-label="場所で絞る"><option value="all">すべての場所</option></select>
+      <div class="timeline-view-tabs" role="tablist" aria-label="出来事の表示方法">
+        <button class="timeline-view-tab active" id="timeline-tab-schedule" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">時系列</button>
+        <button class="timeline-view-tab" id="timeline-tab-chapters" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-chapters" data-view="chapters" tabindex="-1">話数別</button>
+        <button class="timeline-view-tab" id="timeline-tab-questions" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-questions" data-view="questions" tabindex="-1">未解決事項</button>
+      </div>
+      <div class="timeline-controls" id="timelineControls">
+        <label>話数 <select id="chapterFilter"><option value="all">すべての話数</option></select></label>
         <label>
-          イベント種類
+          出来事の種類
           <select id="typeFilter"><option value="all">すべて</option></select>
         </label>
+        <details class="timeline-more-filters">
+          <summary>人物・場所・一連の出来事で絞る</summary>
+          <div class="timeline-more-filter-grid">
+            <label>人物 <select id="participantFilter"><option value="all">すべての人物</option></select></label>
+            <label>場所 <select id="roomFilter"><option value="all">すべての場所</option></select></label>
+            <label>一連の出来事 <select id="seriesFilter"><option value="all">すべて</option></select></label>
+          </div>
+        </details>
         <label>
           並び順
           <select id="timelineSortOrder">
@@ -136,7 +148,7 @@
       </div>
       <div id="timelineActiveFilters" class="timeline-active-filters" aria-live="polite"></div>
 
-      <div id="timeline-panel-schedule" class="timeline-view-panel">
+      <div id="timeline-panel-schedule" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-schedule">
         <div class="section-subtitle">
           <h3>日付別タイムライン</h3>
           <p>「全部」で全日程を通して確認できます。人物・場所・大まかなイベント種類を組み合わせて絞り込めます。</p>
@@ -144,96 +156,112 @@
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>
       </div>
+      <div id="timeline-panel-chapters" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-chapters" hidden>
+        <div class="section-subtitle">
+          <h3>話数別の出来事</h3>
+          <p>同じ話に登録された出来事をまとめて確認できます。人物・場所・種類でも絞り込めます。</p>
+        </div>
+        <div id="chapterEventGroups"></div>
+      </div>
+      <div id="timeline-panel-questions" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-questions" hidden>
+        <div class="section-subtitle">
+          <h3>未解決事項</h3>
+          <p>作中でまだ判明していない問いを、関連する出来事と話数で整理しています。</p>
+        </div>
+        <button id="revealQuestions" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="questionDirectory">第420話までのネタバレを表示</button>
+        <div id="questionDirectory" class="question-directory" hidden></div>
+      </div>
 
     </section>
 
     <section id="guide" class="primary-view" data-primary-panel="guide" hidden>
       <div class="section-header">
-        <p class="section-kicker">はじめて見る人向け</p>
-        <h2>王位継承戦 基礎ガイド</h2>
-        <p>人物相関や出来事を追う前に、継承戦の前提と守護霊獣をまとめて確認できます</p>
+        <p class="section-kicker">作中の設定と数値</p>
+        <h2>王位継承戦 基礎資料</h2>
+        <p>船の構造、参加者の状況、儀式や警護の仕組みを整理しています。</p>
       </div>
-
-      <div class="guide-summary">
-        <p><strong>カキン王国の14王子</strong>が、暗黒大陸へ向かうブラックホエール号の船内で次期国王の座を争う継承戦。王子本人だけでなく、王妃・護衛・ハンター・司法省・マフィアまで思惑が交差します。</p>
-        <a href="#characters" class="guide-jump-link" data-primary-view="characters">14王子と関係者を見る →</a>
-      </div>
-
-      <div class="overview-grid">
-        <article class="overview-card">
-          <h3>王位継承戦とは？</h3>
-          <ul class="rule-list">
-            <li>カキン王国の次期国王を決める儀式</li>
-            <li>継承候補は正妻の子である14人の王子</li>
-            <li>ブラックホエール号出航後、船内で進行</li>
-            <li>表向きの王族殺しは重罪。各陣営は護衛や能力を介して争う</li>
-          </ul>
-        </article>
-
-        <article class="overview-card">
-          <h3>壺中卵の儀</h3>
-          <p class="overview-text">初代国王が遺した壺に王子が血を捧げ、壺から現れた妖精の卵を飲む儀式。儀式を経た王子には、その資質や性格を反映した守護霊獣が宿ります。</p>
-        </article>
-
-        <article class="overview-card">
-          <h3>守護霊獣の原則</h3>
-          <ul class="rule-list">
-            <li>王子本人には自分の守護霊獣が見えない</li>
-            <li>王子の意思で自由に操ることはできない</li>
-            <li>守護霊獣同士は殺し合わない</li>
-            <li>守護霊獣が憑いた人間を直接攻撃しない</li>
-            <li>王子のオーラを糧とし、能力には未解明の部分も多い</li>
-          </ul>
-        </article>
-
-        <article class="overview-card">
-          <h3>情報を見る2つの軸</h3>
-          <ul class="guide-axis-list">
-            <li><strong>人物</strong><span>王子・王妃・護衛・所属を追う</span></li>
-            <li><strong>時間・場所</strong><span>乗船前から12日目以降まで、全体または各号室・階層に絞って追う</span></li>
-          </ul>
-        </article>
-
-        <article class="overview-card">
-          <h3>1014号室の初期配置</h3>
-          <p class="overview-text">第14王子ワブル陣営は、警護11名と従事者4名で開始します。</p>
-          <ul class="rule-list">
-            <li>警護11名：ハンター4名、王室警備兵7名</li>
-            <li>従事者4名：サンドラ、シマヌ、氏名不明の2名</li>
-            <li>死亡・拘束・離脱など、その後の変化はタイムラインに記録</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="guide-section-heading">
-        <div>
-          <p class="section-kicker">14王子に宿る念獣</p>
-          <h3>守護霊獣一覧</h3>
-          <p>画像と要点を一覧で確認。カードを押すと詳しい能力が開きます。</p>
+      <section class="guide-facts" aria-labelledby="guideFactsTitle">
+        <h3 id="guideFactsTitle">継承戦の基本数値</h3>
+        <div class="guide-fact-grid">
+          <div><strong>14人</strong><span>出航時の王子</span></div>
+          <div><strong>8人</strong><span>王妃</span></div>
+          <div><strong>5層</strong><span>ブラックホエール号の階層</span></div>
         </div>
-        <label class="guide-beast-filter">
-          念系統
-          <select id="beastNenFilter">
-            <option value="all">すべて</option>
-            <option value="強化系">強化系</option>
-            <option value="放出系">放出系</option>
-            <option value="具現化系">具現化系</option>
-            <option value="操作系">操作系</option>
-            <option value="変化系">変化系</option>
-            <option value="特質系">特質系</option>
-          </select>
-        </label>
-      </div>
-      <div id="spirit-beast-grid" class="card-grid beast-guide-grid"></div>
+        <p class="guide-source-note">王子・王妃は人物台帳、船内の階層は出来事の場所記録に基づく開始時の情報です。現在の状況は下で分けて表示します。</p>
+        <figure class="guide-panel-quote guide-panel-quote-wide">
+          <img class="zoomable-image guide-source-image" src="images/guide/succession-14-princes-ch349.webp" alt="ナスビーが8人の王妃と14人の王子を説明するコマ" title="第349話『蠱毒』・王位継承戦の参加者（提供画像・写真2）" tabindex="0" role="button" aria-label="8人の王妃と14人の王子の資料コマを拡大">
+          <figcaption>原作コマ：第349話「蠱毒」・8人の王妃と14人の王子（提供画像・写真2）。クリックで拡大できます。</figcaption>
+        </figure>
+      </section>
 
-      <div class="guide-section-heading basic-character-heading">
-        <div>
-          <p class="section-kicker">継承戦の前提に関わる人物</p>
-          <h3>船外・背景人物</h3>
-          <p>船内の人物一覧から外した、継承戦の背景を理解するための人物です。</p>
+      <section class="guide-data-section" aria-labelledby="shipMapTitle">
+        <h3 id="shipMapTitle">ブラックホエール号の見取り図</h3>
+        <p>各層と作中で確認できる主な場所を、縮尺を持たない模式図にしました。</p>
+        <div class="ship-levels" aria-label="船内の階層">
+          <div class="ship-level"><strong>第1層</strong><span>王子居住区・王室・斎場など。1001〜1014号室に各王子の居室が置かれる。</span></div>
+          <div class="ship-level"><strong>第2層</strong><span>司法省など、捜査・司法に関わる場所。</span></div>
+          <div class="ship-level"><strong>第3層</strong><span>中央警察署や302号室などが登場する。</span></div>
+          <div class="ship-level"><strong>第4層</strong><span>シュウ＝ウ一家の拠点、倉庫区画などが登場する。</span></div>
+          <div class="ship-level"><strong>第5層</strong><span>シャ＝ア一家の拠点などが登場する。</span></div>
         </div>
-      </div>
-      <div id="basicCharacterDirectory" class="character-directory basic-character-directory"></div>
+        <p class="guide-source-note">参照：第359〜360話（王子居住区）、第378〜380話（下層の勢力・施設）。同じ層にある場所同士の位置関係は示していません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="princeStatusTitle">
+        <h3 id="princeStatusTitle">王子の人数と状況</h3>
+        <p>出航時は14人。以下の最新状態は死亡・身元などのネタバレを含みます。</p>
+        <button id="revealPrinceStatus" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="princeStatusContent">最新の状況を表示</button>
+        <div id="princeStatusContent" hidden></div>
+        <p class="guide-source-note">人数は人物台帳の状態表記から集計します。肉体と人格の状態が異なる場合や身元が未確定の場合は、単純な生存人数として扱いません。船全体の乗船人数は根拠を確認できていないため掲載していません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="successionRulesTitle">
+        <h3 id="successionRulesTitle">継承戦の制度</h3>
+        <div class="overview-grid">
+          <article class="overview-card">
+            <h4>継承戦の前提</h4>
+            <ul class="rule-list">
+              <li>カキン国王ナスビーの後継を、14人の王子の間で争う。</li>
+              <li>壺中卵の儀を経て、ブラックホエール号で継承戦が進行する。</li>
+              <li>王族への表立った殺害には法的な制約があり、護衛や司法の動きも継承戦に関わる。</li>
+            </ul>
+          </article>
+          <article class="overview-card">
+            <h4>壺中卵の儀と守護霊獣</h4>
+            <p class="overview-text">王子が壺に血を捧げ、現れた卵を飲む儀式。守護霊獣は王子のオーラを糧とし、本人には見えず、本人の意思で自由には操れません。守護霊獣同士は殺し合わず、憑いた人間を直接攻撃しないという共通原則があります。</p>
+            <p class="overview-text guide-secondary-text">守護霊獣と王子本人の念能力は別です。個々の守護霊獣の姿や能力は各王子の人物情報にまとめています。</p>
+          </article>
+        </div>
+        <div class="guide-panel-grid">
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/seed-urn-ritual-ch349.webp" alt="王子が壺に血を落とし、手を差し入れる儀式のコマ" title="第349話『蠱毒』・壺中卵の儀（提供画像・写真4）" tabindex="0" role="button" aria-label="壺中卵の儀の資料コマを拡大">
+            <figcaption>原作コマ：第349話「蠱毒」・壺中卵の儀（提供画像・写真4）</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/nasubi-guardian-beast-ch349.webp" alt="ナスビーと背後の守護霊獣が描かれたコマ" title="第349話『蠱毒』・ナスビーの守護霊獣（提供画像・写真6）" tabindex="0" role="button" aria-label="ナスビーの守護霊獣の資料コマを拡大">
+            <figcaption>原作コマ：第349話「蠱毒」・ナスビーの守護霊獣（提供画像・写真6）</figcaption>
+          </figure>
+        </div>
+        <p class="guide-source-note">参照：第349話（儀式・参加条件）、第360〜361話（守護霊獣と継承戦の制約）。例外や未解明の条件は確定事項として加えていません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="shipRolesTitle">
+        <h3 id="shipRolesTitle">船内の立場と役割</h3>
+        <div class="guide-table-wrap">
+          <table class="guide-table">
+            <thead><tr><th>立場</th><th>作中での位置づけ</th></tr></thead>
+            <tbody>
+              <tr><th>王子・王妃</th><td>継承候補とその母。王子ごとに居室と陣営がある。</td></tr>
+              <tr><th>王室警備兵</th><td>国王軍側の警護人員。王子の居室へ配置される。</td></tr>
+              <tr><th>王妃所属兵・私設兵</th><td>所属する王妃や王子と、実際の配置先が異なる場合もある。</td></tr>
+              <tr><th>ハンター</th><td>護衛や調査など、それぞれの任務で乗船する。</td></tr>
+              <tr><th>司法省</th><td>船内の事件捜査や法的手続きに関わる。</td></tr>
+              <tr><th>三大マフィア</th><td>下層で活動する別々の組織。王子陣営との関係もそれぞれ異なる。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
+      </section>
     </section>
   </main>
 
@@ -251,6 +279,15 @@
     </div>
   </div>
 
-  <script src="script.js?v=20261003k"></script>
+  <dialog id="imageLightbox" class="image-lightbox" aria-label="画像の拡大表示">
+    <div class="image-lightbox-controls">
+      <button id="lightboxZoom" type="button" aria-pressed="false">＋ さらに拡大</button>
+      <button id="lightboxClose" type="button">× 閉じる</button>
+    </div>
+    <div class="image-lightbox-stage"><img id="lightboxImage" alt=""></div>
+    <p id="lightboxCaption"></p>
+  </dialog>
+
+  <script src="script.js?v=20261004d"></script>
 </body>
 </html>

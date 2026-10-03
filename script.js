@@ -1,11 +1,12 @@
 const DATA = {
-  characters: "data/characters.json?v=20261003e",
+  characters: "data/characters.json?v=20261004a",
   characterTags: "data/character_tags.json?v=20261002f",
   characterImages: "data/character_images.json?v=20261002b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
-  events: "data/events.json?v=20261003a",
+  events: "data/events.json?v=20261004a",
+  openQuestions: "data/open_questions.json?v=20261004a",
   alliances: "data/alliances.json?v=20261002c",
-  spiritBeasts: "data/spirit_beasts.json",
+  spiritBeasts: "data/spirit_beasts.json?v=20261004a",
   factions: "data/factions.json?v=20261002c",
   mafia: "data/mafia.json"
 };
@@ -19,6 +20,7 @@ function isDirectoryCharacter(character) {
 let princesData = [];
 let bodyguardsData = [];
 let eventsData = [];
+let openQuestionsData = [];
 let inferredTimePlacements = new Map();
 let spiritBeastsData = [];
 let factionsData = [];
@@ -41,7 +43,6 @@ let currentCharacterResults = [];
 let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
-const BASIC_CHARACTER_IDS = new Set(["HA-001", "HA-005", "BYD-002", "BYD-003"]);
 const LOCAL_DRAFTS_KEY = "hxh-succession-local-drafts-v1";
 const REOPEN_DETAIL_KEY = "hxh-succession-reopen-detail-v1";
 const SPOILER_VISIBILITY_KEY = "hxh-succession-spoilers-revealed-v1";
@@ -101,10 +102,14 @@ async function loadLocalDrafts() {
   try {
     const response = await fetch("/api/drafts", { cache: "no-store" });
     if (!response.ok) return;
-    const serverItems = validateDraftImport(await response.json());
+    const serverPayload = await response.json();
+    const serverItems = validateDraftImport(serverPayload);
+    const serverSavedAt = Date.parse(serverPayload.exportedAt || "") || 0;
     const merged = { ...serverItems };
     for (const [key, draft] of Object.entries(browserDrafts.items)) {
-      if (!merged[key] || (Date.parse(draft.updatedAt || "") || 0) > (Date.parse(merged[key].updatedAt || "") || 0)) {
+      const browserUpdatedAt = Date.parse(draft.updatedAt || "") || 0;
+      if ((!merged[key] && browserUpdatedAt > serverSavedAt)
+        || (merged[key] && browserUpdatedAt > (Date.parse(merged[key].updatedAt || "") || 0))) {
         merged[key] = draft;
       }
     }
@@ -497,7 +502,7 @@ function getEventDateCertainty(event) {
 function getDateCertaintyLabel(event) {
   return {
     confirmed: "",
-    estimated: "推測",
+    estimated: "日付推定",
     provisional: "単行本未収録・暫定",
     unknown: "日付不明"
   }[getEventDateCertainty(event)] || "日付不明";
@@ -750,8 +755,58 @@ function makeBeastImage(src, alt) {
   img.className = "beast-image";
   img.alt = alt || "守護霊獣";
   img.src = src;
+  img.classList.add("zoomable-image");
+  img.tabIndex = 0;
+  img.setAttribute("role", "button");
+  img.setAttribute("aria-label", `${img.alt}を拡大`);
   img.onerror = () => img.remove();
   return img;
+}
+
+function setupImageLightbox() {
+  const dialog = document.getElementById("imageLightbox");
+  const enlarged = document.getElementById("lightboxImage");
+  const caption = document.getElementById("lightboxCaption");
+  const close = document.getElementById("lightboxClose");
+  const zoom = document.getElementById("lightboxZoom");
+  if (!dialog || !enlarged || !caption || !close || !zoom) return;
+  let returnFocus = null;
+  const open = (img) => {
+    if (!img.currentSrc && !img.src) return;
+    returnFocus = img;
+    enlarged.src = img.currentSrc || img.src;
+    enlarged.alt = img.alt || "拡大画像";
+    caption.textContent = img.title || img.dataset.source || img.alt || "";
+    dialog.classList.remove("magnified");
+    zoom.setAttribute("aria-pressed", "false");
+    zoom.textContent = "＋ さらに拡大";
+    dialog.showModal();
+    close.focus();
+  };
+  document.addEventListener("click", (event) => {
+    const img = event.target.closest?.("img.zoomable-image");
+    if (!img) return;
+    event.stopPropagation();
+    open(img);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const img = event.target.closest?.("img.zoomable-image");
+    if (!img) return;
+    event.preventDefault();
+    event.stopPropagation();
+    open(img);
+  });
+  close.addEventListener("click", () => dialog.close());
+  zoom.addEventListener("click", () => {
+    const magnified = dialog.classList.toggle("magnified");
+    zoom.setAttribute("aria-pressed", String(magnified));
+    zoom.textContent = magnified ? "− 全体表示" : "＋ さらに拡大";
+  });
+  dialog.addEventListener("close", () => {
+    enlarged.removeAttribute("src");
+    returnFocus?.focus();
+  });
 }
 
 // ===== カード共通 =====
@@ -849,37 +904,6 @@ function setupPrinceSearch() {
   searchInput.addEventListener("input", apply);
   nenFilter.addEventListener("change", apply);
   statusFilter.addEventListener("change", apply);
-}
-
-// ===== 守護霊獣一覧 =====
-
-function renderSpiritBeasts(beasts) {
-  const grid = document.getElementById("spirit-beast-grid");
-  grid.innerHTML = "";
-  if (beasts.length === 0) {
-    grid.textContent = "該当する守護霊獣が見つかりませんでした。";
-    return;
-  }
-  beasts.forEach((b) => {
-    const items = [
-      { label: "担当王子", value: formatRoyalName(b.prince) },
-      { label: "外見・形態", value: b.appearance || "不明" },
-      { label: "能力", value: b.ability || "不明" }
-    ];
-    const badges = [makeNenBadge(b.nen_type)];
-    const beastImage = makeBeastImage(b.image, b.name);
-    grid.appendChild(createCard(b.name || `${formatRoyalName(b.prince)}の守護霊獣`, items, badges, () => showDetailModal(b.name, "spiritBeast"), beastImage));
-  });
-}
-
-function setupBeastNenFilter() {
-  const nenFilter = document.getElementById("beastNenFilter");
-  nenFilter.addEventListener("change", () => {
-    const val = nenFilter.value;
-    const filtered = val === "all" ? spiritBeastsData
-      : spiritBeastsData.filter((b) => b.nen_type === val);
-    renderSpiritBeasts(filtered);
-  });
 }
 
 // ===== 護衛・ハンター一覧 =====
@@ -1577,7 +1601,7 @@ function createCharacterDirectoryCard(character) {
       const missionChain = makeCharacterTagChain([mission, ...historicalTargets, missionTarget]);
       if (historicalTargets.length || character.target_status === "過去") {
         tagList.appendChild(makeCharacterTagButton(mission));
-        spoilerTagList.appendChild(missionChain);
+        spoilerTagList.appendChild(makeCharacterTagChain([...historicalTargets, missionTarget]));
       } else {
         tagList.appendChild(missionChain);
       }
@@ -1674,8 +1698,9 @@ function createCharacterDirectoryCard(character) {
     }
   });
 
-  if (character.type === "prince") {
-    const beast = spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character));
+  if (character.type === "prince" || character.id === "KNG-001") {
+    const beast = spiritBeastsData.find((candidate) => candidate.prince === character.name
+      || candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character));
     if (beast) {
       const beastSection = document.createElement("section");
       beastSection.className = "directory-spirit-beast";
@@ -1691,13 +1716,8 @@ function createCharacterDirectoryCard(character) {
         const usageImage = makeBeastImage(beast.usage_image, `${beast.name}の使用・顕現場面`);
         if (usageImage) {
           usageImage.classList.add("spirit-beast-usage-image");
+          if (beast.usage_image_source) usageImage.title = beast.usage_image_source;
           beastText.appendChild(usageImage);
-          if (beast.usage_image_source) {
-            const usageSource = document.createElement("small");
-            usageSource.className = "directory-ability-image-source";
-            usageSource.textContent = `場面：${beast.usage_image_source}`;
-            beastText.appendChild(usageSource);
-          }
         }
       }
       beastSection.appendChild(beastText);
@@ -1726,12 +1746,6 @@ function createCharacterDirectoryCard(character) {
     const abilityDescription = document.createElement("p");
     abilityDescription.textContent = formatDisplayText(character.nen_ability) || "能力の詳細は未判明。";
     abilityText.append(abilityHeading, abilityDescription);
-    if (character.nen_ability_image_source) {
-      const imageSource = document.createElement("small");
-      imageSource.className = "directory-ability-image-source";
-      imageSource.textContent = `画像：${character.nen_ability_image_source}`;
-      abilityText.appendChild(imageSource);
-    }
     abilitySection.appendChild(abilityText);
     details.appendChild(abilitySection);
   }
@@ -1900,14 +1914,6 @@ function setCharacterView(view) {
   });
 }
 
-function renderBasicCharacters() {
-  const container = document.getElementById("basicCharacterDirectory");
-  container.innerHTML = "";
-  charactersData.filter((character) => BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character))
-    .sort(sortCharacters)
-    .forEach((character) => container.appendChild(createCharacterDirectoryCard(character)));
-}
-
 function setSpoilersRevealed(revealed, persist = true) {
   spoilersRevealed = revealed;
   document.body.classList.toggle("spoilers-revealed", revealed);
@@ -1941,7 +1947,7 @@ function setupCharacterDirectory() {
   const campFilter = document.getElementById("characterCampFilter");
   const princeFilter = document.getElementById("characterPrinceFilter");
   const activeTagBar = document.getElementById("characterActiveTag");
-  const onboardCharacters = charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character));
+  const onboardCharacters = charactersData.filter(isDirectoryCharacter);
   [...new Set(onboardCharacters.map((character) => character.camp).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
       const option = document.createElement("option");
@@ -2467,14 +2473,6 @@ function getTimeLabel(event) {
   return event.time_end ? `${event.time_start}〜${event.time_end}` : event.time_start;
 }
 
-function makeTimeEstimateBadge() {
-  const badge = document.createElement("span");
-  badge.className = "time-estimate-badge";
-  badge.textContent = "推測";
-  badge.title = "作中に確定時刻の明記はありません。前後の描写から画面上で仮配置しています。";
-  return badge;
-}
-
 function getTimelineTimePlacement(event) {
   const exactMinutes = parseTimeString(event.time_start);
   if (exactMinutes != null) return { minutes: exactMinutes, label: event.time_start, estimated: false };
@@ -2657,7 +2655,6 @@ function createTimelineCard(event) {
     const estimate = inferredTimePlacements.get(event.id);
     if (estimate) {
       addMeta(`時刻: ${estimate.label}`);
-      if (!event.is_estimate) meta.appendChild(makeTimeEstimateBadge());
     }
   }
   addMeta(`場所: ${getLocationKey(event)}`);
@@ -2733,13 +2730,17 @@ function applyFilter() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedType = document.getElementById("typeFilter").value;
   const selectedParticipant = document.getElementById("participantFilter").value;
+  const selectedChapter = document.getElementById("chapterFilter").value;
+  const selectedSeries = document.getElementById("seriesFilter").value;
 
   const filtered = eventsData.filter((event) => {
     const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
     const typeMatch = selectedType === "all" || getEventTypeGroup(event) === selectedType;
     const participantMatch = selectedParticipant === "all"
       || (event.characters || []).includes(selectedParticipant);
-    return roomMatch && typeMatch && participantMatch;
+    const chapterMatch = selectedChapter === "all" || String(event.chapter) === selectedChapter;
+    const seriesMatch = selectedSeries === "all" || event.series === selectedSeries;
+    return roomMatch && typeMatch && participantMatch && chapterMatch && seriesMatch;
   });
 
   filteredEventsData = filtered;
@@ -2754,6 +2755,8 @@ function renderTimelineActiveFilters() {
   container.innerHTML = "";
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedParticipant = document.getElementById("participantFilter").value;
+  const selectedChapter = document.getElementById("chapterFilter").value;
+  const selectedSeries = document.getElementById("seriesFilter").value;
   const filters = [];
   if (selectedRoom !== "all") {
     const room = ROOM_AREA_DEFINITIONS.find((area) => area.id === selectedRoom);
@@ -2761,6 +2764,12 @@ function renderTimelineActiveFilters() {
   }
   if (selectedParticipant !== "all") {
     filters.push({ label: `人物：${formatRoyalName(selectedParticipant)}`, target: "participantFilter" });
+  }
+  if (selectedChapter !== "all") {
+    filters.push({ label: `第${selectedChapter}話`, target: "chapterFilter" });
+  }
+  if (selectedSeries !== "all") {
+    filters.push({ label: `一連の出来事：${selectedSeries}`, target: "seriesFilter" });
   }
   if (filters.length === 0) {
     const guide = document.createElement("p");
@@ -2789,12 +2798,16 @@ function renderTimelineActiveFilters() {
 function getTimelineEventsIgnoringType() {
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedParticipant = document.getElementById("participantFilter").value;
+  const selectedChapter = document.getElementById("chapterFilter").value;
+  const selectedSeries = document.getElementById("seriesFilter").value;
   return eventsData.filter((event) => {
     const roomMatch = selectedRoom === "all" || getRoomAreaIds(event).includes(selectedRoom);
     const participantMatch = selectedParticipant === "all"
       || (event.characters || []).includes(selectedParticipant);
+    const chapterMatch = selectedChapter === "all" || String(event.chapter) === selectedChapter;
+    const seriesMatch = selectedSeries === "all" || event.series === selectedSeries;
     const periodMatch = activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId;
-    return roomMatch && participantMatch && periodMatch;
+    return roomMatch && participantMatch && chapterMatch && seriesMatch && periodMatch;
   });
 }
 
@@ -2816,8 +2829,10 @@ function resetFilters() {
   document.getElementById("roomFilter").value = "all";
   document.getElementById("typeFilter").value = "all";
   document.getElementById("participantFilter").value = "all";
+  document.getElementById("chapterFilter").value = "all";
+  document.getElementById("seriesFilter").value = "all";
   document.getElementById("timelineSortOrder").value = "asc";
-  activeTimelinePeriodId = "day-1";
+  activeTimelinePeriodId = activeTimelineView === "chapters" ? "all" : "day-1";
   applyFilter();
 }
 
@@ -2825,6 +2840,8 @@ function setupFilters() {
   const roomFilter = document.getElementById("roomFilter");
   const typeFilter = document.getElementById("typeFilter");
   const participantFilter = document.getElementById("participantFilter");
+  const chapterFilter = document.getElementById("chapterFilter");
+  const seriesFilter = document.getElementById("seriesFilter");
 
   [...new Set(ROOM_AREA_DEFINITIONS.map((area) => area.group))].forEach((groupLabel) => {
     const group = document.createElement("optgroup");
@@ -2855,8 +2872,26 @@ function setupFilters() {
       participantFilter.appendChild(opt);
     });
 
+  [...new Set(eventsData.map((event) => event.chapter))].sort((a, b) => a - b).forEach((chapter) => {
+    const option = document.createElement("option");
+    option.value = String(chapter);
+    option.textContent = `第${chapter}話`;
+    chapterFilter.appendChild(option);
+  });
+  [...new Set(eventsData.map((event) => event.series).filter(Boolean))].sort((a, b) => a.localeCompare(b, "ja")).forEach((series) => {
+    const option = document.createElement("option");
+    option.value = series;
+    option.textContent = series;
+    seriesFilter.appendChild(option);
+  });
+
   participantFilter.addEventListener("change", applyFilter);
   document.getElementById("roomFilter").addEventListener("change", applyFilter);
+  chapterFilter.addEventListener("change", () => {
+    if (chapterFilter.value !== "all") activeTimelinePeriodId = "all";
+    applyFilter();
+  });
+  seriesFilter.addEventListener("change", applyFilter);
   document.getElementById("typeFilter").addEventListener("change", applyFilter);
   document.getElementById("timelineSortOrder").addEventListener("change", applyFilter);
   document.getElementById("clearFilters").addEventListener("click", resetFilters);
@@ -2872,16 +2907,40 @@ function renderActiveTimelineView() {
   const events = filteredEventsData;
   if (activeTimelineView === "schedule") {
     renderTimelineSchedule(events);
-  } else if (activeTimelineView === "events") {
-    renderTimeline(events);
-  } else if (activeTimelineView === "person") {
-    const token = document.getElementById("participantSelect").value;
-    renderPersonTimeline(token, events);
-  } else if (activeTimelineView === "matrix") {
-    renderTimelineMatrix(events);
-  } else if (activeTimelineView === "gantt") {
-    renderGanttChart(events);
+  } else if (activeTimelineView === "chapters") {
+    renderTimelineChapters(events);
   }
+}
+
+function renderTimelineChapters(events) {
+  const container = document.getElementById("chapterEventGroups");
+  container.replaceChildren();
+  if (!events.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "条件に一致する出来事はありません。";
+    container.appendChild(empty);
+    return;
+  }
+  const grouped = new Map();
+  events.forEach((event) => {
+    if (!grouped.has(event.chapter)) grouped.set(event.chapter, []);
+    grouped.get(event.chapter).push(event);
+  });
+  const descending = document.getElementById("timelineSortOrder").value === "desc";
+  const chapters = [...grouped.keys()].sort((a, b) => descending ? b - a : a - b);
+  chapters.forEach((chapter, index) => {
+    const group = document.createElement("details");
+    group.className = "chapter-group";
+    group.open = chapters.length === 1 || index === 0;
+    const heading = document.createElement("summary");
+    heading.textContent = `第${chapter}話 — ${grouped.get(chapter).length}件の出来事`;
+    const list = document.createElement("div");
+    list.className = "chapter-event-list";
+    const chapterEvents = grouped.get(chapter).slice().sort((a, b) => descending ? sortKey(b) - sortKey(a) : sortKey(a) - sortKey(b));
+    chapterEvents.forEach((event) => list.appendChild(createScheduleEventCard(event, getTimelineTimePlacement(event))));
+    group.append(heading, list);
+    container.appendChild(group);
+  });
 }
 
 function activateTimelineView(view, moveFocus = false) {
@@ -2890,7 +2949,11 @@ function activateTimelineView(view, moveFocus = false) {
   if (!selectedTab) return;
 
   activeTimelineView = view;
+  const isQuestions = view === "questions";
+  document.getElementById("timelineControls").hidden = isQuestions;
+  document.getElementById("timelineActiveFilters").hidden = isQuestions;
   if (view !== "schedule") document.getElementById("typeFilter")?.setAvailability?.(null);
+  if (view === "schedule" && document.getElementById("chapterFilter").value !== "all") activeTimelinePeriodId = "all";
   tabs.forEach((tab) => {
     const active = tab === selectedTab;
     tab.classList.toggle("active", active);
@@ -3026,7 +3089,7 @@ function renderTimelineSchedule(events) {
 
   const note = document.createElement("p");
   note.className = "schedule-note";
-  note.textContent = "※ 「頃？」と「推測」は見やすさのため、同日の確定時刻と話数順から仮配置した目安です。実際の時刻や経過時間は示しません。手がかりのない出来事は「時刻不明」、日付未入力は「日付不明」、411話以降は「暫定」に分けています。";
+  note.textContent = "※ 時刻の「頃？」は、同日の確定時刻と話数順から仮配置した目安です。「推測」タグは出来事の内容自体が推測の場合に限ります。実際の時刻や経過時間は示しません。手がかりのない出来事は「時刻不明」、日付未入力は「日付不明」、411話以降は「暫定」に分けています。";
   container.appendChild(note);
 }
 
@@ -3054,7 +3117,6 @@ function createScheduleEventCard(event, placement) {
   item.append(location, chapter);
   const certaintyBadge = makeCertaintyBadge(event);
   if (certaintyBadge) item.appendChild(certaintyBadge);
-  if (placement?.estimated && !event.is_estimate) item.appendChild(makeTimeEstimateBadge());
   if (getEventPeriodId(event) === "unknown") item.appendChild(makeChronologyBadge(event));
   item.appendChild(description);
   const participantTags = document.createElement("div");
@@ -3593,7 +3655,7 @@ function showDetailModal(name, category, eventData = null) {
     if (!record) return;
     titleEl.textContent = record.name;
     details = [
-      { label: "担当王子", value: formatRoyalName(record.prince) },
+      { label: "対象の王族", value: formatRoyalName(record.prince) },
       { label: "外見・形態", value: record.appearance || "不明" },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.ability || "不明" }
@@ -3635,7 +3697,7 @@ function showDetailModal(name, category, eventData = null) {
   if (category === "spiritBeast" && record.image) {
     const modalBeastImage = makeBeastImage(record.image, record.name);
     if (modalBeastImage) {
-      modalBeastImage.className = "beast-image modal-beast-image";
+      modalBeastImage.classList.add("modal-beast-image");
       content.appendChild(modalBeastImage);
     }
   }
@@ -3646,14 +3708,9 @@ function showDetailModal(name, category, eventData = null) {
     content.appendChild(usageHeading);
     const usageImage = makeBeastImage(record.usage_image, `${record.name}の使用・顕現場面`);
     if (usageImage) {
-      usageImage.className = "beast-image modal-spirit-beast-usage-image";
+      usageImage.classList.add("modal-spirit-beast-usage-image");
+      if (record.usage_image_source) usageImage.title = record.usage_image_source;
       content.appendChild(usageImage);
-    }
-    if (record.usage_image_source) {
-      const usageSource = document.createElement("small");
-      usageSource.className = "directory-ability-image-source";
-      usageSource.textContent = `出典：${record.usage_image_source}`;
-      content.appendChild(usageSource);
     }
   }
 
@@ -3784,6 +3841,161 @@ function setupBackToTop() {
   updateVisibility();
 }
 
+function renderPrinceStatusGuide(container) {
+  container.replaceChildren();
+  const counts = { "存命表記": 0, "死亡表記": 0, "判定保留": 0 };
+  const categoryFor = (status) => {
+    if (String(status || "").startsWith("存命")) return "存命表記";
+    if (String(status || "").startsWith("死亡")) return "死亡表記";
+    return "判定保留";
+  };
+  princesData.forEach((prince) => { counts[categoryFor(prince.status)] += 1; });
+  const summary = document.createElement("p");
+  summary.className = "guide-status-summary";
+  summary.textContent = `人物台帳の状態表記：存命 ${counts["存命表記"]}人／死亡 ${counts["死亡表記"]}人／判定保留 ${counts["判定保留"]}人（第${Math.max(...eventsData.map((event) => event.chapter))}話までの登録情報）`;
+  container.appendChild(summary);
+
+  const wrap = document.createElement("div");
+  wrap.className = "guide-table-wrap";
+  const table = document.createElement("table");
+  table.className = "guide-table";
+  const head = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  ["王子", "台帳の状態", "集計上の扱い"].forEach((label) => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    headRow.appendChild(th);
+  });
+  head.appendChild(headRow);
+  const body = document.createElement("tbody");
+  princesData.forEach((prince) => {
+    const row = document.createElement("tr");
+    [`第${prince.rank}王子 ${getDisplayName(prince)}`, prince.status || "不明", categoryFor(prince.status)].forEach((value) => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    body.appendChild(row);
+  });
+  table.append(head, body);
+  wrap.appendChild(table);
+  container.appendChild(wrap);
+  const caution = document.createElement("p");
+  caution.className = "guide-source-note";
+  caution.textContent = "これは人物台帳の状態表記の内訳です。王位継承戦への参加資格や人格・肉体の状態を一律に確定する人数ではありません。";
+  container.appendChild(caution);
+
+  const personnelTitle = document.createElement("h4");
+  personnelTitle.textContent = "作中で人数が示された警護・従事者";
+  container.appendChild(personnelTitle);
+  const personnelWrap = document.createElement("div");
+  personnelWrap.className = "guide-table-wrap";
+  const personnelTable = document.createElement("table");
+  personnelTable.className = "guide-table";
+  const personnelHead = document.createElement("thead");
+  const personnelHeadRow = document.createElement("tr");
+  ["場面", "確認できた人数", "出典"].forEach((label) => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    personnelHeadRow.appendChild(th);
+  });
+  personnelHead.appendChild(personnelHeadRow);
+  const personnelBody = document.createElement("tbody");
+  [
+    ["ワブル陣営の警護", "開始時11名（ハンター4名・王室警備兵7名）→出航約2時間後はクラピカとビルの2名", "第361話"],
+    ["モモゼの1012号室", "警護兵6名が残留（第1〜第6王妃から各1名）", "第361話"],
+    ["モモゼ殺害時のマラヤーム側", "従事者6名・監視兵6名・警備兵2名・ハンター1名・移動後のモモゼ側9名", "第368話"],
+  ].forEach(([scene, count, source]) => {
+    const row = document.createElement("tr");
+    [scene, count, source].forEach((value) => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    personnelBody.appendChild(row);
+  });
+  personnelTable.append(personnelHead, personnelBody);
+  personnelWrap.appendChild(personnelTable);
+  container.appendChild(personnelWrap);
+  const personnelNote = document.createElement("p");
+  personnelNote.className = "guide-source-note";
+  personnelNote.textContent = "各行は記載した話数の場面に限る人数です。現在の配置や船全体の人口としては扱いません。";
+  container.appendChild(personnelNote);
+}
+
+function setupGuideStatus() {
+  const button = document.getElementById("revealPrinceStatus");
+  const container = document.getElementById("princeStatusContent");
+  button.addEventListener("click", () => {
+    const revealed = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(revealed));
+    button.textContent = revealed ? "最新の状況を隠す" : "最新の状況を表示";
+    container.hidden = !revealed;
+    if (revealed) renderPrinceStatusGuide(container);
+    else container.replaceChildren();
+  });
+}
+
+function renderOpenQuestions(container, category = "all") {
+  container.replaceChildren();
+  const filter = document.createElement("label");
+  filter.className = "question-filter";
+  filter.textContent = "分類 ";
+  const select = document.createElement("select");
+  const categories = ["all", ...new Set(openQuestionsData.map((question) => question.category))];
+  categories.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value === "all" ? "すべて" : value;
+    select.appendChild(option);
+  });
+  select.value = category;
+  select.addEventListener("change", () => renderOpenQuestions(container, select.value));
+  filter.appendChild(select);
+  container.appendChild(filter);
+
+  openQuestionsData.filter((question) => question.status === "open" && (category === "all" || question.category === category))
+    .forEach((question) => {
+      const card = document.createElement("article");
+      card.className = "question-card";
+      const heading = document.createElement("h4");
+      heading.textContent = question.title;
+      const meta = document.createElement("p");
+      meta.className = "question-meta";
+      meta.textContent = `${question.category}・第${question.last_checked_chapter}話までの登録内容で未解決`;
+      const known = document.createElement("p");
+      known.textContent = `分かっていること：${question.known}`;
+      const unknown = document.createElement("p");
+      unknown.textContent = `まだ分からないこと：${question.unknown}`;
+      const links = document.createElement("div");
+      links.className = "question-event-links";
+      question.related_event_ids.forEach((id) => {
+        const event = eventsData.find((candidate) => candidate.id === id);
+        if (!event) return;
+        const link = document.createElement("button");
+        link.type = "button";
+        link.textContent = `第${event.chapter}話の出来事`;
+        link.addEventListener("click", () => showDetailModal(event.id, "event", event));
+        links.appendChild(link);
+      });
+      card.append(heading, meta, known, unknown, links);
+      container.appendChild(card);
+    });
+}
+
+function setupOpenQuestions() {
+  const button = document.getElementById("revealQuestions");
+  const container = document.getElementById("questionDirectory");
+  button.addEventListener("click", () => {
+    const revealed = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(revealed));
+    button.textContent = revealed ? "未解決事項を隠す" : "第420話までのネタバレを表示";
+    container.hidden = !revealed;
+    if (revealed) renderOpenQuestions(container);
+    else container.replaceChildren();
+  });
+}
+
 function activatePrimaryView(view, updateHash = false) {
   const requestedView = view === "places" ? "timeline" : view;
   const validView = ["characters", "timeline", "guide"].includes(requestedView) ? requestedView : "characters";
@@ -3824,12 +4036,13 @@ function scrollToCurrentHash() {
 
 async function init() {
   try {
-    const [characters, characterTags, characterImages, countOnlyCharacters, events, spiritBeasts, factions, mafia, allianceData] = await Promise.all([
+    const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData] = await Promise.all([
       loadJson(DATA.characters),
       loadJson(DATA.characterTags),
       loadJson(DATA.characterImages),
       loadJson(DATA.countOnlyCharacters),
       loadJson(DATA.events),
+      loadJson(DATA.openQuestions),
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
       loadJson(DATA.mafia),
@@ -3942,18 +4155,19 @@ async function init() {
       && isDirectoryCharacter(c)
     );
     eventsData = [...events].sort((a, b) => sortKey(a) - sortKey(b));
+    openQuestionsData = openQuestions;
     inferredTimePlacements = buildInferredTimePlacements(eventsData);
     if (pendingDraftMigration) await saveLocalDrafts();
 
     buildPrinceMap(princesData);
     buildCharMap(charactersData);
 
-    renderCharacterDirectory(charactersData.filter((character) => !BASIC_CHARACTER_IDS.has(character.id) && isDirectoryCharacter(character)));
-    renderBasicCharacters();
-    renderSpiritBeasts(spiritBeastsData);
+    renderCharacterDirectory(charactersData.filter(isDirectoryCharacter));
     setupCharacterDirectory();
-    setupBeastNenFilter();
+    setupGuideStatus();
+    setupOpenQuestions();
     setupDetailModal();
+    setupImageLightbox();
     setupDraftTransfer();
     setupTimelineTabs();
     setupFilters();

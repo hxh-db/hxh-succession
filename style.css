@@ -91,7 +91,7 @@ body {
   max-width: 1080px;
   margin: 24px auto 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -216,6 +216,90 @@ body {
   object-position: top center;
   background: rgba(255, 255, 255, 0.04);
 }
+
+.guide-facts,
+.guide-data-section {
+  margin-bottom: 30px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .025);
+}
+
+.guide-facts h3,
+.guide-data-section h3 {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+.guide-data-section > p { color: var(--muted); line-height: 1.75; }
+.guide-fact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.guide-fact-grid > div {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1px solid rgba(114, 199, 255, .2);
+  border-radius: 14px;
+  background: rgba(114, 199, 255, .07);
+}
+.guide-fact-grid strong { color: var(--text); font-size: 1.7rem; }
+.guide-fact-grid span { color: var(--muted); font-size: .86rem; }
+.guide-source-note { margin: 14px 0 0; color: var(--muted); font-size: .83rem; line-height: 1.65; }
+.guide-secondary-text { margin-top: 12px; }
+
+.guide-panel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.guide-panel-quote { margin: 18px 0 0; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255, 255, 255, .04); }
+.guide-panel-grid .guide-panel-quote { margin-top: 0; }
+.guide-source-image { display: block; width: 100%; max-height: 310px; object-fit: contain; background: #f6f6f6; border-radius: 6px; }
+.guide-panel-quote-wide .guide-source-image { max-height: 260px; object-position: left center; }
+.guide-panel-quote figcaption { margin-top: 8px; color: var(--muted); font-size: .77rem; line-height: 1.5; }
+.zoomable-image { cursor: zoom-in; }
+.zoomable-image:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.image-lightbox { width: min(96vw, 1500px); max-width: none; max-height: 96vh; padding: 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; color: var(--text); background: #101821; box-shadow: 0 24px 80px rgba(0,0,0,.7); text-align: center; }
+.image-lightbox::backdrop { background: rgba(0,0,0,.88); }
+.image-lightbox-controls { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 8px; }
+.image-lightbox-controls button { border: 0; background: transparent; color: var(--text); font: inherit; cursor: pointer; }
+.image-lightbox-stage { max-height: calc(96vh - 105px); overflow: auto; }
+.image-lightbox img { display: block; width: auto; max-width: 100%; max-height: calc(96vh - 105px); margin: auto; object-fit: contain; background: white; }
+.image-lightbox.magnified img { width: 200%; max-width: none; max-height: none; }
+.image-lightbox p { margin: 8px 0 0; color: var(--muted); font-size: .8rem; }
+@media (max-width: 650px) { .guide-panel-grid { grid-template-columns: 1fr; } }
+
+.ship-levels { display: grid; gap: 7px; margin-top: 18px; }
+.ship-level {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid rgba(114, 199, 255, .18);
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(114, 199, 255, .13), rgba(114, 199, 255, .025));
+}
+.ship-level strong { color: var(--accent); }
+.ship-level span { color: var(--text); line-height: 1.6; }
+.guide-table-wrap { width: 100%; overflow-x: auto; margin-top: 16px; }
+.guide-table { width: 100%; border-collapse: collapse; line-height: 1.6; }
+.guide-table th, .guide-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.guide-table thead th { color: var(--accent); }
+.guide-table tbody th { white-space: nowrap; color: var(--text); }
+.guide-status-summary { margin: 20px 0 0; font-weight: 700; color: var(--text) !important; }
+.overview-card h4 { margin: 0 0 12px; color: var(--accent); font-size: 1.05rem; }
+.spoiler-reveal-button {
+  padding: 10px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: rgba(114, 199, 255, .1);
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.spoiler-reveal-button:hover,
+.spoiler-reveal-button:focus-visible { background: rgba(114, 199, 255, .2); outline: 2px solid var(--accent); }
+#princeStatusContent[hidden],
+#questionDirectory[hidden] { display: none; }
 
 /* ===== 全キャラクター名鑑 ===== */
 .character-camp-nav,
@@ -1886,6 +1970,22 @@ button.character-type-badge.character-facet-category {
   font-size: 0.9rem;
 }
 
+.timeline-controls[hidden], .timeline-active-filters[hidden] { display: none; }
+.timeline-more-filters { flex: 1 1 100%; }
+.timeline-more-filters summary { width: fit-content; color: var(--muted); cursor: pointer; font-size: .88rem; }
+.timeline-more-filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .025);
+}
+.timeline-more-filter-grid label { flex: 1 1 260px; }
+.timeline-more-filter-grid select { flex: 1 1 auto; min-width: 0; }
+
 .timeline-active-filters {
   display: flex;
   flex-wrap: wrap;
@@ -1960,6 +2060,29 @@ button.character-type-badge.character-facet-category {
 .timeline-view-panel[hidden] {
   display: none;
 }
+
+.chapter-group {
+  margin: 0 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .025);
+}
+.chapter-group > summary {
+  padding: 15px 18px;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+.chapter-event-list { display: grid; gap: 10px; padding: 14px; }
+.question-filter { display: inline-flex; align-items: center; gap: 8px; margin: 16px 0; color: var(--muted); }
+.question-filter select { padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); color: var(--text); }
+.question-card { margin: 0 0 14px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: rgba(255, 255, 255, .035); }
+.question-card h4 { margin: 0 0 6px; color: var(--accent); font-size: 1.06rem; }
+.question-card p { margin: 8px 0; line-height: 1.65; }
+.question-card .question-meta { color: var(--muted); font-size: .8rem; }
+.question-event-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.question-event-links button { padding: 6px 10px; border: 1px solid rgba(114, 199, 255, .35); border-radius: 8px; background: rgba(114, 199, 255, .09); color: var(--accent); cursor: pointer; }
 
 .timeline-result-summary {
   margin: 0 0 12px;
@@ -2628,6 +2751,8 @@ body.modal-open {
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 700px) {
+  .guide-fact-grid { grid-template-columns: 1fr; }
+  .ship-level { grid-template-columns: 1fr; gap: 4px; }
   .primary-nav {
     margin-top: 18px;
   }

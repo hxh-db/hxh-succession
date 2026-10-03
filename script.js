@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261002g",
+  characters: "data/characters.json?v=20261003a",
   characterTags: "data/character_tags.json?v=20261002f",
   characterImages: "data/character_images.json?v=20261002b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
-  events: "data/events.json?v=20261002c",
+  events: "data/events.json?v=20261003a",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json",
   factions: "data/factions.json?v=20261002c",
@@ -1288,6 +1288,30 @@ function makeCompositeCharacterTag(tag, label, title) {
   return button;
 }
 
+function makeCharacterLinkTag(characterId, colorClass, title) {
+  const person = CHAR_MAP[characterId];
+  if (!person) return null;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `character-structured-tag character-facet-${colorClass}`;
+  button.textContent = person.type === "queen" ? `第${person.rank}王妃` : person.name.split("＝")[0];
+  button.title = title;
+  button.addEventListener("click", () => {
+    document.querySelector('#characterCampNav button[data-group-id="all"]')?.click();
+    const search = document.getElementById("characterSearch");
+    search.value = person.name;
+    search.dispatchEvent(new Event("input", { bubbles: true }));
+    const target = [...document.querySelectorAll(".directory-character-card")]
+      .find((card) => card.dataset.characterId === characterId);
+    if (target) {
+      const details = target.querySelector(".directory-character-details");
+      if (details) details.open = true;
+      target.scrollIntoView({ block: "start" });
+    }
+  });
+  return button;
+}
+
 function makeBloodRelationChain(tag, relations) {
   const chain = document.createElement("span");
   chain.className = "character-tag-chain character-blood-chain";
@@ -1306,31 +1330,40 @@ function makeBloodRelationChain(tag, relations) {
       chain.appendChild(plus);
     }
     const relative = CHAR_MAP[relation.id];
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "character-structured-tag character-facet-family";
-    button.textContent = relative.type === "queen" ? `第${relative.rank}王妃` : relative.name.split("＝")[0];
-    button.title = `${relative.name}の人物カードへ移動（${relation.kind}${relation.speculative ? "・未確定" : ""}）`;
-    button.addEventListener("click", () => {
-      document.querySelector('#characterCampNav button[data-group-id="all"]')?.click();
-      const search = document.getElementById("characterSearch");
-      search.value = relative.name;
-      search.dispatchEvent(new Event("input", { bubbles: true }));
-      const target = [...document.querySelectorAll(".directory-character-card")]
-        .find((card) => card.dataset.characterId === relation.id);
-      if (target) {
-        const details = target.querySelector(".directory-character-details");
-        if (details) details.open = true;
-        target.scrollIntoView({ block: "start" });
-      }
-    });
-    chain.appendChild(button);
+    chain.appendChild(makeCharacterLinkTag(relation.id, "family",
+      `${relative.name}の人物カードへ移動（${relation.kind}${relation.speculative ? "・未確定" : ""}）`));
     if (relation.speculative) {
       const note = document.createElement("span");
       note.className = "character-tag-context";
       note.textContent = "※推測";
       chain.appendChild(note);
     }
+  });
+  return chain;
+}
+
+function makeDeathTagChain(tag, deathRecords) {
+  const killers = [...new Map(deathRecords.filter((record) => record.killer && CHAR_MAP[record.killer])
+    .map((record) => [record.killer, record])).values()];
+  if (!killers.length) return makeCharacterTagButton(tag);
+  const chain = document.createElement("span");
+  chain.className = "character-tag-chain character-death-chain";
+  chain.appendChild(makeCharacterTagButton(tag));
+  const arrow = document.createElement("span");
+  arrow.className = "character-tag-arrow";
+  arrow.textContent = "←";
+  arrow.setAttribute("aria-hidden", "true");
+  chain.appendChild(arrow);
+  killers.forEach((record, index) => {
+    if (index) {
+      const plus = document.createElement("span");
+      plus.className = "character-tag-arrow";
+      plus.textContent = "+";
+      plus.setAttribute("aria-hidden", "true");
+      chain.appendChild(plus);
+    }
+    chain.appendChild(makeCharacterLinkTag(record.killer, "status",
+      `${CHAR_MAP[record.killer].name}の人物カードへ移動（死亡記録${record.chapter ? `・${record.chapter}話` : ""}）`));
   });
   return chain;
 }
@@ -1349,6 +1382,70 @@ function makeCharacterTagChain(tags, sharedHead = false) {
     chain.appendChild(makeCharacterTagButton(tag));
   });
   return chain;
+}
+
+function getCharacterDescriptionParagraphs(character) {
+  const notes = formatDisplayText(character.notes)?.trim() || "";
+  const role = formatDisplayText(character.role)?.trim() || "";
+  const paragraphs = [];
+  const sentence = (value) => /[。！？!?]$/.test(value) ? value : `${value}。`;
+  const chapterOnly = /^第?\d+話$/.test(notes);
+  if (notes && !chapterOnly) {
+    if (notes.length < 26 && role && !notes.includes(role)) paragraphs.push(sentence(role));
+    paragraphs.push(sentence(notes));
+  } else if (role) {
+    paragraphs.push(sentence(role));
+  } else if (chapterOnly) {
+    paragraphs.push(`${notes.replace(/^\d/, (digit) => `第${digit}`)}に登場。`);
+  }
+
+  const explanation = paragraphs.join(" ");
+  if (character.type === "prince") {
+    if (character.public_mother_id && character.reported_biological_mother_id
+        && !/実母|403話の手紙/.test(explanation)) {
+      paragraphs.push(`公的な母は${formatRoyalName(character.public_mother_id)}。第${character.reported_biological_mother_chapter}話の手紙には${formatRoyalName(character.reported_biological_mother_id)}が実母と記されるが、血縁は未検証。`);
+    } else {
+      const motherId = getKnownParentIds(character).find((id) => CHAR_MAP[id]?.type === "queen");
+      if (motherId && !explanation.includes(getDisplayName(CHAR_MAP[motherId]))
+          && !explanation.includes(`第${CHAR_MAP[motherId].rank}王妃`)) {
+        paragraphs.push(`母は${formatRoyalName(motherId)}。`);
+      }
+    }
+  }
+  if (character.type === "queen") {
+    const publicChildren = charactersData.filter((candidate) => candidate.public_mother_id === character.id);
+    if (publicChildren.length && !publicChildren.every((child) => explanation.includes(getDisplayName(child)))) {
+      paragraphs.push(`${publicChildren.map((child) => formatRoyalName(child.id)).join("・")}の公的な母でもある。`);
+    }
+    const reportedChildren = charactersData.filter((candidate) => candidate.reported_biological_mother_id === character.id);
+    if (reportedChildren.length && !/実母|手紙/.test(explanation)) {
+      paragraphs.push(`${reportedChildren.map((child) => formatRoyalName(child.id)).join("・")}の実母とする手紙があるが、血縁は未検証。`);
+    }
+  }
+  if (character.suggested_father_id && !/実父|父さん/.test(explanation)) {
+    paragraphs.push(`${formatRoyalName(character.suggested_father_id)}が実父である可能性が示唆されるが、確定していない。`);
+  }
+  if (character.suggested_child_id && !/実子|父さん/.test(explanation)) {
+    paragraphs.push(`${formatRoyalName(character.suggested_child_id)}が実子である可能性が示唆されるが、確定していない。`);
+  }
+  const siblingIds = character.known_half_sibling_ids || (character.known_half_sibling_id
+    ? [character.known_half_sibling_id] : []);
+  if (siblingIds.length && !/異母兄弟|腹違い/.test(explanation)) {
+    paragraphs.push(`${siblingIds.map((id) => formatRoyalName(id)).join("・")}とは異母兄弟にあたる。`);
+  }
+  const beyondParent = getKnownParentIds(character).includes("BYD-001");
+  if (beyondParent && !explanation.includes("ビヨンド")) paragraphs.push("ビヨンド＝ネテロの実子。");
+  if (character.id === "BYD-001" && !explanation.includes("マカハ")) {
+    paragraphs.push("確認済みの実子はロンギとマカハ。王族内にも実子がいることが示されているが、誰かは未確定。");
+  }
+
+  const ability = formatDisplayText(character.nen_ability)?.trim() || "";
+  const abilityName = ability.split(/[：:（(]/)[0];
+  if (ability && !/^(?:非念能力者|詳細不明|不明)/.test(ability)
+      && abilityName.length > 2 && !paragraphs.join(" ").includes(abilityName)) {
+    paragraphs.push(sentence(`念能力は${ability}`));
+  }
+  return paragraphs.length ? paragraphs : ["人物像を補う記述はまだ確認できていません。確認済みの出来事は下のタイムラインを参照してください。"];
 }
 
 function createCharacterDirectoryCard(character) {
@@ -1383,7 +1480,6 @@ function createCharacterDirectoryCard(character) {
   const visibleTags = getCharacterTags(character).filter((tag) => tag.category !== "分類"
     && !(tag.category === "兵種" && character.type === "soldier" && character.soldier_category
       && formatAffiliation(character)?.includes(character.soldier_category)));
-  const assignment = formatAssignment(character);
   const usesAffiliationTag = ["soldier", "mafia"].includes(character.type);
   const tagValue = usesAffiliationTag ? formatAffiliation(character) : null;
   const headerAffiliationTags = visibleTags.filter((tag) => tag.category === "所属");
@@ -1470,6 +1566,12 @@ function createCharacterDirectoryCard(character) {
         victims.map((record) => `${formatRoyalName(record.id)}${record.chapter ? `（${record.chapter}話）` : ""}`).join(" / ")));
       used.add(killTag.id);
     }
+    const deathTag = visibleTags.find((tag) => tag.id === "status-deceased");
+    if (deathTag) {
+      spoilerTagList.appendChild(makeDeathTagChain(deathTag,
+        (character.status_log || []).filter((record) => /^死亡/.test(record.status || ""))));
+      used.add(deathTag.id);
+    }
     visibleTags.filter((tag) => !used.has(tag.id)).forEach((tag) => {
       const destination = ["血縁", "状態", "念講習会"].includes(tag.category) ? spoilerTagList : tagList;
       destination.appendChild(makeCharacterTagButton(tag));
@@ -1495,107 +1597,30 @@ function createCharacterDirectoryCard(character) {
   toggle.textContent = spoilersRevealed ? "詳細" : "詳細（ネタバレあり）";
   details.appendChild(toggle);
 
-  const noteText = formatDisplayText(character.notes);
+  const descriptionParagraphs = getCharacterDescriptionParagraphs(character);
   const revealedText = formatDisplayText(character.spoiler_notes);
-  if (noteText || revealedText) {
-    const noteSection = document.createElement("section");
-    noteSection.className = "character-source-notes";
-    const noteHeading = document.createElement("h4");
-    noteHeading.textContent = "備考";
-    noteSection.appendChild(noteHeading);
-    if (noteText) {
-      const note = document.createElement("p");
-      note.textContent = noteText;
-      noteSection.appendChild(note);
-    }
-    if (revealedText) {
-      const revealedHeading = document.createElement("h5");
-      revealedHeading.textContent = "判明情報";
-      const revealed = document.createElement("p");
-      revealed.textContent = revealedText;
-      noteSection.append(revealedHeading, revealed);
-    }
-    details.appendChild(noteSection);
+  const noteSection = document.createElement("section");
+  noteSection.className = "character-source-notes";
+  const noteHeading = document.createElement("h4");
+  noteHeading.textContent = "備考";
+  noteSection.appendChild(noteHeading);
+  descriptionParagraphs.forEach((text) => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    noteSection.appendChild(paragraph);
+  });
+  if (revealedText) {
+    const revealedHeading = document.createElement("h5");
+    revealedHeading.textContent = "判明情報";
+    const revealed = document.createElement("p");
+    revealed.textContent = revealedText;
+    noteSection.append(revealedHeading, revealed);
   }
-
-  const visibleTagIds = new Set(visibleTags.map((tag) => tag.id));
-  const hasMissionTag = visibleTags.some((tag) => tag.category === "任務" && tag.label === character.mission);
-  const hasTargetTag = !!getPrinceTargetTagId(character.target)
-    && visibleTagIds.has(getPrinceTargetTagId(character.target));
-  const hasGuardTag = character.mission === "護衛"
-    && visibleTags.some((tag) => tag.category === "護衛");
-  const assignmentMatchesTarget = hasTargetTag
-    && assignment === formatGroupReference(formatDisplayText(character.target));
-  const untaggedParents = getKnownParentIds(character).filter((id) => id === "KNG-001"
-    || !visibleTagIds.has(id === "Q01" ? "family-q01-child" : `blood-parent-${id.toLowerCase()}`));
-  const sections = [
-    {
-      title: "人物情報",
-      rows: [
-        { label: "所属", value: tagValue || headerAffiliationTags.length
-          || (["king", "queen", "prince"].includes(character.type) && character.affiliation === "カキン王国")
-          ? null : formatAffiliation(character) },
-        { label: "配置・護衛先", value: hasGuardTag || assignmentMatchesTarget ? null : assignment },
-        { label: "人物台帳の部屋・場所", value: formatRoomLabel(character.room) },
-        { label: "任務", value: hasMissionTag ? null : formatDisplayText(character.mission) },
-        { label: character.target_status === "過去" ? "当時の任務対象" : "任務対象",
-          value: hasTargetTag ? null : formatDisplayText(character.target) },
-        { label: "任務切替時期", value: character.target_history?.length
-          ? character.target_history.map((entry) => `${entry.target}：${entry.until_chapter}話まで`).join(" / ") : null },
-        { label: "状態", value: character.status === "存命" || (character.status === "死亡" && visibleTagIds.has("status-deceased"))
-          ? null : formatDisplayText(character.status) },
-        { label: character.type === "prince" ? "公的な父" : "親",
-          value: untaggedParents.length ? getRelationshipNames(untaggedParents) : null },
-        { label: "母", value: character.type === "prince" && !character.public_mother_id
-          ? getRelationshipNames(getKnownParentIds(character).filter((id) => CHAR_MAP[id]?.type === "queen")) : null },
-        { label: "公的な母", value: character.public_mother_id ? formatRoyalName(character.public_mother_id) : null },
-        { label: "実母説の根拠", value: character.reported_biological_mother_id
-          ? `${formatRoyalName(character.reported_biological_mother_id)}・${character.reported_biological_mother_chapter}話の手紙（血縁未検証）` : null },
-        { label: "公的な子", value: character.type === "queen"
-          ? getRelationshipNames(charactersData.filter((candidate) => candidate.public_mother_id === character.id)
-            .map((candidate) => candidate.id)) : null },
-        { label: "実子説（未確定）", value: character.type === "queen"
-          ? getRelationshipNames(charactersData.filter((candidate) => candidate.reported_biological_mother_id === character.id)
-            .map((candidate) => candidate.id)) : null },
-        { label: "実父説（未確定）", value: character.suggested_father_id
-          ? formatRoyalName(character.suggested_father_id) : null },
-        { label: "実子説（未確定）", value: character.suggested_child_id
-          ? formatRoyalName(character.suggested_child_id) : null },
-        { label: "異母兄弟", value: (character.known_half_sibling_ids || (character.known_half_sibling_id
-          ? [character.known_half_sibling_id] : [])).map((id) => formatRoyalName(id)).join(" / ") || null },
-        { label: "子供", value: getKnownChildIds(character).length ? getRelationshipNames(getKnownChildIds(character)) : null },
-        { label: "役割", value: formatDisplayText(character.role) },
-        { label: "念系統", value: character.nen_type },
-        { label: "念能力", value: character.nen_type === "非念能力者" && character.nen_ability === "非念能力者（念は使用しない）"
-          ? null : formatDisplayText(character.nen_ability) },
-        { label: "念講習会", value: visibleTagIds.has("nen-class-1") || visibleTagIds.has("nen-class-2")
-          ? null : getNenClassLabel(character) },
-        { label: "殺害記録", value: (confirmedKillsById.get(character.id) || [])
-          .map((record) => `${formatRoyalName(record.id)}${record.chapter ? `（${record.chapter}話）` : ""}`).join(" / ") || null }
-      ]
-    }
-  ];
+  details.appendChild(noteSection);
 
   const personTimeline = document.createElement("section");
   personTimeline.className = "directory-person-timeline";
   personTimeline.setAttribute("aria-label", `${getDisplayName(character)}のタイムライン`);
-
-  sections.forEach((section) => {
-    const rows = section.rows.filter(({ value }) => value || value === 0);
-    if (rows.length === 0) return;
-    const heading = document.createElement("h4");
-    heading.className = "character-detail-section-title";
-    heading.textContent = section.title;
-    const dl = document.createElement("dl");
-    rows.forEach(({ label, value }) => {
-      const dt = document.createElement("dt");
-      dt.textContent = label;
-      const dd = document.createElement("dd");
-      dd.textContent = value;
-      dl.append(dt, dd);
-    });
-    details.append(heading, dl);
-  });
 
   details.addEventListener("toggle", () => {
     card.classList.toggle("directory-character-expanded", details.open);
@@ -1621,19 +1646,6 @@ function createCharacterDirectoryCard(character) {
       beastSection.appendChild(beastText);
       details.appendChild(beastSection);
     }
-  }
-
-  if (character.id === "BYD-001") {
-    const note = document.createElement("p");
-    note.className = "parentage-note";
-    note.textContent = "確認済みの実子はロンギとマカハ。ほかにも10名以上のソエモノと、王族内に実子がいることが判明しているが、全員の氏名は未確定。";
-    details.appendChild(note);
-  }
-  if (character.id === "KNG-001") {
-    const note = document.createElement("p");
-    note.className = "parentage-note";
-    note.textContent = "14王子の公的な父。王族内にビヨンドの実子がいることが示されているため、血縁上の父子関係には未確定要素がある。";
-    details.appendChild(note);
   }
 
   details.appendChild(personTimeline);

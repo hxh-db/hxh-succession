@@ -399,14 +399,6 @@ body {
 .character-assignment-table th { position: sticky; top: 0; background: #1b304d; color: var(--accent); }
 .character-assignment-table tr:last-child td { border-bottom: 0; }
 
-.character-detail-section-title {
-  margin: 16px 0 7px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--border);
-  color: var(--accent);
-  font-size: .8rem;
-}
-
 .location-basis-note,
 .uncollected-warning {
   border: 1px solid rgba(243, 156, 18, .3);
@@ -978,6 +970,7 @@ button.character-type-badge.character-facet-category {
 
 .character-source-notes h5 { margin-top: 12px; }
 .character-source-notes p { margin: 0; font-size: .85rem; line-height: 1.65; white-space: pre-line; }
+.character-source-notes p + p { margin-top: 10px; }
 
 .basic-character-heading { margin-top: 34px; }
 
@@ -1006,19 +999,11 @@ button.character-type-badge.character-facet-category {
   font-size: 0.88rem;
 }
 
-.directory-spirit-beast p,
-.parentage-note {
+.directory-spirit-beast p {
   margin: 0;
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.55;
-}
-
-.parentage-note {
-  margin-top: 12px;
-  padding: 10px 12px;
-  border-left: 3px solid #f39c12;
-  background: rgba(243, 156, 18, 0.08);
 }
 
 .section-header {

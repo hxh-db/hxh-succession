@@ -401,22 +401,17 @@
     "day": null,
     "time_start": null,
     "time_end": null,
-    "type": "会議",
+    "type": "行事",
     "description": "出航前夜祭が開催される",
-    "characters": [
-      "P01-P01",
-      "P01-P02",
-      "P14-H01",
-      "Q08"
-    ],
+    "characters": [],
     "room": null,
-    "location": "ブラックホエール号",
+    "location": null,
     "camp": null,
     "series": null,
     "series_index": null,
     "revealed_facts": [],
     "mysteries": [],
-    "notes": "図表：BW号内部の階層の解説図。登場人物：ベンジャミン私設兵、クラピカ、オイト"
+    "notes": "前夜祭の参加者は未特定。同話のBW号内部の階層解説図と、ベンジャミン私設兵・クラピカ・オイトの登場場面を、前夜祭の参加者とは扱わない"
   },
   {
     "id": "E359-001",
@@ -934,20 +929,39 @@
     "time_estimate": "15:00",
     "time_start": null,
     "time_end": null,
-    "type": "会話・制止",
-    "description": "カミーラがナスビーに継承戦の脱落条件を問う。続いてベンジャミンがカミーラを襲おうとするが、バルサミルコが制止する",
-    "characters": ["P02", "KNG-001", "P01", "P01-P05"],
+    "type": "継承戦の条件を問う会話",
+    "description": "カミーラがナスビーに継承戦の脱落条件を問う",
+    "characters": ["P02", "KNG-001"],
     "room": null,
     "location": "出航セレモニー会場",
-    "camp": ["カミーラ陣営", "ベンジャミン陣営", "カキン王家"],
+    "camp": ["カミーラ陣営", "カキン王家"],
     "series": null,
     "series_index": null,
     "revealed_facts": [
-      "カミーラは『生き残る』『脱落』の定義を問い、ナスビーは解釈も継承戦の一部と返す",
-      "バルサミルコは敵の守護霊獣と念能力を把握する前の単独襲撃を危険と考え、ベンジャミンを制止する"
+      "カミーラは『生き残る』『脱落』の定義を問い、ナスビーは解釈も継承戦の一部と返す"
     ],
     "mysteries": ["生き残りと脱落の厳密な判定条件", "カミーラが実際にどの手段で王位を狙うか"],
-    "notes": "第363話の出航セレモニー会場で続けて描かれる会話と制止を一つのイベントへ統合。生物学的な死だけを脱落条件と確定せず、ベンジャミンの殺害も未遂として扱う"
+    "notes": "第363話の出航セレモニー会場での問答。生物学的な死だけを脱落条件と確定しない"
+  },
+  {
+    "id": "E363-002",
+    "chapter": 363,
+    "chapter_title": "念獣",
+    "day": 1,
+    "time_estimate": "15:00",
+    "time_start": null,
+    "time_end": null,
+    "type": "殺害に向かおうとして制止される",
+    "description": "ベンジャミンがカミーラを殺しに行こうとするが、バルサミルコが制止する",
+    "characters": ["P01", "P01-P05"],
+    "room": null,
+    "location": "出航セレモニー会場",
+    "camp": ["ベンジャミン陣営"],
+    "series": null,
+    "series_index": null,
+    "revealed_facts": ["バルサミルコは敵の守護霊獣と念能力を把握する前の単独襲撃を危険と考え、ベンジャミンを制止する"],
+    "mysteries": ["ベンジャミンがカミーラを殺害しようとする具体的な手段"],
+    "notes": "カミーラとナスビーの問答の後に描かれる場面を別イベントにした。同じ15:00頃の時刻帯に仮配置し、分単位の間隔は確定しない。殺害は未遂であり、実行前に制止されている"
   },
   {
     "id": "E363-003",
@@ -6191,7 +6205,7 @@
     "id": "E412-003", "chapter": 412, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "面会", "description": "最高裁判官クレアパトロがビヨンドと面会し、両者に以前から面識があることが判明する", "characters": ["JUD-003", "BYD-001"], "room": null, "location": "第2層 ビヨンド収容区画", "camp": null, "series": null, "series_index": null, "revealed_facts": ["クレアパトロとビヨンドには以前から面識がある"], "mysteries": ["クレアパトロとビヨンドの具体的な関係"], "notes": "ユーザー提供の原作画像（第412話全ページ）で面会場面を確認。具体的な関係は未判明"
   },
   {
-    "id": "E413-001", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "13:45", "time_end": null, "type": "確認", "description": "遺体安置室でハルケンブルグの遺体を前に、ナスビーと王室執事と思われる人物が、魂がまだ肉体に宿っていることを確認する", "characters": ["P09", "KNG-001"], "room": null, "location": "第1層 遺体安置室", "camp": ["カキン王家"], "series": null, "series_index": null, "revealed_facts": ["ハルケンブルグの魂は生きている"], "mysteries": ["ナスビーに同行した人物の氏名と役職"], "notes": "ユーザー提供の原作画像（第413話全10ページ）で確認。特殊戒厳令発令30分前（14:15発令から逆算して13:45）"
+    "id": "E413-001", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "13:45", "time_end": null, "type": "確認", "description": "遺体安置室でハルケンブルグの遺体を前に、ナスビーとヌグイが、魂がまだ肉体に宿っていることを確認する", "characters": ["P09", "KNG-001", "KNG-002"], "room": null, "location": "第1層 遺体安置室", "camp": ["カキン王家"], "series": null, "series_index": null, "revealed_facts": ["ハルケンブルグの魂は生きている"], "mysteries": ["ヌグイの正式な役職"], "notes": "ユーザー提供の原作画像（第413話全10ページ）と修正メモで、同行者をヌグイと同定。特殊戒厳令発令30分前（14:15発令から逆算して13:45）"
   },
   {
     "id": "E413-002", "chapter": 413, "chapter_title": null, "day": 12, "time_start": "13:45", "time_end": null, "type": "攻撃", "description": "1001号室で鳴動が起き、ハルケンブルグが矢を放つ。ベンジャミンは人格を入れ替える能力とハルケンブルグの魂の生存に気づく", "characters": ["P09", "P01", "P01-P05"], "room": "第1層 1001号室", "location": "第1層 1001号室", "camp": ["ベンジャミン陣営", "ハルケンブルグ陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "notes": "ユーザー提供の原作画像（第413話全10ページ）で、1001号室の異常・矢・人格入れ替えの認識を確認。特殊戒厳令発令30分前"

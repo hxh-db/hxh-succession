@@ -1146,35 +1146,27 @@ function getRelationshipNames(ids) {
   return ids.map((id) => formatRoyalName(id)).join(" / ");
 }
 
-function getBloodRelationLabels(character) {
-  const labels = new Map();
-  const shortName = (id) => {
-    const relative = CHAR_MAP[id];
-    if (!relative) return null;
-    if (relative.type === "queen") return `第${relative.rank}王妃`;
-    if (relative.type === "prince") return `第${relative.rank}王子${relative.name.split("＝")[0]}`;
-    return relative.name.split("＝")[0];
+function getBloodRelations(character) {
+  const relations = new Map();
+  const add = (id, kind, speculative = false) => {
+    if (CHAR_MAP[id]) relations.set(id, { id, kind, speculative });
   };
-  const add = (id, suffix = "") => {
-    const name = shortName(id);
-    if (name) labels.set(id, `${name}${suffix}`);
-  };
-  getKnownParentIds(character).filter((id) => id !== "KNG-001").forEach((id) => add(id));
+  getKnownParentIds(character).filter((id) => id !== "KNG-001")
+    .forEach((id) => add(id, CHAR_MAP[id]?.type === "queen" ? "母" : "親"));
   if (character.type === "queen") {
-    (character.children || []).forEach((id) => add(id));
+    (character.children || []).forEach((id) => add(id, "子"));
     charactersData.filter((candidate) => candidate.public_mother_id === character.id)
-      .forEach((candidate) => add(candidate.id, "（公的）"));
+      .forEach((candidate) => add(candidate.id, "公的な子"));
     charactersData.filter((candidate) => candidate.reported_biological_mother_id === character.id)
-      .forEach((candidate) => add(candidate.id, "※推測"));
+      .forEach((candidate) => add(candidate.id, "実子説", true));
   }
-  if (character.public_mother_id) add(character.public_mother_id, "（公的）");
-  if (character.reported_biological_mother_id) add(character.reported_biological_mother_id, "※推測");
-  if (character.suggested_father_id) add(character.suggested_father_id, "※推測");
-  if (character.suggested_child_id) add(character.suggested_child_id, "※推測");
+  if (character.public_mother_id) add(character.public_mother_id, "公的な母");
+  if (character.reported_biological_mother_id) add(character.reported_biological_mother_id, "実母説", true);
+  if (character.suggested_father_id) add(character.suggested_father_id, "実父説", true);
+  if (character.suggested_child_id) add(character.suggested_child_id, "実子説", true);
   const siblingIds = character.known_half_sibling_ids || (character.known_half_sibling_id ? [character.known_half_sibling_id] : []);
-  const siblings = siblingIds.map(shortName).filter(Boolean);
-  if (siblings.length) labels.set("siblings", `異母兄弟 ${siblings.join("・")}`);
-  return [...labels.values()];
+  siblingIds.forEach((id) => add(id, "異母兄弟"));
+  return [...relations.values()];
 }
 
 function getRelatedPrinceIds(character) {
@@ -1228,7 +1220,7 @@ function getCharacterTags(character) {
   charactersData.filter((candidate) => candidate.type === "queen" && (candidate.children || []).includes(character.id))
     .forEach((queen) => parentIds.add(queen.id));
   parentIds.forEach((id) => ids.add(id === "Q01" ? "family-q01-child" : `blood-parent-${id.toLowerCase()}`));
-  if (getBloodRelationLabels(character).length) ids.add("relation-blood");
+  if (getBloodRelations(character).length) ids.add("relation-blood");
   if (character.reported_biological_mother_id) {
     const reportedId = character.reported_biological_mother_id;
     ids.add(reportedId === "Q01" ? "family-q01-child" : `blood-parent-${reportedId.toLowerCase()}`);
@@ -1270,7 +1262,8 @@ function getCharacterTagShortLabel(tag) {
   if (tag.id === "blood-parent-byd-001") return "ビヨンド";
   if (tag.id.startsWith("blood-public-")) return `${tag.label.split("（")[0]}（公的）`;
   if (tag.id.startsWith("blood-reported-")) return `${tag.label.split("（")[0]}（実母説・未検証）`;
-  if (tag.id === "blood-half-sibling-kng-001") return "ナスビー（異母兄弟）";
+  if (tag.id.startsWith("blood-half-sibling-")) return tag.label.split("（")[0];
+  if (tag.id.startsWith("blood-suggested-")) return "※推測";
   if (tag.category === "血縁") return tag.label.match(/^第\d+王妃/)?.[0] || tag.label.replace(/の子$/, "");
   return tag.label;
 }
@@ -1295,6 +1288,53 @@ function makeCompositeCharacterTag(tag, label, title) {
   return button;
 }
 
+function makeBloodRelationChain(tag, relations) {
+  const chain = document.createElement("span");
+  chain.className = "character-tag-chain character-blood-chain";
+  chain.appendChild(makeCharacterTagButton(tag));
+  const arrow = document.createElement("span");
+  arrow.className = "character-tag-arrow";
+  arrow.textContent = "→";
+  arrow.setAttribute("aria-hidden", "true");
+  chain.appendChild(arrow);
+  relations.forEach((relation, index) => {
+    if (index) {
+      const plus = document.createElement("span");
+      plus.className = "character-tag-arrow";
+      plus.textContent = "+";
+      plus.setAttribute("aria-hidden", "true");
+      chain.appendChild(plus);
+    }
+    const relative = CHAR_MAP[relation.id];
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "character-structured-tag character-facet-family";
+    button.textContent = relative.type === "queen" ? `第${relative.rank}王妃` : relative.name.split("＝")[0];
+    button.title = `${relative.name}の人物カードへ移動（${relation.kind}${relation.speculative ? "・未確定" : ""}）`;
+    button.addEventListener("click", () => {
+      document.querySelector('#characterCampNav button[data-group-id="all"]')?.click();
+      const search = document.getElementById("characterSearch");
+      search.value = relative.name;
+      search.dispatchEvent(new Event("input", { bubbles: true }));
+      const target = [...document.querySelectorAll(".directory-character-card")]
+        .find((card) => card.dataset.characterId === relation.id);
+      if (target) {
+        const details = target.querySelector(".directory-character-details");
+        if (details) details.open = true;
+        target.scrollIntoView({ block: "start" });
+      }
+    });
+    chain.appendChild(button);
+    if (relation.speculative) {
+      const note = document.createElement("span");
+      note.className = "character-tag-context";
+      note.textContent = "※推測";
+      chain.appendChild(note);
+    }
+  });
+  return chain;
+}
+
 function makeCharacterTagChain(tags, sharedHead = false) {
   const chain = document.createElement("span");
   chain.className = "character-tag-chain";
@@ -1314,6 +1354,7 @@ function makeCharacterTagChain(tags, sharedHead = false) {
 function createCharacterDirectoryCard(character) {
   const card = document.createElement("article");
   card.className = "directory-character-card";
+  card.dataset.characterId = character.id;
 
   const top = document.createElement("div");
   top.className = "directory-character-top";
@@ -1415,10 +1456,9 @@ function createCharacterDirectoryCard(character) {
       possessionTargets.forEach((tag) => used.add(tag.id));
     }
     const blood = visibleTags.find((tag) => tag.id === "relation-blood");
-    const bloodRelations = getBloodRelationLabels(character);
+    const bloodRelations = getBloodRelations(character);
     if (blood && bloodRelations.length) {
-      const label = `血縁：${bloodRelations.join("＋")}`;
-      spoilerTagList.appendChild(makeCompositeCharacterTag(blood, label, `${label}。※推測は未確定の情報です`));
+      spoilerTagList.appendChild(makeBloodRelationChain(blood, bloodRelations));
     }
     visibleTags.filter((tag) => tag.category === "血縁").forEach((tag) => used.add(tag.id));
     const killTag = visibleTags.find((tag) => tag.id === "status-killer");
@@ -1506,17 +1546,23 @@ function createCharacterDirectoryCard(character) {
           ? null : formatDisplayText(character.status) },
         { label: character.type === "prince" ? "公的な父" : "親",
           value: untaggedParents.length ? getRelationshipNames(untaggedParents) : null },
-        { label: "公的な母", value: character.public_mother_id && !visibleTagIds.has(`blood-public-${character.public_mother_id.toLowerCase()}`)
-          ? formatRoyalName(character.public_mother_id) : null },
+        { label: "母", value: character.type === "prince" && !character.public_mother_id
+          ? getRelationshipNames(getKnownParentIds(character).filter((id) => CHAR_MAP[id]?.type === "queen")) : null },
+        { label: "公的な母", value: character.public_mother_id ? formatRoyalName(character.public_mother_id) : null },
         { label: "実母説の根拠", value: character.reported_biological_mother_id
-          ? `${visibleTagIds.has(`blood-reported-${character.reported_biological_mother_id.toLowerCase()}`)
-            ? "" : `${formatRoyalName(character.reported_biological_mother_id)}・`}${character.reported_biological_mother_chapter}話の手紙（血縁未検証）` : null },
+          ? `${formatRoyalName(character.reported_biological_mother_id)}・${character.reported_biological_mother_chapter}話の手紙（血縁未検証）` : null },
+        { label: "公的な子", value: character.type === "queen"
+          ? getRelationshipNames(charactersData.filter((candidate) => candidate.public_mother_id === character.id)
+            .map((candidate) => candidate.id)) : null },
+        { label: "実子説（未確定）", value: character.type === "queen"
+          ? getRelationshipNames(charactersData.filter((candidate) => candidate.reported_biological_mother_id === character.id)
+            .map((candidate) => candidate.id)) : null },
         { label: "実父説（未確定）", value: character.suggested_father_id
-          && !visibleTagIds.has(`blood-suggested-${character.id.toLowerCase()}-${character.suggested_father_id.toLowerCase()}`)
           ? formatRoyalName(character.suggested_father_id) : null },
         { label: "実子説（未確定）", value: character.suggested_child_id
-          && !visibleTagIds.has(`blood-suggested-${character.suggested_child_id.toLowerCase()}-${character.id.toLowerCase()}`)
           ? formatRoyalName(character.suggested_child_id) : null },
+        { label: "異母兄弟", value: (character.known_half_sibling_ids || (character.known_half_sibling_id
+          ? [character.known_half_sibling_id] : [])).map((id) => formatRoyalName(id)).join(" / ") || null },
         { label: "子供", value: getKnownChildIds(character).length ? getRelationshipNames(getKnownChildIds(character)) : null },
         { label: "役割", value: formatDisplayText(character.role) },
         { label: "念系統", value: character.nen_type },
@@ -3725,7 +3771,7 @@ async function init() {
       characterTagDefinitions.set(id, { id, category: "血縁", label: `第${parent.rank}王妃${getDisplayName(parent)}（公的な母）` });
     });
     characterTagDefinitions.set("blood-suggested-p03-swu-001", {
-      id: "blood-suggested-p03-swu-001", category: "血縁", label: "チョウライ＋オニオール※推測"
+      id: "blood-suggested-p03-swu-001", category: "血縁", label: "チョウライとオニオールの未確定な血縁"
     });
     characters.filter((candidate) => candidate.known_half_sibling_ids?.length || candidate.known_half_sibling_id)
       .flatMap((candidate) => candidate.known_half_sibling_ids || [candidate.known_half_sibling_id])

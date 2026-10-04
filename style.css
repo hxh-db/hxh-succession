@@ -881,6 +881,7 @@ button.character-filter-tag:focus-visible {
   gap: 4px;
   min-width: 0;
 }
+.character-death-tag-row { flex: 0 0 100%; display: flex; }
 .character-tag-arrow {
   color: var(--muted);
   font-size: .8rem;
@@ -1076,6 +1077,7 @@ button.character-type-badge.character-facet-category {
   border-radius: 12px;
   background: rgba(155, 89, 182, 0.07);
 }
+.directory-spirit-beast-no-image { grid-template-columns: 1fr; }
 
 .directory-spirit-beast .beast-image,
 .directory-nen-ability .beast-image,

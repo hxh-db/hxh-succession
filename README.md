@@ -22,7 +22,7 @@ python local_server.py
 - `data/events.json` - タイムラインのイベント一覧
 - `data/open_questions.json` - 作中の未解決事項と関連する出来事
 - `data/spirit_beasts.json` - 王子と国王の人物詳細に表示する守護霊獣データ
-- `images/guide/*.webp` - ユーザー提供原作画像から基礎資料用に切り出した引用コマ（話数・写真番号を画面に表示）
+- `images/guide/*.webp` - ユーザー提供原作画像から基礎資料用に切り出した引用コマ（話数を画面に表示）
 - `data/factions.json` - 派閥（陣営）マップ
 - `data/alliances.json` - 王子の陣営とは別に管理する共闘関係
 - `data/mafia.json` - 下層デッキのマフィア・幻影旅団マップ

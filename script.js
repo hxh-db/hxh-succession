@@ -1317,10 +1317,11 @@ function getCharacterTagShortLabel(tag) {
   if (["護衛", "対象"].includes(tag.category)) return tag.label.match(/^第\d+王子/)?.[0] || tag.label;
   if (tag.id === "status-killer") return "殺害";
   if (tag.id === "blood-parent-byd-001") return "ビヨンド";
+  if (tag.id === "blood-public-q02") return "第2王妃（公的・実母未確定）";
   if (tag.id.startsWith("blood-public-")) return `${tag.label.split("（")[0]}（公的）`;
   if (tag.id.startsWith("blood-reported-")) return `${tag.label.split("（")[0]}（実母説・未検証）`;
   if (tag.id.startsWith("blood-half-sibling-")) return tag.label.split("（")[0];
-  if (tag.id.startsWith("blood-suggested-")) return "※推測";
+  if (tag.id.startsWith("blood-suggested-")) return "※真偽不明";
   if (tag.category === "血縁") return tag.label.match(/^第\d+王妃/)?.[0] || tag.label.replace(/の子$/, "");
   return tag.label;
 }
@@ -1361,7 +1362,7 @@ function makeCharacterLinkTag(characterId, colorClass, title) {
   return button;
 }
 
-function makeBloodRelationChain(tag, relations) {
+function makeBloodRelationChain(tag, relations, character = null) {
   const chain = document.createElement("span");
   chain.className = "character-tag-chain character-blood-chain";
   chain.appendChild(makeCharacterTagButton(tag));
@@ -1379,12 +1380,16 @@ function makeBloodRelationChain(tag, relations) {
       chain.appendChild(plus);
     }
     const relative = CHAR_MAP[relation.id];
-    chain.appendChild(makeCharacterLinkTag(relation.id, "family",
-      `${relative.name}の人物カードへ移動（${relation.kind}${relation.speculative ? "・未確定" : ""}）`));
+    const relativeTag = makeCharacterLinkTag(relation.id, "family",
+      `${relative.name}の人物カードへ移動（${relation.kind}${relation.speculative ? "・未確定" : ""}）`);
+    if (character?.id === "P09" && relation.id === "Q02") {
+      relativeTag.textContent = "第2王妃（公的・実母未確定）";
+    }
+    chain.appendChild(relativeTag);
     if (relation.speculative) {
       const note = document.createElement("span");
       note.className = "character-tag-context";
-      note.textContent = "※推測";
+      note.textContent = "※真偽不明";
       chain.appendChild(note);
     }
   });
@@ -1453,12 +1458,27 @@ function makeCharacterTagChain(tags, sharedHead = false) {
 function getCharacterDescriptionParagraphs(character) {
   const notes = formatDisplayText(character.notes)?.trim() || "";
   const role = formatDisplayText(character.role)?.trim() || "";
+  const normalizedNotes = notes.replace(/\s/g, "");
+  const normalizedRole = role.replace(/\s/g, "");
   const paragraphs = [];
   const sentence = (value) => /[。！？!?]$/.test(value) ? value : `${value}。`;
   const chapterOnly = /^第?\d+話$/.test(notes);
-  if (notes && !chapterOnly) {
-    if (notes.length < 26 && role && !notes.includes(role)) paragraphs.push(sentence(role));
-    paragraphs.push(sentence(notes));
+  const detailNotes = character.type === "queen"
+    ? notes.replace(new RegExp(`^第${character.rank}王妃。\\s*`), "")
+    : notes;
+  if (character.type === "prince") {
+    const gender = character.gender ? `（${character.gender}）` : "";
+    paragraphs.push(`第${character.rank}王子${gender}。`);
+  } else if (character.type === "queen") {
+    paragraphs.push(`第${character.rank}王妃。`);
+  } else if (role && !normalizedNotes.includes(normalizedRole)) {
+    paragraphs.push(sentence(role));
+  } else if (!notes && !role) {
+    const typeLabels = { king: "カキン国王", official: "王位継承戦に関わる関係者", hunter: "ハンター", soldier: "船内の兵士", mafia: "船内で活動するマフィア", phantom_troupe: "幻影旅団員", attendant: "王族に仕える従事者" };
+    paragraphs.push(`${typeLabels[character.type] || "関係者"}。`);
+  }
+  if (detailNotes && !chapterOnly) {
+    paragraphs.push(sentence(detailNotes));
   } else if (role) {
     paragraphs.push(sentence(role));
   } else if (chapterOnly) {
@@ -1575,7 +1595,7 @@ function createCharacterDirectoryCard(character) {
   allianceLabels.forEach((alliance) => {
     const badge = document.createElement("span");
     badge.className = "character-alliance-badge";
-    badge.textContent = `共闘：${alliance.label}`;
+    badge.textContent = `共闘 → ${alliance.label}`;
     badges.appendChild(badge);
   });
   identity.append(heading, badges);
@@ -1615,6 +1635,12 @@ function createCharacterDirectoryCard(character) {
       used.add(missionTarget.id);
       historicalTargets.forEach((tag) => used.add(tag.id));
     }
+    const blood = visibleTags.find((tag) => tag.id === "relation-blood");
+    const bloodRelations = getBloodRelations(character);
+    if (blood && bloodRelations.length) {
+      spoilerTagList.appendChild(makeBloodRelationChain(blood, bloodRelations, character));
+    }
+    visibleTags.filter((tag) => tag.category === "血縁").forEach((tag) => used.add(tag.id));
     const possession = visibleTags.find((tag) => tag.id === "duty-possession");
     const possessionTargets = visibleTags.filter((tag) => tag.id.startsWith("possession-target-"));
     if (possession && possessionTargets.length) {
@@ -1622,12 +1648,6 @@ function createCharacterDirectoryCard(character) {
       used.add(possession.id);
       possessionTargets.forEach((tag) => used.add(tag.id));
     }
-    const blood = visibleTags.find((tag) => tag.id === "relation-blood");
-    const bloodRelations = getBloodRelations(character);
-    if (blood && bloodRelations.length) {
-      spoilerTagList.appendChild(makeBloodRelationChain(blood, bloodRelations));
-    }
-    visibleTags.filter((tag) => tag.category === "血縁").forEach((tag) => used.add(tag.id));
     const killTag = visibleTags.find((tag) => tag.id === "status-killer");
     if (killTag) {
       const victims = confirmedKillsById.get(character.id) || [];
@@ -1636,8 +1656,11 @@ function createCharacterDirectoryCard(character) {
     }
     const deathTag = visibleTags.find((tag) => tag.id === "status-deceased");
     if (deathTag) {
-      spoilerTagList.appendChild(makeDeathTagChain(deathTag,
+      const deathRow = document.createElement("div");
+      deathRow.className = "character-death-tag-row";
+      deathRow.appendChild(makeDeathTagChain(deathTag,
         (character.status_log || []).filter((record) => /^死亡/.test(record.status || ""))));
+      spoilerTagList.appendChild(deathRow);
       used.add(deathTag.id);
     }
     visibleTags.filter((tag) => !used.has(tag.id)).forEach((tag) => {
@@ -1706,9 +1729,10 @@ function createCharacterDirectoryCard(character) {
       beastSection.className = "directory-spirit-beast";
       const beastImage = makeBeastImage(beast.image, beast.name);
       if (beastImage) beastSection.appendChild(beastImage);
+      else beastSection.classList.add("directory-spirit-beast-no-image");
       const beastText = document.createElement("div");
       const beastHeading = document.createElement("h4");
-      beastHeading.textContent = `守護霊獣：${beast.name || "名称不明"}`;
+      beastHeading.textContent = character.id === "P01" ? "守護霊獣" : `守護霊獣：${beast.name || "名称不明"}`;
       const beastDescription = document.createElement("p");
       beastDescription.textContent = [beast.appearance, beast.ability].filter(Boolean).join("｜") || "詳細不明";
       beastText.append(beastHeading, beastDescription);

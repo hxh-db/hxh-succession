@@ -1,14 +1,15 @@
 const DATA = {
-  characters: "data/characters.json?v=20261004a",
-  characterTags: "data/character_tags.json?v=20261002f",
+  characters: "data/characters.json?v=20261008a",
+  characterTags: "data/character_tags.json?v=20261008a",
   characterImages: "data/character_images.json?v=20261002b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
-  events: "data/events.json?v=20261004a",
+  events: "data/events.json?v=20261004b",
   openQuestions: "data/open_questions.json?v=20261004a",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261004a",
   factions: "data/factions.json?v=20261002c",
-  mafia: "data/mafia.json"
+  mafia: "data/mafia.json",
+  personnelSnapshots: "data/personnel_snapshots.json?v=20261008a"
 };
 
 let charactersData = [];
@@ -26,6 +27,7 @@ let spiritBeastsData = [];
 let factionsData = [];
 let alliancesData = [];
 let mafiaData = [];
+let personnelSnapshotsData = [];
 let filteredEventsData = [];
 let activeTimelineView = "schedule";
 let timelineVisibleCount = 30;
@@ -1245,9 +1247,19 @@ function getCharacterTags(character) {
   if (character.type === "soldier" && character.soldier_category) {
     ids.add(`soldier-kind-${character.soldier_category}`);
   }
-  if (character.type === "soldier" && character.affiliation === "ベンジャミン陣営"
-      && character.soldier_category === "私設兵") {
-    ids.add("affiliation-p01-private");
+  if (character.type === "soldier" && character.soldier_category === "私設兵") {
+    const princeRank = getPrinceAffiliationRank(character);
+    if (princeRank) ids.add(`affiliation-p${String(princeRank).padStart(2, "0")}-private`);
+  }
+  if (character.type === "soldier" && character.soldier_category === "王妃所属兵") {
+    const queenRank = getQueenAffiliationRank(character);
+    if (queenRank) ids.add(`affiliation-q${String(queenRank).padStart(2, "0")}-guards`);
+  }
+  if (character.type === "soldier" && character.soldier_category === "私設兵") ids.add("personnel-private-soldier");
+  if (character.type === "soldier" && character.soldier_category === "王妃所属兵") ids.add("personnel-queen-soldier");
+  if (character.type === "soldier" && character.soldier_category === "王室警備兵") ids.add("personnel-royal-guard");
+  if (character.type === "hunter" && character.affiliation === "ハンター協会" && character.mission === "護衛") {
+    ids.add("personnel-association-hunter");
   }
   if (character.type === "mafia" && character.affiliation && character.affiliation !== "不明") {
     ids.add(`mafia-family-${formatAffiliation(character)}`);
@@ -1310,7 +1322,7 @@ function getPrinceTargetTagId(target) {
 }
 
 function getCharacterTagColorClass(tag) {
-  return ({ 分類: "category", 兵種: "category", 任務: "mission", 所属: "affiliation", 護衛: "guard", 対象: "target", 血縁: "family", 念講習会: "mission", 念: "mission", 状態: "status" })[tag.category] || "other";
+  return ({ 分類: "category", 兵種: "category", 人員区分: "category", 任務: "mission", 所属: "affiliation", 護衛: "guard", 対象: "target", 血縁: "family", 念講習会: "mission", 念: "mission", 状態: "status" })[tag.category] || "other";
 }
 
 function getCharacterTagShortLabel(tag) {
@@ -2060,8 +2072,8 @@ function setupCharacterDirectory() {
   });
   const extraCategories = [...new Set([...characterTagDefinitions.values()]
     .map((tag) => tag.category)
-    .filter((category) => !["分類", "任務"].includes(category)))];
-  const extraOrder = ["兵種", "所属", "護衛", "対象", "念", "血縁", "状態", "念講習会"];
+    .filter((category) => !["分類", "任務", "兵種"].includes(category)))];
+  const extraOrder = ["人員区分", "所属", "資格", "護衛", "対象", "念", "血縁", "状態", "念講習会"];
   extraCategories.sort((a, b) => {
     const aIndex = extraOrder.indexOf(a);
     const bIndex = extraOrder.indexOf(b);
@@ -3960,6 +3972,155 @@ function setupGuideStatus() {
   });
 }
 
+function renderPersonnelSnapshot(container) {
+  container.replaceChildren();
+  const snapshot = personnelSnapshotsData.find((entry) => entry.chapter === 374);
+  if (!snapshot) {
+    const missing = document.createElement("p");
+    missing.className = "guide-source-note";
+    missing.textContent = "第374話の人員配置データを読み込めませんでした。";
+    container.appendChild(missing);
+    return;
+  }
+
+  const privateNote = document.createElement("p");
+  privateNote.className = "guide-source-note";
+  privateNote.textContent = "私設兵の括弧内にある準協会員は内数です。王妃所属兵の監視先は下位王妃の王子であり、この行の王子を監視している人数ではありません。同じ王妃の監視兵は複数の子の欄に繰り返し記されています。";
+  container.appendChild(privateNote);
+
+  const tableWrap = document.createElement("div");
+  tableWrap.className = "guide-table-wrap";
+  const table = document.createElement("table");
+  table.className = "guide-table";
+  const head = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+  ["王子", "私設兵", "母の所属兵（原図の記載）", "ハンター協会員", "従事者"].forEach((label) => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    headerRow.appendChild(th);
+  });
+  head.appendChild(headerRow);
+  const body = document.createElement("tbody");
+  snapshot.princes.forEach((entry) => {
+    const prince = princesData.find((candidate) => candidate.rank === entry.rank);
+    const row = document.createElement("tr");
+    const deploymentText = entry.queen_deployments.length
+      ? entry.queen_deployments.map((deployment) => `第${deployment.queen_rank}王妃 ${deployment.count}名（${deployment.purpose}）`).join("／")
+      : "—";
+    const privateText = entry.private_soldiers
+      ? `${entry.private_soldiers}名${entry.provisional_associates ? `（うち準協会員${entry.provisional_associates}名）` : ""}`
+      : "—";
+    const associationText = entry.association_hunters ? `${entry.association_hunters}名` : "—";
+    const attendantsText = entry.attendants ? `${entry.attendants}名` : "—";
+    const cells = [
+      `第${entry.rank}王子${prince ? getDisplayName(prince) : ""}${entry.roster_state === "transferred" ? "（死亡・人員移動前の記載）" : ""}`,
+      privateText,
+      deploymentText,
+      associationText,
+      attendantsText
+    ];
+    cells.forEach((value) => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    body.appendChild(row);
+  });
+  table.append(head, body);
+  tableWrap.appendChild(table);
+  container.appendChild(tableWrap);
+
+  const transferNote = document.createElement("p");
+  transferNote.className = "guide-source-note";
+  transferNote.textContent = "第12王子欄には全員が第13王子へ移動したと記されています。協会員5名・従事者3名は第13王子欄にも記載される同じ人員です。";
+  container.appendChild(transferNote);
+
+  const queenTitle = document.createElement("h4");
+  queenTitle.textContent = "王妃所属兵：第374話の記載人数（重複を除く）";
+  container.appendChild(queenTitle);
+  const deploymentsByQueen = new Map();
+  const transferredRosterByRank = new Map(snapshot.princes
+    .filter((entry) => entry.roster_state === "transferred" && entry.transfer_to_rank)
+    .map((entry) => [entry.rank, entry.transfer_to_rank]));
+  snapshot.princes.forEach((entry) => entry.queen_deployments.forEach((deployment) => {
+    const placements = deploymentsByQueen.get(deployment.queen_rank) || [];
+    if (deployment.purpose === "王室警備兵" || !placements.some((item) => item.purpose === deployment.purpose)) {
+      placements.push({ princeRank: entry.rank, count: deployment.count, purpose: deployment.purpose });
+    }
+    deploymentsByQueen.set(deployment.queen_rank, placements);
+  }));
+  const queenWrap = document.createElement("div");
+  queenWrap.className = "guide-table-wrap";
+  const queenTable = document.createElement("table");
+  queenTable.className = "guide-table";
+  const queenHead = document.createElement("thead");
+  const queenHeader = document.createElement("tr");
+  ["王妃", "図中の所属兵合計", "任務・配置の内訳"].forEach((label) => {
+    const th = document.createElement("th");
+    th.textContent = label;
+    queenHeader.appendChild(th);
+  });
+  queenHead.appendChild(queenHeader);
+  const queenBody = document.createElement("tbody");
+  charactersData.filter((character) => character.type === "queen").sort((a, b) => a.rank - b.rank).forEach((queen) => {
+    const placements = deploymentsByQueen.get(queen.rank) || [];
+    const total = placements.reduce((sum, item) => sum + item.count, 0);
+    const detail = placements.length
+      ? placements.map((item) => {
+        if (item.purpose === "下位王子の監視") return `下位王子の監視 ${item.count}名（同母の王子間で共通の記載）`;
+        const movedTo = transferredRosterByRank.get(item.princeRank);
+        return movedTo
+          ? `第${movedTo}王子へ${item.count}名（第${item.princeRank}王子から移動・${item.purpose}）`
+          : `第${item.princeRank}王子へ${item.count}名（${item.purpose}）`;
+      }).join("／")
+      : "図に配置人数の記載なし";
+    const row = document.createElement("tr");
+    [`第${queen.rank}王妃${getDisplayName(queen)}`, placements.length ? `${total}名` : "図に人数記載なし", detail].forEach((value) => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    queenBody.appendChild(row);
+  });
+  queenTable.append(queenHead, queenBody);
+  queenWrap.appendChild(queenTable);
+  container.appendChild(queenWrap);
+
+  const queenNote = document.createElement("p");
+  queenNote.className = "guide-source-note";
+  queenNote.textContent = "同じ王妃の監視兵を各王子の欄から重複して足さず、王子付きの王室警備兵を加えています。この図に載らない兵まで含む総兵力とは限りません。第12王子から第13王子へ移った人員も一度だけ数えています。";
+  container.appendChild(queenNote);
+
+  const chart = document.createElement("img");
+  chart.className = "zoomable-image guide-source-image guide-personnel-chart";
+  chart.src = "images/guide/personnel-deployment-ch374.webp";
+  chart.alt = "第374話の各王子陣営における私設兵・王妃所属兵・ハンター協会員・従事者の配置図";
+  chart.title = "第374話より：各陣営の兵力・配置図";
+  chart.tabIndex = 0;
+  chart.setAttribute("role", "button");
+  chart.setAttribute("aria-label", "第374話の人員配置図を拡大");
+  const figure = document.createElement("figure");
+  figure.className = "guide-panel-quote guide-panel-quote-wide";
+  const caption = document.createElement("figcaption");
+  caption.textContent = "原作コマ：第374話より、各陣営の人員配置図。クリックで拡大できます。";
+  figure.append(chart, caption);
+  container.appendChild(figure);
+}
+
+function setupPersonnelSnapshotGuide() {
+  const button = document.getElementById("revealPersonnelSnapshot");
+  const container = document.getElementById("personnelSnapshotContent");
+  if (!button || !container) return;
+  button.addEventListener("click", () => {
+    const revealed = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(revealed));
+    button.textContent = revealed ? "第374話の配置を隠す" : "第374話の配置を見る";
+    container.hidden = !revealed;
+    if (revealed) renderPersonnelSnapshot(container);
+    else container.replaceChildren();
+  });
+}
+
 function renderOpenQuestions(container, category = "all") {
   container.replaceChildren();
   const filter = document.createElement("label");
@@ -4060,7 +4221,7 @@ function scrollToCurrentHash() {
 
 async function init() {
   try {
-    const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData] = await Promise.all([
+    const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData, personnelSnapshots] = await Promise.all([
       loadJson(DATA.characters),
       loadJson(DATA.characterTags),
       loadJson(DATA.characterImages),
@@ -4070,7 +4231,8 @@ async function init() {
       loadJson(DATA.spiritBeasts),
       loadJson(DATA.factions),
       loadJson(DATA.mafia),
-      loadJson(DATA.alliances)
+      loadJson(DATA.alliances),
+      loadJson(DATA.personnelSnapshots)
     ]);
 
     countOnlyCharacterIds = new Set(countOnlyCharacters.ids);
@@ -4092,6 +4254,14 @@ async function init() {
         const id = `soldier-kind-${label}`;
         characterTagDefinitions.set(id, { id, category: "兵種", label });
       });
+    characters.filter((candidate) => candidate.type === "prince").forEach((prince) => {
+      const id = `affiliation-p${String(prince.rank).padStart(2, "0")}-private`;
+      characterTagDefinitions.set(id, { id, category: "所属", label: `第${prince.rank}王子私設兵` });
+    });
+    characters.filter((candidate) => candidate.type === "queen").forEach((queen) => {
+      const id = `affiliation-q${String(queen.rank).padStart(2, "0")}-guards`;
+      characterTagDefinitions.set(id, { id, category: "所属", label: `第${queen.rank}王妃所属兵` });
+    });
     [...new Set(characters.filter((candidate) => candidate.type === "mafia").map((candidate) => formatAffiliation(candidate)).filter((value) => value && value !== "不明"))]
       .forEach((label) => {
         const id = `mafia-family-${label}`;
@@ -4155,6 +4325,7 @@ async function init() {
     factionsData = factions;
     alliancesData = allianceData.alliances;
     mafiaData = mafia;
+    personnelSnapshotsData = personnelSnapshots.snapshots || [];
     try {
       spoilersRevealed = localStorage.getItem(SPOILER_VISIBILITY_KEY) === "true";
     } catch (error) {
@@ -4189,6 +4360,7 @@ async function init() {
     renderCharacterDirectory(charactersData.filter(isDirectoryCharacter));
     setupCharacterDirectory();
     setupGuideStatus();
+    setupPersonnelSnapshotGuide();
     setupOpenQuestions();
     setupDetailModal();
     setupImageLightbox();

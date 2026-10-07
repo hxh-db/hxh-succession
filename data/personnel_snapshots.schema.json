@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "人員配置スナップショット",
+  "type": "object",
+  "required": ["snapshots"],
+  "properties": {
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chapter", "source_id", "princes"],
+        "properties": {
+          "chapter": { "type": "integer", "minimum": 1 },
+          "source_id": { "type": "string", "minLength": 1 },
+          "notes": { "type": "array", "items": { "type": "string" } },
+          "princes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["rank", "private_soldiers", "provisional_associates", "queen_deployments", "association_hunters", "attendants"],
+              "properties": {
+                "rank": { "type": "integer", "minimum": 1, "maximum": 14 },
+                "private_soldiers": { "type": "integer", "minimum": 0 },
+                "provisional_associates": { "type": "integer", "minimum": 0 },
+                "queen_deployments": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["queen_rank", "count", "purpose"],
+                    "properties": {
+                      "queen_rank": { "type": "integer", "minimum": 1, "maximum": 8 },
+                      "count": { "type": "integer", "minimum": 0 },
+                      "purpose": { "type": "string", "minLength": 1 }
+                    }
+                  }
+                },
+                "association_hunters": { "type": "integer", "minimum": 0 },
+                "attendants": { "type": "integer", "minimum": 0 },
+                "roster_state": { "type": "string", "enum": ["transferred"] },
+                "transfer_to_rank": { "type": "integer", "minimum": 1, "maximum": 14 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

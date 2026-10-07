@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 JSON データの検証スクリプト
-characters.json, events.json, spirit_beasts.json, factions.json, mafia.json
+characters.json, events.json, spirit_beasts.json, factions.json, mafia.json,
+personnel_snapshots.json
 を対応するスキーマファイルで検証します。
 """
 
@@ -106,6 +107,36 @@ def validate_cross_references(base):
             if event_id not in event_ids:
                 errors.append(f"未解決事項の出来事参照先がありません: {question['id']} -> {event_id}")
 
+    with open(base / "character_tags.json", encoding="utf-8") as f:
+        character_tags = json.load(f)
+    for assignment in character_tags["assignments"]:
+        if assignment["character_id"] not in id_set:
+            errors.append(f"人物タグの参照先がありません: {assignment['character_id']}")
+
+    with open(base / "personnel_snapshots.json", encoding="utf-8") as f:
+        snapshots = json.load(f)["snapshots"]
+    with open(base / "sources.json", encoding="utf-8") as f:
+        source_ids = {source["id"] for source in json.load(f)}
+    for snapshot in snapshots:
+        chapter = snapshot["chapter"]
+        if snapshot["source_id"] not in source_ids:
+            errors.append(f"人員配置の出典参照先がありません: 第{chapter}話")
+        ranks = [row["rank"] for row in snapshot["princes"]]
+        if sorted(ranks) != list(range(1, 15)):
+            errors.append(f"人員配置に第1〜第14王子の行が一つずつ必要です: 第{chapter}話")
+        shared_monitor_counts = {}
+        for row in snapshot["princes"]:
+            if row["provisional_associates"] > row["private_soldiers"]:
+                errors.append(f"準協会員が私設兵の内数になっていません: 第{chapter}話 第{row['rank']}王子")
+            for deployment in row["queen_deployments"]:
+                if deployment["purpose"] != "下位王子の監視":
+                    continue
+                queen_rank = deployment["queen_rank"]
+                count = deployment["count"]
+                if queen_rank in shared_monitor_counts and shared_monitor_counts[queen_rank] != count:
+                    errors.append(f"同じ王妃の監視兵数が一致しません: 第{chapter}話 第{queen_rank}王妃")
+                shared_monitor_counts[queen_rank] = count
+
     for source_name, records in (("人物", characters), ("イベント", events)):
         for record in records:
             for key, value in record.items():
@@ -125,6 +156,7 @@ def main():
         ("factions.json",       "factions.schema.json"),
         ("mafia.json",          "mafia.schema.json"),
         ("open_questions.json", "open_questions.schema.json"),
+        ("personnel_snapshots.json", "personnel_snapshots.schema.json"),
     ]
 
     all_ok = True

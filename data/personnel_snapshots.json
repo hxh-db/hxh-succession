@@ -1,0 +1,29 @@
+{
+  "snapshots": [
+    {
+      "chapter": 374,
+      "source_id": "user-original-ch374",
+      "notes": [
+        "第374話の図に示された人員配置。私設兵数は王子ごとに異なり、一律15名ではない。括弧書きされた準協会員は私設兵の内数であり、加算しない。",
+        "王妃所属兵の欄は王子の母に属する兵の記載。同母の王子の欄に繰り返された監視兵は同じ人数を示すため、王妃別の集計では一度だけ数え、王子付きの王室警備兵を加える。図に載らない兵まで含む総兵力とは限らない。従事者には非戦闘員も含まれる。",
+        "第12王子モモゼの人員には第13王子へ移動した旨が記される。行ごとの表示は原図の記載を保ち、王妃別集計では同一移動人員を重複させない。"
+      ],
+      "princes": [
+        { "rank": 1, "private_soldiers": 13, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 1, "count": 9, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 0 },
+        { "rank": 2, "private_soldiers": 12, "provisional_associates": 5, "queen_deployments": [{ "queen_rank": 2, "count": 8, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 7 },
+        { "rank": 3, "private_soldiers": 15, "provisional_associates": 5, "queen_deployments": [{ "queen_rank": 3, "count": 7, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 3 },
+        { "rank": 4, "private_soldiers": 15, "provisional_associates": 5, "queen_deployments": [{ "queen_rank": 1, "count": 9, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 5 },
+        { "rank": 5, "private_soldiers": 14, "provisional_associates": 5, "queen_deployments": [{ "queen_rank": 2, "count": 8, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 5 },
+        { "rank": 6, "private_soldiers": 5, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 4, "count": 6, "purpose": "下位王子の監視" }], "association_hunters": 2, "attendants": 5 },
+        { "rank": 7, "private_soldiers": 4, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 2, "count": 6, "purpose": "王室警備兵" }, { "queen_rank": 2, "count": 8, "purpose": "下位王子の監視" }], "association_hunters": 3, "attendants": 1 },
+        { "rank": 8, "private_soldiers": 5, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 5, "count": 3, "purpose": "王室警備兵" }, { "queen_rank": 5, "count": 4, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 3 },
+        { "rank": 9, "private_soldiers": 14, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 2, "count": 8, "purpose": "下位王子の監視" }], "association_hunters": 0, "attendants": 0 },
+        { "rank": 10, "private_soldiers": 0, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 6, "count": 2, "purpose": "王室警備兵" }, { "queen_rank": 6, "count": 3, "purpose": "下位王子の監視" }], "association_hunters": 3, "attendants": 5 },
+        { "rank": 11, "private_soldiers": 0, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 6, "count": 2, "purpose": "王室警備兵" }], "association_hunters": 0, "attendants": 8 },
+        { "rank": 12, "private_soldiers": 0, "provisional_associates": 0, "queen_deployments": [{ "queen_rank": 7, "count": 1, "purpose": "王室警備兵" }], "association_hunters": 5, "attendants": 3, "roster_state": "transferred", "transfer_to_rank": 13 },
+        { "rank": 13, "private_soldiers": 0, "provisional_associates": 0, "queen_deployments": [], "association_hunters": 5, "attendants": 3 },
+        { "rank": 14, "private_soldiers": 0, "provisional_associates": 0, "queen_deployments": [], "association_hunters": 2, "attendants": 1 }
+      ]
+    }
+  ]
+}

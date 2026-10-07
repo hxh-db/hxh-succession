@@ -253,6 +253,7 @@ body {
 .guide-panel-grid .guide-panel-quote { margin-top: 0; }
 .guide-source-image { display: block; width: 100%; max-height: 310px; object-fit: contain; background: #f6f6f6; border-radius: 6px; }
 .guide-panel-quote-wide .guide-source-image { max-height: 260px; object-position: left center; }
+.guide-panel-quote-wide .guide-personnel-chart { max-height: min(70vh, 760px); object-position: center; }
 .guide-panel-quote figcaption { margin-top: 8px; color: var(--muted); font-size: .77rem; line-height: 1.5; }
 .zoomable-image { cursor: zoom-in; }
 .zoomable-image:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }

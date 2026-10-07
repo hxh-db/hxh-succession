@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261004a" />
+  <link rel="stylesheet" href="style.css?v=20261008a" />
 </head>
 <body>
   <header class="site-header">
@@ -245,6 +245,25 @@
         <p class="guide-source-note">参照：第349話（儀式・参加条件）、第360〜361話（守護霊獣と継承戦の制約）。例外や未解明の条件は確定事項として加えていません。</p>
       </section>
 
+      <section class="guide-data-section" aria-labelledby="guardAssignmentTitle">
+        <h3 id="guardAssignmentTitle">王子の警護人と王妃所属兵</h3>
+        <p>王妃は警護人を使って、下位の王妃と王子が謀反を企んでいないか監視しています。ただし下位の王妃が上位の王妃とその王子を監視することは許されません。第360話p.190では、第11・12・14王子の配置例も説明されています。</p>
+        <div class="guide-panel-grid">
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/queen-guard-assignment-ch360.webp" alt="第11・12・14王子の警護人と王妃からの監視兵の配置図" title="第360話p.190より：王妃所属兵の配置例" tabindex="0" role="button" aria-label="第360話の王妃所属兵配置例を拡大">
+            <figcaption>原作コマ：第360話p.190より、王子ごとの警護人の配置例</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/queen-guard-rule-ch360.webp" alt="下位王妃が上位王妃とその王子を監視できないという警護人の運用ルール" title="第360話p.190より：王妃間の監視ルール" tabindex="0" role="button" aria-label="第360話の王妃間の監視ルールを拡大">
+            <figcaption>原作コマ：第360話p.190より、下位王妃による上位王妃・王子の監視は禁止</figcaption>
+          </figure>
+        </div>
+        <p>第374話の兵力図は、王子の私設兵・ハンター協会員・従事者と、母である王妃の所属兵を記載しています。準協会員は居住区外の警備にあたるため協会と連携する期限付きの資格です。第4王子は私設兵15名（うち準協会員5名）と従事者5名で、記載人数は計20名。準協会員5名をさらに加算しません。従事者には非戦闘員も含まれます。同じ王妃の監視兵は複数の子の欄に繰り返し載っているため、王妃別の集計では一度だけ数えます。</p>
+        <p class="guide-source-note">人物タグでは「第○王子私設兵」「第○王妃所属兵」を所属、「人員区分」を私設兵・王妃所属兵・王室警備兵・協会員（護衛）の横断分類、「準協会員」を資格として分けています。従事者は人物グループ「従事者」で絞り込めます。第374話の人数はその場面の配置記録で、現在人数や王妃の全保有兵力とは区別します。</p>
+        <button id="revealPersonnelSnapshot" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="personnelSnapshotContent">第374話の配置を見る</button>
+        <div id="personnelSnapshotContent" hidden></div>
+      </section>
+
       <section class="guide-data-section" aria-labelledby="shipRolesTitle">
         <h3 id="shipRolesTitle">船内の立場と役割</h3>
         <div class="guide-table-wrap">
@@ -252,15 +271,18 @@
             <thead><tr><th>立場</th><th>作中での位置づけ</th></tr></thead>
             <tbody>
               <tr><th>王子・王妃</th><td>継承候補とその母。王子ごとに居室と陣営がある。</td></tr>
-              <tr><th>王室警備兵</th><td>国王軍側の警護人員。王子の居室へ配置される。</td></tr>
-              <tr><th>王妃所属兵・私設兵</th><td>所属する王妃や王子と、実際の配置先が異なる場合もある。</td></tr>
-              <tr><th>ハンター</th><td>護衛や調査など、それぞれの任務で乗船する。</td></tr>
+              <tr><th>私設兵</th><td>王子が独自の人脈で集めた兵隊。第1王子の私設兵は正規国軍の資格も持つ。</td></tr>
+              <tr><th>王妃所属兵</th><td>国王軍から各王妃に割り当てられた正規兵。私設兵とは別に王子の居室へ配置される。</td></tr>
+              <tr><th>王室警備兵</th><td>王子の居室など王室警備に配置された国軍兵。第374話の図では、王妃所属兵の配置目的が「王室警備」か「監視」かも区別される。</td></tr>
+              <tr><th>ハンター協会員</th><td>王子が個別に依頼したプロハンター。基本的に専属で身辺警護にあたる。</td></tr>
+              <tr><th>準協会員</th><td>私設兵と協会が連携して居住区外の警備に募った人員。便宜上の期限付きで、私設兵人数に括弧書きされた場合は内数。</td></tr>
+              <tr><th>従事者</th><td>兵士を兼ねる者と非戦闘員がいる。申請人数が多いほど居住区内に持ち込める家具・日用品などの荷物重量の上限が増える。</td></tr>
               <tr><th>司法省</th><td>船内の事件捜査や法的手続きに関わる。</td></tr>
               <tr><th>三大マフィア</th><td>下層で活動する別々の組織。王子陣営との関係もそれぞれ異なる。</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
+        <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。人物一覧の「人員区分」タグから私設兵・王妃所属兵・王室警備兵・協会員（護衛）、人物グループ「従事者」から従事者を絞り込めます。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
       </section>
     </section>
   </main>
@@ -288,6 +310,6 @@
     <p id="lightboxCaption"></p>
   </dialog>
 
-  <script src="script.js?v=20261004d"></script>
+  <script src="script.js?v=20261008a"></script>
 </body>
 </html>

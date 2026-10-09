@@ -63,7 +63,13 @@
       "nen_ability_image_source": { "type": ["string", "null"] },
       "spirit_beast_name": { "type": ["string", "null"] },
       "status": { "type": "string", "minLength": 1 },
-      "status_log": { "type": "array" },
+      "status_log": { "type": "array", "items": {"type":"object", "properties": {
+        "chapter":{"type":["integer","null"]}, "status":{"type":"string"}, "event_id":{"type":"string"}, "cause":{"type":["string","null"]}
+      }} },
+      "status_review_note": {"type":"string", "description":"状態の確認話数等に競合がある場合の保留理由"},
+      "review_claims": {"type":"array", "items":{"type":"object", "required":["text","event_ids"], "additionalProperties":false, "properties":{
+        "text":{"type":"string","minLength":1}, "event_ids":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}}
+      }}},
       "is_hunter": { "type": "boolean" },
       "faction_note": { "type": ["string", "null"] },
       "notes": { "type": ["string", "null"] },

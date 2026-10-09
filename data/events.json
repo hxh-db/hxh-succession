@@ -491,6 +491,7 @@
   },
   {
     "id": "E359-002",
+    "character_presence": {"P14-P02":"body"},
     "verification_status": "unverified", "source_locator": {"chapter":359,"pages":null,"scene_id":"E359-002"}, "source_id": "chapter-359-record-index", "location_status": "recorded",
     "chapter": 359,
     "chapter_title": "出航",
@@ -672,6 +673,8 @@
     "time_start": null,
     "time_end": null,
     "type": "襲撃・拘束・能力奪取",
+    "title": "サイールドの襲撃と拘束",
+    "summary": "カートンら3名が死亡。クラピカが『裏窓』を奪い、皇帝の時間を発動する",
     "description": "サイールドがカートンと王室警備兵2名を襲撃・殺害し、クラピカがサイールドを拘束して『裏窓（リトルアイ）』を奪い、エンペラータイムを発動する",
     "characters": [
       "P14-P01",
@@ -759,6 +762,8 @@
   },
   {
     "id": "E361-005",
+    "character_presence": {"P14-H03":"mentioned","P14-P01":"mentioned","P14-P02":"mentioned","P14-P04":"mentioned","P14-P05":"mentioned","P14-U01":"mentioned","P14-U02":"mentioned","P14-U03":"mentioned","P14-U04":"mentioned"},
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":361,"pages":null,"scene_id":"E361-005"}, "source_id": "chapter-361-record-index", "location_status": "recorded",
     "chapter": 361,
     "chapter_title": "辞退",
@@ -1405,6 +1410,7 @@
   },
   {
     "id": "E366-001",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-001"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -1435,6 +1441,7 @@
   },
   {
     "id": "E366-002",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-002"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -1468,6 +1475,7 @@
   },
   {
     "id": "E366-003",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-003"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -1498,6 +1506,7 @@
   },
   {
     "id": "E366-004",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-004"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -1529,6 +1538,7 @@
   },
   {
     "id": "E366-005",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-005"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -1564,6 +1574,8 @@
   },
   {
     "id": "E366-006",
+    "character_presence": {"P12-H01":"present"},
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-006"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -2068,6 +2080,7 @@
   },
   {
     "id": "E371-004",
+    "character_presence": {"P12":"body"},
     "verification_status": "unverified", "source_locator": {"chapter":371,"pages":null,"scene_id":"E371-004"}, "source_id": "chapter-371-record-index", "location_status": "recorded",
     "time_estimate": "09:48",
     "time_estimate_basis": "user-provisional-clocks-20261008",
@@ -2501,6 +2514,7 @@
   },
   {
     "id": "E373-005",
+    "character_presence": {"P12":"mentioned"},
     "verification_status": "unverified", "source_locator": {"chapter":373,"pages":null,"scene_id":"E373-005"}, "source_id": "chapter-373-record-index", "location_status": "recorded",
     "time_estimate": "13:10",
     "time_estimate_basis": "user-provisional-clocks-20261008",
@@ -2860,6 +2874,7 @@
   },
   {
     "id": "E375-005",
+    "character_presence": {"P12-H01":"present"},
     "verification_status": "unverified", "source_locator": {"chapter":375,"pages":null,"scene_id":"E375-005"}, "source_id": "chapter-375-record-index", "location_status": "recorded",
     "time_estimate": "06:58",
     "time_estimate_basis": "user-provisional-clocks-20261008",
@@ -2886,6 +2901,7 @@
   },
   {
     "id": "E375-006",
+    "character_presence": {"P12-H01":"present"},
     "verification_status": "unverified", "source_locator": {"chapter":375,"pages":null,"scene_id":"E375-006"}, "source_id": "chapter-375-record-index", "location_status": "recorded",
     "time_estimate": "07:45",
     "time_estimate_basis": "user-provisional-clocks-20261008",
@@ -3341,9 +3357,9 @@
       "三大マフィアの組長は国王ナスビーの異母兄弟である二線者で、それぞれ王子を後ろ盾としている"
     ],
     "mysteries": [
-      "モレナが23名への感染を始めた正確な時刻",
-      "感染者それぞれが発現する念能力"
-    ],
+        "感染者それぞれが発現する念能力"
+      ],
+      "editorial_questions": ["モレナが23名への感染を始めた正確な時刻"],
     "notes": "第378話写真4〜8で確認。扉の302表示と『一人ずつこちらへ』の台詞から現在進行の感染開始として扱う。08:40頃は組長同士の協議後、旅団3名の倉庫区画到着前というページ順に基づく推測"
   },
   {
@@ -3999,9 +4015,8 @@
     "revealed_facts": [
       "日曜晩餐会は出航8日目20:00に開始した"
     ],
-    "mysteries": [
-      "サレサレ欠席が会場で公表される正確な時刻"
-    ],
+      "mysteries": [],
+      "editorial_questions": ["サレサレ欠席が会場で公表される正確な時刻"],
     "notes": "第382話写真10の時刻表示で確定"
   },
   {
@@ -7496,7 +7511,7 @@
       "特殊戒厳令の発令が船内放送で繰り返し告げられる",
       "訓練ではないと明示し、放送を繰り返す"
     ],
-    "notes": "写真10左末尾。本話には発令時刻や原因の説明がない。第407話からの連続として12日目と推定し、時計時刻を補間しない。",
+    "notes": "写真10左末尾。本話には発令時刻や原因の説明がない。第407話からの連続として12日目と推定。14:15頃？は表示順のための仮配置で、この話の時計表示ではない。他話の同一放送との一致も未照合。前後からの時計時刻の自動補間は行わない。",
     "chronology_kind": "event"
   },
   {
@@ -7933,7 +7948,7 @@
     "time_estimate_basis": "user-provisional-clocks-20261008",
     "chapter_order": 3,
     "type": "契約",
-    "description": "ボークセンがレベル0の仲間となり、モレナが未達条件・覚醒・レベルの仕組みを説明する",
+    "description": "ボークセンはレベル0。完全加入には残る条件が必要",
     "characters": [
       "EII-001",
       "EII-T01"
@@ -8321,7 +8336,7 @@
     "id": "E415-001", "verification_status": "unverified", "source_locator": {"chapter":415,"pages":null,"scene_id":"E415-001"}, "source_id": "chapter-415-record-index", "location_status": "recorded", "time_estimate": "09:05", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 415, "chapter_title": null, "day": null, "period": "ritual", "time_start": null, "time_end": null, "type": "呪詛", "description": "壺中卵の儀の時期、船外の自室でヒュリコフが能力を発動し、ビヨンドから掛けられた呪いを見破る", "characters": ["P01-P06", "BYD-001"], "room": null, "location": "船外 ヒュリコフ自室", "camp": null, "series": null, "series_index": null, "revealed_facts": ["ヒュリコフは死亡時に第1〜第8王子の誰かを呪殺するソエモノ"], "mysteries": ["呪殺対象となる王子", "画面に表示されるP×4098と不明能力者の意味", "呪いの解除条件"], "notes": "ユーザー提供の原作画像（第415話全10ページ）で確認。出航約2か月前（壺中卵の儀）の場面。画面上の数値・能力者名・呪殺対象は未確定のまま保持"
   },
   {
-    "id": "E415-002", "verification_status": "unverified", "source_locator": {"chapter":415,"pages":null,"scene_id":"E415-002"}, "source_id": "chapter-415-record-index", "location_status": "recorded", "time_estimate": "14:20", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "移動", "description": "特殊戒厳令下でツベッパが1001号室へ移動を始める", "characters": ["P05"], "room": null, "location": "第1層 1005号室から1001号室へ", "camp": ["ツベッパ陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": ["この場面の正確な時刻"], "notes": "発令前後の場面順序には未確定部分がある"
+    "id": "E415-002", "verification_status": "unverified", "source_locator": {"chapter":415,"pages":null,"scene_id":"E415-002"}, "source_id": "chapter-415-record-index", "location_status": "recorded", "time_estimate": "14:20", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "移動", "description": "特殊戒厳令下でツベッパが1001号室へ移動を始める", "characters": ["P05"], "room": null, "location": "第1層 1005号室から1001号室へ", "camp": ["ツベッパ陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": [], "editorial_questions": ["この場面の正確な時刻"], "notes": "発令前後の場面順序には未確定部分がある"
   },
   {
     "id": "E415-003", "verification_status": "unverified", "source_locator": {"chapter":415,"pages":null,"scene_id":"E415-003"}, "source_id": "chapter-415-record-index", "location_status": "recorded", "time_estimate": "14:25", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 415, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "脱出", "description": "ルズールスとライスが裏口からシャ＝ア一家方面へ逃れる", "characters": ["P07", "P07-G02"], "room": "第1層 1007号室", "location": "第1層 1007号室からシャ＝ア一家方面へ", "camp": ["ルズールス陣営"], "revealed_facts": [], "mysteries": [], "notes": "特殊戒厳令下の対応。正確な移動時刻は未確定"
@@ -8351,7 +8366,7 @@
     "id": "E417-003", "verification_status": "unverified", "source_locator": {"chapter":417,"pages":null,"scene_id":"E417-003"}, "source_id": "chapter-417-record-index", "location_status": "recorded", "time_estimate": "15:05", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 417, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "感染情報", "description": "特殊戒厳令下で、カミーラのTSK-17感染と死亡までの時間が共有される。ツベッパとタイソンにも感染の可能性があるとして検討される", "characters": ["P02", "P05", "P06", "P01-P06"], "room": null, "location": "第1層 1001〜1014号室区画", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": ["第2王子のTSK-17感染情報が伝達される"], "mysteries": ["第5・第6王子がTSK-17に感染しているか", "王子ごとの感染時刻と死亡までの時間", "TSK-17と守護霊獣能力の関係"], "notes": "ユーザー提供の原作画像（第417話全10ページ）で確認。第5・第6王子の感染は会話上の可能性として扱い、確定事実にしない"
   },
   {
-    "id": "E417-004", "verification_status": "unverified", "source_locator": {"chapter":417,"pages":null,"scene_id":"E417-004"}, "source_id": "chapter-417-record-index", "location_status": "recorded", "time_estimate": "15:10", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 417, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "能力判断", "description": "ヒュリコフが王子の死亡と継承条件を踏まえ、自身の守護霊獣能力を使う『究極の2択』を検討する", "characters": ["P01-P06", "P01"], "room": null, "location": "第1層 1001〜1014号室区画", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": ["ヒュリコフが選ぶ能力使用の内容", "能力が王位継承・王子の生死に及ぼす影響"], "notes": "ユーザー提供の原作画像（第417話全10ページ）で守護霊獣能力と『究極の2択』への言及を確認。能力の具体的作用は未確定"
+    "id": "E417-004", "verification_status": "unverified", "source_locator": {"chapter":417,"pages":null,"scene_id":"E417-004"}, "source_id": "chapter-417-record-index", "location_status": "recorded", "time_estimate": "15:10", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 417, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "能力判断", "description": "ヒュリコフの能力使用を巡る登録記録（作用主体と『究極の2択』の内容は原作再照合待ち）", "characters": ["P01-P06", "P01"], "room": null, "location": "第1層 1001〜1014号室区画", "camp": ["ベンジャミン陣営"], "series": null, "series_index": null, "revealed_facts": [], "mysteries": ["ヒュリコフが選ぶ能力使用の内容", "能力が王位継承・王子の生死に及ぼす影響"], "editorial_questions": ["第413・415・417話を再照合し、本人固有の発・王子の守護霊獣・呪いによる作用のどれを指すか確認する"], "notes": "旧登録では『自身の守護霊獣能力を使う究極の2択』と記述され、旧照合メモは原作画像で確認したとしていた。しかし現在の人物説明と作用主体が一致せず、今回その原作画像を再確認できていない。本人固有の能力・守護霊獣の所有を確定しない。原作再照合待ち"
   },
   {
     "id": "E418-001", "verification_status": "unverified", "source_locator": {"chapter":418,"pages":null,"scene_id":"E418-001"}, "source_id": "chapter-418-record-index", "location_status": "recorded", "time_estimate": "15:15", "time_estimate_basis": "user-provisional-clocks-20261008", "chapter": 418, "chapter_title": null, "day": 12, "time_start": null, "time_end": null, "type": "念能力説明", "description": "ツェリードニヒが、目を閉じて絶になると発動する『刹那の10秒』について、10秒先の未来と現実世界の関係を整理する", "characters": ["P04"], "room": "第1層 1004号室", "location": "第1層 1004号室", "camp": ["ツェリードニヒ陣営"], "series": null, "series_index": null, "revealed_facts": ["『刹那の10秒』は10秒先の未来視を含む", "未来視中は他者がその未来を認識できない"], "mysteries": ["絶に入るまでの正確な条件と発動範囲"], "notes": "ユーザー提供の原作画像（第418話全10ページ）で能力説明を確認。既存のE387-001・E402-004・E404-003を具体化する"
@@ -8465,6 +8480,8 @@
   },
   {
     "id": "E363-004",
+    "editorial_questions": ["サンドラの死亡確認は現在の登録では第363話、過去の画像照合メモでは第364話。第363話末尾・第364話冒頭を再照合し、確認話数と殺害手段を決める"],
+    "character_presence": {"P14-M01":"body"},
     "verification_status": "unverified", "source_locator": {"chapter":363,"pages":null,"scene_id":"E363-004"}, "source_id": "chapter-363-record-index", "location_status": "recorded",
     "time_estimate": "15:24",
     "time_estimate_basis": "user-provisional-clocks-20261008",
@@ -8474,7 +8491,7 @@
     "time_start": null,
     "time_end": null,
     "type": "殺害",
-    "description": "ビンセントが1014号室に入り、従事者サンドラを刺殺する",
+    "description": "サンドラの死亡（確認話数・殺害手段は原作再照合待ち）",
     "characters": [
       "P01-P03",
       "P14-M01",
@@ -8494,7 +8511,7 @@
       "クラピカは「監視ではなく刺客」と判断する"
     ],
     "mysteries": [],
-    "notes": "兵の配置指示後にビンセントが入室する。第1王子の15:20退室後、15:30頃と仮配置している死亡報告・後任指示より前の一連の流れとして並べる。旧15:15頃の制圧時刻と前後からの自動補間は採用せず、分単位の所要時間は確定しない。",
+    "notes": "確認話数が競合している。現在の人物・出来事登録は第363話だが、過去の第363・364話画像照合メモでは第364話冒頭の遺体確認とされ、殺害の瞬間・具体的手段は未確認。原作画像の再確認まで登録話数を確定情報として扱わない。兵の配置指示後の入室、死亡報告・後任指示より前という前後関係に置く15:24頃？は表示順の仮配置で、所要時間の確定ではない。",
     "status_effects": [
       {
         "character": "P14-M01",
@@ -8599,6 +8616,7 @@
   },
   {
     "id": "E366-007",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-007"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -8623,6 +8641,7 @@
   },
   {
     "id": "E366-008",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-008"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",
@@ -8647,6 +8666,7 @@
   },
   {
     "id": "E366-009",
+    "date_certainty": "confirmed",
     "verification_status": "unverified", "source_locator": {"chapter":366,"pages":null,"scene_id":"E366-009"}, "source_id": "chapter-366-record-index", "location_status": "recorded",
     "chapter": 366,
     "chapter_title": "其々",

@@ -1,12 +1,12 @@
 const DATA = {
-  characters: "data/characters.json?v=20261009b",
+  characters: "data/characters.json?v=20261009e",
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261002b",
-  events: "data/events.json?v=20261008q",
+  events: "data/events.json?v=20261009e",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
-  spiritBeasts: "data/spirit_beasts.json?v=20261004a",
+  spiritBeasts: "data/spirit_beasts.json?v=20261009e",
   factions: "data/factions.json?v=20261008q",
   mafia: "data/mafia.json?v=20261008q",
   sources: "data/sources.json?v=20261009b",
@@ -565,18 +565,11 @@ function formatLocationLabel(value) {
 }
 
 function getEventDateCertainty(event) {
-  if (event.date_certainty) return event.date_certainty;
-  if (Number(event.chapter) >= 411) return "provisional";
-  return event.day != null || event.period ? "confirmed" : "unknown";
+  return CharacterFacts.dateCertainty(event);
 }
 
 function getDateCertaintyLabel(event) {
-  return {
-    confirmed: "",
-    estimated: "日付推定",
-    provisional: "日付暫定",
-    unknown: "日付不明"
-  }[getEventDateCertainty(event)] || "日付不明";
+  return CharacterFacts.dateCertaintyLabel(event);
 }
 
 function makeCertaintyBadge(event) {
@@ -596,45 +589,6 @@ function makeCertaintyBadge(event) {
   span.className = `certainty-badge certainty-${certainty}`;
   span.textContent = getDateCertaintyLabel(event);
   return span;
-}
-
-function getLatestKnownLocation(character) {
-  const matching = eventsData
-    .map((event) => ({ event, location: getCharacterEventLocation(event, character.id) }))
-    .filter(({ event, location }) => (event.characters || []).includes(character.id) && location)
-    .slice().sort((a, b) => {
-      const chronology = (event) => {
-        event = event.event || event;
-        if (event.period === "preboard") return 0;
-        if (event.period === "ritual") return 1000;
-        if (event.day != null) return 2000 + Number(event.day) * 100000 + (parseTimeString(event.time_start) || 0) * 10 + (Number(event.chapter) || 0);
-        return 1500 + (Number(event.chapter) || 0);
-      };
-      return chronology(a) - chronology(b) || sortKey(a.event) - sortKey(b.event);
-    });
-  const latestEntry = matching.at(-1);
-  const latest = latestEntry?.event;
-  if (!latest) {
-    const registered = formatRoomLabel(character.room || character.location);
-    return registered ? { location: registered, basis: "人物台帳の登録値", certainty: "unknown" } : null;
-  }
-  return {
-    location: formatLocationLabel(latestEntry.location),
-    basis: `${latest.chapter}話時点`,
-    certainty: getEventDateCertainty(latest)
-  };
-}
-
-function getCharacterEventLocation(event, characterId) {
-  if (event.character_locations && Object.hasOwn(event.character_locations, characterId)) {
-    return event.character_locations[characterId] || null;
-  }
-  const location = getLocationKey(event);
-  if (location === "場所不明") return null;
-  const remoteOrRetrospective = /電話|通話|連絡|報告|手紙|回想|モノローグ|知らされ|伝え/.test(event.description || "")
-    || ["flashback", "reference", "setting"].includes(event.chronology_kind);
-  if (remoteOrRetrospective && (event.characters || []).length > 1) return null;
-  return location;
 }
 
 function getChronologyKind(event) {
@@ -1765,23 +1719,29 @@ function createCharacterDirectoryCard(character) {
   const context = document.createElement("div");
   context.className = "character-record-context";
   if (character.assignment_history?.length) {
-    character.assignment_history.forEach((entry, index) => {
+    CharacterFacts.assignmentRows(character, charactersData).forEach((entry, index) => {
       const line = document.createElement("p");
       if (index > 0) line.className = "spoiler-only";
-      line.textContent = `${entry.label}：${formatRoyalName(entry.prince_id)}／${formatRoomLabel(entry.room)}（第${entry.chapter}話）`;
+      line.textContent = entry.text;
       context.appendChild(line);
     });
   } else if (character.initial_room) {
     const line = document.createElement("p");
-    line.textContent = `初期配置：${formatRoomLabel(character.initial_room)}（現在地ではありません）`;
+    line.textContent = `初期配置：${formatRoomLabel(character.initial_room)}`;
     context.appendChild(line);
   }
   const nen = document.createElement("p");
   nen.className = "nen-knowledge-label";
   if (["unavailable_confirmed", "not_awakened_confirmed"].includes(character.nen_status)) nen.classList.add("spoiler-only");
-  nen.textContent = getNenKnowledgeLabel(character);
+  nen.textContent = getNenKnowledgeLabel(character, true);
   context.appendChild(nen);
-  context.appendChild(makeRecordPermalink("character", character.id));
+  const searchQuery = document.getElementById("characterSearch").value.trim();
+  if (searchQuery && CharacterFacts.searchRank(character, searchQuery) > 0) {
+    const reason = document.createElement("p");
+    reason.className = "character-match-reason";
+    reason.textContent = CharacterFacts.searchRank(character, searchQuery) === 1 ? "名前の部分一致" : "説明・所属などに一致（本人名の一致ではありません）";
+    context.appendChild(reason);
+  }
   card.appendChild(context);
 
   if (visibleTags.some((tag) => tag.category !== "所属")) {
@@ -1867,8 +1827,12 @@ function createCharacterDirectoryCard(character) {
   const details = document.createElement("details");
   details.className = "compact-person-details directory-character-details";
   const toggle = document.createElement("summary");
-  toggle.textContent = spoilersRevealed ? "詳細" : "詳細（ネタバレあり）";
+  toggle.textContent = spoilersRevealed ? "記録・関連イベント・メモ" : "記録・関連イベント・メモ（ネタバレあり）";
   details.appendChild(toggle);
+  const latestPlace = document.createElement("p");
+  latestPlace.textContent = `最終確認場所：${CharacterFacts.latestLocationLabel(character, eventsData)}`;
+  details.appendChild(latestPlace);
+  details.appendChild(makeCharacterReviewPanel(character));
 
   const descriptionParagraphs = getCharacterDescriptionParagraphs(character);
   const revealedText = formatDisplayText(character.spoiler_notes);
@@ -2057,7 +2021,8 @@ function renderCharacterDirectory(characters) {
   const container = document.getElementById("characterDirectory");
   const summary = document.getElementById("characterResultSummary");
   container.innerHTML = "";
-  currentCharacterResults = characters.slice().sort(sortCharacters);
+  const query = document.getElementById("characterSearch")?.value || "";
+  currentCharacterResults = characters.slice().sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query) || sortCharacters(a, b));
   currentCharacterResults.forEach((character) => {
     container.appendChild(createCharacterDirectoryCard(character));
   });
@@ -2074,11 +2039,10 @@ function renderCharacterAssignmentTable(characters) {
     : characters;
   const table = document.createElement("table");
   const head = document.createElement("thead");
-  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最後に記録された場所</th></tr>";
+  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最終確認場所</th></tr>";
   const body = document.createElement("tbody");
   rows.forEach((character) => {
-    const latest = getLatestKnownLocation(character);
-    const hidesMovement = !spoilersRevealed && Boolean(character.target_history?.length);
+    const hidesMovement = !spoilersRevealed && Boolean(character.target_history?.length || character.assignment_history?.length);
     const roleCategory = [
       character.soldier_category,
       character.type === "hunter" ? "ハンター" : null,
@@ -2090,11 +2054,11 @@ function renderCharacterAssignmentTable(characters) {
       character.type === "prince" ? `第${character.rank}王子${getDisplayName(character)}` : getDisplayName(character),
       roleCategory,
       formatAffiliation(character) || "—",
-      hidesMovement ? "ネタバレ＋で表示（カード）" : formatAssignment(character) || "—",
+      hidesMovement ? "ネタバレ＋で表示（カード）" : CharacterFacts.assignmentRows(character, charactersData).at(-1)?.text || formatAssignment(character) || "—",
       hidesMovement ? formatDisplayText(character.mission) || "—"
         : [formatDisplayText(character.mission), formatDisplayText(character.target)].filter(Boolean).join("：") || "—",
       hidesMovement ? "ネタバレ＋で表示（カード）"
-        : latest ? `${latest.location}｜${latest.basis}｜${({ confirmed: "確定", provisional: "暫定", estimated: "推定", unknown: "不明" }[latest.certainty])}` : "不明"
+        : CharacterFacts.latestLocationLabel(character, eventsData)
     ].forEach((value, columnIndex) => {
       const cell = document.createElement("td");
       if (columnIndex === 0) cell.appendChild(makeCharacterDetailLink(character, value));
@@ -2134,7 +2098,7 @@ function setSpoilersRevealed(revealed, persist = true) {
   const button = document.getElementById("characterSpoilerToggle");
   button.textContent = revealed ? "ネタバレを隠す" : "ネタバレ解除";
   button.setAttribute("aria-pressed", String(revealed));
-  document.getElementById("characterSpoilerHelp").textContent = "初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。 " + (revealed
+  document.getElementById("characterSpoilerHelp").textContent = "名前を押すと人物詳細が開きます。「記録・関連イベント・メモ」はカード内の記録です。初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。 " + (revealed
     ? "血縁や任務先の変化、死亡・殺害の情報を表示中です。手紙や描写による親子説は未確定情報として区別します。"
     : "全画面でネタバレを隠しています。詳細を開くと共通設定も表示に切り替わります。親子説は未確定情報として区別します。");
   document.querySelectorAll(".character-spoiler-details").forEach((details) => {
@@ -2143,7 +2107,7 @@ function setSpoilersRevealed(revealed, persist = true) {
   });
   document.getElementById("characterSpoilerTagGroups").open = revealed;
   document.querySelectorAll(".directory-character-details > summary").forEach((summary) => {
-    summary.textContent = revealed ? "詳細" : "詳細（ネタバレあり）";
+    summary.textContent = revealed ? "記録・関連イベント・メモ" : "記録・関連イベント・メモ（ネタバレあり）";
   });
   renderCharacterAssignmentTable(currentCharacterResults);
   refreshSharedSpoilers();
@@ -2348,7 +2312,7 @@ function setupCharacterDirectory() {
         || character.affiliation?.startsWith(`${activeCharacterAffiliation}（`);
       const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
       return sectionMatch && typeMatch && campMatch && tagMatch && affiliationMatch && princeMatch && (!query || searchable.includes(query));
-    });
+    }).sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query));
   };
   const apply = () => {
     const filtered = findMatchingCharacters();
@@ -2870,7 +2834,7 @@ function createTimelineCard(event) {
   };
 
   addMeta(getChapterLabel(event));
-  if (event.day != null) addMeta(`${event.day}日目`);
+  if (event.day != null) addMeta(CharacterFacts.dayLabel(event));
   const timeLabel = getTimeLabel(event);
   if (timeLabel) addMeta(`時刻: ${timeLabel}`);
   else {
@@ -2907,12 +2871,12 @@ function createTimelineCard(event) {
     item.appendChild(facts);
   }
 
-  if ((event.mysteries || []).length > 0) {
+  CharacterFacts.questionSections(event, eventsData).forEach(section => {
     const mysteries = document.createElement("p");
     mysteries.className = "event-mysteries";
-    mysteries.textContent = `謎: ${event.mysteries.join(" / ")}`;
+    mysteries.textContent = `${section.heading}: ${section.lines.join(" / ")}`;
     item.appendChild(mysteries);
-  }
+  });
 
   return item;
 }
@@ -3204,6 +3168,24 @@ function activateTimelineView(view, moveFocus = false) {
 }
 
 function setupTimelineTabs() {
+  const periodSelect = document.getElementById("timelinePeriodSelect");
+  TIMELINE_PERIODS.forEach(period => {
+    const option = document.createElement("option");
+    option.value = period.id;
+    option.textContent = period.label;
+    periodSelect.appendChild(option);
+  });
+  const jumpToPeriod = id => {
+    activeTimelinePeriodId = id;
+    document.getElementById("chapterFilter").value = "all";
+    applyFilter();
+  };
+  periodSelect.addEventListener("change", () => jumpToPeriod(periodSelect.value));
+  document.getElementById("timelineLatestDay").addEventListener("click", () => {
+    const days = eventsData.map(getEventPeriodId).filter(id => /^day-\d+$/.test(id)).map(id => Number(id.slice(4)));
+    if (days.length) jumpToPeriod(`day-${Math.max(...days)}`);
+  });
+  document.getElementById("timelineProvisional").addEventListener("click", () => jumpToPeriod("provisional"));
   const tabs = Array.from(document.querySelectorAll(".timeline-view-tab"));
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => activateTimelineView(tab.dataset.view));
@@ -3266,6 +3248,7 @@ function renderTimelineSchedule(events) {
   const container = document.getElementById("timelineSchedule");
   tabs.innerHTML = "";
   container.innerHTML = "";
+  document.getElementById("timelinePeriodSelect").value = activeTimelinePeriodId;
   if (refreshTypeAvailability()) {
     applyFilter();
     return;
@@ -3352,15 +3335,21 @@ function createScheduleEventCard(event, placement) {
   chapter.className = "schedule-event-chapter";
   chapter.textContent = getChapterLabel(event);
   const description = document.createElement("span");
-  description.textContent = event.description;
+  description.textContent = event.title || event.description;
   const participants = document.createElement("small");
   participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
+  item.appendChild(description);
+  if (event.summary) {
+    const summary = document.createElement("p");
+    summary.textContent = event.summary;
+    item.appendChild(summary);
+  }
   item.append(location, chapter);
-  item.appendChild(makeEventReviewRibbon(event, placement));
-  const certaintyBadge = makeCertaintyBadge(event);
+  item.appendChild(makeEventReviewRibbon(event, placement, false));
+  // 日付の確認状態は共通リボンに一本化し、内容の推測だけ別表示する。
+  const certaintyBadge = event.is_estimate ? makeCertaintyBadge(event) : null;
   if (certaintyBadge) item.appendChild(certaintyBadge);
   if (getEventPeriodId(event) === "unknown") item.appendChild(makeChronologyBadge(event));
-  item.appendChild(description);
   const participantTags = document.createElement("div");
   participantTags.className = "participant-list schedule-participants";
   (event.characters || []).forEach((token) => participantTags.appendChild(createParticipantChip(token, true)));
@@ -3453,7 +3442,7 @@ function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc" 
   orderedEvents.forEach((entry) => {
     const { event, placement, relativeLabel, slot } = entry;
     const key = placement
-      ? `${getEventPeriodId(event)}:${placement.estimated ? "estimated" : "exact"}:${placement.minutes}`
+      ? `${getEventPeriodId(event)}:${getEventDateCertainty(event)}:${placement.estimated ? "estimated" : "exact"}:${placement.minutes}`
       : `${getEventPeriodId(event)}:relative:${slot}:${relativeLabel}`;
     // 離れた場面を同じラベルだからとまとめ直さず、連続した場面だけを束ねる。
     if (groups.at(-1)?.key !== key) groups.push({ key, entries: [] });
@@ -3470,7 +3459,8 @@ function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc" 
     const period = TIMELINE_PERIODS.find((entry) => entry.id === getEventPeriodId(groupEvents[0].event));
     const timeText = placement?.estimated && document.getElementById?.("timeDisplayMode")?.value === "original"
       ? "順序のみ（仮時刻を非表示）" : placement ? placement.label : groupEvents[0].relativeLabel;
-    timeColumn.textContent = showPeriod ? `${period?.label || "日付不明"} ${timeText}` : timeText;
+    const periodText = groupEvents[0].event.day != null ? CharacterFacts.dayLabel(groupEvents[0].event) : period?.label || "日付不明";
+    timeColumn.textContent = showPeriod ? `${periodText} ${timeText}` : timeText;
     if (placement?.estimated) timeColumn.title = "仮時刻です。原作の確定時計ではありません。日付が未確定の場合は、日付も未確定のままです。";
     const eventGrid = document.createElement("div");
     eventGrid.className = "chronological-events";
@@ -3530,7 +3520,7 @@ function renderPersonTimeline(token, sourceEvents = eventsData) {
     const item = document.createElement("div");
     item.className = "person-event";
 
-    const label = e.day != null ? `${getChapterLabel(e)} | ${e.day}日目` : getChapterLabel(e);
+    const label = e.day != null ? `${getChapterLabel(e)} | ${CharacterFacts.dayLabel(e)}` : getChapterLabel(e);
     const strong = document.createElement("strong");
     strong.textContent = `${label} | ${e.description}`;
     item.appendChild(strong);
@@ -4051,11 +4041,12 @@ function showDetailModal(name, category, eventData = null) {
 
   if (category === "event" && eventData) {
     record = eventData;
-    titleEl.textContent = record.description;
+    titleEl.textContent = record.title || record.description;
     const estimatedTime = inferredTimePlacements.get(record.id);
     details = [
       { label: "章", value: getChapterLabel(record) },
-      { label: "日", value: record.day != null ? `${record.day}日目` : "—" },
+      { label: "出来事の全文", value: record.title ? record.description : "" },
+      { label: "日", value: CharacterFacts.dayLabel(record) || "—" },
       { label: "時刻", value: getTimeLabel(record) || (estimatedTime ? `${estimatedTime.label}（推測）` : "—") },
       { label: "場所", value: getLocationKey(record) },
       { label: "場所の確認", value: getLocationReviewLabel(record) },
@@ -4069,9 +4060,7 @@ function showDetailModal(name, category, eventData = null) {
     if ((record.revealed_facts || []).length > 0) {
       extraSections.push({ heading: "分かったこと", lines: record.revealed_facts });
     }
-    if ((record.mysteries || []).length > 0) {
-      extraSections.push({ heading: "謎", lines: record.mysteries });
-    }
+    extraSections.push(...CharacterFacts.questionSections(record, eventsData));
     content.appendChild(makeEventSourcePanel(record));
   } else if (category === "spiritBeast") {
     record = spiritBeastsData.find((b) => b.name === name);
@@ -4088,13 +4077,13 @@ function showDetailModal(name, category, eventData = null) {
     if (!record) return;
     titleEl.textContent = `第${record.rank}王子${getDisplayName(record)}`;
     details = [
+      { label: "状態／確認話数", value: CharacterFacts.statusLabel(record, eventsData) },
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
       { label: "母（王妃）", value: record.queen || "不明" },
-      { label: "部屋", value: formatRoomLabel(record.room) || "未配置" },
+      { label: "最終確認場所", value: CharacterFacts.latestLocationLabel(record, eventsData) },
       { label: "本人の念系統", value: record.nen_type || "不明" },
       { label: "本人の念能力", value: record.nen_ability || "不明" },
       { label: "守護霊獣", value: record.spirit_beast_name || "不明" },
-      { label: "状態", value: record.status || "不明" },
       { label: "陣営", value: record.faction_note || "" },
       { label: "備考", value: formatPublicDetailText(record.notes) || "" }
     ];
@@ -4102,16 +4091,18 @@ function showDetailModal(name, category, eventData = null) {
     record = charactersData.find((g) => g.id === name);
     if (!record) return;
     titleEl.textContent = record.name;
+    const roleLabel = record.target ? (record.role || "").replace(record.target, "").trim() : record.role || "不明";
     details = [
-      { label: "分類", value: record.soldier_category || "不明" },
-      { label: "配置・護衛先", value: formatAssignment(record) || "不明" },
+      { label: "状態／確認話数", value: CharacterFacts.statusLabel(record, eventsData) },
+      { label: "分類", value: record.soldier_category === roleLabel ? "" : record.soldier_category || "不明" },
       { label: "所属", value: formatAffiliation(record) || "不明" },
-      { label: "現在地", value: formatRoomLabel(record.room || record.location) || "不明" },
-      { label: "任務", value: formatDisplayText(record.mission) || "不明" },
-      { label: "任務対象", value: formatDisplayText(record.target) || "" },
+      { label: "役割", value: roleLabel },
+      { label: record.assignment_history?.length > 1 ? "配置履歴" : "担当陣営", value: CharacterFacts.assignmentRows(record, charactersData).map(entry => entry.text).join("\n") || (record.camp !== record.affiliation ? formatAssignment(record) : "") },
+      { label: "最終確認場所", value: CharacterFacts.latestLocationLabel(record, eventsData) },
+      { label: "任務", value: record.role?.includes(record.mission) ? "" : formatDisplayText(record.mission) },
+      { label: "任務対象", value: record.role?.includes(record.target) ? "" : formatDisplayText(record.target) },
       { label: "念系統", value: record.nen_type || "不明" },
       { label: "能力", value: record.nen_ability || "不明" },
-      { label: "役割", value: record.role || "不明" },
       { label: "念講習会", value: getNenClassLabel(record) || "" },
       { label: "備考", value: formatPublicDetailText(record.notes) || "" }
     ];
@@ -4148,10 +4139,12 @@ function showDetailModal(name, category, eventData = null) {
     dt.textContent = label;
     const dd = document.createElement("dd");
     dd.textContent = value;
+    if (label === "配置履歴") dd.className = "assignment-history-value";
     dl.append(dt, dd);
   });
   content.appendChild(dl);
   if (["prince", "bodyguard"].includes(category)) {
+    content.appendChild(makeCharacterReviewPanel(record));
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);
   }
@@ -4232,7 +4225,7 @@ function showDetailModal(name, category, eventData = null) {
       .forEach((e) => {
         const item = document.createElement("div");
         item.className = "event-item";
-        const label = e.day != null ? `${getChapterLabel(e)}（${e.day}日目）` : getChapterLabel(e);
+        const label = e.day != null ? `${getChapterLabel(e)}（${CharacterFacts.dayLabel(e)}）` : getChapterLabel(e);
         const strong = document.createElement("strong");
         strong.textContent = `${label} | ${e.description}`;
         const meta = document.createElement("span");
@@ -4537,6 +4530,10 @@ function renderOpenQuestions(container, category = "all") {
   select.addEventListener("change", () => renderOpenQuestions(container, select.value));
   filter.appendChild(select);
   container.appendChild(filter);
+  const storyHeading = document.createElement("h4");
+  storyHeading.className = "question-section-heading";
+  storyHeading.textContent = "作品内の問い（現在の解決状況は登録・照合範囲に限る）";
+  container.appendChild(storyHeading);
 
   openQuestionsData.filter((question) => question.status === "open" && (category === "all" || question.category === category))
     .forEach((question) => {
@@ -4546,9 +4543,10 @@ function renderOpenQuestions(container, category = "all") {
       heading.textContent = question.title;
       const meta = document.createElement("p");
       meta.className = "question-meta";
-      meta.textContent = `${question.category}・第${question.last_checked_chapter}話までの登録内容で未解決`;
+      meta.textContent = `${question.category}・第${question.last_checked_chapter}話までの登録内容で未解決（原作の全件再照合は未完了）`;
       const known = document.createElement("p");
-      known.textContent = `分かっていること：${question.known}`;
+      const containsUnverified = question.related_event_ids.some(id => eventsData.find(e => e.id === id)?.verification_status !== "review_recorded");
+      known.textContent = `${containsUnverified ? "登録情報（原作再照合待ちを含む）" : "確認記録のある情報"}：${question.known}`;
       const unknown = document.createElement("p");
       unknown.textContent = `まだ分からないこと：${question.unknown}`;
       const links = document.createElement("div");
@@ -4565,6 +4563,27 @@ function renderOpenQuestions(container, category = "all") {
       card.append(heading, meta, known, unknown, links);
       container.appendChild(card);
     });
+  if (category === "all") {
+    const editorialHeading = document.createElement("h4");
+    editorialHeading.className = "question-section-heading";
+    editorialHeading.textContent = "編集上の確認課題（作品内の謎とは別）";
+    container.appendChild(editorialHeading);
+    const editorialNote = document.createElement("p");
+    editorialNote.textContent = "以下は日時・記録の照合が必要な項目です。作品が未解決としている謎の一覧ではありません。";
+    container.appendChild(editorialNote);
+    eventsData.filter(event => event.editorial_questions?.length).forEach(event => {
+      const card = document.createElement("article");
+      card.className = "question-card question-editorial";
+      const link = document.createElement("button");
+      link.type = "button";
+      link.textContent = `第${event.chapter}話の確認記録（${event.id}）`;
+      link.addEventListener("click", () => showDetailModal(event.id, "event", event));
+      const list = document.createElement("ul");
+      event.editorial_questions.forEach(text => { const item = document.createElement("li"); item.textContent = text; list.appendChild(item); });
+      card.append(link, list);
+      container.appendChild(card);
+    });
+  }
 }
 
 function setupOpenQuestions() {
@@ -4620,8 +4639,10 @@ function scrollToCurrentHash() {
   if (target) target.scrollIntoView();
 }
 
-function getNenKnowledgeLabel(character) {
+function getNenKnowledgeLabel(character, compact = false) {
   const status = character.nen_status || (isConfirmedNenUser(character) ? "confirmed" : "unknown");
+  if (compact) return ({confirmed:"念：確認済み", unknown:"念：未確認", unavailable_confirmed:"念：使用不可の記録", not_awakened_confirmed:"念：未覚醒の記録"})[status]
+    + (character.nen_status_chapter ? `（第${character.nen_status_chapter}話）` : "");
   return ({ confirmed: "念使用：確認済み", unknown: "念使用：未確認（使用不可とは限りません）",
     unavailable_confirmed: "念使用：使用不可の記録あり", not_awakened_confirmed: "念使用：未覚醒の記録あり" })[status]
     + (character.nen_status_chapter ? `（第${character.nen_status_chapter}話時点）` : "");
@@ -4644,7 +4665,7 @@ function getLocationReviewLabel(event) {
     || (event.room || event.location ? "場所の記録あり" : "場所未確認");
 }
 
-function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event)) {
+function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event), includeLocator = true) {
   const ribbon = document.createElement("div");
   ribbon.className = "event-review-ribbon";
   const content = document.createElement("span");
@@ -4661,8 +4682,33 @@ function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event
   source.className = "source-locator-label";
   const pages = event.source_locator?.pages;
   source.textContent = `第${event.chapter}話／${pages?.length ? `${pages.join("・")}ページ` : "ページ未照合"}／場面 ${event.id}`;
-  ribbon.appendChild(source);
+  if (includeLocator) ribbon.appendChild(source);
   return ribbon;
+}
+
+function makeCharacterReviewPanel(person) {
+  const panel = document.createElement("section");
+  panel.className = "character-review-panel";
+  const rows = CharacterFacts.claimRows(person, eventsData);
+  if (!rows.length) return panel;
+  const heading = document.createElement("h4");
+  heading.textContent = "出来事に紐づく確認待ち・登録情報";
+  panel.appendChild(heading);
+  rows.forEach(row => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = row.text;
+    panel.appendChild(paragraph);
+    row.event_ids.forEach(id => {
+      const event = eventsData.find(e => e.id === id);
+      if (!event) return;
+      const link = document.createElement("button");
+      link.type = "button";
+      link.textContent = `第${event.chapter}話の確認記録（${id}）`;
+      link.addEventListener("click", () => showDetailModal(id, "event", event));
+      panel.appendChild(link);
+    });
+  });
+  return panel;
 }
 
 function makeEventSourcePanel(event) {

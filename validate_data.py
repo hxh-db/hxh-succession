@@ -47,6 +47,71 @@ def validate_json_file(data_path, schema_path):
     return len(errors) == 0, errors
 
 
+def validate_assignment_references(characters, events):
+    errors = []
+    by_id = {character["id"]: character for character in characters}
+    by_event_id = {event["id"]: event for event in events}
+    for character in characters:
+        for entry in character.get("assignment_history") or []:
+            prince = by_id.get(entry["prince_id"])
+            if not prince or prince.get("type") != "prince":
+                errors.append(f"配置履歴の王子参照先がありません: {character['id']} -> {entry['prince_id']}")
+            event_id = entry.get("event_id")
+            if not event_id:
+                continue
+            event = by_event_id.get(event_id)
+            if not event:
+                errors.append(f"配置履歴の出来事参照先がありません: {character['id']} -> {event_id}")
+            elif event["chapter"] != entry["chapter"]:
+                errors.append(f"配置履歴と出来事の話数が一致しません: {character['id']} -> {event_id}")
+            elif not {character['id'], character['name']}.intersection(event.get("characters") or []):
+                errors.append(f"配置履歴の人物が出来事に含まれていません: {character['id']} -> {event_id}")
+    return errors
+
+
+def validate_character_evidence(characters, events):
+    errors = []
+    people = {p['id']: p for p in characters}
+    by_event = {e['id']: e for e in events}
+    linked_status_events = set()
+    for person in characters:
+        for claim in person.get('review_claims') or []:
+            for event_id in claim['event_ids']:
+                event = by_event.get(event_id)
+                if not event or person['id'] not in event['characters']:
+                    errors.append(f"人物の確認情報の参照先・関係人物が不正: {person['id']} -> {event_id}")
+        for log in person.get('status_log') or []:
+            event_id = log.get('event_id')
+            if not event_id:
+                continue
+            linked_status_events.add(event_id)
+            event = by_event.get(event_id)
+            if not event or event['chapter'] != log.get('chapter'):
+                errors.append(f"状態履歴の出来事参照・話数が不一致: {person['id']} -> {event_id}")
+                continue
+            if not any(effect['character'] == person['id'] and effect['status'] == log['status'] for effect in event.get('status_effects') or []):
+                errors.append(f"状態履歴が出来事の状態変化と不一致: {person['id']} -> {event_id}")
+    for event in events:
+        for update in event.get('mystery_updates') or []:
+            if update['text'] not in (event.get('mysteries') or []):
+                errors.append(f"疑問の更新対象が不正: {event['id']} -> {update['text']}")
+            for event_id in update['related_event_ids']:
+                if event_id not in by_event:
+                    errors.append(f"疑問の確認記録の参照切れ: {event['id']} -> {event_id}")
+        for person_id in event.get('character_presence') or {}:
+            if person_id not in people or person_id not in event['characters']:
+                errors.append(f"所在区分の人物参照が不正: {event['id']} -> {person_id}")
+        # A linked multi-victim incident must not silently omit another victim's log.
+        if event['id'] in linked_status_events:
+            for effect in event.get('status_effects') or []:
+                if not effect['status'].startswith('死亡'):
+                    continue
+                logs = people.get(effect['character'], {}).get('status_log') or []
+                if not any(log.get('event_id') == event['id'] and log.get('chapter') == event['chapter'] and log.get('status') == effect['status'] for log in logs):
+                    errors.append(f"同一事件の死亡履歴が未入力: {event['id']} -> {effect['character']}")
+    return errors
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -55,6 +120,8 @@ def validate_cross_references(base):
         events = json.load(f)
     with open(base / "open_questions.json", encoding="utf-8") as f:
         questions = json.load(f)
+    errors.extend(validate_assignment_references(characters, events))
+    errors.extend(validate_character_evidence(characters, events))
 
     ids = [character["id"] for character in characters]
     names = [character["name"] for character in characters]

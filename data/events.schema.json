@@ -33,7 +33,11 @@
       "time_end": { "type": ["string", "null"], "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
       "type": { "type": ["string", "null"] },
       "description": { "type": "string", "minLength": 1 },
+      "title": {"type":"string","minLength":1},
+      "summary": {"type":"string","minLength":1},
       "characters": { "type": "array", "items": { "type": "string" } },
+      "character_presence": {"type":"object", "description":"関係人物とは別。在室・遺体・話題のみ・遠隔・未判定。内容の確認状態はverification_statusに従う", "additionalProperties":{"enum":["present","body","mentioned","remote","unknown"]}},
+      "status_effects": {"type":"array","items":{"type":"object","required":["character","status"],"properties":{"character":{"type":"string"},"status":{"type":"string"}}}},
       "character_locations": {
         "type": "object",
         "additionalProperties": { "type": ["string", "null"] }
@@ -46,6 +50,8 @@
       "series_index": { "type": ["integer", "null"] },
       "revealed_facts": { "type": "array", "items": { "type": "string" } },
       "mysteries": { "type": "array", "items": { "type": "string" } },
+      "editorial_questions": {"type":"array","items":{"type":"string","minLength":1},"description":"日時や出典などの編集上の確認課題。作品内の謎とは分ける"},
+      "mystery_updates": {"type":"array","items":{"type":"object","required":["text","status","related_event_ids"],"additionalProperties":false,"properties":{"text":{"type":"string"},"status":{"enum":["unreviewed","open","resolved"]},"related_event_ids":{"type":"array","items":{"type":"string"},"minItems":1,"uniqueItems":true},"review_note":{"type":"string"}}}},
       "notes": { "type": ["string", "null"] },
       "reference_images": {
         "type": "array",

@@ -61,12 +61,26 @@ python local_server.py
 node scripts/build-character-pages.cjs
 node scripts/build-character-pages.cjs --check
 node tests/character-pages.cjs
+node tests/character-consistency.cjs
+node tests/character-evidence.cjs
+node tests/review-followups.cjs
 python validate_data.py
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 最初に1人だけ試す場合は `node scripts/build-character-pages.cjs --id P14` を使い、確認後に引数なしで全件生成してください。`--check` は生成漏れ・元JSONとの差分を検出します。生成した `characters/` と `sitemap.xml` も、承認後の公開対象に含めます。IDを削除・変更した場合は旧URLの扱いを別途確認してください（スクリプトは既存ページを自動削除しません）。
 
 生成元は公開用の `data/characters.json`、`data/events.json`、`data/count_only_characters.json`、`data/sources.json` です。`.local/` のメモ・編集、調査記録、人物の自由記述メモは静的HTMLに含めません。個人編集は静的ページの「一覧の詳細でメモ・編集」から利用できます。
+
+配置履歴・最終確認場所の表記は `character-facts.js` を一覧・モーダル・静的ページで共有します。公開JSONだけでなく、この共通処理を変更した場合も静的ページを再生成してください。配置履歴の王子・出来事・話数・参加人物の対応は `validate_data.py` で検証します。日付の確度が未入力の場合は、登録済みの日付を「確度未確認」と表示し、確定へ自動昇格させません。画面間の一致確認は `tests/CHARACTER_CONSISTENCY_QA.md` を参照してください。
+
+人物の `review_claims` は出来事の確認状態を継承して通常の紹介から分離します。`status_log.event_id` は同じ死亡事件の履歴漏れ・話数不一致を検証します。所在は `character_presence`（`present` 本人／`body` 遺体／`mentioned` 話題のみ／`remote` 遠隔／`unknown` 未判定）で関係人物と分けます。未判定は所在候補であり、出典の確認済みを意味しません。時計がない場面を午前0時とは扱いません。
+
+出来事の `editorial_questions` は日時・出典などの編集上の確認課題です。作品内の問いは `mysteries` に残し、現在の解決状況を照合できた場合だけ `mystery_updates` に対象の `text`、`status`（`unreviewed`／`open`／`resolved`）、根拠の `related_event_ids`、必要なら `review_note` を記録します。未入力は「その話時点の疑問・現在は未判定」です。推測だけで解決済み／現在も未解決へ更新しません。原作再照合待ちの参照は、解決状況にも再照合待ちと表示します。
+
+レビュー対応と保留事項は `data/intake/consistency_review_20261009.md`、追加の検証記録は `tests/CHARACTER_EVIDENCE_QA.md` を参照してください。収録件数・参照検証の成功は原作の正誤の保証ではありません。
+
+人物索引と個別ページのCSS参照はトップページ `index.html` のバージョンを生成時に共有します。CSSを変更してキャッシュバージョンを更新する場合はトップページを更新して再生成し、索引だけ古い版に戻らないことを `tests/review-followups.cjs` で確認してください。
 
 初期配置などの基本情報はJavaScript実行前から読めます。後の展開を含む詳細は初期HTMLでは閉じた `details` に入れ、`data-nosnippet` を指定しています。title・descriptionには能力・生死などを載せません。JavaScript有効時は一覧と同じネタバレ設定を使い、無効時も手動で詳細を開けます。検索エンジンでの表示はサービス側の判断ですが、検索向け説明文に後の展開は出しません。
 

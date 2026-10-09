@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261009b" />
+  <link rel="stylesheet" href="style.css?v=20261009e" />
 </head>
 <body>
   <header class="site-header">
@@ -48,7 +48,7 @@
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>キャラクター一覧</h2>
-        <p id="characterSpoilerHelp">所属・任務・関係王子から人物を探せます。初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。血縁・任務先の変化・死亡情報は「ネタバレ＋」で開けます。親子説は未確定情報として区別します。</p>
+        <p id="characterSpoilerHelp">所属・任務・関係王子から人物を探せます。名前を押すと人物詳細が開きます。初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。血縁・任務先の変化・死亡情報は「ネタバレ＋」で開けます。親子説は未確定情報として区別します。</p>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
         <label class="character-search-label">
@@ -174,6 +174,7 @@
           <p>「全部」で全日程を通して確認できます。人物・場所・大まかなイベント種類を組み合わせて絞り込めます。</p>
         </div>
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
+        <div class="timeline-period-jump"><label>日付を選択 <select id="timelinePeriodSelect"></select></label><button id="timelineLatestDay" type="button">最新の登録日へ</button><button id="timelineProvisional" type="button">411話以降の暫定記録へ</button></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>
       </div>
       <div id="timeline-panel-chapters" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-chapters" hidden>
@@ -186,7 +187,7 @@
       <div id="timeline-panel-questions" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-questions" hidden>
         <div class="section-subtitle">
           <h3>未解決事項</h3>
-          <p>作中でまだ判明していない問いを、関連する出来事と話数で整理しています。</p>
+          <p>作品内の問いと、日時・出典などの編集上の確認課題を分けています。登録上の未解決と、原作全話で未解決であることは同じではありません。</p>
         </div>
         <button id="revealQuestions" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="questionDirectory">第420話までのネタバレを表示</button>
         <div id="questionDirectory" class="question-directory" hidden></div>
@@ -218,7 +219,7 @@
         </figure>
       </section>
 
-      <section class="guide-data-section" aria-labelledby="shipMapTitle">
+      <section class="guide-data-section guide-initial-setting" aria-labelledby="shipMapTitle">
         <h3 id="shipMapTitle">ブラックホエール号の見取り図</h3>
         <p>各層と作中で確認できる主な場所を、縮尺を持たない模式図にしました。</p>
         <div class="ship-levels" aria-label="船内の階層">
@@ -364,7 +365,7 @@
         <div id="personnelSnapshotContent" hidden></div>
       </section>
 
-      <section class="guide-data-section" aria-labelledby="shipRolesTitle">
+      <section class="guide-data-section guide-initial-setting" aria-labelledby="shipRolesTitle">
         <h3 id="shipRolesTitle">船内の立場と役割</h3>
         <div class="guide-table-wrap">
           <table class="guide-table">
@@ -451,6 +452,7 @@
   </dialog>
 
   <script src="character-routing.js?v=20261009a"></script>
-  <script src="script.js?v=20261009b"></script>
+  <script src="character-facts.js?v=20261009e"></script>
+  <script src="script.js?v=20261009f"></script>
 </body>
 </html>

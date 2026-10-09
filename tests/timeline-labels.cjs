@@ -16,7 +16,7 @@ function extract(name) {
   throw Error(name);
 }
 const periods = ['preboard', 'ritual', ...Array.from({length: 13}, (_, i) => `day-${i}`), 'provisional', 'unknown'].map(id => ({id}));
-const ctx = vm.createContext({eventsData: events, inferredTimePlacements: new Map(), TIMELINE_PERIODS: periods,
+const ctx = vm.createContext({CharacterFacts: require('../character-facts.js'), eventsData: events, inferredTimePlacements: new Map(), TIMELINE_PERIODS: periods,
   getChronologyKind: e => e.chronology_kind || 'event', console});
 vm.runInContext(['parseTimeString', 'sortKey', 'getEventDateCertainty', 'inferEventDay', 'getEventPeriodId',
   'getTimelineTimePlacement', 'buildInferredTimePlacements', 'getChronologicalEntries'].map(extract).join('\n'), ctx);

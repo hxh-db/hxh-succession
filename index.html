@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261008a" />
+  <link rel="stylesheet" href="style.css?v=20261009b" />
 </head>
 <body>
   <header class="site-header">
@@ -20,9 +20,14 @@
   </header>
 
   <main class="page-container">
-    <section class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
+    <div class="reading-preferences" aria-label="全画面共通の表示設定">
+      <button id="globalSpoilerToggle" type="button" aria-pressed="false">ネタバレを表示</button>
+      <span id="globalSpoilerStatus" role="status">全画面でネタバレを隠しています</span>
+      <a id="currentViewLink" href="#characters">この表示のリンク</a>
+    </div>
+    <details class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
+      <summary id="localDraftsTitle">個人編集用：修正メモ・バックアップ</summary>
       <div>
-        <h2 id="localDraftsTitle">修正メモ</h2>
         <p>人物や出来事の「詳細」を開いて気付いたことを書いてください。メモは自動でPCに保存します。あとでCodexに「修正メモを見て」と伝えるだけで大丈夫です。</p>
       </div>
       <p id="draftStorageStatus" class="local-drafts-storage-status" role="status"></p>
@@ -39,38 +44,47 @@
         </div>
         <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
       </details>
-    </section>
+    </details>
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>キャラクター一覧</h2>
-        <p id="characterSpoilerHelp">所属・任務を先に表示し、血縁や任務先の変化、死亡・殺害の情報は各人物の「ネタバレ＋」で開けます。手紙や描写による親子説は未確定情報として区別します。</p>
+        <p id="characterSpoilerHelp">所属・任務・関係王子から人物を探せます。初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。血縁・任務先の変化・死亡情報は「ネタバレ＋」で開けます。親子説は未確定情報として区別します。</p>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
+        <label class="character-search-label">
+          名前・所属・能力で検索
+          <input id="characterSearch" type="search" placeholder="名前・所属・能力などを入力" />
+        </label>
         <div class="character-tag-row">
           <span class="character-tag-row-label">カテゴリ</span>
           <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
-        </div>
-        <div id="characterMissionRow" class="character-tag-row">
-          <span class="character-tag-row-label">任務</span>
-          <div id="characterMissionNav" class="character-tag-row-options" aria-label="任務タグ"></div>
         </div>
         <div id="characterPrinceRow" class="character-tag-row">
           <span class="character-tag-row-label">関係王子</span>
           <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
         </div>
-        <div id="characterExtraTagGroups"></div>
-        <details id="characterSpoilerTagGroups" class="character-spoiler-filters" hidden>
-          <summary>ネタバレの絞り込み＋</summary>
-          <div id="characterSpoilerTagRows"></div>
+        <p class="character-filter-help">各行は1つ選択できます。違う行の条件は組み合わせて絞り込みます。同じ項目をもう一度押すと解除します。</p>
+        <details id="characterDetailedFilters" class="character-detailed-filters">
+          <summary>詳細条件（任務・所属・初期配置・念など）</summary>
+          <div class="character-detailed-filter-rows">
+            <div id="characterMissionRow" class="character-tag-row">
+              <span class="character-tag-row-label">任務</span>
+              <div id="characterMissionNav" class="character-tag-row-options" aria-label="任務タグ"></div>
+            </div>
+            <div id="characterExtraTagGroups"></div>
+            <details id="characterSpoilerTagGroups" class="character-spoiler-filters" hidden>
+              <summary>ネタバレの絞り込み＋</summary>
+              <div id="characterSpoilerTagRows"></div>
+            </details>
+          </div>
         </details>
+        <div class="character-filter-status">
+          <div id="characterActiveTag" class="character-active-tag" aria-label="選択中の人物条件"></div>
+          <button id="clearCharacterFilters" type="button">すべて解除</button>
+        </div>
       </div>
       <div class="character-controls">
-        <label>
-          人物を検索
-          <input id="characterSearch" type="search" placeholder="名前を入力" />
-        </label>
-        <details class="advanced-character-filters">
-          <summary>さらに絞り込む</summary>
+        <div class="advanced-character-filters" hidden aria-hidden="true">
           <div class="advanced-character-filter-grid">
         <label>
           分類
@@ -80,31 +94,33 @@
             <option value="hunter">ハンター</option>
             <option value="soldier">兵士</option>
             <option value="attendant">従事者</option>
+            <option value="mercenary">傭兵</option>
+            <option value="expedition_member">探検隊関係者</option>
             <option value="mafia">マフィア</option>
             <option value="phantom_troupe">幻影旅団</option>
             <option value="official">司法・政府関係者</option>
           </select>
         </label>
         <label>
-          配置・護衛先
+          配置先（内部制御）
           <select id="characterCampFilter"><option value="all">すべての配置先</option></select>
         </label>
         <label>
-          護衛・関係王子
+          関係王子（内部制御）
           <select id="characterPrinceFilter"><option value="all">すべての王子</option></select>
         </label>
           </div>
-        </details>
+        </div>
       </div>
       <div class="character-view-switch" role="group" aria-label="人物の表示形式">
         <button id="characterViewCards" class="active" type="button" aria-pressed="true">カード表示</button>
         <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
         <button id="characterSpoilerToggle" class="character-spoiler-toggle" type="button" aria-pressed="false">ネタバレ解除</button>
-        <label class="assignment-only-toggle"><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
+        <label class="assignment-only-toggle" hidden><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
       </div>
-      <div id="characterActiveTag" class="character-active-tag" hidden></div>
       <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
       <div id="characterDirectory" class="character-directory"></div>
+      <noscript><p>JavaScriptが無効です。<a href="characters/">人物索引から個別ページを読む</a>ことができます。</p></noscript>
       <div id="characterAssignmentTable" class="character-assignment-table" hidden></div>
     </section>
 
@@ -112,11 +128,13 @@
       <div class="section-header">
         <h2>出来事一覧</h2>
         <p>作中の出来事を時系列・話数別に確認できます。第420話までのネタバレを含みます。</p>
+        <button id="addTimelineEvent" class="local-editor-button" type="button">＋ 出来事を追加</button>
       </div>
-      <aside class="uncollected-warning" aria-label="暫定データについて">
-        <strong>411話以降は暫定データとして表示しています。</strong>
-        <span>掲載時の表記や日付は、後から確認できる資料との差異が生じる可能性があるため、確定情報と分けています。</span>
+      <aside class="uncollected-warning" aria-label="確認範囲について">
+        <strong>出来事の確認状況と日時の確度を別々に表示しています。</strong>
+        <span>出典への索引があるだけでは原作確認済みになりません。411話以降の日付は暫定です。収録範囲は基礎資料の話数一覧で確認できます。</span>
       </aside>
+      <div class="global-spoiler-gate" id="timelineSpoilerGate"><p>出来事は死亡・能力・後の展開を含みます。全画面共通のネタバレ設定で表示できます。</p><button type="button" data-reveal-global>ネタバレを表示して出来事を見る</button></div>
 
       <div class="timeline-view-tabs" role="tablist" aria-label="出来事の表示方法">
         <button class="timeline-view-tab active" id="timeline-tab-schedule" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">時系列</button>
@@ -144,7 +162,9 @@
             <option value="desc">新しい順</option>
           </select>
         </label>
-        <button id="clearFilters" type="button">リセット</button>
+        <label>時刻の表示 <select id="timeDisplayMode"><option value="all">仮時刻も表示</option><option value="original">原作の時刻だけ表示</option></select></label>
+        <label class="hypothesis-toggle"><input id="hideHypothesisEvents" type="checkbox" /> 内容が推測の出来事を隠す</label>
+        <button id="clearFilters" type="button">すべて解除</button>
       </div>
       <div id="timelineActiveFilters" class="timeline-active-filters" aria-live="polite"></div>
 
@@ -180,6 +200,10 @@
         <h2>王位継承戦 基礎資料</h2>
         <p>船の構造、参加者の状況、儀式や警護の仕組みを整理しています。</p>
       </div>
+      <div class="global-spoiler-gate" id="guideSpoilerGate"><p>後の展開を含む資料は、全画面共通のネタバレ設定で表示できます。</p><button type="button" data-reveal-global>ネタバレを表示して資料を見る</button></div>
+      <section class="coverage-section" aria-labelledby="coverageTitle">
+        <details><summary id="coverageTitle">収録範囲・出典の確認状況（340〜420話）</summary><p>件数は登録済みの出来事数です。登録がある話も全場面を網羅したとは限りません。「未収録」は対象外を意味せず、入力・確認が必要な範囲です。</p><div id="chapterCoverage"></div></details>
+      </section>
       <section class="guide-facts" aria-labelledby="guideFactsTitle">
         <h3 id="guideFactsTitle">継承戦の基本数値</h3>
         <div class="guide-fact-grid">
@@ -189,7 +213,7 @@
         </div>
         <p class="guide-source-note">王子・王妃は人物台帳、船内の階層は出来事の場所記録に基づく開始時の情報です。現在の状況は下で分けて表示します。</p>
         <figure class="guide-panel-quote guide-panel-quote-wide">
-          <img class="zoomable-image guide-source-image" src="images/guide/succession-14-princes-ch349.webp" alt="ナスビーが8人の王妃と14人の王子を説明するコマ" title="第349話『蠱毒』より：王位継承戦の参加者" tabindex="0" role="button" aria-label="8人の王妃と14人の王子の資料コマを拡大">
+          <img class="zoomable-image guide-source-image" src="images/guide/succession-14-princes-ch349.webp" alt="ホイコーロ国王が8人の王妃と14人の王子を説明するコマ" title="第349話『蠱毒』より：王位継承戦の参加者" tabindex="0" role="button" aria-label="8人の王妃と14人の王子の資料コマを拡大">
           <figcaption>原作コマ：第349話「蠱毒」より、8人の王妃と14人の王子。クリックで拡大できます。</figcaption>
         </figure>
       </section>
@@ -205,6 +229,10 @@
           <div class="ship-level"><strong>第5層</strong><span>シャ＝ア一家の拠点などが登場する。</span></div>
         </div>
         <p class="guide-source-note">参照：第359〜360話（王子居住区）、第378〜380話（下層の勢力・施設）。同じ層にある場所同士の位置関係は示していません。</p>
+        <figure class="guide-panel-quote guide-panel-quote-wide">
+          <img class="zoomable-image guide-source-image" src="images/guide/prince-residential-map-ch363.png" alt="王子居住エリアと各王子の居室の配置図" title="第363話より：王子居住エリア見取り図" tabindex="0" role="button" aria-label="王子居住エリア見取り図を拡大">
+          <figcaption>原作資料：第363話より、王子居住エリアと居室の配置。クリックで拡大できます。</figcaption>
+        </figure>
       </section>
 
       <section class="guide-data-section" aria-labelledby="princeStatusTitle">
@@ -221,7 +249,7 @@
           <article class="overview-card">
             <h4>継承戦の前提</h4>
             <ul class="rule-list">
-              <li>カキン国王ナスビーの後継を、14人の王子の間で争う。</li>
+              <li>ホイコーロ国王の後継を、14人の王子の間で争う。</li>
               <li>壺中卵の儀を経て、ブラックホエール号で継承戦が進行する。</li>
               <li>王族への表立った殺害には法的な制約があり、護衛や司法の動きも継承戦に関わる。</li>
             </ul>
@@ -238,11 +266,83 @@
             <figcaption>原作コマ：第349話「蠱毒」より、壺中卵の儀</figcaption>
           </figure>
           <figure class="guide-panel-quote">
-            <img class="zoomable-image guide-source-image" src="images/guide/nasubi-guardian-beast-ch349.webp" alt="ナスビーと背後の守護霊獣が描かれたコマ" title="第349話『蠱毒』より：ナスビーの守護霊獣" tabindex="0" role="button" aria-label="ナスビーの守護霊獣の資料コマを拡大">
-            <figcaption>原作コマ：第349話「蠱毒」より、ナスビーの守護霊獣</figcaption>
+            <img class="zoomable-image guide-source-image" src="images/guide/nasubi-guardian-beast-ch349.webp" alt="ホイコーロ国王と背後の守護霊獣が描かれたコマ" title="第349話『蠱毒』より：ホイコーロ国王の守護霊獣" tabindex="0" role="button" aria-label="ホイコーロ国王の守護霊獣の資料コマを拡大">
+            <figcaption>原作コマ：第349話「蠱毒」より、ホイコーロ国王の守護霊獣</figcaption>
           </figure>
         </div>
         <p class="guide-source-note">参照：第349話（儀式・参加条件）、第360〜361話（守護霊獣と継承戦の制約）。例外や未解明の条件は確定事項として加えていません。</p>
+        <h4>参加資格と正式な開始時点</h4>
+        <p>ヌグイは参加資格を、国王の正室の子で、ブラックホエール号に乗船し、出航セレモニーに参加した者と説明します。開始前に候補者が死亡した場合は継承戦そのものが中止され、正式な開始は出航の汽笛が鳴り終わった瞬間です。開始後は生き残った王子が継承権を得るとされます。</p>
+        <figure class="guide-panel-quote">
+          <img class="zoomable-image guide-source-image" src="images/guide/nugui-succession-rules-ch349.png" alt="ヌグイによる継承戦の参加資格と開始・中止条件の説明" title="第349話より：ヌグイによる継承戦の条件説明" tabindex="0" role="button" aria-label="ヌグイの継承戦の条件説明を拡大">
+          <figcaption>原作資料：第349話より、継承戦の参加資格と開始・中止条件</figcaption>
+        </figure>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="royalTreasuresTitle">
+        <h3 id="royalTreasuresTitle">カキン王家の三種の神器</h3>
+        <p>第406話「神器」では、継承戦に使われる三種の宝とそれぞれの役割が示されます。</p>
+        <div class="guide-table-wrap">
+          <table class="guide-table">
+            <thead><tr><th>神器</th><th>役割</th></tr></thead>
+            <tbody>
+              <tr><th>壺中卵</th><td>継承戦参加者のために使う儀式の壺。</td></tr>
+              <tr><th>儀座禅仏</th><td>継承戦を見守る御神体。</td></tr>
+              <tr><th>吉兆丸</th><td>次代王に渡される継承の宝剣。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-panel-grid">
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/seed-urn-ch406.png" alt="儀式の壺・壺中卵" title="第406話より：壺中卵" tabindex="0" role="button" aria-label="壺中卵の資料コマを拡大">
+            <figcaption>第406話：壺中卵</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/ritual-statue-ch406.png" alt="継承戦を見守る御神体・儀座禅仏" title="第406話より：儀座禅仏" tabindex="0" role="button" aria-label="儀座禅仏の資料コマを拡大">
+            <figcaption>第406話：儀座禅仏</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/royal-sword-ch406.png" alt="次代王に渡される宝剣・吉兆丸" title="第406話より：吉兆丸" tabindex="0" role="button" aria-label="吉兆丸の資料コマを拡大">
+            <figcaption>第406話：吉兆丸</figcaption>
+          </figure>
+        </div>
+        <p class="guide-source-note">クロロは三種の神器を継承戦のメインシステムと捉え、盗賊の極意を進化させるための盗みを計画しています。祭壇が第1層にあるという見立てはクロロの推測です。実際の所在・盗難の実行・継承戦への影響は、この話では確定しません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="negotiationGameTitle">
+        <h3 id="negotiationGameTitle">モレナとボークセンの交渉ゲーム（第407〜410話）</h3>
+        <p>親のモレナは7枚を表、子のボークセンは5枚を裏にして置きます。子が親のカードを指定して説明を受け、そのカードを「墓場」へ送った後、親が子のカードを1枚選び、表にして墓場へ送ります。繰り返して、子に最後に残る1枚が結論になります。</p>
+        <div class="guide-table-wrap">
+          <table class="guide-table guide-card-table">
+            <thead><tr><th>側</th><th>カード</th><th>407〜410話の説明</th></tr></thead>
+            <tbody>
+              <tr><th rowspan="7">親・7枚</th><td>目的</td><td>招待して仲間に誘う理由を説明する。</td></tr>
+              <tr><td>力</td><td>モレナの能力を説明する。</td></tr>
+              <tr><td>質問A</td><td>何でも何度でも質問できる。ただし目的と能力は専用カードで指定する。</td></tr>
+              <tr><td>質問B</td><td>質問Aの最後の質問について、さらに1問だけ聞ける。回答はYes・No・Yes and Noの3種類。</td></tr>
+              <tr><td>Yes</td><td>仲間になる場合に期待する役割・能力を説明する。408・409話では未選択。410話でゲーム終了後に加入・能力管理の説明を行う。</td></tr>
+              <tr><td>No</td><td>NoとXの違いを説明する。Noは確定的な拒絶・完全な離別、Xはゲームそのものを無効にする。</td></tr>
+              <tr><td>取引D</td><td>「小さなお願い」を果たすと墓場からカードを戻せる。無理ならやめてよいがDも墓場へ行く。子の残り2枚が指定の最後の機会。409話ではキスが要求され、Xを戻す。</td></tr>
+              <tr><th rowspan="5">子・5枚</th><td>Yes</td><td>加入の結論。408話では墓場へ送られ、409話末にRの交換先として選ぶ。410話ではレベル0で完全加入の条件はまだ未達。</td></tr>
+              <tr><td>No</td><td>加入しないという確定的な拒絶。408話では「死」と示される。</td></tr>
+              <tr><td>R</td><td>最後に残れば子の墓場から好きな1枚を手元へ戻せる。409話末ではボークセンの手元にRが残り、Yesを交換先として選ぶ。</td></tr>
+              <tr><td>Joker</td><td>YesかNoに変えられる。</td></tr>
+              <tr><td>X</td><td>ゲームを無効にして離脱。記憶を消す意味ではない。モレナは再接触を避け、周囲を巻き込まないよう配慮すると約束する。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="guide-panel-quote">
+          <img class="zoomable-image guide-source-image" src="images/guide/negotiation-cards-ch407.png" alt="親7枚は表、子5枚は裏に置く交渉ゲームの配置" title="第407話より：親と子のカード配置" tabindex="0" role="button" aria-label="第407話の交渉ゲームのカード配置を拡大">
+          <figcaption>第407話：親7枚・子5枚の配置</figcaption>
+        </figure>
+        <p class="guide-source-note">第407話末では、ボークセンが「子の裏向きカードは自分が選ぶ」という条件を出し、モレナが受け入れて開始を宣言したところまで。実際のカード選択・目的や能力の開示・加入の結論はまだ描かれません。不正や能力による誘導への疑いはボークセンの推測として、説明されたルールと分けています。</p>
+        <p class="guide-source-note">第408話の親の指定順は「目的 → 力 → No」、子の墓場への順番は「Joker → Yes → X」。残る子はNoとRの2枚です。取引Dも加入の結論も未決定の段階で、特殊戒厳令の放送が入ります。Xでの離脱後の配慮はモレナの約束であり、履行や記憶消去を確認した場面ではありません。</p>
+        <p class="guide-source-note">第408話でボークセンは「特質系の素質があるが念は未覚醒」と説明されます。モレナの調査による「特質系約0.033%（約3000人に1人）」は系統の割合で、恋のエチュードによる感染・覚醒の成功率ではありません。船内に50〜60人という説明もモレナの推計です。</p>
+        <p class="guide-source-note">第409話では「取引D → 質問A」の順に指定。キスの取引でXを戻し、No・Rを表にして確認した後、3枚を混ぜ直します。再びXが墓場へ送られ、最後の2枚を同時に開くとボークセンにR、モレナにNoが残りました。ボークセンはRの交換先として、離脱のXではなくYesを選びます。選択の理由・不正の有無は、この話ではまだ明かされません。</p>
+        <p class="guide-source-note">モレナの説明では、仲間になるには「ゲームの結論がYes」「キスによる能力の感染」「仲間が殺人している現場に居合わせる」の3条件を全て満たす必要があります。順番は問いません。409話でキスとYesの選択は確認できますが、3条件の全充足や念の覚醒までを確認した場面ではありません。</p>
+        <p class="guide-source-note">質問Aでは、アジトがB・W号内の第2層と第3層の間にあると回答。「念能力によって作られている」にはYes and No、仲間の人数はボークセンを含めて21人という問いにYesと回答します。中央ゲート周辺という正確な位置はボークセンの推測です。質問での人数を登録人物数や兵力集計へそのまま置き換えません。</p>
+        <p class="guide-source-note">第410話でモレナは不正を指摘し、ゲームとカードも能力の一部で、不正時には操作系能力が自動発動して子はYesかNoしか選べなくなると説明します。Rに凹みの目印を付け、最後に握り潰して証拠を消した手順はモレナの推理です。ボークセンのYes選択を、Xも選べる状態での自由な選択と扱いません。</p>
+        <p class="guide-source-note">ボークセンはレベル0で最後の加入条件が未達。全条件を満たすとレベル1の仲間になり、レベル21で念能力が覚醒、レベル100で自分の仲間を作れるようになります。410話でも殺人現場への居合わせ・完全加入・念の覚醒は描かれません。モレナはアプリのようにレベル・位置・能力等を管理すると説明し、ボークセンは対抗策を得るため、帰還前に仲間についての案内を求めます。</p>
       </section>
 
       <section class="guide-data-section" aria-labelledby="guardAssignmentTitle">
@@ -284,6 +384,46 @@
         </div>
         <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。人物一覧の「人員区分」タグから私設兵・王妃所属兵・王室警備兵・協会員（護衛）、人物グループ「従事者」から従事者を絞り込めます。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
       </section>
+
+      <section class="guide-data-section" aria-labelledby="beyondTeamTitle">
+        <h3 id="beyondTeamTitle">ビヨンドチームと乗船経路</h3>
+        <p>345話でジンは、実際に暗黒大陸へ向かう人数を最大25人程度と見積もり、ビヨンドの依頼で集まった10人だけが全員ではないと指摘します。これは参加者の確定名簿ではなく、ジンによる人数の見積もりです。</p>
+        <p>協会の適性審査で排除された協専ハンターは、カキン国営サイトの王子護衛募集を通じて乗船しています。ビル・カートン・サイールドらの「ビヨンドチーム」という所属と、各王子の護衛という配置は別に扱います。協専ハンターはプロハンターであり、私設兵が得る期限付きの「準協会員」資格とは同じものではありません。</p>
+        <p>374話では、準協会員は居住区外の警備を主に担当する約150人の人員として説明されます。王子居室の従事者・私設兵とは資格と任務を分け、私設兵の内数として記された準協会員は二重加算しません。</p>
+        <figure class="guide-panel-quote guide-panel-quote-wide">
+          <img class="zoomable-image guide-source-image" src="images/guide/beyond-team-size-ch345.png" alt="ジンが暗黒大陸へ向かう人数を最大25人程度と見積もる場面" title="第345話より：ジンの人数見積もり" tabindex="0" role="button" aria-label="ビヨンドチームの人数に関する場面を拡大">
+          <figcaption>原作コマ：第345話より、暗黒大陸へ向かう人数の見積もり</figcaption>
+        </figure>
+        <p class="guide-source-note">参照：第345〜346話（人数見積もり・適性審査）、第361話（協専ハンターの乗船経路）、第374話（準協会員）。確認できた人物を人物一覧の「ビヨンドチーム」タグにまとめています。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="darkContinentTitle">
+        <h3 id="darkContinentTitle">暗黒大陸のリスクと持ち帰りたい資源</h3>
+        <p>344話のジンの説明では、過去の探検で持ち帰られた「五大厄災」と、各ルートで得られるとされる資源が対になっています。過去の帰還記録があることと、安全に回収できることは別です。</p>
+        <div class="guide-table-wrap">
+          <table class="guide-table">
+            <thead><tr><th>ルート・地域</th><th>リスク</th><th>資源・期待されるリターン</th><th>過去の記録</th></tr></thead>
+            <tbody>
+              <tr><th>北東沿岸の険しい山脈</th><td>人飼いの獣パプ</td><td>無尽石。一粒で一日に約2万kWを出力すると説明される。</td><td>ベゲロセ連合国の調査団1,000人から帰還7人。</td></tr>
+              <tr><th>北北東・400kmほど奥の迷宮都市</th><td>植物兵器ブリオン</td><td>万病に効くとされる万能香草。</td><td>サヘルタ合衆国の特殊部隊は帰還2人。</td></tr>
+              <tr><th>メビウス湖の南東</th><td>双尾の蛇ヘルベル</td><td>究極の長寿食ニトロ米。</td><td>ミンボ共和国の調査では99%が犠牲となり、帰還11人。</td></tr>
+              <tr><th>メビウス湖の南西</th><td>ガス生命体アイ</td><td>様々な液体の元となる三原水。</td><td>オチマ連邦は帰還8人。帰還者のうち2人は正気を失う。</td></tr>
+              <tr><th>錬金植物メタリオンを目指したルート</th><td>不死の病ゾバエ</td><td>錬金植物メタリオン。</td><td>ビヨンドが同行したクカンユ王国の遠征は帰還6人。持ち帰った植物は病により枯れる。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-panel-grid">
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/dark-continent-resources-ch344.png" alt="ジンが無尽石、万能香草、ニトロ米、三原水と帰還記録を説明する場面" title="第344話より：暗黒大陸の資源と帰還記録" tabindex="0" role="button" aria-label="暗黒大陸の資源と帰還記録を拡大">
+            <figcaption>原作資料：第344話より、資源と過去の探検の帰還記録</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img class="zoomable-image guide-source-image" src="images/guide/five-threats-ch344.png" alt="五大厄災と危険度についてジンが説明する場面" title="第344話より：五大厄災" tabindex="0" role="button" aria-label="五大厄災の説明を拡大">
+            <figcaption>原作コマ：第344話より、五大厄災と危険度</figcaption>
+          </figure>
+        </div>
+        <p class="guide-source-note">参照：第344話。位置は作中の方角表現に沿うもので、船の現在位置を示すものではありません。</p>
+      </section>
     </section>
   </main>
 
@@ -310,6 +450,7 @@
     <p id="lightboxCaption"></p>
   </dialog>
 
-  <script src="script.js?v=20261008a"></script>
+  <script src="character-routing.js?v=20261009a"></script>
+  <script src="script.js?v=20261009b"></script>
 </body>
 </html>

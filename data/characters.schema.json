@@ -9,12 +9,29 @@
       "id": { "type": "string", "minLength": 1 },
       "type": {
         "type": "string",
-        "enum": ["king", "prince", "queen", "hunter", "soldier", "attendant", "mafia", "phantom_troupe", "official"]
+        "enum": ["king", "prince", "queen", "hunter", "soldier", "attendant", "mercenary", "expedition_member", "mafia", "phantom_troupe", "official"]
       },
       "position_code": { "type": ["string", "null"] },
       "current_assignment": { "type": ["string", "null"] },
       "rank": { "type": ["integer", "null"], "minimum": 1, "maximum": 14 },
       "name": { "type": "string", "minLength": 1 },
+      "display_name": { "type": "string", "minLength": 1 },
+      "aliases": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+      "setting_only": { "type": "boolean", "description": "作者設定資料では確認済みだが原作の個別の顔と未照合。兵力・現在の配置へ加算しない" },
+      "author_setting": {
+        "type": "object",
+        "required": ["source_id", "name_in_sheet", "slot", "confirmed_fields", "body_mapping", "scope"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": { "type": "string", "minLength": 1 },
+          "name_in_sheet": { "type": "string", "minLength": 1 },
+          "slot": { "type": "string", "minLength": 1 },
+          "confirmed_fields": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["氏名", "顔", "私設兵分類", "兵隊長"] } },
+          "body_mapping": { "enum": ["matched", "unmatched"] },
+          "scope": { "type": "string", "minLength": 1 },
+          "correction": { "type": "string" }
+        }
+      },
       "gender": { "type": ["string", "null"], "enum": ["男性", "女性", "不明", null] },
       "age": { "type": ["integer", "null"], "minimum": 0 },
       "affiliation": { "type": ["string", "null"] },
@@ -26,12 +43,21 @@
       "target": { "type": ["string", "null"] },
       "role": { "type": ["string", "null"] },
       "room": { "type": ["string", "null"] },
+      "initial_room": { "type": ["string", "null"], "description": "台帳の当初の担当居室。現在地ではなく、所属・任務対象から別の居室へ飛躍しない" },
+      "initial_room_basis": { "type": "string", "description": "初期担当居室の根拠・未確認範囲" },
       "location": { "type": ["string", "null"] },
       "location_basis_chapter": { "type": ["integer", "null"], "minimum": 1 },
       "location_certainty": { "type": "string", "enum": ["confirmed", "estimated", "provisional", "unknown"] },
       "nen_type": { "type": ["string", "null"] },
       "nen_ability": { "type": ["string", "null"] },
       "nen_user": { "type": "boolean", "description": "既存の能力記述だけでは本人の念使用が確定しない場合の表示判定" },
+      "nen_status": { "type": "string", "enum": ["confirmed", "unknown", "unavailable_confirmed", "not_awakened_confirmed"], "description": "本人の念使用の確認状態。旧nen_user=falseを使用不可とみなさない" },
+      "nen_status_chapter": { "type": "integer", "minimum": 1 },
+      "nen_status_basis": { "type": "string" },
+      "former_affiliations": { "type": "array", "items": { "type": "string" } },
+      "assignment_history": { "type": "array", "items": { "type": "object", "required": ["label", "prince_id", "room", "chapter"], "properties": { "label": { "type": "string" }, "prince_id": { "type": "string" }, "room": { "type": "string" }, "chapter": { "type": "integer", "minimum": 1 }, "event_id": { "type": "string" } } } },
+      "nen_origin": { "type": "string", "enum": ["nen_class", "prior", "unknown"], "description": "念講習での目覚めと、それ以前からの念能力者を区別する" },
+      "nen_role": { "type": "string", "enum": ["soemono"], "description": "本人の念使用とは独立した、原作で確認された念に関する役割" },
       "nen_ability_name": { "type": ["string", "null"] },
       "nen_ability_image": { "type": ["string", "null"] },
       "nen_ability_image_source": { "type": ["string", "null"] },
@@ -42,7 +68,15 @@
       "faction_note": { "type": ["string", "null"] },
       "notes": { "type": ["string", "null"] },
       "spoiler_notes": { "type": ["string", "null"] },
-      "image": { "type": ["string", "null"] }
+      "image": { "type": ["string", "null"] },
+      "is_identity_reference": { "type": "boolean", "description": "名前付き人物との対応が未確定な顔の同定用レコード。兵力総数に別人として加算しない" },
+      "reference_images": {
+        "type": "array",
+        "items": { "type": "object", "required": ["image", "caption"], "properties": {
+          "image": { "type": "string", "minLength": 1 },
+          "caption": { "type": "string", "minLength": 1 }
+        } }
+      }
       ,"is_placeholder": { "type": "boolean" }
       ,"identity_status": { "type": "string", "enum": ["named", "unnamed_confirmed", "provisional"] }
       ,"source_chapter": { "type": ["integer", "null"], "minimum": 1 }

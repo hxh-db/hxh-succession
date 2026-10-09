@@ -9,11 +9,27 @@
       "id": { "type": "string", "minLength": 1 },
       "chapter": { "type": "integer", "minimum": 1 },
       "chapter_title": { "type": ["string", "null"] },
+      "chapter_order": { "type": "integer", "minimum": 1 },
+      "source_id": { "type": "string", "minLength": 1 },
+      "source_locator": { "type": "object", "required": ["chapter", "pages", "scene_id"], "properties": {
+        "chapter": { "type": "integer", "minimum": 1 },
+        "pages": { "type": ["array", "null"], "items": { "type": "integer", "minimum": 1 } },
+        "scene_id": { "type": "string", "minLength": 1 }
+      } },
+      "verification_status": { "type": "string", "enum": ["review_recorded", "unverified", "hypothesis"] },
+      "location_status": { "type": "string", "enum": ["recorded", "unverified", "original_unknown", "not_applicable"] },
+      "location_basis": { "type": "string" },
+      "time_inference": { "type": "boolean", "description": "falseなら前後のイベントから時計時刻を自動補間しない" },
+      "time_before_event_id": { "type": "string", "description": "時計時刻を与えず、明示された後続イベントより前に並べる" },
+      "time_after_event_id": { "type": "string", "description": "時計時刻を与えず、先行イベントより後に並べる" },
+      "period": { "type": "string", "enum": ["preboard", "ritual"] },
+      "relative_days_before_departure": { "type": "integer", "minimum": 0 },
       "day": { "type": ["integer", "null"] },
       "date_certainty": { "type": "string", "enum": ["confirmed", "estimated", "provisional", "unknown"] },
       "is_estimate": { "type": "boolean" },
       "time_start": { "type": ["string", "null"], "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
       "time_estimate": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+      "time_estimate_basis": { "type": "string", "description": "仮時刻の根拠となるsources.jsonの出典ID。原作時計による確定時刻とは区別する" },
       "time_end": { "type": ["string", "null"], "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
       "type": { "type": ["string", "null"] },
       "description": { "type": "string", "minLength": 1 },
@@ -30,7 +46,14 @@
       "series_index": { "type": ["integer", "null"] },
       "revealed_facts": { "type": "array", "items": { "type": "string" } },
       "mysteries": { "type": "array", "items": { "type": "string" } },
-      "notes": { "type": ["string", "null"] }
+      "notes": { "type": ["string", "null"] },
+      "reference_images": {
+        "type": "array",
+        "items": { "type": "object", "required": ["image", "caption"], "properties": {
+          "image": { "type": "string", "minLength": 1 },
+          "caption": { "type": "string", "minLength": 1 }
+        } }
+      }
     }
   }
 }

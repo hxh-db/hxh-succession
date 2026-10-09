@@ -81,6 +81,10 @@ def validate_cross_references(base):
                 errors.append(f"人物関係の参照先がありません: {character['id']} -> {relation_id}")
 
     for event in events:
+        for relation in ("time_before_event_id", "time_after_event_id"):
+            related_id = event.get(relation)
+            if related_id and related_id not in event_ids:
+                errors.append(f"前後関係の出来事参照先がありません: {event['id']} -> {related_id}")
         room = event.get("room")
         if room is not None and not isinstance(room, str):
             errors.append(f"イベントの部屋表記が文字列ではありません: {event['id']} -> {room}")
@@ -139,8 +143,22 @@ def validate_cross_references(base):
 
     for source_name, records in (("人物", characters), ("イベント", events)):
         for record in records:
+            setting = record.get("author_setting")
+            if setting:
+                if setting["source_id"] not in source_ids:
+                    errors.append(f"作者設定資料の参照先がありません: {record['id']}")
+                if setting["name_in_sheet"] != record["name"]:
+                    errors.append(f"作者設定表の氏名と登録名が一致しません: {record['id']}")
+                if record.get("setting_only") and (setting["body_mapping"] != "unmatched" or not record.get("is_identity_reference") or record.get("room") or record.get("initial_room")):
+                    errors.append(f"設定表のみの人物を原作配置・増員として扱っています: {record['id']}")
+            source_id = record.get("source_id")
+            if source_id and source_id not in source_ids:
+                errors.append(f"{source_name}の出典参照先がありません: {record['id']} -> {source_id}")
+            time_basis = record.get("time_estimate_basis")
+            if time_basis and time_basis not in source_ids:
+                errors.append(f"仮時刻の根拠参照先がありません: {record['id']} -> {time_basis}")
             for key, value in record.items():
-                if isinstance(value, str) and not key.endswith("_image") and re.search(r"\bch\d+\b", value, re.IGNORECASE):
+                if isinstance(value, str) and key not in {"image", "source_id"} and not key.endswith("_image") and re.search(r"\bch\d+\b", value, re.IGNORECASE):
                     errors.append(f"{source_name}に旧話数表記が残っています: {record['id']} -> {key}")
 
     return errors

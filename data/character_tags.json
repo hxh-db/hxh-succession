@@ -1,76 +1,561 @@
 {
   "version": 1,
   "scope": "pilot",
-  "notes": "王子私設兵・王妃所属兵のタグは台帳上の所属と兵種から一括生成する。人員区分タグで私設兵・王妃所属兵・王室警備兵・協会員（護衛）を横断検索し、従事者は人物グループで絞り込む。準協会員は確認できた個人だけに付く資格タグとする。監視・暗殺・従事の対象は明示されたtargetから、護衛先は明示タグまたは台帳のcampから表示する。現在地からは推測しない。憑依は人格移動が成立した過去の例も含む。血縁は人物カードで一つのタグにまとめ、公的な母と手紙・親子説の推測情報を注記で区別する。テータの受験目的を兵力確保とみる部分は推測として人物注記で区別する。十二支んは元メンバーも含む検索タグ。原作話数ごとの全面監査は今後行う。",
+  "notes": "王子私設兵・王妃所属兵のタグは台帳上の所属と兵種から一括生成する。人員区分タグで私設兵・王妃所属兵・王室警備兵・協会員（護衛）を横断検索し、従事者は人物グループで絞り込む。準協会員は確認できた個人だけに付く資格タグとする。監視・暗殺・従事の対象は明示されたtargetから、護衛先は明示タグまたは台帳のcampから表示する。現在地からは推測しない。憑依は人格移動が成立した過去の例も含む。血縁は人物カードで一つのタグにまとめ、公的な母と手紙・親子説の推測情報を注記で区別する。テータの受験目的を兵力確保とみる部分は推測として人物注記で区別する。十二支んは元メンバーも含む検索タグ。原作話数ごとの全面監査は今後行う。 2026-10-08：フィルタ表示は私設兵・所属兵・マフィア・ハンターの所属行と、統合した関係王子を使用。兵種・人員区分・護衛先・対象は内部の根拠データとして保持し、重複する選択行は表示しない。初期配置は台帳の当初担当居室（後任は最初の確認配置）であり現在地ではない。",
   "definitions": [
-    { "id": "affiliation-p01-private", "category": "所属", "label": "第1王子私設兵" },
-    { "id": "affiliation-p02-private", "category": "所属", "label": "第2王子私設兵" },
-    { "id": "affiliation-p03-private", "category": "所属", "label": "第3王子私設兵" },
-    { "id": "affiliation-p04-private", "category": "所属", "label": "第4王子私設兵" },
-    { "id": "affiliation-p05-private", "category": "所属", "label": "第5王子私設兵" },
-    { "id": "affiliation-p06-private", "category": "所属", "label": "第6王子私設兵" },
-    { "id": "affiliation-p07-private", "category": "所属", "label": "第7王子私設兵" },
-    { "id": "affiliation-p08-private", "category": "所属", "label": "第8王子私設兵" },
-    { "id": "affiliation-p09-private", "category": "所属", "label": "第9王子私設兵" },
-    { "id": "affiliation-p10-private", "category": "所属", "label": "第10王子私設兵" },
-    { "id": "affiliation-p11-private", "category": "所属", "label": "第11王子私設兵" },
-    { "id": "affiliation-p12-private", "category": "所属", "label": "第12王子私設兵" },
-    { "id": "affiliation-p13-private", "category": "所属", "label": "第13王子私設兵" },
-    { "id": "affiliation-p14-private", "category": "所属", "label": "第14王子私設兵" },
-    { "id": "affiliation-q01-guards", "category": "所属", "label": "第1王妃所属兵" },
-    { "id": "affiliation-q02-guards", "category": "所属", "label": "第2王妃所属兵" },
-    { "id": "affiliation-q03-guards", "category": "所属", "label": "第3王妃所属兵" },
-    { "id": "affiliation-q04-guards", "category": "所属", "label": "第4王妃所属兵" },
-    { "id": "affiliation-q05-guards", "category": "所属", "label": "第5王妃所属兵" },
-    { "id": "affiliation-q06-guards", "category": "所属", "label": "第6王妃所属兵" },
-    { "id": "affiliation-q07-guards", "category": "所属", "label": "第7王妃所属兵" },
-    { "id": "affiliation-q08-guards", "category": "所属", "label": "第8王妃所属兵" },
-    { "id": "duty-surveillance", "category": "任務", "label": "監視" },
-    { "id": "duty-protection", "category": "任務", "label": "護衛" },
-    { "id": "duty-curse", "category": "任務", "label": "呪殺" },
-    { "id": "duty-possession", "category": "任務", "label": "憑依" },
-    { "id": "guard-p01", "category": "護衛", "label": "第1王子ベンジャミン" },
-    { "id": "guard-p14", "category": "護衛", "label": "第14王子ワブル" },
-    { "id": "target-p14", "category": "対象", "label": "第14王子ワブル" },
-    { "id": "possession-target-P07-G06", "category": "対象", "label": "シカク" },
-    { "id": "possession-target-P01-P05", "category": "対象", "label": "バルサミルコ" },
-    { "id": "family-q01-child", "category": "血縁", "label": "第1王妃ウンマ" },
-    { "id": "qualification-provisional-associate", "category": "資格", "label": "準協会員" },
-    { "id": "personnel-private-soldier", "category": "人員区分", "label": "私設兵" },
-    { "id": "personnel-queen-soldier", "category": "人員区分", "label": "王妃所属兵" },
-    { "id": "personnel-royal-guard", "category": "人員区分", "label": "王室警備兵" },
-    { "id": "personnel-association-hunter", "category": "人員区分", "label": "協会員（護衛）" },
-    { "id": "group-zodiacs", "category": "所属", "label": "十二支ん" }
+    {
+      "id": "affiliation-p01-private",
+      "category": "所属",
+      "label": "第1王子私設兵"
+    },
+    {
+      "id": "affiliation-p02-private",
+      "category": "所属",
+      "label": "第2王子私設兵"
+    },
+    {
+      "id": "affiliation-p03-private",
+      "category": "所属",
+      "label": "第3王子私設兵"
+    },
+    {
+      "id": "affiliation-p04-private",
+      "category": "所属",
+      "label": "第4王子私設兵"
+    },
+    {
+      "id": "affiliation-p05-private",
+      "category": "所属",
+      "label": "第5王子私設兵"
+    },
+    {
+      "id": "affiliation-p06-private",
+      "category": "所属",
+      "label": "第6王子私設兵"
+    },
+    {
+      "id": "affiliation-p07-private",
+      "category": "所属",
+      "label": "第7王子私設兵"
+    },
+    {
+      "id": "affiliation-p08-private",
+      "category": "所属",
+      "label": "第8王子私設兵"
+    },
+    {
+      "id": "affiliation-p09-private",
+      "category": "所属",
+      "label": "第9王子私設兵"
+    },
+    {
+      "id": "affiliation-p10-private",
+      "category": "所属",
+      "label": "第10王子私設兵"
+    },
+    {
+      "id": "affiliation-p11-private",
+      "category": "所属",
+      "label": "第11王子私設兵"
+    },
+    {
+      "id": "affiliation-p12-private",
+      "category": "所属",
+      "label": "第12王子私設兵"
+    },
+    {
+      "id": "affiliation-p13-private",
+      "category": "所属",
+      "label": "第13王子私設兵"
+    },
+    {
+      "id": "affiliation-p14-private",
+      "category": "所属",
+      "label": "第14王子私設兵"
+    },
+    {
+      "id": "affiliation-q01-guards",
+      "category": "所属",
+      "label": "第1王妃所属兵"
+    },
+    {
+      "id": "affiliation-q02-guards",
+      "category": "所属",
+      "label": "第2王妃所属兵"
+    },
+    {
+      "id": "affiliation-q03-guards",
+      "category": "所属",
+      "label": "第3王妃所属兵"
+    },
+    {
+      "id": "affiliation-q04-guards",
+      "category": "所属",
+      "label": "第4王妃所属兵"
+    },
+    {
+      "id": "affiliation-q05-guards",
+      "category": "所属",
+      "label": "第5王妃所属兵"
+    },
+    {
+      "id": "affiliation-q06-guards",
+      "category": "所属",
+      "label": "第6王妃所属兵"
+    },
+    {
+      "id": "affiliation-q07-guards",
+      "category": "所属",
+      "label": "第7王妃所属兵"
+    },
+    {
+      "id": "affiliation-q08-guards",
+      "category": "所属",
+      "label": "第8王妃所属兵"
+    },
+    {
+      "id": "duty-surveillance",
+      "category": "任務",
+      "label": "監視"
+    },
+    {
+      "id": "duty-protection",
+      "category": "任務",
+      "label": "護衛"
+    },
+    {
+      "id": "duty-curse",
+      "category": "任務",
+      "label": "呪殺"
+    },
+    {
+      "id": "duty-possession",
+      "category": "任務",
+      "label": "憑依"
+    },
+    {
+      "id": "guard-p01",
+      "category": "護衛",
+      "label": "第1王子ベンジャミン"
+    },
+    {
+      "id": "guard-p14",
+      "category": "護衛",
+      "label": "第14王子ワブル"
+    },
+    {
+      "id": "target-p14",
+      "category": "対象",
+      "label": "第14王子ワブル"
+    },
+    {
+      "id": "possession-target-P07-G06",
+      "category": "対象",
+      "label": "シカク"
+    },
+    {
+      "id": "possession-target-P01-P05",
+      "category": "対象",
+      "label": "バルサミルコ"
+    },
+    {
+      "id": "family-q01-child",
+      "category": "血縁",
+      "label": "第1王妃ウンマ"
+    },
+    {
+      "id": "qualification-provisional-associate",
+      "category": "資格",
+      "label": "準協会員"
+    },
+    {
+      "id": "personnel-private-soldier",
+      "category": "人員区分",
+      "label": "私設兵"
+    },
+    {
+      "id": "personnel-queen-soldier",
+      "category": "人員区分",
+      "label": "王妃所属兵"
+    },
+    {
+      "id": "personnel-royal-guard",
+      "category": "人員区分",
+      "label": "王室警備兵"
+    },
+    {
+      "id": "personnel-association-hunter",
+      "category": "人員区分",
+      "label": "協会員（護衛）"
+    },
+    {
+      "id": "group-zodiacs",
+      "category": "所属",
+      "label": "十二支ん"
+    },
+    {
+      "id": "group-beyond-team",
+      "category": "所属",
+      "label": "ビヨンドチーム"
+    },
+    {
+      "id": "group-kurapika-team",
+      "category": "所属",
+      "label": "クラピカ"
+    },
+    {
+      "id": "nen-awakened-in-class",
+      "category": "念",
+      "label": "念講習で目覚めた人物"
+    }
   ],
   "assignments": [
-    { "character_id": "P09", "tag_ids": ["duty-possession", "possession-target-P01-P05"] },
-    { "character_id": "P09-P05", "tag_ids": ["duty-possession", "possession-target-P07-G06"] },
-    { "character_id": "P01-P05", "tag_ids": ["guard-p01"] },
-    { "character_id": "P09-G01", "tag_ids": ["target-p09"] },
-    { "character_id": "P14-H01", "tag_ids": ["guard-p14", "group-zodiacs"] },
-    { "character_id": "P14-H02", "tag_ids": ["guard-p14"] },
-    { "character_id": "P10-H01", "tag_ids": ["guard-p10"] },
-    { "character_id": "P04-M01", "tag_ids": ["guard-p04", "qualification-provisional-associate"] },
-    { "character_id": "P04-P01", "tag_ids": ["guard-p04"] },
-    { "character_id": "P09-P01", "tag_ids": ["guard-p09"] },
-    { "character_id": "P09-P02", "tag_ids": ["guard-p09"] },
-    { "character_id": "P07-H01", "tag_ids": ["guard-p07"] },
-    { "character_id": "P06-H01", "tag_ids": ["guard-p06"] },
-    { "character_id": "P07-H02", "tag_ids": ["guard-p07"] },
-    { "character_id": "P07-H03", "tag_ids": ["guard-p07"] },
-    { "character_id": "P02-P13", "tag_ids": ["affiliation-p02-private", "target-p14"] },
-    { "character_id": "P02-P04", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P02-P06", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P02-P09", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P02-P10", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P04-P02", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P04-P03", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "P04-P04", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "EII-T01", "tag_ids": ["qualification-provisional-associate"] },
-    { "character_id": "HA-002", "tag_ids": ["group-zodiacs"] },
-    { "character_id": "HA-003", "tag_ids": ["group-zodiacs"] },
-    { "character_id": "HA-004", "tag_ids": ["group-zodiacs"] },
-    { "character_id": "BYD-002", "tag_ids": ["group-zodiacs"] },
-    { "character_id": "BYD-003", "tag_ids": ["group-zodiacs"] }
+    {
+      "character_id": "P09",
+      "tag_ids": [
+        "duty-possession",
+        "possession-target-P01-P05"
+      ]
+    },
+    {
+      "character_id": "P09-P05",
+      "tag_ids": [
+        "duty-possession",
+        "possession-target-P07-G06"
+      ]
+    },
+    {
+      "character_id": "P01-P05",
+      "tag_ids": [
+        "guard-p01"
+      ]
+    },
+    {
+      "character_id": "P09-G01",
+      "tag_ids": [
+        "target-p09"
+      ]
+    },
+    {
+      "character_id": "P14-H01",
+      "tag_ids": [
+        "guard-p14",
+        "group-zodiacs",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P14-H02",
+      "tag_ids": [
+        "guard-p14",
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "P14-H03",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "P14-P01",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "P10-H01",
+      "tag_ids": [
+        "guard-p10",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P12-H01",
+      "tag_ids": [
+        "guard-p13",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P13-H02",
+      "tag_ids": [
+        "guard-p13",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P03-P02",
+      "tag_ids": [
+        "guard-p14"
+      ]
+    },
+    {
+      "character_id": "P03-P03",
+      "tag_ids": [
+        "guard-p14"
+      ]
+    },
+    {
+      "character_id": "P06-P01",
+      "tag_ids": [
+        "guard-p06",
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "P04-M01",
+      "tag_ids": [
+        "guard-p04",
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P04-P01",
+      "tag_ids": [
+        "guard-p04"
+      ]
+    },
+    {
+      "character_id": "P09-P01",
+      "tag_ids": [
+        "guard-p09"
+      ]
+    },
+    {
+      "character_id": "P09-P02",
+      "tag_ids": [
+        "guard-p09"
+      ]
+    },
+    {
+      "character_id": "P07-H01",
+      "tag_ids": [
+        "guard-p07",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P06-H01",
+      "tag_ids": [
+        "guard-p06",
+        "group-kurapika-team"
+      ]
+    },
+    {
+      "character_id": "P07-H02",
+      "tag_ids": [
+        "guard-p07"
+      ]
+    },
+    {
+      "character_id": "P07-H03",
+      "tag_ids": [
+        "guard-p07"
+      ]
+    },
+    {
+      "character_id": "P02-P13",
+      "tag_ids": [
+        "affiliation-p02-private",
+        "target-p14"
+      ]
+    },
+    {
+      "character_id": "P02-P04",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P02-P06",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P02-P09",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P02-P10",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P04-P02",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P04-P03",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P04-P04",
+      "tag_ids": [
+        "qualification-provisional-associate"
+      ]
+    },
+    {
+      "character_id": "P04-U01",
+      "tag_ids": [
+        "qualification-provisional-associate",
+        "guard-p04"
+      ]
+    },
+    {
+      "character_id": "HA-002",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-003",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-004",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "BYD-001",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-002",
+      "tag_ids": [
+        "group-zodiacs",
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-003",
+      "tag_ids": [
+        "group-zodiacs",
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-004",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "HA-009",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-010",
+      "tag_ids": [
+        "group-zodiacs",
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "HA-011",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-012",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-013",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-014",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-015",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "HA-016",
+      "tag_ids": [
+        "group-zodiacs"
+      ]
+    },
+    {
+      "character_id": "BYD-U01",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U02",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U03",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U04",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U05",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U06",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U07",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U08",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    },
+    {
+      "character_id": "BYD-U09",
+      "tag_ids": [
+        "group-beyond-team"
+      ]
+    }
   ]
 }

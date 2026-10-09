@@ -285,6 +285,7 @@ body {
 .guide-table th, .guide-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
 .guide-table thead th { color: var(--accent); }
 .guide-table tbody th { white-space: nowrap; color: var(--text); }
+.guide-card-table thead th, .guide-card-table td:not(:last-child) { white-space: nowrap; }
 .guide-status-summary { margin: 20px 0 0; font-weight: 700; color: var(--text) !important; }
 .overview-card h4 { margin: 0 0 12px; color: var(--accent); font-size: 1.05rem; }
 .spoiler-reveal-button {
@@ -349,6 +350,21 @@ body {
 }
 
 #characterExtraTagGroups { display: grid; gap: 10px; }
+.character-search-label { display: grid; gap: 6px; color: var(--muted); font-size: .85rem; }
+.character-search-label input {
+  width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 10px; background: var(--surface); color: var(--text); font: inherit;
+}
+.character-filter-help { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+.character-detailed-filters { border-top: 1px solid var(--border); padding-top: 10px; }
+.character-detailed-filters > summary { cursor: pointer; color: var(--accent); font-size: .85rem; }
+.character-detailed-filter-rows { display: grid; gap: 10px; margin-top: 12px; }
+.character-filter-status { display: flex; align-items: start; gap: 12px; flex-wrap: wrap; }
+.character-filter-status .character-active-tag { flex: 1 1 240px; margin: 0; min-width: 0; }
+.character-active-tag button { max-width: 100%; overflow-wrap: anywhere; text-align: left; }
+#clearCharacterFilters { padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--accent); cursor: pointer; }
+#clearCharacterFilters:disabled { opacity: .45; cursor: default; }
+.assignment-only-toggle[hidden] { display: none; }
 .character-tag-row-extra { border-top: 1px solid var(--border); padding-top: 9px; }
 .character-tag-row-extra .character-tag-row-label { padding-top: 5px; }
 .character-spoiler-filters { border-top: 1px solid var(--border); padding-top: 9px; }
@@ -636,7 +652,7 @@ button.character-filter-tag:focus-visible {
   padding: 16px 18px;
   border-bottom: 1px solid #d8ded9;
 }
-.schedule-selected-heading h4 { margin: 0; font-size: 1.1rem; }
+.schedule-selected-heading h4 { margin: 0; font-size: 1.1rem; color: #273128; }
 .schedule-selected-heading span { color: #68736b; }
 
 .schedule-place-columns {
@@ -763,7 +779,7 @@ button.character-filter-tag:focus-visible {
   font-weight: 800;
 }
 
-.time-unknown .chronological-time {
+.time-relative .chronological-time {
   border-style: dashed;
   border-color: #95a5a6;
   color: #68736b;
@@ -781,6 +797,10 @@ button.character-filter-tag:focus-visible {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 9px;
 }
+
+/* 時刻ではなく描写順で置く場面は、同時発生に見えないよう縦に読む。 */
+.time-relative .chronological-events,
+.directory-person-timeline .time-relative .chronological-events { grid-template-columns: minmax(0, 1fr); }
 
 .chronological-events .schedule-event { height: 100%; margin: 0; }
 .schedule-event-location {
@@ -2656,6 +2676,47 @@ body.modal-open {
 }
 .local-drafts-transfer .local-drafts-transfer-status { flex-basis: 100%; min-height: 1.2em; }
 
+/* Shared reading preferences and static character pages. */
+.reading-preferences { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0; font-size:.85rem; }
+.reading-preferences button, #pageSpoilerToggle { padding:9px 13px; border:1px solid var(--border); border-radius:8px; cursor:pointer; background:var(--surface, #fff); color:var(--text); }
+.global-spoiler-gate { padding:20px; margin:16px 0; border:1px dashed var(--border); border-radius:10px; }
+body.spoilers-revealed .global-spoiler-gate { display:none; }
+body:not(.spoilers-revealed) .spoiler-only,
+body:not(.spoilers-revealed) #timeline .timeline-view-tabs,
+body:not(.spoilers-revealed) #timeline .timeline-controls,
+body:not(.spoilers-revealed) #timeline .timeline-active-filters,
+body:not(.spoilers-revealed) #timeline .timeline-view-panel,
+body:not(.spoilers-revealed) #guide > .guide-data-section { display:none; }
+details.local-drafts-transfer { display:block; }
+.local-drafts-transfer > summary { cursor:pointer; font-weight:600; }
+.local-drafts-transfer[open] > :not(summary) { margin-top:10px; }
+.character-record-context { font-size:.8rem; color:var(--muted); line-height:1.6; }
+.character-record-context p { margin:5px 0; }
+.character-name-link { color:inherit; text-decoration:none; }
+.character-name-link:hover { text-decoration:underline; }
+.character-name-link:focus-visible, .record-permalink:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+.event-review-ribbon { display:flex; flex-wrap:wrap; gap:5px; font-size:.72rem; margin:7px 0; }
+.review-badge { padding:2px 6px; border:1px solid var(--border); border-radius:4px; }
+.clock-provisional { border-style:dashed; }
+.source-locator-label { width:100%; color:var(--muted); }
+.event-source-panel { padding:12px; border:1px solid var(--border); border-radius:8px; margin-bottom:16px; }
+.coverage-row { display:flex; flex-wrap:wrap; gap:12px; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
+.coverage-missing { color:var(--muted); }
+.character-page-card { max-width:850px; margin:24px auto; padding:24px; background:var(--surface,#fff); border:1px solid var(--border); border-radius:12px; overflow-wrap:anywhere; }
+.character-page-card h1 { font-size:clamp(1.5rem,4vw,2.2rem); }
+.character-page-actions { display:flex; flex-wrap:wrap; gap:14px; }
+.character-page-actions a { display:inline-block; padding:10px 0; }
+.character-page-spoilers { margin:20px 0; padding:16px; border:1px dashed var(--border); border-radius:8px; }
+.character-page-spoilers summary { cursor:pointer; font-weight:600; }
+.character-page-related ul, .static-character-index { columns:2; padding-left:22px; }
+.character-page-related li, .static-character-index li { break-inside:avoid; padding:6px 0; }
+@media (max-width:600px) {
+  .character-page-card { padding:16px; margin:12px 0; }
+  .character-page-related ul, .static-character-index { columns:1; }
+  .character-page-card .detail-list { grid-template-columns:1fr; }
+  .character-page-card .detail-list dd { margin:0 0 12px; }
+}
+
 .local-editor {
   margin: 22px 0;
   padding: 18px;
@@ -2715,6 +2776,13 @@ body.modal-open {
 .local-editor-fields { margin-top: 14px; }
 .local-editor-fields summary { cursor: pointer; font-weight: 700; }
 .local-editor-form { margin-top: 12px; }
+.local-editor-label select { width: 100%; padding: 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-alt); color: var(--text); }
+.new-event-estimate-toggle { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.new-event-people { margin: 16px 0; border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-width: 0; }
+.new-event-people-list { max-height: 180px; overflow-y: auto; display: grid; gap: 7px; }
+.new-event-people-list label { display: flex; gap: 8px; align-items: center; padding: 4px 0; }
+.new-event-people-list label[hidden] { display: none; }
+.new-event-selected-people { margin-bottom: 10px; color: var(--accent); font-size: .82rem; overflow-wrap: anywhere; }
 
 .hidden {
   display: none !important;
@@ -2850,3 +2918,11 @@ body.modal-open {
     bottom: 16px;
   }
 }
+/* Source quotations keep their original aspect ratio and use the image lightbox. */
+.source-excerpt-gallery figure { margin: 0 0 1rem; }
+.source-excerpt-gallery .beast-image { width: 100%; max-width: 575px; height: auto; object-fit: contain; }
+.source-excerpt-gallery figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 0.35rem; }
+.author-setting-badge { display: inline-block; padding: .2rem .45rem; border: 1px solid #a5c8bd; border-radius: .3rem; color: #245849; background: #eff8f4; font-size: .72rem; }
+.author-setting-panel { margin: 1rem 0; padding: .8rem; border-left: 3px solid #6b9d8c; background: #f4f9f6; font-size: .9rem; overflow-wrap: anywhere; }
+.author-setting-panel h4 { margin: 0 0 .4rem; }
+.author-setting-panel p { margin: .4rem 0; }

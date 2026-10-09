@@ -39,7 +39,7 @@
   { "id": "JUD-002", "image": "images/characters/worio-bay.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Worio_Bay" },
   { "id": "P03-P01", "image": "images/characters/tenftory.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Tenftory" },
   { "id": "P06-P06", "image": "images/characters/prince-of-moony.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Prince_of_Moony" },
-  { "id": "HA-007", "image": "images/characters/scairt.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Scairt" },
+  { "id": "HA-007", "image": "images/characters/skalt-ch389.png", "source_chapter": 389, "source_note": "第389話より：名前が併記された警護兵紹介図" },
   { "id": "P14-P02", "image": "images/characters/woody.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Woody" },
   { "id": "EII-005", "image": "images/characters/tevelares.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Tevelares" },
   { "id": "Q02-S01", "image": "images/characters/mandam.webp", "source_url": "https://hunterxhunter.fandom.com/wiki/Mandam" },

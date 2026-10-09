@@ -42,12 +42,35 @@ python local_server.py
   - 話数・人物・場所・一連の出来事・大分類したイベント種類で絞り込み
   - 場所は出航セレモニー会場、王子名つきの1001〜1014号室、各階層から選択
   - 画面上のイベント種類は8分類。元データの細かな `type` は詳細表示と内部記録に保持
-  - 時刻未確定の出来事は、同日の確定時刻と話数順をもとに「頃？」で仮配置。「推測」タグは出来事の内容自体が推測の場合だけ使う。実際の時刻・経過時間を示すものではなく、元データの `time_start` は更新しない
+  - 表示用の目安時刻は「15:22頃？」と表示。「推測」タグは出来事の内容自体が推測の場合だけ使う。根拠のない乗船前の日時は入れず、出航35日前など明示された相対日付はそのまま表示する
+  - 仮時刻は前後関係・話内の描写順・既存の時計時刻をもとに `time_estimate` に記録し、`time_estimate_basis` で表示用の仮置きであることを区別する。日付未確定の出来事は日付を変えない。配置は全データを基準にするため、人物や話数で絞っても変わらない。前後関係の明示がある場合はそれを優先する
 - **詳細モーダル**: 王子・護衛・守護霊獣・イベントをクリックすると詳細と関連イベントを表示。詳細画像はクリック／Enterで拡大でき、拡大画面の「さらに拡大」で2倍表示できる
 - **自分用メモ・編集**: 人物一覧の「詳細」と詳細モーダルでメモを入力すると、自動でPC内の `.local/drafts.json` に保存されます。主な項目の編集は「編集を保存」で反映されます。「この項目の編集を戻す」で公開データの表示に戻せます。メモ・編集は公開JSONに反映されません
+- **出来事の追加**: タイムラインの「＋ 出来事を追加」から、話数・日・時刻・確度・場所・関係人物・備考を入力できます。追加した出来事はPC内の `.local/drafts.json` に保存され、再読み込み後も表示されます。詳細から編集でき、メモのバックアップにも含まれます。公開JSONには反映されません
 - **メモ一覧・バックアップ**: ページ上部で書いたメモを一覧確認できます。必要な場合だけ「バックアップ・復元」を開き、JSONを手動でダウンロード・読み込みできます。`.local/` と `codex-notes*.json` はGitの公開対象から除外しています
 
 ## データの管理
+
+### 人物の固有URL・静的ページ
+
+人物URLは `characters/<既存ID>/`（例：`characters/P14/`）です。GitHub Pages の `/hxh-succession/` 配下にも対応する実ファイルを生成します。一覧からは同じ詳細モーダルを開いてURLだけを変更し、戻る・進む・閉じるで一覧の条件と位置を保持します。直接アクセス・再読み込みでは静的ページを表示します。
+
+公開JSONを更新したら、リポジトリ直下で次を実行してください（Node.jsを使用）。
+
+```powershell
+node scripts/build-character-pages.cjs
+node scripts/build-character-pages.cjs --check
+node tests/character-pages.cjs
+python validate_data.py
+```
+
+最初に1人だけ試す場合は `node scripts/build-character-pages.cjs --id P14` を使い、確認後に引数なしで全件生成してください。`--check` は生成漏れ・元JSONとの差分を検出します。生成した `characters/` と `sitemap.xml` も、承認後の公開対象に含めます。IDを削除・変更した場合は旧URLの扱いを別途確認してください（スクリプトは既存ページを自動削除しません）。
+
+生成元は公開用の `data/characters.json`、`data/events.json`、`data/count_only_characters.json`、`data/sources.json` です。`.local/` のメモ・編集、調査記録、人物の自由記述メモは静的HTMLに含めません。個人編集は静的ページの「一覧の詳細でメモ・編集」から利用できます。
+
+初期配置などの基本情報はJavaScript実行前から読めます。後の展開を含む詳細は初期HTMLでは閉じた `details` に入れ、`data-nosnippet` を指定しています。title・descriptionには能力・生死などを載せません。JavaScript有効時は一覧と同じネタバレ設定を使い、無効時も手動で詳細を開けます。検索エンジンでの表示はサービス側の判断ですが、検索向け説明文に後の展開は出しません。
+
+ローカル確認例：`http://127.0.0.1:8765/characters/P14/`。検証用 `tests/fixtures/character-nojs.html` はスクリプト実行を禁止したフレームで索引・人物ページを確認します。`tests/` は検証用で、公開コンテンツではありません。確認記録は `tests/CHARACTER_PAGES_QA.md` を参照してください。
 
 ### スキーマ検証
 
@@ -61,7 +84,7 @@ python validate_data.py
 
 ## 拡張ポイント
 
-- `data/events.json` にイベントを追加（必須: `id`, `chapter`, `description`, `characters`。任意: `time_start`/`time_end`, `time_estimate`, `room`/`location`, `revealed_facts`, `mysteries` 等）。確定していない時刻は `time_start` に入れず、根拠のある目安なら `time_estimate` に記録する
+- `data/events.json` にイベントを追加（必須: `id`, `chapter`, `description`, `characters`。任意: `time_start`/`time_end`, `time_estimate`, `time_estimate_basis`, `room`/`location`, `revealed_facts`, `mysteries` 等）。確定していない時刻は `time_start` に入れず、目安や表示用の仮時刻を `time_estimate` に記録し、根拠を `time_estimate_basis` で出典に紐づける
 - `images/characters/` にポートレートを追加し、`characters.json` の該当キャラに `image` フィールドを設定
 - イベント種別（`type` フィールド）を拡張する場合は `style.css` に `.timeline-item.type-<種別>` 等の色定義を追記
 - カスタムフィルター機能の追加

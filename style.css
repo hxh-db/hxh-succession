@@ -3009,6 +3009,10 @@ details.local-drafts-transfer { display:block; }
 .filter-toggle { display: none; }
 .character-filter-panel { display: grid; gap: 10px; }
 
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+body:not(.spoilers-revealed) #timelineFilterToggle,
+#timelineFilterToggle[hidden] { display: none !important; }
+
 /* 日付の選び方：PC幅はタブ、スマホ幅はセレクト */
 .timeline-period-jump label { display: none; }
 
@@ -3020,6 +3024,15 @@ details.local-drafts-transfer { display:block; }
   }
   .filter-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   .character-tag-catalog:not(.filters-open) .character-filter-panel { display: none; }
+  #timeline:not(.filters-open) .timeline-controls { display: none; }
+  #timelineFilterToggle { margin: 8px 0 12px; }
+  .timeline-controls label.hypothesis-toggle { flex-direction: row; align-items: center; gap: 8px; }
+  /* 出来事の種類のピルは横スクロール1行にする */
+  #typeFilter.pill-filter { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; padding-bottom: 6px; }
+  #typeFilter .pill { flex: 0 0 auto; white-space: nowrap; }
+  .reading-preferences { flex-wrap: nowrap; gap: 8px; }
+  .reading-preferences button { flex: 0 1 auto; padding: 8px 10px; font-size: .84rem; white-space: nowrap; }
+  #currentViewLink { flex: 0 0 auto; font-size: .84rem; white-space: nowrap; }
   .timeline-period-tabs { display: none; }
   .timeline-period-jump label { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .modal-card { --modal-pad: 18px; width: calc(100% - 20px); max-height: 92vh; padding: var(--modal-pad); }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261011a" />
+  <link rel="stylesheet" href="style.css?v=20261011b" />
 </head>
 <body>
   <header class="site-header">
@@ -22,8 +22,8 @@
 
   <main class="page-container">
     <div class="reading-preferences" aria-label="全画面共通の表示設定">
-      <button id="globalSpoilerToggle" type="button" aria-pressed="false">ネタバレを表示</button>
-      <span id="globalSpoilerStatus" role="status">全画面でネタバレを隠しています</span>
+      <button id="globalSpoilerToggle" type="button" aria-pressed="false" aria-describedby="globalSpoilerStatus">ネタバレ：非表示（押すと表示）</button>
+      <span id="globalSpoilerStatus" class="visually-hidden" role="status">全画面でネタバレを隠しています</span>
       <a id="currentViewLink" href="#characters">この表示のリンク</a>
     </div>
     <details class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
@@ -161,6 +161,7 @@
         <button class="timeline-view-tab" id="timeline-tab-chapters" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-chapters" data-view="chapters" tabindex="-1">話数別</button>
         <button class="timeline-view-tab" id="timeline-tab-questions" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-questions" data-view="questions" tabindex="-1">未解決事項</button>
       </div>
+      <button id="timelineFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="timelineControls" title="話数・種類・人物・場所・並び順など">絞り込みを開く</button>
       <div class="timeline-controls" id="timelineControls">
         <label>話数 <select id="chapterFilter"><option value="all">すべての話数</option></select></label>
         <label>
@@ -477,6 +478,6 @@
 
   <script src="character-routing.js?v=20261009a"></script>
   <script src="character-facts.js?v=20261011a"></script>
-  <script src="script.js?v=20261011a"></script>
+  <script src="script.js?v=20261011b"></script>
 </body>
 </html>

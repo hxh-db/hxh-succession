@@ -1941,7 +1941,7 @@ function createCharacterDirectoryCard(character) {
   const details = document.createElement("details");
   details.className = "compact-person-details directory-character-details";
   const toggle = document.createElement("summary");
-  toggle.textContent = "記録・関連イベント・メモ";
+  toggle.textContent = draftStorageMode === "file" ? "記録・関連イベント・メモ" : "記録・関連イベント";
   details.appendChild(toggle);
   const authorSetting = makeAuthorSettingPanel(character);
   if (authorSetting) details.appendChild(authorSetting);
@@ -3257,6 +3257,7 @@ function activateTimelineView(view, moveFocus = false) {
   activeTimelineView = view;
   const isQuestions = view === "questions";
   document.getElementById("timelineControls").hidden = isQuestions;
+  document.getElementById("timelineFilterToggle")?.toggleAttribute("hidden", isQuestions);
   document.getElementById("timelineActiveFilters").hidden = isQuestions;
   if (view !== "schedule") document.getElementById("typeFilter")?.setAvailability?.(null);
   if (view === "schedule" && document.getElementById("chapterFilter").value !== "all") activeTimelinePeriodId = "all";
@@ -3963,6 +3964,8 @@ function isOutsidePlacement(guard) {
 }
 
 function renderLocalEditor(container, record, category, view = "modal") {
+  // 公開サイト（PC保存なし）では、自分用メモ・編集の欄ごと出さない。
+  if (draftStorageMode !== "file") return;
   const recordKey = localRecordKey(record, category);
   const saved = localDrafts.items[recordKey] || {};
   const section = document.createElement("section");
@@ -4129,18 +4132,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   });
   editor.appendChild(form);
   section.appendChild(editor);
-  if (draftStorageMode === "file") {
-    container.appendChild(section);
-    return;
-  }
-  // 公開サイト（PC保存なし）では、自分用メモは閉じた折りたたみに入れて本文を邪魔しない。
-  const collapsed = document.createElement("details");
-  collapsed.className = "local-editor-collapsed";
-  if (saved.memo || (saved.edits && Object.keys(saved.edits).length)) collapsed.open = true;
-  const collapsedSummary = document.createElement("summary");
-  collapsedSummary.textContent = "自分用メモ（このブラウザにだけ保存）";
-  collapsed.append(collapsedSummary, section);
-  container.appendChild(collapsed);
+  container.appendChild(section);
 }
 
 function showDetailModal(name, category, eventData = null) {
@@ -4194,7 +4186,6 @@ function showDetailModal(name, category, eventData = null) {
     details = [
       { label: "母（王妃）", value: getCharacterAffiliationText(record)?.replace(/^母：/, "") || record.queen || "不明" },
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
-      { label: "陣営", value: record.camp ? formatGroupReference(formatDisplayText(record.camp)) : "" },
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
       { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
       { label: "最終確認場所", value: "latest-location", later: true },
@@ -4694,12 +4685,17 @@ function renderOpenQuestions(container, category = "all") {
       unknown.textContent = `まだ分からないこと：${question.unknown}`;
       const links = document.createElement("div");
       links.className = "question-event-links";
-      question.related_event_ids.forEach((id) => {
-        const event = eventsData.find((candidate) => candidate.id === id);
-        if (!event) return;
+      // 同じ話の出来事が複数あるときは、同じ文言のリンクが並ばないよう出来事の冒頭を添える。
+      const relatedEvents = [...new Set(question.related_event_ids)]
+        .map((id) => eventsData.find((candidate) => candidate.id === id)).filter(Boolean);
+      const chapterCounts = relatedEvents.reduce((counts, event) => counts.set(event.chapter, (counts.get(event.chapter) || 0) + 1), new Map());
+      relatedEvents.forEach((event) => {
         const link = document.createElement("button");
         link.type = "button";
-        link.textContent = `第${event.chapter}話の出来事`;
+        const summaryText = String(event.title || event.description || "");
+        link.textContent = chapterCounts.get(event.chapter) > 1
+          ? `第${event.chapter}話：${summaryText.length > 18 ? `${summaryText.slice(0, 18)}…` : summaryText}`
+          : `第${event.chapter}話の出来事`;
         link.title = `場面ID ${event.id}`;
         link.addEventListener("click", () => showDetailModal(event.id, "event", event));
         links.appendChild(link);
@@ -4946,7 +4942,8 @@ function renderChapterCoverage() {
 function refreshSharedSpoilers() {
   const button = document.getElementById("globalSpoilerToggle");
   if (!button) return;
-  button.textContent = spoilersRevealed ? "ネタバレを隠す" : "ネタバレを表示";
+  // 状態をボタンの文言に含め、スマホでも1行に収める（状態文は読み上げ用に残す）。
+  button.textContent = spoilersRevealed ? "ネタバレ：表示中（押すと隠す）" : "ネタバレ：非表示（押すと表示）";
   button.setAttribute("aria-pressed", String(spoilersRevealed));
   document.getElementById("globalSpoilerStatus").textContent = spoilersRevealed ? "全画面でネタバレを表示しています" : "全画面でネタバレを隠しています";
   [["revealPrinceStatus", "princeStatusContent", renderPrinceStatusGuide],
@@ -5068,6 +5065,18 @@ function applyPublicSiteLayout() {
   if (drafts && main) main.appendChild(drafts);
   const addButton = document.getElementById("addTimelineEvent");
   if (addButton) addButton.hidden = true;
+}
+
+function setupTimelineFilterToggle() {
+  const button = document.getElementById("timelineFilterToggle");
+  const section = document.getElementById("timeline");
+  if (!button || !section) return;
+  button.addEventListener("click", () => {
+    const open = !section.classList.contains("filters-open");
+    section.classList.toggle("filters-open", open);
+    button.setAttribute("aria-expanded", String(open));
+    button.textContent = open ? "絞り込みを閉じる" : "絞り込みを開く";
+  });
 }
 
 function setupCharacterFilterToggle() {
@@ -5241,6 +5250,7 @@ async function init() {
     renderCharacterDirectory(charactersData.filter(isDirectoryCharacter));
     setupCharacterDirectory();
     setupCharacterFilterToggle();
+    setupTimelineFilterToggle();
     setupGuideStatus();
     setupPersonnelSnapshotGuide();
     setupOpenQuestions();

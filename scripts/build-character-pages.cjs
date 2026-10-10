@@ -92,8 +92,28 @@ function expectedOutputs(onlyId = null) {
   if (!onlyId) {
     const countOnly = new Set(read('count_only_characters.json').ids);
     const directory = characters.filter(p=>!countOnly.has(p.id) && p.verification_status !== 'unverified');
-    const links = directory.map(p => `<li><a href="${encodeURIComponent(p.id)}/">${escape(titleName(p))}</a></li>`).join('\n');
-    outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p><ul class="static-character-index">${links}</ul></main></body></html>\n`);
+    // 既存の type / camp で見出しごとに分ける（王子陣営に配置されたハンターは護衛として扱う）。
+    const princeCamps = new Set(characters.filter(p => p.type === 'prince').map(p => p.camp).filter(Boolean));
+    const indexGroups = [
+      ['王族（国王・王子・王妃）', p => ['king', 'prince', 'queen'].includes(p.type)],
+      ['護衛・私設兵・王妃所属兵', p => p.type === 'soldier' || (p.type === 'hunter' && princeCamps.has(p.camp))],
+      ['従事者', p => p.type === 'attendant'],
+      ['ハンター協会・ビヨンドチーム', p => p.type === 'hunter'],
+      ['マフィア', p => p.type === 'mafia'],
+      ['幻影旅団', p => p.type === 'phantom_troupe'],
+      ['司法・政府・その他', () => true]
+    ];
+    const typeOrder = {king: 0, queen: 1, prince: 2};
+    const placed = new Set();
+    const links = indexGroups.map(([heading, match]) => {
+      const members = directory.filter(p => !placed.has(p.id) && match(p));
+      members.forEach(p => placed.add(p.id));
+      if (heading.startsWith('王族')) members.sort((a, b) => (typeOrder[a.type] - typeOrder[b.type]) || ((a.rank ?? 0) - (b.rank ?? 0)));
+      return members.length ? `<h2>${escape(heading)}（${members.length}人）</h2>\n<ul class="static-character-index">${members.map(p => `<li><a href="${encodeURIComponent(p.id)}/">${escape(titleName(p))}</a></li>`).join('\n')}</ul>` : '';
+    }).filter(Boolean).join('\n');
+    outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p>
+${links}
+</main></body></html>\n`);
     const urls = [SITE, SITE+'characters/', ...characters.map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');
     const hashes = ['characters.json','events.json','count_only_characters.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);

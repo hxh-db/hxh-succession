@@ -19,14 +19,25 @@ function publicFields(person) {
 }
 function spoilerFields(person, events = []) {
   // Explicit allowlist: never copy notes, spoiler_notes, research or editor state.
-  return [['状態／確認話数', CharacterFacts.statusLabel(person, events)],
+  return [['状態', CharacterFacts.statusLabel(person, events)],
     ['所属', person.former_affiliations?.length ? `${person.affiliation || ''}（旧所属：${person.former_affiliations.join('・')}）` : person.affiliation],
     ['役割', person.target ? (person.role || '').replace(person.target, '').trim() : person.role], ['母（王妃）', person.queen], ['任務', person.role?.includes(person.mission) ? null : person.mission],
     ['最後の登録任務先', person.current_assignment], ['最終確認場所', CharacterFacts.latestLocationLabel(person, events)],
     ['念系統', person.nen_type], ['念能力', person.nen_ability], ['守護霊獣', person.spirit_beast_name]];
 }
+// 長い記述（念能力など）は話数の区切りで箇条書きにする。データは変えず表示だけを分ける。
+const READABLE_LABELS = new Set(['念能力']);
+function fieldValue(label, value) {
+  const segments = READABLE_LABELS.has(label) ? CharacterFacts.readableSegments(value) : [];
+  if (segments.length > 1) return `<ul class="readable-list">${segments.map(s => `<li>${escape(s)}</li>`).join('')}</ul>`;
+  if (label === '最終確認場所') {
+    const [main, rest] = String(value).split('。ほかに所在未判定の記録：');
+    if (rest) return `<p>${escape(main)}</p><p class="latest-place-candidates-label">ほかの関係記録（本人の在室は未確認）</p><ul class="readable-list latest-place-candidates">${rest.split('／').map(t => `<li>${escape(t)}</li>`).join('')}</ul>`;
+  }
+  return escape(value);
+}
 function definitionList(fields) {
-  return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${escape(value)}</dd>`).join('\n') + '</dl>';
+  return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${fieldValue(label, value)}</dd>`).join('\n') + '</dl>';
 }
 function pageHtml(person, events, characters, sources) {
   const title = `${titleName(person)} | HUNTER×HUNTER 王位継承戦データベース`;
@@ -44,29 +55,31 @@ function pageHtml(person, events, characters, sources) {
 <title>${escape(title)}</title>
 <meta name="description" content="${escape(description)}">
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">
-<script src="../../character-page.js?v=20261009a" defer></script>
+<script src="../../character-page.js?v=20261011a" defer></script>
 </head><body class="standalone-character-page" data-character-id="${escape(person.id)}">
 <header class="site-header"><div class="header-inner"><p>HUNTER×HUNTER 王位継承戦データベース</p></div>
 <nav class="primary-nav"><a href="../../#characters">人物一覧</a><a href="../../#timeline">出来事</a><a href="../../characters/">人物索引</a></nav></header>
 <main class="page-container"><article class="character-page-card">
-<p class="section-kicker">人物 ID：${escape(person.id)}</p><h1>${escape(titleName(person))}</h1>
+<h1>${escape(titleName(person))}</h1>
 ${definitionList(publicFields(person))}
 ${evidence ? `<p class="author-setting-badge">${person.setting_only ? '作者設定表／本編対応未確認' : '作者設定表で氏名確認'}</p>` : ''}
-<p class="character-page-actions"><a class="character-page-list-link" href="../../?person=${encodeURIComponent(person.id)}#characters">人物一覧で見る</a><a href="../../?person=${encodeURIComponent(person.id)}&detail=1#characters">一覧の詳細でメモ・編集</a></p>
-<p>公開JSONの登録情報です。初期配置と後の登録状況は区別しています。</p>
+<p class="character-page-actions"><a class="character-page-list-link" href="../../?person=${encodeURIComponent(person.id)}#characters">人物一覧で見る</a></p>
+<p>初期配置は物語開始時点の情報です。後の展開は下の折りたたみにまとめています。</p>
 <button type="button" id="pageSpoilerToggle" aria-pressed="false" hidden>ネタバレを表示</button>
 <p id="pageSpoilerStatus" role="status">詳細には後の展開を含みます。下の項目を開くと表示できます。</p>
 <details class="character-page-spoilers" data-nosnippet><summary>人物詳細（後の展開を含む）</summary>
 ${definitionList(spoilerFields(person, events))}
 ${authorPanel}
-${claims.length ? `<section class="character-review-panel"><h2>出来事に紐づく確認待ち・登録情報</h2>${claims.map(claim=>`<p>${escape(claim.text)}</p>${claim.event_ids.map(id=>{const event=events.find(e=>e.id===id); return event ? `<a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${event.chapter}&t_period=all#timeline">第${event.chapter}話の確認記録（${escape(id)}）</a>` : '';}).join(' ')}`).join('')}</section>` : ''}
-${assignments.length ? `<h2>${assignments.length > 1 ? '配置履歴' : '担当陣営'}</h2><ul>${assignments.map(e=>`<li>${escape(e.text)}${e.event_id ? ` <a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${e.chapter}&t_period=all#timeline">関連する出来事（${escape(e.event_id)}）</a>` : ''}</li>`).join('')}</ul>` : ''}
+${claims.length ? `<section class="character-review-panel"><h2>出来事の記録から分かること</h2>${claims.map(claim=>`<p>${escape(claim.text)}</p>${claim.event_ids.map(id=>{const event=events.find(e=>e.id===id); return event ? `<a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${event.chapter}&t_period=all#timeline" title="場面ID ${escape(id)}">第${event.chapter}話の出来事</a>` : '';}).join(' ')}`).join('')}</section>` : ''}
+${assignments.length ? `<h2>${assignments.length > 1 ? '配置履歴' : '担当陣営'}</h2><ul>${assignments.map(e=>`<li>${escape(e.text)}${e.event_id ? ` <a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${e.chapter}&t_period=all#timeline" title="場面ID ${escape(e.event_id)}">関連する出来事</a>` : ''}</li>`).join('')}</ul>` : ''}
+<details class="editorial-status"><summary>編集状況</summary><ul><li>人物ID：${escape(person.id)}</li><li>${escape(CharacterFacts.statusEditorialNote(person, events))}</li><li>公開データの登録情報から生成したページです。個人メモ・編集内容・調査記録は含めません。</li><li><a href="../../?person=${encodeURIComponent(person.id)}&detail=1#characters">一覧の詳細でメモ・編集</a></li></ul></details>
 </details>
 <section class="character-page-related"><h2>関連する出来事</h2><p>話数から人物の出来事へ移動できます。出来事本文のネタバレは一覧側の共通設定で表示します。</p>
 ${grouped.length ? `<ul>${grouped.map(ch=>`<li><a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${ch}&t_period=all#timeline">第${ch}話の関連する出来事</a></li>`).join('\n')}</ul>` : '<p>関連する出来事は未登録です。</p>'}
 <a href="../../?t_person=${encodeURIComponent(person.id)}&t_period=all#timeline">この人物の出来事を一覧で見る</a></section>
-<p class="guide-source-note">情報源：公開人物台帳・公開出来事台帳。個人メモ・編集内容・調査記録は、この静的ページには含めません。</p>
+<p class="guide-source-note">情報源：公開人物台帳・公開出来事台帳。</p>
 </article></main></body></html>\n`;
 }
 function expectedOutputs(onlyId = null) {
@@ -80,7 +93,7 @@ function expectedOutputs(onlyId = null) {
     const countOnly = new Set(read('count_only_characters.json').ids);
     const directory = characters.filter(p=>!countOnly.has(p.id) && p.verification_status !== 'unverified');
     const links = directory.map(p => `<li><a href="${encodeURIComponent(p.id)}/">${escape(titleName(p))}</a></li>`).join('\n');
-    outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p><ul class="static-character-index">${links}</ul></main></body></html>\n`);
+    outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p><ul class="static-character-index">${links}</ul></main></body></html>\n`);
     const urls = [SITE, SITE+'characters/', ...characters.map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');
     const hashes = ['characters.json','events.json','count_only_characters.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);

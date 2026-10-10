@@ -60,14 +60,39 @@
     const location = person.room || person.location;
     return location ? {location: locationLabel(location), chapter: person.location_basis_chapter || null, eventId: null, presence: 'unknown', review: 'unverified', candidates: []} : null;
   }
+  // 同じ話・同じ場所の関係記録は1行にまとめ、件数を添える（記録そのものは減らさない）。
+  function groupLocationCandidates(candidates) {
+    const groups = new Map();
+    for (const entry of candidates || []) {
+      const key = `${entry.chapter}\u0000${entry.location}`;
+      if (!groups.has(key)) groups.set(key, {chapter: entry.chapter, location: entry.location, eventIds: []});
+      groups.get(key).eventIds.push(entry.eventId);
+    }
+    return [...groups.values()].map(group => ({...group, count: group.eventIds.length,
+      text: `第${group.chapter}話 ${group.location}${group.eventIds.length > 1 ? `（${group.eventIds.length}件）` : ''}`}));
+  }
   function latestLocationLabel(person, events) {
     const latest = latestLocation(person, events);
-    if (!latest) return '未確認（場所・確認話数とも未登録）';
-    const review = latest.review === 'review_recorded' ? '原作確認記録あり'
-      : latest.review === 'hypothesis' ? '内容は推測' : '原作再照合待ち';
-    const kind = latest.presence === 'body' ? '遺体の所在：' : latest.presence === 'unknown' ? '所在候補（本人の在室未確認）：' : '';
-    const pending = latest.candidates?.length ? `。所在未判定の関係記録：${latest.candidates.map(e => `第${e.chapter}話 ${e.location}（所在未判定）`).join('／')}` : '';
-    return `${kind}${latest.location}（${latest.chapter ? `第${latest.chapter}話時点` : '確認話数未登録・人物台帳の値'}／${review}）${pending}`;
+    if (!latest) return '未登録';
+    const review = latest.review === 'review_recorded' ? '' : latest.review === 'hypothesis' ? '・内容は推測' : '・再照合待ち';
+    const kind = latest.presence === 'body' ? '遺体の所在：' : latest.presence === 'unknown' ? '所在候補（在室は未確認）：' : '';
+    const groups = groupLocationCandidates(latest.candidates);
+    const pending = groups.length ? `。ほかに所在未判定の記録：${groups.map(group => group.text).join('／')}` : '';
+    return `${kind}${latest.location}（${latest.chapter ? `第${latest.chapter}話時点` : '登録値'}${review}）${pending}`;
+  }
+  // 長い記述を、話数で始まる文の前で区切る。データは変えず表示だけを分ける。
+  function readableSegments(text) {
+    const value = String(text ?? '').trim();
+    if (!value) return [];
+    const sentences = value.split(/(?<=。)(?![」』）)])/).map(s => s.trim()).filter(Boolean);
+    const startsChapter = s => /^(?:（)?第?\d{3}(?:[・〜～]第?\d{3})*話/.test(s);
+    const segments = [];
+    sentences.forEach((sentence, index) => {
+      if (!segments.length || (index > 0 && startsChapter(sentence))) segments.push(sentence);
+      else segments[segments.length - 1] += sentence;
+    });
+    if (segments.length === 1 && sentences.length >= 3 && value.length > 140) return sentences;
+    return segments;
   }
   function reviewLabel(event) {
     return ({review_recorded: '原作確認記録あり', hypothesis: '内容は推測'})[event?.verification_status] || '原作再照合待ち';
@@ -83,8 +108,15 @@
   function statusLabel(person, events) {
     const log = person.status_log?.at(-1);
     const event = events.find(e => e.id === log?.event_id);
-    const basis = log?.chapter ? `第${log.chapter}話の登録` : '確認話数未登録';
-    return `${person.status || '未登録'}（${basis}／${event ? reviewLabel(event) : '状態の根拠未照合'}）${person.status_review_note ? `。${person.status_review_note}` : ''}`;
+    const parts = [log?.chapter ? `第${log.chapter}話時点` : null,
+      event?.verification_status === 'hypothesis' ? '内容は推測' : event && event.verification_status !== 'review_recorded' ? '再照合待ち' : null].filter(Boolean);
+    return `${person.status || '未登録'}${parts.length ? `（${parts.join('・')}）` : ''}${person.status_review_note ? `。${person.status_review_note}` : ''}`;
+  }
+  // 編集者向けの詳しい根拠表示。読者向けの本文ではなく「編集状況」欄やツールチップで使う。
+  function statusEditorialNote(person, events) {
+    const log = person.status_log?.at(-1);
+    const event = events.find(e => e.id === log?.event_id);
+    return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
   }
   function searchRank(person, query) {
     const names = [person.name, person.display_name, ...(person.aliases || [])].filter(Boolean).map(n => n.toLowerCase());
@@ -121,5 +153,5 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, searchRank, questionSections};
+  return {assignmentRows, latestLocation, latestLocationLabel, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections};
 });

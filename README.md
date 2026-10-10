@@ -42,7 +42,7 @@ python local_server.py
   - 話数・人物・場所・一連の出来事・大分類したイベント種類で絞り込み
   - 場所は出航セレモニー会場、王子名つきの1001〜1014号室、各階層から選択
   - 画面上のイベント種類は8分類。元データの細かな `type` は詳細表示と内部記録に保持
-  - 表示用の目安時刻は「15:22頃？」と表示。「推測」タグは出来事の内容自体が推測の場合だけ使う。根拠のない乗船前の日時は入れず、出航35日前など明示された相対日付はそのまま表示する
+  - 表示用の目安時刻は「15:22頃？」と表示。「内容は推測」タグは出来事の内容自体が推測の場合だけ使う（一覧のカードでは「再照合待ち」などの例外だけをバッジにし、既定の意味は出来事一覧の上の凡例で説明する）。根拠のない乗船前の日時は入れず、出航35日前など明示された相対日付はそのまま表示する
   - 仮時刻は前後関係・話内の描写順・既存の時計時刻をもとに `time_estimate` に記録し、`time_estimate_basis` で表示用の仮置きであることを区別する。日付未確定の出来事は日付を変えない。配置は全データを基準にするため、人物や話数で絞っても変わらない。前後関係の明示がある場合はそれを優先する
 - **詳細モーダル**: 王子・護衛・守護霊獣・イベントをクリックすると詳細と関連イベントを表示。詳細画像はクリック／Enterで拡大でき、拡大画面の「さらに拡大」で2倍表示できる
 - **自分用メモ・編集**: 人物一覧の「詳細」と詳細モーダルでメモを入力すると、自動でPC内の `.local/drafts.json` に保存されます。主な項目の編集は「編集を保存」で反映されます。「この項目の編集を戻す」で公開データの表示に戻せます。メモ・編集は公開JSONに反映されません
@@ -64,13 +64,14 @@ node tests/character-pages.cjs
 node tests/character-consistency.cjs
 node tests/character-evidence.cjs
 node tests/review-followups.cjs
+node tests/spoiler-settings.cjs
 python validate_data.py
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
 最初に1人だけ試す場合は `node scripts/build-character-pages.cjs --id P14` を使い、確認後に引数なしで全件生成してください。`--check` は生成漏れ・元JSONとの差分を検出します。生成した `characters/` と `sitemap.xml` も、承認後の公開対象に含めます。IDを削除・変更した場合は旧URLの扱いを別途確認してください（スクリプトは既存ページを自動削除しません）。
 
-生成元は公開用の `data/characters.json`、`data/events.json`、`data/count_only_characters.json`、`data/sources.json` です。`.local/` のメモ・編集、調査記録、人物の自由記述メモは静的HTMLに含めません。個人編集は静的ページの「一覧の詳細でメモ・編集」から利用できます。
+生成元は公開用の `data/characters.json`、`data/events.json`、`data/count_only_characters.json`、`data/sources.json` です。`.local/` のメモ・編集、調査記録、人物の自由記述メモは静的HTMLに含めません。個人編集は静的ページの「編集状況」の折りたたみにある「一覧の詳細でメモ・編集」から利用できます。
 
 配置履歴・最終確認場所の表記は `character-facts.js` を一覧・モーダル・静的ページで共有します。公開JSONだけでなく、この共通処理を変更した場合も静的ページを再生成してください。配置履歴の王子・出来事・話数・参加人物の対応は `validate_data.py` で検証します。日付の確度が未入力の場合は、登録済みの日付を「確度未確認」と表示し、確定へ自動昇格させません。画面間の一致確認は `tests/CHARACTER_CONSISTENCY_QA.md` を参照してください。
 
@@ -82,7 +83,7 @@ python -m unittest discover -s tests -p "test_*.py"
 
 人物索引と個別ページのCSS参照はトップページ `index.html` のバージョンを生成時に共有します。CSSを変更してキャッシュバージョンを更新する場合はトップページを更新して再生成し、索引だけ古い版に戻らないことを `tests/review-followups.cjs` で確認してください。
 
-初期配置などの基本情報はJavaScript実行前から読めます。後の展開を含む詳細は初期HTMLでは閉じた `details` に入れ、`data-nosnippet` を指定しています。title・descriptionには能力・生死などを載せません。JavaScript有効時は一覧と同じネタバレ設定を使い、無効時も手動で詳細を開けます。検索エンジンでの表示はサービス側の判断ですが、検索向け説明文に後の展開は出しません。
+初期配置などの基本情報はJavaScript実行前から読めます。後の展開を含む詳細は初期HTMLでは閉じた `details` に入れ、`data-nosnippet` を指定しています。title・descriptionには能力・生死などを載せません。JavaScript有効時は一覧と同じネタバレ設定を使い、無効時も手動で詳細を開けます。折りたたみを手で開いても共通のネタバレ設定は変わりません（一覧の人物カード・人物詳細も同様で、後の話の情報はその人物の中の「後の話の情報を表示」で開きます。回帰テストは `tests/spoiler-settings.cjs`）。検索エンジンでの表示はサービス側の判断ですが、検索向け説明文に後の展開は出しません。
 
 ローカル確認例：`http://127.0.0.1:8765/characters/P14/`。検証用 `tests/fixtures/character-nojs.html` はスクリプト実行を禁止したフレームで索引・人物ページを確認します。`tests/` は検証用で、公開コンテンツではありません。確認記録は `tests/CHARACTER_PAGES_QA.md` を参照してください。
 

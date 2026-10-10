@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>王位継承戦データまとめ | HUNTER×HUNTER</title>
-  <link rel="stylesheet" href="style.css?v=20261009e" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css?v=20261011a" />
 </head>
 <body>
   <header class="site-header">
@@ -48,13 +49,20 @@
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>キャラクター一覧</h2>
-        <p id="characterSpoilerHelp">所属・任務・関係王子から人物を探せます。名前を押すと人物詳細が開きます。初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。血縁・任務先の変化・死亡情報は「ネタバレ＋」で開けます。親子説は未確定情報として区別します。</p>
+        <details class="usage-help">
+          <summary>使い方</summary>
+          <p>所属・任務・関係王子から人物を探せます。名前を押すと人物詳細が開きます。</p>
+          <p>初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。親子説は未確定情報として区別します。</p>
+          <p id="characterSpoilerHelp">後の話の情報は隠しています。人物ごとに「後の話の情報を表示」で開けます（全体の設定は変わりません）。</p>
+        </details>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
         <label class="character-search-label">
           名前・所属・能力で検索
           <input id="characterSearch" type="search" placeholder="名前・所属・能力などを入力" />
         </label>
+        <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel" title="カテゴリ・関係王子・詳細条件">絞り込みを開く</button>
+        <div id="characterFilterPanel" class="character-filter-panel">
         <div class="character-tag-row">
           <span class="character-tag-row-label">カテゴリ</span>
           <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
@@ -78,6 +86,7 @@
             </details>
           </div>
         </details>
+        </div>
         <div class="character-filter-status">
           <div id="characterActiveTag" class="character-active-tag" aria-label="選択中の人物条件"></div>
           <button id="clearCharacterFilters" type="button">すべて解除</button>
@@ -130,10 +139,21 @@
         <p>作中の出来事を時系列・話数別に確認できます。第420話までのネタバレを含みます。</p>
         <button id="addTimelineEvent" class="local-editor-button" type="button">＋ 出来事を追加</button>
       </div>
-      <aside class="uncollected-warning" aria-label="確認範囲について">
-        <strong>出来事の確認状況と日時の確度を別々に表示しています。</strong>
-        <span>出典への索引があるだけでは原作確認済みになりません。411話以降の日付は暫定です。収録範囲は基礎資料の話数一覧で確認できます。</span>
-      </aside>
+      <details class="timeline-legend">
+        <summary>表示の見方（凡例）</summary>
+        <ul>
+          <li>特に印のない出来事は、原作で確認した記録がある内容です。</li>
+          <li>「14:00」は原作に出てくる時刻、「14:00頃？」は前後の場面から置いた表示順の目安です。</li>
+          <li>日付は登録した日付です。推定・暫定の日付（411話以降を含む）は各出来事の詳細で確度を確認できます。</li>
+          <li><span class="review-badge review-hypothesis">内容は推測</span> 出来事の内容そのものが推測です。</li>
+          <li><span class="review-badge review-unverified">再照合待ち</span> 原作との再照合がまだです。</li>
+          <li>回想・設定などの種類は、日付不明の出来事にだけ表示します。</li>
+        </ul>
+        <details class="editorial-status">
+          <summary>編集状況</summary>
+          <p>出典への索引があるだけでは原作確認済みにしていません。411話以降の日付は暫定です。収録範囲は基礎資料の「収録範囲・出典の確認状況」で確認できます。</p>
+        </details>
+      </details>
       <div class="global-spoiler-gate" id="timelineSpoilerGate"><p>出来事は死亡・能力・後の展開を含みます。全画面共通のネタバレ設定で表示できます。</p><button type="button" data-reveal-global>ネタバレを表示して出来事を見る</button></div>
 
       <div class="timeline-view-tabs" role="tablist" aria-label="出来事の表示方法">
@@ -174,7 +194,7 @@
           <p>「全部」で全日程を通して確認できます。人物・場所・大まかなイベント種類を組み合わせて絞り込めます。</p>
         </div>
         <div id="timelinePeriodTabs" class="timeline-period-tabs" role="group" aria-label="表示する日付"></div>
-        <div class="timeline-period-jump"><label>日付を選択 <select id="timelinePeriodSelect"></select></label><button id="timelineLatestDay" type="button">最新の登録日へ</button><button id="timelineProvisional" type="button">411話以降の暫定記録へ</button></div>
+        <div class="timeline-period-jump"><label>日付を選択 <select id="timelinePeriodSelect"></select></label><button id="timelineLatestDay" type="button">最新の登録日へ</button></div>
         <div id="timelineSchedule" class="timeline-schedule"></div>
       </div>
       <div id="timeline-panel-chapters" class="timeline-view-panel" role="tabpanel" aria-labelledby="timeline-tab-chapters" hidden>
@@ -336,14 +356,18 @@
           <img class="zoomable-image guide-source-image" src="images/guide/negotiation-cards-ch407.png" alt="親7枚は表、子5枚は裏に置く交渉ゲームの配置" title="第407話より：親と子のカード配置" tabindex="0" role="button" aria-label="第407話の交渉ゲームのカード配置を拡大">
           <figcaption>第407話：親7枚・子5枚の配置</figcaption>
         </figure>
-        <p class="guide-source-note">第407話末では、ボークセンが「子の裏向きカードは自分が選ぶ」という条件を出し、モレナが受け入れて開始を宣言したところまで。実際のカード選択・目的や能力の開示・加入の結論はまだ描かれません。不正や能力による誘導への疑いはボークセンの推測として、説明されたルールと分けています。</p>
-        <p class="guide-source-note">第408話の親の指定順は「目的 → 力 → No」、子の墓場への順番は「Joker → Yes → X」。残る子はNoとRの2枚です。取引Dも加入の結論も未決定の段階で、特殊戒厳令の放送が入ります。Xでの離脱後の配慮はモレナの約束であり、履行や記憶消去を確認した場面ではありません。</p>
-        <p class="guide-source-note">第408話でボークセンは「特質系の素質があるが念は未覚醒」と説明されます。モレナの調査による「特質系約0.033%（約3000人に1人）」は系統の割合で、恋のエチュードによる感染・覚醒の成功率ではありません。船内に50〜60人という説明もモレナの推計です。</p>
-        <p class="guide-source-note">第409話では「取引D → 質問A」の順に指定。キスの取引でXを戻し、No・Rを表にして確認した後、3枚を混ぜ直します。再びXが墓場へ送られ、最後の2枚を同時に開くとボークセンにR、モレナにNoが残りました。ボークセンはRの交換先として、離脱のXではなくYesを選びます。選択の理由・不正の有無は、この話ではまだ明かされません。</p>
-        <p class="guide-source-note">モレナの説明では、仲間になるには「ゲームの結論がYes」「キスによる能力の感染」「仲間が殺人している現場に居合わせる」の3条件を全て満たす必要があります。順番は問いません。409話でキスとYesの選択は確認できますが、3条件の全充足や念の覚醒までを確認した場面ではありません。</p>
-        <p class="guide-source-note">質問Aでは、アジトがB・W号内の第2層と第3層の間にあると回答。「念能力によって作られている」にはYes and No、仲間の人数はボークセンを含めて21人という問いにYesと回答します。中央ゲート周辺という正確な位置はボークセンの推測です。質問での人数を登録人物数や兵力集計へそのまま置き換えません。</p>
-        <p class="guide-source-note">第410話でモレナは不正を指摘し、ゲームとカードも能力の一部で、不正時には操作系能力が自動発動して子はYesかNoしか選べなくなると説明します。Rに凹みの目印を付け、最後に握り潰して証拠を消した手順はモレナの推理です。ボークセンのYes選択を、Xも選べる状態での自由な選択と扱いません。</p>
-        <p class="guide-source-note">ボークセンはレベル0で最後の加入条件が未達。全条件を満たすとレベル1の仲間になり、レベル21で念能力が覚醒、レベル100で自分の仲間を作れるようになります。410話でも殺人現場への居合わせ・完全加入・念の覚醒は描かれません。モレナはアプリのようにレベル・位置・能力等を管理すると説明し、ボークセンは対抗策を得るため、帰還前に仲間についての案内を求めます。</p>
+        <h4 class="guide-subheading">第407話：ゲームの開始</h4>
+        <p class="guide-body-text">第407話末では、ボークセンが「子の裏向きカードは自分が選ぶ」という条件を出し、モレナが受け入れて開始を宣言したところまで。実際のカード選択・目的や能力の開示・加入の結論はまだ描かれません。不正や能力による誘導への疑いはボークセンの推測として、説明されたルールと分けています。</p>
+        <h4 class="guide-subheading">第408話：最初の指定と特殊戒厳令</h4>
+        <p class="guide-body-text">第408話の親の指定順は「目的 → 力 → No」、子の墓場への順番は「Joker → Yes → X」。残る子はNoとRの2枚です。取引Dも加入の結論も未決定の段階で、特殊戒厳令の放送が入ります。Xでの離脱後の配慮はモレナの約束であり、履行や記憶消去を確認した場面ではありません。</p>
+        <p class="guide-body-text">第408話でボークセンは「特質系の素質があるが念は未覚醒」と説明されます。モレナの調査による「特質系約0.033%（約3000人に1人）」は系統の割合で、恋のエチュードによる感染・覚醒の成功率ではありません。船内に50〜60人という説明もモレナの推計です。</p>
+        <h4 class="guide-subheading">第409話：取引D・質問Aと最後の2枚</h4>
+        <p class="guide-body-text">第409話では「取引D → 質問A」の順に指定。キスの取引でXを戻し、No・Rを表にして確認した後、3枚を混ぜ直します。再びXが墓場へ送られ、最後の2枚を同時に開くとボークセンにR、モレナにNoが残りました。ボークセンはRの交換先として、離脱のXではなくYesを選びます。選択の理由・不正の有無は、この話ではまだ明かされません。</p>
+        <p class="guide-body-text">モレナの説明では、仲間になるには「ゲームの結論がYes」「キスによる能力の感染」「仲間が殺人している現場に居合わせる」の3条件を全て満たす必要があります。順番は問いません。409話でキスとYesの選択は確認できますが、3条件の全充足や念の覚醒までを確認した場面ではありません。</p>
+        <p class="guide-body-text">質問Aでは、アジトがB・W号内の第2層と第3層の間にあると回答。「念能力によって作られている」にはYes and No、仲間の人数はボークセンを含めて21人という問いにYesと回答します。中央ゲート周辺という正確な位置はボークセンの推測です。質問での人数を登録人物数や兵力集計へそのまま置き換えません。</p>
+        <h4 class="guide-subheading">第410話：不正の指摘と加入の条件</h4>
+        <p class="guide-body-text">第410話でモレナは不正を指摘し、ゲームとカードも能力の一部で、不正時には操作系能力が自動発動して子はYesかNoしか選べなくなると説明します。Rに凹みの目印を付け、最後に握り潰して証拠を消した手順はモレナの推理です。ボークセンのYes選択を、Xも選べる状態での自由な選択と扱いません。</p>
+        <p class="guide-body-text">ボークセンはレベル0で最後の加入条件が未達。全条件を満たすとレベル1の仲間になり、レベル21で念能力が覚醒、レベル100で自分の仲間を作れるようになります。410話でも殺人現場への居合わせ・完全加入・念の覚醒は描かれません。モレナはアプリのようにレベル・位置・能力等を管理すると説明し、ボークセンは対抗策を得るため、帰還前に仲間についての案内を求めます。</p>
       </section>
 
       <section class="guide-data-section" aria-labelledby="guardAssignmentTitle">
@@ -436,7 +460,7 @@
 
   <div class="modal-overlay hidden" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-card">
-      <button class="modal-close" id="modalClose" type="button">× 閉じる</button>
+      <div class="modal-close-bar"><button class="modal-close" id="modalClose" type="button">× 閉じる</button></div>
       <h3 id="modalTitle">詳細</h3>
       <div id="modalContent"></div>
     </div>
@@ -452,7 +476,7 @@
   </dialog>
 
   <script src="character-routing.js?v=20261009a"></script>
-  <script src="character-facts.js?v=20261009e"></script>
-  <script src="script.js?v=20261009f"></script>
+  <script src="character-facts.js?v=20261011a"></script>
+  <script src="script.js?v=20261011a"></script>
 </body>
 </html>

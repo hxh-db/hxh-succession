@@ -18,7 +18,14 @@ assert.equal(latest.chapter, 375);
 assert.equal(latest.review, 'review_recorded'); // 第375話の原作再照合（2026-10-10）で E375-005〜007 が review_recorded になった
 const html = fs.readFileSync(path.join(root, 'characters/P12-H01/index.html'), 'utf8');
 for (const row of rows) assert.ok(html.includes(row.text));
-assert.ok(html.includes(facts.latestLocationLabel(hanzo, events)));
+// 静的ページは所在未判定の候補を箇条書きにするため、本文と各候補（話数・場所で重複をまとめたもの）をそれぞれ確認する。
+const [latestMain, latestRest] = facts.latestLocationLabel(hanzo, events).split('。ほかに所在未判定の記録：');
+assert.ok(html.includes(latestMain));
+for (const group of facts.groupLocationCandidates(latest.candidates)) assert.ok(html.includes(`<li>${group.text}</li>`), group.text);
+assert.equal(Boolean(latestRest), facts.groupLocationCandidates(latest.candidates).length > 0);
+// 同じ話・同じ場所の候補は1行にまとめる（件数表記）。
+const grouped = facts.groupLocationCandidates([{eventId:'A',chapter:418,location:'第1層 1004号室'},{eventId:'B',chapter:418,location:'第1層 1004号室'},{eventId:'C',chapter:419,location:'第1層'}]);
+assert.deepEqual(grouped.map(g => g.text), ['第418話 第1層 1004号室（2件）', '第419話 第1層']);
 assert.ok(html.includes('E361-006') && !html.includes('E361-003'));
 // 2026-10-10 の原作再照合で E361-005 は日付表示なしの estimated になったため、画像で日付を確認した E366-006 を使う
 const confirmed = events.find(e => e.id === 'E366-006');

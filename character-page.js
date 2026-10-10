@@ -16,6 +16,6 @@
   };
   button.hidden = false; update(revealed, false);
   button.addEventListener("click", () => update(!revealed));
-  details.addEventListener("toggle", () => { if (details.open !== revealed) update(details.open); });
+  // 折りたたみを手で開いても、全画面共通のネタバレ設定は変えない・保存しない（ボタンだけが共通設定を変える）。
   window.addEventListener("storage", event => { if (event.key === key) update(event.newValue === "true", false); });
 })();

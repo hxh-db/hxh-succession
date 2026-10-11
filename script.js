@@ -64,6 +64,11 @@ let CHAR_MAP = {}; // id → character
 const LOCAL_DRAFTS_KEY = "hxh-succession-local-drafts-v1";
 // ファイル保存用の API はローカルサーバー（local_server.py）だけにある。公開サイトでは問い合わせない（404 を出さない）。
 const LOCAL_DRAFTS_API = ["127.0.0.1", "localhost"].includes(location.hostname) ? "api/drafts" : null;
+// 完成までは公開サイトでもメモ・編集機能を出す（メモはブラウザに保存）。一般公開するときは false にする。
+const MEMO_EDITOR_ON_PUBLIC_SITE = true;
+function memoEditorEnabled() {
+  return draftStorageMode === "file" || MEMO_EDITOR_ON_PUBLIC_SITE;
+}
 const REOPEN_DETAIL_KEY = "hxh-succession-reopen-detail-v1";
 const SPOILER_VISIBILITY_KEY = "hxh-succession-spoilers-revealed-v1";
 const DRAFT_IMPORT_STATUS_KEY = "hxh-succession-draft-import-status-v1";
@@ -2109,7 +2114,7 @@ function createCharacterDirectoryCard(character) {
   const details = document.createElement("details");
   details.className = "compact-person-details directory-character-details";
   const toggle = document.createElement("summary");
-  toggle.textContent = draftStorageMode === "file" ? "記録・関連イベント・メモ" : "記録・関連イベント";
+  toggle.textContent = memoEditorEnabled() ? "記録・関連イベント・メモ" : "記録・関連イベント";
   details.appendChild(toggle);
   const authorSetting = makeAuthorSettingPanel(character);
   if (authorSetting) details.appendChild(authorSetting);
@@ -4273,7 +4278,7 @@ function isOutsidePlacement(guard) {
 
 function renderLocalEditor(container, record, category, view = "modal") {
   // 公開サイト（PC保存なし）では、自分用メモ・編集の欄ごと出さない。
-  if (draftStorageMode !== "file") return;
+  if (!memoEditorEnabled()) return;
   const recordKey = localRecordKey(record, category);
   const saved = localDrafts.items[recordKey] || {};
   const section = document.createElement("section");
@@ -4285,7 +4290,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   explanation.className = "local-editor-help";
   explanation.textContent = draftStorageMode === "file"
     ? "書くと自動でこのPCに保存されます。公開データには反映されません。"
-    : "このブラウザに保存されます。PCへの自動保存には専用のローカルサイトが必要です。";
+    : "このブラウザに保存されます（他の端末とは共有されません）。まとめて渡すときは、ページ上部の「個人編集用：修正メモ・バックアップ」から「JSONでバックアップ」で書き出してください。";
   section.append(heading, explanation);
 
   const memoLabel = document.createElement("label");
@@ -5392,9 +5397,9 @@ function makeCharacterDetailLink(person, label, className = "character-name-link
   return link;
 }
 
-// ローカルサーバー（/api/drafts）が使えない公開サイトでは、編集用の常駐ブロックを最下部へ移し、出来事の追加ボタンを隠す。
+// メモ・編集機能を出さない場合（一般公開時）は、編集用の常駐ブロックを最下部へ移し、出来事の追加ボタンを隠す。
 function applyPublicSiteLayout() {
-  const isPublic = draftStorageMode !== "file";
+  const isPublic = !memoEditorEnabled();
   document.body.classList.toggle("public-site", isPublic);
   if (!isPublic) return;
   const drafts = document.querySelector(".local-drafts-transfer");

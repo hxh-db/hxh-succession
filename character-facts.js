@@ -118,10 +118,101 @@
     const event = events.find(e => e.id === log?.event_id);
     return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
   }
+  // ===== 人物検索（表記ゆれ・ローマ字・ネタバレ制御） =====
+  // 検索語と対象の両方を同じ規則で正規化する：NFKC → 小文字 → ひらがなをカタカナへ → 長音・中黒・＝・空白などを除く。
+  const SEARCH_IGNORED = /[\s・･=＝ー―‐‑–—－\-~〜～_.,、。'’"“”]/g;
+  function normalizeSearchText(value) {
+    return String(value ?? '').normalize('NFKC').toLowerCase()
+      .replace(/[\u3041-\u3096]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60))
+      .replace(SEARCH_IGNORED, '');
+  }
+  // カタカナの簡易ヘボン式ローマ字化（人物名の検索用。厳密な表記規則ではない）。
+  const KANA_ROMAJI = Object.fromEntries(('ア a イ i ウ u エ e オ o カ ka キ ki ク ku ケ ke コ ko サ sa シ shi ス su セ se ソ so '
+    + 'タ ta チ chi ツ tsu テ te ト to ナ na ニ ni ヌ nu ネ ne ノ no ハ ha ヒ hi フ fu ヘ he ホ ho マ ma ミ mi ム mu メ me モ mo '
+    + 'ヤ ya ユ yu ヨ yo ラ ra リ ri ル ru レ re ロ ro ワ wa ヰ i ヱ e ヲ o ン n ガ ga ギ gi グ gu ゲ ge ゴ go ザ za ジ ji ズ zu ゼ ze ゾ zo '
+    + 'ダ da ヂ ji ヅ zu デ de ド do バ ba ビ bi ブ bu ベ be ボ bo パ pa ピ pi プ pu ペ pe ポ po ヴ vu '
+    + 'ァ a ィ i ゥ u ェ e ォ o ャ ya ュ yu ョ yo ヮ wa').split(' ').reduce((pairs, token, index, list) => (index % 2 ? pairs : [...pairs, [token, list[index + 1]]]), []));
+  function katakanaToRomaji(value) {
+    const text = normalizeSearchText(value);
+    let result = '';
+    let doubleNext = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === 'ッ') { doubleNext = true; continue; }
+      let roma = KANA_ROMAJI[ch];
+      if (roma == null) { doubleNext = false; result += /[a-z0-9]/.test(ch) ? ch : ''; continue; }
+      const next = text[i + 1];
+      if ('ャュョ'.includes(next || 'x') && /i$/.test(roma) && roma.length > 1) {
+        // キャ→kya、シャ→sha、チャ→cha、ジャ→ja
+        const stem = roma.slice(0, -1);
+        roma = (/(sh|ch|j)$/.test(stem) ? stem : `${stem}y`) + KANA_ROMAJI[next].slice(1);
+        i++;
+      } else if ('ァィゥェォ'.includes(next || 'x') && roma.length > 1) {
+        // フィ→fi、ティ→ti、ヴァ→va、シェ→she
+        roma = roma.replace(/[aiueo]$/, '') + KANA_ROMAJI[next];
+        i++;
+      }
+      if (doubleNext) roma = (roma.startsWith('ch') ? 't' : roma[0]) + roma;
+      doubleNext = false;
+      result += roma;
+    }
+    return result;
+  }
+  const SEARCH_TYPE_LABELS = {king:'国王', prince:'王子', queen:'王妃', hunter:'ハンター', soldier:'兵士', attendant:'従事者',
+    mercenary:'傭兵', expedition_member:'探検隊関係者', mafia:'マフィア', phantom_troupe:'幻影旅団', official:'司法・政府'};
+  function shortName(person) {
+    return String(person.display_name || person.name || '').replace(/＝ホイコーロ/g, '');
+  }
+  // 王子・王妃は「第1王子」「ベンジャミン王子」「ベンジャミン」などの呼び方でも探せるようにする（データは変えない）。
+  function royalAliases(person) {
+    const short = shortName(person);
+    const title = person.type === 'prince' ? '王子' : person.type === 'queen' ? '王妃' : null;
+    if (!title || person.rank == null) return [];
+    return [`第${person.rank}${title}`, `${short}${title}`, `第${person.rank}${title}${short}`, short];
+  }
+  function searchNames(person) {
+    return [person.name, person.display_name, shortName(person), ...(person.aliases || []), ...royalAliases(person)].filter(Boolean);
+  }
+  // 役職は初期情報として扱える部分だけを使う：括弧書き（実態・後の転属など）と文章の形の説明は除く。
+  function initialRole(role) {
+    const text = String(role || '').replace(/（[^）]*）|\([^)]*\)/g, '').trim();
+    return !text || /[、。]/.test(text) ? null : text;
+  }
+  // ネタバレ非表示の時は、名前・別名・所属・初期配置・分類だけを検索対象にする。
+  // 表示中は、状態・念能力・備考・任務・配置先など後の話の情報も対象にする。
+  // extra.initial / extra.later には画面側で整形した値（所属の表示名・守護霊獣など）を渡す。
+  function searchFields(person, {revealed = false, extra = {}} = {}) {
+    const names = searchNames(person);
+    const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
+      SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
+    if (!revealed) return initial.filter(Boolean);
+    return [...initial, person.role, person.camp, person.nen_ability, person.nen_type, person.notes, person.mission, person.target,
+      person.room, person.current_assignment, person.location, ...(extra.later || [])].filter(Boolean);
+  }
+  function buildSearchText(fields) {
+    return fields.filter(Boolean).map(normalizeSearchText).filter(Boolean).join('|');
+  }
+  // 数字は前後に数字が続かない所だけに一致させる（「4王子」が「第14王子」、「101」が「1014号室」に当たらない）。
+  function searchPattern(query) {
+    const q = normalizeSearchText(query);
+    if (!q) return null;
+    const source = q.match(/\d+|\D+/g)
+      .map(part => /^\d/.test(part) ? `(?<![0-9])${part}(?![0-9])` : part.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'))
+      .join('');
+    return new RegExp(source);
+  }
+  function matchesSearch(text, query) {
+    const pattern = searchPattern(query);
+    return !pattern || pattern.test(text);
+  }
   function searchRank(person, query) {
-    const names = [person.name, person.display_name, ...(person.aliases || [])].filter(Boolean).map(n => n.toLowerCase());
-    const q = query.trim().toLowerCase();
-    return !q ? 0 : names.includes(q) ? 0 : names.some(n => n.includes(q)) ? 1 : 2;
+    const q = normalizeSearchText(query);
+    if (!q) return 0;
+    const pattern = searchPattern(query);
+    const names = searchNames(person).map(normalizeSearchText);
+    const romaji = names.map(katakanaToRomaji);
+    if (names.includes(q) || romaji.includes(q)) return 0;
+    return [...names, ...romaji].some(n => pattern.test(n)) ? 1 : 2;
   }
   function questionSections(event, events = []) {
     const sections = new Map();
@@ -153,5 +244,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections};
+  return {assignmentRows, latestLocation, latestLocationLabel, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections,
+    normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, matchesSearch};
 });

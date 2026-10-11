@@ -789,10 +789,18 @@ function makeAvatar(label, nenType, imageSrc = null, imageCrop = null, zoom = nu
   if (nenType) {
     div.classList.add(`nen-avatar-${nenType.replace("系", "")}`);
   }
+  // 画像の代替テキストは氏名にする（拡大ボタンの名前「◯◯の顔画像を拡大」は makeAvatarZoomable で付ける）。
+  // 頭文字だけのアバターは隣に氏名が並ぶ装飾なので、読み上げから外す。
+  const showInitials = () => {
+    div.textContent = label;
+    div.setAttribute("aria-hidden", "true");
+    if (label.length >= 3) div.style.fontSize = "0.7rem";
+  };
+  const imageName = zoom?.name || label;
   if (imageSrc) {
     if (imageCrop) {
       div.setAttribute("role", "img");
-      div.setAttribute("aria-label", label);
+      div.setAttribute("aria-label", imageName);
       div.style.backgroundImage = `url("${imageSrc}")`;
       div.style.backgroundRepeat = "no-repeat";
       div.style.backgroundSize = imageCrop.size;
@@ -801,19 +809,19 @@ function makeAvatar(label, nenType, imageSrc = null, imageCrop = null, zoom = nu
       return div;
     }
     const img = document.createElement("img");
-    img.alt = label;
+    img.alt = imageName;
+    img.loading = "lazy";
+    img.decoding = "async";
     img.src = imageSrc;
     img.onerror = () => {
       img.remove();
       clearAvatarZoomable(div);
-      div.textContent = label;
-      if (label.length >= 3) div.style.fontSize = "0.7rem";
+      showInitials();
     };
     div.appendChild(img);
     if (zoom) makeAvatarZoomable(div, imageSrc, zoom);
   } else {
-    div.textContent = label;
-    if (label.length >= 3) div.style.fontSize = "0.7rem";
+    showInitials();
   }
   return div;
 }
@@ -823,6 +831,8 @@ function makeBeastImage(src, alt) {
   const img = document.createElement("img");
   img.className = "beast-image";
   img.alt = alt || "守護霊獣";
+  img.loading = "lazy";
+  img.decoding = "async";
   img.src = src;
   img.classList.add("zoomable-image");
   img.tabIndex = 0;
@@ -901,6 +911,52 @@ function setupImageLightbox() {
     enlarged.removeAttribute("src");
     returnFocus?.focus();
   });
+}
+
+// ===== キーボード操作：ピル群を1つのタブ停止にまとめる =====
+// toolbar パターン＋roving tabindex。Tab では群の中の1つ（選択中、なければ先頭）だけに止まり、
+// 矢印キー・Home・End で群の中を移動し、Enter／Space で押す。ボタンの作り直し・表示切替にも追従する。
+function setupRovingToolbar(container, label = null) {
+  if (!container || container.dataset.roving === "true") return;
+  container.dataset.roving = "true";
+  container.setAttribute("role", "toolbar");
+  if (label && !container.getAttribute("aria-label")) container.setAttribute("aria-label", label);
+  let lastFocused = null;
+  const items = () => [...container.querySelectorAll("button")].filter((button) => !button.hidden && !button.disabled);
+  const refresh = () => {
+    const list = items();
+    const current = list.find((button) => button === document.activeElement)
+      || (list.includes(lastFocused) ? lastFocused : null)
+      || list.find((button) => button.getAttribute("aria-pressed") === "true")
+      || list[0];
+    container.querySelectorAll("button").forEach((button) => {
+      const value = button === current ? "0" : "-1";
+      if (button.getAttribute("tabindex") !== value) button.setAttribute("tabindex", value);
+    });
+  };
+  container.addEventListener("focusin", (event) => {
+    const button = event.target.closest("button");
+    if (!button || !container.contains(button)) return;
+    lastFocused = button;
+    refresh();
+  });
+  container.addEventListener("keydown", (event) => {
+    const list = items();
+    const index = list.indexOf(document.activeElement);
+    if (index < 0) return;
+    let next = null;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % list.length;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + list.length) % list.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = list.length - 1;
+    if (next == null) return;
+    event.preventDefault();
+    lastFocused = list[next];
+    refresh();
+    list[next].focus();
+  });
+  new MutationObserver(refresh).observe(container, { subtree: true, childList: true, attributes: true, attributeFilter: ["hidden", "disabled", "aria-pressed"] });
+  refresh();
 }
 
 // ===== カード共通 =====
@@ -2263,6 +2319,7 @@ function setSpoilersRevealed(revealed, persist = true) {
   document.querySelectorAll(".person-later-info").forEach((later) => { later.open = revealed; });
   renderCharacterAssignmentTable(currentCharacterResults);
   refreshSharedSpoilers();
+  document.dispatchEvent(new CustomEvent("spoiler-visibility-change", { detail: { revealed } }));
   if (!revealed) {
     document.querySelectorAll(".directory-character-details").forEach((details) => { details.open = false; });
     document.getElementById("detailModal")?.classList.add("hidden");
@@ -2303,6 +2360,23 @@ function toggleCharacterTagFilter(tagId) {
 function matchesCharacterTagFilters(character) {
   const tags = new Set(getCharacterTags(character).map((tag) => tag.id));
   return [...activeCharacterTags.values()].every((tagId) => tags.has(tagId));
+}
+
+// 人物一覧の検索対象。ネタバレ非表示の時は名前・別名・所属・初期配置・分類だけにし、
+// 状態・念能力・備考・出来事・後の配置先などの後の話の情報では一致させない（CharacterFacts.searchFields）。
+function getCharacterSearchFields(character, revealed = spoilersRevealed) {
+  const initialRoom = formatRoomLabel(character.initial_room);
+  const initial = [formatAffiliation(character), initialRoom, CHARACTER_TYPE_LABELS[character.type]];
+  if (!revealed) return CharacterFacts.searchFields(character, { revealed: false, extra: { initial } });
+  const beast = character.type === "prince"
+    ? spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character))
+    : null;
+  const later = [formatAssignment(character), getNenClassLabel(character), formatRoomLabel(character.room), beast?.name, beast?.ability];
+  return CharacterFacts.searchFields(character, { revealed: true, extra: { initial, later } });
+}
+
+function getCharacterSearchText(character, revealed = spoilersRevealed) {
+  return CharacterFacts.buildSearchText(getCharacterSearchFields(character, revealed));
 }
 
 function setupCharacterDirectory() {
@@ -2442,28 +2516,21 @@ function setupCharacterDirectory() {
     spoilerTagGroups.hidden = !spoilerTagRows.querySelector(".character-tag-row-extra:not([hidden])");
   };
   const findMatchingCharacters = () => {
-    const query = search.value.trim().toLowerCase();
+    const query = search.value.trim();
     const type = typeFilter.value;
     const camp = campFilter.value;
     const princeId = princeFilter.value;
     return onboardCharacters.filter((character) => {
       const sectionMatch = inActiveSection(character);
       const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
-      const beast = character.type === "prince"
-        ? spiritBeastsData.find((candidate) => candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character))
-        : null;
-      const searchable = [
-        character.name, ...(character.aliases || []), getDisplayName(character), character.affiliation, character.camp, character.role,
-        character.nen_ability, character.notes, character.mission, character.target, formatAffiliation(character),
-        formatAssignment(character), getNenClassLabel(character), beast?.name, beast?.ability
-      ].filter(Boolean).join(" ").toLowerCase();
       const campMatch = camp === "all" || character.camp === camp;
       const tagMatch = matchesCharacterTagFilters(character);
       const affiliationMatch = !activeCharacterAffiliation
         || character.affiliation === activeCharacterAffiliation
         || character.affiliation?.startsWith(`${activeCharacterAffiliation}（`);
       const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
-      return sectionMatch && typeMatch && campMatch && tagMatch && affiliationMatch && princeMatch && (!query || searchable.includes(query));
+      return sectionMatch && typeMatch && campMatch && tagMatch && affiliationMatch && princeMatch
+        && (!query || CharacterFacts.matchesSearch(getCharacterSearchText(character), query));
     }).sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query));
   };
   const apply = () => {
@@ -2538,6 +2605,8 @@ function setupCharacterDirectory() {
     apply();
   });
   search.addEventListener("input", apply);
+  // ネタバレ設定を切り替えたら、検索対象が変わるので検索中の結果を作り直す。
+  document.addEventListener("spoiler-visibility-change", () => { if (search.value.trim()) apply(); });
   typeFilter.addEventListener("change", apply);
   campFilter.addEventListener("change", apply);
   princeFilter.addEventListener("change", apply);
@@ -2576,6 +2645,9 @@ function setupCharacterDirectory() {
     setSpoilersRevealed(!spoilersRevealed);
   });
   document.getElementById("assignmentOnly").addEventListener("change", () => renderCharacterAssignmentTable(currentCharacterResults));
+  [quickNav, ...document.querySelectorAll("#characterFilterPanel .character-tag-row-options")].forEach((container) => {
+    setupRovingToolbar(container, container.closest(".character-tag-row")?.querySelector(".character-tag-row-label")?.textContent || null);
+  });
   typeFilter.value = "all";
   renderContextualTags();
   setCharacterView("cards");
@@ -3398,6 +3470,9 @@ function getEventPeriodId(event) {
 function renderTimelineSchedule(events) {
   const tabs = document.getElementById("timelinePeriodTabs");
   const container = document.getElementById("timelineSchedule");
+  // 作り直す前にフォーカスが日付ボタンにあれば、作り直した後も選択中の日付ボタンへ戻す。
+  const restorePeriodFocus = tabs.contains(document.activeElement);
+  setupRovingToolbar(tabs);
   tabs.innerHTML = "";
   container.innerHTML = "";
   document.getElementById("timelinePeriodSelect").value = activeTimelinePeriodId;
@@ -3418,6 +3493,7 @@ function renderTimelineSchedule(events) {
     });
     tabs.appendChild(button);
   });
+  if (restorePeriodFocus) tabs.querySelector('button[aria-pressed="true"]')?.focus();
 
   const selectedPeriod = TIMELINE_PERIODS.find((period) => period.id === activeTimelinePeriodId);
   const selectedEvents = events
@@ -4670,6 +4746,8 @@ function renderPersonnelSnapshot(container) {
 
   const chart = document.createElement("img");
   chart.className = "zoomable-image guide-source-image guide-personnel-chart";
+  chart.loading = "lazy";
+  chart.decoding = "async";
   chart.src = "images/guide/personnel-deployment-ch374.webp";
   chart.alt = "第374話の各王子陣営における私設兵・王妃所属兵・ハンター協会員・従事者の配置図";
   chart.title = "第374話より：各陣営の兵力・配置図";
@@ -5092,6 +5170,14 @@ function restoreViewFromUrl(url) {
 }
 
 function setupReadingPreferences() {
+  // 「本文へ移動」：画面の切り替えに使う URL のハッシュ（#characters など）を変えずに本文へフォーカスを移す。
+  document.querySelector(".skip-link")?.addEventListener("click", (event) => {
+    const main = document.getElementById("main-content");
+    if (!main) return;
+    event.preventDefault();
+    main.focus();
+    main.scrollIntoView({ block: "start" });
+  });
   document.getElementById("globalSpoilerToggle").addEventListener("click", () => setSpoilersRevealed(!spoilersRevealed));
   document.querySelectorAll("[data-reveal-global]").forEach((button) => button.addEventListener("click", () => setSpoilersRevealed(true)));
   refreshSharedSpoilers(); renderChapterCoverage(); restoreViewFromUrl(initialViewUrl);

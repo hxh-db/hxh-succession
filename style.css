@@ -3073,3 +3073,8 @@ body:not(.spoilers-revealed) #timelineFilterToggle,
 .timeline-period-jump button, .timeline-period-jump select { padding: 6px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; cursor: pointer; }
 .timeline-period-jump button:hover, .timeline-period-jump button:focus-visible, .timeline-period-jump select:focus-visible { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 2px; }
 .question-card .question-meta { font-size: .86rem; }
+
+/* 本文へ移動（キーボード操作で最初に届くリンク。フォーカスした時だけ表示する） */
+.skip-link { position: absolute; left: 12px; top: -100px; z-index: 1000; padding: 10px 16px; border-radius: 8px; background: var(--bg); color: var(--text); border: 2px solid var(--accent); font-weight: 700; text-decoration: none; }
+.skip-link:focus, .skip-link:focus-visible { top: 12px; outline: 3px solid var(--accent); outline-offset: 2px; }
+#main-content:focus { outline: none; }

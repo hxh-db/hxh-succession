@@ -107,5 +107,13 @@
   { "id": "P09-S07", "image": "images/characters/p09-s07-manga.webp", "source_url": "https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482", "source_note": "冨樫義博 公式X（2024年12月17日）の第9王子陣営の人物設定表より。本編の顔との対応は未照合" },
   { "id": "P09-S08", "image": "images/characters/p09-s08-manga.webp", "source_url": "https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482", "source_note": "冨樫義博 公式X（2024年12月17日）の第9王子陣営の人物設定表より。本編の顔との対応は未照合" },
   { "id": "P09-S09", "image": "images/characters/p09-s09-manga.webp", "source_url": "https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482", "source_note": "冨樫義博 公式X（2024年12月17日）の第9王子陣営の人物設定表より。本編の顔との対応は未照合" },
-  { "id": "P03-P03", "image": "images/characters/p03-p03-manga.webp", "source_chapter": 366, "source_image": "ch366-20261010/07.jpg" }
+  { "id": "P03-P03", "image": "images/characters/p03-p03-manga.webp", "source_chapter": 366, "source_image": "ch366-20261010/07.jpg" },
+  { "id": "P14-U01", "image": "images/characters/p14-u01-manga.webp", "source_chapter": 359, "source_image": "ch359-20261010/10.jpg" },
+  { "id": "P14-U02", "image": "images/characters/p14-u02-manga.webp", "source_chapter": 359, "source_image": "ch359-20261010/10.jpg" },
+  { "id": "P14-U03", "image": "images/characters/p14-u03-manga.webp", "source_chapter": 359, "source_image": "ch359-20261010/10.jpg" },
+  { "id": "P14-U04", "image": "images/characters/p14-u04-manga.webp", "source_chapter": 359, "source_image": "ch359-20261010/10.jpg" },
+  { "id": "P14-P04", "image": "images/characters/p14-p04-manga.webp", "source_chapter": 360, "source_image": "ch360-20261010/06.jpg" },
+  { "id": "P14-P05", "image": "images/characters/p14-p05-manga.webp", "source_chapter": 360, "source_image": "ch360-20261010/06.jpg" },
+  { "id": "P14-M03", "image": "images/characters/p14-m03-manga.webp", "source_chapter": 361, "source_image": "ch361-20261010/09.jpg" },
+  { "id": "P14-M04", "image": "images/characters/p14-m04-manga.webp", "source_chapter": 361, "source_image": "ch361-20261010/09.jpg" }
 ]

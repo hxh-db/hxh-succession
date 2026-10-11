@@ -39,6 +39,26 @@ function fieldValue(label, value) {
 function definitionList(fields) {
   return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${fieldValue(label, value)}</dd>`).join('\n') + '</dl>';
 }
+// 顔画像（一覧と同じく character_images.json を優先）。拡大は character-page.js が既存と同じライトボックスで行う。
+function withImages(characters) {
+  const byId = new Map(read('character_images.json').map(entry => [entry.id, entry]));
+  return characters.map(person => {
+    const entry = byId.get(person.id);
+    return entry ? {...person, image: entry.image, image_crop: entry.crop || null, image_source_chapter: entry.source_chapter || null} : person;
+  });
+}
+function avatarHtml(person) {
+  if (!/^images\/[\w./-]+$/.test(person.image || '') || person.image.includes('..')) return '';
+  const name = titleName(person);
+  const src = `../../${person.image}`;
+  const caption = person.image_source_chapter ? `${name}（第${person.image_source_chapter}話より）` : name;
+  const crop = person.image_crop;
+  const inner = crop
+    ? `<span class="character-page-avatar-crop" role="img" aria-label="${escape(name)}の顔画像" style="display:block;width:100%;height:100%;background:url(&quot;${escape(src)}&quot;) no-repeat;background-size:${escape(crop.size)};background-position:${escape(crop.position)}"></span>`
+    : `<img src="${escape(src)}" alt="${escape(name)}の顔画像" width="112" height="112">`;
+  return `<p class="character-page-avatar-wrap"><a class="zoomable-image character-page-avatar" href="${escape(src)}" aria-label="${escape(name)}の顔画像を拡大" data-zoom-src="${escape(src)}" data-zoom-alt="${escape(name)}の顔画像" data-zoom-caption="${escape(caption)}">${inner}</a></p>\n`;
+}
+const LIGHTBOX_HTML = '<dialog id="imageLightbox" class="image-lightbox" aria-label="画像の拡大表示"><div class="image-lightbox-controls"><button id="lightboxZoom" type="button" aria-pressed="false">＋ さらに拡大</button><button id="lightboxClose" type="button">× 閉じる</button></div><div class="image-lightbox-stage"><img id="lightboxImage" alt=""></div><p id="lightboxCaption"></p></dialog>';
 function pageHtml(person, events, characters, sources) {
   const title = `${titleName(person)} | HUNTER×HUNTER 王位継承戦データベース`;
   const description = `${titleName(person)}の人物情報。初期配置と登録情報を確認し、人物一覧の検索や関連する出来事へ移動できます。後の展開は折りたたんでいます。`;
@@ -57,12 +77,12 @@ function pageHtml(person, events, characters, sources) {
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">
-<script src="../../character-page.js?v=20261011a" defer></script>
+<script src="../../character-page.js?v=20261011d" defer></script>
 </head><body class="standalone-character-page" data-character-id="${escape(person.id)}">
 <header class="site-header"><div class="header-inner"><p>HUNTER×HUNTER 王位継承戦データベース</p></div>
 <nav class="primary-nav"><a href="../../#characters">人物一覧</a><a href="../../#timeline">出来事</a><a href="../../characters/">人物索引</a></nav></header>
 <main class="page-container"><article class="character-page-card">
-<h1>${escape(titleName(person))}</h1>
+${avatarHtml(person)}<h1>${escape(titleName(person))}</h1>
 ${definitionList(publicFields(person))}
 ${evidence ? `<p class="author-setting-badge">${person.setting_only ? '作者設定表／本編対応未確認' : '作者設定表で氏名確認'}</p>` : ''}
 <p class="character-page-actions"><a class="character-page-list-link" href="../../?person=${encodeURIComponent(person.id)}#characters">人物一覧で見る</a></p>
@@ -80,10 +100,10 @@ ${assignments.length ? `<h2>${assignments.length > 1 ? '配置履歴' : '担当�
 ${grouped.length ? `<ul>${grouped.map(ch=>`<li><a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${ch}&t_period=all#timeline">第${ch}話の関連する出来事</a></li>`).join('\n')}</ul>` : '<p>関連する出来事は未登録です。</p>'}
 <a href="../../?t_person=${encodeURIComponent(person.id)}&t_period=all#timeline">この人物の出来事を一覧で見る</a></section>
 <p class="guide-source-note">情報源：公開人物台帳・公開出来事台帳。</p>
-</article></main></body></html>\n`;
+</article></main>${avatarHtml(person) ? LIGHTBOX_HTML : ''}</body></html>\n`;
 }
 function expectedOutputs(onlyId = null) {
-  const characters = read('characters.json'), events = read('events.json'), sources = read('sources.json');
+  const characters = withImages(read('characters.json')), events = read('events.json'), sources = read('sources.json');
   const ids = new Set();
   characters.forEach(p => { if (!/^[A-Za-z0-9_-]+$/.test(p.id) || ids.has(p.id)) throw new Error(`Invalid/duplicate ID: ${p.id}`); ids.add(p.id); });
   if (onlyId && !ids.has(onlyId)) throw new Error(`Unknown ID: ${onlyId}`);
@@ -116,7 +136,7 @@ ${links}
 </main></body></html>\n`);
     const urls = [SITE, SITE+'characters/', ...characters.map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');
-    const hashes = ['characters.json','events.json','count_only_characters.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);
+    const hashes = ['characters.json','character_images.json','events.json','count_only_characters.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);
     outputs.set('characters/build-manifest.json', JSON.stringify({generator:'scripts/build-character-pages.cjs',site:SITE,character_count:characters.length,directory_count:directory.length,source_sha256:Object.fromEntries(hashes)},null,2)+'\n');
   }
   return outputs;

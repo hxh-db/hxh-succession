@@ -19,3 +19,52 @@
   // 折りたたみを手で開いても、全画面共通のネタバレ設定は変えない・保存しない（ボタンだけが共通設定を変える）。
   window.addEventListener("storage", event => { if (event.key === key) update(event.newValue === "true", false); });
 })();
+/* 顔画像の拡大表示。一覧（script.js の setupImageLightbox）と同じ見た目・操作の最小版。 */
+(() => {
+  const dialog = document.getElementById("imageLightbox");
+  const enlarged = document.getElementById("lightboxImage");
+  const caption = document.getElementById("lightboxCaption");
+  const close = document.getElementById("lightboxClose");
+  const zoom = document.getElementById("lightboxZoom");
+  if (!dialog || !enlarged || !caption || !close || !zoom || typeof dialog.showModal !== "function") return;
+  const triggers = document.querySelectorAll(".zoomable-image[data-zoom-src]");
+  let returnFocus = null;
+  const open = (trigger) => {
+    returnFocus = trigger;
+    enlarged.src = trigger.dataset.zoomSrc;
+    enlarged.alt = trigger.dataset.zoomAlt || "拡大画像";
+    caption.textContent = trigger.dataset.zoomCaption || "";
+    dialog.classList.remove("magnified");
+    zoom.setAttribute("aria-pressed", "false");
+    zoom.textContent = "＋ さらに拡大";
+    dialog.showModal();
+    close.focus();
+  };
+  triggers.forEach((trigger) => {
+    trigger.setAttribute("role", "button");
+    trigger.addEventListener("click", (event) => { event.preventDefault(); open(trigger); });
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      open(trigger);
+    });
+  });
+  close.addEventListener("click", () => dialog.close());
+  zoom.addEventListener("click", () => {
+    const magnified = dialog.classList.toggle("magnified");
+    zoom.setAttribute("aria-pressed", String(magnified));
+    zoom.textContent = magnified ? "− 全体表示" : "＋ さらに拡大";
+  });
+  // Escape はダイアログ標準の cancel で閉じる。Tab は2つのボタンの間で循環させる。
+  dialog.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab") return;
+    const items = [zoom, close];
+    const index = items.indexOf(document.activeElement);
+    event.preventDefault();
+    items[(index + (event.shiftKey ? items.length - 1 : 1)) % items.length].focus();
+  });
+  dialog.addEventListener("close", () => {
+    enlarged.removeAttribute("src");
+    returnFocus?.focus();
+  });
+})();

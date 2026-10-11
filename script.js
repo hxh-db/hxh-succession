@@ -749,7 +749,41 @@ function pillify(id) {
 
 // ===== キャラクターアバター =====
 
-function makeAvatar(label, nenType, imageSrc = null, imageCrop = null) {
+// 顔画像の拡大表示用の情報（人物名と出典）。頭文字アバターには使わない。
+function getAvatarZoom(character) {
+  if (!character) return null;
+  const name = character.type === "prince"
+    ? `第${character.rank}王子${getDisplayName(character)}`
+    : character.type === "queen"
+      ? `第${character.rank}王妃${getDisplayName(character)}`
+      : getDisplayName(character);
+  const chapter = character.image_source_chapter;
+  return { name, caption: chapter ? `${name}（第${chapter}話より）` : name };
+}
+
+// 顔画像のアバターを既存のライトボックス（.zoomable-image）で拡大できるようにする。
+// imageCrop の背景画像でも、拡大時は data-zoom-src の元画像全体を表示する。
+function makeAvatarZoomable(div, imageSrc, zoom) {
+  div.classList.add("zoomable-image", "avatar-zoomable");
+  div.tabIndex = 0;
+  div.setAttribute("role", "button");
+  div.setAttribute("aria-label", `${zoom.name}の顔画像を拡大`);
+  div.dataset.zoomSrc = imageSrc;
+  div.dataset.zoomAlt = `${zoom.name}の顔画像`;
+  div.dataset.zoomCaption = zoom.caption || zoom.name;
+}
+
+function clearAvatarZoomable(div) {
+  div.classList.remove("zoomable-image", "avatar-zoomable");
+  div.removeAttribute("tabindex");
+  div.removeAttribute("role");
+  div.removeAttribute("aria-label");
+  delete div.dataset.zoomSrc;
+  delete div.dataset.zoomAlt;
+  delete div.dataset.zoomCaption;
+}
+
+function makeAvatar(label, nenType, imageSrc = null, imageCrop = null, zoom = null) {
   const div = document.createElement("div");
   div.className = "char-avatar";
   if (nenType) {
@@ -763,6 +797,7 @@ function makeAvatar(label, nenType, imageSrc = null, imageCrop = null) {
       div.style.backgroundRepeat = "no-repeat";
       div.style.backgroundSize = imageCrop.size;
       div.style.backgroundPosition = imageCrop.position;
+      if (zoom) makeAvatarZoomable(div, imageSrc, zoom);
       return div;
     }
     const img = document.createElement("img");
@@ -770,10 +805,12 @@ function makeAvatar(label, nenType, imageSrc = null, imageCrop = null) {
     img.src = imageSrc;
     img.onerror = () => {
       img.remove();
+      clearAvatarZoomable(div);
       div.textContent = label;
       if (label.length >= 3) div.style.fontSize = "0.7rem";
     };
     div.appendChild(img);
+    if (zoom) makeAvatarZoomable(div, imageSrc, zoom);
   } else {
     div.textContent = label;
     if (label.length >= 3) div.style.fontSize = "0.7rem";
@@ -823,32 +860,37 @@ function setupImageLightbox() {
   const zoom = document.getElementById("lightboxZoom");
   if (!dialog || !enlarged || !caption || !close || !zoom) return;
   let returnFocus = null;
+  // img.zoomable-image（資料コマ・守護霊獣）に加え、顔画像アバター（div.zoomable-image + data-zoom-src）も同じ画面で拡大する。
   const open = (img) => {
-    if (!img.currentSrc && !img.src) return;
+    const src = img.dataset.zoomSrc || img.currentSrc || img.src;
+    if (!src) return;
     returnFocus = img;
-    enlarged.src = img.currentSrc || img.src;
-    enlarged.alt = img.alt || "拡大画像";
-    caption.textContent = img.title || img.dataset.source || img.alt || "";
+    enlarged.src = src;
+    enlarged.alt = img.dataset.zoomAlt || img.alt || "拡大画像";
+    caption.textContent = img.dataset.zoomCaption || img.title || img.dataset.source || img.alt || "";
     dialog.classList.remove("magnified");
     zoom.setAttribute("aria-pressed", "false");
     zoom.textContent = "＋ さらに拡大";
     dialog.showModal();
     close.focus();
   };
+  // キャプチャ段階で処理し、カードの開閉・詳細表示・リンク遷移が同時に起きないようにする。
+  const findZoomable = (target) => target.closest?.("img.zoomable-image, .zoomable-image[data-zoom-src]");
   document.addEventListener("click", (event) => {
-    const img = event.target.closest?.("img.zoomable-image");
-    if (!img) return;
-    event.stopPropagation();
-    open(img);
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    const img = event.target.closest?.("img.zoomable-image");
+    const img = findZoomable(event.target);
     if (!img) return;
     event.preventDefault();
     event.stopPropagation();
     open(img);
-  });
+  }, true);
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const img = findZoomable(event.target);
+    if (!img) return;
+    event.preventDefault();
+    event.stopPropagation();
+    open(img);
+  }, true);
   close.addEventListener("click", () => dialog.close());
   zoom.addEventListener("click", () => {
     const magnified = dialog.classList.toggle("magnified");
@@ -929,7 +971,7 @@ function renderPrinces(princes) {
       makeNenBadge(p.nen_type),
       makeEventCountBadge(p, "prince")
     ];
-    const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null, p.image_crop || null);
+    const avatar = makeAvatar(`第${p.rank}`, p.nen_type, p.image || null, p.image_crop || null, getAvatarZoom(p));
     grid.appendChild(createCard(title, items, badges, () => showDetailModal(p.id, "prince"), avatar));
   });
 }
@@ -978,7 +1020,7 @@ function createBodyguardCard(g) {
   badges.push(makeNenBadge(g.nen_type));
   badges.push(makeEventCountBadge(g, "bodyguard"));
   const initial = g.name.slice(0, 2);
-  const avatar = makeAvatar(initial, g.nen_type, g.image || null, g.image_crop || null);
+  const avatar = makeAvatar(initial, g.nen_type, g.image || null, g.image_crop || null, getAvatarZoom(g));
   const card = document.createElement("article");
   card.className = "compact-person-card";
 
@@ -1771,7 +1813,7 @@ function createCharacterDirectoryCard(character) {
   const top = document.createElement("div");
   top.className = "directory-character-top";
   const avatarLabel = character.type === "prince" ? `第${character.rank}` : character.name.slice(0, 2);
-  top.appendChild(makeAvatar(avatarLabel, character.nen_type, character.image || null, character.image_crop || null));
+  top.appendChild(makeAvatar(avatarLabel, character.nen_type, character.image || null, character.image_crop || null, getAvatarZoom(character)));
 
   const identity = document.createElement("div");
   identity.className = "directory-character-identity";
@@ -4242,6 +4284,15 @@ function showDetailModal(name, category, eventData = null) {
   }
 
   const isPerson = ["prince", "bodyguard"].includes(category);
+  // 顔画像がある人物だけ、詳細の先頭に拡大できるアバターを置く（頭文字アバターは出さない）。
+  if (isPerson && record.image) {
+    const label = record.type === "prince" ? `第${record.rank}` : (record.name || "").slice(0, 2);
+    const modalAvatar = makeAvatar(label, record.nen_type, record.image, record.image_crop || null, getAvatarZoom(record));
+    if (modalAvatar.classList.contains("avatar-zoomable")) {
+      modalAvatar.classList.add("modal-character-avatar");
+      content.appendChild(modalAvatar);
+    }
+  }
   // 人物は、後の話の情報をこの詳細の中だけで折りたたむ（全画面の設定は変えない）。
   const later = isPerson ? makeLaterInfoDetails() : null;
   const laterTarget = later || content;
@@ -5121,7 +5172,7 @@ async function init() {
     const imageByCharacterId = new Map(characterImages.map((entry) => [entry.id, entry]));
     charactersData = characters.map((character) => {
       const imageEntry = imageByCharacterId.get(character.id);
-      return imageEntry ? { ...character, image: imageEntry.image, image_source_url: imageEntry.source_url, image_crop: imageEntry.crop || null } : character;
+      return imageEntry ? { ...character, image: imageEntry.image, image_source_url: imageEntry.source_url, image_source_chapter: imageEntry.source_chapter || null, image_crop: imageEntry.crop || null } : character;
     });
     characterTagDefinitions = new Map(characterTags.definitions.map((tag) => [tag.id, tag]));
     Object.entries(CHARACTER_TYPE_LABELS).forEach(([type, label]) => {

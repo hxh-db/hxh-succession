@@ -26,14 +26,20 @@ const exact = events.find(e => e.id === 'E415-004');
 assert.equal(ctx.getTimelineTimePlacement(exact).label, '14:00');
 assert.equal(ctx.getTimelineTimePlacement(exact).estimated, false);
 const demoted = events.filter(e => e.time_estimate_basis === 'editorial-time-demotion-20261010');
-// 2026-10-10 の16件に、2026-10-11 の外部レビュー対応で E369-001・E413-002・E414-001 の3件を追加
-assert.equal(demoted.length, 19);
+// 2026-10-10 の16件に 2026-10-11 の外部レビューで3件を追加し、同日のユーザー方針（物語中の経過表示は確定）で E359-001・E361-005・E369-001・E414-001 を確定に戻した
+assert.equal(demoted.length, 15);
+// 物語の経過表示から決まる時刻は確定（出航12:00、出航2時間＝14:00、出航18時間＝2日目06:00、発令5分前＝14:10）
+for (const [id, label] of [['E359-001', '12:00'], ['E361-005', '14:00'], ['E369-001', '06:00'], ['E414-001', '14:10'], ['E366-006', '16:00']]) {
+  const placement = ctx.getTimelineTimePlacement(events.find(e => e.id === id));
+  assert.equal(placement.label, label, id);
+  assert.equal(placement.estimated, false, id);
+}
 for (const e of demoted) {
   assert.equal(e.time_start, null, e.id);
   assert.equal(ctx.getTimelineTimePlacement(e).label, `${e.time_estimate}頃？`, e.id);
   assert.equal(ctx.getTimelineTimePlacement(e).estimated, true, e.id);
 }
-for (const id of ['E361-004', 'E361-005', 'E361-006', 'E359-011']) {
+for (const id of ['E361-004', 'E361-006', 'E359-011']) {
   assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === id)).label, '14:00頃？');
 }
 for (const e of events.filter(e => e.chapter < 358)) {

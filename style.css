@@ -2863,6 +2863,7 @@ details.local-drafts-transfer { display:block; }
     padding: 10px 6px;
     border-radius: 10px 10px 0 0;
     font-size: 0.84rem;
+    white-space: nowrap;
   }
 
   .character-controls,
@@ -3030,7 +3031,7 @@ body:not(.spoilers-revealed) #timelineFilterToggle,
   /* 出来事の種類のピルは横スクロール1行にする */
   #typeFilter.pill-filter { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; padding-bottom: 6px; }
   #typeFilter .pill { flex: 0 0 auto; white-space: nowrap; }
-  .reading-preferences { flex-wrap: nowrap; gap: 8px; }
+  .reading-preferences { flex-wrap: wrap; gap: 8px; }
   .reading-preferences button { flex: 0 1 auto; padding: 8px 10px; font-size: .84rem; white-space: nowrap; }
   #currentViewLink { flex: 0 0 auto; font-size: .84rem; white-space: nowrap; }
   .timeline-period-tabs { display: none; }

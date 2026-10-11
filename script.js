@@ -55,6 +55,8 @@ let modalReturnFocus = null;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
 const LOCAL_DRAFTS_KEY = "hxh-succession-local-drafts-v1";
+// ファイル保存用の API はローカルサーバー（local_server.py）だけにある。公開サイトでは問い合わせない（404 を出さない）。
+const LOCAL_DRAFTS_API = ["127.0.0.1", "localhost"].includes(location.hostname) ? "api/drafts" : null;
 const REOPEN_DETAIL_KEY = "hxh-succession-reopen-detail-v1";
 const SPOILER_VISIBILITY_KEY = "hxh-succession-spoilers-revealed-v1";
 const DRAFT_IMPORT_STATUS_KEY = "hxh-succession-draft-import-status-v1";
@@ -166,7 +168,8 @@ async function loadLocalDrafts() {
   }
   localDrafts = browserDrafts;
   try {
-    const response = await fetch("/api/drafts", { cache: "no-store" });
+    if (!LOCAL_DRAFTS_API) return;
+    const response = await fetch(LOCAL_DRAFTS_API, { cache: "no-store" });
     if (!response.ok) return;
     const serverPayload = await response.json();
     const serverItems = validateDraftImport(serverPayload);
@@ -200,7 +203,7 @@ async function saveLocalDrafts() {
   if (draftStorageMode !== "file") return browserSaved;
   const snapshot = JSON.stringify(buildDraftExport());
   draftSaveQueue = draftSaveQueue.catch(() => {}).then(async () => {
-    const response = await fetch("/api/drafts", {
+    const response = await fetch(LOCAL_DRAFTS_API, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: snapshot
@@ -4942,8 +4945,9 @@ function renderChapterCoverage() {
 function refreshSharedSpoilers() {
   const button = document.getElementById("globalSpoilerToggle");
   if (!button) return;
-  // 状態をボタンの文言に含め、スマホでも1行に収める（状態文は読み上げ用に残す）。
-  button.textContent = spoilersRevealed ? "ネタバレ：表示中（押すと隠す）" : "ネタバレ：非表示（押すと表示）";
+  // 状態をボタンの文言に含め、スマホでも1行に収める（押した時の動作は title、状態文は読み上げ用に残す）。
+  button.textContent = spoilersRevealed ? "ネタバレ：表示中" : "ネタバレ：非表示";
+  button.title = spoilersRevealed ? "押すとネタバレを隠します" : "押すとネタバレを表示します";
   button.setAttribute("aria-pressed", String(spoilersRevealed));
   document.getElementById("globalSpoilerStatus").textContent = spoilersRevealed ? "全画面でネタバレを表示しています" : "全画面でネタバレを隠しています";
   [["revealPrinceStatus", "princeStatusContent", renderPrinceStatusGuide],

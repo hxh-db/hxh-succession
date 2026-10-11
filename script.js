@@ -1799,7 +1799,7 @@ function makeLocationPartNodes(parts) {
     url.searchParams.set("event", event.id);
     link.href = url.href;
     link.textContent = part.text;
-    link.title = `根拠の出来事を開く（第${event.chapter}話：${event.description}）`;
+    link.title = `根拠の出来事を開く（第${event.chapter}話：${event.title || String(event.description || "").split("。")[0]}）`;
     link.addEventListener("click", (clickEvent) => {
       clickEvent.preventDefault();
       clickEvent.stopPropagation();
@@ -2953,6 +2953,29 @@ function getChapterLabel(event) {
   return `${event.chapter}話${event.chapter_title ? "：" + event.chapter_title : ""}`;
 }
 
+// 出来事の見出し：title があればそれ、なければ本文の最初の一文（『』「」（）の中の「。」では区切らない）。
+// 残りの文は詳細（モーダル）の「出来事の全文」で読む。
+function getEventHeadline(event) {
+  if (event.title) return String(event.title).trim();
+  const text = String(event.description || "").trim();
+  const closers = { "『": "』", "「": "」", "（": "）", "〝": "〟", "《": "》", "【": "】" };
+  const closerSet = new Set(Object.values(closers));
+  let depth = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (closers[ch]) depth += 1;
+    else if (closerSet.has(ch)) depth = Math.max(0, depth - 1);
+    else if (ch === "。" && depth === 0) return text.slice(0, i + 1);
+  }
+  return text;
+}
+
+function eventHasMoreText(event) {
+  const headline = getEventHeadline(event);
+  const full = String(event.description || "").trim();
+  return Boolean(full) && headline.replace(/。$/, "") !== full.replace(/。$/, "");
+}
+
 function getTimeLabel(event) {
   if (!event.time_start) return null;
   return event.time_end ? `${event.time_start}〜${event.time_end}` : event.time_start;
@@ -3177,7 +3200,7 @@ function createTimelineCard(event) {
   item.className = `timeline-item ${typeClass}`;
 
   const title = document.createElement("h3");
-  title.textContent = event.description;
+  title.textContent = getEventHeadline(event);
 
   const typeTag = document.createElement("span");
   typeTag.className = "event-type";
@@ -3719,7 +3742,15 @@ function createScheduleEventCard(event, placement) {
   chapter.className = "schedule-event-chapter";
   chapter.textContent = getChapterLabel(event);
   const description = document.createElement("span");
-  description.textContent = event.title || event.description;
+  description.textContent = getEventHeadline(event);
+  if (eventHasMoreText(event)) {
+    item.classList.add("schedule-event-has-more");
+    description.title = "続きは詳細で表示します";
+    const more = document.createElement("small");
+    more.className = "schedule-event-more";
+    more.textContent = "…続きは詳細で";
+    description.appendChild(more);
+  }
   const participants = document.createElement("small");
   participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
   item.appendChild(description);
@@ -3905,7 +3936,7 @@ function renderPersonTimeline(token, sourceEvents = eventsData) {
 
     const label = e.day != null ? `${getChapterLabel(e)} | ${CharacterFacts.dayLabel(e)}` : getChapterLabel(e);
     const strong = document.createElement("strong");
-    strong.textContent = `${label} | ${e.description}`;
+    strong.textContent = `${label} | ${getEventHeadline(e)}`;
     item.appendChild(strong);
 
     const meta = document.createElement("span");
@@ -3969,12 +4000,12 @@ function renderTimelineMatrix(events) {
         const typeClass = matched[0].type ? `type-${matched[0].type}` : "";
         cell.classList.add("matrix-event-cell", typeClass);
         const strong = document.createElement("strong");
-        strong.textContent = matched.length === 1 ? matched[0].description : `${matched.length} 件`;
+        strong.textContent = matched.length === 1 ? getEventHeadline(matched[0]) : `${matched.length} 件`;
         const span = document.createElement("span");
         const formattedParticipants = (matched[0].characters || []).map(formatRoyalName).join(" / ");
         span.textContent = matched.length === 1
           ? `${matched[0].type || "出来事"} / ${formattedParticipants}`
-          : matched.map((e) => e.description).join(", ");
+          : matched.map((e) => getEventHeadline(e)).join(", ");
         cell.append(strong, span);
       }
       grid.appendChild(cell);
@@ -4426,11 +4457,11 @@ function showDetailModal(name, category, eventData = null) {
 
   if (category === "event" && eventData) {
     record = eventData;
-    titleEl.textContent = record.title || record.description;
+    titleEl.textContent = getEventHeadline(record);
     const estimatedTime = inferredTimePlacements.get(record.id);
     details = [
       { label: "章", value: getChapterLabel(record) },
-      { label: "出来事の全文", value: record.title ? record.description : "" },
+      { label: "出来事の全文", value: eventHasMoreText(record) ? record.description : "", readable: true },
       { label: "日", value: CharacterFacts.dayLabel(record) || "—" },
       { label: "時刻", value: getTimeLabel(record) || (estimatedTime ? `${estimatedTime.label}（推測）` : "—") },
       { label: "場所", value: getLocationKey(record) },
@@ -4983,7 +5014,7 @@ function renderOpenQuestions(container, category = "all") {
       relatedEvents.forEach((event) => {
         const link = document.createElement("button");
         link.type = "button";
-        const summaryText = String(event.title || event.description || "");
+        const summaryText = getEventHeadline(event);
         link.textContent = chapterCounts.get(event.chapter) > 1
           ? `第${event.chapter}話：${summaryText.length > 18 ? `${summaryText.slice(0, 18)}…` : summaryText}`
           : `第${event.chapter}話の出来事`;

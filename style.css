@@ -2738,6 +2738,8 @@ details.local-drafts-transfer { display:block; }
 .schedule-event-chapter { color:var(--muted) !important; }
 .character-review-panel:has(p) { padding:12px; margin:12px 0; border:1px solid var(--border); border-radius:8px; background:var(--surface); }
 .schedule-event > span:first-child { display:block; font-weight:600; line-height:1.65; margin-bottom:8px; }
+/* 見出しは最初の一文だけ。続きがある出来事は、詳細で読めることを控えめに示す */
+.schedule-event small.schedule-event-more { display:inline; margin:0 0 0 6px; color:var(--muted); font-size:.74rem; font-weight:400; white-space:nowrap; }
 .event-source-panel { padding:12px; border:1px solid var(--border); border-radius:8px; margin-bottom:16px; }
 .coverage-row { display:flex; flex-wrap:wrap; gap:12px; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
 .coverage-missing { color:var(--muted); }

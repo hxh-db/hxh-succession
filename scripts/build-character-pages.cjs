@@ -22,18 +22,27 @@ function spoilerFields(person, events = []) {
   return [['状態', CharacterFacts.statusLabel(person, events)],
     ['所属', person.former_affiliations?.length ? `${person.affiliation || ''}（旧所属：${person.former_affiliations.join('・')}）` : person.affiliation],
     ['役割', person.target ? (person.role || '').replace(person.target, '').trim() : person.role], ['母（王妃）', person.queen], ['任務', person.role?.includes(person.mission) ? null : person.mission],
-    ['最後の登録任務先', person.current_assignment], ['最終確認場所', CharacterFacts.latestLocationLabel(person, events)],
+    ['最後の登録任務先', person.current_assignment], ['最後の所在', CharacterFacts.latestLocationParts(person, events)],
     ['念系統', person.nen_type], ['念能力', person.nen_ability], ['守護霊獣', person.spirit_beast_name]];
+}
+// 最後の所在。「第○話」は根拠の出来事を一覧で開くURLにする（一覧側はネタバレ非表示なら詳細を開かず、その話の一覧だけを出す）。
+function locationPartsHtml(parts) {
+  return parts.map(part => part.eventId
+    ? `<a class="latest-place-event-link" href="../../?event=${encodeURIComponent(part.eventId)}#timeline" title="根拠の出来事 ${escape(part.eventId)}">${escape(part.text)}</a>`
+    : escape(part.text)).join('');
+}
+function latestLocationHtml({main, confirmed, candidates}) {
+  let html = `<p class="latest-place-main">${locationPartsHtml(main)}</p>`;
+  if (confirmed) html += `<p class="latest-place-confirmed">${locationPartsHtml(confirmed)}</p>`;
+  if (candidates.length) html += `<p class="latest-place-candidates-label">ほかの関係記録（本人の在室は未確認）</p><ul class="readable-list latest-place-candidates">${candidates.map(group => `<li>${locationPartsHtml([{text: `第${group.chapter}話`, eventId: group.eventIds[0]}, {text: group.text.slice(`第${group.chapter}話`.length)}])}</li>`).join('')}</ul>`;
+  return html;
 }
 // 長い記述（念能力など）は話数の区切りで箇条書きにする。データは変えず表示だけを分ける。
 const READABLE_LABELS = new Set(['念能力']);
 function fieldValue(label, value) {
   const segments = READABLE_LABELS.has(label) ? CharacterFacts.readableSegments(value) : [];
   if (segments.length > 1) return `<ul class="readable-list">${segments.map(s => `<li>${escape(s)}</li>`).join('')}</ul>`;
-  if (label === '最終確認場所') {
-    const [main, rest] = String(value).split('。ほかに所在未判定の記録：');
-    if (rest) return `<p>${escape(main)}</p><p class="latest-place-candidates-label">ほかの関係記録（本人の在室は未確認）</p><ul class="readable-list latest-place-candidates">${rest.split('／').map(t => `<li>${escape(t)}</li>`).join('')}</ul>`;
-  }
+  if (label === '最後の所在') return latestLocationHtml(value);
   return escape(value);
 }
 function definitionList(fields) {
@@ -94,7 +103,7 @@ ${definitionList(spoilerFields(person, events))}
 ${authorPanel}
 ${claims.length ? `<section class="character-review-panel"><h2>出来事の記録から分かること</h2>${claims.map(claim=>`<p>${escape(claim.text)}</p>${claim.event_ids.map(id=>{const event=events.find(e=>e.id===id); return event ? `<a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${event.chapter}&t_period=all#timeline" title="場面ID ${escape(id)}">第${event.chapter}話の出来事</a>` : '';}).join(' ')}`).join('')}</section>` : ''}
 ${assignments.length ? `<h2>${assignments.length > 1 ? '配置履歴' : '担当陣営'}</h2><ul>${assignments.map(e=>`<li>${escape(e.text)}${e.event_id ? ` <a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${e.chapter}&t_period=all#timeline" title="場面ID ${escape(e.event_id)}">関連する出来事</a>` : ''}</li>`).join('')}</ul>` : ''}
-<details class="editorial-status"><summary>編集状況</summary><ul><li>人物ID：${escape(person.id)}</li><li>${escape(CharacterFacts.statusEditorialNote(person, events))}</li><li>公開データの登録情報から生成したページです。個人メモ・編集内容・調査記録は含めません。</li><li><a href="../../?person=${encodeURIComponent(person.id)}&detail=1#characters">一覧の詳細でメモ・編集</a></li></ul></details>
+<details class="editorial-status"><summary>編集状況</summary><ul><li>人物ID：${escape(person.id)}</li><li>${escape(CharacterFacts.statusEditorialNote(person, events))}</li>${CharacterFacts.nenAbilityEditorialLines(person).map(line => `<li>${escape(line)}</li>`).join('')}<li>公開データの登録情報から生成したページです。個人メモ・編集内容・調査記録は含めません。</li><li><a href="../../?person=${encodeURIComponent(person.id)}&detail=1#characters">一覧の詳細でメモ・編集</a></li></ul></details>
 </details>
 <section class="character-page-related"><h2>関連する出来事</h2><p>話数から人物の出来事へ移動できます。出来事本文のネタバレは一覧側の共通設定で表示します。</p>
 ${grouped.length ? `<ul>${grouped.map(ch=>`<li><a href="../../?t_person=${encodeURIComponent(person.id)}&t_chapter=${ch}&t_period=all#timeline">第${ch}話の関連する出来事</a></li>`).join('\n')}</ul>` : '<p>関連する出来事は未登録です。</p>'}
@@ -154,4 +163,4 @@ function run(argv) {
   console.log(`Generated ${outputs.size} files${onlyId ? ` (pilot: ${onlyId})` : ''}. No source JSON or local drafts changed.`);
 }
 if (require.main === module) run(process.argv.slice(2));
-module.exports = {expectedOutputs, publicFields, spoilerFields, titleName, SITE};
+module.exports = {expectedOutputs, publicFields, spoilerFields, titleName, pageHtml, SITE};

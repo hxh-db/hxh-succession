@@ -45,20 +45,29 @@
     }).filter(e => e.location && e.location !== '場所不明').sort((a, b) => compare(a.event, b.event));
     const located = matching.filter(e => ['present', 'body'].includes(e.presence));
     const latest = located.at(-1);
-    if (latest) return {location: locationLabel(latest.location), chapter: latest.event.chapter,
-      eventId: latest.event.id, presence: latest.presence, review: latest.event.verification_status || 'unverified',
-      candidates: matching.filter(e => e.presence === 'unknown' && compare(e.event, latest.event) > 0)
-        .map(e => ({eventId: e.event.id, chapter: e.event.chapter, location: locationLabel(e.location)}))};
+    const placeStatus = event => ['recorded', 'original_unknown'].includes(event.location_status) ? event.location_status : 'estimated';
+    if (latest) {
+      // 場所そのものを画像で確認できた最後の記録（最後に登場した場面の場所が推定のときに併記する）。
+      const confirmed = located.filter(e => placeStatus(e.event) === 'recorded').at(-1);
+      return {location: locationLabel(latest.location), chapter: latest.event.chapter,
+        eventId: latest.event.id, presence: latest.presence, review: latest.event.verification_status || 'unverified',
+        locationStatus: placeStatus(latest.event),
+        confirmed: confirmed ? {location: locationLabel(confirmed.location), chapter: confirmed.event.chapter,
+          eventId: confirmed.event.id, presence: confirmed.presence} : null,
+        candidates: matching.filter(e => e.presence === 'unknown' && compare(e.event, latest.event) > 0)
+          .map(e => ({eventId: e.event.id, chapter: e.event.chapter, location: locationLabel(e.location)}))};
+    }
     const candidate = matching.at(-1);
     if (candidate) return {location: locationLabel(candidate.location), chapter: candidate.event.chapter,
       eventId: candidate.event.id, presence: 'unknown', review: candidate.event.verification_status || 'unverified',
+      locationStatus: placeStatus(candidate.event), confirmed: null,
       candidates: matching.filter(e => e !== candidate && e.location !== candidate.location
         && !before(e.event, candidate.event) && !before(candidate.event, e.event)
         && (e.event.day == null || candidate.event.day == null || (e.event.day === candidate.event.day
           && (minutes(e.event.time_start || e.event.time_estimate) == null || minutes(candidate.event.time_start || candidate.event.time_estimate) == null))))
         .map(e => ({eventId:e.event.id, chapter:e.event.chapter, location:locationLabel(e.location)}))};
     const location = person.room || person.location;
-    return location ? {location: locationLabel(location), chapter: person.location_basis_chapter || null, eventId: null, presence: 'unknown', review: 'unverified', candidates: []} : null;
+    return location ? {location: locationLabel(location), chapter: person.location_basis_chapter || null, eventId: null, presence: 'unknown', review: 'unverified', locationStatus: 'estimated', confirmed: null, candidates: []} : null;
   }
   // 同じ話・同じ場所の関係記録は1行にまとめ、件数を添える（記録そのものは減らさない）。
   function groupLocationCandidates(candidates) {
@@ -71,14 +80,45 @@
     return [...groups.values()].map(group => ({...group, count: group.eventIds.length,
       text: `第${group.chapter}話 ${group.location}${group.eventIds.length > 1 ? `（${group.eventIds.length}件）` : ''}`}));
   }
-  function latestLocationLabel(person, events) {
+  // 最後の所在の表示を部品に分ける。{text, eventId, chapter} の部品は根拠の出来事へのリンクにできる（画面ごとに描画）。
+  // 場所を画像で確認できた記録（location_status: recorded）と、場所が推定の記録を言葉で区別する。
+  function latestLocationParts(person, events) {
     const latest = latestLocation(person, events);
-    if (!latest) return '未登録';
-    const review = latest.review === 'review_recorded' ? '' : latest.review === 'hypothesis' ? '・内容は推測' : '・再照合待ち';
-    const kind = latest.presence === 'body' ? '遺体の所在：' : latest.presence === 'unknown' ? '所在候補（在室は未確認）：' : '';
-    const groups = groupLocationCandidates(latest.candidates);
-    const pending = groups.length ? `。ほかに所在未判定の記録：${groups.map(group => group.text).join('／')}` : '';
-    return `${kind}${latest.location}（${latest.chapter ? `第${latest.chapter}話時点` : '登録値'}${review}）${pending}`;
+    if (!latest) return {main: [{text: '未登録'}], confirmed: null, candidates: []};
+    const ref = (text, entry) => entry.eventId ? {text, eventId: entry.eventId, chapter: entry.chapter} : {text};
+    const reviewNote = latest.review === 'review_recorded' ? '' : latest.review === 'hypothesis' ? '内容は推測' : '再照合待ち';
+    const placeNote = latest.locationStatus === 'original_unknown' ? '場所は原作で示されない' : '場所は推定';
+    let main;
+    let confirmed = null;
+    if (!latest.eventId) {
+      main = [{text: `${latest.location}（${latest.chapter ? `第${latest.chapter}話時点の登録値` : '登録値'}・場所は未確認）`}];
+    } else if (latest.presence === 'unknown') {
+      main = [{text: `所在候補（在室は未確認）：${latest.location}（`}, ref(`第${latest.chapter}話時点`, latest),
+        {text: `${reviewNote ? `・${reviewNote}` : ''}${latest.locationStatus === 'recorded' ? '' : `・${placeNote}`}）`}];
+    } else if (latest.locationStatus === 'recorded') {
+      main = [{text: `${latest.presence === 'body' ? '遺体の所在：' : ''}${latest.location}（`}, ref(`第${latest.chapter}話時点`, latest),
+        {text: `${reviewNote ? `・${reviewNote}` : ''}・場所は画像で確認）`}];
+    } else {
+      main = [{text: latest.presence === 'body' ? '遺体が最後に描かれた場面：' : '最後に登場した場面：'}, ref(`第${latest.chapter}話`, latest),
+        {text: `（${placeNote}：${latest.location}${reviewNote ? `／${reviewNote}` : ''}）`}];
+      const c = latest.confirmed;
+      confirmed = c
+        ? [{text: '場所を確認できた最後の記録：'}, ref(`第${c.chapter}話`, c), {text: ` ${c.presence === 'body' ? '遺体：' : ''}${c.location}`}]
+        : [{text: '場所を画像で確認できた記録はまだありません'}];
+    }
+    const candidates = groupLocationCandidates(latest.candidates);
+    return {main, confirmed, candidates};
+  }
+  const partsText = parts => (parts || []).map(part => part.text).join('');
+  function latestLocationLabel(person, events) {
+    const {main, confirmed, candidates} = latestLocationParts(person, events);
+    const pending = candidates.length ? `。ほかに所在未判定の記録：${candidates.map(group => group.text).join('／')}` : '';
+    return `${partsText(main)}${confirmed ? `。${partsText(confirmed)}` : ''}${pending}`;
+  }
+  // 能力欄の編集上の注記。文字列・配列のどちらでも受け付け、「能力欄の編集注記：」を付けた行にする。
+  function nenAbilityEditorialLines(person) {
+    const value = person?.nen_ability_editorial;
+    return (Array.isArray(value) ? value : [value]).map(v => String(v ?? '').trim()).filter(Boolean).map(v => `能力欄の編集注記：${v}`);
   }
   // 長い記述を、話数で始まる文の前で区切る。データは変えず表示だけを分ける。
   function readableSegments(text) {
@@ -244,6 +284,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections,
+  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections,
     normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, matchesSearch};
 });

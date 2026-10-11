@@ -23,6 +23,7 @@
       "time_before_event_id": { "type": "string", "description": "時計時刻を与えず、明示された後続イベントより前に並べる" },
       "time_after_event_id": { "type": "string", "description": "時計時刻を与えず、先行イベントより後に並べる" },
       "simultaneous_with": { "type": "array", "items": { "type": "string", "pattern": "^E\\d{3}-\\d{3}$" }, "minItems": 1, "uniqueItems": true, "description": "同じ瞬間（同じ放送・鳴動・合図など）を別の場所から描いた場面のイベントID。相互に参照し、日付と時刻（time_start、なければ time_estimate）をそろえる。似ているだけの場面は結ばない" },
+      "same_incident_with": { "type": "array", "items": { "type": "string", "pattern": "^E\\d{3}-\\d{3}$" }, "minItems": 1, "uniqueItems": true, "description": "同じ事件を別の話・別の視点で描き直した場面（回想での再描写を含む）のイベントID。相互に参照する。同じ瞬間を別の場所から描く simultaneous_with とは別で、日付・時刻の一致は求めない。画面では『同じ出来事の別の視点』として出す" },
       "period": { "type": "string", "enum": ["preboard", "ritual"] },
       "relative_days_before_departure": { "type": "integer", "minimum": 0 },
       "day": { "type": ["integer", "null"] },

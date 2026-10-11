@@ -3085,3 +3085,43 @@ body:not(.spoilers-revealed) #timelineFilterToggle,
 .simultaneous-scenes-label { color: var(--muted); font-weight: 600; }
 .simultaneous-scene-link { color: var(--accent); text-decoration: underline; }
 .simultaneous-scene-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ===== 最初の画面で人物カードまで見せる（2026-10-11 第5回） ===== */
+.site-header { padding: 14px 24px 0; }
+.site-header h1 { margin: 0 0 2px; font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.3; }
+.site-header h1 + p { font-size: .88rem; }
+.primary-nav { margin-top: 10px; }
+.primary-nav-link { padding: 8px 14px; }
+.page-container { padding-top: 14px; }
+.reading-preferences { margin: 0 0 10px; }
+#characters > .section-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; margin-bottom: 10px; }
+#characters > .section-header h2 { margin: 0; font-size: 1.4rem; }
+#characters > .section-header .usage-help[open] { flex-basis: 100%; }
+.character-tag-catalog { gap: 8px; padding: 12px 14px; margin-bottom: 10px; }
+.character-tag-catalog:not(.has-active-filters) .character-filter-status { display: none; }
+.character-view-switch { margin: 4px 0 8px; }
+/* 中身がすべて隠れている内部制御の行は余白も取らない */
+.character-controls:has(> .advanced-character-filters[hidden]:only-child) { display: none; }
+.character-result-summary { margin: 0 0 10px; }
+/* 関係王子：既定は閉じた折りたたみ。選択中は開く。 */
+.character-prince-details > summary { cursor: pointer; padding: 5px 0; color: var(--accent); font-size: .85rem; font-weight: 600; width: max-content; max-width: 100%; }
+.character-prince-details[open] > summary { margin-bottom: 6px; }
+.character-prince-details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .site-header { padding: 10px 16px 0; }
+  .site-header h1 + p { display: none; }
+  .primary-nav { margin-top: 8px; gap: 6px; }
+  .primary-nav-link { padding: 7px 8px; font-size: .92rem; }
+  .page-container { padding: 10px 16px 48px; }
+  .reading-preferences { margin-bottom: 8px; }
+  .character-tag-catalog { padding: 10px; }
+  #characterFilterToggle { min-height: 40px; }
+}
+
+/* 最後の所在（根拠の出来事へのリンク付き） */
+.latest-place-content p { margin: 4px 0; }
+.latest-place-heading { color: var(--muted); font-size: .85rem; font-weight: 700; }
+.latest-place-confirmed { color: var(--muted); font-size: .9rem; }
+.latest-place-event-link { color: var(--accent); text-decoration: underline; }
+.latest-place-event-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.same-incident-scenes { border-left-color: #f5b041; background: rgba(245, 176, 65, .08); }

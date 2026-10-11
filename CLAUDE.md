@@ -21,6 +21,8 @@ node tests/link-check.cjs
 node tests/spoiler-settings.cjs
 node tests/avatar-zoom.cjs
 node tests/search-spoilers.cjs
+node tests/simultaneous-scenes.cjs
+node tests/location-certainty.cjs
 python -m unittest discover -s tests -p "test_*.py"
 ```
 - 人物データや `character-facts.js` を変えたら `node scripts/build-character-pages.cjs` で `characters/` と `sitemap.xml` を再生成する。最初の1人は `--id <ID>` で試す。

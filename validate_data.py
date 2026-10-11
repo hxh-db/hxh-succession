@@ -165,6 +165,77 @@ def validate_simultaneous_scenes(events):
     return errors
 
 
+def validate_same_incidents(events):
+    """同一事件の別視点（same_incident_with）の参照・相互参照・自己参照を検査する。
+
+    同じ事件を別の話・別の視点で描き直した場面（回想を含む）を結ぶ項目で、
+    simultaneous_with と違って日付・時刻の一致は求めない。
+    """
+    errors = []
+    by_id = {event["id"]: event for event in events}
+    for event in events:
+        others = event.get("same_incident_with") or []
+        for other_id in others:
+            if other_id == event["id"]:
+                errors.append(f"同一事件の別視点が自分自身を参照しています: {event['id']}")
+            elif other_id not in by_id:
+                errors.append(f"同一事件の別視点の参照先がありません: {event['id']} -> {other_id}")
+            elif event["id"] not in (by_id[other_id].get("same_incident_with") or []):
+                errors.append(f"同一事件の別視点が相互参照になっていません: {event['id']} -> {other_id}")
+    return errors
+
+
+ABSENCE_CLAIM_PATTERN = re.compile(r"第(\d{3})話[：:]\s*(?:[^。：]*?)(登場しない|登場せず)")
+
+
+def validate_absence_claims(characters, events):
+    """人物欄で「第N話：登場しない／登場せず」と訂正した人物が、その話のイベントに本人として残っていないかを検査する。
+
+    話題のみ（mentioned）・遠隔（remote）として結ぶのは許す。訂正が出来事側に反映されていない記録
+    （2026-10-11 に見つかった E416-003 のような例）を拾うための検査。
+    """
+    errors = []
+    by_chapter = {}
+    for event in events:
+        by_chapter.setdefault(event["chapter"], []).append(event)
+    for person in characters:
+        texts = [claim.get("text", "") for claim in person.get("review_claims") or []]
+        texts.append(person.get("notes") or "")
+        chapters = {int(match.group(1)) for text in texts for match in ABSENCE_CLAIM_PATTERN.finditer(text)}
+        for chapter in sorted(chapters):
+            for event in by_chapter.get(chapter, []):
+                if person["id"] not in (event.get("characters") or []):
+                    continue
+                presence = (event.get("character_presence") or {}).get(person["id"])
+                if presence not in ("mentioned", "remote"):
+                    errors.append(
+                        f"人物欄で第{chapter}話に登場しないと訂正した人物が出来事に本人として残っています: {person['id']} -> {event['id']}"
+                    )
+    return errors
+
+
+NEN_ABILITY_EDITORIAL_PATTERN = re.compile(
+    r"旧記載|旧記録|旧備考|出典未確認|画像にな|画像には|画像に記載|再照合|照合待ち|として登録されている|未整理|ファンの|判読不明|読み違え|採用しない"
+)
+
+
+def validate_nen_ability_editorial(characters):
+    """能力説明（nen_ability）に編集上の注記が混ざっていないかを検査する。
+
+    旧記載の扱い・判読状況・出典確認の状況などは nen_ability_editorial に書く。
+    """
+    errors = []
+    for character in characters:
+        text = character.get("nen_ability") or ""
+        match = NEN_ABILITY_EDITORIAL_PATTERN.search(text)
+        if match:
+            errors.append(f"能力説明に編集上の注記が混ざっています（nen_ability_editorial へ移す）: {character['id']} -> {match.group(0)}")
+        editorial = character.get("nen_ability_editorial")
+        if editorial is not None and not editorial.strip():
+            errors.append(f"能力の編集注記が空です: {character['id']}")
+    return errors
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -176,6 +247,9 @@ def validate_cross_references(base):
     errors.extend(validate_assignment_references(characters, events))
     errors.extend(validate_character_evidence(characters, events))
     errors.extend(validate_simultaneous_scenes(events))
+    errors.extend(validate_same_incidents(events))
+    errors.extend(validate_nen_ability_editorial(characters))
+    errors.extend(validate_absence_claims(characters, events))
 
     ids = [character["id"] for character in characters]
     names = [character["name"] for character in characters]

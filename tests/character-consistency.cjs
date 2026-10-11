@@ -19,9 +19,12 @@ assert.equal(latest.review, 'review_recorded'); // 第375話の原作再照合�
 const html = fs.readFileSync(path.join(root, 'characters/P12-H01/index.html'), 'utf8');
 for (const row of rows) assert.ok(html.includes(row.text));
 // 静的ページは所在未判定の候補を箇条書きにするため、本文と各候補（話数・場所で重複をまとめたもの）をそれぞれ確認する。
+// 「第○話」は根拠の出来事へのリンクになるため、タグを除いた文字で照合する。
+const plain = value => value.replace(/<[^>]+>/g, '');
 const [latestMain, latestRest] = facts.latestLocationLabel(hanzo, events).split('。ほかに所在未判定の記録：');
-assert.ok(html.includes(latestMain));
-for (const group of facts.groupLocationCandidates(latest.candidates)) assert.ok(html.includes(`<li>${group.text}</li>`), group.text);
+const latestDd = html.match(/<dt>最後の所在<\/dt><dd>([\s\S]*?)<\/dd>/)[1];
+assert.ok(plain(latestDd.replace(/<\/p><p class="latest-place-confirmed">/, '。')).includes(latestMain));
+for (const group of facts.groupLocationCandidates(latest.candidates)) assert.ok(plain(latestDd).includes(group.text), group.text);
 assert.equal(Boolean(latestRest), facts.groupLocationCandidates(latest.candidates).length > 0);
 // 同じ話・同じ場所の候補は1行にまとめる（件数表記）。
 const grouped = facts.groupLocationCandidates([{eventId:'A',chapter:418,location:'第1層 1004号室'},{eventId:'B',chapter:418,location:'第1層 1004号室'},{eventId:'C',chapter:419,location:'第1層'}]);

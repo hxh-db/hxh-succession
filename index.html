@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261011h" />
+  <link rel="stylesheet" href="style.css?v=20261011i" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">本文へ移動</a>
@@ -66,13 +66,14 @@
           <summary>使い方</summary>
           <p>所属・任務・関係王子から人物を探せます。名前を押すと人物詳細が開きます。</p>
           <p>初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。親子説は未確定情報として区別します。</p>
+          <p>カテゴリ・関係王子などの各行は1つ選択できます。違う行の条件は組み合わせて絞り込みます。同じ項目をもう一度押すと解除します。</p>
           <p id="characterSpoilerHelp">後の話の情報は隠しています。人物ごとに「後の話の情報を表示」で開けます（全体の設定は変わりません）。</p>
         </details>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
         <label class="character-search-label">
-          名前・所属・能力で検索
-          <input id="characterSearch" type="search" placeholder="名前・所属・能力などを入力" />
+          <span class="visually-hidden">名前・所属・能力で検索</span>
+          <input id="characterSearch" type="search" placeholder="名前・所属・能力などで検索" />
         </label>
         <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel" title="カテゴリ・関係王子・詳細条件">絞り込みを開く</button>
         <div id="characterFilterPanel" class="character-filter-panel">
@@ -82,9 +83,11 @@
         </div>
         <div id="characterPrinceRow" class="character-tag-row">
           <span class="character-tag-row-label">関係王子</span>
-          <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
+          <details id="characterPrinceDetails" class="character-prince-details">
+            <summary id="characterPrinceSummary">第1〜第14王子から選ぶ</summary>
+            <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
+          </details>
         </div>
-        <p class="character-filter-help">各行は1つ選択できます。違う行の条件は組み合わせて絞り込みます。同じ項目をもう一度押すと解除します。</p>
         <details id="characterDetailedFilters" class="character-detailed-filters">
           <summary>詳細条件（任務・所属・初期配置・念など）</summary>
           <div class="character-detailed-filter-rows">
@@ -490,7 +493,7 @@
   </dialog>
 
   <script src="character-routing.js?v=20261009a"></script>
-  <script src="character-facts.js?v=20261011h"></script>
-  <script src="script.js?v=20261011h"></script>
+  <script src="character-facts.js?v=20261011i"></script>
+  <script src="script.js?v=20261011i"></script>
 </body>
 </html>

@@ -1781,28 +1781,88 @@ function makeLaterInfoDetails() {
   return later;
 }
 
-function makeLatestLocationContent(person, prefix = "") {
-  const label = CharacterFacts.latestLocationLabel(person, eventsData);
-  const [main, rest] = label.split("。ほかに所在未判定の記録：");
+// 最後の所在。「第○話」の部分は根拠の出来事の詳細を開くボタンにする。
+// ネタバレ非表示のときはリンクにしない（後の話の出来事を開かない）。設定を切り替えたら作り直す。
+function makeLocationPartNodes(parts) {
   const fragment = document.createDocumentFragment();
+  (parts || []).forEach((part) => {
+    const event = part.eventId ? eventsData.find((entry) => entry.id === part.eventId) : null;
+    if (!event || !spoilersRevealed) {
+      fragment.appendChild(document.createTextNode(part.text));
+      return;
+    }
+    const link = document.createElement("a");
+    link.className = "latest-place-event-link";
+    const url = new URL(location.href);
+    [...url.searchParams.keys()].filter((key) => /^[ct]_/.test(key) || ["person", "event"].includes(key)).forEach((key) => url.searchParams.delete(key));
+    url.hash = "timeline";
+    url.searchParams.set("event", event.id);
+    link.href = url.href;
+    link.textContent = part.text;
+    link.title = `根拠の出来事を開く（第${event.chapter}話：${event.description}）`;
+    link.addEventListener("click", (clickEvent) => {
+      clickEvent.preventDefault();
+      clickEvent.stopPropagation();
+      showDetailModal(event.id, "event", event);
+    });
+    fragment.appendChild(link);
+  });
+  return fragment;
+}
+
+function fillLatestLocationContent(container, person) {
+  container.replaceChildren();
+  const { main, confirmed, candidates } = CharacterFacts.latestLocationParts(person, eventsData);
+  if (container.dataset.heading) {
+    const heading = document.createElement("p");
+    heading.className = "latest-place-heading";
+    heading.textContent = container.dataset.heading;
+    container.appendChild(heading);
+  }
   const line = document.createElement("p");
-  line.textContent = `${prefix}${main}`;
-  fragment.appendChild(line);
-  if (rest) {
+  line.className = "latest-place-main";
+  line.appendChild(makeLocationPartNodes(main));
+  container.appendChild(line);
+  if (confirmed) {
+    const confirmedLine = document.createElement("p");
+    confirmedLine.className = "latest-place-confirmed";
+    confirmedLine.appendChild(makeLocationPartNodes(confirmed));
+    container.appendChild(confirmedLine);
+  }
+  if (candidates.length) {
     const note = document.createElement("p");
     note.className = "latest-place-candidates-label";
     note.textContent = "ほかの関係記録（本人の在室は未確認）";
     const list = document.createElement("ul");
     list.className = "readable-list latest-place-candidates";
-    rest.split("／").forEach((text) => {
+    candidates.forEach((group) => {
       const item = document.createElement("li");
-      item.textContent = text;
+      item.appendChild(makeLocationPartNodes([
+        { text: `第${group.chapter}話`, eventId: group.eventIds[0], chapter: group.chapter },
+        { text: group.text.slice(`第${group.chapter}話`.length) }
+      ]));
       list.appendChild(item);
     });
-    fragment.append(note, list);
+    container.append(note, list);
   }
-  return fragment;
 }
+
+function makeLatestLocationContent(person, heading = "") {
+  const container = document.createElement("div");
+  container.className = "latest-place-content";
+  container.dataset.personId = person.id;
+  if (heading) container.dataset.heading = heading;
+  fillLatestLocationContent(container, person);
+  return container;
+}
+
+document.addEventListener("spoiler-visibility-change", () => {
+  document.querySelectorAll(".latest-place-content[data-person-id]").forEach((container) => {
+    const person = charactersData.find((entry) => entry.id === container.dataset.personId)
+      || princesData.find((entry) => entry.id === container.dataset.personId);
+    if (person) fillLatestLocationContent(container, person);
+  });
+});
 
 function getPrinceByCamp(camp) {
   return camp ? princesData.find((prince) => prince.camp === camp) : null;
@@ -2058,7 +2118,7 @@ function createCharacterDirectoryCard(character) {
   details.appendChild(later);
   const latestPlace = document.createElement("div");
   latestPlace.className = "character-latest-place";
-  latestPlace.append(makeLatestLocationContent(character, "最終確認場所："));
+  latestPlace.append(makeLatestLocationContent(character, "最後の所在"));
   later.appendChild(latestPlace);
   later.appendChild(makeCharacterReviewPanel(character));
 
@@ -2141,6 +2201,10 @@ function createCharacterDirectoryCard(character) {
     abilityText.append(abilityHeading, makeReadableBlock(formatDisplayText(character.nen_ability) || "能力の詳細は未判明。"));
     abilitySection.appendChild(abilityText);
     later.appendChild(abilitySection);
+    const abilityEditorial = getNenAbilityEditorialLines(character);
+    if (abilityEditorial.length) abilityText.appendChild(makeEditorialStatusDetails(abilityEditorial));
+  } else if (getNenAbilityEditorialLines(character).length) {
+    later.appendChild(makeEditorialStatusDetails(getNenAbilityEditorialLines(character)));
   }
 
   later.appendChild(personTimeline);
@@ -2256,7 +2320,7 @@ function renderCharacterAssignmentTable(characters) {
     : characters;
   const table = document.createElement("table");
   const head = document.createElement("thead");
-  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最終確認場所</th></tr>";
+  head.innerHTML = "<tr><th>人物</th><th>役割区分</th><th>所属</th><th>配置・護衛先</th><th>任務</th><th>最後の所在</th></tr>";
   const body = document.createElement("tbody");
   rows.forEach((character) => {
     const hidesMovement = !spoilersRevealed && Boolean(character.target_history?.length || character.assignment_history?.length);
@@ -2562,6 +2626,12 @@ function setupCharacterDirectory() {
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
+    // 関係王子の行は既定で閉じる。選択中は開いて、見出しに選択中の王子を出す（手で開いたものは閉じない）。
+    const princeDetails = document.getElementById("characterPrinceDetails");
+    const selectedPrince = princesData.find((candidate) => candidate.id === princeFilter.value);
+    if (princeDetails && selectedPrince) princeDetails.open = true;
+    const princeSummary = document.getElementById("characterPrinceSummary");
+    if (princeSummary) princeSummary.textContent = selectedPrince ? `選択中：第${selectedPrince.rank}王子` : "第1〜第14王子から選ぶ";
     activeTagBar.replaceChildren();
     const addActiveFilter = (label, clearFilter) => {
       const clear = document.createElement("button");
@@ -2595,9 +2665,12 @@ function setupCharacterDirectory() {
       empty.textContent = "条件なし（全員）";
       activeTagBar.appendChild(empty);
     }
-    document.getElementById("clearCharacterFilters").disabled = activeCharacterSection === "all"
+    const noCharacterFilters = activeCharacterSection === "all"
       && princeFilter.value === "all" && !activeCharacterTags.size && !activeCharacterAffiliation
       && typeFilter.value === "all" && campFilter.value === "all" && !search.value.trim();
+    document.getElementById("clearCharacterFilters").disabled = noCharacterFilters;
+    // 条件がないときは「条件なし」の行を出さず、最初の画面で人物カードまで見えるようにする。
+    document.querySelector(".character-tag-catalog")?.classList.toggle("has-active-filters", !noCharacterFilters);
     updateViewPermalink();
   };
   document.getElementById("clearCharacterFilters").addEventListener("click", () => {
@@ -3041,22 +3114,24 @@ function createParticipantChip(token, stopPropagation = false) {
   return btn;
 }
 
-// 同時刻の別の場面（simultaneous_with）。ネタバレ非表示のときは、元の出来事より後の話の場面へのリンクを出さない。
-function getSimultaneousScenes(event, revealed = spoilersRevealed) {
-  return (event.simultaneous_with || [])
+// 同時刻の別の場面（simultaneous_with）と、同じ出来事を別の話・視点で描いた場面（same_incident_with）。
+// ネタバレ非表示のときは、元の出来事より後の話の場面へのリンクを出さない。
+function getSimultaneousScenes(event, revealed = spoilersRevealed, field = "simultaneous_with") {
+  return (event[field] || [])
     .map((id) => eventsData.find((entry) => entry.id === id))
-    .filter((scene) => scene && (revealed || scene.chapter <= event.chapter))
+    .filter((scene) => scene && scene.id !== event.id && (revealed || scene.chapter <= event.chapter))
     .sort((a, b) => sortKey(a) - sortKey(b));
 }
 
 function fillSimultaneousScenes(block, event) {
   block.replaceChildren();
-  const scenes = getSimultaneousScenes(event);
+  const field = block.dataset.field || "simultaneous_with";
+  const scenes = getSimultaneousScenes(event, spoilersRevealed, field);
   block.hidden = scenes.length === 0;
   if (!scenes.length) return;
   const heading = document.createElement("span");
   heading.className = "simultaneous-scenes-label";
-  heading.textContent = "同時刻の別の場面：";
+  heading.textContent = field === "same_incident_with" ? "同じ出来事を別の視点で描いた場面：" : "同時刻の別の場面：";
   block.appendChild(heading);
   scenes.forEach((scene, index) => {
     if (index > 0) block.appendChild(document.createTextNode(" / "));
@@ -3079,10 +3154,11 @@ function fillSimultaneousScenes(block, event) {
   });
 }
 
-function makeSimultaneousScenesBlock(event) {
+function makeSimultaneousScenesBlock(event, field = "simultaneous_with") {
   const block = document.createElement("p");
-  block.className = "simultaneous-scenes";
+  block.className = field === "same_incident_with" ? "simultaneous-scenes same-incident-scenes" : "simultaneous-scenes";
   block.dataset.eventId = event.id;
+  if (field !== "simultaneous_with") block.dataset.field = field;
   fillSimultaneousScenes(block, event);
   return block;
 }
@@ -3143,6 +3219,7 @@ function createTimelineCard(event) {
   meta.appendChild(participantWrapper);
   item.appendChild(meta);
   if ((event.simultaneous_with || []).length) item.appendChild(makeSimultaneousScenesBlock(event));
+  if ((event.same_incident_with || []).length) item.appendChild(makeSimultaneousScenesBlock(event, "same_incident_with"));
 
   if (event.notes) {
     const detail = document.createElement("p");
@@ -4388,7 +4465,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
       { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
-      { label: "最終確認場所", value: "latest-location", later: true },
+      { label: "最後の所在", value: "latest-location", later: true },
       { label: "本人の念系統", value: record.nen_type || "不明", later: true },
       { label: "本人の念能力", value: record.nen_ability || "不明", later: true, readable: true },
       { label: "守護霊獣", value: record.spirit_beast_name || "不明", later: true },
@@ -4409,7 +4486,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "任務", value: record.role?.includes(record.mission) ? "" : formatDisplayText(record.mission) },
       { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
       { label: "配置履歴", value: assignmentRows.length > 1 ? assignmentRows.map(entry => entry.text).join("\n") : "", later: true },
-      { label: "最終確認場所", value: "latest-location", later: true },
+      { label: "最後の所在", value: "latest-location", later: true },
       { label: "任務対象", value: record.role?.includes(record.target) ? "" : formatDisplayText(record.target), later: true },
       { label: "念系統", value: record.nen_type || "不明", later: true },
       { label: "能力", value: record.nen_ability || "不明", later: true, readable: true },
@@ -4473,6 +4550,7 @@ function showDetailModal(name, category, eventData = null) {
   }
   content.appendChild(makeDetailList(details.filter((entry) => !entry.later)));
   if (category === "event" && (record.simultaneous_with || []).length) content.appendChild(makeSimultaneousScenesBlock(record));
+  if (category === "event" && (record.same_incident_with || []).length) content.appendChild(makeSimultaneousScenesBlock(record, "same_incident_with"));
   if (isPerson) {
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);
@@ -4484,6 +4562,7 @@ function showDetailModal(name, category, eventData = null) {
     later.appendChild(makeEditorialStatusDetails([
       `人物ID：${record.id}`,
       CharacterFacts.statusEditorialNote(record, eventsData),
+      ...getNenAbilityEditorialLines(record),
       "原作の確認状況は出来事ごとに記録しています。収録件数や索引があることは、原作の全件照合を意味しません。"
     ]));
   }
@@ -5044,6 +5123,11 @@ function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event
 }
 
 // 管理用の詳しい注記は、読者向け本文から分けてこの折りたたみにまとめる。
+// 能力欄の編集上の注記（nen_ability_editorial）。本文（nen_ability）には混ぜず、編集状況の折りたたみに出す。
+function getNenAbilityEditorialLines(character) {
+  return CharacterFacts.nenAbilityEditorialLines(character);
+}
+
 function makeEditorialStatusDetails(lines) {
   const details = document.createElement("details");
   details.className = "editorial-status";

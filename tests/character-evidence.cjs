@@ -38,7 +38,9 @@ assert.ok(facts.statusLabel({...person('P14-M01'), status_review_note:'確認話
 const momoze = facts.latestLocation(person('P12'), events);
 assert.equal(momoze.eventId, 'E371-004');
 assert.equal(momoze.presence, 'body');
-assert.ok(facts.latestLocationLabel(person('P12'), events).startsWith('遺体の所在：'));
+// 遺体の場所を画像で確認できた記録なら「遺体の所在：」、場所が推定なら「遺体が最後に描かれた場面：」（location_status で分ける）。
+assert.ok(facts.latestLocationLabel(person('P12'), events).startsWith(
+  events.find(e => e.id === momoze.eventId).location_status === 'recorded' ? '遺体の所在：' : '遺体が最後に描かれた場面：'));
 // Related characters alone cannot prove presence, even with a character-specific location.
 const related = {id:'X', name:'test', room:'登録値'};
 const fixture = [

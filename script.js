@@ -8,7 +8,7 @@ const DATA = {
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261009e",
   factions: "data/factions.json?v=20261008q",
-  mafia: "data/mafia.json?v=20261008q",
+  mafia: "data/mafia.json?v=20261011g",
   sources: "data/sources.json?v=20261009b",
   personnelSnapshots: "data/personnel_snapshots.json?v=20261008a"
 };
@@ -38,6 +38,13 @@ let alliancesData = [];
 let mafiaData = [];
 let personnelSnapshotsData = [];
 let filteredEventsData = [];
+// 原作画像がなく出来事を登録していない話。0件を「対象外」と誤解されないよう、表示で明示する。
+const UNCOLLECTED_CHAPTERS = new Map([[396, "原作画像未提供"], [397, "原作画像未提供"]]);
+const UNCOLLECTED_RANGE_LABEL = "第396〜397話は未収録（原作画像未提供）";
+function getUncollectedChapterMessage() {
+  const chapter = Number(document.getElementById("chapterFilter")?.value);
+  return UNCOLLECTED_CHAPTERS.has(chapter) ? `第${chapter}話は未収録です（${UNCOLLECTED_CHAPTERS.get(chapter)}）。出来事は登録していません。` : null;
+}
 let activeTimelineView = "schedule";
 let timelineVisibleCount = 30;
 let activeTimelinePeriodId = "day-1";
@@ -581,7 +588,7 @@ function makeCertaintyBadge(event) {
     estimate.className = "certainty-badge certainty-estimated";
     estimate.textContent = "推測";
     estimate.title = event.series === "セレモニー退室時刻（10分間隔の仮定）"
-      ? "第9王子ハルケンブルグ14:00を基準に、下位王子から10分間隔とするユーザー指定の仮説です。原作で退室の分単位の時刻が確定したわけではありません。"
+      ? "第9王子ハルケンブルグ14:00を基準に、下位王子から10分間隔とするユーザー指定の仮説です（第359話の画像に合わせ、ワブルとカチョウ・フウゲツの順序を一部修正）。原作で退室の分単位の時刻が確定したわけではありません。"
       : event.local_created ? "自分で追加した推測です。根拠は詳細・備考を確認してください。"
       : "作中で明示された事実ではなく、前後の描写から推測した内容です。";
     return estimate;
@@ -3293,10 +3300,11 @@ function setupFilters() {
       participantFilter.appendChild(opt);
     });
 
-  [...new Set(eventsData.map((event) => event.chapter))].sort((a, b) => a - b).forEach((chapter) => {
+  [...new Set([...eventsData.map((event) => event.chapter), ...UNCOLLECTED_CHAPTERS.keys()])].sort((a, b) => a - b).forEach((chapter) => {
     const option = document.createElement("option");
     option.value = String(chapter);
-    option.textContent = `第${chapter}話`;
+    const uncollected = !eventsData.some((event) => event.chapter === chapter) && UNCOLLECTED_CHAPTERS.get(chapter);
+    option.textContent = uncollected ? `第${chapter}話（未収録・${uncollected}）` : `第${chapter}話`;
     chapterFilter.appendChild(option);
   });
   [...new Set(eventsData.map((event) => event.series).filter(Boolean))].sort((a, b) => a.localeCompare(b, "ja")).forEach((series) => {
@@ -3340,7 +3348,7 @@ function renderTimelineChapters(events) {
   container.replaceChildren();
   if (!events.length) {
     const empty = document.createElement("p");
-    empty.textContent = "条件に一致する出来事はありません。";
+    empty.textContent = getUncollectedChapterMessage() || "条件に一致する出来事はありません。";
     container.appendChild(empty);
     return;
   }
@@ -3351,7 +3359,16 @@ function renderTimelineChapters(events) {
   });
   const descending = document.getElementById("timelineSortOrder").value === "desc";
   const chapters = [...grouped.keys()].sort((a, b) => descending ? b - a : a - b);
+  const uncollected = [...UNCOLLECTED_CHAPTERS.keys()];
+  const gapLow = Math.min(...uncollected), gapHigh = Math.max(...uncollected);
   chapters.forEach((chapter, index) => {
+    const previous = chapters[index - 1];
+    if (previous != null && Math.min(previous, chapter) < gapLow && Math.max(previous, chapter) > gapHigh) {
+      const gap = document.createElement("p");
+      gap.className = "schedule-note chapter-gap-note";
+      gap.textContent = `※ ${UNCOLLECTED_RANGE_LABEL}。この間の出来事は登録していません。`;
+      container.appendChild(gap);
+    }
     const group = document.createElement("details");
     group.className = "chapter-group";
     group.open = chapters.length === 1 || index === 0;
@@ -3524,14 +3541,21 @@ function renderTimelineSchedule(events) {
   if (selectedEvents.length === 0) {
     const empty = document.createElement("p");
     empty.className = "timeline-empty-state";
-    empty.textContent = "条件に一致する出来事はありません。選択中の条件を外すか「すべて解除」を押してください。";
+    empty.textContent = getUncollectedChapterMessage() || "条件に一致する出来事はありません。選択中の条件を外すか「すべて解除」を押してください。";
     container.appendChild(empty);
   } else {
     if (selectedEvents.some((event) => event.series === "セレモニー退室時刻（10分間隔の仮定）")) {
       const hypothesisNote = document.createElement("p");
       hypothesisNote.className = "schedule-note";
-      hypothesisNote.textContent = "※ 退室時刻は『第9王子ハルケンブルグ14:00、下位王子から10分間隔』という仮説です。第14王子13:10〜第1王子15:20となり、辞退表明は第9王子の退室直前に置いています。退室時刻は推測です。第366話「其々」の各場面は16:00頃の仮配置で、画像で時刻が確認できるのは冒頭の1013号室の場面（出航4時間後）だけです。";
+      hypothesisNote.textContent = "※ 退室時刻は『第9王子ハルケンブルグ14:00、下位王子から10分間隔』という仮説で、第359話の画像に合わせて一部の順序を修正しています（4遺体の発見時に第8王妃とワブルが居室に戻っているため第14王子を12:50に、カチョウの退席時にフウゲツがまだ会場にいるため第10王子13:40・第11王子13:50に入れ替え）。第13王子13:20〜第1王子15:20は仮説のままで、辞退表明は第9王子の退室直前に置いています。退室時刻は推測です。第366話「其々」の各場面は16:00頃の仮配置で、画像で時刻が確認できるのは冒頭の1013号室の場面（出航4時間後）だけです。";
       container.appendChild(hypothesisNote);
+    }
+    if (selectedEvents.some((event) => event.chapter >= 390 && event.chapter <= 395)
+      && selectedEvents.some((event) => event.chapter >= 398 && event.chapter <= 405)) {
+      const gapNote = document.createElement("p");
+      gapNote.className = "schedule-note chapter-gap-note";
+      gapNote.textContent = `※ ${UNCOLLECTED_RANGE_LABEL}のため、この間の出来事は表示されません。`;
+      container.appendChild(gapNote);
     }
     container.appendChild(createChronologicalAxis(selectedEvents, {
       showPeriod: activeTimelinePeriodId === "all",
@@ -5066,7 +5090,8 @@ function renderChapterCoverage() {
     url.searchParams.set("t_chapter", String(chapter)); url.searchParams.set("t_period", "all");
     chapterLink.href = url.href; chapterLink.textContent = `第${chapter}話`;
     const text = document.createElement("span");
-    text.textContent = events.length ? `${events.length}件・${reviewed ? `${reviewed}件に原作確認記録（登録範囲）` : "登録あり・原作再照合待ち"}` : "未収録・入力と確認が必要";
+    text.textContent = events.length ? `${events.length}件・${reviewed ? `${reviewed}件に原作確認記録（登録範囲）` : "登録あり・原作再照合待ち"}`
+      : UNCOLLECTED_CHAPTERS.has(chapter) ? `未収録（${UNCOLLECTED_CHAPTERS.get(chapter)}）・出来事は0件` : "未収録・入力と確認が必要";
     row.append(chapterLink, text); container.appendChild(row);
   }
 }

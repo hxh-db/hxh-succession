@@ -115,5 +115,9 @@
   { "id": "P14-P04", "image": "images/characters/p14-p04-manga.webp", "source_chapter": 360, "source_image": "ch360-20261010/06.jpg" },
   { "id": "P14-P05", "image": "images/characters/p14-p05-manga.webp", "source_chapter": 360, "source_image": "ch360-20261010/06.jpg" },
   { "id": "P14-M03", "image": "images/characters/p14-m03-manga.webp", "source_chapter": 361, "source_image": "ch361-20261010/09.jpg" },
-  { "id": "P14-M04", "image": "images/characters/p14-m04-manga.webp", "source_chapter": 361, "source_image": "ch361-20261010/09.jpg" }
+  { "id": "P14-M04", "image": "images/characters/p14-m04-manga.webp", "source_chapter": 361, "source_image": "ch361-20261010/09.jpg" },
+  { "id": "JUD-004", "image": "images/characters/jud-004-manga.webp", "source_chapter": 389, "source_image": "ch389-20261010/06.jpg" },
+  { "id": "JUD-005", "image": "images/characters/jud-005-manga.webp", "source_chapter": 389, "source_image": "ch389-20261010/06.jpg" },
+  { "id": "ARM-001", "image": "images/characters/arm-001-manga.webp", "source_chapter": 393, "source_image": "ch393-20261010/08.jpg" },
+  { "id": "P05-M01", "image": "images/characters/p05-m01-manga.webp", "source_chapter": 388, "source_image": "ch388-20261010/10.jpg" }
 ]

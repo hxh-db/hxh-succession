@@ -26,7 +26,8 @@ const exact = events.find(e => e.id === 'E415-004');
 assert.equal(ctx.getTimelineTimePlacement(exact).label, '14:00');
 assert.equal(ctx.getTimelineTimePlacement(exact).estimated, false);
 const demoted = events.filter(e => e.time_estimate_basis === 'editorial-time-demotion-20261010');
-assert.equal(demoted.length, 16);
+// 2026-10-10 の16件に、2026-10-11 の外部レビュー対応で E369-001・E413-002・E414-001 の3件を追加
+assert.equal(demoted.length, 19);
 for (const e of demoted) {
   assert.equal(e.time_start, null, e.id);
   assert.equal(ctx.getTimelineTimePlacement(e).label, `${e.time_estimate}頃？`, e.id);

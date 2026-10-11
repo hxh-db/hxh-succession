@@ -112,6 +112,59 @@ def validate_character_evidence(characters, events):
     return errors
 
 
+def validate_simultaneous_scenes(events):
+    """同時刻の別場面（simultaneous_with）の参照・相互参照・日付・時刻を検査する。"""
+    errors = []
+    by_id = {event["id"]: event for event in events}
+    linked = {event["id"]: list(event.get("simultaneous_with") or []) for event in events if event.get("simultaneous_with")}
+    for event_id, others in linked.items():
+        for other_id in others:
+            if other_id == event_id:
+                errors.append(f"同時刻の場面が自分自身を参照しています: {event_id}")
+            elif other_id not in by_id:
+                errors.append(f"同時刻の場面の参照先がありません: {event_id} -> {other_id}")
+            elif event_id not in (by_id[other_id].get("simultaneous_with") or []):
+                errors.append(f"同時刻の場面が相互参照になっていません: {event_id} -> {other_id}")
+
+    # 参照でつながった組ごとに、全員が互いを挙げているか・日付と時刻がそろっているかを見る。
+    seen = set()
+    for start in sorted(linked):
+        if start in seen:
+            continue
+        group, stack = set(), [start]
+        while stack:
+            current = stack.pop()
+            if current in group or current not in by_id:
+                continue
+            group.add(current)
+            stack.extend(by_id[current].get("simultaneous_with") or [])
+        seen |= group
+        members = sorted(group)
+        label = "・".join(members)
+        for member in members:
+            missing = sorted(set(members) - {member} - set(by_id[member].get("simultaneous_with") or []))
+            if missing:
+                errors.append(f"同時刻の組の全員を挙げていません: {member} -> {'・'.join(missing)}")
+        days = {by_id[member].get("day") for member in members}
+        if len(days) != 1 or None in days:
+            errors.append(f"同時刻の組で日付が一致しません: {label} -> {sorted(days, key=str)}")
+        times = {member: by_id[member].get("time_start") or by_id[member].get("time_estimate") for member in members}
+        if None in times.values():
+            errors.append(f"同時刻の組に時刻のない場面があります: {label}")
+        exact = {by_id[member]["time_start"] for member in members if by_id[member].get("time_start")}
+        if len(exact) > 1:
+            errors.append(f"同時刻の組で確定時刻が一致しません: {label} -> {sorted(exact)}")
+        elif exact:
+            confirmed = next(iter(exact))
+            for member in members:
+                estimate = by_id[member].get("time_estimate")
+                if not by_id[member].get("time_start") and estimate and estimate != confirmed:
+                    errors.append(f"同時刻の組の仮時刻が確定時刻と一致しません: {member} {estimate} -> {confirmed}")
+        elif len({value for value in times.values() if value}) > 1:
+            errors.append(f"同時刻の組で時刻が一致しません: {label} -> {sorted(value for value in times.values() if value)}")
+    return errors
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -122,6 +175,7 @@ def validate_cross_references(base):
         questions = json.load(f)
     errors.extend(validate_assignment_references(characters, events))
     errors.extend(validate_character_evidence(characters, events))
+    errors.extend(validate_simultaneous_scenes(events))
 
     ids = [character["id"] for character in characters]
     names = [character["name"] for character in characters]

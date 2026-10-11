@@ -3,13 +3,13 @@ const DATA = {
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261009e",
+  events: "data/events.json?v=20261011h",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261009e",
   factions: "data/factions.json?v=20261008q",
   mafia: "data/mafia.json?v=20261011g",
-  sources: "data/sources.json?v=20261009b",
+  sources: "data/sources.json?v=20261011h",
   personnelSnapshots: "data/personnel_snapshots.json?v=20261008a"
 };
 
@@ -3041,6 +3041,60 @@ function createParticipantChip(token, stopPropagation = false) {
   return btn;
 }
 
+// 同時刻の別の場面（simultaneous_with）。ネタバレ非表示のときは、元の出来事より後の話の場面へのリンクを出さない。
+function getSimultaneousScenes(event, revealed = spoilersRevealed) {
+  return (event.simultaneous_with || [])
+    .map((id) => eventsData.find((entry) => entry.id === id))
+    .filter((scene) => scene && (revealed || scene.chapter <= event.chapter))
+    .sort((a, b) => sortKey(a) - sortKey(b));
+}
+
+function fillSimultaneousScenes(block, event) {
+  block.replaceChildren();
+  const scenes = getSimultaneousScenes(event);
+  block.hidden = scenes.length === 0;
+  if (!scenes.length) return;
+  const heading = document.createElement("span");
+  heading.className = "simultaneous-scenes-label";
+  heading.textContent = "同時刻の別の場面：";
+  block.appendChild(heading);
+  scenes.forEach((scene, index) => {
+    if (index > 0) block.appendChild(document.createTextNode(" / "));
+    const url = new URL(location.href);
+    [...url.searchParams.keys()].filter((key) => /^[ct]_/.test(key) || ["person", "event"].includes(key)).forEach((key) => url.searchParams.delete(key));
+    url.hash = "timeline";
+    url.searchParams.set("event", scene.id);
+    const link = document.createElement("a");
+    link.className = "simultaneous-scene-link";
+    link.href = url.href;
+    const text = scene.title || scene.description;
+    link.textContent = `第${scene.chapter}話 ${text.length > 40 ? `${text.slice(0, 40)}…` : text}`;
+    link.title = `第${scene.chapter}話：${scene.description}`;
+    link.addEventListener("click", (clickEvent) => {
+      clickEvent.preventDefault();
+      clickEvent.stopPropagation();
+      showDetailModal(scene.id, "event", scene);
+    });
+    block.appendChild(link);
+  });
+}
+
+function makeSimultaneousScenesBlock(event) {
+  const block = document.createElement("p");
+  block.className = "simultaneous-scenes";
+  block.dataset.eventId = event.id;
+  fillSimultaneousScenes(block, event);
+  return block;
+}
+
+// ネタバレ設定を切り替えたら、表示中の同時刻リンクを作り直す。
+document.addEventListener("spoiler-visibility-change", () => {
+  document.querySelectorAll(".simultaneous-scenes[data-event-id]").forEach((block) => {
+    const event = eventsData.find((entry) => entry.id === block.dataset.eventId);
+    if (event) fillSimultaneousScenes(block, event);
+  });
+});
+
 function createTimelineCard(event) {
   const item = document.createElement("article");
   const typeClass = event.type ? `type-${event.type}` : "";
@@ -3088,6 +3142,7 @@ function createTimelineCard(event) {
 
   meta.appendChild(participantWrapper);
   item.appendChild(meta);
+  if ((event.simultaneous_with || []).length) item.appendChild(makeSimultaneousScenesBlock(event));
 
   if (event.notes) {
     const detail = document.createElement("p");
@@ -4417,6 +4472,7 @@ function showDetailModal(name, category, eventData = null) {
     if (sourceExcerpts) content.appendChild(sourceExcerpts);
   }
   content.appendChild(makeDetailList(details.filter((entry) => !entry.later)));
+  if (category === "event" && (record.simultaneous_with || []).length) content.appendChild(makeSimultaneousScenesBlock(record));
   if (isPerson) {
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);

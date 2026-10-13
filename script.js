@@ -1,5 +1,5 @@
 const DATA = {
-  characters: "data/characters.json?v=20261013a",
+  characters: "data/characters.json?v=20261013c",
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
@@ -10,7 +10,7 @@ const DATA = {
   factions: "data/factions.json?v=20261008q",
   mafia: "data/mafia.json?v=20261011g",
   sources: "data/sources.json?v=20261011h",
-  personnelSnapshots: "data/personnel_snapshots.json?v=20261008a"
+  personnelSnapshots: "data/personnel_snapshots.json?v=20261013b"
 };
 
 let charactersData = [];
@@ -106,7 +106,8 @@ const LOCAL_EDIT_FIELDS = {
     { key: "appearance", label: "外見・形態", kind: "textarea" },
     { key: "nen_type", label: "念系統", kind: "text" },
     { key: "ability", label: "能力", kind: "textarea" }
-  ]
+  ],
+  guide: []
 };
 
 function localRecordKey(record, category) {
@@ -240,7 +241,8 @@ function buildDraftExport() {
   const records = [
     ...charactersData.map((record) => ({ record, category: record.type === "prince" ? "prince" : "bodyguard" })),
     ...eventsData.map((record) => ({ record, category: "event" })),
-    ...spiritBeastsData.map((record) => ({ record, category: "spiritBeast" }))
+    ...spiritBeastsData.map((record) => ({ record, category: "spiritBeast" })),
+    ...getGuideMemoRecords().map((record) => ({ record, category: "guide" }))
   ];
   const labels = new Map(records.map(({ record, category }) => [
     localRecordKey(record, category), record.name || record.description || record.id
@@ -4279,6 +4281,30 @@ function isOutsidePlacement(guard) {
   return !guard.affiliation.startsWith(guard.camp.replace(/陣営$/, ""));
 }
 
+function getGuideMemoRecords() {
+  return [...document.querySelectorAll("#guide > .guide-facts, #guide > .guide-data-section")]
+    .map((section) => {
+      const id = section.getAttribute("aria-labelledby");
+      const title = id && document.getElementById(id)?.textContent.trim();
+      return title ? { id, name: `基本情報：${title}` } : null;
+    }).filter(Boolean);
+}
+
+function setupGuideMemos() {
+  if (!memoEditorEnabled()) return;
+  for (const record of getGuideMemoRecords()) {
+    const container = document.getElementById(record.id).closest("section");
+    if (container.querySelector(".guide-local-memo")) continue;
+    const details = document.createElement("details");
+    details.className = "local-editor-collapsed guide-local-memo";
+    const summary = document.createElement("summary");
+    summary.textContent = "この項目にメモ";
+    details.appendChild(summary);
+    renderLocalEditor(details, record, "guide", "inline");
+    container.appendChild(details);
+  }
+}
+
 function renderLocalEditor(container, record, category, view = "modal") {
   // 公開サイト（PC保存なし）では、自分用メモ・編集の欄ごと出さない。
   if (!memoEditorEnabled()) return;
@@ -4288,7 +4314,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   section.className = "local-editor";
 
   const heading = document.createElement("h4");
-  heading.textContent = "自分用メモ・編集";
+  heading.textContent = category === "guide" ? "自分用メモ" : "自分用メモ・編集";
   const explanation = document.createElement("p");
   explanation.className = "local-editor-help";
   explanation.textContent = draftStorageMode === "file"
@@ -4302,7 +4328,9 @@ function renderLocalEditor(container, record, category, view = "modal") {
   const memo = document.createElement("textarea");
   memo.rows = 4;
   memo.value = typeof saved.memo === "string" ? saved.memo : "";
-  memo.placeholder = "例：この時刻は再確認したい／この人物の所属に疑問あり";
+  memo.placeholder = category === "guide"
+    ? "例：この説明の出典を再確認したい／補足したい情報がある"
+    : "例：この時刻は再確認したい／この人物の所属に疑問あり";
   memoLabel.appendChild(memo);
 
   const memoButton = document.createElement("button");
@@ -4344,6 +4372,11 @@ function renderLocalEditor(container, record, category, view = "modal") {
     persistMemo();
   });
   section.append(memoLabel, memoButton, status);
+
+  if (category === "guide") {
+    container.appendChild(section);
+    return;
+  }
 
   const editor = document.createElement("details");
   editor.className = "local-editor-fields";
@@ -4790,7 +4823,7 @@ function renderPrinceStatusGuide(container) {
   [
     ["ワブル陣営の警護", "開始時11名（ハンター4名・王室警備兵7名）→出航約2時間後はクラピカとビルの2名", "第361話"],
     ["モモゼの1012号室", "警護兵6名が残留（第1〜第6王妃から各1名）", "第361話"],
-    ["モモゼ殺害時のマラヤーム側", "従事者6名・監視兵6名・警備兵2名・ハンター1名・移動後のモモゼ側9名", "第368話"],
+    ["モモゼ側の人員合流後のマラヤーム側", "警護兵・協会員18名＋従事者6名＝24名", "第368話"],
   ].forEach(([scene, count, source]) => {
     const row = document.createElement("tr");
     [scene, count, source].forEach((value) => {
@@ -4883,7 +4916,7 @@ function renderPersonnelSnapshot(container) {
 
   const transferNote = document.createElement("p");
   transferNote.className = "guide-source-note";
-  transferNote.textContent = "第12王子欄には全員が第13王子へ移動したと記されています。協会員5名・従事者3名は第13王子欄にも記載される同じ人員です。";
+  transferNote.textContent = "第12王子欄には第13王子への人員移動の注記があります。元の担当先と移動先を区別し、両欄の協会員5名・従事者3名という同じ数字だけで、同一人員の重複記載とは判定しません。第368話では合流後の警護兵・協会員18名と従事者6名が確認できます。";
   container.appendChild(transferNote);
 
   const queenTitle = document.createElement("h4");
@@ -5598,6 +5631,7 @@ async function init() {
     setupTimelineFilterToggle();
     setupGuideStatus();
     setupPersonnelSnapshotGuide();
+    setupGuideMemos();
     setupOpenQuestions();
     setupDetailModal();
     setupEventCreation();

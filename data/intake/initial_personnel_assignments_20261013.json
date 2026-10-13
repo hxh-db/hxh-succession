@@ -1,0 +1,849 @@
+{
+  "version": 1,
+  "review_date": "2026-10-13",
+  "counts_file": "data/intake/initial_personnel_review_20261013.json",
+  "scope": "出航時の230人復元案に対する、現在の個人IDの対応候補。初期配置の全件原作確認を意味しない。",
+  "counting_policy": [
+    "対応候補は既存の別人レコードで氏名・顔または原作での存在を確認できるもの。後の登場しか確認していない人物の初期所属は復元案のまま残す。",
+    "作者設定表の9人は私設兵14人の内側の氏名候補として扱い、14人へ9人を追加しない。",
+    "人数だけの旧IDは個人同定数に入れない。共有する枠の出身が決まらない人物も、両王子へ一人ずつ置いて二重計上しない。",
+    "カミーラ・ツベッパの私設兵／従事者は職種未確定や職種の対応問題を残すため、まず一つの同行人員グループへ対応付ける。"
+  ],
+  "princes": [
+    {
+      "rank": 1,
+      "groups": [
+        {
+          "key": "p01.private",
+          "label": "私設兵",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P01-P03",
+            "P01-P04",
+            "P01-P05",
+            "P01-P06",
+            "P01-P07",
+            "P01-P08",
+            "P01-P09",
+            "P01-P10",
+            "P01-P11",
+            "P01-P12",
+            "P01-P13",
+            "P01-P16",
+            "P07-G06",
+            "P11-G01"
+          ],
+          "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "groups": [
+        {
+          "key": "p02.staff",
+          "label": "私設兵・従事者（職種対応は保留）",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates",
+            "attendants"
+          ],
+          "member_ids": [
+            "P02-P01",
+            "P02-P02",
+            "P02-P03",
+            "P02-P04",
+            "P02-P05",
+            "P02-P06",
+            "P02-P07",
+            "P02-P08",
+            "P02-P09",
+            "P02-P10",
+            "P02-P11",
+            "P02-P12",
+            "P02-P13",
+            "P02-P14",
+            "P02-P15"
+          ],
+          "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。"
+        },
+        {
+          "key": "p02.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ],
+      "explicit_later_associate_ids": [
+        "P02-P04",
+        "P02-P06",
+        "P02-P09",
+        "P02-P10"
+      ]
+    },
+    {
+      "rank": 3,
+      "groups": [
+        {
+          "key": "p03.private",
+          "label": "私設兵（準協会員を含む）",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P03-P01",
+            "P03-P02",
+            "P03-P03"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p03.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [
+            "P03-G01"
+          ],
+          "notes": "スラッカは第14王子へ移る前の第3王子側初期枠に対応。"
+        },
+        {
+          "key": "p03.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "groups": [
+        {
+          "key": "p04.private",
+          "label": "私設兵（準協会員を含む）",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P04-M01",
+            "P04-P02",
+            "P04-P03",
+            "P04-P04",
+            "P04-P05",
+            "P04-U01"
+          ],
+          "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。"
+        },
+        {
+          "key": "p04.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ],
+      "later_associate_candidate_ids": [
+        "P04-M01",
+        "P04-P02",
+        "P04-P03",
+        "P04-P04",
+        "P04-U01",
+        "EII-T01"
+      ]
+    },
+    {
+      "rank": 5,
+      "groups": [
+        {
+          "key": "p05.staff",
+          "label": "私設兵・従事者（ハイゼンの職種は保留）",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates",
+            "attendants"
+          ],
+          "member_ids": [
+            "P05-P01",
+            "P05-M01"
+          ],
+          "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。"
+        },
+        {
+          "key": "p05.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "groups": [
+        {
+          "key": "p06.private",
+          "label": "私設兵",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P06-P02",
+            "P06-P03",
+            "P06-P04",
+            "P06-P05",
+            "P06-P06"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p06.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P06-H01",
+            "P06-P01"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p06.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p06.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "groups": [
+        {
+          "key": "p07.private",
+          "label": "私設兵",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P07-P01",
+            "P07-P02"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p07.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P07-H01",
+            "HA-006",
+            "HA-007"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p07.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [
+            "P07-G01",
+            "P07-G02",
+            "P07-G03",
+            "P07-G04",
+            "P07-G05",
+            "P07-G07"
+          ],
+          "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。"
+        },
+        {
+          "key": "p07.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p07.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "groups": [
+        {
+          "key": "p08.private",
+          "label": "私設兵",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p08.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [
+            "P08-G01"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p08.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [
+            "P08-G02"
+          ],
+          "notes": "コロアブデは第374話写真9左の名前・第3王妃所属の台詞からの候補。顔画像は未対応。"
+        },
+        {
+          "key": "p08.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "groups": [
+        {
+          "key": "p09.private",
+          "label": "私設兵",
+          "capacity_fields": [
+            "private_soldiers_excluding_associates",
+            "provisional_associates"
+          ],
+          "member_ids": [
+            "P09-P03",
+            "P09-P04",
+            "P09-P05",
+            "P09-U01",
+            "P09-U02",
+            "P09-S01",
+            "P09-S02",
+            "P09-S03",
+            "P09-S04",
+            "P09-S05",
+            "P09-S06",
+            "P09-S07",
+            "P09-S08",
+            "P09-S09"
+          ],
+          "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。"
+        },
+        {
+          "key": "p09.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [
+            "P09-G01"
+          ],
+          "notes": "第375話の『交代した第1王妃所属兵オルズニー』を元の監視兵枠の候補にする。交代後のシカクは第1王子の出身枠。"
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "groups": [
+        {
+          "key": "p10.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P10-H01",
+            "P10-H02"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p10.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p10.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p10.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [
+            "P10-M01",
+            "P10-M02",
+            "P10-M03",
+            "P10-M04"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 11,
+      "groups": [
+        {
+          "key": "p11.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [
+            "P11-G02",
+            "P11-G03"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p11.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p11.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [
+            "P11-M01",
+            "P11-M02",
+            "P11-M03"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 12,
+      "groups": [
+        {
+          "key": "p12.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P12-H01"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p12.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p12.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [
+            "P12-Q05",
+            "P12-G02",
+            "P12-G03",
+            "P12-G04",
+            "P12-G05"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p12.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 13,
+      "groups": [
+        {
+          "key": "p13.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P13-H01",
+            "P13-H02"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p13.maternal",
+          "label": "母側の警護兵",
+          "capacity_fields": [
+            "maternal_guards"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p13.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [],
+          "notes": ""
+        },
+        {
+          "key": "p13.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "rank": 14,
+      "groups": [
+        {
+          "key": "p14.hunters",
+          "label": "護衛ハンター",
+          "capacity_fields": [
+            "association_hunters"
+          ],
+          "member_ids": [
+            "P14-H01",
+            "P14-H02",
+            "P14-H03",
+            "P14-P01"
+          ],
+          "notes": ""
+        },
+        {
+          "key": "p14.monitors",
+          "label": "上位王妃の監視兵",
+          "capacity_fields": [
+            "upper_queen_monitors"
+          ],
+          "member_ids": [
+            "P14-P02",
+            "P14-U01",
+            "P14-U02",
+            "P14-U03",
+            "P14-U04",
+            "P14-P04",
+            "P14-P05"
+          ],
+          "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。"
+        },
+        {
+          "key": "p14.attendants",
+          "label": "従事者",
+          "capacity_fields": [
+            "attendants"
+          ],
+          "member_ids": [
+            "P14-M01",
+            "P14-M02",
+            "P14-M03",
+            "P14-M04"
+          ],
+          "notes": "辞退2人は原作で別人として描かれる。仮称3・4の番号と顔の対応は個人名の確定ではない。"
+        }
+      ]
+    }
+  ],
+  "shared_pools": [
+    {
+      "key": "p12-p13.maternal",
+      "label": "元モモゼ側・元マラヤーム側の母側警護兵",
+      "group_keys": [
+        "p12.maternal",
+        "p13.maternal"
+      ],
+      "member_ids": [
+        "P13-G01",
+        "P13-G03"
+      ],
+      "notes": "バリゲン・ウェルゲーの2人を初期2枠の候補として一度だけ数える。現在のinitial_roomだけで両方をマラヤームの初期1枠に押し込まず、出身の1人ずつの割当ては保留。"
+    },
+    {
+      "key": "p12-p13.attendants",
+      "label": "元モモゼ側・元マラヤーム側の従事者",
+      "group_keys": [
+        "p12.attendants",
+        "p13.attendants"
+      ],
+      "member_ids": [
+        "P13-M01"
+      ],
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。"
+    }
+  ],
+  "record_reviews": [
+    {
+      "ids": ["P05-G01"],
+      "status": "initial_slot_category_unresolved",
+      "target": "p05",
+      "reason": "第401話16ページの本人の説明はマカハと同じ第2王妃兵への所属。第5王子の警護先は変わらないが、第374話の私設兵14人・従事者5人・初期監視兵という復元上の分類のどこに対応するかは未確認。クラピカの呼称だけで私設兵枠へ入れず、第1王妃からの監視兵1枠にも入れない。人物は登録済みで、初期人数表上の分類を保留している。"
+    },
+    {
+      "ids": [
+        "P01-P01",
+        "P01-P02",
+        "P04-P01",
+        "P09-P01",
+        "P09-P02"
+      ],
+      "status": "unsupported_name",
+      "reason": "現在の監査で原作の名前付き登場を確認できず、一覧非表示の5件。初期枠を埋める根拠にしない。"
+    },
+    {
+      "ids": [
+        "P13-A01",
+        "P13-A02",
+        "P13-A03",
+        "P13-A04",
+        "P13-A05"
+      ],
+      "status": "count_only_shared",
+      "target": "p12-p13.attendants",
+      "reason": "第368話の合流後従事者6人から作られた5枠。初期マラヤームの従事者5人とは扱わない。"
+    },
+    {
+      "ids": [
+        "P13-G02A",
+        "P13-G02B"
+      ],
+      "status": "possible_duplicate_count_only",
+      "target": "p12-p13.maternal",
+      "reason": "合流後の母側警護兵2人から作られた旧枠。バリゲン・ウェルゲーと別の2人として加算しない。"
+    },
+    {
+      "ids": [
+        "P13-W01",
+        "P13-W02",
+        "P13-W03",
+        "P13-W04",
+        "P13-W05",
+        "P13-W06"
+      ],
+      "status": "count_only",
+      "target": "p13.monitors",
+      "reason": "マラヤーム側の監視兵6人という人数の記録。氏名・個別の顔・初期の所属王妃とIDの一対一対応は未確認。"
+    },
+    {
+      "ids": [
+        "P12-G06"
+      ],
+      "status": "count_only",
+      "target": "p12.monitors",
+      "reason": "第1王妃からの監視兵1人という人数・所属の記録。初期監視兵6枠の残り1枠に対応するが、個人同定済みとは数えない。"
+    },
+    {
+      "ids": [
+        "P01-P14",
+        "P01-P15"
+      ],
+      "status": "possible_duplicate_count_only",
+      "target": "p01.private",
+      "reason": "旧配置から作った仮称2件。シカク等の名前付き私設兵や未同定1枠との対応が未確定。2人を追加して私設兵17人にはしない。"
+    },
+    {
+      "ids": [
+        "P07-H02",
+        "P07-H03"
+      ],
+      "status": "superseded_count_only",
+      "target": "p07.hunters",
+      "reason": "バショウ・リッジ・スカルトで3枠の対応候補がそろうため、旧人数枠2件を追加しない。人物レコードと既存参照は保持。"
+    },
+    {
+      "ids": [
+        "P04-U02",
+        "P04-U03"
+      ],
+      "status": "face_reference",
+      "target": "p04.private",
+      "reason": "第362話の顔資料。名前付き私設兵・P04-U01との同一性が未確定。"
+    },
+    {
+      "ids": [
+        "P06-U01",
+        "P06-U02",
+        "P06-U03",
+        "P06-U04",
+        "P06-U05"
+      ],
+      "status": "face_reference",
+      "target": "p06.private",
+      "reason": "第362話の顔資料5件と、第400話の名前付き私設兵5人の対応が未確定。10人と数えない。"
+    },
+    {
+      "ids": [
+        "P10-U01",
+        "P10-U02",
+        "P10-U03",
+        "P10-U04"
+      ],
+      "status": "face_reference",
+      "target": "p10.security",
+      "reason": "第366話の警護人の顔資料。母側兵・監視兵・3人目のハンター等への対応と既知人物との同一性は未確定。"
+    },
+    {
+      "ids": [
+        "P08-U01",
+        "P08-U02",
+        "P08-U03",
+        "P08-U04",
+        "P08-U05",
+        "P08-U06"
+      ],
+      "status": "face_role_review",
+      "target": "p08.staff",
+      "reason": "第362話の居室の女性6件。6人が全員別人か、私設兵5人・従事者3人のどこに対応するか未確認。"
+    },
+    {
+      "ids": [
+        "P04-L01",
+        "P04-L02",
+        "P04-L03",
+        "P04-L04",
+        "P04-L05",
+        "P04-P06"
+      ],
+      "status": "initial_quota_unverified",
+      "target": "p04.private",
+      "reason": "第394話の下層部隊。ツェリードニヒ所属は登録されているが、出航時の15人枠・準協会員枠との対応は未確認。ギッパーの上層への異動を初期配置に戻さない。"
+    },
+    {
+      "ids": [
+        "EII-T01"
+      ],
+      "status": "initial_quota_unverified",
+      "target": "p04.private",
+      "reason": "ボークセンは第394話で準協会員と明記され、上層から下層へ転属。第348話の5人／第374話の準協会員5枠との個別対応・交替時期が未確定なので、初期の6人目の準協会員として足さない。"
+    },
+    {
+      "ids": [
+        "P07-U01",
+        "P07-U02"
+      ],
+      "status": "initial_quota_unverified",
+      "target": "p07.private",
+      "reason": "第414話の顔資料2件。第415話の第7王子私設兵殺害の証言との個別対応、既知のバラーテ・マクネとの同一性、初期枠の在籍は未確定。"
+    },
+    {
+      "ids": [
+        "P01-G01"
+      ],
+      "status": "unsupported_initial_role",
+      "target": "p01",
+      "reason": "ヴォルフの第1王妃所属・ベンジャミン警護・第361話でカミーラに殺害という旧記録を確認できない。初期15枠への追加根拠にしない。"
+    },
+    {
+      "ids": [
+        "P05-G02",
+        "Q02-S01"
+      ],
+      "status": "initial_destination_unknown",
+      "reason": "マカハ・マンダムは第2王妃に関わる登録だが、初期の王子別派遣先を確認できない。IDのP05や標的から第5王子の枠を埋めない。"
+    }
+  ],
+  "out_of_scope_personnel_ids": [
+    "KNG-002", "KNG-003", "ARM-001",
+    "HA-001", "HA-002", "HA-003", "HA-004", "HA-005", "HA-008",
+    "HA-009", "HA-010", "HA-011", "HA-012", "HA-013", "HA-014", "HA-015", "HA-016",
+    "BYD-001", "BYD-002", "BYD-003"
+  ],
+  "corrections": [
+    {
+      "character_id": "P05-G01",
+      "field": "affiliation / role / soldier_category",
+      "basis": "第401話写真5右（印刷16）でロンギ本人が、マカハと同じ第2王妃兵に所属していると説明する。冒頭の『第5王子私設兵』はクラピカの呼称で、正式な所属を上書きする根拠にしない。",
+      "action": "当初の私設兵への変更を撤回し、所属を第2王妃ドゥアズル、兵種を王妃所属兵へ戻した。第5王子ツベッパは警護先として保持。初期人数表の具体的な分類への割当ては保留。"
+    }
+  ],
+  "issues": [
+    "ロンギは第2王妃所属兵でツベッパの警護を担当する。第374話の第5王子側の職種内訳と、出航時の母側警護兵を0人とした復元は再照合が必要。230人は復元前提に基づく人数であり、各職種の割当てが確定したとは扱わない。",
+    "第374話の数字は職種ごとの記載であり、同じ人の兼務や第389話までの配置・役職の変化を未確認のまま、カミーラの15人を12人の私設兵枠へ押し込まない。",
+    "ツェリードニヒの資格タグ5人に加えて、ボークセンにも第394話で準協会員の明示がある。全6人を初期の準協会員5枠へ割り当てることはできず、同定・資格変更・交替の確認が必要。",
+    "ベンジャミンからの派遣は初期所属15枠の内部の移動。派遣先の初期枠にも同じ個人IDを入れない。",
+    "本編未照合の作者設定表9人を含め、対応候補は初期の個人配置を全件確認済みではない。未対応枠も原作未登場者や新規登録すべき人物と断定しない。"
+  ]
+}

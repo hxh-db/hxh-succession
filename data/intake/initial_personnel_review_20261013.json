@@ -1,0 +1,315 @@
+{
+  "review_date": "2026-10-13",
+  "status": "initial_allocation_reconstruction",
+  "scope": "出航時の王子別従事者15人枠と、原作人数表で確認できる準協会員による枠外人員。王子・王妃本人は含めない。全船内人員や各室の実在室人数の総数ではない。",
+  "assumptions": [
+    "各王子が出航時に15人枠を使い切っていたことを、ユーザー指定の復元前提にする。第348話の台詞が直接示すのは上限15人である。",
+    "第374話の人数表は3日目未明の場面に挿入された記載で、出航時の人数表として扱わない。",
+    "第374話の私設兵数に準協会員が含まれる。初期人数の計算では基本枠の私設兵と枠外準協会員に分け、一度だけ足す。",
+    "監視兵の人数は母の王妃順位と第360話の上位王妃による監視制度から復元する。第374話の母の『下位王子の監視』欄を、その子の居室へ来た人数として足さない。",
+    "異動は出身の初期枠を保存して扱う。第12・第13王子の協会員各5人・従事者各3人を、同じ数字だけで同一集団とみなさない。",
+    "この案の230人は復元前提と確認できた準協会員枠に基づく人数。追加の別枠人員や個別の枠所属をすべて確認済みという意味ではない。"
+  ],
+  "sources": [
+    {
+      "id": "user-original-ch348",
+      "chapter": 348,
+      "local_image": ".local/source-intake/ch348-350-20261010/06.jpg",
+      "scene": "右ページ（印刷156）：従事者15人制限と5人条件付き合格。"
+    },
+    {
+      "id": "user-original-ch360",
+      "chapter": 360,
+      "local_image": ".local/source-intake/ch360-20261010/04.jpg",
+      "scene": "左上配置図・右の尋問：上位王妃の監視、ワブル7人、フウゲツ2＋5、モモゼ1＋6。"
+    },
+    {
+      "id": "user-original-ch361",
+      "chapter": 361,
+      "local_image": ".local/source-intake/ch361-20261010/09.jpg",
+      "scene": "辞退を申し出る従事者2人、残る従事者2人、警護11人から2人への減少。"
+    },
+    {
+      "id": "user-original-ch361",
+      "chapter": 361,
+      "local_image": ".local/source-intake/ch361-20261010/10.jpg",
+      "scene": "モモゼの監視兵6人を残して、ハンゾーらと従事者がマラヤーム側へ移動。"
+    },
+    {
+      "id": "user-original-ch368",
+      "chapter": 368,
+      "local_image": ".local/source-intake/ch368-20261008/01.jpg",
+      "scene": "警護兵・協会員18人＋従事者6人。クラピカは元モモゼ側人員の合流と監視兵6人の残留を推理する。"
+    },
+    {
+      "id": "user-original-ch374",
+      "chapter": 374,
+      "local_image": ".local/source-intake/ch374-20261010/04.jpg",
+      "scene": "出航から37時間30分経過。"
+    },
+    {
+      "id": "user-original-ch374",
+      "chapter": 374,
+      "local_image": ".local/source-intake/ch374-20261010/05.jpg",
+      "scene": "私設兵・準協会員・協会員・従事者・母の所属兵を示す人数表。"
+    }
+  ],
+  "totals": {
+    "baseline": 210,
+    "provisional_associates": 20,
+    "initial": 230,
+    "private_soldiers_excluding_associates": 79,
+    "association_hunters": 22,
+    "maternal_guards": 15,
+    "upper_queen_monitors": 42,
+    "attendants": 52
+  },
+  "princes": [
+    {
+      "rank": 1,
+      "name": "ベンジャミン",
+      "queen_rank": 1,
+      "private_soldiers_excluding_associates": 15,
+      "provisional_associates": 0,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 0,
+      "attendants": 0,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵13人に、同話までに死亡したビンセント・ムッセの2人を戻す。出航時の所属人数であり、派遣後の1001号室在室人数ではない。"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "カミーラ",
+      "queen_rank": 2,
+      "private_soldiers_excluding_associates": 7,
+      "provisional_associates": 5,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 1,
+      "attendants": 7,
+      "baseline_total": 15,
+      "initial_total": 20,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵12人は通常7人＋準協会員5人。上位の第1王妃から来る監視兵1人と従事者7人を基本枠に入れる。"
+      ]
+    },
+    {
+      "rank": 3,
+      "name": "チョウライ",
+      "queen_rank": 3,
+      "private_soldiers_excluding_associates": 10,
+      "provisional_associates": 5,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 2,
+      "attendants": 3,
+      "baseline_total": 15,
+      "initial_total": 20,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵15人は通常10人＋準協会員5人。監視兵2人と従事者3人を基本枠に入れる。"
+      ]
+    },
+    {
+      "rank": 4,
+      "name": "ツェリードニヒ",
+      "queen_rank": 1,
+      "private_soldiers_excluding_associates": 10,
+      "provisional_associates": 5,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 0,
+      "attendants": 5,
+      "baseline_total": 15,
+      "initial_total": 20,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第348話の5人合格と第374話の私設兵15人（準協会員5人を含む）・従事者5人を照合。母が第1王妃のため上位王妃からの監視兵は0人と復元する。"
+      ]
+    },
+    {
+      "rank": 5,
+      "name": "ツベッパ",
+      "queen_rank": 2,
+      "private_soldiers_excluding_associates": 9,
+      "provisional_associates": 5,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 1,
+      "attendants": 5,
+      "baseline_total": 15,
+      "initial_total": 20,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵14人は通常9人＋準協会員5人。監視兵1人と従事者5人を基本枠へ置いた当初の復元。ロンギは本人の説明で第2王妃所属兵であり、母側警護兵を0人としたこの職種分解への個人対応は再照合中。20人は復元前提の人数として保持するが、各職種の内訳は確定扱いにしない。"
+      ]
+    },
+    {
+      "rank": 6,
+      "name": "タイソン",
+      "queen_rank": 4,
+      "private_soldiers_excluding_associates": 5,
+      "provisional_associates": 0,
+      "association_hunters": 2,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 3,
+      "attendants": 5,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵5人・協会員2人・従事者5人に、上位王妃3人からの監視兵3人を合わせる。顔の仮登録5件は、名前付き私設兵5人との対応が未確定なので加算しない。"
+      ]
+    },
+    {
+      "rank": 7,
+      "name": "ルズールス",
+      "queen_rank": 2,
+      "private_soldiers_excluding_associates": 4,
+      "provisional_associates": 0,
+      "association_hunters": 3,
+      "maternal_guards": 6,
+      "upper_queen_monitors": 1,
+      "attendants": 1,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵4人・協会員3人・従事者1人・母の選抜警護兵6人に、監視兵1人を合わせる。旧護衛ハンター人数枠2件を別人として加算しない。"
+      ]
+    },
+    {
+      "rank": 8,
+      "name": "サレサレ",
+      "queen_rank": 5,
+      "private_soldiers_excluding_associates": 5,
+      "provisional_associates": 0,
+      "association_hunters": 0,
+      "maternal_guards": 3,
+      "upper_queen_monitors": 4,
+      "attendants": 3,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵5人・従事者3人・母の選抜警護兵3人に、監視兵4人を合わせる。居室の女性6件を全員私設兵として別加算しない。"
+      ]
+    },
+    {
+      "rank": 9,
+      "name": "ハルケンブルグ",
+      "queen_rank": 2,
+      "private_soldiers_excluding_associates": 14,
+      "provisional_associates": 0,
+      "association_hunters": 0,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 1,
+      "attendants": 0,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の私設兵14人に、上位の第1王妃から来る監視兵1人を合わせる。作者設定表の顔資料は同一人物候補を含むため人数を増やさない。"
+      ]
+    },
+    {
+      "rank": 10,
+      "name": "カチョウ",
+      "queen_rank": 6,
+      "private_soldiers_excluding_associates": 0,
+      "provisional_associates": 0,
+      "association_hunters": 3,
+      "maternal_guards": 2,
+      "upper_queen_monitors": 5,
+      "attendants": 5,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話の協会員3人・従事者5人・母の選抜警護兵2人に、監視兵5人を合わせる。ロベリーの拘束による在室人数の変化と原図の登録人数は別に扱う。"
+      ]
+    },
+    {
+      "rank": 11,
+      "name": "フウゲツ",
+      "queen_rank": 6,
+      "private_soldiers_excluding_associates": 0,
+      "provisional_associates": 0,
+      "association_hunters": 0,
+      "maternal_guards": 2,
+      "upper_queen_monitors": 5,
+      "attendants": 8,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第360話に母の選抜警護兵2人＋監視兵5人が明記される。第374話の従事者8人を合わせる。カチョウの母と同じでも、各王子の初期警護兵2人を同じ2人と決めつけない。"
+      ]
+    },
+    {
+      "rank": 12,
+      "name": "モモゼ",
+      "queen_rank": 7,
+      "private_soldiers_excluding_associates": 0,
+      "provisional_associates": 0,
+      "association_hunters": 5,
+      "maternal_guards": 1,
+      "upper_queen_monitors": 6,
+      "attendants": 3,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第360話に母の選抜警護兵1人＋監視兵6人が明記される。第374話の元モモゼ側の協会員5人・従事者3人を戻す。監視兵6人を残し、母側警護兵1＋協会員5＋従事者3＝9人が移動したと復元する。"
+      ]
+    },
+    {
+      "rank": 13,
+      "name": "マラヤーム",
+      "queen_rank": 7,
+      "private_soldiers_excluding_associates": 0,
+      "provisional_associates": 0,
+      "association_hunters": 5,
+      "maternal_guards": 1,
+      "upper_queen_monitors": 6,
+      "attendants": 3,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第374話のマラヤーム自身の協会員5人・従事者3人と、上位王妃6人からの監視兵6人で14人。15人枠を満たす母側警護兵1人を復元する。モモゼからの9人と合わせると、警護・協会員18人＋従事者6人＝24人となり第368話と一致する。母側警護兵の初期個人名の割当ては未確定。"
+      ]
+    },
+    {
+      "rank": 14,
+      "name": "ワブル",
+      "queen_rank": 8,
+      "private_soldiers_excluding_associates": 0,
+      "provisional_associates": 0,
+      "association_hunters": 4,
+      "maternal_guards": 0,
+      "upper_queen_monitors": 7,
+      "attendants": 4,
+      "baseline_total": 15,
+      "initial_total": 15,
+      "verification_status": "reconstruction",
+      "notes": [
+        "第360話の監視兵7人と第361話の警護11人から、初期協会員4人を確認。従事者は辞退を申し出た2人と残る2人の計4人。第374話の協会員2人・従事者1人へ至る死亡・拘束・辞退は人数の変化として別記する。"
+      ]
+    }
+  ],
+  "open_issues": [
+    "ロンギは第401話16ページの本人の説明で第2王妃所属兵。ツベッパ側の初期20人の職種内訳と、この王妃所属兵が人数表上のどこに対応するかは再照合中。クラピカの『第5王子私設兵』という呼称だけで私設兵枠へ割り当てない。",
+    "第374話の王妃別監視兵総数は、初期の個人ごとの派遣先と死亡・交替・拘束への対応がまだ完了していない。初期監視兵42人との単純な差を死者数にしない。",
+    "第13王子の母側警護兵1人は15人枠と第368話の24人からの復元。第374話の第7王妃所属兵1人の欄を、出航時のモモゼ・マラヤーム合計1人と読まない。",
+    "第12・第13王子の協会員5人・従事者3人を同一人員とする画面上の断定は撤回済み。初期配置の集計に数字が同じという理由の重複除去を適用しない。",
+    "266件の人物レコードは人数の分母にしない。顔同定用レコード、旧人数枠、出典未確認者、王族・マフィア・船外関係者を含む。個人IDの対応候補はinitial_personnel_coverage_20261013.jsonに記録したが、初期の全員の個別在籍・分類は未確定。",
+    "出航時の15人枠／準協会員枠への個人ID割当ては未完了。人数だけを合わせる新規人物レコードは作成していない。"
+  ]
+}

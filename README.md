@@ -22,6 +22,8 @@ python local_server.py
 - `data/events.json` - タイムラインのイベント一覧
 - `data/open_questions.json` - 作中の未解決事項と関連する出来事
 - `data/personnel_snapshots.json` - 第374話の王子別兵力と王妃所属兵の配置スナップショット
+- `data/intake/initial_personnel_review_20261013.md` - 出航時の15人枠＋準協会員を王子別に復元した初期人数案
+- `data/intake/initial_personnel_coverage_20261013.md` - 初期230枠と既存人物IDの対応候補・未対応枠・旧人数枠の照合表。`node scripts/build-initial-personnel-review.cjs` で再生成し、`--check` で人物台帳との一致と二重計上等を検査
 - `data/spirit_beasts.json` - 王子と国王の人物詳細に表示する守護霊獣データ
 - `images/guide/*.webp` - ユーザー提供原作画像から基礎資料用に切り出した引用コマ（話数を画面に表示）
 - `data/factions.json` - 派閥（陣営）マップ

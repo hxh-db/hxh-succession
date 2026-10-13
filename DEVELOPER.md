@@ -36,7 +36,17 @@ python local_server.py
 ```powershell
 python validate_data.py
 ```
-4. 問題なければそのまま commit します（`pip install jsonschema` が未導入の場合は事前に入れてください）。
+4. 変更内容と検証結果を提示し、ユーザーの明示的な承認を得てからcommit・pushします。`jsonschema` のimportに失敗した場合、まず既存のローカル検証パッケージを指定して再実行してください（追加インストール不要）。
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path .local/validation-packages).Path
+$env:PYTHONIOENCODING = 'utf-8'
+python validate_data.py
+python -m unittest discover -s tests -p 'test_*.py'
+python check_status_sync.py
+```
+
+この設定は実行中のPowerShellだけに適用されます。`.local/validation-packages` がない別環境では、その環境のjsonschemaを使ってください。人物や出来事を更新した場合はREADMEの手順で静的人物ページも再生成します。
 
 ## キャラクターポートレートの追加
 - `images/characters/` に画像を追加し、`characters.json` の `image` または `data/character_images.json` の該当IDにパスと出典URLを設定します。

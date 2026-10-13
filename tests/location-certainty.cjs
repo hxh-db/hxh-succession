@@ -97,6 +97,7 @@ const ctx = vm.createContext({
   eventsData: [...events, {id: 'E999-001', chapter: 999, description: '後の話', same_incident_with: ['E998-001']},
     {id: 'E998-001', chapter: 998, description: '前の話', same_incident_with: ['E999-001']}],
   spoilersRevealed: false, URL, location: {href: 'http://127.0.0.1:8765/?t_chapter=400#characters'}, CharacterFacts: facts,
+  siteRootUrl: new URL('http://127.0.0.1:8765/'),
   document: {createElement: tag => new Node(tag), createTextNode: value => ({text: value}), createDocumentFragment: () => new Node('#fragment')},
   showDetailModal: (id, category) => opened.push([id, category])
 });
@@ -113,6 +114,15 @@ assert.match(first.href, new RegExp(`[?&]event=${bLatest.eventId}`));
 assert.doesNotMatch(first.href, /t_chapter/);
 first.listeners.click({preventDefault() {}, stopPropagation() {}});
 assert.deepEqual(opened.pop(), [bLatest.eventId, 'event']);
+// History API後の人物URLにいても、新しいタブ・リンクコピー先は一覧の出来事へ。
+for (const rootUrl of ['http://127.0.0.1:8765/', 'https://hxh-db.github.io/hxh-succession/']) {
+  ctx.siteRootUrl = new URL(rootUrl);
+  ctx.location.href = `${rootUrl}characters/P01/?c_search=test&t_chapter=400#characters`;
+  const href = links(ctx.makeLatestLocationContent(benjamin, '最後の所在'))[0].href;
+  assert.equal(href, `${rootUrl}?event=${bLatest.eventId}#timeline`);
+}
+ctx.siteRootUrl = new URL('http://127.0.0.1:8765/');
+ctx.location.href = 'http://127.0.0.1:8765/?t_chapter=400#characters';
 // 一覧カード・モーダルとも同じ部品から作る。ネタバレ切替で作り直す
 assert.ok(source.includes('makeLatestLocationContent(character, "最後の所在")'));
 assert.ok(extract('showDetailModal').includes('makeLatestLocationContent(record)'));
@@ -134,6 +144,9 @@ ctx.spoilersRevealed = true;
 block = ctx.makeSimultaneousScenesBlock(earlier, 'same_incident_with');
 assert.equal(links(block).length, 1);
 assert.match(links(block)[0].textContent, /^第999話 /);
+ctx.location.href = 'http://127.0.0.1:8765/characters/P01/?c_search=test#characters';
+assert.equal(links(ctx.makeSimultaneousScenesBlock(earlier, 'same_incident_with'))[0].href,
+  'http://127.0.0.1:8765/?event=E999-001#timeline');
 // 同時刻の別の場面とは見出しを分ける
 assert.equal(ctx.makeSimultaneousScenesBlock({id: 'T', chapter: 1, simultaneous_with: ['E998-001']}).children[0].textContent, '同時刻の別の場面：');
 assert.ok(extract('createTimelineCard').includes('makeSimultaneousScenesBlock(event, "same_incident_with")'));

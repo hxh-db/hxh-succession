@@ -61,6 +61,7 @@ class Node {
 const opened = [];
 const ctx = vm.createContext({
   eventsData: events, spoilersRevealed: false, URL, location: {href: 'http://127.0.0.1:8765/?t_chapter=400#timeline'},
+  siteRootUrl: new URL('http://127.0.0.1:8765/'),
   document: {createElement: tag => new Node(tag), createTextNode: text => ({text})},
   showDetailModal: (id, category) => opened.push([id, category])
 });

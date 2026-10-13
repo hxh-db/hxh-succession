@@ -148,5 +148,56 @@ class HalkenburgStatusTests(unittest.TestCase):
         self.assertEqual(validate_character_evidence(self.characters, self.events), [])
 
 
+class Ch414StatusTests(unittest.TestCase):
+    """第414話の就寝中の人物と刺突された人物を同じ死亡扱いに戻さない。"""
+
+    def setUp(self):
+        self.characters = load("characters.json")
+        self.events = load("events.json")
+        self.people = {person["id"]: person for person in self.characters}
+        self.event = next(event for event in self.events if event["id"] == "E414-001")
+
+    def test_sleeping_person_is_not_a_confirmed_death(self):
+        person = self.people["P07-U01"]
+        self.assertIn("生死未確認", person["status"])
+        self.assertIsNone(person["status_log"][0]["killer"])
+        self.assertIn("死亡", person["status_review_note"])
+        self.assertEqual(self.event["character_presence"][person["id"]], "present")
+
+    def test_only_depicted_victim_is_a_death(self):
+        deaths = [effect["character"] for effect in self.event["status_effects"]
+                  if effect["status"].startswith("死亡")]
+        self.assertEqual(deaths, ["P07-U02"])
+        self.assertEqual(self.event["character_presence"]["P07-U02"], "body")
+
+    def test_both_status_logs_are_linked(self):
+        for person_id in ("P07-U01", "P07-U02"):
+            person = self.people[person_id]
+            self.assertEqual(person["status_log"][0]["event_id"], self.event["id"])
+            effect = next(effect for effect in self.event["status_effects"]
+                          if effect["character"] == person_id)
+            self.assertEqual(person["status"], effect["status"])
+        self.assertEqual(validate_character_evidence(self.characters, self.events), [])
+
+    def test_reintroduced_death_effect_is_detected(self):
+        events = copy.deepcopy(self.events)
+        event = next(event for event in events if event["id"] == self.event["id"])
+        event["status_effects"][0]["status"] = "死亡"
+        self.assertTrue(validate_character_evidence(self.characters, events))
+
+    def test_later_testimony_is_not_direct_depiction(self):
+        self.assertIn("E415-003", self.event["location_basis"])
+        self.assertIn("証言", self.event["location"])
+        self.assertEqual(self.event["location_status"], "unverified")
+        # 未確定の人物同定が残るため、出来事全体を確認済みへ自動昇格しない。
+        self.assertEqual(self.event["verification_status"], "unverified")
+        self.assertEqual(self.event["time_start"], "14:10")
+
+    def test_borksen_uses_corrected_gipper_spelling(self):
+        notes = self.people["EII-T01"]["notes"]
+        self.assertIn("ギッパー伍長", notes)
+        self.assertNotIn("ギッバー伍長", notes)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261009e",
+  characters: "data/characters.json?v=20261013a",
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261011h",
+  events: "data/events.json?v=20261013a",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261009e",
@@ -1799,6 +1799,8 @@ function makeLocationPartNodes(parts) {
     const link = document.createElement("a");
     link.className = "latest-place-event-link";
     const url = new URL(location.href);
+    // 人物モーダルのHistory APIで変わったパスを、新しいタブ用のリンクへ持ち込まない。
+    url.pathname = siteRootUrl.pathname;
     [...url.searchParams.keys()].filter((key) => /^[ct]_/.test(key) || ["person", "event"].includes(key)).forEach((key) => url.searchParams.delete(key));
     url.hash = "timeline";
     url.searchParams.set("event", event.id);
@@ -3164,6 +3166,7 @@ function fillSimultaneousScenes(block, event) {
   scenes.forEach((scene, index) => {
     if (index > 0) block.appendChild(document.createTextNode(" / "));
     const url = new URL(location.href);
+    url.pathname = siteRootUrl.pathname;
     [...url.searchParams.keys()].filter((key) => /^[ct]_/.test(key) || ["person", "event"].includes(key)).forEach((key) => url.searchParams.delete(key));
     url.hash = "timeline";
     url.searchParams.set("event", scene.id);

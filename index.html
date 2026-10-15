@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261011k" />
+  <link rel="stylesheet" href="style.css?v=20261014-roster" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">本文へ移動</a>
@@ -30,6 +30,7 @@
       <a class="primary-nav-link active" href="#characters" data-primary-view="characters">人物一覧</a>
       <a class="primary-nav-link" href="#timeline" data-primary-view="timeline">出来事</a>
       <a class="primary-nav-link" href="#guide" data-primary-view="guide">基礎資料</a>
+      <a class="primary-nav-link" href="theories/">謎・考察</a>
     </nav>
   </header>
 
@@ -137,6 +138,28 @@
           </div>
         </div>
       </div>
+      <div class="personnel-period-controls">
+        <label>名簿の時点
+          <select id="characterPeriodFilter">
+            <option value="all">全員（時点指定なし）</option>
+            <option value="departure">出航時</option>
+            <option value="chapter-374">第374話時点</option>
+            <option value="latest">最新話時点</option>
+          </select>
+        </label>
+        <label class="personnel-queen-label">王妃所属兵
+          <select id="characterQueenFilter">
+            <option value="all">すべて</option>
+            <option value="1">第1王妃所属兵</option><option value="2">第2王妃所属兵</option>
+            <option value="3">第3王妃所属兵</option><option value="4">第4王妃所属兵</option>
+            <option value="5">第5王妃所属兵</option><option value="6">第6王妃所属兵</option>
+            <option value="7">第7王妃所属兵</option>
+          </select>
+        </label>
+        <p id="personnelRosterSummary" class="guide-source-note" aria-live="polite"></p>
+        <details class="personnel-count-help"><summary>人数の見方</summary><p>初期復元名簿は230人で固定しています。全員の初期在籍を個別確認した人数ではありません。死亡・拘束した人も一覧に残します。「死亡・拘束・辞退・離脱の履歴なし」には状態未確認も含み、稼働確認済み人数ではありません。第374話では初期復元人数と原図記載人数も併記します。原図の集計範囲・除外条件との対応は未確定のため、差を登録漏れとは扱いません。後の状態と原図の人数はネタバレ表示中に確認できます。</p></details>
+      </div>
+      <div id="personnelQueenNav" class="character-camp-nav" aria-label="王妃別の所属兵"></div>
       <div class="character-view-switch" role="group" aria-label="人物の表示形式">
         <button id="characterViewCards" class="active" type="button" aria-pressed="true">カード表示</button>
         <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
@@ -406,6 +429,13 @@
         <div id="personnelSnapshotContent" hidden></div>
       </section>
 
+      <section class="guide-data-section" aria-labelledby="initialPersonnelTitle">
+        <h3 id="initialPersonnelTitle">出航時の王子別初期配置（復元案）</h3>
+        <p>第348話の「王子一人につき従事者15人まで」を同行人員の基本枠とし、各王子が枠を使い切ったという前提で復元した表です。私設兵・王妃所属兵・護衛ハンター・メイドなどを基本枠の内訳として数えます。第2〜第5王子の準協会員各5人は枠外に一度だけ加えます。</p>
+        <div id="initialPersonnelContent"></div>
+        <p class="guide-source-note">参照：第348話（15人枠・準協会員）、第360〜361話（監視と初期警護）、第368話（人員合流）、第374話（後日の人数表）。各王子の職種内訳には推定が含まれます。第374話の表は出航から37時間30分後の場面に挿入されたもので、初期配置を直接示す表ではありません。</p>
+      </section>
+
       <section class="guide-data-section guide-initial-setting" aria-labelledby="shipRolesTitle">
         <h3 id="shipRolesTitle">船内の立場と役割</h3>
         <div class="guide-table-wrap">
@@ -500,6 +530,7 @@
 
   <script src="character-routing.js?v=20261009a"></script>
   <script src="character-facts.js?v=20261011j"></script>
-  <script src="script.js?v=20261013d"></script>
+  <script src="personnel-roster.js?v=20261015-scope"></script>
+  <script src="script.js?v=20261015-article-state"></script>
 </body>
 </html>

@@ -1,16 +1,18 @@
 const DATA = {
-  characters: "data/characters.json?v=20261013c",
+  characters: "data/characters.json?v=20261014-roster",
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261013a",
+  events: "data/events.json?v=20261014a",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261009e",
   factions: "data/factions.json?v=20261008q",
   mafia: "data/mafia.json?v=20261011g",
   sources: "data/sources.json?v=20261011h",
-  personnelSnapshots: "data/personnel_snapshots.json?v=20261013b"
+  personnelSnapshots: "data/personnel_snapshots.json?v=20261013b",
+  initialPersonnel: "data/intake/initial_personnel_review_20261013.json?v=20261014a",
+  personnelRoster: "data/personnel_roster.json?v=20261014a"
 };
 
 let charactersData = [];
@@ -23,9 +25,22 @@ const assetBase = document.createElement("base");
 assetBase.href = siteRootUrl.href;
 document.head.prepend(assetBase);
 let countOnlyCharacterIds = new Set();
+let personnelRosterData = {members: [], later: [], queen_projections: []};
 
 function isDirectoryCharacter(character) {
-  return !countOnlyCharacterIds.has(character.id) && character.verification_status !== "unverified";
+  return !character.roster_projection && (!countOnlyCharacterIds.has(character.id)
+    || personnelRosterData.members.some(member => member.character_id === character.id))
+    && character.verification_status !== "unverified";
+}
+
+function getPersonnelPeriod() { return document.getElementById("characterPeriodFilter")?.value || "all"; }
+function getPersonnelEvents() {
+  const chapter = PersonnelRoster.chapterFor(getPersonnelPeriod(), Math.max(...eventsData.map(event => event.chapter)));
+  return chapter === null ? eventsData : eventsData.filter(event => event.chapter <= chapter);
+}
+function getPersonnelSelection(queen = null) {
+  return PersonnelRoster.select(personnelRosterData, charactersData, {period: getPersonnelPeriod(), queen,
+    latest: Math.max(...eventsData.map(event => event.chapter)), events: eventsData});
 }
 let princesData = [];
 let bodyguardsData = [];
@@ -37,6 +52,7 @@ let factionsData = [];
 let alliancesData = [];
 let mafiaData = [];
 let personnelSnapshotsData = [];
+let initialPersonnelData = null;
 let filteredEventsData = [];
 // 原作画像がなく出来事を登録していない話。0件を「対象外」と誤解されないよう、表示で明示する。
 const UNCOLLECTED_CHAPTERS = new Map([[396, "原作画像未提供"], [397, "原作画像未提供"]]);
@@ -107,7 +123,8 @@ const LOCAL_EDIT_FIELDS = {
     { key: "nen_type", label: "念系統", kind: "text" },
     { key: "ability", label: "能力", kind: "textarea" }
   ],
-  guide: []
+  guide: [],
+  theory: []
 };
 
 function localRecordKey(record, category) {
@@ -253,7 +270,7 @@ function buildDraftExport() {
     exportedAt: new Date().toISOString(),
     items: localDrafts.items,
     entries: Object.entries(localDrafts.items).map(([key, draft]) => ({
-      key, title: labels.get(key) || draft.createdRecord?.description || key, memo: draft.memo || "", edits: draft.edits || {}, isNew: Boolean(draft.createdRecord), updatedAt: draft.updatedAt || null
+      key, title: labels.get(key) || draft.title || draft.createdRecord?.description || key, memo: draft.memo || "", edits: draft.edits || {}, isNew: Boolean(draft.createdRecord), updatedAt: draft.updatedAt || null
     }))
   };
 }
@@ -271,6 +288,7 @@ function validateDraftImport(payload) {
       throw new Error("メモJSONの項目に不正な形式があります。");
     }
     const safe = {};
+    if (category === "theory" && typeof draft.title === "string") safe.title = draft.title;
     if (draft.createdRecord !== undefined) safe.createdRecord = validateCreatedEvent(draft.createdRecord, key);
     if (typeof draft.memo === "string") safe.memo = draft.memo;
     if (typeof draft.updatedAt === "string") safe.updatedAt = draft.updatedAt;
@@ -1078,8 +1096,8 @@ function createBodyguardCard(g) {
     { label: "分類", value: g.soldier_category || "不明" },
     { label: "配置先", value: g.camp || "不明" },
     { label: "所属", value: g.affiliation || "不明" },
-    { label: "念系統", value: g.nen_type || "不明" },
-    { label: "能力", value: g.nen_ability || "不明" },
+    { label: "念系統", value: g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : g.nen_type || "不明" },
+    { label: "能力", value: g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : g.nen_ability || "不明" },
     { label: "役割", value: g.role },
     { label: "備考", value: g.notes }
   ];
@@ -1188,7 +1206,7 @@ function createBodyguardRow(g) {
     g.camp || "不明",
     g.affiliation || "不明",
     g.role || "不明",
-    [g.nen_type, g.nen_ability].filter(Boolean).join(" / ") || "不明",
+    g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : [g.nen_type, g.nen_ability].filter(Boolean).join(" / ") || "不明",
     g.notes || ""
   ];
   cells.forEach((text, i) => {
@@ -1821,7 +1839,7 @@ function makeLocationPartNodes(parts) {
 
 function fillLatestLocationContent(container, person) {
   container.replaceChildren();
-  const { main, confirmed, candidates } = CharacterFacts.latestLocationParts(person, eventsData);
+  const { main, confirmed, candidates } = CharacterFacts.latestLocationParts(person, getPersonnelEvents());
   if (container.dataset.heading) {
     const heading = document.createElement("p");
     heading.className = "latest-place-heading";
@@ -1959,6 +1977,26 @@ function createCharacterDirectoryCard(character) {
   heading.replaceChildren(makeCharacterDetailLink(character, titleText));
   const badges = document.createElement("div");
   badges.className = "compact-person-badges";
+  if (character.generated_by === "personnel-roster") {
+    const unknownBadge = document.createElement("span");
+    unknownBadge.className = "personnel-roster-badge";
+    unknownBadge.textContent = character.roster_projection ? "個人対応未確定" : "人数枠の仮登録";
+    badges.appendChild(unknownBadge);
+  }
+  if (character.roster_view) {
+    const rosterBadge = document.createElement("span");
+    rosterBadge.className = "personnel-roster-badge";
+    rosterBadge.textContent = character.roster_view.initial ? "初期名簿"
+      : character.roster_view.basis === "entry_unverified" ? "初期枠との対応未確認" : "追加確認人員";
+    badges.appendChild(rosterBadge);
+    const rosterState = document.createElement("p");
+    rosterState.className = "personnel-roster-state";
+    rosterState.textContent = `${character.roster_view.assignment}／${character.roster_view.status}`;
+    if (!spoilersRevealed && getPersonnelPeriod() !== "departure" && getPersonnelPeriod() !== "all") {
+      rosterState.textContent = `${character.roster_view.assignment}／状態はネタバレ表示で確認`;
+    }
+    identity.rosterState = rosterState;
+  }
   if (character.author_setting) {
     const sourceBadge = document.createElement("span");
     sourceBadge.className = "author-setting-badge";
@@ -2002,6 +2040,7 @@ function createCharacterDirectoryCard(character) {
     badges.appendChild(badge);
   });
   identity.append(heading, badges);
+  if (identity.rosterState) identity.appendChild(identity.rosterState);
   top.appendChild(identity);
   card.appendChild(top);
   const context = document.createElement("div");
@@ -2348,7 +2387,7 @@ function renderCharacterAssignmentTable(characters) {
       hidesMovement ? formatDisplayText(character.mission) || "—"
         : [formatDisplayText(character.mission), formatDisplayText(character.target)].filter(Boolean).join("：") || "—",
       hidesMovement ? "ネタバレ＋で表示（カード）"
-        : CharacterFacts.latestLocationLabel(character, eventsData)
+        : CharacterFacts.latestLocationLabel(character, getPersonnelEvents())
     ].forEach((value, columnIndex) => {
       const cell = document.createElement("td");
       if (columnIndex === 0) cell.appendChild(makeCharacterDetailLink(character, value));
@@ -2465,7 +2504,28 @@ function setupCharacterDirectory() {
   const campFilter = document.getElementById("characterCampFilter");
   const princeFilter = document.getElementById("characterPrinceFilter");
   const activeTagBar = document.getElementById("characterActiveTag");
+  const periodFilter = document.getElementById("characterPeriodFilter");
+  const queenFilter = document.getElementById("characterQueenFilter");
   const onboardCharacters = charactersData.filter(isDirectoryCharacter);
+  const chapterOptions = document.createElement("optgroup");
+  chapterOptions.label = "話数を指定（確認できた履歴まで）";
+  [...new Set(eventsData.map(event => event.chapter))].sort((a,b) => a-b).forEach(chapter => {
+    if (chapter < 359 || chapter === 374) return;
+    const option = document.createElement("option"); option.value = `chapter-${chapter}`;
+    option.textContent = `第${chapter}話時点`; chapterOptions.appendChild(option);
+  });
+  periodFilter.appendChild(chapterOptions);
+  const queenNav = document.getElementById("personnelQueenNav");
+  for (let rank = 1; rank <= 7; rank++) {
+    const button = document.createElement("button"); button.type = "button";
+    button.className = "character-camp-nav-button"; button.dataset.queenRank = String(rank);
+    button.textContent = `第${rank}王妃所属兵`;
+    button.addEventListener("click", () => {
+      if (activeCharacterSection !== "personnel" && periodFilter.value === "all") periodFilter.value = "departure";
+      queenFilter.value = queenFilter.value === String(rank) ? "all" : String(rank); activeCharacterSection = "personnel"; apply();
+    });
+    queenNav.appendChild(button);
+  }
   [...new Set(onboardCharacters.map((character) => character.camp).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
       const option = document.createElement("option");
@@ -2494,6 +2554,7 @@ function setupCharacterDirectory() {
     { id: "major", label: "主要人物" },
     { id: "royal", label: "王族" },
     { id: "hunter", label: "ハンター" },
+    { id: "personnel", label: "兵士・従事者" },
     { id: "soldier", label: "兵士" },
     { id: "attendant", label: "従事者" },
     { id: "mercenary", label: "傭兵" },
@@ -2572,6 +2633,9 @@ function setupCharacterDirectory() {
   });
   const inActiveSection = (character) => {
     if (activeCharacterSection === "all") return true;
+    if (activeCharacterSection === "personnel") return Boolean(character.roster_view)
+      || personnelRosterData.members.some(m => m.character_id === character.id)
+      || personnelRosterData.later.some(m => m.character_id === character.id);
     if (activeCharacterSection === "princes") return character.type === "prince";
     if (activeCharacterSection === "queens") return character.type === "queen";
     if (activeCharacterSection === "major") return isMajorCharacter(character);
@@ -2600,7 +2664,9 @@ function setupCharacterDirectory() {
     const type = typeFilter.value;
     const camp = campFilter.value;
     const princeId = princeFilter.value;
-    return onboardCharacters.filter((character) => {
+    const rosterMode = activeCharacterSection === "personnel" || queenFilter.value !== "all" || periodFilter.value !== "all";
+    const universe = rosterMode ? getPersonnelSelection(queenFilter.value === "all" ? null : Number(queenFilter.value)) : onboardCharacters;
+    return universe.filter((character) => {
       const sectionMatch = inActiveSection(character);
       const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
       const campMatch = camp === "all" || character.camp === camp;
@@ -2608,7 +2674,8 @@ function setupCharacterDirectory() {
       const affiliationMatch = !activeCharacterAffiliation
         || character.affiliation === activeCharacterAffiliation
         || character.affiliation?.startsWith(`${activeCharacterAffiliation}（`);
-      const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId);
+      const princeMatch = princeId === "all" || getRelatedPrinceIds(character).includes(princeId)
+        || character.roster_member?.prince_ranks.includes(Number(princeId.slice(1)));
       return sectionMatch && typeMatch && campMatch && tagMatch && affiliationMatch && princeMatch
         && (!query || CharacterFacts.matchesSearch(getCharacterSearchText(character), query));
     }).sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query));
@@ -2617,8 +2684,31 @@ function setupCharacterDirectory() {
     const filtered = findMatchingCharacters();
     renderCharacterDirectory(filtered);
     document.getElementById("characterResultSummary").textContent = filtered.length
-      ? `${filtered.length}人が該当します。${filtered.some(person => person.setting_only) ? `うち${filtered.filter(person => person.setting_only).length}人は作者設定表のみで確認（本編対応未照合・兵力への加算なし）。` : ""}`
+      ? `現在の条件に一致：${filtered.length}人。${filtered.some(person => person.setting_only) ? `うち${filtered.filter(person => person.setting_only).length}人は作者設定表のみで確認（本編対応未照合・兵力への加算なし）。` : ""}`
       : "条件に一致する人物はいません。選択中の条件を外すか「すべて解除」を押してください。";
+    const rosterMode = activeCharacterSection === "personnel" || queenFilter.value !== "all" || periodFilter.value !== "all";
+    const ledger = rosterMode ? getPersonnelSelection(queenFilter.value === "all" ? null : Number(queenFilter.value)) : [];
+    const {withoutStop, unknown} = PersonnelRoster.counts(ledger);
+    let rosterText = rosterMode ? (spoilersRevealed || periodFilter.value === "departure"
+      ? (periodFilter.value === "departure"
+        ? `名簿全体（選択時点・王妃）：${ledger.length}枠。初期復元を含み、全員の初期在籍を個別確認済みという意味ではありません。`
+        : `名簿全体（選択時点・王妃）：${ledger.length}人／死亡・拘束・辞退・離脱の履歴なし：${withoutStop}人（うち状態未確認${unknown}人）。稼働確認済み人数ではありません。`)
+      : `名簿全体（選択時点・王妃）：${ledger.length}人。状態別の人数はネタバレ表示で確認できます。`) : "";
+    if (rosterMode) rosterText += ' 検索語・その他の絞り込みを適用する前の集計です。';
+    if (spoilersRevealed && queenFilter.value !== "all" && periodFilter.value === "chapter-374") {
+      const queen = Number(queenFilter.value);
+      const diagram = PersonnelRoster.diagramCount(personnelSnapshotsData.find(item => item.chapter === 374), queen);
+      const initial = PersonnelRoster.select(personnelRosterData, charactersData, {period: "departure", queen}).length;
+      rosterText += ` 初期復元：${initial}人／第374話の原図記載：${diagram}人。原図の集計範囲・除外条件との対応は未確定で、差は登録漏れを意味しません。`;
+    }
+    document.getElementById("personnelRosterSummary").textContent = rosterText;
+    queenNav.querySelectorAll("button").forEach(button => {
+      const rank = Number(button.dataset.queenRank);
+      const total = getPersonnelSelection(rank).length;
+      button.textContent = `第${rank}王妃所属兵 ${total}人`;
+      button.classList.toggle("active", queenFilter.value === String(rank));
+      button.setAttribute("aria-pressed", String(queenFilter.value === String(rank)));
+    });
     renderContextualTags();
     quickNav.querySelectorAll("button").forEach((button) => {
       const selected = button.dataset.groupId === activeCharacterSection;
@@ -2669,6 +2759,8 @@ function setupCharacterDirectory() {
     if (typeFilter.value !== "all") addActiveFilter(`分類：${CHARACTER_TYPE_LABELS[typeFilter.value] || typeFilter.value}`, () => { typeFilter.value = "all"; });
     if (campFilter.value !== "all") addActiveFilter(`配置：${formatDisplayText(campFilter.value)}`, () => { campFilter.value = "all"; });
     if (search.value.trim()) addActiveFilter(`検索：${search.value.trim()}`, () => { search.value = ""; });
+    if (periodFilter.value !== "all") addActiveFilter(`時点：${periodFilter.selectedOptions[0].textContent}`, () => {periodFilter.value = "all";});
+    if (queenFilter.value !== "all") addActiveFilter(`第${queenFilter.value}王妃所属兵`, () => {queenFilter.value = "all";});
     if (!activeTagBar.childElementCount) {
       const empty = document.createElement("span");
       empty.textContent = "条件なし（全員）";
@@ -2676,7 +2768,8 @@ function setupCharacterDirectory() {
     }
     const noCharacterFilters = activeCharacterSection === "all"
       && princeFilter.value === "all" && !activeCharacterTags.size && !activeCharacterAffiliation
-      && typeFilter.value === "all" && campFilter.value === "all" && !search.value.trim();
+      && typeFilter.value === "all" && campFilter.value === "all" && !search.value.trim()
+      && periodFilter.value === "all" && queenFilter.value === "all";
     document.getElementById("clearCharacterFilters").disabled = noCharacterFilters;
     // 条件がないときは「条件なし」の行を出さず、最初の画面で人物カードまで見えるようにする。
     document.querySelector(".character-tag-catalog")?.classList.toggle("has-active-filters", !noCharacterFilters);
@@ -2691,17 +2784,32 @@ function setupCharacterDirectory() {
     typeFilter.value = "all";
     campFilter.value = "all";
     princeFilter.value = "all";
+    periodFilter.value = "all";
+    queenFilter.value = "all";
     apply();
   });
   search.addEventListener("input", apply);
   // ネタバレ設定を切り替えたら、検索対象が変わるので検索中の結果を作り直す。
-  document.addEventListener("spoiler-visibility-change", () => { if (search.value.trim()) apply(); });
+  document.addEventListener("spoiler-visibility-change", apply);
   typeFilter.addEventListener("change", apply);
   campFilter.addEventListener("change", apply);
   princeFilter.addEventListener("change", apply);
+  periodFilter.addEventListener("change", () => { activeCharacterSection = "personnel"; apply(); });
+  queenFilter.addEventListener("change", () => {
+    if (activeCharacterSection !== "personnel" && periodFilter.value === "all") periodFilter.value = "departure";
+    activeCharacterSection = "personnel"; apply();
+  });
   document.addEventListener("character-affiliation-filter", apply);
   document.addEventListener("character-tag-filter", (event) => {
     const tagId = typeof event.detail === "string" ? event.detail : event.detail?.id;
+    const rosterQueen = tagId?.match(/^affiliation-q0([1-7])-guards$/)?.[1];
+    if (rosterQueen) {
+      if (activeCharacterSection !== "personnel" && periodFilter.value === "all") periodFilter.value = "departure";
+      queenFilter.value = queenFilter.value === rosterQueen ? "all" : rosterQueen;
+      activeCharacterSection = "personnel";
+      activeCharacterTags.delete("所属兵");
+      apply(); return;
+    }
     // 人物カードの護衛先・対象も、一覧の統合された「関係王子」へ接続する。
     const relatedPrince = tagId?.match(/^(?:guard|target)-(p\d{2})$/i)?.[1]?.toUpperCase();
     if (relatedPrince) {
@@ -2722,7 +2830,10 @@ function setupCharacterDirectory() {
     button.dataset.groupId = group.id;
     button.setAttribute("aria-pressed", String(group.id === "all"));
     button.addEventListener("click", () => {
+      const enteringPersonnel = group.id === "personnel" && activeCharacterSection !== "personnel";
       activeCharacterSection = activeCharacterSection === group.id ? "all" : group.id;
+      if (enteringPersonnel && periodFilter.value === "all") periodFilter.value = "departure";
+      if (activeCharacterSection !== "personnel") { queenFilter.value = "all"; periodFilter.value = "all"; }
       activeCharacterSubgroup = null;
       apply();
     });
@@ -3898,7 +4009,7 @@ function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc" 
 }
 
 function renderCharacterTimeline(character, container) {
-  const events = eventsData.filter((event) => (event.characters || []).includes(character.id));
+  const events = getPersonnelEvents().filter((event) => (event.characters || []).includes(character.id));
   const heading = document.createElement("div");
   heading.className = "directory-person-timeline-heading";
   const title = document.createElement("h4");
@@ -3921,7 +4032,7 @@ function renderCharacterTimeline(character, container) {
   container.appendChild(note);
 }
 
-function renderPersonTimeline(token, sourceEvents = eventsData) {
+function renderPersonTimeline(token, sourceEvents = getPersonnelEvents()) {
   const container = document.getElementById("personTimeline");
   container.innerHTML = "";
   if (!token) {
@@ -4261,9 +4372,9 @@ function getRelatedEvents(record, category) {
     const prince = charactersData.find((c) => c.name === record.prince);
     id = prince ? prince.id : null;
     const eventIds = new Set(SPIRIT_BEAST_EVENT_IDS[id] || []);
-    return eventsData.filter((event) => eventIds.has(event.id));
+    return getPersonnelEvents().filter((event) => eventIds.has(event.id));
   }
-  return eventsData.filter((e) => (e.characters || []).some((c) => c === id || c === name));
+  return getPersonnelEvents().filter((e) => (e.characters || []).some((c) => c === id || c === name));
 }
 
 // 配置者 = 現在その王子の部屋・陣営に配置されている全員（camp一致）。
@@ -4272,7 +4383,7 @@ function getRelatedEvents(record, category) {
 // 所属を表すだけで、現在の配置先とは別物（他陣営に潜伏中のスパイなどで両者がズレる）。
 function getGuardsForPrince(prince) {
   if (!prince.camp) return [];
-  return bodyguardsData.filter((g) => g.camp === prince.camp && !g.setting_only);
+  return bodyguardsData.filter((g) => g.camp === prince.camp && !g.setting_only && !g.roster_projection && !g.generated_by);
 }
 
 // 配置先（camp）と真の所属（affiliation）が一致しない場合、他陣営からの配置者と判定
@@ -4518,6 +4629,20 @@ function showDetailModal(name, category, eventData = null) {
     }
     extraSections.push(...CharacterFacts.questionSections(record, eventsData));
     content.appendChild(makeEventSourcePanel(record));
+    const fromTheory = initialViewUrl.searchParams.get("from_theory");
+    if (/^(?:Q00[1-9]|Q01[0-4]|emperor-time)$/.test(fromTheory || "")) {
+      const back = document.createElement("a");
+      back.href = new URL(`theories/${fromTheory}/#evidence`, siteRootUrl).href;
+      const returnUrl = new URL(back.href);
+      for (const key of ['q', 'category']) {
+        const value = initialViewUrl.searchParams.get(`theory_${key}`);
+        if (value) returnUrl.searchParams.set(key, value);
+      }
+      back.href = returnUrl.href;
+      back.textContent = "参照元の考察記事へ戻る";
+      back.className = "event-theory-return";
+      content.appendChild(back);
+    }
   } else if (category === "spiritBeast") {
     record = spiritBeastsData.find((b) => b.name === name);
     if (!record) return;
@@ -4536,7 +4661,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "母（王妃）", value: getCharacterAffiliationText(record)?.replace(/^母：/, "") || record.queen || "不明" },
       { label: "年齢", value: record.age != null ? `${record.age}歳` : "不明" },
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
-      { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
+      { label: "状態", value: CharacterFacts.statusLabel(record, getPersonnelEvents()), later: true },
       { label: "最後の所在", value: "latest-location", later: true },
       { label: "本人の念系統", value: record.nen_type || "不明", later: true },
       { label: "本人の念能力", value: record.nen_ability || "不明", later: true, readable: true },
@@ -4545,9 +4670,10 @@ function showDetailModal(name, category, eventData = null) {
       { label: "備考", value: formatPublicDetailText(record.notes) || "", later: true, readable: true }
     ];
   } else {
-    record = charactersData.find((g) => g.id === name);
+    record = getPersonnelSelection(document.getElementById("characterQueenFilter")?.value === "all" ? null : Number(document.getElementById("characterQueenFilter")?.value)).find(g => g.id === name)
+      || charactersData.find((g) => g.id === name);
     if (!record) return;
-    titleEl.textContent = record.name;
+    titleEl.textContent = getDisplayName(record);
     const roleLabel = record.target ? (record.role || "").replace(record.target, "").trim() : record.role || "不明";
     const assignmentRows = CharacterFacts.assignmentRows(record, charactersData);
     details = [
@@ -4555,13 +4681,15 @@ function showDetailModal(name, category, eventData = null) {
       { label: "所属・配置先", value: getCharacterAffiliationText(record) || formatAffiliation(record) || "不明" },
       { label: "役割", value: roleLabel },
       { label: "担当陣営", value: assignmentRows[0]?.text || (record.camp !== record.affiliation ? formatAssignment(record) : "") },
+      { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
+      { label: "選択時点の担当", value: record.roster_view?.assignment || "", later: true },
       { label: "任務", value: record.role?.includes(record.mission) ? "" : formatDisplayText(record.mission) },
-      { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
+      { label: "状態", value: CharacterFacts.statusLabel(record, getPersonnelEvents()), later: true },
       { label: "配置履歴", value: assignmentRows.length > 1 ? assignmentRows.map(entry => entry.text).join("\n") : "", later: true },
       { label: "最後の所在", value: "latest-location", later: true },
       { label: "任務対象", value: record.role?.includes(record.target) ? "" : formatDisplayText(record.target), later: true },
-      { label: "念系統", value: record.nen_type || "不明", later: true },
-      { label: "能力", value: record.nen_ability || "不明", later: true, readable: true },
+      { label: "念系統", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : record.nen_type || "不明", later: true },
+      { label: "能力", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理（当時未判明という意味ではありません）" : record.nen_ability || "不明", later: true, readable: true },
       { label: "念講習会", value: getNenClassLabel(record) || "", later: true },
       { label: "備考", value: formatPublicDetailText(record.notes) || "", later: true, readable: true }
     ];
@@ -4588,6 +4716,13 @@ function showDetailModal(name, category, eventData = null) {
   }
 
   const isPerson = ["prince", "bodyguard"].includes(category);
+  if (isPerson && record.roster_view) {
+    const period = document.createElement("p");
+    period.className = "personnel-modal-period guide-source-note";
+    const control = document.getElementById("characterPeriodFilter");
+    period.textContent = `名簿の表示時点：${control.selectedOptions[0].textContent}。初期配置は復元を含みます。`;
+    content.appendChild(period);
+  }
   // 顔画像がある人物だけ、詳細の先頭に拡大できるアバターを置く（頭文字アバターは出さない）。
   if (isPerson && record.image) {
     const label = record.type === "prince" ? `第${record.rank}` : (record.name || "").slice(0, 2);
@@ -4856,6 +4991,74 @@ function setupGuideStatus() {
   });
 }
 
+function renderInitialPersonnelGuide(container) {
+  container.replaceChildren();
+  const data = initialPersonnelData;
+  if (!data?.princes?.length) {
+    const message = document.createElement("p");
+    message.textContent = "初期配置の復元データを読み込めませんでした。";
+    container.appendChild(message);
+    return;
+  }
+  const wrap = document.createElement("div");
+  wrap.className = "guide-table-wrap";
+  const table = document.createElement("table");
+  table.className = "guide-table";
+  const caption = document.createElement("caption");
+  caption.textContent = "出航時の同行人員：王子・王妃本人を除く復元案";
+  table.appendChild(caption);
+  const head = document.createElement("thead");
+  const headings = ["王子", "私設兵（基本枠）", "護衛ハンター", "母側警護兵", "上位王妃の監視兵", "従事者（職種）", "基本枠", "準協会員（枠外）", "初期計"];
+  const headRow = document.createElement("tr");
+  headings.forEach((label) => { const th = document.createElement("th"); th.textContent = label; headRow.appendChild(th); });
+  head.appendChild(headRow);
+  const body = document.createElement("tbody");
+  function row(values, heading = false) {
+    const tr = document.createElement("tr");
+    values.forEach((value, index) => {
+      const cell = document.createElement(heading && index === 0 ? "th" : "td");
+      cell.textContent = String(value);
+      if (heading && index === 0) cell.scope = "row";
+      tr.appendChild(cell);
+    });
+    return tr;
+  }
+  for (const prince of data.princes) {
+    body.appendChild(row([
+      `第${prince.rank}王子${prince.name}`,
+      prince.private_soldiers_excluding_associates,
+      prince.association_hunters,
+      prince.maternal_guards,
+      prince.upper_queen_monitors,
+      prince.attendants,
+      prince.baseline_total,
+      prince.provisional_associates,
+      prince.initial_total
+    ], true));
+  }
+  table.append(head, body);
+  const foot = document.createElement("tfoot");
+  foot.appendChild(row(["合計", data.totals.private_soldiers_excluding_associates,
+    data.totals.association_hunters, data.totals.maternal_guards,
+    data.totals.upper_queen_monitors, data.totals.attendants,
+    data.totals.baseline, data.totals.provisional_associates, data.totals.initial], true));
+  table.appendChild(foot);
+  wrap.appendChild(table);
+  container.appendChild(wrap);
+
+  const firstQueenChildren = new Set(data.princes.filter((prince) => prince.queen_rank === 1).map((prince) => prince.rank));
+  const initialFirstQueenMonitors = data.princes.filter((prince) => !firstQueenChildren.has(prince.rank)).length;
+  const laterFirstQueenMonitors = personnelSnapshotsData.find((snapshot) => snapshot.chapter === 374)?.princes
+    .flatMap((prince) => prince.queen_deployments)
+    .find((deployment) => deployment.queen_rank === 1 && deployment.purpose === "下位王子の監視")?.count;
+  const note = document.createElement("p");
+  note.className = "guide-source-note";
+  note.textContent = laterFirstQueenMonitors === undefined
+    ? `第1王妃ウンマの監視兵は、初期配置案では下位の${initialFirstQueenMonitors}王子へ各1名、計${initialFirstQueenMonitors}名です。第374話との照合データを読み込めませんでした。`
+    : `第1王妃ウンマの監視兵は、初期配置案では下位の${initialFirstQueenMonitors}王子へ各1名、計${initialFirstQueenMonitors}名です。ワブル側の1名の死亡、ヴォルフの死亡（第373話）、モモゼ側の1名の拘束（第368話）を任務から外れた3名と置くと、${initialFirstQueenMonitors}−1−1−1＝${initialFirstQueenMonitors - 3}名となり、第374話の${laterFirstQueenMonitors}名と一致します。死亡2名と拘束1名で説明する復元案です。原図には減少理由の明記がなく、ヴォルフの初期監視先は未確認です。他の王妃は同じ減算で原図と一致しないため、図の全欄を同じ稼働人数の基準とは断定していません。第1・第4王子欄の同じ人数は一度だけ数え、王子の私設兵は加えません。`;
+  container.appendChild(note);
+}
+
 function renderPersonnelSnapshot(container) {
   container.replaceChildren();
   const snapshot = personnelSnapshotsData.find((entry) => entry.chapter === 374);
@@ -5063,7 +5266,10 @@ function renderOpenQuestions(container, category = "all") {
         link.addEventListener("click", () => showDetailModal(event.id, "event", event));
         links.appendChild(link);
       });
-      card.append(heading, meta, known, unknown, links);
+      const essayLink = document.createElement("a");
+      essayLink.href = `theories/${encodeURIComponent(question.id)}/`;
+      essayLink.textContent = "根拠と考察を読む →";
+      card.append(heading, meta, known, unknown, links, essayLink);
       container.appendChild(card);
     });
   if (category === "all") {
@@ -5145,6 +5351,7 @@ function scrollToCurrentHash() {
 }
 
 function getNenKnowledgeLabel(character, compact = false) {
+  if (character.nen_status === "historical_unorganized") return "念：この時点の能力情報は未整理";
   const status = character.nen_status || (isConfirmedNenUser(character) ? "confirmed" : "unknown");
   if (compact) return ({confirmed:"念：確認済み", unknown:"念：未確認", unavailable_confirmed:"念：使用不可の記録", not_awakened_confirmed:"念：未覚醒の記録"})[status]
     + (character.nen_status_chapter ? `（第${character.nen_status_chapter}話）` : "");
@@ -5238,7 +5445,8 @@ function makeCompactEventReviewRibbon(event) {
 function makeCharacterReviewPanel(person) {
   const panel = document.createElement("section");
   panel.className = "character-review-panel";
-  const rows = CharacterFacts.claimRows(person, eventsData);
+  const scopedEvents = getPersonnelEvents();
+  const rows = CharacterFacts.claimRows(person, scopedEvents).filter(row => row.event_ids.every(id => scopedEvents.some(event => event.id === id)));
   if (!rows.length) return panel;
   const heading = document.createElement("h4");
   heading.textContent = "出来事の記録から分かること";
@@ -5248,7 +5456,7 @@ function makeCharacterReviewPanel(person) {
     paragraph.textContent = row.text;
     panel.appendChild(paragraph);
     row.event_ids.forEach(id => {
-      const event = eventsData.find(e => e.id === id);
+      const event = scopedEvents.find(e => e.id === id);
       if (!event) return;
       const link = document.createElement("button");
       link.type = "button";
@@ -5325,10 +5533,16 @@ function refreshSharedSpoilers() {
     control.setAttribute("aria-expanded", String(spoilersRevealed)); content.hidden = !spoilersRevealed;
     if (spoilersRevealed) render(content); else content.replaceChildren();
   });
+  const initialPersonnel = document.getElementById("initialPersonnelContent");
+  if (initialPersonnel) {
+    if (spoilersRevealed) renderInitialPersonnelGuide(initialPersonnel);
+    else initialPersonnel.replaceChildren();
+  }
 }
 
 const VIEW_FILTER_CONTROLS = {
   c_search: "characterSearch", c_type: "characterTypeFilter", c_camp: "characterCampFilter", c_prince: "characterPrinceFilter",
+  c_when: "characterPeriodFilter", c_queen: "characterQueenFilter",
   t_room: "roomFilter", t_type: "typeFilter", t_person: "participantFilter", t_chapter: "chapterFilter", t_series: "seriesFilter", t_sort: "timelineSortOrder", t_clock: "timeDisplayMode"
 };
 
@@ -5375,7 +5589,7 @@ function restoreViewFromUrl(url) {
     if (value !== null && control && (control.tagName !== "SELECT" || [...control.options].some((option) => option.value === value))) control.value = value;
   });
   const group = url.searchParams.get("c_group");
-  if (["all", "princes", "queens", "major", ...Object.keys(CHARACTER_TYPE_LABELS), "royal"].includes(group)) activeCharacterSection = group;
+  if (["all", "princes", "queens", "major", "personnel", ...Object.keys(CHARACTER_TYPE_LABELS), "royal"].includes(group)) activeCharacterSection = group;
   activeCharacterAffiliation = url.searchParams.get("c_affiliation"); activeCharacterTags.clear();
   (url.searchParams.get("c_tags") || "").split(",").filter((id) => characterTagDefinitions.has(id)).forEach(toggleCharacterTagFilter);
   const period = url.searchParams.get("t_period");
@@ -5475,7 +5689,7 @@ function setModalBackgroundInert(inert) {
 
 async function init() {
   try {
-    const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData, personnelSnapshots, sources] = await Promise.all([
+    const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData, personnelSnapshots, initialPersonnel, personnelRoster, sources] = await Promise.all([
       loadJson(DATA.characters),
       loadJson(DATA.characterTags),
       loadJson(DATA.characterImages),
@@ -5487,6 +5701,8 @@ async function init() {
       loadJson(DATA.mafia),
       loadJson(DATA.alliances),
       loadJson(DATA.personnelSnapshots),
+      loadJson(DATA.initialPersonnel),
+      loadJson(DATA.personnelRoster),
       loadJson(DATA.sources)
     ]);
 
@@ -5592,6 +5808,8 @@ async function init() {
     alliancesData = allianceData.alliances;
     mafiaData = mafia;
     personnelSnapshotsData = personnelSnapshots.snapshots || [];
+    initialPersonnelData = initialPersonnel;
+    personnelRosterData = personnelRoster;
     try {
       spoilersRevealed = localStorage.getItem(SPOILER_VISIBILITY_KEY) === "true";
     } catch (error) {
@@ -5650,6 +5868,8 @@ async function init() {
       const person = charactersData.find((candidate) => candidate.id === initialViewUrl.searchParams.get("person"));
       if (person) showDetailModal(person.id, person.type === "prince" ? "prince" : "bodyguard");
     }
+    const linkedEvent = eventsData.find(event => event.id === initialViewUrl.searchParams.get("event"));
+    if (linkedEvent) showDetailModal(linkedEvent.id, "event", linkedEvent);
 
     try {
       const pending = JSON.parse(sessionStorage.getItem(REOPEN_DETAIL_KEY) || "null");

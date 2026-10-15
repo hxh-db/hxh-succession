@@ -1,0 +1,3884 @@
+{
+  "version": 1,
+  "initial_total": 230,
+  "scope": "出航時230人の復元名簿。王族本人・マフィア・下層兵力を含む船全体の総数ではない。",
+  "members": [
+    {
+      "slot_id": "INIT-P01-PRIVATE-01",
+      "character_id": "P01-P03",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-02",
+      "character_id": "P01-P04",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-03",
+      "character_id": "P01-P05",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-04",
+      "character_id": "P01-P06",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-05",
+      "character_id": "P01-P07",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-06",
+      "character_id": "P01-P08",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-07",
+      "character_id": "P01-P09",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-08",
+      "character_id": "P01-P10",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-09",
+      "character_id": "P01-P11",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-10",
+      "character_id": "P01-P12",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-11",
+      "character_id": "P01-P13",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-12",
+      "character_id": "P01-P16",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-13",
+      "character_id": "P07-G06",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-14",
+      "character_id": "P11-G01",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P01-PRIVATE-15",
+      "character_id": "INIT-P01-PRIVATE-15",
+      "initial": true,
+      "prince_ranks": [
+        1
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "派遣先のcamp・IDのP07/P11を所属元に読み替えず、第1王子の出身枠で一度だけ数える。チヤマシ等の出航時の在室は別途確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-01",
+      "character_id": "P02-P01",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-02",
+      "character_id": "P02-P02",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-03",
+      "character_id": "P02-P03",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-04",
+      "character_id": "P02-P04",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-05",
+      "character_id": "P02-P05",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-06",
+      "character_id": "P02-P06",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-07",
+      "character_id": "P02-P07",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-08",
+      "character_id": "P02-P08",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-09",
+      "character_id": "P02-P09",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-10",
+      "character_id": "P02-P10",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-11",
+      "character_id": "P02-P11",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-12",
+      "character_id": "P02-P12",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-13",
+      "character_id": "P02-P13",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-14",
+      "character_id": "P02-P14",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-15",
+      "character_id": "P02-P15",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-16",
+      "character_id": "INIT-P02-STAFF-16",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-17",
+      "character_id": "INIT-P02-STAFF-17",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-18",
+      "character_id": "INIT-P02-STAFF-18",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-STAFF-19",
+      "character_id": "INIT-P02-STAFF-19",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P02-MONITORS-01",
+      "character_id": "P01-G01",
+      "initial": true,
+      "prince_ranks": [
+        2
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-01",
+      "character_id": "P03-P01",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-02",
+      "character_id": "P03-P02",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-03",
+      "character_id": "P03-P03",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-04",
+      "character_id": "INIT-P03-PRIVATE-04",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-05",
+      "character_id": "INIT-P03-PRIVATE-05",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-06",
+      "character_id": "INIT-P03-PRIVATE-06",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-07",
+      "character_id": "INIT-P03-PRIVATE-07",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-08",
+      "character_id": "INIT-P03-PRIVATE-08",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-09",
+      "character_id": "INIT-P03-PRIVATE-09",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-10",
+      "character_id": "INIT-P03-PRIVATE-10",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-11",
+      "character_id": "INIT-P03-PRIVATE-11",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-12",
+      "character_id": "INIT-P03-PRIVATE-12",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-13",
+      "character_id": "INIT-P03-PRIVATE-13",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-14",
+      "character_id": "INIT-P03-PRIVATE-14",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-PRIVATE-15",
+      "character_id": "INIT-P03-PRIVATE-15",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-MONITORS-01",
+      "character_id": "P03-G01",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "スラッカは第14王子へ移る前の第3王子側初期枠に対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-MONITORS-02",
+      "character_id": "INIT-P03-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "スラッカは第14王子へ移る前の第3王子側初期枠に対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-ATTENDANTS-01",
+      "character_id": "INIT-P03-ATTENDANTS-01",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-ATTENDANTS-02",
+      "character_id": "INIT-P03-ATTENDANTS-02",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P03-ATTENDANTS-03",
+      "character_id": "INIT-P03-ATTENDANTS-03",
+      "initial": true,
+      "prince_ranks": [
+        3
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-01",
+      "character_id": "P04-M01",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-02",
+      "character_id": "P04-P02",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-03",
+      "character_id": "P04-P03",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-04",
+      "character_id": "P04-P04",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-05",
+      "character_id": "P04-P05",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-06",
+      "character_id": "P04-U01",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-07",
+      "character_id": "INIT-P04-PRIVATE-07",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-08",
+      "character_id": "INIT-P04-PRIVATE-08",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-09",
+      "character_id": "INIT-P04-PRIVATE-09",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-10",
+      "character_id": "INIT-P04-PRIVATE-10",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-11",
+      "character_id": "INIT-P04-PRIVATE-11",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-12",
+      "character_id": "INIT-P04-PRIVATE-12",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-13",
+      "character_id": "INIT-P04-PRIVATE-13",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-14",
+      "character_id": "INIT-P04-PRIVATE-14",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-PRIVATE-15",
+      "character_id": "INIT-P04-PRIVATE-15",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "第348話の顔／資格と第394話のボークセンの準協会員資格に対応の競合があるため、5枠への個人別資格割当ては完了扱いにしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-ATTENDANTS-01",
+      "character_id": "INIT-P04-ATTENDANTS-01",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-ATTENDANTS-02",
+      "character_id": "INIT-P04-ATTENDANTS-02",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-ATTENDANTS-03",
+      "character_id": "INIT-P04-ATTENDANTS-03",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-ATTENDANTS-04",
+      "character_id": "INIT-P04-ATTENDANTS-04",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P04-ATTENDANTS-05",
+      "character_id": "INIT-P04-ATTENDANTS-05",
+      "initial": true,
+      "prince_ranks": [
+        4
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-01",
+      "character_id": "P05-P01",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-02",
+      "character_id": "P05-M01",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-03",
+      "character_id": "P05-G01",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-04",
+      "character_id": "INIT-P05-STAFF-04",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-05",
+      "character_id": "INIT-P05-STAFF-05",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-06",
+      "character_id": "INIT-P05-STAFF-06",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-07",
+      "character_id": "INIT-P05-STAFF-07",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-08",
+      "character_id": "INIT-P05-STAFF-08",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-09",
+      "character_id": "INIT-P05-STAFF-09",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-10",
+      "character_id": "INIT-P05-STAFF-10",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-11",
+      "character_id": "INIT-P05-STAFF-11",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-12",
+      "character_id": "INIT-P05-STAFF-12",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-13",
+      "character_id": "INIT-P05-STAFF-13",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-14",
+      "character_id": "INIT-P05-STAFF-14",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-15",
+      "character_id": "INIT-P05-STAFF-15",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-16",
+      "character_id": "INIT-P05-STAFF-16",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-17",
+      "character_id": "INIT-P05-STAFF-17",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-18",
+      "character_id": "INIT-P05-STAFF-18",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-STAFF-19",
+      "character_id": "INIT-P05-STAFF-19",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "staff",
+      "basis": "reconstructed",
+      "notes": "ロンギは本人の説明により第2王妃所属兵。クラピカの『第5王子私設兵』という呼称を所属根拠にせず、この私設兵・従事者グループへの個人割当ては保留する。ハイゼンは第388話の部下だが職種未確認。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P05-MONITORS-01",
+      "character_id": "INIT-P05-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        5
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-PRIVATE-01",
+      "character_id": "P06-P02",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-PRIVATE-02",
+      "character_id": "P06-P03",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-PRIVATE-03",
+      "character_id": "P06-P04",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-PRIVATE-04",
+      "character_id": "P06-P05",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-PRIVATE-05",
+      "character_id": "P06-P06",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-HUNTERS-01",
+      "character_id": "P06-H01",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-HUNTERS-02",
+      "character_id": "P06-P01",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-MONITORS-01",
+      "character_id": "INIT-P06-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-MONITORS-02",
+      "character_id": "INIT-P06-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-MONITORS-03",
+      "character_id": "INIT-P06-MONITORS-03",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-ATTENDANTS-01",
+      "character_id": "INIT-P06-ATTENDANTS-01",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-ATTENDANTS-02",
+      "character_id": "INIT-P06-ATTENDANTS-02",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-ATTENDANTS-03",
+      "character_id": "INIT-P06-ATTENDANTS-03",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-ATTENDANTS-04",
+      "character_id": "INIT-P06-ATTENDANTS-04",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P06-ATTENDANTS-05",
+      "character_id": "INIT-P06-ATTENDANTS-05",
+      "initial": true,
+      "prince_ranks": [
+        6
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-PRIVATE-01",
+      "character_id": "P07-P01",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-PRIVATE-02",
+      "character_id": "P07-P02",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-PRIVATE-03",
+      "character_id": "INIT-P07-PRIVATE-03",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-PRIVATE-04",
+      "character_id": "INIT-P07-PRIVATE-04",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-HUNTERS-01",
+      "character_id": "P07-H01",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-HUNTERS-02",
+      "character_id": "HA-006",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-HUNTERS-03",
+      "character_id": "HA-007",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-01",
+      "character_id": "P07-G01",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-02",
+      "character_id": "P07-G02",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-03",
+      "character_id": "P07-G03",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-04",
+      "character_id": "P07-G04",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-05",
+      "character_id": "P07-G05",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MATERNAL-06",
+      "character_id": "P07-G07",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "第389話のサトビ＋5人の構成と第411話の名前付き人物を照合候補とする。ハピエッチ／ハビェッチ等の綴り・顔の対応は保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-MONITORS-01",
+      "character_id": "INIT-P07-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P07-ATTENDANTS-01",
+      "character_id": "INIT-P07-ATTENDANTS-01",
+      "initial": true,
+      "prince_ranks": [
+        7
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-PRIVATE-01",
+      "character_id": "INIT-P08-PRIVATE-01",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-PRIVATE-02",
+      "character_id": "INIT-P08-PRIVATE-02",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-PRIVATE-03",
+      "character_id": "INIT-P08-PRIVATE-03",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-PRIVATE-04",
+      "character_id": "INIT-P08-PRIVATE-04",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-PRIVATE-05",
+      "character_id": "INIT-P08-PRIVATE-05",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MATERNAL-01",
+      "character_id": "P08-G01",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MATERNAL-02",
+      "character_id": "INIT-P08-MATERNAL-02",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MATERNAL-03",
+      "character_id": "INIT-P08-MATERNAL-03",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MONITORS-01",
+      "character_id": "P08-G02",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "コロアブデは第374話写真9左の名前・第3王妃所属の台詞からの候補。顔画像は未対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MONITORS-02",
+      "character_id": "INIT-P08-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "コロアブデは第374話写真9左の名前・第3王妃所属の台詞からの候補。顔画像は未対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MONITORS-03",
+      "character_id": "INIT-P08-MONITORS-03",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "コロアブデは第374話写真9左の名前・第3王妃所属の台詞からの候補。顔画像は未対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-MONITORS-04",
+      "character_id": "INIT-P08-MONITORS-04",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": 4,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "コロアブデは第374話写真9左の名前・第3王妃所属の台詞からの候補。顔画像は未対応。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-ATTENDANTS-01",
+      "character_id": "INIT-P08-ATTENDANTS-01",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-ATTENDANTS-02",
+      "character_id": "INIT-P08-ATTENDANTS-02",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P08-ATTENDANTS-03",
+      "character_id": "INIT-P08-ATTENDANTS-03",
+      "initial": true,
+      "prince_ranks": [
+        8
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-01",
+      "character_id": "P09-P03",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-02",
+      "character_id": "P09-P04",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-03",
+      "character_id": "P09-P05",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-04",
+      "character_id": "P09-U01",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-05",
+      "character_id": "P09-U02",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-06",
+      "character_id": "P09-S01",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-07",
+      "character_id": "P09-S02",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-08",
+      "character_id": "P09-S03",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-09",
+      "character_id": "P09-S04",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-10",
+      "character_id": "P09-S05",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-11",
+      "character_id": "P09-S06",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-12",
+      "character_id": "P09-S07",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-13",
+      "character_id": "P09-S08",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-PRIVATE-14",
+      "character_id": "P09-S09",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "private",
+      "basis": "reconstructed",
+      "notes": "作者設定表の私設兵14欄を一人ずつ対応付けた氏名台帳。本編未照合の9人の出航時の個別配置・所在は未確定。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P09-MONITORS-01",
+      "character_id": "P09-G01",
+      "initial": true,
+      "prince_ranks": [
+        9
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "第375話の『交代した第1王妃所属兵オルズニー』を元の監視兵枠の候補にする。交代後のシカクは第1王子の出身枠。",
+      "history": [
+        {
+          "chapter": 375,
+          "assignment": "シカクと交替後・配置未確認",
+          "basis": "第375話、オルズニーから交替したと述べる兵の独白。死亡や除籍を意味しない"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P10-HUNTERS-01",
+      "character_id": "P10-H01",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-HUNTERS-02",
+      "character_id": "P10-H02",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-HUNTERS-03",
+      "character_id": "INIT-P10-HUNTERS-03",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MATERNAL-01",
+      "character_id": "INIT-P10-MATERNAL-01",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MATERNAL-02",
+      "character_id": "INIT-P10-MATERNAL-02",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MONITORS-01",
+      "character_id": "INIT-P10-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MONITORS-02",
+      "character_id": "INIT-P10-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MONITORS-03",
+      "character_id": "INIT-P10-MONITORS-03",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MONITORS-04",
+      "character_id": "INIT-P10-MONITORS-04",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 4,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-MONITORS-05",
+      "character_id": "INIT-P10-MONITORS-05",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-ATTENDANTS-01",
+      "character_id": "P10-M01",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-ATTENDANTS-02",
+      "character_id": "P10-M02",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-ATTENDANTS-03",
+      "character_id": "P10-M03",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-ATTENDANTS-04",
+      "character_id": "P10-M04",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P10-ATTENDANTS-05",
+      "character_id": "INIT-P10-ATTENDANTS-05",
+      "initial": true,
+      "prince_ranks": [
+        10
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MATERNAL-01",
+      "character_id": "P11-G02",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MATERNAL-02",
+      "character_id": "P11-G03",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MONITORS-01",
+      "character_id": "INIT-P11-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MONITORS-02",
+      "character_id": "INIT-P11-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MONITORS-03",
+      "character_id": "INIT-P11-MONITORS-03",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MONITORS-04",
+      "character_id": "INIT-P11-MONITORS-04",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 4,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-MONITORS-05",
+      "character_id": "INIT-P11-MONITORS-05",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-01",
+      "character_id": "P11-M01",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-02",
+      "character_id": "P11-M02",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-03",
+      "character_id": "P11-M03",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-04",
+      "character_id": "INIT-P11-ATTENDANTS-04",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-05",
+      "character_id": "INIT-P11-ATTENDANTS-05",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-06",
+      "character_id": "INIT-P11-ATTENDANTS-06",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-07",
+      "character_id": "INIT-P11-ATTENDANTS-07",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P11-ATTENDANTS-08",
+      "character_id": "INIT-P11-ATTENDANTS-08",
+      "initial": true,
+      "prince_ranks": [
+        11
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-HUNTERS-01",
+      "character_id": "P12-H01",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-HUNTERS-02",
+      "character_id": "INIT-P12-HUNTERS-02",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-HUNTERS-03",
+      "character_id": "INIT-P12-HUNTERS-03",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-HUNTERS-04",
+      "character_id": "INIT-P12-HUNTERS-04",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-HUNTERS-05",
+      "character_id": "INIT-P12-HUNTERS-05",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-01",
+      "character_id": "P12-Q05",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": [
+        {
+          "chapter": 368,
+          "status": "拘束",
+          "event_id": "E368-005"
+        },
+        {
+          "chapter": 374,
+          "status": "死亡",
+          "basis": "拘束房での自害の報告。第372話では描写末尾未確認"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-02",
+      "character_id": "P12-G02",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": [
+        {
+          "chapter": 368,
+          "status": "拘束",
+          "event_id": "E368-005"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-03",
+      "character_id": "P12-G03",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": [
+        {
+          "chapter": 368,
+          "status": "拘束",
+          "event_id": "E368-005"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-04",
+      "character_id": "P12-G04",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 4,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": [
+        {
+          "chapter": 368,
+          "status": "拘束",
+          "event_id": "E368-005"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-05",
+      "character_id": "P12-G05",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": [
+        {
+          "chapter": 368,
+          "status": "拘束",
+          "event_id": "E368-005"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-MONITORS-06",
+      "character_id": "P12-G06",
+      "initial": true,
+      "prince_ranks": [
+        12
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-HUNTERS-01",
+      "character_id": "P13-H01",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-HUNTERS-02",
+      "character_id": "P13-H02",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-HUNTERS-03",
+      "character_id": "INIT-P13-HUNTERS-03",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-HUNTERS-04",
+      "character_id": "INIT-P13-HUNTERS-04",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-HUNTERS-05",
+      "character_id": "INIT-P13-HUNTERS-05",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-01",
+      "character_id": "INIT-P13-MONITORS-01",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 1,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-02",
+      "character_id": "INIT-P13-MONITORS-02",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 2,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-03",
+      "character_id": "INIT-P13-MONITORS-03",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 3,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-04",
+      "character_id": "INIT-P13-MONITORS-04",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 4,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-05",
+      "character_id": "INIT-P13-MONITORS-05",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 5,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P13-MONITORS-06",
+      "character_id": "INIT-P13-MONITORS-06",
+      "initial": true,
+      "prince_ranks": [
+        13
+      ],
+      "queen_rank": 6,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-HUNTERS-01",
+      "character_id": "P14-H01",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-HUNTERS-02",
+      "character_id": "P14-H02",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-HUNTERS-03",
+      "character_id": "P14-H03",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-HUNTERS-04",
+      "character_id": "P14-P01",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "hunters",
+      "basis": "reconstructed",
+      "notes": "",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-01",
+      "character_id": "P14-P02",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-02",
+      "character_id": "P14-U01",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-03",
+      "character_id": "P14-U02",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-04",
+      "character_id": "P14-U03",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-05",
+      "character_id": "P14-U04",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-06",
+      "character_id": "P14-P04",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-MONITORS-07",
+      "character_id": "P14-P05",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "identity_pool": "p14.monitors",
+      "group": "monitors",
+      "basis": "reconstructed",
+      "notes": "監視兵7人の存在は第360話。6つの仮称IDを含む7人を数え、所属王妃の個別割当てはしない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-ATTENDANTS-01",
+      "character_id": "P14-M01",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "辞退2人は原作で別人として描かれる。仮称3・4の番号と顔の対応は個人名の確定ではない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-ATTENDANTS-02",
+      "character_id": "P14-M02",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "辞退2人は原作で別人として描かれる。仮称3・4の番号と顔の対応は個人名の確定ではない。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P14-ATTENDANTS-03",
+      "character_id": "P14-M03",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "辞退2人は原作で別人として描かれる。仮称3・4の番号と顔の対応は個人名の確定ではない。",
+      "history": [
+        {
+          "chapter": 361,
+          "status": "辞退申出",
+          "basis": "第361話の従事者2名の辞退申出。退去の瞬間は未確認"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P14-ATTENDANTS-04",
+      "character_id": "P14-M04",
+      "initial": true,
+      "prince_ranks": [
+        14
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "辞退2人は原作で別人として描かれる。仮称3・4の番号と顔の対応は個人名の確定ではない。",
+      "history": [
+        {
+          "chapter": 361,
+          "status": "辞退申出",
+          "basis": "第361話の従事者2名の辞退申出。退去の瞬間は未確認"
+        }
+      ]
+    },
+    {
+      "slot_id": "INIT-P12-P13-MATERNAL-01",
+      "character_id": "P13-G01",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": 7,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "バリゲン・ウェルゲーの2人を初期2枠の候補として一度だけ数える。現在のinitial_roomだけで両方をマラヤームの初期1枠に押し込まず、出身の1人ずつの割当ては保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-MATERNAL-02",
+      "character_id": "P13-G03",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": 7,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "maternal",
+      "basis": "reconstructed",
+      "notes": "バリゲン・ウェルゲーの2人を初期2枠の候補として一度だけ数える。現在のinitial_roomだけで両方をマラヤームの初期1枠に押し込まず、出身の1人ずつの割当ては保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-01",
+      "character_id": "P13-M01",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-02",
+      "character_id": "INIT-P12-P13-ATTENDANTS-02",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-03",
+      "character_id": "INIT-P12-P13-ATTENDANTS-03",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-04",
+      "character_id": "INIT-P12-P13-ATTENDANTS-04",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-05",
+      "character_id": "INIT-P12-P13-ATTENDANTS-05",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    },
+    {
+      "slot_id": "INIT-P12-P13-ATTENDANTS-06",
+      "character_id": "INIT-P12-P13-ATTENDANTS-06",
+      "initial": true,
+      "prince_ranks": [
+        12,
+        13
+      ],
+      "queen_rank": null,
+      "queen_pool": [],
+      "identity_pool": null,
+      "group": "attendants",
+      "basis": "reconstructed",
+      "notes": "合流後6人にナイペイと旧人数枠5件が登録されている。ナイペイの第411話の担当先から初期の出身枠を断定せず、3＋3人のどちらに属したかは保留。",
+      "history": []
+    }
+  ],
+  "later": [
+    {
+      "character_id": "KNG-002",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "EII-T01",
+      "initial": false,
+      "observed_from": 394,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [
+        {
+          "chapter": 394,
+          "assignment": "第3層へ転属",
+          "event_id": "E394-004"
+        }
+      ],
+      "basis": "retrospective_confirmation",
+      "notes": "ユーザー指定で初期230人の外。第394話で王子居住区の周辺警護から第3層への転属を確認。394は過去の任務を確認できる話数であり、王室への加入時刻を断定しない。"
+    },
+    {
+      "character_id": "P05-G02",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": 2,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "Q02-S01",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": 2,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-L01",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-L02",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-L03",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-L04",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-L05",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P04-P06",
+      "initial": false,
+      "observed_from": 394,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [
+        {
+          "chapter": 394,
+          "assignment": "第4王子居住区へ配属（後の本人紹介でも確認）",
+          "basis": "第394話の交替会話と第411話の本人紹介"
+        }
+      ],
+      "basis": "retrospective_confirmation",
+      "notes": "第394話の交代の会話と第411話の本人紹介で王子居住区への配属を確認。394は確認できる話数で、配属の正確な日付ではない。"
+    },
+    {
+      "character_id": "P07-U01",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P07-U02",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U01",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U02",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U03",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U04",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U05",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "P08-U06",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "ARM-001",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    },
+    {
+      "character_id": "KNG-003",
+      "initial": false,
+      "observed_from": null,
+      "queen_rank": null,
+      "prince_ranks": [],
+      "history": [],
+      "basis": "entry_unverified",
+      "notes": "初期230人の個人枠への対応と王子居住区の任務開始時点は未確認。全員表示では表示する。"
+    }
+  ],
+  "identity_pools": [
+    {
+      "id": "p14.monitors",
+      "character_ids": [
+        "P14-P02",
+        "P14-U01",
+        "P14-U02",
+        "P14-U03",
+        "P14-U04",
+        "P14-P04",
+        "P14-P05"
+      ],
+      "queen_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "note": "各王妃から1名ずつ。氏名・顔と所属王妃の対応は未確定。同じ人員を別人として足さない。"
+    }
+  ],
+  "queen_projections": [
+    {
+      "character_id": "VIEW-Q1-P14-MONITORS",
+      "queen_rank": 1,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q2-P14-MONITORS",
+      "queen_rank": 2,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q3-P14-MONITORS",
+      "queen_rank": 3,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q4-P14-MONITORS",
+      "queen_rank": 4,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q5-P14-MONITORS",
+      "queen_rank": 5,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q6-P14-MONITORS",
+      "queen_rank": 6,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    },
+    {
+      "character_id": "VIEW-Q7-P14-MONITORS",
+      "queen_rank": 7,
+      "pool_id": "p14.monitors",
+      "prince_ranks": [
+        14
+      ],
+      "inactive_from": 361,
+      "inactive_status": "死亡"
+    }
+  ]
+}

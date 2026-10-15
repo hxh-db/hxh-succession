@@ -155,7 +155,7 @@
 | [オトシン（P04-L01）](../../characters/P04-L01/index.html)、[モーモリー（P04-L02）](../../characters/P04-L02/index.html)、[王立軍学校同期兵A（仮称）（P04-L03）](../../characters/P04-L03/index.html)、[王立軍学校同期兵B（仮称）（P04-L04）](../../characters/P04-L04/index.html)、[王立軍学校同期兵C（仮称）（P04-L05）](../../characters/P04-L05/index.html)、[ギッパー（P04-P06）](../../characters/P04-P06/index.html) | initial_quota_unverified | 第394話の下層部隊。ツェリードニヒ所属は登録されているが、出航時の15人枠・準協会員枠との対応は未確認。ギッパーの上層への異動を初期配置に戻さない。 |
 | [ボークセン（EII-T01）](../../characters/EII-T01/index.html) | initial_quota_unverified | ボークセンは第394話で準協会員と明記され、上層から下層へ転属。第348話の5人／第374話の準協会員5枠との個別対応・交替時期が未確定なので、初期の6人目の準協会員として足さない。 |
 | [ルズールス私設兵・額タトゥーの金髪（仮称）（P07-U01）](../../characters/P07-U01/index.html)、[ルズールス私設兵・歯抜けの金髪（仮称）（P07-U02）](../../characters/P07-U02/index.html) | initial_quota_unverified | 第414話の顔資料2件。第415話の第7王子私設兵殺害の証言との個別対応、既知のバラーテ・マクネとの同一性、初期枠の在籍は未確定。 |
-| [ヴォルフ（P01-G01）](../../characters/P01-G01/index.html) | unsupported_initial_role | ヴォルフの第1王妃所属・ベンジャミン警護・第361話でカミーラに殺害という旧記録を確認できない。初期15枠への追加根拠にしない。 |
+| [ヴォルフ（P01-G01）](../../characters/P01-G01/index.html) | unsupported_initial_role | 第376話110ページで第1王妃所属兵ヴォルフと名指しされ、第373話58ページの銃撃場面と対応する。旧死亡話数361は373へ訂正。初期の監視担当王子は未確認のため、ベンジャミンの初期私設兵15枠には加えない。ウンマの監視兵12→9の復元では、ワブル側の死亡1・ヴォルフ死亡1・モモゼ側の拘束1として数が一致する。 |
 | [マカハ（P05-G02）](../../characters/P05-G02/index.html)、[マンダム（Q02-S01）](../../characters/Q02-S01/index.html) | initial_destination_unknown | マカハ・マンダムは第2王妃に関わる登録だが、初期の王子別派遣先を確認できない。IDのP05や標的から第5王子の枠を埋めない。 |
 
 ## 今回修正した所属

@@ -1,12 +1,12 @@
 {
   "generator": "scripts/build-character-pages.cjs",
   "site": "https://hxh-db.github.io/hxh-succession/",
-  "character_count": 266,
-  "directory_count": 243,
+  "character_count": 387,
+  "directory_count": 357,
   "source_sha256": {
-    "characters.json": "3d9758cd3e389d66edd7b9f7a9fbb6d4739a07a6863dd6dd41fe51b40a261fcf",
+    "characters.json": "67fd7667b17747d52cf6f210c529c3a690ff01a77ccfb1d00f0144b5b5f8f1ea",
     "character_images.json": "0a4c51165a596a19df9b9d582aba25dce327920e9dfce1260ff58f248fb5964b",
-    "events.json": "dd69b88c10dec0c3f7e48787a0e22600535b2a9f650a5a8e15dfe95174eef861",
+    "events.json": "45f5dd8ecd3ddaf6a09490596597877c7b4f2a60da711da1f81bcc3c1e5ae18d",
     "count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
     "sources.json": "5a28f2f18d9abba116f958251c9275c22bec519dfce33343d5506ad8ba21996f"
   }

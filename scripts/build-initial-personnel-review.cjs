@@ -10,7 +10,7 @@ const OUTPUT = 'data/intake/initial_personnel_coverage_20261013';
 const read = file => JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
 const config = read(INPUT);
 const counts = read(config.counts_file);
-const characters = read('data/characters.json');
+const characters = read('data/characters.json').filter(person => person.generated_by !== 'personnel-roster');
 const characterMap = new Map(characters.map(person => [person.id, person]));
 const countOnly = new Set(read('data/count_only_characters.json').ids);
 const imageMap = new Map(read('data/character_images.json').map(item => [item.id, item.image]));

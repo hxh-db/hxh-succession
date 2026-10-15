@@ -1,0 +1,32 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const events = new Map(JSON.parse(fs.readFileSync(path.join(root, 'data/events.json'), 'utf8')).map(e => [e.id, e]));
+for (const directory of fs.readdirSync(path.join(root, 'theories'), {withFileTypes:true}).filter(e => e.isDirectory())) {
+  const html = fs.readFileSync(path.join(root, 'theories', directory.name, 'index.html'), 'utf8');
+  const limit = Number(html.match(/<dt>本文のネタバレ<\/dt><dd>第(\d+)話まで/)[1]);
+  const article = html.slice(html.indexOf('<details class="spoiler-article">'));
+  for (const mention of article.matchAll(/第(\d{3})話/g)) assert.ok(Number(mention[1]) <= limit, `${directory.name}: 本文が上限超過`);
+  assert.ok(html.includes('この記事の要点3つ'));
+  assert.ok(!html.includes('重要な根拠3点'));
+  assert.ok(html.includes('記事の最終更新日'));
+  assert.ok(html.includes('原作再照合日ではありません'));
+  if (directory.name !== 'emperor-time') assert.ok(html.includes('全話再照合した記録は未整備'));
+  for (const ref of html.matchAll(/event=(E\d{3}-\d+)/g)) assert.ok(events.get(ref[1])?.chapter <= limit);
+  const points = html.match(/<ul class="key-evidence">([\s\S]*?)<\/ul>/)[1];
+  assert.equal((points.match(/<li>/g) || []).length, 3);
+  assert.ok(html.indexOf('id="key-points"') < html.indexOf('id="theory"'));
+  assert.ok(html.indexOf('id="limits"') < html.indexOf('class="evidence-details"'));
+  assert.ok(!html.includes('class="evidence-details" open'));
+}
+const bill = fs.readFileSync(path.join(root, 'theories/Q010/index.html'), 'utf8');
+assert.ok(bill.includes('第414話まで'));
+assert.ok(bill.includes('event=E414-005'));
+const first = fs.readFileSync(path.join(root, 'theories/Q001/index.html'), 'utf8');
+assert.ok(first.includes('仮説の比較'));
+const babi = fs.readFileSync(path.join(root, 'theories/Q011/index.html'), 'utf8');
+assert.ok(babi.includes('<dt>本文のネタバレ</dt><dd>第370話まで'));
+assert.ok(!babi.includes('殺害を望む独白'));
+assert.ok(!babi.includes('本人の殺害意図'));
+console.log('PASS: 15 article spoiler limits, event references, three key points, collapsed evidence order, Q010 and Q001');

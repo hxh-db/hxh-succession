@@ -2699,7 +2699,7 @@
       "name": "ヴォルフ",
       "status": "unsupported_initial_role",
       "target": "p01",
-      "reason": "ヴォルフの第1王妃所属・ベンジャミン警護・第361話でカミーラに殺害という旧記録を確認できない。初期15枠への追加根拠にしない。"
+      "reason": "第376話110ページで第1王妃所属兵ヴォルフと名指しされ、第373話58ページの銃撃場面と対応する。旧死亡話数361は373へ訂正。初期の監視担当王子は未確認のため、ベンジャミンの初期私設兵15枠には加えない。ウンマの監視兵12→9の復元では、ワブル側の死亡1・ヴォルフ死亡1・モモゼ側の拘束1として数が一致する。"
     },
     {
       "id": "P03-G01",
@@ -3295,9 +3295,9 @@
     "本編未照合の作者設定表9人を含め、対応候補は初期の個人配置を全件確認済みではない。未対応枠も原作未登場者や新規登録すべき人物と断定しない。"
   ],
   "source_hashes": {
-    "data/intake/initial_personnel_assignments_20261013.json": "3f3047f571c8dd622e2c667c2ba4f6df875d65be761ad897b91c980fe24d8d9d",
+    "data/intake/initial_personnel_assignments_20261013.json": "ce49fb89c276024df03547fc65f1f55f4567991148202d941de061e11ae263fb",
     "data/intake/initial_personnel_review_20261013.json": "e8bdc469c84eeecad04f9c3e66247e098883f6fa9d9fdd1d876146512be25e5a",
-    "data/characters.json": "3d9758cd3e389d66edd7b9f7a9fbb6d4739a07a6863dd6dd41fe51b40a261fcf",
+    "data/characters.json": "67fd7667b17747d52cf6f210c529c3a690ff01a77ccfb1d00f0144b5b5f8f1ea",
     "data/count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
     "data/character_images.json": "0a4c51165a596a19df9b9d582aba25dce327920e9dfce1260ff58f248fb5964b"
   }

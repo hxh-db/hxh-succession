@@ -120,7 +120,7 @@ function expectedOutputs(onlyId = null) {
   const outputs = new Map(selected.map(p => [`characters/${p.id}/index.html`, pageHtml(p,events,characters,sources)]));
   if (!onlyId) {
     const countOnly = new Set(read('count_only_characters.json').ids);
-    const directory = characters.filter(p=>!countOnly.has(p.id) && p.verification_status !== 'unverified');
+    const directory = characters.filter(p=>!p.roster_projection && !countOnly.has(p.id) && p.verification_status !== 'unverified');
     // 既存の type / camp で見出しごとに分ける（王子陣営に配置されたハンターは護衛として扱う）。
     const princeCamps = new Set(characters.filter(p => p.type === 'prince').map(p => p.camp).filter(Boolean));
     const indexGroups = [

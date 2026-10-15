@@ -15,6 +15,9 @@ python local_server.py
 
 ## ファイル構成
 
+- `theories/` — 謎・考察一覧と15本の静的記事。本文はネタバレ設定に従って初期開閉し、個別にも開けます。
+- `scripts/build-theories.py` — 記事の執筆内容と生成処理。編集後に `python scripts/build-theories.py` を実行してください。根拠は `data/events.json` の説明・確認状態を参照し、既存の謎一覧から各記事へリンクします。公開反映は既存の公開手順で別途行います。
+
 - `index.html` - ページ本体
 - `style.css` - レイアウトとデザイン
 - `script.js` - データ読み込みと描画
@@ -22,6 +25,16 @@ python local_server.py
 - `data/events.json` - タイムラインのイベント一覧
 - `data/open_questions.json` - 作中の未解決事項と関連する出来事
 - `data/personnel_snapshots.json` - 第374話の王子別兵力と王妃所属兵の配置スナップショット
+- `data/personnel_roster.json` - 出航時230枠の名簿、後の加入確認、王妃別の未同定枠。`personnel-roster.js` が話数ごとの表示を計算します。
+- `data/personnel_roster_overrides.json` - 初期枠の個人対応の補完、加入確認話数、追加の状態・配置履歴。未知の加入時点を登場話数だけで埋めません。
+- 仮登録の氏名・画像などが判明したら、`identity_updates` にその人物IDの項目を追加して再生成するとIDを保って更新できます。既存人物との同定は `slot_identities` で枠を対応付けます。王妃別の未同定枠7件は `roster_projection` として区別し、全体名簿・人物索引の人数へ追加しません。
+- `data/personnel_roster_report.md` - 王妃ごとの初期人数、原図記載人数、履歴適用後の人数と残る差。原図と個人記録の照合が完了していない箇所を記録します。
+- 人数は「初期復元」「原図記載」「死亡・拘束・辞退・離脱の履歴なし」を区別します。履歴なしには状態未確認も含み、確認済みの稼働人数ではありません。後の時点で状態履歴がない人物を自動で存命とは扱いません。差は登録漏れの人数ではなく、原図の集計範囲・除外条件との対応は未確定です。
+- 初期配置は時点フィルタで変更しません。「選択時点の担当」と部屋は別に表示します。過去時点の能力情報はまだ話数別に整理していないため「この時点の能力情報は未整理」と表示し、原作で当時未判明だったとは断定しません。
+- 考察記事の参照リンクは `?event=<出来事ID>&from_theory=<記事ID>#timeline` で出来事の詳細を直接開きます。詳細には参照元の記事へ戻るリンクがあります。記事検索の追加語は `scripts/build-theories.py` の `search_terms` に登録し、参照出来事の関連人物名・別名も索引に使います。記事更新後は `python scripts/build-theories.py` で再生成してください。
+- 記事本文の話数範囲は同スクリプトの `spoiler_limits` に明記し、`key_points` の要点3点と参照イベントも合わせて更新します。本文・反証を含む範囲を編集時に確認してください（自動検査は明示された話数とイベント参照を検出するもので、文章の意味を完全には検証しません）。`node tests/theory-scope.cjs` で上限と記事構成を検査します。過去名簿では選択話数より後の根拠を必要とする人物説明は表示しません。
+- 考察一覧の検索語・分類はURLの `q`・`category` に保存し、記事往復・再読込でも復元します。本文のネタバレ上限、謎データの `last_checked_chapter`（台帳の確認範囲）、記事の最終更新日は別項目です。台帳の話数だけで全話照合済みとせず、照合記録未整備の場合は明記します。更新日は構成・表記の更新日で、原作再照合日とは区別します。
+- 名簿を更新するときは `node scripts/build-personnel-roster.cjs` → `node scripts/build-initial-personnel-review.cjs` → `node scripts/build-character-pages.cjs`。`node tests/personnel-roster.cjs` で230枠・二重計上・時点・王妃別人数を確認します。未同定人物の仮称は短い役職名＋数字とし、確度は詳細に記載します。
 - `data/intake/initial_personnel_review_20261013.md` - 出航時の15人枠＋準協会員を王子別に復元した初期人数案
 - `data/intake/initial_personnel_coverage_20261013.md` - 初期230枠と既存人物IDの対応候補・未対応枠・旧人数枠の照合表。`node scripts/build-initial-personnel-review.cjs` で再生成し、`--check` で人物台帳との一致と二重計上等を検査
 - `data/spirit_beasts.json` - 王子と国王の人物詳細に表示する守護霊獣データ

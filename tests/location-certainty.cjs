@@ -101,6 +101,7 @@ const ctx = vm.createContext({
   document: {createElement: tag => new Node(tag), createTextNode: value => ({text: value}), createDocumentFragment: () => new Node('#fragment')},
   showDetailModal: (id, category) => opened.push([id, category])
 });
+vm.runInContext('function getPersonnelEvents() { return eventsData; }', ctx);
 vm.runInContext(['sortKey', 'makeLocationPartNodes', 'fillLatestLocationContent', 'makeLatestLocationContent',
   'getSimultaneousScenes', 'fillSimultaneousScenes', 'makeSimultaneousScenesBlock'].map(extract).join('\n'), ctx);
 const links = node => node.children.flatMap(child => child.tagName === 'a' ? [child] : child.children ? links(child) : []);

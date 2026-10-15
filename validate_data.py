@@ -336,6 +336,32 @@ def validate_cross_references(base):
                     errors.append(f"同じ王妃の監視兵数が一致しません: 第{chapter}話 第{queen_rank}王妃")
                 shared_monitor_counts[queen_rank] = count
 
+    roster_path = base / "personnel_roster.json"
+    if roster_path.exists():
+        with open(roster_path, encoding="utf-8") as f:
+            roster = json.load(f)
+        members = roster["members"]
+        member_ids = [entry["character_id"] for entry in members]
+        slots = [entry["slot_id"] for entry in members]
+        if len(members) != 230 or len(set(member_ids)) != 230 or len(set(slots)) != 230:
+            errors.append("初期名簿は重複のない230人・230枠である必要があります")
+        event_map = {event["id"]: event for event in events}
+        seen_members = set()
+        for entry in members + roster["later"]:
+            person_id = entry["character_id"]
+            if person_id not in id_set or person_id in seen_members:
+                errors.append(f"人員名簿の人物参照切れ・二重計上: {person_id}")
+            seen_members.add(person_id)
+            for log in entry.get("history", []):
+                if log.get("event_id") and event_map.get(log["event_id"], {}).get("chapter") != log["chapter"]:
+                    errors.append(f"人員履歴の出来事参照・話数が不一致: {person_id}")
+        pool_ids = {pool["id"] for pool in roster["identity_pools"]}
+        for view in roster["queen_projections"]:
+            if view["character_id"] not in id_set or view["pool_id"] not in pool_ids:
+                errors.append(f"王妃別未同定枠の参照切れ: {view['character_id']}")
+            if view["character_id"] in seen_members:
+                errors.append(f"王妃別未同定枠を別人として加算しています: {view['character_id']}")
+
     for source_name, records in (("人物", characters), ("イベント", events)):
         for record in records:
             setting = record.get("author_setting")
@@ -370,6 +396,7 @@ def main():
         ("mafia.json",          "mafia.schema.json"),
         ("open_questions.json", "open_questions.schema.json"),
         ("personnel_snapshots.json", "personnel_snapshots.schema.json"),
+        ("personnel_roster.json", "personnel_roster.schema.json"),
     ]
 
     all_ok = True

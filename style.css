@@ -2740,7 +2740,16 @@ details.local-drafts-transfer { display:block; }
 .schedule-event > span:first-child { display:block; font-weight:600; line-height:1.65; margin-bottom:8px; }
 /* 見出しは最初の一文だけ。続きがある出来事は、詳細で読めることを控えめに示す */
 .schedule-event small.schedule-event-more { display:inline; margin:0 0 0 6px; color:var(--muted); font-size:.74rem; font-weight:400; white-space:nowrap; }
-.event-source-panel { padding:12px; border:1px solid var(--border); border-radius:8px; margin-bottom:16px; }
+/* 出来事の出典・編集メモ：本文の後ろに置く折りたたみ。共有リンクだけ外に出す */
+.event-source-panel { margin:18px 0 8px; padding:0; border:0; }
+.event-source-panel > .record-permalink { display:inline-block; margin-bottom:6px; }
+.event-source-details { margin-top:6px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; }
+.event-source-details > summary { font-size:.9rem; }
+.event-source-details .event-review-ribbon { margin:10px 0 6px; }
+.event-source-details p { font-size:.86rem; line-height:1.6; }
+.event-editorial-notes-heading { font-weight:700; margin-top:12px !important; }
+.event-editorial-notes { color:var(--muted); font-size:.86rem; margin:6px 0 0; }
+.event-editorial-notes li { margin:4px 0; }
 .coverage-row { display:flex; flex-wrap:wrap; gap:12px; padding:6px 0; border-bottom:1px solid var(--border); font-size:.82rem; }
 .coverage-missing { color:var(--muted); }
 .character-page-card { max-width:850px; margin:24px auto; padding:24px; background:var(--surface,#fff); border:1px solid var(--border); border-radius:12px; overflow-wrap:anywhere; }

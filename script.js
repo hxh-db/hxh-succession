@@ -4701,24 +4701,21 @@ function showDetailModal(name, category, eventData = null) {
     record = eventData;
     titleEl.textContent = getEventHeadline(record);
     const estimatedTime = inferredTimePlacements.get(record.id);
+    // 読者向けの順：本文 → いつ・どこ・誰 → 分かったこと・疑問。出典や編集メモは末尾の折りたたみにまとめる。
+    const whenLabel = [CharacterFacts.dayLabel(record), getTimeLabel(record) || estimatedTime?.label].filter(Boolean).join(" ");
     details = [
-      { label: "章", value: getChapterLabel(record) },
-      { label: "出来事の全文", value: eventHasMoreText(record) ? record.description : "", readable: true },
-      { label: "日", value: CharacterFacts.dayLabel(record) || "—" },
-      { label: "時刻", value: getTimeLabel(record) || (estimatedTime ? `${estimatedTime.label}（推測）` : "—") },
+      { label: "本文", value: eventHasMoreText(record) ? record.description : "", readable: true },
+      { label: "日時", value: whenLabel },
       { label: "場所", value: getLocationKey(record) },
-      { label: "内容の確認", value: getEventVerificationLabel(record) },
-      { label: "日付の確度", value: getDateCertaintyLabel(record) || "原作記録に基づく日付" },
+      { label: "話数", value: getChapterLabel(record) },
+      { label: "関係人物", value: getEventCharacterDisplayLabels(record).join(" / ") },
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
-      { label: "種別", value: record.type || "出来事" },
-      { label: "関係人物", value: getEventCharacterLabels(record).join(" / ") },
-      { label: "詳細", value: formatPublicDetailText(record.notes) || "" }
+      { label: "種別", value: record.type || "出来事" }
     ];
     if ((record.revealed_facts || []).length > 0) {
       extraSections.push({ heading: "分かったこと", lines: record.revealed_facts });
     }
     extraSections.push(...CharacterFacts.questionSections(record, eventsData));
-    content.appendChild(makeEventSourcePanel(record));
     const fromTheory = initialViewUrl.searchParams.get("from_theory");
     if (/^(?:Q00[1-9]|Q01[0-4]|emperor-time)$/.test(fromTheory || "")) {
       const back = document.createElement("a");
@@ -4889,6 +4886,8 @@ function showDetailModal(name, category, eventData = null) {
     });
     content.appendChild(ul);
   });
+  // 出来事の出典・確認状況・編集メモは、本文と分かったことの後に1つの折りたたみで出す。
+  if (category === "event") content.appendChild(makeEventSourcePanel(record));
 
   const editorTarget = document.createElement("div");
 
@@ -5473,6 +5472,16 @@ function getEventCharacterLabels(event) {
   return (event.characters || []).map(id => `${formatRoyalName(id)}（${labels[event.character_presence?.[id] || "unknown"]}）`);
 }
 
+// 読者向けの関係人物表示：名前を主にし、注記は読み方が変わる区分（遺体・話題のみ・遠隔）だけに付ける。
+// 「その場に登場」と「所在区分未判定」は編集上の区分なので表示しない（区分の一覧は getEventCharacterLabels）。
+function getEventCharacterDisplayLabels(event) {
+  const notes = {body: "遺体", mentioned: "話題のみ", remote: "遠隔"};
+  return (event.characters || []).map((id) => {
+    const note = notes[event.character_presence?.[id]];
+    return note ? `${formatRoyalName(id)}（${note}）` : formatRoyalName(id);
+  });
+}
+
 function getLocationReviewLabel(event) {
   return ({ recorded: "場所の記録あり", unverified: "場所未確認（原作で不明とは未確定）",
     original_unknown: "原作で場所不明", not_applicable: "場所を設定する対象ではない" })[event.location_status]
@@ -5571,36 +5580,53 @@ function makeCharacterReviewPanel(person) {
   return panel;
 }
 
+// 出来事の出典・確認状況・編集メモ。読者が最初に読む情報ではないので、閉じた折りたたみ1つにまとめる。
+// 共有用のリンクだけは折りたたみの外に置く。
 function makeEventSourcePanel(event) {
   const panel = document.createElement("section");
   panel.className = "event-source-panel";
-  const heading = document.createElement("h4"); heading.textContent = "出典・確認状況";
+  panel.appendChild(makeRecordPermalink("event", event.id));
+  const details = document.createElement("details");
+  details.className = "editorial-status event-source-details";
+  const summary = document.createElement("summary");
+  summary.textContent = "出典・確認状況・編集メモ";
+  details.appendChild(summary);
+  const addLine = (text, className) => {
+    if (!text) return;
+    const p = document.createElement("p");
+    if (className) p.className = className;
+    p.textContent = text;
+    details.appendChild(p);
+  };
+  details.appendChild(makeEventReviewRibbon(event));
   const source = sourcesData.find((entry) => entry.id === event.source_id);
-  const text = document.createElement("p");
-  text.textContent = source?.title || "出典の原作再照合待ち";
-  panel.append(heading, makeEventReviewRibbon(event), text);
-  if (event.verification_note) {
-    const note = document.createElement("p");
-    note.className = "event-verification-note";
-    note.textContent = `確認上の留保：${event.verification_note}`;
-    panel.appendChild(note);
-  }
+  addLine(`出典：${source?.title || "原作再照合待ち"}`);
   if (source?.url && !/^\s*(?:javascript|data):/i.test(source.url)) {
     const link = document.createElement("a"); link.href = source.url; link.textContent = "確認資料・登録索引を開く";
-    panel.appendChild(link);
+    const p = document.createElement("p"); p.appendChild(link); details.appendChild(p);
   }
+  addLine(event.verification_note ? `確認上の留保：${event.verification_note}` : "", "event-verification-note");
+  addLine(`内容の確認：${getEventVerificationLabel(event)}`);
+  const dateLabel = getDateCertaintyLabel(event);
+  addLine(`日付の確度：${dateLabel || "原作記録に基づく日付"}`);
+  addLine(`場所の確認：${getLocationReviewLabel(event)}`);
   if (event.time_estimate_basis) {
     const basis = sourcesData.find((entry) => entry.id === event.time_estimate_basis);
-    const line = document.createElement("p"); line.textContent = `仮時刻の根拠：${basis?.title || event.time_estimate_basis}`;
-    panel.appendChild(line);
+    addLine(`仮時刻の根拠：${basis?.title || event.time_estimate_basis}`);
   }
-  if (event.location_basis) { const line = document.createElement("p"); line.textContent = event.location_basis; panel.appendChild(line); }
-  panel.appendChild(makeRecordPermalink("event", event.id));
-  panel.appendChild(makeEditorialStatusDetails([
-    `場面ID：${event.id}（台帳内の識別子）`,
-    `場所の確認：${getLocationReviewLabel(event)}`,
-    "ページ番号や原作コマとの対応が未照合の項目は、索引があっても確認済みにはしていません。"
-  ]));
+  addLine(event.location_basis ? `場所の根拠：${event.location_basis}` : "");
+  const notes = formatPublicDetailText(event.notes);
+  if (notes) {
+    const heading = document.createElement("p");
+    heading.className = "event-editorial-notes-heading";
+    heading.textContent = "編集メモ";
+    details.appendChild(heading);
+    const block = makeReadableBlock(notes);
+    block.classList.add("event-editorial-notes");
+    details.appendChild(block);
+  }
+  addLine(`場面ID：${event.id}（台帳内の識別子）。ページ番号や原作コマとの対応が未照合の項目は、索引があっても確認済みにはしていません。`);
+  panel.appendChild(details);
   return panel;
 }
 

@@ -3230,7 +3230,22 @@ function filterTimelineByEventLocation(event) {
   document.querySelector(".timeline-controls")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function filterTimelineByParticipant(token) {
+  document.getElementById("participantFilter").value = token;
+  activeTimelinePeriodId = "all";
+  activatePrimaryView("timeline", true);
+  applyFilter();
+  document.querySelector(".timeline-active-filters")?.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
 function createParticipantChip(token, stopPropagation = false) {
+  const person = charactersData.find((entry) => entry.id === token);
+  if (person) {
+    const link = makeCharacterDetailLink(person, formatRoyalName(token), "participant-chip");
+    link.title = `${formatRoyalName(token)}の人物詳細を表示`;
+    if (stopPropagation) link.addEventListener("click", (event) => event.stopPropagation());
+    return link;
+  }
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "participant-chip";
@@ -3238,11 +3253,7 @@ function createParticipantChip(token, stopPropagation = false) {
   btn.title = `${formatRoyalName(token)}の全期間の出来事を表示`;
   btn.addEventListener("click", (event) => {
     if (stopPropagation) event.stopPropagation();
-    document.getElementById("participantFilter").value = token;
-    activeTimelinePeriodId = "all";
-    activatePrimaryView("timeline", true);
-    applyFilter();
-    document.querySelector(".timeline-active-filters")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    filterTimelineByParticipant(token);
   });
   return btn;
 }
@@ -3873,11 +3884,12 @@ function createScheduleEventCard(event, placement) {
   if (participantTags.childElementCount === 0) participantTags.appendChild(participants);
   item.appendChild(participantTags);
   item.addEventListener("click", (clickEvent) => {
-    if (clickEvent.target.closest("button")) return;
+    if (clickEvent.target.closest("a, button")) return;
     modalReturnFocus = item;
     showDetailModal(event.id, "event", event);
   });
   item.addEventListener("keydown", (keyEvent) => {
+    if (keyEvent.target !== item) return;
     if (keyEvent.key !== "Enter" && keyEvent.key !== " ") return;
     keyEvent.preventDefault();
     modalReturnFocus = item;
@@ -4700,7 +4712,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "日時", value: whenLabel },
       { label: "場所", value: getLocationKey(record) },
       { label: "話数", value: getChapterLabel(record) },
-      { label: "関係人物", value: getEventCharacterDisplayLabels(record).join(" / ") },
+      { label: "関係人物", value: (record.characters || []).length ? "event-participants" : "" },
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" }
     ];
@@ -4795,6 +4807,29 @@ function showDetailModal(name, category, eventData = null) {
   }
 
   const isPerson = ["prince", "bodyguard"].includes(category);
+  if (isPerson) {
+    const actions = document.createElement("div"); actions.className = "local-editor-actions";
+    if (window.CharacterRoutes?.background()?.eventId) {
+      const back = document.createElement("button"); back.type = "button";
+      back.className = "local-editor-button secondary"; back.textContent = "元の出来事へ戻る";
+      back.addEventListener("click", closeDetailModal); actions.appendChild(back);
+    }
+    const eventsButton = document.createElement("button"); eventsButton.type = "button";
+    eventsButton.className = "local-editor-button secondary";
+    eventsButton.textContent = "この人物の出来事を見る";
+    eventsButton.addEventListener("click", () => {
+      const navigate = () => {
+        closeDetailModal(true);
+        history.replaceState({ ...history.state, backgroundDetail: null }, "", location.href);
+        filterTimelineByParticipant(record.id);
+      };
+      if (window.CharacterRoutes?.isActive()) {
+        window.addEventListener("popstate", navigate, { once: true });
+        closeDetailModal();
+      } else navigate();
+    });
+    actions.appendChild(eventsButton); content.appendChild(actions);
+  }
   if (isPerson && record.roster_view) {
     const period = document.createElement("p");
     period.className = "personnel-modal-period guide-source-note";
@@ -4823,6 +4858,14 @@ function showDetailModal(name, category, eventData = null) {
       dt.textContent = label;
       const dd = document.createElement("dd");
       if (value === "latest-location") dd.appendChild(makeLatestLocationContent(record));
+      else if (value === "event-participants") {
+        const labels = getEventCharacterDisplayLabels(record);
+        (record.characters || []).forEach((id, index) => {
+          if (index) dd.appendChild(document.createTextNode(" / "));
+          const link = createParticipantChip(id, true);
+          link.textContent = labels[index]; dd.appendChild(link);
+        });
+      }
       else if (readable) dd.appendChild(makeReadableBlock(value));
       else dd.textContent = value;
       if (label === "配置履歴") dd.className = "assignment-history-value";
@@ -4963,6 +5006,7 @@ function showDetailModal(name, category, eventData = null) {
   content.appendChild(editorTarget);
 
   if (wasHidden) modalReturnFocus = document.activeElement;
+  modal.dataset.eventId = category === "event" ? record.id : "";
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -5991,6 +6035,19 @@ async function init() {
     window.CharacterRoutes?.setup({rootUrl:siteRootUrl.href,
       getPerson:(id)=>charactersData.find((person)=>person.id===id),
       open:(id)=>{ const person=charactersData.find((candidate)=>candidate.id===id); showDetailModal(id,person.type==="prince"?"prince":"bodyguard"); },
+      captureBackground:()=>{
+        const modal = document.getElementById("detailModal");
+        return !modal.classList.contains("hidden") && modal.dataset.eventId
+          ? { eventId: modal.dataset.eventId, scrollTop: modal.querySelector(".modal-card").scrollTop } : null;
+      },
+      restoreBackground:(background, personId)=>{
+        const event = eventsData.find((entry)=>entry.id===background?.eventId);
+        if (!event) return;
+        showDetailModal(event.id, "event", event);
+        const modal = document.getElementById("detailModal");
+        modal.querySelector(".modal-card").scrollTop = background.scrollTop || 0;
+        modal.querySelector(`[data-character-link="${personId}"]`)?.focus({ preventScroll: true });
+      },
       close:()=>closeDetailModal(true)});
     if (initialViewUrl.searchParams.get("detail") === "1") {
       const person = charactersData.find((candidate) => candidate.id === initialViewUrl.searchParams.get("person"));

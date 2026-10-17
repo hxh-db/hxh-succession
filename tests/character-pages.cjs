@@ -72,4 +72,19 @@ vm.runInContext(reopenSource,context);
 context.reopenDetailAfterReload({id:'P14'},'prince','modal');
 assert.equal(pendingDetail.id,'P14'); assert.equal(pendingDetail.view,'modal');
 assert.ok(reloadedUrl.includes('c_search=') && !reloadedUrl.endsWith('/characters/P14/'));
+// A person opened from an event returns to that event, not to an empty overlay.
+const background = {eventId:'E361-008',scrollTop:120};
+const restored = [];
+routes.prepareReload();
+routes.setup({rootUrl:'http://127.0.0.1:8765/hxh-succession/',getPerson:id=>characters.find(p=>p.id===id),
+  open:id=>{opens.push(id);routes.open(id);},close:()=>closes++,captureBackground:()=>background,
+  restoreBackground:(value,id)=>restored.push([value.eventId,id])});
+routes.open('P14-H01');
+assert.equal(routes.background().eventId,'E361-008');
+assert.ok(routes.requestClose());
+assert.deepEqual(restored,[['E361-008','P14-H01']]);
+history.forward();
+assert.ok(currentUrl.endsWith('/characters/P14-H01/'));
+routes.requestClose();
+assert.equal(restored.length,2);
 console.log(`PASS: ${characters.length} static character pages, metadata, sitemap, JSON parity, internal links, spoiler/private exclusions, history state and subpath routing`);

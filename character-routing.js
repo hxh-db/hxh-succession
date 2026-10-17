@@ -12,8 +12,10 @@ window.CharacterRoutes = (() => {
         try { callbacks.open(state.characterId); } finally { replaying = false; }
         document.title = state.characterTitle;
       } else if (active) {
+        const personId = listState?.returnCharacterId;
         active = false;
         callbacks.close();
+        if (state?.backgroundDetail) callbacks.restoreBackground?.(state.backgroundDetail, personId);
         if (state?.hxhCharacterList) {
           document.title = state.listTitle;
           requestAnimationFrame(() => {
@@ -33,7 +35,8 @@ window.CharacterRoutes = (() => {
     if (!active) {
       returnFocus = document.activeElement;
       listUrl = location.href;
-      listState = {...history.state,hxhCharacterList:true,scrollY:window.scrollY,listTitle:document.title};
+      listState = {...history.state,hxhCharacterList:true,scrollY:window.scrollY,listTitle:document.title,
+        backgroundDetail:callbacks.captureBackground?.() || null,returnCharacterId:id};
       history.replaceState(listState,"",listUrl);
       history.pushState({hxhCharacterModal:true,characterId:id,characterTitle:title},"",url.href);
     } else {
@@ -54,5 +57,5 @@ window.CharacterRoutes = (() => {
     document.title = listState.listTitle;
     active = false;
   }
-  return {setup,open,requestClose,prepareReload,isActive:()=>active};
+  return {setup,open,requestClose,prepareReload,isActive:()=>active,background:()=>active ? listState?.backgroundDetail : null};
 })();

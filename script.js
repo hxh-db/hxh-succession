@@ -3854,14 +3854,6 @@ function createScheduleEventCard(event, placement) {
   chapter.textContent = getChapterLabel(event);
   const description = document.createElement("span");
   description.textContent = getEventHeadline(event);
-  if (eventHasMoreText(event)) {
-    item.classList.add("schedule-event-has-more");
-    description.title = "続きは詳細で表示します";
-    const more = document.createElement("small");
-    more.className = "schedule-event-more";
-    more.textContent = "…続きは詳細で";
-    description.appendChild(more);
-  }
   const participants = document.createElement("small");
   participants.textContent = (event.characters || []).map(formatRoyalName).join(" / ") || "人物不明";
   item.appendChild(description);

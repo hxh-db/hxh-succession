@@ -1,0 +1,112 @@
+[
+  {
+    "command": "node scripts/build-character-pages.cjs --check",
+    "exit_code": 0,
+    "output": "PASS: 390 generated files match public JSON\n"
+  },
+  {
+    "command": "node scripts/build-personnel-roster.cjs --check",
+    "exit_code": 0,
+    "output": "PASS: 出航時230人、仮登録114人、王妃別対応未同定枠7件\n"
+  },
+  {
+    "command": "node tests/character-pages.cjs",
+    "exit_code": 0,
+    "output": "PASS: 387 static character pages, metadata, sitemap, JSON parity, internal links, spoiler/private exclusions, history state and subpath routing\n"
+  },
+  {
+    "command": "node tests/character-consistency.cjs",
+    "exit_code": 0,
+    "output": "PASS: shared assignment/location across card, modal and static page; confirmed/estimated/unreviewed dates; rendered date badges\n"
+  },
+  {
+    "command": "node tests/character-evidence.cjs",
+    "exit_code": 0,
+    "output": "PASS: inherited evidence, spoiler exclusions, presence/body/mention, partial clocks and relations, shared deaths, conflict disclosure and search relevance\n"
+  },
+  {
+    "command": "node tests/review-followups.cjs",
+    "exit_code": 0,
+    "output": "PASS: separate editorial/story questions, resolution evidence, shorter fields, date navigation, guide spoiler scope, distinct entries and requested asset fixes\n"
+  },
+  {
+    "command": "node tests/timeline-labels.cjs",
+    "exit_code": 0,
+    "output": "PASS: exact 14:00, demoted clocks, approximate clocks, no invented preboarding clock, confirmed relative date, stable filtered order\n"
+  },
+  {
+    "command": "node tests/author-settings.cjs",
+    "exit_code": 0,
+    "output": "PASS: 14 setting rows, 9 scoped additions, 2 stable-ID identifications, correction, sources, generated pages and no placement inflation\n"
+  },
+  {
+    "command": "node tests/link-check.cjs",
+    "exit_code": 0,
+    "output": "HTML 405件 / 内部リンク 6605件 / sitemap URL 389件 / データ・コード内の画像パス 311件を確認\n\n警告 10件:\n  WARN  未参照画像 images/abilities/halkenburg-arrow-ch382.png\n  WARN  未参照画像 images/abilities/kurapika-dowsing-chain-ch348.png\n  WARN  未参照画像 images/characters/bonolenov.webp\n  WARN  未参照画像 images/characters/franklin.webp\n  WARN  未参照画像 images/characters/illumi.webp\n  WARN  未参照画像 images/characters/kalluto.webp\n  WARN  未参照画像 images/characters/machi.webp\n  WARN  未参照画像 images/characters/scairt.webp\n  WARN  未参照画像 images/characters/shizuku.webp\n  WARN  未参照画像 images/og-image.png\n\n結果: エラー 0件 / 警告 10件 (うち未参照画像 10件)\n"
+  },
+  {
+    "command": "node tests/spoiler-settings.cjs",
+    "exit_code": 0,
+    "output": "PASS: opening a person card/modal/static page keeps the shared spoiler setting; later-chapter info is folded locally\n"
+  },
+  {
+    "command": "node tests/avatar-zoom.cjs",
+    "exit_code": 0,
+    "output": "PASS: face avatars zoom in the shared lightbox (cards/modal/242 static pages), crop shows the full image, initials stay static\n"
+  },
+  {
+    "command": "node tests/search-spoilers.cjs",
+    "exit_code": 0,
+    "output": "PASS: spoiler-safe search fields, kana/romaji normalization, prince numbers, aliases and room search\n"
+  },
+  {
+    "command": "node tests/simultaneous-scenes.cjs",
+    "exit_code": 0,
+    "output": "simultaneous scenes ok (14 events linked)\n"
+  },
+  {
+    "command": "node tests/location-certainty.cjs",
+    "exit_code": 0,
+    "output": "PASS: location certainty labels, evidence links (spoiler-safe), same-incident scenes, ability editorial notes, collapsed prince row\n"
+  },
+  {
+    "command": "node tests/personnel-roster.cjs",
+    "exit_code": 0,
+    "output": "PASS: 230 unique departure slots; 7 queen ledgers; 12→9; history, late entry, identity pools and no future ability leak\n"
+  },
+  {
+    "command": "node tests/character-detail-quality.cjs",
+    "exit_code": 0,
+    "output": "PASS: 387 character details, 46 status references, 15 beasts, 184 media references; organization parity and historical/spoiler guards\n"
+  },
+  {
+    "command": "node tests/theory-search.cjs",
+    "exit_code": 0,
+    "output": "PASS: 15 topic/reference indexes; aliases, primary/secondary ranking, Q010 topics and Q002 conditions\n"
+  },
+  {
+    "command": "node tests/guide-navigation.cjs",
+    "exit_code": 0,
+    "output": "PASS: 19 topic targets, stable memo IDs, event links, query normalization, spoiler-safe search and toggle\n"
+  },
+  {
+    "command": "node tests/guide-memos.cjs",
+    "exit_code": 0,
+    "output": "guide-memos: 19 sections; autosave, blur, export/import, restore, delete passed\n"
+  },
+  {
+    "command": "node tests/event-detail-quality.cjs",
+    "exit_code": 0,
+    "output": "PASS: 449 events, source/participant/order consistency, explicit review limits, identity and ability regressions\n"
+  },
+  {
+    "command": "python validate_data.py",
+    "exit_code": 0,
+    "output": "\r\n検証中: characters.json\r\n  OK\r\n\r\n検証中: events.json\r\n  OK\r\n\r\n検証中: spirit_beasts.json\r\n  OK\r\n\r\n検証中: factions.json\r\n  OK\r\n\r\n検証中: mafia.json\r\n  OK\r\n\r\n検証中: open_questions.json\r\n  OK\r\n\r\n検証中: personnel_snapshots.json\r\n  OK\r\n\r\n検証中: personnel_roster.json\r\n  OK\r\n\r\n検証中: ファイル間の参照\r\n  OK\r\n\r\n============================================================\r\nすべてのファイルが有効です。\r\n"
+  },
+  {
+    "command": "python -m unittest discover -s tests -p test_*.py",
+    "exit_code": 0,
+    "output": "............................................\r\n----------------------------------------------------------------------\r\nRan 44 tests in 0.420s\r\n\r\nOK\r\n"
+  }
+]

@@ -1,0 +1,678 @@
+{
+  "date": "2026-10-16",
+  "baseline": "この出来事整理の開始時バックアップ。人物詳細整理後のデータであり、Git HEADとの差分ではない。",
+  "file": "data/events.json",
+  "before_sha256": "9383189d7f23dbdfec655c540013d75cb963643f071a67662bd070961155b9b5",
+  "after_sha256": "1be8a7f0ca0529767b1fdaf6b123885b7208f33528a9ac89bae6512c41e92615",
+  "before_count": 449,
+  "after_count": 449,
+  "changed_records": 38,
+  "changed_fields": 62,
+  "changes": [
+    {
+      "id": "E341-001",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "HA-001": "remote"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E343-001",
+      "field": "location_basis",
+      "before_present": true,
+      "after_present": true,
+      "before": "写真1〜2の街頭の通話場面と、写真7〜10の組の事務所の場面による。地名は画像内に明示がない。",
+      "after": "第343話写真1〜2の街頭の通話場面による。都市名と通話相手の場所は明示されない。",
+      "basis": "別場面を分離した本文の範囲に一致させる。"
+    },
+    {
+      "id": "E343-001",
+      "field": "description",
+      "before_present": true,
+      "after_present": true,
+      "before": "レオリオがチードルからの電話で十二支ん入りを勧められ、協会の医療チームとして暗黒大陸へ行く条件を承諾し、残る1枠に入れてほしい人物がいると申し出る。のちにミザイストムから緋の目の持ち主を特定したと聞いたクラピカも、その人物が同じ船に乗ることを確かめ、十二支んのメンバーになることを承諾する",
+      "after": "レオリオがチードルからの電話で十二支ん入りを勧められ、協会の医療チームとして暗黒大陸へ行く条件を承諾し、残る1枠に入れてほしい人物がいると申し出る",
+      "basis": "第343話照合記録・写真1〜2。クラピカの加入承諾は同話のE343-005に既にあるため、レオリオの通話場面に範囲を統一。"
+    },
+    {
+      "id": "E343-001",
+      "field": "characters",
+      "before_present": true,
+      "after_present": true,
+      "before": [
+        "HA-004",
+        "P14-H01",
+        "HA-002",
+        "HA-009"
+      ],
+      "after": [
+        "HA-004",
+        "HA-009"
+      ],
+      "basis": "写真1〜2のレオリオと通話相手チードル。クラピカとミザイストムはE343-005で保持。"
+    },
+    {
+      "id": "E343-001",
+      "field": "location",
+      "before_present": true,
+      "after_present": true,
+      "before": "レオリオは屋外の街頭で通話（都市名の明示なし）／クラピカは用心棒と賭博を収入源とする組の事務所（国名・組名の明示なし）",
+      "after": "レオリオは屋外の街頭で通話（都市名の明示なし）",
+      "basis": "第343話写真1〜2の既存照合記録。チードル側の場所は未特定。"
+    },
+    {
+      "id": "E343-001",
+      "field": "revealed_facts",
+      "before_present": true,
+      "after_present": true,
+      "before": [
+        "十二支んのメンバーは暗黒大陸に同行し、2か月位船の中で過ごすことになる（ミザイストムの説明）",
+        "レオリオの在籍校は無期限の留学を特例で認め、条件は協会の医療チームとして暗黒大陸へ行くこと（電話の相手の説明）",
+        "電話の相手はその場合自分が主任医師になると述べ、行程での活動は医療実務経験として学位上の評価になると説明する",
+        "評価以外の見返りは一切ない、大変危険で過酷な任務と説明される",
+        "レオリオは十二支んにもう1人分空きがあると確かめ、そこに入れてもらいたい人物がいると申し出る"
+      ],
+      "after": [
+        "レオリオの在籍校は無期限の留学を特例で認め、条件は協会の医療チームとして暗黒大陸へ行くこと（電話の相手の説明）",
+        "電話の相手はその場合自分が主任医師になると述べ、行程での活動は医療実務経験として学位上の評価になると説明する",
+        "評価以外の見返りは一切ない、大変危険で過酷な任務と説明される",
+        "レオリオは十二支んにもう1人分空きがあると確かめ、そこに入れてもらいたい人物がいると申し出る"
+      ],
+      "basis": "レオリオの通話場面に限定。別場面の事実はE343-005へ保持。"
+    },
+    {
+      "id": "E343-001",
+      "field": "notes",
+      "before_present": true,
+      "after_present": true,
+      "before": "写真1〜2（印刷48）、写真9〜10。電話の相手（犬耳状の帽子・眼鏡の女性）は名前の明示がないが、容姿が特徴的な主要人物で、自分が協会の医療チームの主任医師になると述べることからチードル（HA-009）と同定した。HA-009 には登録画像がない。レオリオは主要人物で容姿が特徴的なため同定（登録画像 leorio.webp とも一致）。写真9のミザイストムの台詞『レオリオから君の事情はある程度聞いている』とも整合する。レオリオが推した人物がクラピカであることは画像内で直接は言われない（ミザイストムの台詞からの推定）。旧 characters のジン（BYD-002）・パリストン（BYD-003）は加入場面には登場しないため外し、別イベント E343-002・003 に入れた。旧備考の『ツェリードニヒはこの加入場面の直接の参加者ではない』は、本話の末尾で緋の目の持ち主として明かされるので E343-005 に分けた。",
+      "after": "写真1〜2（印刷48）。レオリオと電話相手チードルは既存照合の容姿・医療チーム主任医師の説明に基づく同定。レオリオが推した人物の名前はこの場面では明言されない。クラピカの十二支ん入りの承諾とミザイストムの渡航期間の説明（写真9〜10）はE343-005に記録し、重複させない。",
+      "basis": "第343話の既存照合記録。旧2場面混在の説明を最終の登録範囲へ更新。"
+    },
+    {
+      "id": "E343-001",
+      "field": "period",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "preboard",
+      "basis": "同話の既存原作照合記録の乗船前場面。日時は追加しない。"
+    },
+    {
+      "id": "E343-001",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "HA-004": "present",
+        "HA-009": "remote"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E343-005",
+      "field": "revealed_facts",
+      "before_present": true,
+      "after_present": true,
+      "before": [
+        "半年程前、特殊な趣味嗜好を持つ者が集う闇サイトに大量の緋の目を映した動画が投稿された（ミザイストムの説明）",
+        "クラピカはその動画の持ち主を探しているが、手掛かりがつかめていなかった",
+        "協会は暗黒大陸の件で要人の身辺調査をした際、偶然に緋の目の持ち主を特定した",
+        "クラピカは、その人物が同じ船に乗ることを確かめたうえで、奪われた同胞の一部を取り戻すことを最優先とし、メンバーになると答える",
+        "緋の目の持ち主はカキンの第4王子ツェリードニヒ＝ホイコーロ"
+      ],
+      "after": [
+        "半年程前、特殊な趣味嗜好を持つ者が集う闇サイトに大量の緋の目を映した動画が投稿された（ミザイストムの説明）",
+        "クラピカはその動画の持ち主を探しているが、手掛かりがつかめていなかった",
+        "協会は暗黒大陸の件で要人の身辺調査をした際、偶然に緋の目の持ち主を特定した",
+        "クラピカは、その人物が同じ船に乗ることを確かめたうえで、奪われた同胞の一部を取り戻すことを最優先とし、メンバーになると答える",
+        "緋の目の持ち主はカキンの第4王子ツェリードニヒ＝ホイコーロ",
+        "十二支んのメンバーは暗黒大陸に同行し、2か月位船の中で過ごすことになる（ミザイストムの説明）"
+      ],
+      "basis": "第343話照合記録・写真9〜10。ミザイストムの渡航期間の説明を、その会話を扱う既存イベントへ移す。"
+    },
+    {
+      "id": "E343-005",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "P04": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E344-001",
+      "field": "period",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "preboard",
+      "basis": "同話の既存原作照合記録の乗船前場面。日時は追加しない。"
+    },
+    {
+      "id": "E344-001",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "HA-001": "mentioned",
+        "BYD-001": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E344-002",
+      "field": "period",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "preboard",
+      "basis": "同話の既存原作照合記録の乗船前場面。日時は追加しない。"
+    },
+    {
+      "id": "E344-003",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "P04": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E344-005",
+      "field": "type",
+      "before_present": true,
+      "after_present": true,
+      "before": "発症",
+      "after": "認識",
+      "basis": "症状の断定ではなく、ゴンの発言を記録した場面。"
+    },
+    {
+      "id": "E344-005",
+      "field": "description",
+      "before_present": true,
+      "after_present": true,
+      "before": "ゴンが自分の手を見て、オーラが出ないことに気づく",
+      "after": "ゴンが自分の手を見て、「オーラが出ない…？」と疑問を口にする",
+      "basis": "同イベントの原文記録と第345話E345-001。本人の認識をオーラ消失の客観的事実と混同しない。"
+    },
+    {
+      "id": "E345-001",
+      "field": "description",
+      "before_present": true,
+      "after_present": true,
+      "before": "オーラが出ないと気づいたゴンに、電話でジンが、オーラは出ているがゴンが視えなくなっただけで「普通」に戻ったのだと告げ、全てを捨てる覚悟で戦って普通に戻れたのだからむしろ喜べと言う",
+      "after": "オーラが出ないと感じたゴンに、電話でジンが、オーラは出ているがゴンが視えなくなっただけで「普通」に戻ったのだと告げ、全てを捨てる覚悟で戦って普通に戻れたのだからむしろ喜べと言う",
+      "basis": "同話でジンがオーラは出ていると説明しており、前提を本人の認識と明示。"
+    },
+    {
+      "id": "E345-001",
+      "field": "period",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "preboard",
+      "basis": "同話の既存原作照合記録の乗船前場面。日時は追加しない。"
+    },
+    {
+      "id": "E346-001",
+      "field": "period",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "preboard",
+      "basis": "同話の既存原作照合記録の乗船前場面。日時は追加しない。"
+    },
+    {
+      "id": "E347-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "第347話のNo.2承認の場面・話数に対応する原作照合記録が未確認。正式承認の経緯は追加照合が必要。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E351-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "第351〜356話の戦闘をまとめた旧登録。個別場面・話数範囲に対応する照合記録が未確認。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E357-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "旅団の乗船という旧登録について、場面と第357話との対応は未照合。乗船時点を確定する根拠にしない。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E357-002",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "旅団員2名殺害という旧登録。殺害場面と被害者の氏名は原作の追加照合が必要。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E358-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "出航前夜祭という旧登録の場面と参加者を確認できる照合記録が未確認。日時を確定しない。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E361-001",
+      "field": "summary",
+      "before_present": true,
+      "after_present": true,
+      "before": "カートンら3名が死亡。クラピカが『裏窓』を奪い、皇帝の時間を発動する",
+      "after": "カートンら3名が死亡。クラピカが『裏窓』を奪い、絶対時間（エンペラータイム）を発動する",
+      "basis": "同イベント本文の正式表記と統一。"
+    },
+    {
+      "id": "E361-001",
+      "field": "revealed_facts",
+      "before_present": true,
+      "after_present": true,
+      "before": [
+        "サイールドはいきなり包丁を奪って3人を襲う（第360話末尾、従事者の台詞『いきなり包丁を奪って3人を…』）",
+        "サイールドは『ヒマ…だった…から…』『頼まれたから…!!』と繰り返す",
+        "カートンの能力は、最大5人を乗せられる船か車に『変身』できる具現化系で、ジョイント型のため他人のオーラが必要だった（ビルの説明）",
+        "サイールドは放出系能力者だが、使う能力は操作系寄りで、念をボール状に飛ばし捕えた虫を操る（ビルの説明）",
+        "クラピカは『奪う人指し指の鎖（スチールチェーン）』でサイールドの念能力を一時的に預かる。注射器でオーラを吸い続けると『絶』と同じ状態にもできる",
+        "サイールドの口から星柄のクモのような念獣が現れ、クラピカは『今の念獣…』と考える",
+        "奪った能力は『裏窓（リトルアイ）』で、実際の小動物をボール型の念で捕まえて操る能力。念で具現化された生き物は対象に含まれない",
+        "『裏窓』の能力を発動してクラピカを解除しない限り、『絶対時間（エンペラータイム）』は強制的に続く",
+        "サイールドによれば、でかいヌイグルミのような念獣と話した後、小さな念獣にまとわりつかれて『ヒマか?』と聞かれ続け、『今ならヒマだぞ』と答えた途端に体が自由に動かなくなった。その小さな念獣は能力者にさえ見えないらしいと話す",
+        "『裏窓』で操れるのは最大でハムスターくらいの小さな生き物で、その生き物が見聞きしている情報を離れた場所でも入手できる。一度使うと自動的に本人へ能力が戻る縛りがある（サイールドの説明）",
+        "カキン軍が3名の遺体を運び出し、サイールドを殺害犯として拘束・聴取するため引き渡すよう求める"
+      ],
+      "after": [
+        "サイールドはいきなり包丁を奪って3人を襲う（第360話末尾、従事者の台詞『いきなり包丁を奪って3人を…』）",
+        "サイールドは『ヒマ…だった…から…』『頼まれたから…!!』と繰り返す",
+        "カートンの能力は、最大5人を乗せられる船か車に『変身』できる具現化系で、ジョイント型のため他人のオーラが必要だった（ビルの説明）",
+        "サイールドは放出系能力者だが、使う能力は操作系寄りで、念をボール状に飛ばし捕えた虫を操る（ビルの説明）",
+        "クラピカは『奪う人指し指の鎖（スチールチェーン）』でサイールドの念能力を一時的に預かる。注射器でオーラを吸い続けると『絶』と同じ状態にもできる",
+        "サイールドの口から星柄のクモのような念獣が現れ、クラピカは『今の念獣…』と考える",
+        "奪った能力は『裏窓（リトルアイ）』で、実際の小動物をボール型の念で捕まえて操る能力。念で具現化された生き物は対象に含まれない",
+        "『裏窓』の能力を発動してステルスドルフィンを解除しない限り、『絶対時間（エンペラータイム）』は強制的に続く",
+        "サイールドによれば、でかいヌイグルミのような念獣と話した後、小さな念獣にまとわりつかれて『ヒマか?』と聞かれ続け、『今ならヒマだぞ』と答えた途端に体が自由に動かなくなった。その小さな念獣は能力者にさえ見えないらしいと話す",
+        "『裏窓』で操れるのは最大でハムスターくらいの小さな生き物で、その生き物が見聞きしている情報を離れた場所でも入手できる。一度使うと自動的に本人へ能力が戻る縛りがある（サイールドの説明）",
+        "カキン軍が3名の遺体を運び出し、サイールドを殺害犯として拘束・聴取するため引き渡すよう求める"
+      ],
+      "basis": "第361話写真8右を直接確認。ドルフィンの「ワタシを解除」をクラピカと誤記していたため訂正。"
+    },
+    {
+      "id": "E361-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "襲撃・拘束・能力奪取は照合記録あり。サイールドを操った念獣の持ち主の同定は未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E361-005",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "警護11名から2名への減少と従事者の離脱希望は照合記録あり。従事者2名の氏名と実際の離脱は未確認。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E370-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "講習場面は照合記録あり。参加者の顔と登録人物IDの一部対応は未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E372-003",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "留置中の男の同定と、この場面での死亡の描写は未確定。第374話の伝聞と区別し、既存の死亡話数の扱いは維持。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E372-004",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "サレサレを観察する兵がリハンであるかは未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E372-009",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "既存の照合対象範囲でツベッパの守護霊獣出現を確認できていない。提供画像の末尾・別バッチの追加確認が必要。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E373-002",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "カミーラの移動・発砲は照合記録あり。撃たれた兵の同定と一部の生死は未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E373-004",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "カミーラの拘束は照合記録あり。白い上着の拘束者の同定は未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E375-002",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "監視交代の説明は照合記録あり。オルズニーから交代した監視兵がシカクであるかは未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E375-008",
+      "field": "source_locator",
+      "before_present": true,
+      "after_present": true,
+      "before": {
+        "chapter": 375,
+        "pages": [
+          102
+        ],
+        "scene_id": "E375-008"
+      },
+      "after": {
+        "chapter": 375,
+        "pages": null,
+        "scene_id": "E375-008"
+      },
+      "basis": "出発は写真10左。旧102ページは写真8右の出発許可に対応するため、出発そのものの印刷ページとしない。"
+    },
+    {
+      "id": "E375-008",
+      "field": "time_estimate",
+      "before_present": true,
+      "after_present": false,
+      "before": "09:18",
+      "after": null,
+      "basis": "原作に時計表示なし。境界確認07:45頃と同じ退室09:18頃という旧仮時刻の不一致を解消し、前後関係だけを記録。"
+    },
+    {
+      "id": "E375-008",
+      "field": "time_estimate_basis",
+      "before_present": true,
+      "after_present": false,
+      "before": "user-provisional-clocks-20261008",
+      "after": null,
+      "basis": "仮時刻の削除に伴う根拠欄の整理。"
+    },
+    {
+      "id": "E375-008",
+      "field": "description",
+      "before_present": true,
+      "after_present": true,
+      "before": "ベレレインテが予定通り1014号室へ向かうため1013号室を出る。部屋を完全に出た途端に室内の人々が見えなくなったため、戻れるかわからないまま出発する",
+      "after": "念空間の境界を確認した後、元の1013号室へ戻れるか分からないまま、ベレレインテが予定どおり1014号室へ向かう",
+      "basis": "第375話写真9〜10を直接確認。境界を越える行為を2回の退室として重複させない。"
+    },
+    {
+      "id": "E375-008",
+      "field": "notes",
+      "before_present": true,
+      "after_present": true,
+      "before": "写真8〜10。『1013』の表札あり。",
+      "after": "第375話写真8右の出発許可を受け、写真9〜10で境界を確認した後、写真10左でベレレインテが1014号室へ向かう。境界確認はE375-006に分離。写真10左の印刷ページ番号は今回判読していない。原作に日付・時刻表示はなく、旧09:18頃は撤回し、E375-006の後という順序のみを記録する。",
+      "basis": "第375話写真9〜10の直接確認と写真8の既存照合記録。"
+    },
+    {
+      "id": "E375-008",
+      "field": "title",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "ベレレインテが、念空間への帰還が不明なまま1014号室へ向かう",
+      "basis": "第375話写真10左を直接確認。境界確認はE375-006、続く出発は本記録。"
+    },
+    {
+      "id": "E375-008",
+      "field": "time_after_event_id",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "E375-006",
+      "basis": "第375話写真9〜10。境界確認の後、1014号室へ向かう。"
+    },
+    {
+      "id": "E375-008",
+      "field": "time_inference",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": false,
+      "basis": "原作にない具体的な時刻を補間しない。"
+    },
+    {
+      "id": "E382-003",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "ベッドの人物の名前・場所・死亡の明言は画像にない。サレサレの死亡としての登録は既存のユーザー判断による。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E383-002",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "念空間の出入りの協議は照合記録あり。ビスケと話す男性がウェルゲーであるかは未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E385-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "修行は照合記録あり。背景の兵がサルコフであるかは未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E385-005",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "テータの覚醒は照合記録あり。そばの男性がサルコフであるかは未確定。男性の説明は本人の見立てとして扱う。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E386-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "血痕・ルミノール反応の報告は照合記録あり。報告する男性の同定は未確定。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E386-003",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "能力実験とシカクの肉体の自死は照合記録あり。目覚めた男性の同定と、スミドリの帰還成功は同話だけでは確定しない。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E389-001",
+      "field": "character_presence",
+      "before_present": true,
+      "after_present": true,
+      "before": {
+        "P07-P01": "mentioned",
+        "HA-006": "mentioned"
+      },
+      "after": {
+        "P07-P01": "mentioned",
+        "HA-006": "mentioned",
+        "P09": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E389-003",
+      "field": "character_presence",
+      "before_present": true,
+      "after_present": true,
+      "before": {
+        "JUD-004": "present",
+        "JUD-005": "present"
+      },
+      "after": {
+        "JUD-004": "present",
+        "JUD-005": "present",
+        "P09": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E389-007",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "コインを受け取る場面は照合記録あり。受取者がテンフトリであるかは未確定。コインの効果も断定しない。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E389-008",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "P14": "mentioned"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E393-003",
+      "field": "description",
+      "before_present": true,
+      "after_present": true,
+      "before": "倒れていたザクロがリンチに起こされ、二人とも気絶させられていたことがわかる。ザクロは相手がヒソカだったこと、映画を観に行く途中だという相手に誘われ、視線をはずした瞬間に失神したことを話し、若頭（ヒンリギ）に至急報告する",
+      "after": "倒れていたザクロがリンチの姿をした人物に起こされる。ザクロは、相手をヒソカと見ていたこと、映画に誘われて視線を外した瞬間に失神したことを話し、若頭ヒンリギへ至急報告しようとする。起こした人物は自分も気絶していたと話すが、リンチ本人であることやその発言の真偽をこの場面だけで確定しない",
+      "basis": "第393話の既存原作照合記録の台詞、同イベント備考の同定保留。両者の失神を確定事実としていた本文を訂正。"
+    },
+    {
+      "id": "E393-003",
+      "field": "revealed_facts",
+      "before_present": true,
+      "after_present": true,
+      "before": [
+        "リンチは『あんたもやられたんだね 大丈夫?』と言い、ザクロが『アイツは?』と聞くと『起きたらいなかった』と答える",
+        "ザクロは『アイツがヒソカだったよ』と言う",
+        "ザクロは『映画観に行く途中だったらしくて なぜか誘われて「何観たい?」って聞かれて… 視線をはずした瞬間に失神…』と話す",
+        "ザクロは『若頭に至急報告しないと』『今まで遭った誰よりヤバイ』と言う"
+      ],
+      "after": [
+        "リンチの姿をした人物は『あんたもやられたんだね 大丈夫?』と言い、ザクロが『アイツは?』と聞くと『起きたらいなかった』と答える",
+        "ザクロは『アイツがヒソカだったよ』と言う",
+        "ザクロは『映画観に行く途中だったらしくて なぜか誘われて「何観たい?」って聞かれて… 視線をはずした瞬間に失神…』と話す",
+        "ザクロは『若頭に至急報告しないと』『今まで遭った誰よりヤバイ』と言う"
+      ],
+      "basis": "本文と同じく話者の外見と本人の同定を区別。ザクロの台詞は維持。"
+    },
+    {
+      "id": "E393-003",
+      "field": "title",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "リンチの姿の人物に起こされたザクロが、ヒソカと見た相手との遭遇を報告する",
+      "basis": "第393話写真5右の既存照合記録、第405〜406話の成り代わり記録。見た目と本人を区別。"
+    },
+    {
+      "id": "E393-003",
+      "field": "character_presence",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": {
+        "SWU-004": "unknown",
+        "SWU-003": "present"
+      },
+      "basis": "同イベントの既存本文・備考で明示された登場区分を構造化。全関係人物を在室者とみなさない。"
+    },
+    {
+      "id": "E393-003",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "この話ではリンチの姿をした人物の正体を確定しない。第405〜406話の記録に成り代わりに関する後続情報がある。",
+      "basis": "既存同定保留を本文と出典欄で明示。"
+    },
+    {
+      "id": "E411-003",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "第2回講習会は照合記録あり。参加者18名の全員の同定とスラッカの内外は未確定。講師や参加申出者を重複加算しない。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E414-001",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "刺突された歯の欠けた人物と、就寝中の額に印のある人物を区別する。後者の死亡や個別の兵種は未確定。休憩室という場所は第415話の証言に基づく。",
+      "basis": "data/intake/remaining_review_20261013.md の未照合23件内訳と現行イベント備考を突合。照合区分は変更しない。"
+    },
+    {
+      "id": "E415-007",
+      "field": "verification_note",
+      "before_present": false,
+      "after_present": true,
+      "before": null,
+      "after": "画像に記された日時と、第416話の発令日時との不整合を保留中。第12日13:50は既存の暫定配置で、公式訂正・公式版の確認待ち。",
+      "basis": "既存バックログBACKLOG-001と同イベントのeditorial_questions。時刻・日付のユーザー判断は変更しない。"
+    }
+  ]
+}

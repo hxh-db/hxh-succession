@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-16",
+  "files": [
+    {
+      "file": "index.html",
+      "before_sha256": "4218e3f6165d2e3a53b70990fc595f5168b38c1c6a8274e7e2349aa516972e0c",
+      "after_sha256": "51a7bd454da8400499e93d9b11bfe3c691e038557e774a60d32aa64d4cc443e8"
+    },
+    {
+      "file": "script.js",
+      "before_sha256": "268d9ab3e46d1f39ef098ddfd466776eaa1cc18a40a4522f35d07e167bd12712",
+      "after_sha256": "a9b876ca809bfe98f332e3aaf025a358ff77a5f3a7ed4f690ed6b64c16ae79af"
+    },
+    {
+      "file": "style.css",
+      "before_sha256": "889e5ebb960a23b26fdc92b738a1cc25a578131ea93543f7c612cbb384f3844e",
+      "after_sha256": "bfb3969be24fd6f28b119d4040af922bbc5decaab960e5ba3f5053aedeb20e32"
+    }
+  ],
+  "guide_images_preserved": 14,
+  "original_sections": 12,
+  "current_sections": 19,
+  "existing_memo_keys_preserved": true,
+  "source_events_unchanged": true
+}

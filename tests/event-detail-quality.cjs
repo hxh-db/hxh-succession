@@ -68,6 +68,7 @@ assert.equal(e('E415-007').date_certainty, 'provisional');
 assert.equal(e('E415-007').time_start, '13:50');
 // Pure UI helper: an unrelated or unclassified character must never silently become an attendee.
 const script = fs.readFileSync(require('node:path').join(__dirname,'../script.js'),'utf8');
+assert.ok(!script.includes('続きは詳細で'), 'event cards must not add a more-text label or tooltip');
 const start = script.indexOf('function getEventCharacterLabels(');
 const finish = script.indexOf('\n}\n', start) + 2;
 assert.ok(start >= 0 && finish > start);

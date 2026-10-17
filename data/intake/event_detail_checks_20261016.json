@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-16",
+  "event_count": 449,
+  "verification_counts": {
+    "review_recorded": 414,
+    "unverified": 23,
+    "hypothesis": 12
+  },
+  "automation_scope": "全449件の構造・参照・時系列制約と既存回帰検査。原作本文の全件保証ではない。",
+  "environment": {
+    "PYTHONPATH": ".local/validation-packages",
+    "PYTHONIOENCODING": "utf-8",
+    "note": "既存の検証用依存ライブラリーを使用。素のpython実行ではjsonschema未検出となるため、この環境指定が必要。"
+  },
+  "commands": [
+    {
+      "command": "node scripts/build-character-pages.cjs --check",
+      "exit_code": 0,
+      "output": "PASS: 390 generated files match public JSON\n"
+    },
+    {
+      "command": "node scripts/build-personnel-roster.cjs --check",
+      "exit_code": 0,
+      "output": "PASS: 出航時230人、仮登録114人、王妃別対応未同定枠7件\n"
+    },
+    {
+      "command": "node tests/character-pages.cjs",
+      "exit_code": 0,
+      "output": "PASS: 387 static character pages, metadata, sitemap, JSON parity, internal links, spoiler/private exclusions, history state and subpath routing\n"
+    },
+    {
+      "command": "node tests/character-consistency.cjs",
+      "exit_code": 0,
+      "output": "PASS: shared assignment/location across card, modal and static page; confirmed/estimated/unreviewed dates; rendered date badges\n"
+    },
+    {
+      "command": "node tests/character-evidence.cjs",
+      "exit_code": 0,
+      "output": "PASS: inherited evidence, spoiler exclusions, presence/body/mention, partial clocks and relations, shared deaths, conflict disclosure and search relevance\n"
+    },
+    {
+      "command": "node tests/review-followups.cjs",
+      "exit_code": 0,
+      "output": "PASS: separate editorial/story questions, resolution evidence, shorter fields, date navigation, guide spoiler scope, distinct entries and requested asset fixes\n"
+    },
+    {
+      "command": "node tests/timeline-labels.cjs",
+      "exit_code": 0,
+      "output": "PASS: exact 14:00, demoted clocks, approximate clocks, no invented preboarding clock, confirmed relative date, stable filtered order\n"
+    },
+    {
+      "command": "node tests/author-settings.cjs",
+      "exit_code": 0,
+      "output": "PASS: 14 setting rows, 9 scoped additions, 2 stable-ID identifications, correction, sources, generated pages and no placement inflation\n"
+    },
+    {
+      "command": "node tests/link-check.cjs",
+      "exit_code": 0,
+      "output": "HTML 405件 / 内部リンク 6569件 / sitemap URL 389件 / データ・コード内の画像パス 311件を確認\n\n警告 10件:\n  WARN  未参照画像 images/abilities/halkenburg-arrow-ch382.png\n  WARN  未参照画像 images/abilities/kurapika-dowsing-chain-ch348.png\n  WARN  未参照画像 images/characters/bonolenov.webp\n  WARN  未参照画像 images/characters/franklin.webp\n  WARN  未参照画像 images/characters/illumi.webp\n  WARN  未参照画像 images/characters/kalluto.webp\n  WARN  未参照画像 images/characters/machi.webp\n  WARN  未参照画像 images/characters/scairt.webp\n  WARN  未参照画像 images/characters/shizuku.webp\n  WARN  未参照画像 images/og-image.png\n\n結果: エラー 0件 / 警告 10件 (うち未参照画像 10件)\n"
+    },
+    {
+      "command": "node tests/spoiler-settings.cjs",
+      "exit_code": 0,
+      "output": "PASS: opening a person card/modal/static page keeps the shared spoiler setting; later-chapter info is folded locally\n"
+    },
+    {
+      "command": "node tests/avatar-zoom.cjs",
+      "exit_code": 0,
+      "output": "PASS: face avatars zoom in the shared lightbox (cards/modal/242 static pages), crop shows the full image, initials stay static\n"
+    },
+    {
+      "command": "node tests/search-spoilers.cjs",
+      "exit_code": 0,
+      "output": "PASS: spoiler-safe search fields, kana/romaji normalization, prince numbers, aliases and room search\n"
+    },
+    {
+      "command": "node tests/simultaneous-scenes.cjs",
+      "exit_code": 0,
+      "output": "simultaneous scenes ok (14 events linked)\n"
+    },
+    {
+      "command": "node tests/location-certainty.cjs",
+      "exit_code": 0,
+      "output": "PASS: location certainty labels, evidence links (spoiler-safe), same-incident scenes, ability editorial notes, collapsed prince row\n"
+    },
+    {
+      "command": "node tests/personnel-roster.cjs",
+      "exit_code": 0,
+      "output": "PASS: 230 unique departure slots; 7 queen ledgers; 12→9; history, late entry, identity pools and no future ability leak\n"
+    },
+    {
+      "command": "node tests/character-detail-quality.cjs",
+      "exit_code": 0,
+      "output": "PASS: 387 character details, 46 status references, 15 beasts, 184 media references; organization parity and historical/spoiler guards\n"
+    },
+    {
+      "command": "node tests/theory-search.cjs",
+      "exit_code": 0,
+      "output": "PASS: 15 topic/reference indexes; aliases, primary/secondary ranking, Q010 topics and Q002 conditions\n"
+    },
+    {
+      "command": "python validate_data.py",
+      "exit_code": 0,
+      "output": "\r\n検証中: characters.json\r\n  OK\r\n\r\n検証中: events.json\r\n  OK\r\n\r\n検証中: spirit_beasts.json\r\n  OK\r\n\r\n検証中: factions.json\r\n  OK\r\n\r\n検証中: mafia.json\r\n  OK\r\n\r\n検証中: open_questions.json\r\n  OK\r\n\r\n検証中: personnel_snapshots.json\r\n  OK\r\n\r\n検証中: personnel_roster.json\r\n  OK\r\n\r\n検証中: ファイル間の参照\r\n  OK\r\n\r\n============================================================\r\nすべてのファイルが有効です。\r\n"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_*.py",
+      "exit_code": 0,
+      "output": "............................................\r\n----------------------------------------------------------------------\r\nRan 44 tests in 0.385s\r\n\r\nOK\r\n"
+    },
+    {
+      "command": "node tests/event-detail-quality.cjs",
+      "exit_code": 0,
+      "output": "PASS: 449 events, source/participant/order consistency, explicit review limits, identity and ability regressions\n"
+    },
+    {
+      "command": "node --check script.js",
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "browser": {
+    "server": "http://127.0.0.1:8765/",
+    "desktop": {
+      "width": 1280,
+      "height": 720,
+      "events": [
+        "E361-001",
+        "E393-003"
+      ],
+      "result": "留保・修正本文を確認。通常幅のスクリーンショットで表示を確認。"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "events": [
+        "E361-001",
+        "E343-001",
+        "E375-008"
+      ],
+      "result": "修正本文・遠隔人物・時刻未登録の表示を確認。詳細本文 clientWidth=scrollWidth=317、横はみ出しなし。E343-001のスクリーンショットを確認。"
+    },
+    "console_errors": [],
+    "viewport_reset": true,
+    "limits": "代表例のみ。全449画面の目視検証ではない。個人メモやローカル編集は変更していない。"
+  },
+  "remaining_original_review": [
+    {
+      "id": "E347-001",
+      "note": "第347話のNo.2承認の場面・話数に対応する原作照合記録が未確認。正式承認の経緯は追加照合が必要。"
+    },
+    {
+      "id": "E351-001",
+      "note": "第351〜356話の戦闘をまとめた旧登録。個別場面・話数範囲に対応する照合記録が未確認。"
+    },
+    {
+      "id": "E357-001",
+      "note": "旅団の乗船という旧登録について、場面と第357話との対応は未照合。乗船時点を確定する根拠にしない。"
+    },
+    {
+      "id": "E357-002",
+      "note": "旅団員2名殺害という旧登録。殺害場面と被害者の氏名は原作の追加照合が必要。"
+    },
+    {
+      "id": "E358-001",
+      "note": "出航前夜祭という旧登録の場面と参加者を確認できる照合記録が未確認。日時を確定しない。"
+    },
+    {
+      "id": "E361-001",
+      "note": "襲撃・拘束・能力奪取は照合記録あり。サイールドを操った念獣の持ち主の同定は未確定。"
+    },
+    {
+      "id": "E361-005",
+      "note": "警護11名から2名への減少と従事者の離脱希望は照合記録あり。従事者2名の氏名と実際の離脱は未確認。"
+    },
+    {
+      "id": "E370-001",
+      "note": "講習場面は照合記録あり。参加者の顔と登録人物IDの一部対応は未確定。"
+    },
+    {
+      "id": "E372-003",
+      "note": "留置中の男の同定と、この場面での死亡の描写は未確定。第374話の伝聞と区別し、既存の死亡話数の扱いは維持。"
+    },
+    {
+      "id": "E372-004",
+      "note": "サレサレを観察する兵がリハンであるかは未確定。"
+    },
+    {
+      "id": "E372-009",
+      "note": "既存の照合対象範囲でツベッパの守護霊獣出現を確認できていない。提供画像の末尾・別バッチの追加確認が必要。"
+    },
+    {
+      "id": "E373-002",
+      "note": "カミーラの移動・発砲は照合記録あり。撃たれた兵の同定と一部の生死は未確定。"
+    },
+    {
+      "id": "E373-004",
+      "note": "カミーラの拘束は照合記録あり。白い上着の拘束者の同定は未確定。"
+    },
+    {
+      "id": "E375-002",
+      "note": "監視交代の説明は照合記録あり。オルズニーから交代した監視兵がシカクであるかは未確定。"
+    },
+    {
+      "id": "E382-003",
+      "note": "ベッドの人物の名前・場所・死亡の明言は画像にない。サレサレの死亡としての登録は既存のユーザー判断による。"
+    },
+    {
+      "id": "E383-002",
+      "note": "念空間の出入りの協議は照合記録あり。ビスケと話す男性がウェルゲーであるかは未確定。"
+    },
+    {
+      "id": "E385-001",
+      "note": "修行は照合記録あり。背景の兵がサルコフであるかは未確定。"
+    },
+    {
+      "id": "E385-005",
+      "note": "テータの覚醒は照合記録あり。そばの男性がサルコフであるかは未確定。男性の説明は本人の見立てとして扱う。"
+    },
+    {
+      "id": "E386-001",
+      "note": "血痕・ルミノール反応の報告は照合記録あり。報告する男性の同定は未確定。"
+    },
+    {
+      "id": "E386-003",
+      "note": "能力実験とシカクの肉体の自死は照合記録あり。目覚めた男性の同定と、スミドリの帰還成功は同話だけでは確定しない。"
+    },
+    {
+      "id": "E389-007",
+      "note": "コインを受け取る場面は照合記録あり。受取者がテンフトリであるかは未確定。コインの効果も断定しない。"
+    },
+    {
+      "id": "E411-003",
+      "note": "第2回講習会は照合記録あり。参加者18名の全員の同定とスラッカの内外は未確定。講師や参加申出者を重複加算しない。"
+    },
+    {
+      "id": "E414-001",
+      "note": "刺突された歯の欠けた人物と、就寝中の額に印のある人物を区別する。後者の死亡や個別の兵種は未確定。休憩室という場所は第415話の証言に基づく。"
+    }
+  ],
+  "official_review": [
+    {
+      "id": "E415-007",
+      "note": "画像に記された日時と、第416話の発令日時との不整合を保留中。第12日13:50は既存の暫定配置で、公式訂正・公式版の確認待ち。"
+    }
+  ]
+}

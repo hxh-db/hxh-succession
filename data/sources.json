@@ -1,4 +1,22 @@
 [
+  {
+    "id": "user-approximate-coincidence-20261017",
+    "title": "同じ仮時刻への配置と同時刻確定の区別（2026-10-17ユーザー指定）",
+    "url": null,
+    "source_type": "user_hypothesis",
+    "checked_at": "2026-10-17",
+    "supports": "定時報告と退室を、ともに頃？付きの12:45へ仮配置。同じ表示時刻でも原作での同時刻確定や同時場面の認定を意味しない。",
+    "notes": "E359-005は発見の仮13:00の15分前を維持。E359-006は仮12:50から12:45へ変更。simultaneous_withは追加しない。"
+  },
+  {
+    "id": "user-scene-transition-374-20261016",
+    "title": "第374話の場面転換に置く時間経過（2026-10-16ユーザー指定）",
+    "url": null,
+    "source_type": "user_hypothesis",
+    "supports": "ウェルゲーとの通話は第373話末尾のハンゾーとクラピカの場面から続く時間帯とし、船のカット・出航37時間30分の経過表示からフウゲツの深夜の場面へ大きく時間が経過するというユーザーの読解。",
+    "checked_at": "2026-10-16",
+    "notes": "E374-001を2日目13:25頃に仮配置。13:25はE373-007の仮13:20に続く表示順用の値。フウゲツのE374-002の3日目01:27は原作の時計表示を維持。経過表示の逆算01:30は通話の時刻に流用せず、01:27との3分差も改変しない。"
+  },
   {"id":"togashi-x-20241217-p09","title":"冨樫義博 公式X：第9王子陣営の人物設定表（2024年12月17日 01:41 JST）","url":"https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482","media_url":"https://pbs.twimg.com/media/Ge7y2iObwAIBkxu?format=jpg&name=large","source_type":"author_official_x","verification_status":"primary_image_checked","checked_at":"2026-10-09","supports":"作者設定表の氏名・顔・私設兵14名欄・兵隊長表記。設定表としての一次資料。","notes":"公式アカウントの投稿本文・日時・添付原画像を直接確認。原作の登場話、最新の生死、念能力、現在地を確定する資料ではない。スミドリの名前は同日01:45の訂正版を優先。設定表の14名を原作人数表への増員として加算しない。"},
   {"id":"togashi-x-20241217-p09-correction","title":"冨樫義博 公式X：第9王子陣営設定表の訂正（2024年12月17日 01:45 JST）","url":"https://x.com/Un4v5s8bgsVk9Xp/status/1868698940058845479","media_url":"https://pbs.twimg.com/media/Ge7zyABa8AEbGxW?format=jpg&name=large","source_type":"author_official_x","verification_status":"primary_image_checked","checked_at":"2026-10-09","supports":"スドミリの取り消しとスミドリへの訂正。","notes":"投稿本文はW。訂正版の原画像を直接確認。別陣営の設定表ではなく、同じ第9王子陣営表の訂正版。訂正前表記を別人として登録しない。"},
   {

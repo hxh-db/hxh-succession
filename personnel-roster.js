@@ -4,8 +4,10 @@
   else root.PersonnelRoster = api;
 })(typeof globalThis === 'object' ? globalThis : this, function () {
   const chapterFor = (period, latest = 420) => period === 'departure' ? 0 : period === 'latest' ? latest : /^chapter-\d+$/.test(period) ? Number(period.slice(8)) : null;
+  // 希望の表明だけでは、実際に配置から外れたと数えない。
+  const isInactive = status => /死亡|拘束|辞退|離脱/.test(String(status || '').replace(/離脱希望（実際の離脱は未確認）/g, ''));
   function state(person, member, chapter, events = []) {
-    if (chapter === null) return {status: person.status, inactive: /死亡|拘束|辞退|離脱/.test(person.status || ''), assignment: person.current_assignment || person.camp || '', chapter: null};
+    if (chapter === null) return {status: person.status, inactive: isInactive(person.status), assignment: person.current_assignment || person.camp || '', chapter: null};
     // 出航時の復元在籍と、その後の生存・稼働確認は別の情報。
     let status = chapter === 0 ? '在籍（復元）' : '状態未確認';
     const changes = [
@@ -19,7 +21,7 @@
     let assignment = ranks.length === 1 ? `第${ranks[0]}王子` : ranks.length ? ranks.map(rank => `第${rank}王子`).join('／') + '（出身未確定）' : '配置未確認';
     if (history.length) assignment = history.at(-1).label + '：' + history.at(-1).prince_id;
     (member.history || []).filter(log => log.chapter <= chapter && log.assignment).sort((a,b) => a.chapter-b.chapter).forEach(log => {assignment = log.assignment;});
-    return {status, inactive: /死亡|拘束|辞退|離脱/.test(status), assignment, chapter};
+    return {status, inactive: isInactive(status), assignment, chapter};
   }
   function select(roster, people, options = {}) {
     const {period = 'all', queen = null, latest = 420, events = []} = options;
@@ -60,7 +62,7 @@
         review_claims: claimsAtChapter, reference_images: [],
         nen_ability_editorial: null, status_review_note: null,
         notes: `選択時点：${assignmentLabel}。初期配置には人数枠からの復元を含み、個人の出航時在室をすべて確認済みという意味ではありません。${person.generated_by ? person.notes + '。' : ''}${member.notes || ''}`,
-        nen_ability: null, nen_ability_name: null, nen_type: null,
+        nen_ability: null, nen_ability_name: null, nen_type: null, nen_type_detail: null,
         nen_status: 'historical_unorganized', nen_user: null, nen_status_chapter: null,
         nen_ability_image: null, nen_ability_image_source: null
       } : {}), roster_view: {...selected, assignment: assignmentLabel, period, initial: member.initial, basis: member.basis, slot_id: member.slot_id || null},

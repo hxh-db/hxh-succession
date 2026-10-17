@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261014-roster" />
+  <link rel="stylesheet" href="style.css?v=20261016-guide2" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">本文へ移動</a>
@@ -256,27 +256,51 @@
     </section>
 
     <section id="guide" class="primary-view" data-primary-panel="guide" hidden>
-      <div class="section-header">
-        <p class="section-kicker">作中の設定と数値</p>
-        <h2>王位継承戦 基礎資料</h2>
-        <p>船の構造、参加者の状況、儀式や警護の仕組みを整理しています。</p>
+      <div class="section-header"><p class="section-kicker">全体像から細かな条件へ</p><h2>王位継承戦 基礎情報ガイド</h2><p>参加条件、守護霊獣、警護と司法、各勢力の能力や契約を整理。仕組みを読み、根拠の場面へ戻れるガイドです。</p></div>
+      <div class="guide-reading-intro">
+        <h3>最初に押さえる3つの視点</h3>
+        <ol class="rule-list"><li><strong>王位を争う舞台：</strong>14人の王子がブラックホエール号に乗り、次の王を決める争いが進みます。まず人数・船の構造・継承の条件から読むと、登場人物の目的がつかめます。</li><li><strong>同時に働く複数のルール：</strong>王位継承の制度、船内法、念能力の条件、陣営間の約束は別々です。一つの条件を満たしても、他の制約までなくなるわけではありません。</li><li><strong>情報の確かさ：</strong>作中の制度や能力解説と、人物の説明・証言・推測を区別します。例外や未判明の条件は各項目に併記しています。</li></ol>
+        <p>上から読むと基礎から詳細へ進めます。調べたい言葉があるときは目次や検索を使ってください。個々の人物の能力は人物一覧、実際に起きた順序は出来事一覧にまとめています。</p>
       </div>
-      <div class="global-spoiler-gate" id="guideSpoilerGate"><p>後の展開を含む資料は、全画面共通のネタバレ設定で表示できます。</p><button type="button" data-reveal-global>ネタバレを表示して資料を見る</button></div>
-      <section class="coverage-section" aria-labelledby="coverageTitle">
-        <details><summary id="coverageTitle">収録範囲・出典の確認状況（340〜420話）</summary><p>件数は登録済みの出来事数です。登録がある話も全場面を網羅したとは限りません。「未収録」は対象外を意味せず、入力・確認が必要な範囲です。</p><div id="chapterCoverage"></div></details>
-      </section>
+      <div class="global-spoiler-gate" id="guideSpoilerGate"><p>初期表示は基本数値・船の構造・立場の説明です。ルールの詳細や実例には後の話で明かされる情報があるため、全画面共通のネタバレ設定で表示します。</p><button type="button" data-reveal-global>ネタバレを表示してガイド全体を読む</button></div>
+      <nav class="guide-navigation" aria-label="基礎情報ガイドの目次">
+        <label for="guideSearch">ガイド内を検索</label><input id="guideSearch" type="search" placeholder="例：参加資格、監視、戒厳令、レベル" autocomplete="off">
+        <p id="guideSearchStatus" role="status" aria-live="polite"></p><button type="button" id="guideSearchClear">検索をクリア</button>
+        <ol id="guideContents"><li><button type="button" data-guide-target="guideFactsTitle">継承戦の基本数値</button></li>
+<li><button type="button" data-guide-target="shipMapTitle">ブラックホエール号の見取り図</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="princeStatusTitle">王子の人数と状況</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="successionRulesTitle">継承戦の制度・勝者と参加条件</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="nenBasicsTitle">念を読むための基本用語</button></li>
+<li><button type="button" data-guide-target="shipRolesTitle">船内の立場と役割</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="guardAssignmentTitle">王子の警護人と王妃所属兵</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="initialPersonnelTitle">出航時の王子別初期配置（復元案）</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="lawGuideTitle">船内法・捜査・戒厳令</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="nenLessonsTitle">念講習会は何のためにあるか</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="mafiaGuideTitle">三大マフィア・王子との関係・二線者</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="contagionGuideTitle">恋のエチュード：加入・レベル・能力の増殖</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="negotiationGameTitle">モレナとボークセンの交渉ゲーム（第407〜410話）</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="contractGuideTitle">和平と念の契約：誰にどの条件がかかるか</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="soemonoTitle">死後の呪いと詛贄者（ソエモノ）</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="royalTreasuresTitle">カキン王家の三種の神器</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="beyondTeamTitle">ビヨンドチームと乗船経路</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="darkContinentTitle">暗黒大陸のリスクと持ち帰りたい資源</button></li>
+<li class="guide-later-topic"><button type="button" data-guide-target="guideQuestionsTitle">間違えやすい点・まだ決まっていないこと</button></li></ol>
+      </nav>
+      <p id="guideNoResults" hidden>該当する項目はありません。短い言葉で検索するか、ネタバレの表示設定を確認してください。</p>
       <section class="guide-facts" aria-labelledby="guideFactsTitle">
         <h3 id="guideFactsTitle">継承戦の基本数値</h3>
+        <p>カキンでは性別にかかわらず国王の子を「王子」と呼び、生まれ順に第○王子と呼びます。番号が若ければ自動的に次の王になる、という仕組みではありません。正妻に表向きの序列はないと説明される一方、警護・監視の運用には上下の違いがあります。</p>
+        <p class="guide-source-note">呼称と順位の説明：<a href="?event=E349-003#timeline">第349話の王妃・王子紹介</a>。監視の運用は「王子の警護人と王妃所属兵」で分けて説明します。</p>
         <div class="guide-fact-grid">
           <div><strong>14人</strong><span>出航時の王子</span></div>
           <div><strong>8人</strong><span>王妃</span></div>
           <div><strong>5層</strong><span>ブラックホエール号の階層</span></div>
         </div>
         <p class="guide-source-note">王子・王妃は人物台帳、船内の階層は出来事の場所記録に基づく開始時の情報です。現在の状況は下で分けて表示します。</p>
-        <figure class="guide-panel-quote guide-panel-quote-wide">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><figure class="guide-panel-quote guide-panel-quote-wide">
           <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/succession-14-princes-ch349.webp" alt="ホイコーロ国王が8人の王妃と14人の王子を説明するコマ" title="第349話『蠱毒』より：王位継承戦の参加者" tabindex="0" role="button" aria-label="8人の王妃と14人の王子の資料コマを拡大">
           <figcaption>原作コマ：第349話「蠱毒」より、8人の王妃と14人の王子。クリックで拡大できます。</figcaption>
-        </figure>
+        </figure></details>
       </section>
 
       <section class="guide-data-section guide-initial-setting" aria-labelledby="shipMapTitle">
@@ -290,10 +314,10 @@
           <div class="ship-level"><strong>第5層</strong><span>シャ＝ア一家の拠点などが登場する。</span></div>
         </div>
         <p class="guide-source-note">参照：第359〜360話（王子居住区）、第378〜380話（下層の勢力・施設）。同じ層にある場所同士の位置関係は示していません。</p>
-        <figure class="guide-panel-quote guide-panel-quote-wide">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><figure class="guide-panel-quote guide-panel-quote-wide">
           <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/prince-residential-map-ch363.png" alt="王子居住エリアと各王子の居室の配置図" title="第363話より：王子居住エリア見取り図" tabindex="0" role="button" aria-label="王子居住エリア見取り図を拡大">
           <figcaption>原作資料：第363話より、王子居住エリアと居室の配置。クリックで拡大できます。</figcaption>
-        </figure>
+        </figure></details>
       </section>
 
       <section class="guide-data-section" aria-labelledby="princeStatusTitle">
@@ -305,23 +329,23 @@
       </section>
 
       <section class="guide-data-section" aria-labelledby="successionRulesTitle">
-        <h3 id="successionRulesTitle">継承戦の制度</h3>
+        <h3 id="successionRulesTitle">継承戦の制度・勝者と参加条件</h3>
         <div class="overview-grid">
           <article class="overview-card">
             <h4>継承戦の前提</h4>
             <ul class="rule-list">
               <li>ホイコーロ国王の後継を、14人の王子の間で争う。</li>
-              <li>壺中卵の儀を経て、ブラックホエール号で継承戦が進行する。</li>
-              <li>王族への表立った殺害には法的な制約があり、護衛や司法の動きも継承戦に関わる。</li>
+              <li>生き残った唯一の王子が正式な継承者となる。ただし「生き残る」「脱落」の解釈まで明確に定められているわけではない。</li>
+              <li>「手段を問わない」のは継承権の判定について。王子殺しが船内法で無罪になるという意味ではなく、護衛・捜査・司法も争いを左右する。</li>
             </ul>
           </article>
           <article class="overview-card">
             <h4>壺中卵の儀と守護霊獣</h4>
-            <p class="overview-text">王子が壺に血を捧げ、現れた卵を飲む儀式。守護霊獣は王子のオーラを糧とし、本人には見えず、本人の意思で自由には操れません。守護霊獣同士は殺し合わず、憑いた人間を直接攻撃しないという共通原則があります。</p>
+            <p class="overview-text">壺に血を落として手を差し入れる儀式。第349話では小さな存在が球状の物を口元へ運ぶが、儀式を受けた本人は何も起きなかったと話す。守護霊獣は王子のオーラを糧とし、王子本人には見えず、本人の意思で自由には操れません。念能力を使える王子でも見えない描写があり、「念を使えるか」だけでは判定できません。守護霊獣同士は殺し合わず、霊獣の憑いた人間を直接攻撃しないという共通原則があります。</p>
             <p class="overview-text guide-secondary-text">守護霊獣と王子本人の念能力は別です。個々の守護霊獣の姿や能力は各王子の人物情報にまとめています。</p>
           </article>
         </div>
-        <div class="guide-panel-grid">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><div class="guide-panel-grid">
           <figure class="guide-panel-quote">
             <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/seed-urn-ritual-ch349.webp" alt="王子が壺に血を落とし、手を差し入れる儀式のコマ" title="第349話『蠱毒』より：壺中卵の儀" tabindex="0" role="button" aria-label="壺中卵の儀の資料コマを拡大">
             <figcaption>原作コマ：第349話「蠱毒」より、壺中卵の儀</figcaption>
@@ -330,44 +354,112 @@
             <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/nasubi-guardian-beast-ch349.webp" alt="ホイコーロ国王と背後の守護霊獣が描かれたコマ" title="第349話『蠱毒』より：ホイコーロ国王の守護霊獣" tabindex="0" role="button" aria-label="ホイコーロ国王の守護霊獣の資料コマを拡大">
             <figcaption>原作コマ：第349話「蠱毒」より、ホイコーロ国王の守護霊獣</figcaption>
           </figure>
-        </div>
-        <p class="guide-source-note">参照：第349話（儀式・参加条件）、第360〜361話（守護霊獣と継承戦の制約）。例外や未解明の条件は確定事項として加えていません。</p>
+        </div></details>
+        <p class="guide-source-note">参照：第349話（儀式・参加条件）、第360話（寄生型と視認）、第362話（守護霊獣の共通原則）。例外や未解明の条件は確定事項として加えていません。</p>
         <h4>参加資格と正式な開始時点</h4>
-        <p>ヌグイは参加資格を、国王の正室の子で、ブラックホエール号に乗船し、出航セレモニーに参加した者と説明します。開始前に候補者が死亡した場合は継承戦そのものが中止され、正式な開始は出航の汽笛が鳴り終わった瞬間です。開始後は生き残った王子が継承権を得るとされます。</p>
-        <figure class="guide-panel-quote">
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">段階</th><th scope="col">条件・扱い</th></tr></thead><tbody><tr><th scope="row">参加資格</th><td>ナスビー＝ホイコーロの正室の子で、B・W号に乗船し、出航セレモニーに参加した者。</td></tr><tr><th scope="row">開始前</th><td>セレモニーより前に候補者の誰かが死亡すれば、継承戦そのものが中止となる。</td></tr><tr><th scope="row">開始の瞬間</th><td>出港時の長い汽笛一発が鳴り終わった瞬間。乗船した時点とは異なる。</td></tr><tr><th scope="row">開始後</th><td>生き残った唯一名が正式な継承者。生き残った手段の是非は継承権では問わない。</td></tr><tr><th scope="row">未確定の部分</th><td>第363話で国王は「生き残る」の解釈も含めて継承戦と回答。生物学的な死以外の脱落を一律に認めない、とは確定していない。</td></tr></tbody></table></div>
+        <p>ヌグイは参加資格を、国王の正室の子で、ブラックホエール号に乗船し、出航セレモニーに参加した者と説明します。開始前に候補者が死亡した場合は継承戦そのものが中止され、正式な開始は出航の汽笛が鳴り終わった瞬間です。開始後は生き残った唯一の王子が継承権を得るとされます。これはヌグイの説明です。</p>
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><figure class="guide-panel-quote">
           <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/nugui-succession-rules-ch349.png" alt="ヌグイによる継承戦の参加資格と開始・中止条件の説明" title="第349話より：ヌグイによる継承戦の条件説明" tabindex="0" role="button" aria-label="ヌグイの継承戦の条件説明を拡大">
           <figcaption>原作資料：第349話より、継承戦の参加資格と開始・中止条件</figcaption>
-        </figure>
+        </figure></details>
+        <h4>この原則からは断定できないこと</h4>
+        <p>守護霊獣の直接攻撃が制限されても、王子本人や護衛の攻撃、操作・呪いなどによる間接的な作用まで安全になるわけではありません。また、王子が辞退を宣言するだけで儀式から離脱できるという手続きは確認されていません。第371話の「一人でも離脱すれば全員の念獣が消えるかもしれない」はクラピカの仮説です。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E349-001#timeline">第349話：参加条件・儀式</a> ／ <a href="?t_chapter=362&amp;t_period=all#timeline">第362話：霊獣の本能（写真3）</a> ／ <a href="?event=E363-001#timeline">第363話：脱落の解釈</a> ／ <a href="?event=E371-005#timeline">第371話：離脱の仮説</a>。場面の詳細では出典と確認上の留保も読めます。</p>
       </section>
 
-      <section class="guide-data-section" aria-labelledby="royalTreasuresTitle">
-        <h3 id="royalTreasuresTitle">カキン王家の三種の神器</h3>
-        <p>第406話「神器」では、継承戦に使われる三種の宝とそれぞれの役割が示されます。</p>
+      <section class="guide-data-section" aria-labelledby="nenBasicsTitle">
+        <h3 id="nenBasicsTitle">念を読むための基本用語</h3>
+
+        <p>この編では「能力を持つ人」「能力で作られた存在」「能力の宿主」が別々の場合があります。姿が見えること、能力を自覚すること、自由に使えることを分けて読むと混乱しにくくなります。</p>
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">用語</th><th scope="col">意味と読む際の注意</th></tr></thead><tbody><tr><th scope="row">オーラ・念能力</th><td>オーラを用いる力。念に目覚めていることと、その人独自の能力や発動条件が判明していることは別。</td></tr><tr><th scope="row">系統</th><td>強化・変化・放出・具現化・操作・特質という分類。王子本人の系統を、その守護霊獣の系統へそのまま当てはめない。</td></tr><tr><th scope="row">念獣・守護霊獣</th><td>念獣は念に関わる生き物や存在。壺中卵の儀による守護霊獣はその一種で、船内のすべての念獣が王子の守護霊獣とは限らない。</td></tr><tr><th scope="row">寄生型</th><td>宿主のオーラを利用して働く型。宿主に自覚がなく操作できない場合がある。「寄生型だから必ず宿主を守る」とは限らない。</td></tr><tr><th scope="row">具現化・見える条件</th><td>普通の人にも見える念獣の例がある。一方、儀式の念獣は普通の人には見えず、王子にも特別な視認制限がある。</td></tr><tr><th scope="row">絶（ゼツ）</th><td>オーラを閉じる状態。能力の発動条件にも、契約違反への罰にもなる。絶ならあらゆる念の効果が消える、と一括りにしない。</td></tr><tr><th scope="row">制約・誓約</th><td>能力の条件やリスク。条件を厳しくすることが強い力につながるが、何をすれば発動・解除するかは個々の能力で異なる。</td></tr><tr><th scope="row">死後の念</th><td>死をきっかけに働く念の例がある。術者を殺せば能力も終わる、とは限らない。カミーラ本人の能力、私設兵の呪詛、ビヨンドの呪いはそれぞれ別の仕組み。</td></tr></tbody></table></div>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E360-001#timeline">第360話：寄生型の説明</a> ／ <a href="?event=E363-002#timeline">第363話：王子の視認制限</a> ／ <a href="?event=E371-005#timeline">第371話：見える念獣と制約</a> ／ <a href="?event=E373-001#timeline">第373話：死後の念</a> ／ <a href="?event=E401-003#timeline">第401話：強制的な絶</a>。場面の詳細では出典と確認上の留保も読めます。</p>
+      </section>
+
+      <section class="guide-data-section guide-initial-setting" aria-labelledby="shipRolesTitle">
+        <h3 id="shipRolesTitle">船内の立場と役割</h3>
         <div class="guide-table-wrap">
           <table class="guide-table">
-            <thead><tr><th>神器</th><th>役割</th></tr></thead>
+            <thead><tr><th>立場</th><th>作中での位置づけ</th></tr></thead>
             <tbody>
-              <tr><th>壺中卵</th><td>継承戦参加者のために使う儀式の壺。</td></tr>
-              <tr><th>儀座禅仏</th><td>継承戦を見守る御神体。</td></tr>
-              <tr><th>吉兆丸</th><td>次代王に渡される継承の宝剣。</td></tr>
+              <tr><th>王子・王妃</th><td>継承候補とその母。王子ごとに居室と陣営がある。</td></tr>
+              <tr><th>私設兵</th><td>王子が独自の人脈で集めた兵隊。第1王子の私設兵は正規国軍の資格も持つ。</td></tr>
+              <tr><th>王妃所属兵</th><td>国王軍から各王妃に割り当てられた正規兵。私設兵とは別に王子の居室へ配置される。</td></tr>
+              <tr><th>王室警備兵</th><td>王子の居室など王室警備に配置された国軍兵。第374話の図では、王妃所属兵の配置目的が「王室警備」か「監視」かも区別される。</td></tr>
+              <tr><th>ハンター協会員</th><td>王子が個別に依頼したプロハンター。基本的に専属で身辺警護にあたる。</td></tr>
+              <tr><th>準協会員</th><td>私設兵と協会が連携して居住区外の警備に募った人員。便宜上の期限付きで、私設兵人数に括弧書きされた場合は内数。</td></tr>
+              <tr><th>従事者</th><td>兵士を兼ねる者と非戦闘員がいる。申請人数が多いほど居住区内に持ち込める家具・日用品などの荷物重量の上限が増える。</td></tr>
+              <tr><th>司法省</th><td>船内の事件捜査や法的手続きに関わる。</td></tr>
+              <tr><th>三大マフィア</th><td>下層で活動する別々の組織。王子陣営との関係もそれぞれ異なる。</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="guide-panel-grid">
+        <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。人物一覧の「人員区分」タグから私設兵・王妃所属兵・王室警備兵・協会員（護衛）、人物グループ「従事者」から従事者を絞り込めます。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="guardAssignmentTitle">
+        <h3 id="guardAssignmentTitle">王子の警護人と王妃所属兵</h3>
+        <p>王妃は警護人を使って、下位の王妃と王子が謀反を企んでいないか監視しています。ただし下位の王妃が上位の王妃とその王子を監視することは許されません。第360話p.190では、第11・12・14王子の配置例も説明されています。</p>
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><div class="guide-panel-grid">
           <figure class="guide-panel-quote">
-            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/seed-urn-ch406.png" alt="儀式の壺・壺中卵" title="第406話より：壺中卵" tabindex="0" role="button" aria-label="壺中卵の資料コマを拡大">
-            <figcaption>第406話：壺中卵</figcaption>
+            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/queen-guard-assignment-ch360.webp" alt="第11・12・14王子の警護人と王妃からの監視兵の配置図" title="第360話p.190より：王妃所属兵の配置例" tabindex="0" role="button" aria-label="第360話の王妃所属兵配置例を拡大">
+            <figcaption>原作コマ：第360話p.190より、王子ごとの警護人の配置例</figcaption>
           </figure>
           <figure class="guide-panel-quote">
-            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/ritual-statue-ch406.png" alt="継承戦を見守る御神体・儀座禅仏" title="第406話より：儀座禅仏" tabindex="0" role="button" aria-label="儀座禅仏の資料コマを拡大">
-            <figcaption>第406話：儀座禅仏</figcaption>
+            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/queen-guard-rule-ch360.webp" alt="下位王妃が上位王妃とその王子を監視できないという警護人の運用ルール" title="第360話p.190より：王妃間の監視ルール" tabindex="0" role="button" aria-label="第360話の王妃間の監視ルールを拡大">
+            <figcaption>原作コマ：第360話p.190より、下位王妃による上位王妃・王子の監視は禁止</figcaption>
           </figure>
-          <figure class="guide-panel-quote">
-            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/royal-sword-ch406.png" alt="次代王に渡される宝剣・吉兆丸" title="第406話より：吉兆丸" tabindex="0" role="button" aria-label="吉兆丸の資料コマを拡大">
-            <figcaption>第406話：吉兆丸</figcaption>
-          </figure>
-        </div>
-        <p class="guide-source-note">クロロは三種の神器を継承戦のメインシステムと捉え、盗賊の極意を進化させるための盗みを計画しています。祭壇が第1層にあるという見立てはクロロの推測です。実際の所在・盗難の実行・継承戦への影響は、この話では確定しません。</p>
+        </div></details>
+        <p>第374話の兵力図は、王子の私設兵・ハンター協会員・従事者と、母である王妃の所属兵を記載しています。準協会員は居住区外の警備にあたるため協会と連携する期限付きの資格です。第4王子は私設兵15名（うち準協会員5名）と従事者5名で、記載人数は計20名。準協会員5名をさらに加算しません。従事者には非戦闘員も含まれます。同じ王妃の監視兵は複数の子の欄に繰り返し載っているため、王妃別の集計では一度だけ数えます。</p>
+        <p class="guide-source-note">人物タグでは「第○王子私設兵」「第○王妃所属兵」を所属、「人員区分」を私設兵・王妃所属兵・王室警備兵・協会員（護衛）の横断分類、「準協会員」を資格として分けています。従事者は人物グループ「従事者」で絞り込めます。第374話の人数はその場面の配置記録で、現在人数や王妃の全保有兵力とは区別します。</p>
+        <button id="revealPersonnelSnapshot" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="personnelSnapshotContent">第374話の配置を見る</button>
+        <div id="personnelSnapshotContent" hidden></div>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="initialPersonnelTitle">
+        <h3 id="initialPersonnelTitle">出航時の王子別初期配置（復元案）</h3>
+        <p>第348話の「王子一人につき従事者15人まで」を同行人員の基本枠とし、各王子が枠を使い切ったという前提で復元した表です。私設兵・王妃所属兵・護衛ハンター・メイドなどを基本枠の内訳として数えます。第2〜第5王子の準協会員各5人は枠外に一度だけ加えます。</p>
+        <div id="initialPersonnelContent"></div>
+        <p class="guide-source-note">参照：第348話（15人枠・準協会員）、第360〜361話（監視と初期警護）、第368話（人員合流）、第374話（後日の人数表）。各王子の職種内訳には推定が含まれます。第374話の表は出航から37時間30分後の場面に挿入されたもので、初期配置を直接示す表ではありません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="lawGuideTitle">
+        <h3 id="lawGuideTitle">船内法・捜査・戒厳令</h3>
+
+        <p>継承戦が始まっても、通常の法的な責任や王族の保護は残ります。誰が攻撃したかだけでなく、証拠を示せるか、どの権限で拘束するかが重要になります。</p>
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">制度・状況</th><th scope="col">確認できる扱い</th><th scope="col">混同しやすい点</th></tr></thead><tbody><tr><th scope="row">王子殺し・防衛権</th><td>王子殺しは重罪と説明される。第1王子は派遣兵に、襲撃時や襲撃の意思が明らかな場合の防衛権行使を許可する。</td><td>防衛権を主張した人物の言い分と、実際に正当防衛だったかは別。</td></tr><tr><th scope="row">王族特権と捜査</th><td>第371話では状況証拠だけの第6王妃拘束要請が却下され、72時間の監視聴取になる。</td><td>72時間はこの件の措置。王族に対するすべての捜査が必ず同じ手順とは限らない。</td></tr><tr><th scope="row">準戒厳令・第380話</th><td>第2層と第3層の往来が管理され、室内待機・ID確認などが実施される。</td><td>後の特殊戒厳令と、発令場面・権限の範囲を分ける。</td></tr><tr><th scope="row">特殊戒厳令・第410／416話</th><td>軍部による三権統合と司法省の統合司令本部化が宣言される。第416話の放送では軍の許可なく動く者を即射殺対象と通告。</td><td>第410話で発令根拠と国王の委任状が求められ、委任状は作成中と回答。発令側の主張を、疑惑の立証済み事実とは扱わない。</td></tr></tbody></table></div>
+        <p>第415話の日時表記には整合しない点があります。発令日時の扱いと、その場で告げられた規則は別に確認してください。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E360-002#timeline">第360話：王子殺し</a> ／ <a href="?event=E363-003#timeline">第363話：防衛権</a> ／ <a href="?event=E371-001#timeline">第371話：王族保護と監視聴取</a> ／ <a href="?event=E380-004#timeline">第380話：通行・ID</a> ／ <a href="?event=E410-010#timeline">第410話：発令根拠の照会</a> ／ <a href="?event=E416-001#timeline">第416話：発令時の通告</a>。場面の詳細では出典と確認上の留保も読めます。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="nenLessonsTitle">
+        <h3 id="nenLessonsTitle">念講習会は何のためにあるか</h3>
+
+        <p>クラピカは1014号室で、各陣営の参加者に念を教えます。念の情報が一部の陣営だけに偏る状況を変える一方、参加者には情報収集・監視・勧誘など、それぞれの思惑があります。</p>
+        <ul class="rule-list"><li><strong>習得の説明：</strong>第1回は16名に、2週間後には全員が念を使えると説明。これはクラピカの講習上の約束で、誰でも通常の修行で必ず2週間あれば習得できるという一般則ではありません。</li><li><strong>室内の安全：</strong>王妃と王子を守るための白線を越えない。違反時は退場や武力行使もあり得ると警告します。</li><li><strong>継続の判断：</strong>事件後、第371話では10時までに講習を続けるか決めるよう求めます。参加継続と事件の安全性の保証は別です。</li><li><strong>覚醒と固有能力：</strong>念を使う準備ができた段階と、独自の能力を完成させた段階は異なります。第2回の参加者は第1回と同じ名簿ではありません。</li></ul>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E369-002#timeline">第369話：第1回参加者</a> ／ <a href="?event=E370-001#timeline">第370話：白線と2週間の説明</a> ／ <a href="?event=E371-002#timeline">第371話：継続の判断</a> ／ <a href="?event=E411-003#timeline">第411話：第2回講習</a>。場面の詳細では出典と確認上の留保も読めます。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="mafiaGuideTitle">
+        <h3 id="mafiaGuideTitle">三大マフィア・王子との関係・二線者</h3>
+
+        <p>下層では、カキンの三大マフィアと幻影旅団などの思惑が交差します。「ケツモチ」は組織の後ろ盾となる王子のこと。組員全員をその王子の護衛や私設兵として数える関係ではありません。</p>
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">組織</th><th scope="col">後ろ盾</th><th scope="col">主な位置づけ</th></tr></thead><tbody><tr><th scope="row">シュウ＝ウ一家</th><td>第3王子チョウライ</td><td>第4層で人と物流の利ザヤを得る。</td></tr><tr><th scope="row">エイ＝イ一家</th><td>第4王子ツェリードニヒ</td><td>富裕層との闇取引の斡旋を収入源とする。モレナの方針は他の二家が守ろうとする均衡と衝突する。</td></tr><tr><th scope="row">シャ＝ア一家</th><td>第7王子ルズールス</td><td>第5層で物資全般を取り仕切る。</td></tr></tbody></table></div>
+        <p><strong>均衡：</strong>オニオールらは、力を持たない者へ新たな力が渡ることや、旅団が既存の秩序を崩すことを警戒します。これは組織側の考え方で、継承戦の公式な勝敗条件ではありません。</p>
+        <p><strong>二線者：</strong>正当な後継者になれない国王の子孫。生まれてすぐ顔に傷を付けられ、表舞台へ出ないことを条件に生存を許されると説明されます。王族に血縁があることと、継承資格があることを分ける必要があります。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E371-006#timeline">第371話：後ろ盾の王子</a> ／ <a href="?event=E378-001#timeline">第378話：均衡と各組織</a> ／ <a href="?event=E378-002#timeline">第378話：二線者</a>。場面の詳細では出典と確認上の留保も読めます。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="contagionGuideTitle">
+        <h3 id="contagionGuideTitle">恋のエチュード：加入・レベル・能力の増殖</h3>
+
+        <p>モレナの能力「恋のエチュード（サイキンオセン）」は、唾液を介して発症者を増やし、殺害によるレベル上昇と念能力の発現につながります。次の交渉ゲームは加入を決める過程であり、ゲームの結論だけで全条件が満たされるわけではありません。</p>
+        <h4>加入に必要な3条件（第409話の説明）</h4>
+        <ol class="rule-list"><li>交渉ゲームの結論がYesになる。</li><li>キスによって能力に感染する。</li><li>仲間が殺人している現場に居合わせる。</li></ol>
+        <p>3条件の順番は問いません。第410話のボークセンは最後の条件が未達のレベル0で、完全加入・念の覚醒が済んだ状態ではありません。</p>
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">段階・対象</th><th scope="col">説明された数値・効果</th></tr></thead><tbody><tr><th scope="row">発症者の枠</th><td>モレナを含め最大23名（第378話の能力解説）。現在の生存人数や質問への回答人数と同じ意味ではない。</td></tr><tr><th scope="row">完全加入</th><td>条件を満たすとレベル1。</td></tr><tr><th scope="row">殺害による加算</th><td>一般人は＋1、念能力者は＋10、王子は＋50。</td></tr><tr><th scope="row">レベル21</th><td>レベル20を超えると独自の念能力が発現。</td></tr><tr><th scope="row">レベル100</th><td>0患者となり、自分の感染集団を形成できる。</td></tr></tbody></table></div>
+        <p>能力の感染、完全加入、念の覚醒、別の感染集団を作れる段階を区別します。特質系約0.033%というモレナの調査値は系統の割合で、この能力による感染や覚醒の成功率ではありません。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E378-002#timeline">第378話：能力解説</a> ／ <a href="?event=E409-002#timeline">第409話：加入条件</a> ／ <a href="?event=E410-001#timeline">第410話：レベルと完全加入</a>。場面の詳細では出典と確認上の留保も読めます。</p>
       </section>
 
       <section class="guide-data-section" aria-labelledby="negotiationGameTitle">
@@ -392,10 +484,11 @@
             </tbody>
           </table>
         </div>
-        <figure class="guide-panel-quote">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><figure class="guide-panel-quote">
           <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/negotiation-cards-ch407.png" alt="親7枚は表、子5枚は裏に置く交渉ゲームの配置" title="第407話より：親と子のカード配置" tabindex="0" role="button" aria-label="第407話の交渉ゲームのカード配置を拡大">
           <figcaption>第407話：親7枚・子5枚の配置</figcaption>
-        </figure>
+        </figure></details>
+        <details class="guide-example"><summary>実際の進行と追加条件を話順に読む（第407〜410話）</summary>
         <h4 class="guide-subheading">第407話：ゲームの開始</h4>
         <p class="guide-body-text">第407話末では、ボークセンが「子の裏向きカードは自分が選ぶ」という条件を出し、モレナが受け入れて開始を宣言したところまで。実際のカード選択・目的や能力の開示・加入の結論はまだ描かれません。不正や能力による誘導への疑いはボークセンの推測として、説明されたルールと分けています。</p>
         <h4 class="guide-subheading">第408話：最初の指定と特殊戒厳令</h4>
@@ -408,59 +501,55 @@
         <h4 class="guide-subheading">第410話：不正の指摘と加入の条件</h4>
         <p class="guide-body-text">第410話でモレナは不正を指摘し、ゲームとカードも能力の一部で、不正時には操作系能力が自動発動して子はYesかNoしか選べなくなると説明します。Rに凹みの目印を付け、最後に握り潰して証拠を消した手順はモレナの推理です。ボークセンのYes選択を、Xも選べる状態での自由な選択と扱いません。</p>
         <p class="guide-body-text">ボークセンはレベル0で最後の加入条件が未達。全条件を満たすとレベル1の仲間になり、レベル21で念能力が覚醒、レベル100で自分の仲間を作れるようになります。410話でも殺人現場への居合わせ・完全加入・念の覚醒は描かれません。モレナはアプリのようにレベル・位置・能力等を管理すると説明し、ボークセンは対抗策を得るため、帰還前に仲間についての案内を求めます。</p>
+        </details>
       </section>
 
-      <section class="guide-data-section" aria-labelledby="guardAssignmentTitle">
-        <h3 id="guardAssignmentTitle">王子の警護人と王妃所属兵</h3>
-        <p>王妃は警護人を使って、下位の王妃と王子が謀反を企んでいないか監視しています。ただし下位の王妃が上位の王妃とその王子を監視することは許されません。第360話p.190では、第11・12・14王子の配置例も説明されています。</p>
-        <div class="guide-panel-grid">
-          <figure class="guide-panel-quote">
-            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/queen-guard-assignment-ch360.webp" alt="第11・12・14王子の警護人と王妃からの監視兵の配置図" title="第360話p.190より：王妃所属兵の配置例" tabindex="0" role="button" aria-label="第360話の王妃所属兵配置例を拡大">
-            <figcaption>原作コマ：第360話p.190より、王子ごとの警護人の配置例</figcaption>
-          </figure>
-          <figure class="guide-panel-quote">
-            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/queen-guard-rule-ch360.webp" alt="下位王妃が上位王妃とその王子を監視できないという警護人の運用ルール" title="第360話p.190より：王妃間の監視ルール" tabindex="0" role="button" aria-label="第360話の王妃間の監視ルールを拡大">
-            <figcaption>原作コマ：第360話p.190より、下位王妃による上位王妃・王子の監視は禁止</figcaption>
-          </figure>
-        </div>
-        <p>第374話の兵力図は、王子の私設兵・ハンター協会員・従事者と、母である王妃の所属兵を記載しています。準協会員は居住区外の警備にあたるため協会と連携する期限付きの資格です。第4王子は私設兵15名（うち準協会員5名）と従事者5名で、記載人数は計20名。準協会員5名をさらに加算しません。従事者には非戦闘員も含まれます。同じ王妃の監視兵は複数の子の欄に繰り返し載っているため、王妃別の集計では一度だけ数えます。</p>
-        <p class="guide-source-note">人物タグでは「第○王子私設兵」「第○王妃所属兵」を所属、「人員区分」を私設兵・王妃所属兵・王室警備兵・協会員（護衛）の横断分類、「準協会員」を資格として分けています。従事者は人物グループ「従事者」で絞り込めます。第374話の人数はその場面の配置記録で、現在人数や王妃の全保有兵力とは区別します。</p>
-        <button id="revealPersonnelSnapshot" class="spoiler-reveal-button" type="button" aria-expanded="false" aria-controls="personnelSnapshotContent">第374話の配置を見る</button>
-        <div id="personnelSnapshotContent" hidden></div>
-      </section>
+      <section class="guide-data-section" aria-labelledby="contractGuideTitle">
+        <h3 id="contractGuideTitle">和平と念の契約：誰にどの条件がかかるか</h3>
 
-      <section class="guide-data-section" aria-labelledby="initialPersonnelTitle">
-        <h3 id="initialPersonnelTitle">出航時の王子別初期配置（復元案）</h3>
-        <p>第348話の「王子一人につき従事者15人まで」を同行人員の基本枠とし、各王子が枠を使い切ったという前提で復元した表です。私設兵・王妃所属兵・護衛ハンター・メイドなどを基本枠の内訳として数えます。第2〜第5王子の準協会員各5人は枠外に一度だけ加えます。</p>
-        <div id="initialPersonnelContent"></div>
-        <p class="guide-source-note">参照：第348話（15人枠・準協会員）、第360〜361話（監視と初期警護）、第368話（人員合流）、第374話（後日の人数表）。各王子の職種内訳には推定が含まれます。第374話の表は出航から37時間30分後の場面に挿入されたもので、初期配置を直接示す表ではありません。</p>
-      </section>
-
-      <section class="guide-data-section guide-initial-setting" aria-labelledby="shipRolesTitle">
-        <h3 id="shipRolesTitle">船内の立場と役割</h3>
-        <div class="guide-table-wrap">
-          <table class="guide-table">
-            <thead><tr><th>立場</th><th>作中での位置づけ</th></tr></thead>
-            <tbody>
-              <tr><th>王子・王妃</th><td>継承候補とその母。王子ごとに居室と陣営がある。</td></tr>
-              <tr><th>私設兵</th><td>王子が独自の人脈で集めた兵隊。第1王子の私設兵は正規国軍の資格も持つ。</td></tr>
-              <tr><th>王妃所属兵</th><td>国王軍から各王妃に割り当てられた正規兵。私設兵とは別に王子の居室へ配置される。</td></tr>
-              <tr><th>王室警備兵</th><td>王子の居室など王室警備に配置された国軍兵。第374話の図では、王妃所属兵の配置目的が「王室警備」か「監視」かも区別される。</td></tr>
-              <tr><th>ハンター協会員</th><td>王子が個別に依頼したプロハンター。基本的に専属で身辺警護にあたる。</td></tr>
-              <tr><th>準協会員</th><td>私設兵と協会が連携して居住区外の警備に募った人員。便宜上の期限付きで、私設兵人数に括弧書きされた場合は内数。</td></tr>
-              <tr><th>従事者</th><td>兵士を兼ねる者と非戦闘員がいる。申請人数が多いほど居住区内に持ち込める家具・日用品などの荷物重量の上限が増える。</td></tr>
-              <tr><th>司法省</th><td>船内の事件捜査や法的手続きに関わる。</td></tr>
-              <tr><th>三大マフィア</th><td>下層で活動する別々の組織。王子陣営との関係もそれぞれ異なる。</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="guide-source-note">所属、配置、共闘は別の関係として扱います。人物一覧の「人員区分」タグから私設兵・王妃所属兵・王室警備兵・協会員（護衛）、人物グループ「従事者」から従事者を絞り込めます。組織の行動や人数は、関連する人物・出来事の記録で確認できます。</p>
+        <p>陣営同士の協力関係と、念能力で強制される契約は分けて読む必要があります。第401話のロンギの「透明言葉」は、自発的な署名を必須とする操作系条件型の能力です。ロンギには先に嘘偽りなく説明する必要があります。</p>
+<div class="guide-table-wrap"><table class="guide-table"><thead><tr><th scope="col">項目</th><th scope="col">第401話で説明された条件</th></tr></thead><tbody><tr><th scope="row">和平の対象</th><td>第5王子と第14王子・第8王妃。互いの王子・王妃と所属兵への妨害・攻撃をしない。</td></tr><tr><th scope="row">期限と更新</th><td>次の日曜日の午前9時まで。同時刻に第5王子の使いが1014号室内にいれば1週間自動更新。</td></tr><tr><th scope="row">違反の罰</th><td>クラピカ側が協定を破った場合に能力が発動し、1週間の強制的な絶。双方へ同じ罰が自動でかかる契約ではない。</td></tr><tr><th scope="row">別の付与条件</th><td>第5王子の離脱または王子が残り2名になるまでにビヨンドの子を見つければ、一度だけ能力を使える賞与。王子の中に該当者なしと判明しても達成となる。</td></tr><tr><th scope="row">破棄と約束</th><td>第5王子による破棄で付与条件は消滅。その後も調査した場合の再契約は、ロンギの個人的な約束として別に読む。</td></tr></tbody></table></div>
+        <p>「誰が本心で話しているか」と「その人物の推測が事実か」も別です。王子の中にビヨンドの子がいるという話はロンギの推測で、契約の説明だけで特定の王子の血縁は確定しません。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E401-001#timeline">第401話：能力と署名</a> ／ <a href="?event=E401-002#timeline">第401話：血縁の推測</a> ／ <a href="?event=E401-003#timeline">第401話：契約条項</a>。場面の詳細では出典と確認上の留保も読めます。</p>
       </section>
 
       <section class="guide-data-section" aria-labelledby="soemonoTitle">
-        <h3 id="soemonoTitle">詛贄者（ソエモノ）</h3>
-        <p>ビヨンドが自身の子供に仕込んだ、死後に発動する呪いの担い手です。ロンギの説明では、ソエモノは<strong>全員念能力者</strong>で、生まれた時から念能力に覚醒しています。これはビヨンドがかけた念の「攻撃」の副次効果とされます。</p>
+        <h3 id="soemonoTitle">死後の呪いと詛贄者（ソエモノ）</h3>
+        <p>ロンギが語る詛贄者は、ビヨンドが自身の子供に仕込んだ、死後に発動する呪いの担い手です。ロンギの説明では、ソエモノは<strong>全員念能力者</strong>で、生まれた時から念能力に覚醒しています。これはビヨンドがかけた念の「攻撃」の副次効果とされます。</p>
         <p class="guide-source-note">参照：第401話、15〜19ページ（ロンギの説明）。念能力に覚醒していることと、各人の固有能力やその条件・効果が判明していることは区別します。</p>
+        <p><strong>カミーラ私設兵の呪詛は別系統の計画：</strong>第389話では不可持民出身の私設兵が各王子の呪詛を担当します。長く、近くで標的を想うほど呪力が強まり、術者の死で発動すると説明されます。効くまでの期間は距離や防御の条件によって異なり、「必ず数時間で死亡」とは限りません。</p>
+        <p>カミーラ本人の蘇生能力、私設兵の呪詛、ビヨンドの詛贄者、王子の守護霊獣は、持ち主も発動条件も別です。ビヨンドの子がどの王子か、呪いの標的が誰かも、この説明だけでは確定しません。</p>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E389-006#timeline">第389話：カミーラ私設兵の呪詛</a> ／ <a href="?event=E401-002#timeline">第401話：ロンギの説明と推測</a>。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="royalTreasuresTitle">
+        <h3 id="royalTreasuresTitle">カキン王家の三種の神器</h3>
+        <p>第406話「神器」では、継承戦に使われる三種の宝とそれぞれの役割が示されます。</p>
+        <div class="guide-table-wrap">
+          <table class="guide-table">
+            <thead><tr><th>神器</th><th>役割</th></tr></thead>
+            <tbody>
+              <tr><th>壺中卵</th><td>継承戦参加者のために使う儀式の壺。</td></tr>
+              <tr><th>儀座禅仏</th><td>継承戦を見守る御神体。</td></tr>
+              <tr><th>吉兆丸</th><td>次代王に渡される継承の宝剣。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><div class="guide-panel-grid">
+          <figure class="guide-panel-quote">
+            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/seed-urn-ch406.png" alt="儀式の壺・壺中卵" title="第406話より：壺中卵" tabindex="0" role="button" aria-label="壺中卵の資料コマを拡大">
+            <figcaption>第406話：壺中卵</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/ritual-statue-ch406.png" alt="継承戦を見守る御神体・儀座禅仏" title="第406話より：儀座禅仏" tabindex="0" role="button" aria-label="儀座禅仏の資料コマを拡大">
+            <figcaption>第406話：儀座禅仏</figcaption>
+          </figure>
+          <figure class="guide-panel-quote">
+            <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/royal-sword-ch406.png" alt="次代王に渡される宝剣・吉兆丸" title="第406話より：吉兆丸" tabindex="0" role="button" aria-label="吉兆丸の資料コマを拡大">
+            <figcaption>第406話：吉兆丸</figcaption>
+          </figure>
+        </div></details>
+        <p class="guide-source-note">クロロは三種の神器を継承戦のメインシステムと捉え、盗賊の極意を進化させるための盗みを計画しています。祭壇が第1層にあるという見立てはクロロの推測です。実際の所在・盗難の実行・継承戦への影響は、この話では確定しません。</p>
       </section>
 
       <section class="guide-data-section" aria-labelledby="beyondTeamTitle">
@@ -468,10 +557,10 @@
         <p>345話でジンは、実際に暗黒大陸へ向かう人数を最大25人程度と見積もり、ビヨンドの依頼で集まった10人だけが全員ではないと指摘します。これは参加者の確定名簿ではなく、ジンによる人数の見積もりです。</p>
         <p>協会の適性審査で排除された協専ハンターは、カキン国営サイトの王子護衛募集を通じて乗船しています。ビル・カートン・サイールドらの「ビヨンドチーム」という所属と、各王子の護衛という配置は別に扱います。協専ハンターはプロハンターであり、私設兵が得る期限付きの「準協会員」資格とは同じものではありません。</p>
         <p>374話では、準協会員は居住区外の警備を主に担当する約150人の人員として説明されます。王子居室の従事者・私設兵とは資格と任務を分け、私設兵の内数として記された準協会員は二重加算しません。</p>
-        <figure class="guide-panel-quote guide-panel-quote-wide">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><figure class="guide-panel-quote guide-panel-quote-wide">
           <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/beyond-team-size-ch345.png" alt="ジンが暗黒大陸へ向かう人数を最大25人程度と見積もる場面" title="第345話より：ジンの人数見積もり" tabindex="0" role="button" aria-label="ビヨンドチームの人数に関する場面を拡大">
           <figcaption>原作コマ：第345話より、暗黒大陸へ向かう人数の見積もり</figcaption>
-        </figure>
+        </figure></details>
         <p class="guide-source-note">参照：第345〜346話（人数見積もり・適性審査）、第361話（協専ハンターの乗船経路）、第374話（準協会員）。確認できた人物を人物一覧の「ビヨンドチーム」タグにまとめています。</p>
       </section>
 
@@ -490,7 +579,7 @@
             </tbody>
           </table>
         </div>
-        <div class="guide-panel-grid">
+        <details class="guide-source-fold"><summary>原作の資料画像を確認</summary><div class="guide-panel-grid">
           <figure class="guide-panel-quote">
             <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/dark-continent-resources-ch344.png" alt="ジンが無尽石、万能香草、ニトロ米、三原水と帰還記録を説明する場面" title="第344話より：暗黒大陸の資源と帰還記録" tabindex="0" role="button" aria-label="暗黒大陸の資源と帰還記録を拡大">
             <figcaption>原作資料：第344話より、資源と過去の探検の帰還記録</figcaption>
@@ -499,8 +588,22 @@
             <img loading="lazy" decoding="async" class="zoomable-image guide-source-image" src="images/guide/five-threats-ch344.png" alt="五大厄災と危険度についてジンが説明する場面" title="第344話より：五大厄災" tabindex="0" role="button" aria-label="五大厄災の説明を拡大">
             <figcaption>原作コマ：第344話より、五大厄災と危険度</figcaption>
           </figure>
-        </div>
+        </div></details>
         <p class="guide-source-note">参照：第344話。位置は作中の方角表現に沿うもので、船の現在位置を示すものではありません。</p>
+      </section>
+
+      <section class="guide-data-section" aria-labelledby="guideQuestionsTitle">
+        <h3 id="guideQuestionsTitle">間違えやすい点・まだ決まっていないこと</h3>
+
+        <details><summary>辞退や船外への脱出で継承戦をやめられる？</summary><p>誰でも安全に離脱できる方法は確認されていません。第371話の離脱による念獣消滅は仮説です。第383話では船外脱出が阻まれますが、妨害した存在の正体や仕組みまでは判明していません。</p></details>
+        <details><summary>王子が死亡したと報告されれば、それで脱落確定？</summary><p>死亡の報告、肉体の状態、人格の所在、能力の作用を分けて確認する必要があります。第363話の国王の回答も、脱落を単純な判定表にできるほど明確ではありません。最新状態は「王子の人数と状況」で確認できます。</p></details>
+        <details><summary>守護霊獣がいる王子なら安全？</summary><p>守る目的があっても、それが常に最優先になる保証はないとクラピカは説明しています。攻撃や能力のすべてを無効にする共通能力があるわけではありません。</p></details>
+        <details><summary>三種の神器を盗めば継承戦は終わる？</summary><p>クロロの盗みの計画は示されていますが、盗難によって継承戦が終了するという結果は確認されていません。個人の計画と実際の作用を分けます。</p></details>
+        <details><summary>配置表の人数を足せば、現在の兵力になる？</summary><p>第374話の配置表、出航時の復元案、現在の人物台帳は時点と対象が異なります。準協会員が私設兵の内数である場合や、同じ王妃の兵が複数欄に載る場合もあり、単純な足し算はできません。</p></details>
+        <p class="guide-source-note">根拠の場面：<a href="?event=E363-001#timeline">第363話：脱落の定義</a> ／ <a href="?event=E367-003#timeline">第367話：守護の目的</a> ／ <a href="?event=E371-005#timeline">第371話：離脱の仮説</a> ／ <a href="?event=E383-005#timeline">第383話：船外脱出</a> ／ <a href="?event=E406-007#timeline">第406話：神器の計画</a>。場面の詳細では出典と確認上の留保も読めます。</p>
+      </section>
+      <section class="coverage-section" aria-labelledby="coverageTitle">
+        <details><summary id="coverageTitle">収録範囲・出典の確認状況（340〜420話）</summary><p>件数は登録済みの出来事数です。登録がある話も全場面を網羅したとは限りません。「未収録」は対象外を意味せず、入力・確認が必要な範囲です。</p><div id="chapterCoverage"></div></details>
       </section>
     </section>
   </main>
@@ -529,8 +632,8 @@
   </dialog>
 
   <script src="character-routing.js?v=20261009a"></script>
-  <script src="character-facts.js?v=20261011j"></script>
-  <script src="personnel-roster.js?v=20261015-scope"></script>
-  <script src="script.js?v=20261015-article-state"></script>
+  <script src="character-facts.js?v=20261016-guide2"></script>
+  <script src="personnel-roster.js?v=20261016-guide2"></script>
+  <script src="script.js?v=20261017-eyes"></script>
 </body>
 </html>

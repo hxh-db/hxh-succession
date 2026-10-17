@@ -21,11 +21,11 @@ document.querySelectorAll('a[href="#evidence"]').forEach(link => link.addEventLi
 const search = document.getElementById('essay-search');
 const articleState = () => {
   const params = new URL(location.href).searchParams;
-  return {q: params.get('q') || '', category: params.get('category') || ''};
+  return {q: params.get('q') || '', category: params.get('category') || '', read: params.get('read') || ''};
 };
 const carryState = (link, state) => {
   const url = new URL(link.getAttribute('href'), location.href);
-  for (const key of ['q', 'category']) {
+  for (const key of ['q', 'category', 'read']) {
     if (state[key]) url.searchParams.set(key, state[key]);
     else url.searchParams.delete(key);
   }
@@ -34,31 +34,38 @@ const carryState = (link, state) => {
 // URLだけで復元できるよう、一覧へのリンク・関連記事にも条件を渡す。
 if (!search) {
   document.querySelectorAll('main a[href="../"], main a[href^="../Q"], main a[href^="../emperor-time/"]').forEach(link => carryState(link, articleState()));
-  document.querySelectorAll('.evidence a').forEach(link => {
+  document.querySelectorAll('main a[href*="event="]').forEach(link => {
     const url = new URL(link.href);
     const state = articleState();
-    for (const key of ['q', 'category']) if (state[key]) url.searchParams.set(`theory_${key}`, state[key]);
+    for (const key of ['q', 'category', 'read']) if (state[key]) url.searchParams.set(`theory_${key}`, state[key]);
     link.href = url.href;
   });
 }
 if (search) {
   document.querySelector('.essay-filters').hidden = false;
   const category = document.getElementById('essay-category');
+  const readThrough = document.getElementById('essay-read-through');
   const cards = [...document.querySelectorAll('.essay-card')];
-  const normalize = s => s.normalize('NFKC').toLowerCase().replace(/[ぁ-ゖ]/g, c => String.fromCharCode(c.charCodeAt(0) + 96));
+  const topics = new Map(cards.map(card => [card, `${card.querySelector('h2').textContent} ${card.dataset.topicKeywords || ''}`]));
   const filter = (updateUrl = true) => {
-    const words = normalize(search.value).trim().split(/\s+/).filter(Boolean);
+    const ranks = new Map(cards.map(card => [card, TheorySearch.rank(search.value, topics.get(card), card.dataset.referenceKeywords)]));
     let count = 0;
     cards.forEach(card => {
-      card.hidden = Boolean(category.value && card.dataset.category !== category.value) || !words.every(w => normalize(`${card.textContent} ${card.dataset.keywords || ''}`).includes(w));
+      card.hidden = Boolean(category.value && card.dataset.category !== category.value)
+        || Boolean(readThrough.value && Number(card.dataset.chapter) > Number(readThrough.value)) || !Number.isFinite(ranks.get(card));
+      const reason = card.querySelector('.essay-match-reason');
+      reason.hidden = !search.value.trim() || card.hidden;
+      reason.textContent = ranks.get(card) === 0 ? '記事の主題に一致' : '参照場面に登場（主題外の関連人物を含む）';
       if (!card.hidden) count++;
     });
+    cards.slice().sort((a,b) => ranks.get(a) - ranks.get(b) || cards.indexOf(a) - cards.indexOf(b))
+      .forEach(card => card.parentElement.appendChild(card));
     document.getElementById('essay-count').textContent = `${count}本の記事`;
     document.getElementById('essay-empty').hidden = count !== 0;
-    const state = {q: search.value, category: category.value};
+    const state = {q: search.value, category: category.value, read: readThrough.value};
     if (updateUrl) {
       const url = new URL(location.href);
-      for (const key of ['q', 'category']) {
+      for (const key of ['q', 'category', 'read']) {
         if (state[key]) url.searchParams.set(key, state[key]); else url.searchParams.delete(key);
       }
       history.replaceState(history.state, '', url);
@@ -68,10 +75,12 @@ if (search) {
   const restore = () => {
     const state = articleState(); search.value = state.q;
     category.value = [...category.options].some(option => option.value === state.category) ? state.category : '';
+    readThrough.value = [...readThrough.options].some(option => option.value === state.read) ? state.read : '';
     filter(false);
   };
   search.addEventListener('input', () => filter());
   category.addEventListener('change', () => filter());
+  readThrough.addEventListener('change', () => filter());
   window.addEventListener('popstate', restore);
   window.addEventListener('pageshow', restore);
   restore();

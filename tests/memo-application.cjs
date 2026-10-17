@@ -1,0 +1,30 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const es = require('../data/events.json');
+const cs = require('../data/characters.json');
+const e = id => es.find(e=>e.id===id);
+assert.equal(e('E361-001').status_effects.filter(s=>s.status==='死亡').length,3);
+assert.ok(!e('E361-001').description.includes('スチールチェーン'));
+assert.ok(e('E361-007').description.includes('スチールチェーン'));
+assert.equal(e('E361-007').time_after_event_id,'E361-001');
+assert.equal(e('E361-007').time_before_event_id,'E361-005');
+assert.deepEqual(e('E361-005').characters,['P14-H01','P14-H02','P14-M03','P14-M04']);
+assert.ok(!e('E361-001').characters.includes('P12'));
+assert.equal(cs.find(c=>c.id==='P14-P01').status_log[0].event_id,'E361-007');
+const page=fs.readFileSync(require('node:path').join(__dirname,'../characters/KNG-001/index.html'),'utf8');
+assert.ok(page.includes('<dt>登録名</dt><dd>ホイコーロ国王</dd>'));
+assert.ok(!page.includes('ナスビー'));
+assert.equal(e('E359-005').time_estimate,'12:45');
+assert.equal(e('E359-006').time_estimate,'12:45');
+for (const id of ['E359-005','E359-006']) {
+  assert.equal(e(id).time_start,null);
+  assert.equal(e(id).verification_status,'review_recorded');
+  assert.ok(!e(id).is_estimate);
+  assert.ok(!e(id).simultaneous_with?.length);
+}
+const eye=e('E361-008');
+assert.equal(eye.title,'クラピカの緋の目が黒目に戻る');
+assert.doesNotMatch(eye.title+eye.description,/コンタクト|解除|理由|原因/);
+assert.match(eye.notes,/解除等は断定せず/);
+assert.ok(!eye.status_effects?.length);
+console.log('PASS: memo event split, participant scope, stable death references, capture reference and king display');

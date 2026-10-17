@@ -34,6 +34,7 @@ python local_server.py
 - 考察記事の参照リンクは `?event=<出来事ID>&from_theory=<記事ID>#timeline` で出来事の詳細を直接開きます。詳細には参照元の記事へ戻るリンクがあります。記事検索の追加語は `scripts/build-theories.py` の `search_terms` に登録し、参照出来事の関連人物名・別名も索引に使います。記事更新後は `python scripts/build-theories.py` で再生成してください。
 - 記事本文の話数範囲は同スクリプトの `spoiler_limits` に明記し、`key_points` の要点3点と参照イベントも合わせて更新します。本文・反証を含む範囲を編集時に確認してください（自動検査は明示された話数とイベント参照を検出するもので、文章の意味を完全には検証しません）。`node tests/theory-scope.cjs` で上限と記事構成を検査します。過去名簿では選択話数より後の根拠を必要とする人物説明は表示しません。
 - 考察一覧の検索語・分類はURLの `q`・`category` に保存し、記事往復・再読込でも復元します。本文のネタバレ上限、謎データの `last_checked_chapter`（台帳の確認範囲）、記事の最終更新日は別項目です。台帳の話数だけで全話照合済みとせず、照合記録未整備の場合は明記します。更新日は構成・表記の更新日で、原作再照合日とは区別します。
+- 記事の主題人物・能力・別名は `search_terms` へ明示登録します。主題一致を優先し、参照イベントの登場人物だけの一致は理由付きで後に表示します。`theory-search.js` はハイフン・全半角等を正規化します。「読んだ話数」は本文の上限が指定話数以内の記事だけを表示し、`read` としてURLへ保存・引継ぎします。検索検査は `node tests/theory-search.cjs`、ブラウザ検査は `node tests/theory-search-browser.cjs`。
 - 名簿を更新するときは `node scripts/build-personnel-roster.cjs` → `node scripts/build-initial-personnel-review.cjs` → `node scripts/build-character-pages.cjs`。`node tests/personnel-roster.cjs` で230枠・二重計上・時点・王妃別人数を確認します。未同定人物の仮称は短い役職名＋数字とし、確度は詳細に記載します。
 - `data/intake/initial_personnel_review_20261013.md` - 出航時の15人枠＋準協会員を王子別に復元した初期人数案
 - `data/intake/initial_personnel_coverage_20261013.md` - 初期230枠と既存人物IDの対応候補・未対応枠・旧人数枠の照合表。`node scripts/build-initial-personnel-review.cjs` で再生成し、`--check` で人物台帳との一致と二重計上等を検査

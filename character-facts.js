@@ -158,6 +158,40 @@
     const event = events.find(e => e.id === log?.event_id);
     return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
   }
+  function isConfirmedNenUser(person) {
+    if (person.verification_status === 'unverified') return false;
+    if (person.nen_status) return person.nen_status === 'confirmed';
+    if (typeof person.nen_user === 'boolean') return person.nen_user;
+    if (/^非念能力者/.test(person.nen_type || '')) return false;
+    if (person.nen_type && !/^不明/.test(person.nen_type)) return true;
+    const ability = person.nen_ability || '';
+    return Boolean(ability && !/^(?:非念能力者|念能力は持たない|詳細不明$|本人の念使用.*未確認|本人固有の念能力.*未確認)/.test(ability));
+  }
+  function nenKnowledgeLabel(person, compact = false) {
+    if (person.nen_status === 'historical_unorganized') return '念：この時点の能力情報は未整理';
+    const state = person.verification_status === 'unverified' ? 'unknown' : person.nen_status || (isConfirmedNenUser(person) ? 'confirmed' : 'unknown');
+    const labels = compact
+      ? {confirmed:'念：確認済み', unknown:'念：未確認', unavailable_confirmed:'念：使用不可の記録', not_awakened_confirmed:'念：未覚醒の記録'}
+      : {confirmed:'念使用：確認済み', unknown:'念使用：未確認（使用不可とは限りません）', unavailable_confirmed:'念使用：使用不可の記録あり', not_awakened_confirmed:'念使用：未覚醒の記録あり'};
+    return (labels[state] || labels.unknown) + (person.nen_status_chapter ? `（第${person.nen_status_chapter}話${compact ? '' : '時点'}）` : '');
+  }
+  function nenTypeLabel(person) {
+    if (person.nen_status === 'historical_unorganized') return 'この時点の能力情報は未整理';
+    return person.nen_type_detail || person.nen_type || '未確認';
+  }
+  function registrationNotice(person) {
+    if (person.verification_status === 'unverified') return '出典未確認の旧登録です。氏名・所属・能力を確認済みの人物情報として扱わないでください。';
+    if (person.roster_projection) return '王妃所属兵の対応未同定枠です。全体名簿と同じ人員を表し、別人として人数に加算しません。';
+    if (person.generated_by) return '人数資料から復元した仮登録です。個人の氏名・容姿・出航時の在室を確認したものではありません。';
+    if (person.is_identity_reference) return '顔の対応を確認するための仮登録です。既存の名前付き人物と重複する可能性があり、人数に加算しません。';
+    return '';
+  }
+  function statusHistoryRows(person, events) {
+    return (person.status_log || []).map(log => {
+      const event = events.find(e => e.id === log.event_id);
+      return {...log, text: `${log.chapter ? `第${log.chapter}話` : '話数未登録'}：${log.status}${log.cause ? ` — ${log.cause}` : ''}`, review: event ? reviewLabel(event) : '根拠の出来事は未紐付け'};
+    });
+  }
   // ===== 人物検索（表記ゆれ・ローマ字・ネタバレ制御） =====
   // 検索語と対象の両方を同じ規則で正規化する：NFKC → 小文字 → ひらがなをカタカナへ → 長音・中黒・＝・空白などを除く。
   const SEARCH_IGNORED = /[\s・･=＝ー―‐‑–—－\-~〜～_.,、。'’"“”]/g;
@@ -226,7 +260,7 @@
     const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
       SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
     if (!revealed) return initial.filter(Boolean);
-    return [...initial, person.role, person.camp, person.nen_ability, person.nen_type, person.notes, person.mission, person.target,
+    return [...initial, person.role, person.camp, person.nen_ability, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
       person.room, person.current_assignment, person.location, ...(extra.later || [])].filter(Boolean);
   }
   function buildSearchText(fields) {
@@ -284,6 +318,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, searchRank, questionSections,
+  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
     normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, matchesSearch};
 });

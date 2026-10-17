@@ -34,6 +34,18 @@ search_terms = {
     'Q001': ['ウッディー', '王室警護兵', '1014号室'],
     'Q002': ['ロベリー', 'バリゲン', 'ミュハン', 'サイレントマジョリティー'],
     'emperor-time': ['クラピカ', 'エンペラータイム', '絶対時間', '12時間', '18時'],
+    'Q003': ['カチョウ', 'フウゲツ', '救命艇', '脱出'],
+    'Q004': ['チョウライ', 'コイン', '硬貨', '蓄積'],
+    'Q005': ['フウゲツ', 'センリツ', '邪霊', '依存'],
+    'Q006': ['ビヨンド', 'ロンギ', 'ヒュリコフ', '呪い', '血縁'],
+    'Q007': ['ワブル', 'オイト', '第14王子', '替え玉', '身元'],
+    'Q008': ['ハルケンブルグ', 'バルサミルコ', '人格交換', '肉体'],
+    'Q009': ['TSK-17', 'TSK17', 'ベンジャミン', 'ヒュリコフ', '感染', '余命'],
+    'Q010': ['ビル', 'パリストン', 'ビヨンド', '脱出', '協力'],
+    'Q011': ['バビマイナ', '任務', '情報掌握', '警護'],
+    'Q012': ['クラピカ', 'ドルフィン', '絶対時間', 'エンペラータイム', '待機', '解除'],
+    'Q013': ['クロロ', '三種の神器', '盗難', '継承戦'],
+    'Q014': ['クロロ', '電話', '探索', '念波'],
 }
 people = {p['id']: p for p in json.loads((ROOT / 'data/characters.json').read_text(encoding='utf-8'))}
 key_points = {
@@ -56,6 +68,9 @@ key_points = {
 for q in questions:
     title, conclusion, theory, weakness, next_step = editorial[q['id']]
     refs = list(q['related_event_ids'])
+    if 'E361-001' in refs and 'E361-007' not in refs:
+        refs += ['E361-007']
+    if q['id'] == 'Q012': refs += ['E361-008']
     if q['id'] == 'Q004': refs += ['E417-005']
     if q['id'] == 'Q008': refs += ['E417-005']
     if q['id'] == 'Q009': refs += ['E413-005']
@@ -69,14 +84,14 @@ articles.insert(0, dict(id='emperor-time', title='クラピカの絶対時間は
     theory='第361話ではサイールドを制圧し、裏窓を奪って絶対時間を発動する。その後に出航から約2時間という説明が入る。正午出航を基準にすれば、発動は14時ごろまで。分単位の時刻は分からない。第369話冒頭の出航18時間後を覚醒場面に適用すると翌朝6時となり、継続12時間を引けば前日18時、失神約9時間を引けば前日21時となる。発動約3時間で倒れたという後半の流れは整うが、第361話の発動からなら翌朝まで約16時間以上になり、少なくとも約4時間の差が残る。',
     weakness='途中で解除し18時に再発動したという仮説なら数字を合わせられる。しかし第361話のドルフィンは能力使用・解除までの強制継続を説明し、第365〜366話でも緋の目と強制継続への懸念が続く。描かれていない解除と、それを可能にする条件を補う必要がある。待機命令や、第364話で別の能力の搭載を保留したことを解除の証拠にはできない。経過時間の記述にずれがあるという読みも残るが、作者の誤りと断定する材料はない。',
     next_step='解除・再発動を示す描写や、時間表示を訂正・補足する情報。現状では14時ごろまでの発動場面と18時の逆算値を併記し、18時を確定時刻として採用しない。',
-    refs=['E361-001','E361-005','E364-006','E365-004','E366-002','E368-002','E369-001'], chapter=369, status='時間描写の不整合を検討'))
+    refs=['E361-001','E361-007','E361-008','E361-005','E364-006','E365-004','E366-002','E368-002','E369-001'], chapter=369, status='時間描写の不整合を検討'))
 
 def shell(title, body, depth=0, article_id=None):
     base = '../' * (depth + 1)
     if article_id:
         body = (f'<div data-theory-id="{esc(article_id, quote=True)}">{body}</div>'
                 f'<script src="{base}theories/theory-memos.js?v=20261013a"></script>')
-    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css"><link rel="stylesheet" href="{base}theories/theories.css?v=20261015-article-state"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="essay-header"><a href="{base}index.html">王位継承戦データまとめ</a><nav aria-label="メインメニュー"><a href="{base}index.html#characters">人物一覧</a><a href="{base}index.html#timeline">出来事</a><a href="{base}index.html#guide">基礎資料</a><a href="{base}theories/" aria-current="{'page' if depth == 0 else 'false'}">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theories.js?v=20261015-article-state"></script></body></html>'''
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css"><link rel="stylesheet" href="{base}theories/theories.css?v=20261015-search"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="essay-header"><a href="{base}index.html">王位継承戦データまとめ</a><nav aria-label="メインメニュー"><a href="{base}index.html#characters">人物一覧</a><a href="{base}index.html#timeline">出来事</a><a href="{base}index.html#guide">基礎資料</a><a href="{base}theories/" aria-current="{'page' if depth == 0 else 'false'}">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261015-search"></script></body></html>'''
 
 out = ROOT / 'theories'
 out.mkdir(exist_ok=True)
@@ -96,7 +111,17 @@ for a in articles:
     comparison = ''
     if a['id'] == 'Q001':
         comparison = '<h3>仮説の比較（この記事の考察）</h3><div class="comparison-scroll"><table><tr><th>仮説</th><th>説明できる可能性がある点</th><th>足りない証拠</th></tr><tr><td>後の講習会の暗殺と同じ術者</td><td>被害の共通点を一つの仕組みで説明できる可能性</td><td>初期事件とその能力を直接結ぶ描写</td></tr><tr><td>別の術者・別の事件</td><td>複数勢力による襲撃が重なる可能性</td><td>初期事件固有の攻撃手段と術者の描写</td></tr></table></div><p>現状はどちらにも決め手がありません。被害の類似だけで同一犯説を優先せず、初期事件に固有の証拠を待つのが妥当です。</p>'
+    if a['id'] == 'Q002':
+        conditions = [
+            ('座敷人形を視認できる者', 'E370-003', '能力者本人と憑かれた者だけが視認でき、ロベリーが騒ぐ。', '「視認したからロベリーが術者」という特定はできない。', 'もう一人の視認者の身元。ロベリーを個人として除外できるかも別問題。'),
+            ('注意が逸れた時の攻撃', 'E370-003', '全員の注意を引いた直後にバリゲンが襲われる。', '騒いだ者と術者を同一とする推論は成立しない。', '合図を誰が観測し、誰が指令したか。参加者ごとの行動証拠は未整理。'),
+            ('現場の外から指令できるか', 'E376-002', 'クラピカは同じ犯人の遠隔操作と推理する。', '現場にいないという理由だけで候補から外せない（遠隔操作説を採る場合）。', '射程・視認方法・術者の在室条件。遠隔操作は作中人物の推理。'),
+        ]
+        rows = ''.join(f'<tr><td>{esc(condition)}</td><td><a href="../../index.html?event={ref}&amp;from_theory=Q002#timeline">第{events[ref]["chapter"]}話の場面</a>：{esc(scene)}</td><td>{esc(excluded)}</td><td>{esc(unknown)}</td></tr>' for condition, ref, scene, excluded, unknown in conditions)
+        comparison = '<h3>条件からどこまで絞れるか（この記事の考察）</h3><p>この表で除外するのは安易な特定方法です。参照場面だけで特定人物を術者候補から確実に除外した、という比較結果ではありません。</p><div class="comparison-scroll"><table><thead><tr><th>確認する条件</th><th>根拠となる場面</th><th>除外できる解釈</th><th>まだ判断できないこと</th></tr></thead><tbody>' + rows + '</tbody></table></div><p>現状は「人形が見える人」「騒いだ人」「殺害現場にいた人」という単純な絞り方はいずれも決め手になりません。術者の正体を絞るには、観測・指令と各人の行動を結ぶ追加の証拠が必要です。</p>'
     evidence = ''.join(f'<li><a href="../../index.html?t_chapter={e["chapter"]}&amp;event={esc(e["id"])}&amp;from_theory={esc(a["id"])}#timeline">第{e["chapter"]}話：この出来事の詳細を開く</a><p>{esc(e["description"])}</p><small>{esc(e["id"])} · {"原作確認記録あり" if e.get("verification_status") == "review_recorded" else "再照合・推測を含む記録"}</small></li>' for e in refs)
+    if a['id'] == 'Q002':
+        comparison = comparison.replace('<table>', '<table class="condition-table">')
     related = '<a href="../Q012/">ドルフィンの解除条件の考察</a>' if a['id']=='emperor-time' else '<a href="../emperor-time/">発動時刻と12時間の食い違い</a>' if a['id']=='Q012' else ''
     timeline = '<table><caption>第369話からの逆算（確定時刻ではない）</caption><tr><th>開始</th><th>失神</th><th>覚醒</th></tr><tr><td>1日目18時ごろ</td><td>1日目21時ごろ</td><td>2日目6時ごろ</td></tr></table>' if a['id']=='emperor-time' else ''
     body = f'''<a href="../">← 謎・考察一覧</a><p class="eyebrow">{esc(a['category'])}</p><h1>{esc(a['title'])}</h1><p>本文を含むネタバレ範囲：第{a['chapter']}話まで · 執筆日：2026年10月13日</p><p class="scope-note">{esc(a['status'])}。原作全話での未解決を保証する一覧ではありません。参照場面は既存の照合記録に基づきます。</p><details class="spoiler-article"><summary>第{a['chapter']}話までのネタバレを含む記事を読む</summary><nav class="toc" aria-label="記事の目次"><a href="#conclusion">結論</a><a href="#key-points">重要な根拠3点</a><a href="#theory">考察</a><a href="#limits">反証・限界</a><a href="#evidence">詳しい参照場面</a></nav><h2 id="conclusion">現時点の結論</h2><p class="conclusion">{esc(a['conclusion'])}</p><h2 id="key-points">重要な根拠3点</h2>{points}<h2 id="theory">考察：どう読むと説明できるか</h2><p>{esc(a['theory'])}</p>{timeline}{comparison}<h2 id="limits">反証・断定できない点</h2><p>{esc(a['weakness'])}</p><h2>何が分かれば判断が進むか</h2><p>{esc(a['next_step'])}</p>{related}<details class="evidence-details" id="evidence"><summary>詳しい参照場面と確認状態を開く（{len(refs)}件）</summary><ul class="evidence">{evidence}</ul></details></details><p><a href="../">謎・考察一覧へ戻る</a></p>'''
@@ -112,8 +137,11 @@ for a in articles:
             terms.extend([person.get('display_name') or person.get('name', '')])
             terms.extend(person.get('aliases', []) if isinstance(person.get('aliases', []), list) else [])
     keywords = esc(' '.join(dict.fromkeys(t for t in terms if isinstance(t, str) and t)), quote=True)
-    cards.append(f'<article class="essay-card" data-category="{esc(a["category"])}" data-keywords="{keywords}"><p class="eyebrow">{esc(a["category"])}</p><h2><a href="./{a["id"]}/">{esc(a["title"])}</a></h2><p>第{a["chapter"]}話までのネタバレ · 考察記事</p></article>')
+    topics = esc(' '.join(search_terms[a['id']]), quote=True)
+    cards.append(f'<article class="essay-card" data-category="{esc(a["category"])}" data-chapter="{a["chapter"]}" data-topic-keywords="{topics}" data-reference-keywords="{keywords}"><p class="eyebrow">{esc(a["category"])}</p><h2><a href="./{a["id"]}/">{esc(a["title"])}</a></h2><p>第{a["chapter"]}話までのネタバレ · 考察記事</p><p class="essay-match-reason" hidden></p></article>')
 options=''.join(f'<option>{esc(c)}</option>' for c in dict.fromkeys(a['category'] for a in articles))
+chapter_options = '<option value="">制限なし</option>' + ''.join(f'<option value="{chapter}">第{chapter}話まで読了</option>' for chapter in range(340, max(e['chapter'] for e in events.values()) + 1))
 body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを15本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">15本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
+body = body.replace('</select></label></div>', f'</select></label><label>読んだ話数<select id="essay-read-through">{chapter_options}</select></label></div>')
 (out/'index.html').write_text(shell('謎・考察',body),encoding='utf-8')
 print(f'Built {len(articles)} articles and index.')

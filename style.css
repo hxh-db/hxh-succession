@@ -1328,7 +1328,7 @@ button.character-type-badge.character-facet-category {
   border-top: 1px solid var(--border);
 }
 
-.compact-person-details summary {
+.compact-person-details > summary {
   padding-top: 10px;
   color: var(--accent);
   cursor: pointer;
@@ -1337,15 +1337,15 @@ button.character-type-badge.character-facet-category {
   list-style: none;
 }
 
-.compact-person-details summary::-webkit-details-marker {
+.compact-person-details > summary::-webkit-details-marker {
   display: none;
 }
 
-.compact-person-details summary::after {
+.compact-person-details > summary::after {
   content: " ＋";
 }
 
-.compact-person-details[open] summary::after {
+.compact-person-details[open] > summary::after {
   content: " −";
 }
 
@@ -2745,6 +2745,10 @@ details.local-drafts-transfer { display:block; }
 .coverage-missing { color:var(--muted); }
 .character-page-card { max-width:850px; margin:24px auto; padding:24px; background:var(--surface,#fff); border:1px solid var(--border); border-radius:12px; overflow-wrap:anywhere; }
 .character-page-card h1 { font-size:clamp(1.5rem,4vw,2.2rem); }
+.character-page-card figure { margin: 16px 0; }
+.character-page-card figure img { display: block; width: auto; max-width: 100%; max-height: 420px; object-fit: contain; }
+.character-status-history { margin-block: 20px; }
+.character-status-history li + li { margin-top: 12px; }
 .character-page-actions { display:flex; flex-wrap:wrap; gap:14px; }
 .character-page-actions a { display:inline-block; padding:10px 0; }
 .character-page-spoilers { margin:20px 0; padding:16px; border:1px dashed var(--border); border-radius:8px; }
@@ -3015,6 +3019,37 @@ details.local-drafts-transfer { display:block; }
 /* 基礎資料：交渉ゲームの話数ごとの小見出しと本文 */
 .guide-subheading { margin: 22px 0 6px; color: var(--accent); font-size: 1rem; }
 .guide-body-text { margin: 0 0 10px; color: var(--text); font-size: 1rem; line-height: 1.8; }
+
+.guide-reading-intro, .guide-navigation { padding: 22px; margin: 18px 0; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.guide-reading-intro p, .guide-reading-intro li { line-height: 1.85; }
+.guide-reading-intro h3 { margin-top: 0; }
+.guide-navigation label { display: block; font-weight: 700; margin-bottom: 10px; }
+.guide-navigation input { width: 100%; box-sizing: border-box; min-height: 44px; }
+.guide-navigation input, .guide-navigation button { padding: 10px 12px; font: inherit; color: var(--text); background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; }
+.guide-navigation button { cursor: pointer; min-height: 44px; }
+.guide-navigation button:hover { border-color: var(--accent); }
+.guide-navigation :focus-visible, #guide .guide-table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.guide-table-hint { display: none; }
+#guideSearchStatus { color: var(--muted); font-size: .9rem; }
+#guideContents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; padding-left: 24px; }
+#guideContents li { min-width: 0; }
+#guideContents button { display: block; width: 100%; text-align: left; line-height: 1.55; white-space: normal; min-height: 44px; }
+#guide h3 { scroll-margin-top: 24px; }
+#guide h4 { margin-top: 24px; }
+#guide details:not(.guide-local-memo) { margin-top: 16px; }
+#guide details > summary { cursor: pointer; line-height: 1.65; }
+.guide-source-fold { padding: 12px; border: 1px solid var(--border); border-radius: 10px; }
+.guide-source-fold > summary { color: var(--accent); }
+.guide-example { padding: 16px; background: rgba(255,255,255,.03); border-radius: 10px; }
+#guide .guide-data-section[hidden], #guide .guide-facts[hidden], #guideContents li[hidden],
+body:not(.spoilers-revealed) .guide-later-topic { display: none; }
+@media (max-width: 650px) {
+  #guideContents { grid-template-columns: 1fr; }
+  .guide-reading-intro, .guide-navigation { padding: 16px; }
+  #guide .guide-table tbody th { white-space: normal; min-width: 5em; }
+  #guide .guide-table td { min-width: 9em; }
+  #guide .guide-table-hint { display: block; color: var(--muted); font-size: .8rem; }
+}
 
 /* 絞り込みの開閉（スマホ幅だけ） */
 .filter-toggle { display: none; }

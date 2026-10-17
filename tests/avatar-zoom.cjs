@@ -79,7 +79,8 @@ for (const [file, html] of expectedOutputs()) {
   const image = images.get(id)?.image || person.image;
   const hasImage = /^images\//.test(image || '');
   assert.equal(html.includes('class="zoomable-image character-page-avatar"'), hasImage, `${id} avatar`);
-  assert.equal(html.includes('id="imageLightbox"'), hasImage, `${id} lightbox`);
+  // 顔画像がなくても、能力・守護霊獣の画像があれば共通の拡大表示を提供する。
+  assert.equal(html.includes('id="imageLightbox"'), html.includes('data-zoom-src='), `${id} lightbox`);
   if (hasImage) {
     withAvatar++;
     assert.match(html, /aria-label="[^"]+の顔画像を拡大" data-zoom-src="\.\.\/\.\.\/images\//);

@@ -27,7 +27,8 @@ assert.equal(ctx.getTimelineTimePlacement(exact).label, '14:00');
 assert.equal(ctx.getTimelineTimePlacement(exact).estimated, false);
 const demoted = events.filter(e => e.time_estimate_basis === 'editorial-time-demotion-20261010');
 // 2026-10-10 の16件に 2026-10-11 の外部レビューで3件を追加し、同日のユーザー方針（物語中の経過表示は確定）で E359-001・E361-005・E369-001・E414-001 を確定に戻した
-assert.equal(demoted.length, 15);
+// E374-001は2026-10-16の場面転換の再指定で独立した編集根拠へ移した。
+assert.equal(demoted.length, 14);
 // 物語の経過表示から決まる時刻は確定（出航12:00、出航2時間＝14:00、出航18時間＝2日目06:00、発令5分前＝14:10）
 for (const [id, label] of [['E359-001', '12:00'], ['E361-005', '14:00'], ['E369-001', '06:00'], ['E414-001', '14:10'], ['E366-006', '16:00']]) {
   const placement = ctx.getTimelineTimePlacement(events.find(e => e.id === id));
@@ -49,6 +50,23 @@ const relativeDay = events.find(e => e.id === 'E349-002');
 assert.equal(relativeDay.date_certainty, 'confirmed');
 assert.equal(relativeDay.relative_days_before_departure, 35);
 const ordered = ctx.getChronologicalEntries(events);
+for (const id of ['E359-005','E359-006']) {
+  const placement=ctx.getTimelineTimePlacement(events.find(e=>e.id===id));
+  assert.equal(placement.label,'12:45頃？');
+  assert.equal(placement.estimated,true);
+}
+const phone = events.find(e => e.id === 'E374-001');
+assert.equal(phone.day, 2);
+assert.equal(phone.date_certainty, 'estimated');
+assert.equal(ctx.getTimelineTimePlacement(phone).label, '13:25頃？');
+assert.equal(ctx.getTimelineTimePlacement(phone).estimated, true);
+const fugetsu = events.find(e => e.id === 'E374-002');
+assert.equal(fugetsu.day, 3);
+assert.equal(ctx.getTimelineTimePlacement(fugetsu).label, '01:27');
+assert.equal(ctx.getTimelineTimePlacement(fugetsu).estimated, false);
+const position = id => ordered.findIndex(e => e.event.id === id);
+assert.ok(position('E373-007') < position('E374-001'));
+assert.ok(position('E374-001') < position('E374-002'));
 assert.equal(ordered.length, events.length);
 assert.equal(new Set(ordered.map(e => e.event.id)).size, events.length);
 assert.equal(ordered.find(e => e.event.id === 'E349-002').relativeLabel, '出航35日前');

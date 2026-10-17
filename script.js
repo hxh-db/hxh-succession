@@ -1,15 +1,15 @@
 const DATA = {
-  characters: "data/characters.json?v=20261014-roster",
+  characters: "data/characters.json?v=20261016-events",
   characterTags: "data/character_tags.json?v=20261008c",
   characterImages: "data/character_images.json?v=20261008b",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261014a",
+  events: "data/events.json?v=20261017-eyes",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
-  spiritBeasts: "data/spirit_beasts.json?v=20261009e",
+  spiritBeasts: "data/spirit_beasts.json?v=20261016-events",
   factions: "data/factions.json?v=20261008q",
-  mafia: "data/mafia.json?v=20261011g",
-  sources: "data/sources.json?v=20261011h",
+  mafia: "data/mafia.json?v=20261016-events",
+  sources: "data/sources.json?v=20261017-eyes",
   personnelSnapshots: "data/personnel_snapshots.json?v=20261013b",
   initialPersonnel: "data/intake/initial_personnel_review_20261013.json?v=20261014a",
   personnelRoster: "data/personnel_roster.json?v=20261014a"
@@ -1096,7 +1096,7 @@ function createBodyguardCard(g) {
     { label: "分類", value: g.soldier_category || "不明" },
     { label: "配置先", value: g.camp || "不明" },
     { label: "所属", value: g.affiliation || "不明" },
-    { label: "念系統", value: g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : g.nen_type || "不明" },
+    { label: "念系統", value: g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : CharacterFacts.nenTypeLabel(g) },
     { label: "能力", value: g.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : g.nen_ability || "不明" },
     { label: "役割", value: g.role },
     { label: "備考", value: g.notes }
@@ -1406,12 +1406,7 @@ function getRelatedPrinceIds(character) {
 }
 
 function isConfirmedNenUser(character) {
-  if (character.nen_status) return character.nen_status === "confirmed";
-  if (typeof character.nen_user === "boolean") return character.nen_user;
-  if (/^非念能力者/.test(character.nen_type || "")) return false;
-  if (character.nen_type && !/^不明/.test(character.nen_type)) return true;
-  const ability = character.nen_ability || "";
-  return Boolean(ability && !/^(?:非念能力者|念能力は持たない|詳細不明$)/.test(ability));
+  return CharacterFacts.isConfirmedNenUser(character);
 }
 
 function getNenAbilityName(character) {
@@ -2074,6 +2069,14 @@ function createCharacterDirectoryCard(character) {
   }
   card.appendChild(context);
 
+  const registrationNotice = CharacterFacts.registrationNotice(character);
+  if (registrationNotice) {
+    const notice = document.createElement("p");
+    notice.className = "guide-source-note";
+    notice.textContent = registrationNotice;
+    card.appendChild(notice);
+  }
+
   if (visibleTags.some((tag) => tag.category !== "所属")) {
     const tagList = document.createElement("div");
     tagList.className = "character-structured-tags";
@@ -2200,33 +2203,10 @@ function createCharacterDirectoryCard(character) {
     }
   });
 
-  if (character.type === "prince" || character.id === "KNG-001") {
-    const beast = spiritBeastsData.find((candidate) => candidate.prince === character.name
-      || candidate.prince.replace(/＝ホイコーロ/g, "") === getDisplayName(character));
-    if (beast) {
-      const beastSection = document.createElement("section");
-      beastSection.className = "directory-spirit-beast";
-      const beastImage = makeBeastImage(beast.image, beast.name);
-      if (beastImage) beastSection.appendChild(beastImage);
-      else beastSection.classList.add("directory-spirit-beast-no-image");
-      const beastText = document.createElement("div");
-      const beastHeading = document.createElement("h4");
-      beastHeading.textContent = character.id === "P01" ? "守護霊獣" : `守護霊獣：${beast.name || "名称不明"}`;
-      const beastDescription = document.createElement("p");
-      beastDescription.textContent = [beast.appearance, beast.ability].filter(Boolean).join("｜") || "詳細不明";
-      beastText.append(beastHeading, beastDescription);
-      if (beast.usage_image) {
-        const usageImage = makeBeastImage(beast.usage_image, `${beast.name}の使用・顕現場面`);
-        if (usageImage) {
-          usageImage.classList.add("spirit-beast-usage-image");
-          if (beast.usage_image_source) usageImage.title = beast.usage_image_source;
-          beastText.appendChild(usageImage);
-        }
-      }
-      beastSection.appendChild(beastText);
-      later.appendChild(beastSection);
-    }
-  }
+  const beastSection = makeCharacterBeastSection(character);
+  if (beastSection) later.appendChild(beastSection);
+  const statusHistory = makeCharacterStatusHistory(character);
+  if (statusHistory) later.appendChild(statusHistory);
 
   if (isConfirmedNenUser(character)) {
     const abilitySection = document.createElement("section");
@@ -2246,7 +2226,15 @@ function createCharacterDirectoryCard(character) {
     const abilityText = document.createElement("div");
     const abilityHeading = document.createElement("h4");
     abilityHeading.textContent = `念能力：${getNenAbilityName(character)}`;
-    abilityText.append(abilityHeading, makeReadableBlock(formatDisplayText(character.nen_ability) || "能力の詳細は未判明。"));
+    const type = document.createElement("p");
+    type.textContent = `本人の念系統：${CharacterFacts.nenTypeLabel(character)}`;
+    abilityText.append(abilityHeading, type, makeReadableBlock(formatDisplayText(character.nen_ability) || "能力の詳細は未判明。"));
+    if (character.nen_ability_image && character.nen_ability_image_source) {
+      const caption = document.createElement("p");
+      caption.className = "guide-source-note";
+      caption.textContent = character.nen_ability_image_source;
+      abilityText.appendChild(caption);
+    }
     abilitySection.appendChild(abilityText);
     later.appendChild(abilitySection);
     const abilityEditorial = getNenAbilityEditorialLines(character);
@@ -2934,7 +2922,9 @@ function renderMafia(mafiaList) {
 
     const membersDiv = document.createElement("div");
     membersDiv.className = "mafia-members";
-    (org.members || []).forEach((member) => {
+    (org.members || []).forEach((entry) => {
+      const canonical = charactersData.find(p => p.id === entry.character_id);
+      const member = canonical ? {...entry, name: canonical.display_name || canonical.name, nen_type: canonical.nen_type, ability: canonical.nen_ability} : entry;
       const row = document.createElement("div");
       row.className = "mafia-member-row";
 
@@ -3354,7 +3344,7 @@ function createTimelineCard(event) {
 
   const participantWrapper = document.createElement("div");
   participantWrapper.className = "participant-list";
-  participantWrapper.textContent = "参加者: ";
+  participantWrapper.textContent = "関係人物: ";
   (event.characters || []).forEach((token, i) => {
     if (i > 0) participantWrapper.appendChild(document.createTextNode(" / "));
     participantWrapper.appendChild(createParticipantChip(token));
@@ -4401,6 +4391,57 @@ function getGuideMemoRecords() {
     }).filter(Boolean);
 }
 
+function normalizeGuideQuery(value) {
+  return String(value).normalize("NFKC").toLocaleLowerCase("ja").replace(/\s+/g, " ").trim();
+}
+
+function updateGuideSearch() {
+  const input = document.getElementById("guideSearch");
+  if (!input) return;
+  const terms = normalizeGuideQuery(input.value).split(" ").filter(Boolean);
+  let available = 0, matches = 0;
+  document.querySelectorAll("#guide > .guide-facts, #guide > .guide-data-section").forEach((section) => {
+    const allowed = spoilersRevealed || section.classList.contains("guide-facts") || section.classList.contains("guide-initial-setting");
+    const match = allowed && terms.every((term) => section.dataset.guideSearchText?.includes(term));
+    if (allowed) available++;
+    if (match) matches++;
+    section.hidden = !match;
+    const target = section.getAttribute("aria-labelledby");
+    const item = document.querySelector(`[data-guide-target="${target}"]`)?.closest("li");
+    if (item) item.hidden = !match;
+  });
+  document.getElementById("guideSearchStatus").textContent = `${available}項目中${matches}項目を表示${spoilersRevealed ? "" : "（後の情報は非表示）"}`;
+  document.getElementById("guideNoResults").hidden = matches !== 0;
+  document.getElementById("guideSearchClear").hidden = terms.length === 0;
+}
+
+function setupGuideNavigation() {
+  document.querySelectorAll("#guide .guide-table-wrap").forEach((wrap) => {
+    wrap.tabIndex = 0;
+    wrap.setAttribute("role", "region");
+    wrap.setAttribute("aria-label", `${wrap.closest("section").querySelector("h3").textContent}の表（横にスクロールできます）`);
+    const hint = document.createElement("p"); hint.className = "guide-table-hint";
+    hint.textContent = "表が横に収まらないときは、左右にスクロールできます。";
+    wrap.before(hint);
+  });
+  // Index authored guidance only. Private memos and dynamically generated current-state tables are excluded.
+  document.querySelectorAll("#guide > .guide-facts, #guide > .guide-data-section").forEach((section) => {
+    const copy = section.cloneNode(true);
+    copy.querySelectorAll(".guide-local-memo, #princeStatusContent, #initialPersonnelContent, #personnelSnapshotContent").forEach((node) => node.remove());
+    section.dataset.guideSearchText = normalizeGuideQuery(copy.textContent);
+  });
+  document.getElementById("guideSearch")?.addEventListener("input", updateGuideSearch);
+  document.getElementById("guideSearchClear")?.addEventListener("click", () => {
+    const input = document.getElementById("guideSearch"); input.value = ""; updateGuideSearch(); input.focus();
+  });
+  document.querySelectorAll("[data-guide-target]").forEach((button) => button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.guideTarget);
+    if (!target || target.closest("section").hidden) return;
+    target.setAttribute("tabindex", "-1"); target.focus({preventScroll:true}); target.scrollIntoView({block:"start"});
+  }));
+  updateGuideSearch();
+}
+
 function setupGuideMemos() {
   if (!memoEditorEnabled()) return;
   for (const record of getGuideMemoRecords()) {
@@ -4595,6 +4636,55 @@ function renderLocalEditor(container, record, category, view = "modal") {
   container.appendChild(section);
 }
 
+function makeCharacterBeastSection(character) {
+  if (character.nen_status === "historical_unorganized") return null;
+  const beast = spiritBeastsData.find(b => b.prince === character.name);
+  if (!beast) return null;
+  const section = document.createElement("section");
+  section.className = "directory-spirit-beast";
+  const portrait = makeBeastImage(beast.image, beast.name);
+  if (portrait) section.appendChild(portrait);
+  else section.classList.add("directory-spirit-beast-no-image");
+  const text = document.createElement("div");
+  const heading = document.createElement("h4");
+  heading.textContent = `守護霊獣：${beast.name || "名称不明"}`;
+  const type = document.createElement("p");
+  type.textContent = `守護霊獣の念系統：${beast.nen_type || "未確認"}`;
+  text.append(heading, type, makeReadableBlock(beast.appearance || "外見は未確認"), makeReadableBlock(beast.ability || "能力は未確認"));
+  for (const id of beast.source_event_ids || []) {
+    const event = eventsData.find(e => e.id === id);
+    if (!event) continue;
+    const link = document.createElement("a"); link.href = new URL(`?event=${encodeURIComponent(id)}#timeline`, siteRootUrl).href;
+    link.textContent = ` 第${event.chapter}話（${getEventVerificationLabel(event)}）`; text.appendChild(link);
+  }
+  if (beast.usage_image) {
+    const usage = makeBeastImage(beast.usage_image, `${beast.name}の使用・顕現場面`);
+    if (usage) { usage.classList.add("spirit-beast-usage-image"); text.appendChild(usage); }
+    if (beast.usage_image_source) {
+      const caption = document.createElement("p"); caption.className = "guide-source-note";
+      caption.textContent = beast.usage_image_source; text.appendChild(caption);
+    }
+  }
+  section.appendChild(text); return section;
+}
+
+function makeCharacterStatusHistory(character) {
+  const rows = CharacterFacts.statusHistoryRows(character, getPersonnelEvents());
+  if (!rows.length) return null;
+  const section = document.createElement("section"); section.className = "character-status-history";
+  const heading = document.createElement("h4"); heading.textContent = "状態の経緯";
+  const list = document.createElement("ul"); list.className = "readable-list";
+  for (const row of rows) {
+    const li = document.createElement("li"); li.textContent = `${row.text}（${row.review}）`;
+    if (row.event_id) {
+      const link = document.createElement("a"); link.href = new URL(`?event=${encodeURIComponent(row.event_id)}#timeline`, siteRootUrl).href;
+      link.textContent = " 根拠の出来事"; li.appendChild(link);
+    }
+    list.appendChild(li);
+  }
+  section.append(heading, list); return section;
+}
+
 function showDetailModal(name, category, eventData = null) {
   if (["prince", "bodyguard"].includes(category) && charactersData.some((person) => person.id === name)) window.CharacterRoutes?.open(name);
   // 詳細を開いても全画面のネタバレ設定は変えない・保存しない。後の話は詳細内の折りたたみで扱う。
@@ -4621,7 +4711,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "日付の確度", value: getDateCertaintyLabel(record) || "原作記録に基づく日付" },
       { label: "陣営", value: (record.camp || []).map(formatRoyalName).join(" / ") },
       { label: "種別", value: record.type || "出来事" },
-      { label: "参加者", value: (record.characters || []).map(formatRoyalName).join(" / ") },
+      { label: "関係人物", value: getEventCharacterLabels(record).join(" / ") },
       { label: "詳細", value: formatPublicDetailText(record.notes) || "" }
     ];
     if ((record.revealed_facts || []).length > 0) {
@@ -4634,7 +4724,7 @@ function showDetailModal(name, category, eventData = null) {
       const back = document.createElement("a");
       back.href = new URL(`theories/${fromTheory}/#evidence`, siteRootUrl).href;
       const returnUrl = new URL(back.href);
-      for (const key of ['q', 'category']) {
+      for (const key of ['q', 'category', 'read']) {
         const value = initialViewUrl.searchParams.get(`theory_${key}`);
         if (value) returnUrl.searchParams.set(key, value);
       }
@@ -4646,11 +4736,11 @@ function showDetailModal(name, category, eventData = null) {
   } else if (category === "spiritBeast") {
     record = spiritBeastsData.find((b) => b.name === name);
     if (!record) return;
-    titleEl.textContent = record.name;
+    titleEl.textContent = formatDisplayText(record.name);
     details = [
       { label: "対象の王族", value: formatRoyalName(record.prince) },
       { label: "外見・形態", value: record.appearance || "不明" },
-      { label: "念系統", value: record.nen_type || "不明" },
+      { label: "念系統", value: CharacterFacts.nenTypeLabel(record) },
       { label: "能力", value: record.ability || "不明" }
     ];
   } else if (category === "prince") {
@@ -4663,7 +4753,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
       { label: "状態", value: CharacterFacts.statusLabel(record, getPersonnelEvents()), later: true },
       { label: "最後の所在", value: "latest-location", later: true },
-      { label: "本人の念系統", value: record.nen_type || "不明", later: true },
+      { label: "本人の念系統", value: CharacterFacts.nenTypeLabel(record), later: true },
       { label: "本人の念能力", value: record.nen_ability || "不明", later: true, readable: true },
       { label: "守護霊獣", value: record.spirit_beast_name || "不明", later: true },
       { label: "陣営メモ", value: formatDisplayText(record.faction_note) || "", later: true, readable: true },
@@ -4688,7 +4778,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "配置履歴", value: assignmentRows.length > 1 ? assignmentRows.map(entry => entry.text).join("\n") : "", later: true },
       { label: "最後の所在", value: "latest-location", later: true },
       { label: "任務対象", value: record.role?.includes(record.target) ? "" : formatDisplayText(record.target), later: true },
-      { label: "念系統", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : record.nen_type || "不明", later: true },
+      { label: "念系統", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : CharacterFacts.nenTypeLabel(record), later: true },
       { label: "能力", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理（当時未判明という意味ではありません）" : record.nen_ability || "不明", later: true, readable: true },
       { label: "念講習会", value: getNenClassLabel(record) || "", later: true },
       { label: "備考", value: formatPublicDetailText(record.notes) || "", later: true, readable: true }
@@ -4759,12 +4849,25 @@ function showDetailModal(name, category, eventData = null) {
   if (category === "event" && (record.simultaneous_with || []).length) content.appendChild(makeSimultaneousScenesBlock(record));
   if (category === "event" && (record.same_incident_with || []).length) content.appendChild(makeSimultaneousScenesBlock(record, "same_incident_with"));
   if (isPerson) {
+    const notice = CharacterFacts.registrationNotice(record);
+    if (notice) { const p = document.createElement("p"); p.className = "guide-source-note"; p.textContent = notice; content.appendChild(p); }
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);
     content.appendChild(later);
     const sourceExcerpts = makeSourceExcerptGallery(record);
     if (sourceExcerpts) later.appendChild(sourceExcerpts);
     later.appendChild(makeDetailList(details.filter((entry) => entry.later)));
+    const knowledge = document.createElement("p"); knowledge.textContent = getNenKnowledgeLabel(record);
+    later.appendChild(knowledge);
+    if (record.nen_ability_image && isConfirmedNenUser(record)) {
+      const abilityImage = makeBeastImage(record.nen_ability_image, `${getDisplayName(record)}の念能力の画像`);
+      if (abilityImage) later.appendChild(abilityImage);
+      if (record.nen_ability_image_source) { const p = document.createElement("p"); p.className = "guide-source-note"; p.textContent = record.nen_ability_image_source; later.appendChild(p); }
+    }
+    const beastSection = makeCharacterBeastSection(record);
+    if (beastSection) later.appendChild(beastSection);
+    const statusHistory = makeCharacterStatusHistory(record);
+    if (statusHistory) later.appendChild(statusHistory);
     later.appendChild(makeCharacterReviewPanel(record));
     later.appendChild(makeEditorialStatusDetails([
       `人物ID：${record.id}`,
@@ -5351,13 +5454,7 @@ function scrollToCurrentHash() {
 }
 
 function getNenKnowledgeLabel(character, compact = false) {
-  if (character.nen_status === "historical_unorganized") return "念：この時点の能力情報は未整理";
-  const status = character.nen_status || (isConfirmedNenUser(character) ? "confirmed" : "unknown");
-  if (compact) return ({confirmed:"念：確認済み", unknown:"念：未確認", unavailable_confirmed:"念：使用不可の記録", not_awakened_confirmed:"念：未覚醒の記録"})[status]
-    + (character.nen_status_chapter ? `（第${character.nen_status_chapter}話）` : "");
-  return ({ confirmed: "念使用：確認済み", unknown: "念使用：未確認（使用不可とは限りません）",
-    unavailable_confirmed: "念使用：使用不可の記録あり", not_awakened_confirmed: "念使用：未覚醒の記録あり" })[status]
-    + (character.nen_status_chapter ? `（第${character.nen_status_chapter}話時点）` : "");
+  return CharacterFacts.nenKnowledgeLabel(character, compact);
 }
 
 function isMajorCharacter(character) {
@@ -5369,6 +5466,11 @@ function isMajorCharacter(character) {
 function getEventVerificationLabel(event) {
   if (event.local_created) return event.is_estimate ? "自分で追加・内容は推測" : "自分で追加・未照合";
   return ({ review_recorded: "原作確認記録あり", unverified: "原作再照合待ち", hypothesis: "内容は推測" })[event.verification_status] || "原作再照合待ち";
+}
+
+function getEventCharacterLabels(event) {
+  const labels = {present: "その場に登場", body: "遺体", mentioned: "話題・紹介のみ", remote: "遠隔・映像", unknown: "所在区分未判定"};
+  return (event.characters || []).map(id => `${formatRoyalName(id)}（${labels[event.character_presence?.[id] || "unknown"]}）`);
 }
 
 function getLocationReviewLabel(event) {
@@ -5389,7 +5491,7 @@ function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event
   ribbon.appendChild(content);
   const clock = document.createElement("span");
   clock.className = `review-badge clock-${placement?.estimated ? "provisional" : "original"}`;
-  clock.textContent = placement?.estimated ? "仮時刻（順序用）" : placement ? "原作の時刻" : "時刻を再確認";
+  clock.textContent = placement?.estimated ? "仮時刻（順序用）" : placement ? "原作の時刻表記・経過表示" : "時刻未登録";
   ribbon.appendChild(clock);
   const date = getDateCertaintyLabel(event);
   if (date) { const badge = document.createElement("span"); badge.className = "review-badge"; badge.textContent = date; ribbon.appendChild(badge); }
@@ -5477,6 +5579,12 @@ function makeEventSourcePanel(event) {
   const text = document.createElement("p");
   text.textContent = source?.title || "出典の原作再照合待ち";
   panel.append(heading, makeEventReviewRibbon(event), text);
+  if (event.verification_note) {
+    const note = document.createElement("p");
+    note.className = "event-verification-note";
+    note.textContent = `確認上の留保：${event.verification_note}`;
+    panel.appendChild(note);
+  }
   if (source?.url && !/^\s*(?:javascript|data):/i.test(source.url)) {
     const link = document.createElement("a"); link.href = source.url; link.textContent = "確認資料・登録索引を開く";
     panel.appendChild(link);
@@ -5538,6 +5646,7 @@ function refreshSharedSpoilers() {
     if (spoilersRevealed) renderInitialPersonnelGuide(initialPersonnel);
     else initialPersonnel.replaceChildren();
   }
+  updateGuideSearch();
 }
 
 const VIEW_FILTER_CONTROLS = {
@@ -5850,6 +5959,7 @@ async function init() {
     setupGuideStatus();
     setupPersonnelSnapshotGuide();
     setupGuideMemos();
+    setupGuideNavigation();
     setupOpenQuestions();
     setupDetailModal();
     setupEventCreation();

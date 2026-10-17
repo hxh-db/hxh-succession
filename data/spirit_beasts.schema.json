@@ -13,7 +13,8 @@
       "ability": { "type": ["string", "null"] },
       "image": { "type": ["string", "null"] },
       "usage_image": { "type": ["string", "null"] },
-      "usage_image_source": { "type": ["string", "null"] }
+      "usage_image_source": { "type": ["string", "null"] },
+      "source_event_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^E[0-9]{3}-[0-9]{3}$" } }
     }
   }
 }

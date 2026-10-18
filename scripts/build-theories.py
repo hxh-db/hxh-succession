@@ -91,7 +91,7 @@ def shell(title, body, depth=0, article_id=None):
     if article_id:
         body = (f'<div data-theory-id="{esc(article_id, quote=True)}">{body}</div>'
                 f'<script src="{base}theories/theory-memos.js?v=20261013a"></script>')
-    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css"><link rel="stylesheet" href="{base}theories/theories.css?v=20261015-search"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="essay-header"><a href="{base}index.html">王位継承戦データまとめ</a><nav aria-label="メインメニュー"><a href="{base}index.html#characters">人物一覧</a><a href="{base}index.html#timeline">出来事</a><a href="{base}index.html#guide">基礎資料</a><a href="{base}theories/" aria-current="{'page' if depth == 0 else 'false'}">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261015-search"></script></body></html>'''
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261018-reading"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261015-search"></script></body></html>'''
 
 out = ROOT / 'theories'
 out.mkdir(exist_ok=True)
@@ -101,9 +101,9 @@ for a in articles:
     question = next((q for q in questions if q['id'] == a['id']), None)
     checked = question.get('last_checked_chapter') if question else None
     # 台帳の話数だけから原作全話の照合完了へ昇格しない。
-    checked_label = (f'第{checked}話（謎データの登録値。未解決状況を全話再照合した記録は未整備）'
-                     if checked else '未登録（この記事独自の確認記録は未整備）')
-    metadata = f'<dl class="article-metadata"><dt>本文のネタバレ</dt><dd>第{a["chapter"]}話まで</dd><dt>未解決状況の確認範囲（台帳）</dt><dd>{checked_label}</dd><dt>記事の最終更新日</dt><dd><time datetime="2026-10-15">2026年10月15日</time>（構成・表記の更新日。原作再照合日ではありません）</dd></dl>'
+    checked_label = (f'状況の更新確認は未了です（参考：第{checked}話までの登録情報）。'
+                     if checked else 'その後の解決状況は未確認です。')
+    metadata = f'<dl class="article-metadata"><div><dt>本文のネタバレ</dt><dd>第{a["chapter"]}話まで</dd></div><div><dt>記事の最終更新日</dt><dd><time datetime="2026-10-18">2026年10月18日</time></dd></div></dl><details class="article-review-note"><summary>その後の解決状況について</summary><p>{checked_label} 更新日は記事の編集日で、原作の再確認日ではありません。</p></details>'
     assert max(e['chapter'] for e in refs) <= a['chapter'], f'{a["id"]}: 参照場面が上限を超えています'
     mentioned = [int(n) for n in re.findall(r'第?(\d{3})話', ' '.join(str(a[k]) for k in ['conclusion', 'theory', 'weakness', 'next_step']) + ' '.join(key_points[a['id']]))]
     assert not mentioned or max(mentioned) <= a['chapter'], f'{a["id"]}: 本文の話数が上限を超えています'
@@ -119,13 +119,14 @@ for a in articles:
         ]
         rows = ''.join(f'<tr><td>{esc(condition)}</td><td><a href="../../index.html?event={ref}&amp;from_theory=Q002#timeline">第{events[ref]["chapter"]}話の場面</a>：{esc(scene)}</td><td>{esc(excluded)}</td><td>{esc(unknown)}</td></tr>' for condition, ref, scene, excluded, unknown in conditions)
         comparison = '<h3>条件からどこまで絞れるか（この記事の考察）</h3><p>この表で除外するのは安易な特定方法です。参照場面だけで特定人物を術者候補から確実に除外した、という比較結果ではありません。</p><div class="comparison-scroll"><table><thead><tr><th>確認する条件</th><th>根拠となる場面</th><th>除外できる解釈</th><th>まだ判断できないこと</th></tr></thead><tbody>' + rows + '</tbody></table></div><p>現状は「人形が見える人」「騒いだ人」「殺害現場にいた人」という単純な絞り方はいずれも決め手になりません。術者の正体を絞るには、観測・指令と各人の行動を結ぶ追加の証拠が必要です。</p>'
-    evidence = ''.join(f'<li><a href="../../index.html?t_chapter={e["chapter"]}&amp;event={esc(e["id"])}&amp;from_theory={esc(a["id"])}#timeline">第{e["chapter"]}話：この出来事の詳細を開く</a><p>{esc(e["description"])}</p><small>{esc(e["id"])} · {"原作確認記録あり" if e.get("verification_status") == "review_recorded" else "再照合・推測を含む記録"}</small></li>' for e in refs)
+    evidence = ''.join(f'<li><a href="../../index.html?t_chapter={e["chapter"]}&amp;event={esc(e["id"])}&amp;from_theory={esc(a["id"])}#timeline">第{e["chapter"]}話：この出来事の詳細を開く</a><p>{esc(e["description"])}</p><small>{"原作確認記録あり" if e.get("verification_status") == "review_recorded" else "再照合・推測を含む記録"}</small></li>' for e in refs)
     if a['id'] == 'Q002':
         comparison = comparison.replace('<table>', '<table class="condition-table">')
     related = '<a href="../Q012/">ドルフィンの解除条件の考察</a>' if a['id']=='emperor-time' else '<a href="../emperor-time/">発動時刻と12時間の食い違い</a>' if a['id']=='Q012' else ''
     timeline = '<table><caption>第369話からの逆算（確定時刻ではない）</caption><tr><th>開始</th><th>失神</th><th>覚醒</th></tr><tr><td>1日目18時ごろ</td><td>1日目21時ごろ</td><td>2日目6時ごろ</td></tr></table>' if a['id']=='emperor-time' else ''
     body = f'''<a href="../">← 謎・考察一覧</a><p class="eyebrow">{esc(a['category'])}</p><h1>{esc(a['title'])}</h1><p>本文を含むネタバレ範囲：第{a['chapter']}話まで · 執筆日：2026年10月13日</p><p class="scope-note">{esc(a['status'])}。原作全話での未解決を保証する一覧ではありません。参照場面は既存の照合記録に基づきます。</p><details class="spoiler-article"><summary>第{a['chapter']}話までのネタバレを含む記事を読む</summary><nav class="toc" aria-label="記事の目次"><a href="#conclusion">結論</a><a href="#key-points">重要な根拠3点</a><a href="#theory">考察</a><a href="#limits">反証・限界</a><a href="#evidence">詳しい参照場面</a></nav><h2 id="conclusion">現時点の結論</h2><p class="conclusion">{esc(a['conclusion'])}</p><h2 id="key-points">重要な根拠3点</h2>{points}<h2 id="theory">考察：どう読むと説明できるか</h2><p>{esc(a['theory'])}</p>{timeline}{comparison}<h2 id="limits">反証・断定できない点</h2><p>{esc(a['weakness'])}</p><h2>何が分かれば判断が進むか</h2><p>{esc(a['next_step'])}</p>{related}<details class="evidence-details" id="evidence"><summary>詳しい参照場面と確認状態を開く（{len(refs)}件）</summary><ul class="evidence">{evidence}</ul></details></details><p><a href="../">謎・考察一覧へ戻る</a></p>'''
     body = body.replace('重要な根拠3点', 'この記事の要点3つ')
+    body = re.sub(r'<p class="scope-note">.*?</p>', '', body)
     body = body.replace(f'<p>本文を含むネタバレ範囲：第{a["chapter"]}話まで · 執筆日：2026年10月13日</p>', metadata)
     dest=out/a['id']; dest.mkdir(exist_ok=True)
     (dest/'index.html').write_text(shell(a['title'], body, 1, a['id']), encoding='utf-8')

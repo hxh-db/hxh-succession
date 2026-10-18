@@ -11,8 +11,10 @@ for (const directory of fs.readdirSync(path.join(root, 'theories'), {withFileTyp
   assert.ok(html.includes('この記事の要点3つ'));
   assert.ok(!html.includes('重要な根拠3点'));
   assert.ok(html.includes('記事の最終更新日'));
-  assert.ok(html.includes('原作再照合日ではありません'));
-  if (directory.name !== 'emperor-time') assert.ok(html.includes('全話再照合した記録は未整備'));
+  assert.ok(html.includes('原作の再確認日ではありません'));
+  assert.ok(html.includes('class="article-review-note"'));
+  if (directory.name !== 'emperor-time') assert.ok(html.includes('状況の更新確認は未了'));
+  assert.ok(!/<small>E\d{3}-/.test(html));
   for (const ref of html.matchAll(/event=(E\d{3}-\d+)/g)) assert.ok(events.get(ref[1])?.chapter <= limit);
   const points = html.match(/<ul class="key-evidence">([\s\S]*?)<\/ul>/)[1];
   assert.equal((points.match(/<li>/g) || []).length, 3);

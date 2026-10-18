@@ -11,7 +11,7 @@ for(const id of ['guideFactsTitle','shipMapTitle','princeStatusTitle','successio
 const controls=Object.fromEntries(['guideSearch','guideSearchStatus','guideNoResults','guideSearchClear'].map(id=>[id,{value:'',hidden:false,textContent:''}]));
 const rows=[['basic','guide-facts','船の構造'],['roles','guide-initial-setting','兵士の所属'],['secret','','契約違反で絶 レベル21']].map(([id,cls,text])=>({id,dataset:{guideSearchText:text},classList:{contains:x=>x===cls},getAttribute:()=>id,item:{hidden:false}}));
 const context=vm.createContext({document:{getElementById:id=>controls[id],querySelectorAll:()=>rows,querySelector:selector=>{const r=rows.find(r=>selector.includes(`"${r.id}"`));return {closest:()=>r.item};}}});
-vm.runInContext(`let spoilersRevealed=false; ${extract('normalizeGuideQuery')} ${extract('updateGuideSearch')}`,context);
+vm.runInContext(`let spoilersRevealed=false; function updateViewPermalink() {} ${extract('normalizeGuideQuery')} ${extract('updateGuideSearch')}`,context);
 const update=()=>vm.runInContext('updateGuideSearch()',context);
 update();assert.equal(rows[2].hidden,true);assert.equal(rows[2].item.hidden,true);assert.match(controls.guideSearchStatus.textContent,/2項目中2項目/);
 controls.guideSearch.value='契約';update();assert.equal(controls.guideNoResults.hidden,false);assert.match(controls.guideSearchStatus.textContent,/2項目中0項目/,'hidden topics must not leak in result counts');

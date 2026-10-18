@@ -271,7 +271,8 @@ def validate_cross_references(base):
             errors.append(f"人物の部屋表記が文字列ではありません: {character['id']} -> {room}")
         elif room and prince_room_reference.search(room) and not prince_room.fullmatch(room):
             errors.append(f"人物の王子居住区表記が統一されていません: {character['id']} -> {room}")
-        for relation_id in (character.get("children") or []) + (character.get("parent_ids") or []):
+        for relation_id in ((character.get("children") or []) + (character.get("parent_ids") or [])
+                            + [relation["id"] for relation in character.get("nominal_parent_relations", [])]):
             if relation_id not in id_set:
                 errors.append(f"人物関係の参照先がありません: {character['id']} -> {relation_id}")
 

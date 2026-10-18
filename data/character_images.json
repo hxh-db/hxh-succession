@@ -1,4 +1,6 @@
 [
+  { "id": "EII-U01", "image": "images/characters/eii-u01-ch378.png", "source_chapter": 378, "source_image": "ch378-20261010/04.jpg" },
+  { "id": "EII-U02", "image": "images/characters/eii-u02-ch378.png", "source_chapter": 378, "source_image": "ch378-20261010/04.jpg" },
   { "id": "SPD-001", "image": "images/characters/pt-manga-chrollo.webp", "source_chapter": 377, "source_image": "8-写真8.jpg" },
   { "id": "SPD-002", "image": "images/characters/pt-manga-nobunaga.webp", "source_chapter": 377, "source_image": "8-写真8.jpg" },
   { "id": "SPD-003", "image": "images/characters/pt-manga-phinks.webp", "source_chapter": 377, "source_image": "8-写真8.jpg" },

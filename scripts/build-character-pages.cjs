@@ -49,6 +49,14 @@ function fieldValue(label, value) {
 function definitionList(fields) {
   return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${fieldValue(label, value)}</dd>`).join('\n') + '</dl>';
 }
+function familyHtml(person, characters) {
+  const relatives = CharacterFacts.familyRelations(person, characters);
+  if (!relatives.length) return '';
+  return `<section class="character-family-relations"><h2>家族関係</h2><ul>${relatives.map(relation=>{
+    const relative = characters.find(p=>p.id===relation.id);
+    return `<li>[${escape(CharacterFacts.familyRelationLabel(relation))}] <a href="../${encodeURIComponent(relative.id)}/">${escape(titleName(relative))}</a>（${escape(relation.kind)}${relation.speculative?'・未確定':''}）${relation.note?`<p>${escape(relation.note)}</p>`:''}</li>`;
+  }).join('')}</ul></section>`;
+}
 // 顔画像（一覧と同じく character_images.json を優先）。拡大は character-page.js が既存と同じライトボックスで行う。
 function withImages(characters) {
   const byId = new Map(read('character_images.json').map(entry => [entry.id, entry]));
@@ -121,6 +129,7 @@ ${evidence ? `<p class="author-setting-badge">${person.setting_only ? '作者設
 <p id="pageSpoilerStatus" role="status">詳細には後の展開を含みます。下の項目を開くと表示できます。</p>
 <details class="character-page-spoilers" data-nosnippet><summary>人物詳細（後の展開を含む）</summary>
 ${definitionList(spoilerFields(person, events))}
+${familyHtml(person, characters)}
 ${abilityMedia}
 ${beast}
 ${historyHtml(person,events)}

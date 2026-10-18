@@ -39,6 +39,9 @@
       "camp": { "type": ["string", "null"] },
       "children": { "type": "array", "items": { "type": "string" } },
       "parent_ids": { "type": "array", "items": { "type": "string" } },
+      "nominal_parent_relations": { "type": "array", "items": { "type": "object", "required": ["id", "chapter", "clarified_chapter", "note"], "additionalProperties": false, "properties": {
+        "id": { "type": "string" }, "chapter": { "type": "integer", "minimum": 1 }, "clarified_chapter": { "type": "integer", "minimum": 1 }, "note": { "type": "string", "minLength": 1 }
+      } }, "description": "名義上の親子関係。現在の人物との実際の血縁を確定するparent_idsへ混ぜない" },
       "mission": { "type": ["string", "null"] },
       "target": { "type": ["string", "null"] },
       "role": { "type": ["string", "null"] },

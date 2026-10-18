@@ -1232,7 +1232,15 @@
     "nen_ability_image": "images/abilities/morena-saikin-osen-ch378.png",
     "nen_ability_image_source": "第378話より：唾液による感染を始めるキスの場面と能力説明",
     "notes": "掟を破って組長に就任した異端者。カキンマフィアの慣習を無視して独自の勢力拡大を図る。エイ＝イ一家のケツモチは第4王子ツェリードニヒ。第405話で葬送を利用した対象探しを計画し、第407話ではアジトで目覚めたボークセンに加入を求め、交渉ゲームのカードと進行を説明する。拉致の瞬間・担当者は第407話には描かれない。第408話では、王族でも本物の二線者でもなく、本物のモレナは既に墓の中にいると説明。本人は祭孤児の98年組で「肉」として約20年を過ごしたという。目的はカキン滅亡と、その達成後には人類滅亡まで続けること。特質系約0.033%は本人の調査による系統の割合で、感染能力の発現率ではない。第409話では、Yesの結論・キスによる感染・仲間の殺人現場への居合わせの3条件が全てそろわないと仲間にならないと説明。アジトは第2層と第3層の間にあると質問Aへ回答する。第410話でボークセンの不正を指摘し、Rに目印を付けた手順を推理する。ボークセンはレベル0で最後の加入条件が未達、レベル1で完全に仲間になると説明。アプリのようにデータを管理するという比喩で能力を説明し、加入後の行動は自由だが必要ない人間と分かれば裏切るとも告げる",
-    "image": "images/characters/morena.webp"
+    "image": "images/characters/morena.webp",
+    "nominal_parent_relations": [
+      {
+        "id": "KNG-001",
+        "chapter": 378,
+        "clarified_chapter": 408,
+        "note": "第378話の人物紹介では、モレナ＝プルードはホイコーロ国王と愛人の娘とされる。第408話では現在の組長本人が王族ではなく、本物のモレナは既に墓の中にいると説明する。現在の人物の実父をホイコーロと確定する関係ではなく、モレナの名義上の親子関係として記録する。"
+      }
+    ]
   },
   {
     "id": "EII-T01",
@@ -9436,5 +9444,51 @@
     "identity_status": "provisional",
     "generated_by": "personnel-roster",
     "roster_projection": false
+  },
+  {
+    "id": "EII-U01",
+    "type": "mafia",
+    "name": "エイ＝イ組員1（仮称）",
+    "affiliation": "エイ＝イ一家",
+    "camp": null,
+    "role": "氏名未判明のエイ＝イ一家構成員",
+    "room": null,
+    "location": "第3層 302号室（第378話の場面）",
+    "location_basis_chapter": 378,
+    "location_certainty": "confirmed",
+    "status": "生死未確認",
+    "status_log": [],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_status": "unknown",
+    "nen_ability": "第378話で『恋のエチュード』を授ける対象に含まれる。本人固有の発の名称・条件・効果、現在の覚醒状況は未確認。",
+    "notes": "第378話写真4左・155ページの顔一覧に描かれる構成員。上段のモレナのすぐ右（紙面を正面から見た位置）。既存の氏名付き20人と別の顔として確認した、氏名未判明の1人。番号は識別のための仮称で、本名・役職・現在の生死を推測したものではない。第378話の23人はモレナを含む当時の集団であり、現在の生存人数を保証しない。",
+    "image": "images/characters/eii-u01-ch378.png",
+    "identity_status": "unnamed_confirmed",
+    "is_placeholder": true,
+    "source_chapter": 378
+  },
+  {
+    "id": "EII-U02",
+    "type": "mafia",
+    "name": "エイ＝イ組員2（仮称）",
+    "affiliation": "エイ＝イ一家",
+    "camp": null,
+    "role": "氏名未判明のエイ＝イ一家構成員",
+    "room": null,
+    "location": "第3層 302号室（第378話の場面）",
+    "location_basis_chapter": 378,
+    "location_certainty": "confirmed",
+    "status": "生死未確認",
+    "status_log": [],
+    "is_hunter": false,
+    "nen_type": null,
+    "nen_status": "unknown",
+    "nen_ability": "第378話で『恋のエチュード』を授ける対象に含まれる。本人固有の発の名称・条件・効果、現在の覚醒状況は未確認。",
+    "notes": "第378話写真4左・155ページの顔一覧に描かれる構成員。下段の左から4人目。既存の氏名付き20人と別の顔として確認した1人。第394話ではギャトームという氏名が報告者として言及されるが、この顔との対応は今回の原作照合では確定していないため、氏名未判明の仮称として登録する。番号は識別のためのもので、本名・役職・現在の生死を推測したものではない。第378話の23人はモレナを含む当時の集団であり、現在の生存人数を保証しない。",
+    "image": "images/characters/eii-u02-ch378.png",
+    "identity_status": "unnamed_confirmed",
+    "is_placeholder": true,
+    "source_chapter": 378
   }
 ]

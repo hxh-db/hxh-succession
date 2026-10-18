@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261017-notes",
-  characterTags: "data/character_tags.json?v=20261008c",
-  characterImages: "data/character_images.json?v=20261008b",
+  characters: "data/characters.json?v=20261017-family",
+  characterTags: "data/character_tags.json?v=20261017-family",
+  characterImages: "data/character_images.json?v=20261017-family",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261017-notes",
+  events: "data/events.json?v=20261017-family",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261016-events",
@@ -18,6 +18,8 @@ const DATA = {
 let charactersData = [];
 let sourcesData = [];
 let viewLinksReady = false;
+let restoringReadingState = false;
+let characterVisibleCount = 60;
 const initialViewUrl = new URL(location.href);
 const siteRootUrl = new URL("./", initialViewUrl);
 // Pin relative assets to the site root when pushState changes the document URL.
@@ -1359,27 +1361,7 @@ function getRelationshipNames(ids) {
 }
 
 function getBloodRelations(character) {
-  const relations = new Map();
-  const add = (id, kind, speculative = false) => {
-    if (CHAR_MAP[id]) relations.set(id, { id, kind, speculative });
-  };
-  getKnownParentIds(character).filter((id) => id !== "KNG-001")
-    .forEach((id) => add(id, CHAR_MAP[id]?.type === "queen" ? "母" : "親"));
-  if (character.type === "queen") {
-    (character.children || []).forEach((id) => add(id, "子"));
-    charactersData.filter((candidate) => candidate.public_mother_id === character.id)
-      .forEach((candidate) => add(candidate.id, "公的な子"));
-    charactersData.filter((candidate) => candidate.reported_biological_mother_id === character.id)
-      .forEach((candidate) => add(candidate.id, "実子説", true));
-  }
-  if (character.public_mother_id) add(character.public_mother_id, "公的な母");
-  if (character.reported_biological_mother_id) add(character.reported_biological_mother_id, "実母説", true);
-  if (character.suggested_father_id) add(character.suggested_father_id, "実父説", true);
-  if (character.suggested_child_id) add(character.suggested_child_id, "実子説", true);
-  const siblingIds = character.known_half_sibling_ids || (character.known_half_sibling_id ? [character.known_half_sibling_id] : []);
-  siblingIds.forEach((id) => add(id, "異母兄弟"));
-  (character.known_sibling_ids || []).forEach((id) => add(id, "兄弟（母親の同異は未確認）"));
-  return [...relations.values()];
+  return CharacterFacts.familyRelations(character, charactersData);
 }
 
 function getRelatedPrinceIds(character) {
@@ -1485,7 +1467,10 @@ function getCharacterTags(character) {
   charactersData.filter((candidate) => candidate.type === "queen" && (candidate.children || []).includes(character.id))
     .forEach((queen) => parentIds.add(queen.id));
   parentIds.forEach((id) => ids.add(id === "Q01" ? "family-q01-child" : `blood-parent-${id.toLowerCase()}`));
-  if (getBloodRelations(character).length) ids.add("relation-blood");
+  const familyRelations = getBloodRelations(character);
+  if (familyRelations.length) ids.add("relation-blood");
+  familyRelations.forEach(relation=>ids.add(relation.group === "siblings" ? "relation-siblings"
+    : relation.group === "parent-child" ? (relation.nominal ? "relation-parent-child-nominal" : "relation-parent-child") : "relation-blood-other"));
   if (character.reported_biological_mother_id) {
     const reportedId = character.reported_biological_mother_id;
     ids.add(reportedId === "Q01" ? "family-q01-child" : `blood-parent-${reportedId.toLowerCase()}`);
@@ -1596,6 +1581,9 @@ function makeBloodRelationChain(tag, relations, character = null) {
       relativeTag.textContent = "第2王妃（公的・実母未確定）";
     }
     chain.appendChild(relativeTag);
+    if (relation.nominal) {
+      relativeTag.title = `${relativeTag.title}。${relation.note}`;
+    }
     if (relation.speculative) {
       const note = document.createElement("span");
       note.className = "character-tag-context";
@@ -2059,7 +2047,7 @@ function createCharacterDirectoryCard(character) {
   if (["unavailable_confirmed", "not_awakened_confirmed"].includes(character.nen_status)) nen.classList.add("spoiler-only");
   nen.textContent = getNenKnowledgeLabel(character, true);
   nen.title = getNenKnowledgeLabel(character);
-  context.appendChild(nen);
+  if (character.nen_status !== "historical_unorganized") context.appendChild(nen);
   const searchQuery = document.getElementById("characterSearch").value.trim();
   if (searchQuery && CharacterFacts.searchRank(character, searchQuery) > 0) {
     const reason = document.createElement("p");
@@ -2110,10 +2098,11 @@ function createCharacterDirectoryCard(character) {
       used.add(missionTarget.id);
       historicalTargets.forEach((tag) => used.add(tag.id));
     }
-    const blood = visibleTags.find((tag) => tag.id === "relation-blood");
     const bloodRelations = getBloodRelations(character);
-    if (blood && bloodRelations.length) {
-      spoilerTagList.appendChild(makeBloodRelationChain(blood, bloodRelations, character));
+    for (const id of ["relation-parent-child", "relation-siblings", "relation-blood-other", "relation-parent-child-nominal"]) {
+      const tag = visibleTags.find(entry=>entry.id===id);
+      const relations = bloodRelations.filter(relation=>CharacterFacts.familyRelationLabel(relation)===tag?.label);
+      if (tag && relations.length) spoilerTagList.appendChild(makeBloodRelationChain(tag, relations, character));
     }
     visibleTags.filter((tag) => tag.category === "血縁").forEach((tag) => used.add(tag.id));
     const possession = visibleTags.find((tag) => tag.id === "duty-possession");
@@ -2340,16 +2329,36 @@ function renderCharacterDirectory(characters) {
   container.innerHTML = "";
   const query = document.getElementById("characterSearch")?.value || "";
   currentCharacterResults = characters.slice().sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query) || sortCharacters(a, b));
-  currentCharacterResults.forEach((character) => {
+  characterVisibleCount = 60;
+  currentCharacterResults.slice(0, characterVisibleCount).forEach((character) => {
     container.appendChild(createCharacterDirectoryCard(character));
   });
   renderCharacterAssignmentTable(currentCharacterResults);
+  updateCharacterPageStatus();
   summary.textContent = characters.length === 0 ? "条件に一致する人物はいません。" : "選択中の人物を表示しています。";
+}
+
+function updateCharacterPageStatus() {
+  const total = currentCharacterResults.length;
+  const shown = Math.min(characterVisibleCount, total);
+  const more = document.getElementById("characterLoadMore");
+  more.hidden = activeCharacterView !== "cards" || total === 0;
+  document.getElementById("characterPageStatus").textContent = `${total}人中${shown}人を表示`;
+  document.getElementById("characterMoreButton").hidden = shown >= total;
+}
+
+function extendCharacterDirectory(limit = characterVisibleCount + 60) {
+  const container = document.getElementById("characterDirectory");
+  const previous = container.children.length;
+  characterVisibleCount = Math.max(60, limit);
+  currentCharacterResults.slice(previous, characterVisibleCount).forEach(person => container.appendChild(createCharacterDirectoryCard(person)));
+  updateCharacterPageStatus();
 }
 
 function renderCharacterAssignmentTable(characters) {
   const container = document.getElementById("characterAssignmentTable");
   container.innerHTML = "";
+  if (activeCharacterView !== "table") return;
   const assignmentOnly = document.getElementById("assignmentOnly")?.checked;
   const rows = assignmentOnly
     ? characters.filter((character) => ["soldier", "hunter", "attendant"].includes(character.type))
@@ -2407,6 +2416,9 @@ function setCharacterView(view) {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
+  renderCharacterAssignmentTable(currentCharacterResults);
+  updateCharacterPageStatus();
+  updateViewPermalink();
 }
 
 function setSpoilersRevealed(revealed, persist = true) {
@@ -2447,7 +2459,7 @@ function getCatalogTagRow(tag) {
   if (["group-kurapika-team", "hunter-beyond-kyousen", "qualification-provisional-associate", "group-zodiacs"].includes(tag.id)) return "ハンター";
   if (tag.category === "所属") return "その他所属";
   if (tag.category === "血縁") {
-    return tag.id === "family-q01-child" || tag.id.startsWith("blood-parent-") ? "血縁" : null;
+    return tag.id === "family-q01-child" || tag.id.startsWith("blood-parent-") || tag.id.startsWith("relation-") ? "血縁" : null;
   }
   return ["初期配置", "念", "状態", "念講習会"].includes(tag.category) ? tag.category : null;
 }
@@ -2674,6 +2686,10 @@ function setupCharacterDirectory() {
     document.getElementById("characterResultSummary").textContent = filtered.length
       ? `現在の条件に一致：${filtered.length}人。${filtered.some(person => person.setting_only) ? `うち${filtered.filter(person => person.setting_only).length}人は作者設定表のみで確認（本編対応未照合・兵力への加算なし）。` : ""}`
       : "条件に一致する人物はいません。選択中の条件を外すか「すべて解除」を押してください。";
+    search.placeholder = spoilersRevealed ? "名前・所属・能力などで検索" : "名前・所属などで検索";
+    document.getElementById("characterSearchHelp").textContent = spoilersRevealed
+      ? "能力・後の展開も検索対象です。" : "ネタバレ非表示中は、能力・後の展開を検索しません。";
+    document.getElementById("characterSearchNotice").hidden = spoilersRevealed || filtered.length > 0 || !search.value.trim();
     const rosterMode = activeCharacterSection === "personnel" || queenFilter.value !== "all" || periodFilter.value !== "all";
     const ledger = rosterMode ? getPersonnelSelection(queenFilter.value === "all" ? null : Number(queenFilter.value)) : [];
     const {withoutStop, unknown} = PersonnelRoster.counts(ledger);
@@ -2693,7 +2709,8 @@ function setupCharacterDirectory() {
     queenNav.querySelectorAll("button").forEach(button => {
       const rank = Number(button.dataset.queenRank);
       const total = getPersonnelSelection(rank).length;
-      button.textContent = `第${rank}王妃所属兵 ${total}人`;
+      button.textContent = `第${rank}王妃所属兵を表示（${total}人）`;
+      button.title = `兵士・従事者を${periodFilter.value === "all" ? "出航時" : periodFilter.selectedOptions[0].textContent}・第${rank}王妃所属兵で絞り込みます`;
       button.classList.toggle("active", queenFilter.value === String(rank));
       button.setAttribute("aria-pressed", String(queenFilter.value === String(rank)));
     });
@@ -2702,6 +2719,10 @@ function setupCharacterDirectory() {
       const selected = button.dataset.groupId === activeCharacterSection;
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
+    });
+    document.querySelectorAll("#characterQuickNav button").forEach(button => {
+      const selected = button.dataset.groupId === activeCharacterSection;
+      button.classList.toggle("active", selected); button.setAttribute("aria-pressed", String(selected));
     });
     document.querySelectorAll(".character-catalog-tag[data-tag-id]").forEach((button) => {
       const selected = [...activeCharacterTags.values()].includes(button.dataset.tagId);
@@ -2826,13 +2847,25 @@ function setupCharacterDirectory() {
       apply();
     });
     quickNav.appendChild(button);
+    if (["princes", "major", "all"].includes(group.id)) {
+      const quick = button.cloneNode(true);
+      quick.addEventListener("click", () => button.click());
+      document.getElementById("characterQuickNav").appendChild(quick);
+    }
   });
+  document.getElementById("characterMoreButton").addEventListener("click", () => { extendCharacterDirectory(); saveReadingState(); });
+  document.getElementById("characterQuickNav").appendChild((() => {
+    const button = document.createElement("button"); button.type = "button"; button.textContent = "名簿を調べる"; button.className="character-camp-nav-button";
+    button.setAttribute("aria-controls","personnelFilters");
+    button.addEventListener("click", () => { document.getElementById("personnelFilters").open = true; document.getElementById("personnelFilters").scrollIntoView({block:"nearest"}); });
+    return button;
+  })());
   document.getElementById("characterViewCards").addEventListener("click", () => setCharacterView("cards"));
   document.getElementById("characterViewTable").addEventListener("click", () => setCharacterView("table"));
   document.getElementById("characterSpoilerToggle").addEventListener("click", () => {
     setSpoilersRevealed(!spoilersRevealed);
   });
-  document.getElementById("assignmentOnly").addEventListener("change", () => renderCharacterAssignmentTable(currentCharacterResults));
+  document.getElementById("assignmentOnly").addEventListener("change", () => { renderCharacterAssignmentTable(currentCharacterResults); updateViewPermalink(); });
   [quickNav, ...document.querySelectorAll("#characterFilterPanel .character-tag-row-options")].forEach((container) => {
     setupRovingToolbar(container, container.closest(".character-tag-row")?.querySelector(".character-tag-row-label")?.textContent || null);
   });
@@ -3231,9 +3264,13 @@ function filterTimelineByEventLocation(event) {
 }
 
 function filterTimelineByParticipant(token) {
+  activatePrimaryView("timeline", true);
+  ["roomFilter", "typeFilter", "chapterFilter", "seriesFilter"].forEach(id => { document.getElementById(id).value = "all"; });
+  document.getElementById("hideHypothesisEvents").checked = false;
+  document.getElementById("timeDisplayMode").value = "all";
   document.getElementById("participantFilter").value = token;
   activeTimelinePeriodId = "all";
-  activatePrimaryView("timeline", true);
+  activateTimelineView("schedule");
   applyFilter();
   document.querySelector(".timeline-active-filters")?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
@@ -3537,7 +3574,8 @@ function resetFilters() {
   document.getElementById("timelineSortOrder").value = "asc";
   if (document.getElementById("hideHypothesisEvents")) document.getElementById("hideHypothesisEvents").checked = false;
   if (document.getElementById("timeDisplayMode")) document.getElementById("timeDisplayMode").value = "all";
-  activeTimelinePeriodId = "all";
+  // 「解除」で全期間へ広げない。選んだ期間（全期間なら1日目）を保つ。
+  if (activeTimelinePeriodId === "all") activeTimelinePeriodId = "day-1";
   applyFilter();
 }
 
@@ -3612,6 +3650,12 @@ function setupFilters() {
 }
 
 function renderActiveTimelineView() {
+  const gate = document.querySelector("#timelineSpoilerGate p");
+  const token = document.getElementById("participantFilter")?.value;
+  const count = filteredEventsData.filter(event => activeTimelineView !== "schedule" || activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId).length;
+  if (gate) gate.textContent = token && token !== "all"
+    ? `ネタバレを表示すると、${formatRoyalName(token)}の出来事 ${count}件を読めます。`
+    : "出来事は死亡・能力・後の展開を含みます。ネタバレを表示すると読めます。";
   const events = filteredEventsData;
   if (activeTimelineView === "schedule") {
     renderTimelineSchedule(events);
@@ -3683,6 +3727,7 @@ function activateTimelineView(view, moveFocus = false) {
 
   renderTimelineActiveFilters();
   renderActiveTimelineView();
+  updateViewPermalink();
   if (moveFocus) selectedTab.focus();
 }
 
@@ -4417,6 +4462,7 @@ function updateGuideSearch() {
   document.getElementById("guideSearchStatus").textContent = `${available}項目中${matches}項目を表示${spoilersRevealed ? "" : "（後の情報は非表示）"}`;
   document.getElementById("guideNoResults").hidden = matches !== 0;
   document.getElementById("guideSearchClear").hidden = terms.length === 0;
+  updateViewPermalink();
 }
 
 function setupGuideNavigation() {
@@ -4886,6 +4932,21 @@ function showDetailModal(name, category, eventData = null) {
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);
     content.appendChild(later);
+    const relatives = getBloodRelations(record);
+    if (relatives.length) {
+      const family = document.createElement("section");
+      const heading = document.createElement("h4"); heading.textContent = "家族関係";
+      const list = document.createElement("ul"); list.className = "readable-list";
+      relatives.forEach(relation=>{
+        const li = document.createElement("li");
+        li.append(document.createTextNode(`[${CharacterFacts.familyRelationLabel(relation)}] `),
+          makeCharacterDetailLink(CHAR_MAP[relation.id], formatRoyalName(relation.id)),
+          document.createTextNode(`（${relation.kind}${relation.speculative ? "・未確定" : ""}）`));
+        if (relation.note) { const p = document.createElement("p"); p.textContent = relation.note; li.appendChild(p); }
+        list.appendChild(li);
+      });
+      family.append(heading,list); later.appendChild(family);
+    }
     const sourceExcerpts = makeSourceExcerptGallery(record);
     if (sourceExcerpts) later.appendChild(sourceExcerpts);
     later.appendChild(makeDetailList(details.filter((entry) => entry.later)));
@@ -4976,7 +5037,7 @@ function showDetailModal(name, category, eventData = null) {
     details.className = "related-events-spoiler";
 
     const summary = document.createElement("summary");
-    summary.textContent = "関連イベント";
+    summary.textContent = "関連する出来事";
     details.appendChild(summary);
 
     const list = document.createElement("div");
@@ -4985,17 +5046,20 @@ function showDetailModal(name, category, eventData = null) {
       .slice()
       .sort((a, b) => sortKey(a) - sortKey(b))
       .forEach((e) => {
-        const item = document.createElement("div");
-        item.className = "event-item";
-        const label = e.day != null ? `${getChapterLabel(e)}（${CharacterFacts.dayLabel(e)}）` : getChapterLabel(e);
-        const strong = document.createElement("strong");
-        strong.textContent = `${label} | ${e.description}`;
-        const meta = document.createElement("span");
-        meta.textContent = `${getLocationKey(e)} / ${e.type || "出来事"}`;
-        const p = document.createElement("p");
-        p.textContent = formatPublicDetailText(e.notes) || "";
-        item.append(strong, meta);
-        if (p.textContent) item.appendChild(p);
+        const item = document.createElement("a");
+        item.className = "event-item related-event-link";
+        const url = new URL("index.html", siteRootUrl);
+        url.searchParams.set("event", e.id); url.hash = "timeline";
+        item.href = url.href;
+        item.textContent = [getEventHeadline(e), `第${e.chapter}話`, CharacterFacts.dayLabel(e), getTimelineTimePlacement(e)?.label].filter(Boolean).join(" · ");
+        item.addEventListener("click", click => {
+          if (click.button || click.metaKey || click.ctrlKey || click.shiftKey || click.altKey) return;
+          click.preventDefault();
+          const navigate = () => { closeDetailModal(true); navigateReadingUrl(url); };
+          if (window.CharacterRoutes?.isActive()) {
+            window.addEventListener("popstate", navigate, {once:true}); closeDetailModal();
+          } else navigate();
+        });
         list.appendChild(item);
       });
     details.appendChild(list);
@@ -5452,6 +5516,12 @@ function setupOpenQuestions() {
 function activatePrimaryView(view, updateHash = false) {
   const requestedView = view === "places" ? "timeline" : view;
   const validView = ["characters", "timeline", "guide"].includes(requestedView) ? requestedView : "characters";
+  if (updateHash && viewLinksReady && !restoringReadingState) {
+    saveReadingState();
+    const url = new URL(location.href); url.hash = validView;
+    url.searchParams.delete("event"); url.searchParams.delete("person"); url.searchParams.delete("detail");
+    history.pushState({hxhReading:true}, "", url.href);
+  }
   document.querySelectorAll("[data-primary-panel]").forEach((panel) => {
     panel.hidden = panel.dataset.primaryPanel !== validView;
   });
@@ -5461,7 +5531,7 @@ function activatePrimaryView(view, updateHash = false) {
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
-  if (updateHash || view === "places") history.replaceState(null, "", `#${validView}`);
+  if (view === "places") history.replaceState(history.state, "", `#${validView}`);
   updateViewPermalink();
   window.scrollTo({ top: 0 });
 }
@@ -5473,7 +5543,24 @@ function setupPrimaryNavigation() {
       activatePrimaryView(link.dataset.primaryView, true);
     });
   });
-  window.addEventListener("hashchange", () => activatePrimaryView(location.hash.slice(1)));
+  window.addEventListener("hashchange", () => {
+    const target=location.hash.slice(1);
+    if (["characters","timeline","guide"].includes(target) && target!==document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel && !restoringReadingState && !window.CharacterRoutes?.isActive()) activatePrimaryView(target);
+  });
+  window.addEventListener("popstate", () => {
+    if (history.state?.hxhCharacterModal || window.CharacterRoutes?.isActive()) return;
+    restoreReadingState(history.state?.readingSnapshot, new URL(location.href));
+  });
+  document.querySelector("#guide").addEventListener("click", event => {
+    const link = event.target.closest("a[href]");
+    if (!link || event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href);
+    if (url.origin === location.origin && url.searchParams.has("event")) { event.preventDefault(); navigateReadingUrl(url); }
+  });
+  let scrollTimer;
+  window.addEventListener("scroll", () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(saveReadingState, 120); }, {passive:true});
+  window.addEventListener("pagehide", saveReadingState);
+  document.addEventListener("toggle", event => { if (event.target.closest?.("#guide, #characters")) saveReadingState(); }, true);
   activatePrimaryView(location.hash.slice(1) || "characters");
 }
 
@@ -5713,12 +5800,76 @@ function refreshSharedSpoilers() {
 
 const VIEW_FILTER_CONTROLS = {
   c_search: "characterSearch", c_type: "characterTypeFilter", c_camp: "characterCampFilter", c_prince: "characterPrinceFilter",
-  c_when: "characterPeriodFilter", c_queen: "characterQueenFilter",
+  c_when: "characterPeriodFilter", c_queen: "characterQueenFilter", g_search: "guideSearch",
   t_room: "roomFilter", t_type: "typeFilter", t_person: "participantFilter", t_chapter: "chapterFilter", t_series: "seriesFilter", t_sort: "timelineSortOrder", t_clock: "timeDisplayMode"
 };
 
+// 履歴は全タブの条件を保持。共有URLは表示中のタブだけに絞る。
+function captureReadingState() {
+  return {
+    controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
+    view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
+    group: activeCharacterSection, tags: [...activeCharacterTags.values()], affiliation: activeCharacterAffiliation,
+    characterView: activeCharacterView, timelineView: activeTimelineView, period: activeTimelinePeriodId,
+    hypotheses: document.getElementById("hideHypothesisEvents").checked,
+    assignmentOnly: document.getElementById("assignmentOnly").checked,
+    characterCount: characterVisibleCount, scrollY: window.scrollY,
+    details: [...document.querySelectorAll("#guide details[id], #characters details[id]")].filter(el=>el.open).map(el=>el.id),
+    characterFilters: document.querySelector(".character-tag-catalog").classList.contains("filters-open"),
+    timelineFilters: document.getElementById("timeline").classList.contains("filters-open")
+  };
+}
+
+function saveReadingState() {
+  if (!viewLinksReady || restoringReadingState || window.CharacterRoutes?.isActive()) return;
+  history.replaceState({...history.state, hxhReading:true, readingSnapshot:captureReadingState()}, "", location.href);
+}
+
+function restoreReadingState(snapshot, url) {
+  restoringReadingState = true;
+  closeDetailModal(true);
+  try {
+    const restored = new URL(url);
+    if (snapshot) {
+      Object.entries(snapshot.controls).forEach(([key,value])=>restored.searchParams.set(key,value));
+      restored.searchParams.set("c_group", snapshot.group);
+      restored.searchParams.set("c_tags", snapshot.tags.join(","));
+      if (snapshot.affiliation) restored.searchParams.set("c_affiliation",snapshot.affiliation);
+      else restored.searchParams.delete("c_affiliation");
+      restored.searchParams.set("c_view",snapshot.characterView);
+      if (snapshot.assignmentOnly) restored.searchParams.delete("c_assignment"); else restored.searchParams.set("c_assignment","any");
+      restored.searchParams.set("t_view",snapshot.timelineView);
+      restored.searchParams.set("t_period",snapshot.period);
+      if (snapshot.hypotheses) restored.searchParams.set("t_hypotheses","hide"); else restored.searchParams.delete("t_hypotheses");
+      document.getElementById("assignmentOnly").checked = snapshot.assignmentOnly;
+    }
+    activatePrimaryView(snapshot?.view || restored.hash.slice(1));
+    restoreViewFromUrl(restored);
+    if (snapshot) {
+      extendCharacterDirectory(snapshot.characterCount);
+      document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=snapshot.details.includes(el.id);});
+      for (const [selector,open] of [[".character-tag-catalog",snapshot.characterFilters],["#timeline",snapshot.timelineFilters]]) {
+        document.querySelector(selector).classList.toggle("filters-open",open);
+      }
+      for (const [id,open] of [["characterFilterToggle",snapshot.characterFilters],["timelineFilterToggle",snapshot.timelineFilters]]) {
+        const button=document.getElementById(id); button.setAttribute("aria-expanded",String(open)); button.textContent=open?"絞り込みを閉じる":"絞り込みを開く";
+      }
+    }
+    requestAnimationFrame(()=>{
+      window.scrollTo({top:snapshot?.scrollY || 0,behavior:"instant"});
+      restoringReadingState=false; updateViewPermalink();
+    });
+  } catch (error) { restoringReadingState=false; throw error; }
+}
+
+function navigateReadingUrl(url) {
+  saveReadingState();
+  history.pushState({hxhReading:true}, "", url.href);
+  restoreReadingState(null,url);
+}
+
 function updateViewPermalink() {
-  if (!viewLinksReady || window.CharacterRoutes?.isActive()) return;
+  if (!viewLinksReady || restoringReadingState || window.CharacterRoutes?.isActive()) return;
   const url = new URL(location.href);
   Object.entries(VIEW_FILTER_CONTROLS).forEach(([key, id]) => {
     const value = document.getElementById(id)?.value;
@@ -5726,7 +5877,7 @@ function updateViewPermalink() {
     else url.searchParams.delete(key);
   });
   const state = { c_group: activeCharacterSection, c_tags: [...activeCharacterTags.values()].join(","), c_affiliation: activeCharacterAffiliation,
-    c_view: activeCharacterView, t_period: activeTimelinePeriodId, t_view: activeTimelineView,
+    c_view: activeCharacterView, c_assignment: document.getElementById("assignmentOnly").checked ? "" : "any", t_period: activeTimelinePeriodId, t_view: activeTimelineView,
     t_hypotheses: document.getElementById("hideHypothesisEvents")?.checked ? "hide" : "" };
   Object.entries(state).forEach(([key, value]) => {
     if (value && (key === "t_period" || !["all", "cards", "schedule"].includes(value))) url.searchParams.set(key, value); else url.searchParams.delete(key);
@@ -5734,10 +5885,11 @@ function updateViewPermalink() {
   // 表示中の画面に関係しない条件はURLに残さない（基礎資料に t_period が残らないようにする）。
   const visibleView = document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel;
   [...url.searchParams.keys()].forEach((key) => {
-    if ((key.startsWith("t_") && visibleView !== "timeline") || (key.startsWith("c_") && visibleView !== "characters")) url.searchParams.delete(key);
+    if ((key.startsWith("t_") && visibleView !== "timeline") || (key.startsWith("c_") && visibleView !== "characters") || (key.startsWith("g_") && visibleView !== "guide")) url.searchParams.delete(key);
   });
   history.replaceState(history.state, "", url.href);
   document.getElementById("currentViewLink").href = url.href;
+  saveReadingState();
 }
 
 function makeRecordPermalink(kind, id) {
@@ -5755,6 +5907,12 @@ function makeRecordPermalink(kind, id) {
 }
 
 function restoreViewFromUrl(url) {
+  // 履歴の別エントリへ戻った時に、存在しない条件を現在値から持ち越さない。
+  Object.entries(VIEW_FILTER_CONTROLS).forEach(([key,id])=>{
+    const control=document.getElementById(id);
+    if (control) control.value = key === "t_sort" ? "asc" : ["c_search","g_search"].includes(key) ? "" : "all";
+  });
+  activeCharacterSection="all"; activeTimelinePeriodId="day-1";
   Object.entries(VIEW_FILTER_CONTROLS).forEach(([key, id]) => {
     const value = url.searchParams.get(key), control = document.getElementById(id);
     if (value !== null && control && (control.tagName !== "SELECT" || [...control.options].some((option) => option.value === value))) control.value = value;
@@ -5771,8 +5929,9 @@ function restoreViewFromUrl(url) {
     document.getElementById("chapterFilter").appendChild(option); document.getElementById("chapterFilter").value = chapter;
   }
   document.getElementById("hideHypothesisEvents").checked = url.searchParams.get("t_hypotheses") === "hide";
-  if (["schedule", "chapters", "questions"].includes(url.searchParams.get("t_view"))) activateTimelineView(url.searchParams.get("t_view"));
-  if (["cards", "table"].includes(url.searchParams.get("c_view"))) setCharacterView(url.searchParams.get("c_view"));
+  activateTimelineView(["chapters", "questions"].includes(url.searchParams.get("t_view")) ? url.searchParams.get("t_view") : "schedule");
+  document.getElementById("assignmentOnly").checked = url.searchParams.get("c_assignment") !== "any";
+  setCharacterView(url.searchParams.get("c_view") === "table" ? "table" : "cards");
   const person = charactersData.find((entry) => entry.id === url.searchParams.get("person"));
   if (person) {
     activeCharacterSection = "all"; activeCharacterAffiliation = null; activeCharacterTags.clear();
@@ -5780,6 +5939,7 @@ function restoreViewFromUrl(url) {
     document.getElementById("characterSearch").value = person.name;
   }
   document.getElementById("characterSearch").dispatchEvent(new Event("input")); applyFilter();
+  updateGuideSearch();
   const event = eventsData.find((entry) => entry.id === url.searchParams.get("event"));
   if (event) {
     ["roomFilter", "typeFilter", "participantFilter", "seriesFilter"].forEach((id) => { document.getElementById(id).value = "all"; });
@@ -5802,8 +5962,11 @@ function setupReadingPreferences() {
   });
   document.getElementById("globalSpoilerToggle").addEventListener("click", () => setSpoilersRevealed(!spoilersRevealed));
   document.querySelectorAll("[data-reveal-global]").forEach((button) => button.addEventListener("click", () => setSpoilersRevealed(true)));
+  const previousSnapshot = history.state?.readingSnapshot;
   refreshSharedSpoilers(); renderChapterCoverage(); restoreViewFromUrl(initialViewUrl);
-  viewLinksReady = true; updateViewPermalink();
+  viewLinksReady = true;
+  if (previousSnapshot && !history.state?.hxhCharacterModal) restoreReadingState(previousSnapshot,initialViewUrl);
+  else updateViewPermalink();
 }
 
 function makeCharacterDetailLink(person, label, className = "character-name-link") {
@@ -5922,6 +6085,9 @@ async function init() {
       characterTagDefinitions.set(`initial-room-${roomNumber}`, { id: `initial-room-${roomNumber}`, category: "初期配置", label: `${roomNumber}号室` });
     });
     characterTagDefinitions.set("relation-blood", { id: "relation-blood", category: "血縁", label: "血縁" });
+    for (const [id,label] of [["relation-parent-child","親子"],["relation-siblings","兄弟姉妹"],["relation-blood-other","血縁"],["relation-parent-child-nominal","親子（名義上）"]]) {
+      characterTagDefinitions.set(id,{id,category:"血縁",label});
+    }
     characterTagDefinitions.set("relation-blood-reported", { id: "relation-blood-reported", category: "血縁", label: "血縁（手紙）" });
     characterTagDefinitions.set("relation-blood-public", { id: "relation-blood-public", category: "血縁", label: "母（公的）" });
     characterTagDefinitions.set("relation-blood-suggested", { id: "relation-blood-suggested", category: "血縁", label: "血縁（示唆・未確定）" });

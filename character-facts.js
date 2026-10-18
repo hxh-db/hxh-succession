@@ -158,6 +158,36 @@
     const event = events.find(e => e.id === log?.event_id);
     return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
   }
+  function familyRelations(person, people) {
+    const byId = new Map(people.map(p => [p.id,p]));
+    const relations = new Map();
+    const add = (id, kind, group = 'parent-child', speculative = false, extra = {}) => {
+      if (id !== person.id && byId.has(id)) relations.set(id, {id,kind,group,speculative,...extra});
+    };
+    // 王子の公的な父と実父は別問題。従来同様、父を自動的な実親タグへ変換しない。
+    let parents = person.parent_ids || [];
+    if (!person.parent_ids && person.type === 'prince') parents = people.filter(p=>p.type==='queen' && (p.children||[]).includes(person.id)).map(p=>p.id);
+    if (!person.parent_ids && ['P05-G01','P05-G02'].includes(person.id)) parents = ['BYD-001'];
+    parents.filter(id=>id!=='KNG-001').forEach(id=>add(id,byId.get(id)?.type==='queen'?'母':'親'));
+    if (person.type === 'queen' || person.id === 'BYD-001') {
+      (person.children || (person.id==='BYD-001' ? ['P05-G01','P05-G02'] : [])).forEach(id=>add(id,'子'));
+      people.filter(p=>p.public_mother_id===person.id).forEach(p=>add(p.id,'公的な子'));
+      people.filter(p=>p.reported_biological_mother_id===person.id).forEach(p=>add(p.id,'実子説','parent-child',true));
+    }
+    if (person.public_mother_id) add(person.public_mother_id,'公的な母');
+    if (person.reported_biological_mother_id) add(person.reported_biological_mother_id,'実母説','parent-child',true);
+    if (person.suggested_father_id) add(person.suggested_father_id,'実父説','parent-child',true);
+    if (person.suggested_child_id) add(person.suggested_child_id,'実子説','parent-child',true);
+    (person.known_half_sibling_ids || (person.known_half_sibling_id?[person.known_half_sibling_id]:[])).forEach(id=>add(id,'異母兄弟','siblings'));
+    (person.known_sibling_ids||[]).forEach(id=>add(id,'兄弟（母親の同異は未確認）','siblings'));
+    (person.nominal_parent_relations||[]).forEach(r=>add(r.id,'父（名義上）','parent-child',false,{nominal:true,note:r.note}));
+    people.forEach(child=>(child.nominal_parent_relations||[]).filter(r=>r.id===person.id)
+      .forEach(r=>add(child.id,'子（名義上）','parent-child',false,{nominal:true,note:r.note})));
+    return [...relations.values()];
+  }
+  function familyRelationLabel(relation) {
+    return relation.group === 'siblings' ? '兄弟姉妹' : relation.group === 'parent-child' ? (relation.nominal ? '親子（名義上）' : '親子') : '血縁';
+  }
   function isConfirmedNenUser(person) {
     if (person.verification_status === 'unverified') return false;
     if (person.nen_status) return person.nen_status === 'confirmed';
@@ -180,6 +210,7 @@
     return person.nen_type_detail || person.nen_type || '未確認';
   }
   function registrationNotice(person) {
+    if (person.identity_status === 'unnamed_confirmed') return '原作で顔と所属を確認した氏名未判明の人物です。番号は識別用の仮称で、本名や現在の生死を示しません。';
     if (person.verification_status === 'unverified') return '出典未確認の旧登録です。氏名・所属・能力を確認済みの人物情報として扱わないでください。';
     if (person.roster_projection) return '王妃所属兵の対応未同定枠です。全体名簿と同じ人員を表し、別人として人数に加算しません。';
     if (person.generated_by) return '人数資料から復元した仮登録です。個人の氏名・容姿・出航時の在室を確認したものではありません。';
@@ -318,6 +349,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
+  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
     normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, matchesSearch};
 });

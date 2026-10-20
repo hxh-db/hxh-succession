@@ -39,14 +39,17 @@ const storage = new Map();
 const puts = [];
 const timers = new Map();
 const context = vm.createContext({
-  console, Date, Map, Object, Boolean,
+  console, Date, Map, Object, Boolean, DraftState: require('../draft-state.js'),
   document: {
     createElement: tag => new Element(tag),
     querySelectorAll: () => sections,
     getElementById: id => sections.flatMap(section => section.all()).find(node => node.id === id)
   },
-  localStorage: {setItem: (key, value) => storage.set(key, value)},
-  fetch: async (url, options) => { puts.push({url, ...options}); return {ok: true}; },
+  localStorage: {getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value)},
+  fetch: async (url, options) => {
+    if (options.method === 'PUT') puts.push({url, ...options});
+    return {ok: true, json: async () => ({version: 1, items: {}})};
+  },
   setTimeout: callback => { const id = timers.size + 1; timers.set(id, callback); return id; },
   clearTimeout: id => timers.delete(id),
   renderDraftOverview() {}, updateDraftStorageStatus() {}, memoEditorEnabled: () => true
@@ -57,6 +60,7 @@ vm.runInContext(`const LOCAL_EDIT_FIELDS = ${fields};
   let localDrafts = {version: 1, items: {}};
   let draftStorageMode = 'browser', draftFileHealthy = false;
   let draftSaveQueue = Promise.resolve();
+  let draftResetInProgress = false; const draftMemoFlushers = new Set();
   const charactersData = [], eventsData = [], spiritBeastsData = [];
   ${['localRecordKey', 'getGuideMemoRecords', 'setupGuideMemos', 'renderLocalEditor', 'saveLocalDrafts', 'buildDraftExport', 'validateDraftImport'].map(extract).join('\n')}
   setupGuideMemos(); setupGuideMemos();`, context);

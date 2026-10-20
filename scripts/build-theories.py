@@ -116,7 +116,8 @@ def shell(title, body, depth=0, article_id=None):
     base = '../' * (depth + 1)
     if article_id:
         body = (f'<div data-theory-id="{esc(article_id, quote=True)}">{body}</div>'
-                f'<script src="{base}theories/theory-memos.js?v=20261013a"></script>')
+                f'<script src="{base}draft-state.js?v=20261020-reset"></script>'
+                f'<script src="{base}theories/theory-memos.js?v=20261020-reset"></script>')
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261018-reading"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261015-search"></script></body></html>'''
 
 out = ROOT / 'theories'

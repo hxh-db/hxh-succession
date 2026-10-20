@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import os
 import tempfile
+import threading
+from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -16,6 +18,17 @@ DRAFT_FILE = PRIVATE_DIR / "drafts.json"
 MAX_BODY_BYTES = 5 * 1024 * 1024
 PORT = int(os.environ.get("SUCCESSION_LOCAL_PORT", "8765"))
 ALLOWED_HOSTS = {f"127.0.0.1:{PORT}", f"localhost:{PORT}"}
+DRAFT_LOCK = threading.Lock()
+
+
+def reset_epoch(payload: dict) -> datetime:
+    try:
+        value = datetime.fromisoformat(payload.get("resetAt", "").replace("Z", "+00:00"))
+        if value.tzinfo is None:
+            return datetime.min.replace(tzinfo=timezone.utc)
+        return value
+    except (ValueError, TypeError, AttributeError):
+        return datetime.min.replace(tzinfo=timezone.utc)
 
 
 class LocalSiteHandler(SimpleHTTPRequestHandler):
@@ -100,9 +113,19 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
                 or not isinstance(payload.get("entries"), list)):
             self._send_json(400, {"error": "メモの形式が正しくありません。"})
             return
-        PRIVATE_DIR.mkdir(exist_ok=True)
+        # A delayed write from a tab opened before a reset must not resurrect its notes.
+        with DRAFT_LOCK:
+            self._save_drafts(payload)
+
+    def _save_drafts(self, payload: dict) -> None:
         temp_path = None
         try:
+            if DRAFT_FILE.exists():
+                current = json.loads(DRAFT_FILE.read_text(encoding="utf-8"))
+                if reset_epoch(current) > reset_epoch(payload):
+                    self._send_json(409, {"error": "別のページでメモがリセットされました。再読み込みしてください。"})
+                    return
+            PRIVATE_DIR.mkdir(exist_ok=True)
             with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=PRIVATE_DIR, suffix=".tmp", delete=False) as temp:
                 temp_path = Path(temp.name)
                 json.dump(payload, temp, ensure_ascii=False, indent=2)
@@ -110,7 +133,7 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
                 temp.flush()
                 os.fsync(temp.fileno())
             os.replace(temp_path, DRAFT_FILE)
-        except OSError:
+        except (OSError, json.JSONDecodeError):
             if temp_path is not None:
                 temp_path.unlink(missing_ok=True)
             self._send_json(500, {"error": "PCへの保存に失敗しました。"})

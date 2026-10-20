@@ -1,15 +1,15 @@
 const DATA = {
-  characters: "data/characters.json?v=20261017-family",
+  characters: "data/characters.json?v=20261020-notes-delta",
   characterTags: "data/character_tags.json?v=20261017-family",
   characterImages: "data/character_images.json?v=20261017-family",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261017-family",
+  events: "data/events.json?v=20261020-notes-delta",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
-  spiritBeasts: "data/spirit_beasts.json?v=20261016-events",
+  spiritBeasts: "data/spirit_beasts.json?v=20261020-notes-delta",
   factions: "data/factions.json?v=20261008q",
   mafia: "data/mafia.json?v=20261016-events",
-  sources: "data/sources.json?v=20261017-notes",
+  sources: "data/sources.json?v=20261020-notes-delta",
   personnelSnapshots: "data/personnel_snapshots.json?v=20261013b",
   initialPersonnel: "data/intake/initial_personnel_review_20261013.json?v=20261014a",
   personnelRoster: "data/personnel_roster.json?v=20261014a"
@@ -95,6 +95,9 @@ let draftStorageMode = "browser";
 let draftFileHealthy = false;
 let pendingDraftMigration = false;
 let draftSaveQueue = Promise.resolve();
+let draftResetInProgress = false;
+const draftMemoFlushers = new Set();
+const DRAFT_RESET_STATUS_KEY = "hxh-succession-draft-reset-status-v1";
 const originalRecords = new Map();
 
 const LOCAL_EDIT_FIELDS = {
@@ -214,8 +217,11 @@ async function loadLocalDrafts() {
         merged[key] = draft;
       }
     }
-    localDrafts = { version: 1, items: merged };
-    pendingDraftMigration = JSON.stringify(merged) !== JSON.stringify(serverItems);
+    localDrafts = DraftState.epoch(browserDrafts) === DraftState.epoch(serverPayload)
+      ? { ...DraftState.merge(serverPayload), items: merged }
+      : DraftState.merge(browserDrafts, { ...serverPayload, items: serverItems });
+    pendingDraftMigration = JSON.stringify(localDrafts.items) !== JSON.stringify(serverItems)
+      || DraftState.epoch(localDrafts) !== DraftState.epoch(serverPayload);
     draftStorageMode = "file";
     draftFileHealthy = true;
     localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
@@ -225,8 +231,14 @@ async function loadLocalDrafts() {
 }
 
 async function saveLocalDrafts() {
+  if (draftResetInProgress) return false;
   let browserSaved = false;
   try {
+    const stored = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null");
+    if (DraftState.epoch(stored) > DraftState.epoch(localDrafts)) {
+      window.location.reload();
+      return false;
+    }
     localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
     browserSaved = true;
   } catch (error) {
@@ -235,6 +247,14 @@ async function saveLocalDrafts() {
   if (draftStorageMode !== "file") return browserSaved;
   const snapshot = JSON.stringify(buildDraftExport());
   draftSaveQueue = draftSaveQueue.catch(() => {}).then(async () => {
+    const latest = await fetch(LOCAL_DRAFTS_API, { cache: "no-store" });
+    if (!latest.ok) throw new Error(`HTTP ${latest.status}`);
+    const current = await latest.json();
+    if (DraftState.epoch(current) > DraftState.epoch(JSON.parse(snapshot))) {
+      localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(current));
+      window.location.reload();
+      throw new Error("別のページでメモがリセットされました。");
+    }
     const response = await fetch(LOCAL_DRAFTS_API, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -269,6 +289,7 @@ function buildDraftExport() {
   return {
     format: "hxh-succession-local-drafts",
     version: 1,
+    ...(localDrafts.resetAt ? { resetAt: localDrafts.resetAt } : {}),
     exportedAt: new Date().toISOString(),
     items: localDrafts.items,
     entries: Object.entries(localDrafts.items).map(([key, draft]) => ({
@@ -345,9 +366,132 @@ function renderDraftOverview() {
 function updateDraftStorageStatus() {
   const status = document.getElementById("draftStorageStatus");
   if (!status) return;
-  status.textContent = draftStorageMode === "file" && draftFileHealthy
-    ? "● PCへの自動保存が有効です。公開データには反映されません。"
-    : "⚠ PCへの自動保存は無効です。専用のローカルサイトから開いてください。";
+  status.textContent = draftStorageMode === "file"
+    ? draftFileHealthy ? "● PCへの自動保存が有効です。公開データには反映されません。"
+      : "⚠ PCへの保存に失敗しました。ブラウザ内の控えをバックアップしてください。"
+    : `保存先：このブラウザ。メモ・編集は自動保存されます。他の端末とは共有されません。${LOCAL_DRAFTS_API ? " PC保存には接続できていません。" : ""}`;
+}
+
+function downloadDraftBackup(payload, filename = "codex-notes.json") {
+  const content = JSON.stringify(payload, null, 2) + "\n";
+  const url = URL.createObjectURL(new Blob([content], { type: "application/json" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+function setupDraftReset() {
+  const button = document.getElementById("resetLocalDrafts");
+  const confirm = document.getElementById("confirmDraftReset");
+  const cancel = document.getElementById("cancelDraftReset");
+  const panel = document.getElementById("draftResetConfirmation");
+  const status = document.getElementById("draftResetStatus");
+  let backedUp = null;
+  const signature = payload => JSON.stringify({resetAt: payload.resetAt || null, items: payload.items});
+  const hide = () => {
+    panel.hidden = true;
+    button.setAttribute("aria-expanded", "false");
+    backedUp = null;
+  };
+  async function currentDrafts() {
+    await Promise.all([...draftMemoFlushers].map(flush => flush()));
+    await draftSaveQueue.catch(() => {});
+    let browser = null;
+    try { browser = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null"); } catch (_) { /* File may still be available. */ }
+    let file = null;
+    if (draftStorageMode === "file") {
+      const response = await fetch(LOCAL_DRAFTS_API, {cache: "no-store"});
+      if (!response.ok) throw new Error("PCのメモを読み込めませんでした。リセットしていません。");
+      file = await response.json();
+      file = {...file, items: validateDraftImport(file)};
+    }
+    localDrafts = DraftState.merge(localDrafts, browser, file);
+    return buildDraftExport();
+  }
+  try {
+    const count = sessionStorage.getItem(DRAFT_RESET_STATUS_KEY);
+    if (count) {
+      document.querySelector(".local-drafts-transfer").open = true;
+      status.textContent = `${count}件のメモ・編集をリセットしました。必要ならバックアップJSONから復元できます。`;
+      sessionStorage.removeItem(DRAFT_RESET_STATUS_KEY);
+    }
+  } catch (_) { /* Storage restrictions must not hide the controls. */ }
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    hide();
+    try {
+      const payload = await currentDrafts();
+      const count = Object.keys(payload.items).length;
+      if (!count) { status.textContent = "リセットするメモ・編集はありません。"; return; }
+      const filename = `codex-notes-before-reset-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
+      downloadDraftBackup(payload, filename);
+      backedUp = signature(payload);
+      document.getElementById("draftResetSummary").textContent = `${count}件のバックアップ「${filename}」のダウンロードを開始しました。ファイルが保存できたことを確認してから、下の全件リセットを押してください。メモだけでなく、編集値と自分で追加した出来事も消えます。`;
+      panel.hidden = false;
+      button.setAttribute("aria-expanded", "true");
+      status.textContent = "まだリセットしていません。バックアップの保存を確認してください。";
+      confirm.focus();
+    } catch (error) { status.textContent = `リセットを準備できませんでした：${error.message}`; }
+    finally { button.disabled = false; }
+  });
+  cancel.addEventListener("click", () => {
+    hide();
+    status.textContent = "リセットを取り消しました。メモ・編集は残っています。";
+    button.focus();
+  });
+  confirm.addEventListener("click", async () => {
+    if (!backedUp || draftResetInProgress) return;
+    confirm.disabled = cancel.disabled = button.disabled = true;
+    let fileReset = false;
+    try {
+      const previous = await currentDrafts();
+      if (signature(previous) !== backedUp) {
+        hide();
+        status.textContent = "バックアップ後にメモが変わりました。もう一度「一括リセット」から新しいバックアップを保存してください。まだ消していません。";
+        button.disabled = false;
+        button.focus();
+        return;
+      }
+      draftResetInProgress = true;
+      const empty = DraftState.reset(previous);
+      if (draftStorageMode === "file") {
+        const response = await fetch(LOCAL_DRAFTS_API, {method: "PUT", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({format: previous.format, ...empty, exportedAt: new Date().toISOString(), entries: []})});
+        if (!response.ok) throw new Error("PCへの保存に失敗しました。メモ・編集は消していません。");
+        fileReset = true;
+      }
+      localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(empty));
+      localDrafts = empty;
+      renderDraftOverview();
+      try {
+        sessionStorage.removeItem(REOPEN_DETAIL_KEY);
+        sessionStorage.setItem(DRAFT_RESET_STATUS_KEY, String(Object.keys(previous.items).length));
+      } catch (_) { /* Reset is complete even if the success notice cannot be remembered. */ }
+      window.location.reload();
+    } catch (error) {
+      if (fileReset) {
+        status.textContent = "PCのメモはリセットしましたが、ブラウザの控えを消せませんでした。バックアップを保管し、このページを再読み込みしてください。";
+      } else {
+        draftResetInProgress = false;
+        status.textContent = `リセットできませんでした：${error.message} バックアップは保管してください。`;
+      }
+    } finally {
+      if (!draftResetInProgress) confirm.disabled = cancel.disabled = button.disabled = false;
+    }
+  });
+  window.addEventListener("storage", event => {
+    if (event.key !== LOCAL_DRAFTS_KEY || !event.newValue) return;
+    try {
+      if (DraftState.epoch(JSON.parse(event.newValue)) > DraftState.epoch(localDrafts)) {
+        draftResetInProgress = true;
+        window.location.reload();
+      }
+    } catch (_) { /* Ignore unrelated or malformed storage changes. */ }
+  });
 }
 
 function setupDraftTransfer() {
@@ -357,6 +501,7 @@ function setupDraftTransfer() {
   const status = document.getElementById("localDraftsTransferStatus");
   updateDraftStorageStatus();
   renderDraftOverview();
+  setupDraftReset();
   try {
     const importedCount = sessionStorage.getItem(DRAFT_IMPORT_STATUS_KEY);
     if (importedCount) {
@@ -373,17 +518,8 @@ function setupDraftTransfer() {
       status.textContent = "保存済みのメモ・編集はまだありません。";
       return;
     }
-    const content = JSON.stringify(buildDraftExport(), null, 2) + "\n";
-    const filename = "codex-notes.json";
     try {
-      const url = URL.createObjectURL(new Blob([content], { type: "application/json" }));
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      downloadDraftBackup(buildDraftExport());
       status.textContent = `${count}件のJSONのダウンロードを開始しました。完了後、Codexに保存先を伝えてください。`;
     } catch (error) {
       status.textContent = "ファイルに保存できませんでした。";
@@ -403,7 +539,7 @@ function setupDraftTransfer() {
         return;
       }
       const previous = localDrafts;
-      localDrafts = { version: 1, items: { ...previous.items, ...imported } };
+      localDrafts = { ...previous, items: { ...previous.items, ...imported } };
       if (!await saveLocalDrafts()) {
         localDrafts = previous;
         localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(previous));
@@ -4543,7 +4679,15 @@ function renderLocalEditor(container, record, category, view = "modal") {
   status.className = "local-editor-status";
   status.setAttribute("role", "status");
   let memoTimer = null;
+  const flushMemo = () => {
+    if (!memoTimer) return;
+    clearTimeout(memoTimer);
+    memoTimer = null;
+    draftMemoFlushers.delete(flushMemo);
+    return persistMemo();
+  };
   async function persistMemo() {
+    if (draftResetInProgress) return false;
     const text = memo.value.trim();
     const previous = localDrafts.items[recordKey] || {};
     if (text || Object.keys(previous.edits || {}).length > 0) {
@@ -4559,18 +4703,17 @@ function renderLocalEditor(container, record, category, view = "modal") {
   }
   memo.addEventListener("input", () => {
     clearTimeout(memoTimer);
+    draftMemoFlushers.add(flushMemo);
     status.textContent = "保存中…";
-    memoTimer = setTimeout(() => { memoTimer = null; persistMemo(); }, 650);
+    memoTimer = setTimeout(flushMemo, 650);
   });
   memo.addEventListener("blur", () => {
-    if (!memoTimer) return;
-    clearTimeout(memoTimer);
-    memoTimer = null;
-    persistMemo();
+    flushMemo();
   });
   memoButton.addEventListener("click", () => {
     clearTimeout(memoTimer);
     memoTimer = null;
+    draftMemoFlushers.delete(flushMemo);
     persistMemo();
   });
   section.append(memoLabel, memoButton, status);

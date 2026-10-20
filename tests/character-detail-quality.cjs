@@ -71,7 +71,10 @@ assert.equal(byId.get('SPD-005').nen_type, '放出系');
 assert.equal(byId.get('SPD-006').nen_type, '具現化系');
 assert.equal(byId.get('P14-H01').nen_type, '具現化系');
 assert.match(facts.nenTypeLabel(byId.get('P14-H01')), /特質系（緋の眼発動時）/);
-for (const id of ['SWU-001','SAA-001','P05-G02','SAA-002']) assert.equal(facts.isConfirmedNenUser(byId.get(id)), false);
+for (const id of ['SWU-001','SAA-001','P05-G02']) assert.equal(facts.isConfirmedNenUser(byId.get(id)), false);
+assert.equal(facts.isConfirmedNenUser(byId.get('SAA-002')), true);
+assert.ok(byId.get('SAA-002').review_claims.some(row=>row.event_ids.includes('E379-004')));
+assert.match(byId.get('SAA-002').nen_ability,/未確認/,'Nen user does not imply a known personal ability');
 assert.equal(facts.isConfirmedNenUser({nen_ability:'本人固有の念能力の名称・効果は未確認。'}), false);
 assert.equal(facts.isConfirmedNenUser({nen_status:'confirmed',nen_ability:'詳細不明'}), true);
 // A wish to leave is not an observed departure, and the historical view must agree.

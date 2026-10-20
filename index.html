@@ -59,6 +59,19 @@
         </div>
         <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
       </details>
+      <div class="local-drafts-transfer-actions">
+        <button id="resetLocalDrafts" type="button" aria-controls="draftResetConfirmation" aria-expanded="false">メモ・編集を一括リセット</button>
+      </div>
+      <p>反映済みのメモを片付けるときに使います。人物・出来事・基礎資料・考察のメモ、編集値、自分で追加した出来事が対象です。公開データ・検索条件・ネタバレ設定は変わりません。</p>
+      <section id="draftResetConfirmation" hidden aria-labelledby="draftResetTitle">
+        <h2 id="draftResetTitle">バックアップを保存してからリセット</h2>
+        <p id="draftResetSummary"></p>
+        <div class="local-drafts-transfer-actions">
+          <button id="confirmDraftReset" type="button">バックアップの保存を確認したので全件リセット</button>
+          <button id="cancelDraftReset" type="button">キャンセル</button>
+        </div>
+      </section>
+      <p id="draftResetStatus" class="local-drafts-transfer-status" role="status"></p>
     </details>
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
@@ -641,6 +654,7 @@
   <script src="character-routing.js?v=20261017-event-person"></script>
   <script src="character-facts.js?v=20261017-family"></script>
   <script src="personnel-roster.js?v=20261016-guide2"></script>
-  <script src="script.js?v=20261018-reading"></script>
+  <script src="draft-state.js?v=20261020-reset"></script>
+  <script src="script.js?v=20261020-reset"></script>
 </body>
 </html>

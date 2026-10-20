@@ -28,7 +28,10 @@ assert.equal(ctx.getTimelineTimePlacement(exact).estimated, false);
 const demoted = events.filter(e => e.time_estimate_basis === 'editorial-time-demotion-20261010');
 // 2026-10-10 の16件に 2026-10-11 の外部レビューで3件を追加し、同日のユーザー方針（物語中の経過表示は確定）で E359-001・E361-005・E369-001・E414-001 を確定に戻した
 // E374-001は2026-10-16の場面転換の再指定で独立した編集根拠へ移した。
-assert.equal(demoted.length, 14);
+// E380-001は2026-10-20の追加メモで仮09:50へ変更し、根拠をuser-memo-delta-20261020へ移した。
+assert.equal(demoted.length, 13);
+assert.equal(events.find(e=>e.id==='E380-001').time_estimate_basis,'user-memo-delta-20261020');
+assert.equal(ctx.getTimelineTimePlacement(events.find(e=>e.id==='E380-001')).label,'09:50頃？');
 // 物語の経過表示から決まる時刻は確定（出航12:00、出航2時間＝14:00、出航18時間＝2日目06:00、発令5分前＝14:10）
 for (const [id, label] of [['E359-001', '12:00'], ['E361-005', '14:00'], ['E369-001', '06:00'], ['E414-001', '14:10'], ['E366-006', '16:00']]) {
   const placement = ctx.getTimelineTimePlacement(events.find(e => e.id === id));

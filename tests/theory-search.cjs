@@ -8,7 +8,7 @@ const cards = [...html.matchAll(/<article class="essay-card"([^>]+)>[\s\S]*?<h2>
   const attr = key => m[1].match(new RegExp(`data-${key}="([^"]*)"`))[1];
   return {id:m[2], topic:`${m[3]} ${attr('topic-keywords')}`, references:attr('reference-keywords'), chapter:Number(attr('chapter'))};
 });
-assert.equal(cards.length, 15);
+assert.equal(cards.length, 17);
 const at = (id, q) => { const c=cards.find(c=>c.id===id); return rank(q,c.topic,c.references); };
 assert.equal(at('Q010','パリストン'),0);
 assert.equal(at('Q010','ビヨンド'),0);

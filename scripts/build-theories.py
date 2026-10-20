@@ -86,6 +86,32 @@ articles.insert(0, dict(id='emperor-time', title='クラピカの絶対時間は
     next_step='解除・再発動を示す描写や、時間表示を訂正・補足する情報。現状では14時ごろまでの発動場面と18時の逆算値を併記し、18時を確定時刻として採用しない。',
     refs=['E361-001','E361-007','E361-008','E361-005','E364-006','E365-004','E366-002','E368-002','E369-001'], chapter=369, status='時間描写の不整合を検討'))
 
+key_points['fugetsu-overnight'] = [
+ '第380話の4日目10時は船内配置図の時刻。捜索・発見が直後に終わったとは限らない。',
+ '第381話の演奏後は晩餐会まで76時間＝5日目16時。警報解除は5日目20時と明示される。',
+ '本サイトは第380話末と第381話冒頭の間に一晩を置く。就寝後の移動と翌朝の不在確認は、この配置を説明する仮説。',
+]
+search_terms['fugetsu-overnight'] = ['フウゲツ', 'ミザイストム', 'センリツ', '4日目', '5日目', '一晩', '13:44', '76時間', 'マジカルワーム']
+articles.insert(1, dict(id='fugetsu-overnight', title='4日目から5日目へ、フウゲツは一晩保護されていた？', category='時系列の解釈',
+ conclusion='本サイトでは、第380話末のフウゲツ保護と第381話冒頭の聴取の間で4日目から5日目へ日付が変わると解釈する。一晩保護され、翌日に不在の確認・聴取・帰還が進んだという仮説で整理する。',
+ theory='4日目10時の船内配置図の後、軍は居住区を順番に捜索する。イルミ・カルトとの遭遇を午後から夕方、その後のフウゲツ保護を同日と読む。展望デッキからの海面の光は夕景とも解釈できるが、補助的な手掛かりにとどまる。フウゲツの寝室からのマジカルワームによる移動に着目すれば、この日も早めに就寝する形をとった後に抜け出した可能性がある。兵士が寝室のベッドの中まで容易に確認できなかったと仮定すれば、保護の翌朝になって1011号室の不在が確認されたとしても矛盾しない。第381話冒頭を翌日の聴取とし、5日目13:44の電話、帰還、72時間監視の説明、16時ごろの演奏へつなぐ。監視が16時ごろ開始なら72時間後は8日目16時ごろで、20時の晩餐会前に解除される説明とも整合する。5日目20時に解除される船内の警報・自室待機は、王子個人への72時間監視とは別である。',
+ weakness='一晩の保護、当夜の就寝・移動時刻、翌朝の不在確認は直接描かれていない。兵士が寝室を確認できないという規則も確認しておらず、確認が遅れ得る事情としての仮説である。寝室からの移動を、すべての移動が就寝後だった証拠にはしない。第381話冒頭の不在確認が即時の続報である可能性や、4日目13:44の電話後に一晩を挟む別案も残る。話数の区切りや海の描写だけで翌日と確定したわけではなく、作者の誤記を断定するものでもない。',
+ next_step='夜間の保護、王子の寝室確認の運用、聴取の日付を示す原作の補足があれば再検討する。それまでは本サイトの採用仮説として日付をそろえ、原作の明示時刻と区別する。',
+ refs=['E380-006','E380-003','E380-004','E380-005','E381-001','E381-003','E381-002','E381-004','E381-007'],chapter=381,status='本サイトの採用仮説',updated='2026-10-20'))
+
+key_points['halkenburg-four-days'] = [
+ '第375話で直訴に出発し、第376話で手紙を渡して毎日の訪問を宣言する。初日は前後関係から3日目と推定する。',
+ '第382話の「毎朝」と「4日かかった」を、3・4・5・6日目という初日込みの4日間と読む。',
+ '本サイトは直訴と続く能力発動を6日目に配置。話末の8日目20時は晩餐会に付く日時として分ける。',
+]
+search_terms['halkenburg-four-days'] = ['ハルケンブルグ', 'ナスビー', 'シカク', '鳴動', '4日', '6日目', '7日目', '手紙', '直訴']
+articles.insert(2, dict(id='halkenburg-four-days',title='ハルケンブルグの「4日かかった」は6日目の朝か',category='時系列の解釈',
+ conclusion='本サイトでは、第382話の国王への直訴と続くシカクへの能力発動・二度目の鳴動を6日目と推定する。手紙の訪問初日を3日目と置き、初日を含む4日間と数える解釈を採用する。',
+ theory='第375話でハルケンブルグはモモゼの犠牲を受けて再び父へ直訴に向かう。続く第376話では面会を断られ、手紙を託し、明日・明後日・明々後日も来ると宣言する。この最初の訪問を3日目とする既存の推定を起点にすると、初回が3日目、2回目が4日目、3回目が5日目、4回目が6日目となる。第382話の受付は「毎朝」と挨拶し、王子は「国王軍の銃を下ろすのに4日かかった」と振り返る。96時間の厳密な計測ではなく、毎日の訪問で警戒を緩めさせるのに要した4日間と読むなら、6日目の朝で整合する。その後のシカクへの指示・ハルケンブルグ帰還・能力発動も同日の流れと推定する。話末は夜の船と別の王子の場面を経て8日目20時の晩餐会に移るため、この日時を冒頭へ遡って適用しない。サレサレの死亡として扱う寝台の場面は、本サイトでは7日目の夜に仮置きする。ただし6日目夜〜8日目夜のいずれの可能性も残り、8日目なら晩餐会開始前と読む。暗い海と星空のカットだけで別々の夜だと確定せず、以前の19:50頃という分刻みの仮時刻は撤回する。',
+ weakness='第376話の初訪問自体には3日目の明示がなく、前後関係による推定である。「4日かかった」が初日込みか、初訪問から丸4日経過かも明記されない。後者なら3日目から4日後の7日目となる。したがって6日目は採用仮説であり確定日ではない。第382話内の日付が変わる正確なコマも特定できない。午前の根拠は受付の挨拶で、09:00・09:20という分刻みは従来の表示順の目安にすぎない。',
+ next_step='初訪問の日付、何回目の訪問か、直訴や二度目の鳴動の日時を示す補足があれば見直す。現状は6日目を推定表示し、7日目説と初日の不確実性を併記する。',
+ refs=['E375-001','E375-003','E376-008','E382-001','E382-002','E382-003','E382-004'],chapter=382,status='本サイトの採用仮説',updated='2026-10-20'))
+
 def shell(title, body, depth=0, article_id=None):
     base = '../' * (depth + 1)
     if article_id:
@@ -102,8 +128,10 @@ for a in articles:
     checked = question.get('last_checked_chapter') if question else None
     # 台帳の話数だけから原作全話の照合完了へ昇格しない。
     checked_label = (f'状況の更新確認は未了です（参考：第{checked}話までの登録情報）。'
-                     if checked else 'その後の解決状況は未確認です。')
+                     if checked else ('状況の更新確認は未了です。' if a['id'] in {'fugetsu-overnight', 'halkenburg-four-days'} else 'その後の解決状況は未確認です。'))
     metadata = f'<dl class="article-metadata"><div><dt>本文のネタバレ</dt><dd>第{a["chapter"]}話まで</dd></div><div><dt>記事の最終更新日</dt><dd><time datetime="2026-10-18">2026年10月18日</time></dd></div></dl><details class="article-review-note"><summary>その後の解決状況について</summary><p>{checked_label} 更新日は記事の編集日で、原作の再確認日ではありません。</p></details>'
+    if a.get('updated'):
+        metadata = metadata.replace('2026-10-18', a['updated']).replace('2026年10月18日', '2026年10月20日')
     assert max(e['chapter'] for e in refs) <= a['chapter'], f'{a["id"]}: 参照場面が上限を超えています'
     mentioned = [int(n) for n in re.findall(r'第?(\d{3})話', ' '.join(str(a[k]) for k in ['conclusion', 'theory', 'weakness', 'next_step']) + ' '.join(key_points[a['id']]))]
     assert not mentioned or max(mentioned) <= a['chapter'], f'{a["id"]}: 本文の話数が上限を超えています'
@@ -142,7 +170,7 @@ for a in articles:
     cards.append(f'<article class="essay-card" data-category="{esc(a["category"])}" data-chapter="{a["chapter"]}" data-topic-keywords="{topics}" data-reference-keywords="{keywords}"><p class="eyebrow">{esc(a["category"])}</p><h2><a href="./{a["id"]}/">{esc(a["title"])}</a></h2><p>第{a["chapter"]}話までのネタバレ · 考察記事</p><p class="essay-match-reason" hidden></p></article>')
 options=''.join(f'<option>{esc(c)}</option>' for c in dict.fromkeys(a['category'] for a in articles))
 chapter_options = '<option value="">制限なし</option>' + ''.join(f'<option value="{chapter}">第{chapter}話まで読了</option>' for chapter in range(340, max(e['chapter'] for e in events.values()) + 1))
-body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを15本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">15本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
+body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを{len(articles)}本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">{len(articles)}本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
 body = body.replace('</select></label></div>', f'</select></label><label>読んだ話数<select id="essay-read-through">{chapter_options}</select></label></div>')
 (out/'index.html').write_text(shell('謎・考察',body),encoding='utf-8')
 print(f'Built {len(articles)} articles and index.')

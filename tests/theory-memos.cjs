@@ -48,12 +48,12 @@ const fetcher = async (url, options) => {
   assert.equal(sandbox.result['theory:Q002'].title, '謎・考察：記事2');
   assert.equal(sandbox.result['theory:Q002'].memo, '別のメモ');
   const dirs = fs.readdirSync(path.join(root, 'theories'), {withFileTypes: true}).filter(entry => entry.isDirectory());
-  assert.equal(dirs.length, 15);
+  assert.equal(dirs.length, 17);
   for (const dir of dirs) {
     const html = fs.readFileSync(path.join(root, 'theories', dir.name, 'index.html'), 'utf8');
     assert.ok(html.includes(`data-theory-id="${dir.name}"`));
     assert.ok(html.includes('../../theories/theory-memos.js?v='));
     assert.ok(!html.includes('考察メモ'));
   }
-  console.log('PASS: 15 article memo hooks; save, restore, isolation, merge, failure safety, backup import');
+  console.log('PASS: 17 article memo hooks; save, restore, isolation, merge, failure safety, backup import');
 })().catch(error => {console.error(error); process.exitCode = 1;});

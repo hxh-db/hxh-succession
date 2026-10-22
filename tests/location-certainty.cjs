@@ -180,10 +180,10 @@ for (const person of people.filter(p => p.nen_ability_editorial)) {
   for (const line of facts.nenAbilityEditorialLines(person)) assert.ok(html.includes(line.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))), person.id);
 }
 
-// ---- 5. 最初の画面：関係王子は既定で閉じた折りたたみ、選択中は開く ----
+// ---- 5. 関係王子は常設し、タグ一覧の開閉とは分ける ----
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-assert.match(index, /<details id="characterPrinceDetails" class="character-prince-details">/);
-assert.ok(index.includes('id="characterFilterToggle"'), 'スマホの「絞り込みを開く」を維持');
-assert.ok(source.includes('if (princeDetails && selectedPrince) princeDetails.open = true;'));
+assert.match(index, /<div id="characterPrinceDetails" class="character-prince-details">/);
+assert.ok(index.includes('id="characterFilterToggle"'), 'タグ一覧の開閉を維持');
+assert.ok(index.includes('id="characterPrinceNav"'), '関係王子の条件を維持');
 
-console.log('PASS: location certainty labels, evidence links (spoiler-safe), same-incident scenes, ability editorial notes, collapsed prince row');
+console.log('PASS: location certainty labels, evidence links (spoiler-safe), same-incident scenes, ability editorial notes, grouped prince filters');

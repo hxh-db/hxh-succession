@@ -18,6 +18,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css?v=20261018-reading" />
+  <link rel="stylesheet" href="filter-controls.css?v=20261022-tags" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">本文へ移動</a>
@@ -36,43 +37,11 @@
 
   <main id="main-content" class="page-container" tabindex="-1">
     <div class="reading-preferences" aria-label="全画面共通の表示設定">
-      <button id="globalSpoilerToggle" type="button" aria-pressed="false" aria-describedby="globalSpoilerStatus" title="押すとネタバレを表示します">ネタバレ：非表示</button>
+      <button id="globalSpoilerToggle" type="button" aria-pressed="false" aria-describedby="globalSpoilerStatus" title="押すとネタバレを表示します">ネタバレをまとめて表示</button>
       <span id="globalSpoilerStatus" class="visually-hidden" role="status">全画面でネタバレを隠しています</span>
-      <a id="currentViewLink" href="#characters">この表示のリンク</a>
+      <a id="currentViewLink" href="#characters">表示リンク</a>
+      <a id="localDraftsLink" href="#localDraftsTitle">メモ管理</a>
     </div>
-    <details class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
-      <summary id="localDraftsTitle">個人編集用：修正メモ・バックアップ</summary>
-      <div>
-        <p>人物や出来事の「詳細」、基本情報の各項目にある「この項目にメモ」から気付いたことを書いてください。メモは自動で保存します。あとでCodexに「修正メモを見て」と伝えるだけで大丈夫です。</p>
-      </div>
-      <p id="draftStorageStatus" class="local-drafts-storage-status" role="status"></p>
-      <details class="local-drafts-overview">
-        <summary>書いたメモを一覧で確認 <span id="draftCount"></span></summary>
-        <ul id="draftOverviewList"></ul>
-      </details>
-      <details class="local-drafts-backup">
-        <summary>バックアップ・復元（必要なときだけ）</summary>
-        <div class="local-drafts-transfer-actions">
-          <button id="exportLocalDrafts" type="button">JSONでバックアップ</button>
-          <button id="chooseLocalDrafts" type="button">バックアップを読み込む</button>
-          <input id="importLocalDrafts" type="file" accept=".json,application/json" hidden />
-        </div>
-        <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
-      </details>
-      <div class="local-drafts-transfer-actions">
-        <button id="resetLocalDrafts" type="button" aria-controls="draftResetConfirmation" aria-expanded="false">メモ・編集を一括リセット</button>
-      </div>
-      <p>反映済みのメモを片付けるときに使います。人物・出来事・基礎資料・考察のメモ、編集値、自分で追加した出来事が対象です。公開データ・検索条件・ネタバレ設定は変わりません。</p>
-      <section id="draftResetConfirmation" hidden aria-labelledby="draftResetTitle">
-        <h2 id="draftResetTitle">バックアップを保存してからリセット</h2>
-        <p id="draftResetSummary"></p>
-        <div class="local-drafts-transfer-actions">
-          <button id="confirmDraftReset" type="button">バックアップの保存を確認したので全件リセット</button>
-          <button id="cancelDraftReset" type="button">キャンセル</button>
-        </div>
-      </section>
-      <p id="draftResetStatus" class="local-drafts-transfer-status" role="status"></p>
-    </details>
     <section id="characters" class="primary-view" data-primary-panel="characters">
       <div class="section-header">
         <h2>人物一覧</h2>
@@ -80,49 +49,77 @@
           <summary>使い方</summary>
           <p>所属・任務・関係王子から人物を探せます。名前を押すと人物詳細が開きます。</p>
           <p>初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。親子説は未確定情報として区別します。</p>
-          <p>カテゴリ・関係王子などの各行は1つ選択できます。違う行の条件は組み合わせて絞り込みます。同じ項目をもう一度押すと解除します。</p>
+          <p>関係王子はそのまま選べます。「タグで絞り込む」を開くと、分類・所属・任務などのタグが並びます。各行は1つ選択でき、違う行の条件は組み合わせます。選択中のタグをもう一度押すか、選択中の条件の「×」で解除できます。</p>
           <p id="characterSpoilerHelp">後の話の情報は隠しています。人物ごとに「後の話の情報を表示」で開けます（全体の設定は変わりません）。</p>
+          <p id="characterCoverageNote"></p>
         </details>
       </div>
       <div class="character-tag-catalog" aria-label="人物タグ一覧">
+        <div class="search-toolbar">
         <label class="character-search-label">
-          <span class="visually-hidden">人物を検索</span>
+          <span>人物を探す</span>
           <input id="characterSearch" type="search" placeholder="名前・所属などで検索" aria-describedby="characterSearchHelp" />
-        </label>
+        </label><button id="clearCharacterFilters" type="button">すべて解除</button></div>
         <p id="characterSearchHelp" class="search-scope-help">ネタバレ非表示中は、能力・後の展開を検索しません。</p>
-        <div id="characterQuickNav" class="character-camp-nav character-quick-nav" aria-label="人物を探す入口"></div>
         <div id="characterSearchNotice" class="search-scope-notice" hidden><p>能力・後の展開は検索対象外です。該当しそうな場合は、ネタバレを表示して同じ検索語で探せます。</p><button type="button" data-reveal-global>ネタバレを表示して再検索</button></div>
-        <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel" title="カテゴリ・関係王子・詳細条件">絞り込みを開く</button>
-        <div id="characterFilterPanel" class="character-filter-panel">
-        <div class="character-tag-row">
-          <span class="character-tag-row-label">カテゴリ</span>
-          <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
-        </div>
+
         <div id="characterPrinceRow" class="character-tag-row">
           <span class="character-tag-row-label">関係王子</span>
-          <details id="characterPrinceDetails" class="character-prince-details">
-            <summary id="characterPrinceSummary">第1〜第14王子から選ぶ</summary>
+          <div id="characterPrinceDetails" class="character-prince-details">
+            <span id="characterPrinceSummary" class="visually-hidden">第1〜第14王子から選ぶ</span>
             <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
-          </details>
+          </div>
         </div>
-        <details id="characterDetailedFilters" class="character-detailed-filters">
-          <summary>詳細条件（任務・所属・初期配置・念など）</summary>
+        <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel">タグで絞り込む<span id="characterFilterCount"></span></button>
+        <div id="characterFilterPanel" class="character-filter-panel" role="region" aria-labelledby="characterFilterToggle" hidden>
+          <p class="tag-filter-help">行ごとに1つ選べます。選ぶとすぐ反映され、もう一度押すと解除できます。</p>
+          <div class="character-tag-row">
+            <span class="character-tag-row-label">分類</span>
+            <div id="characterCampNav" class="character-camp-nav" aria-label="人物グループ"></div>
+          </div>
+        <div id="characterDetailedFilters" class="character-detailed-filters">
           <div class="character-detailed-filter-rows">
             <div id="characterMissionRow" class="character-tag-row">
               <span class="character-tag-row-label">任務</span>
               <div id="characterMissionNav" class="character-tag-row-options" aria-label="任務タグ"></div>
             </div>
             <div id="characterExtraTagGroups"></div>
-            <details id="characterSpoilerTagGroups" class="character-spoiler-filters" hidden>
-              <summary>ネタバレの絞り込み＋</summary>
+            <div id="characterSpoilerTagGroups" class="character-spoiler-filters" hidden>
               <div id="characterSpoilerTagRows"></div>
-            </details>
+            </div>
           </div>
-        </details>
+        </div>
+          <h3 class="filter-section-heading">名簿を調べる</h3>
+
+      <div id="personnelFilters" class="personnel-filters">
+      <div class="personnel-period-controls">
+        <label>名簿の時点
+          <select id="characterPeriodFilter">
+            <option value="all">全員（時点指定なし）</option>
+            <option value="departure">出航時</option>
+            <option value="chapter-374">第374話時点</option>
+            <option value="latest">最新話時点</option>
+          </select>
+        </label>
+        <label class="personnel-queen-label">王妃所属兵
+          <select id="characterQueenFilter">
+            <option value="all">すべて</option>
+            <option value="1">第1王妃所属兵</option><option value="2">第2王妃所属兵</option>
+            <option value="3">第3王妃所属兵</option><option value="4">第4王妃所属兵</option>
+            <option value="5">第5王妃所属兵</option><option value="6">第6王妃所属兵</option>
+            <option value="7">第7王妃所属兵</option>
+          </select>
+        </label>
+        <p id="personnelRosterSummary" class="guide-source-note" aria-live="polite"></p>
+        <p class="personnel-count-help">人数には復元した枠や死亡・離脱した人物も含みます。原作の人数表とは集計範囲が異なる場合があります。</p>
+      </div>
+      <div id="personnelQueenNav" class="character-camp-nav" aria-label="王妃別の所属兵"></div>
+      </div>
+
         </div>
         <div class="character-filter-status">
           <div id="characterActiveTag" class="character-active-tag" aria-label="選択中の人物条件"></div>
-          <button id="clearCharacterFilters" type="button">すべて解除</button>
+
         </div>
       </div>
       <div class="character-controls">
@@ -154,38 +151,14 @@
           </div>
         </div>
       </div>
-      <details id="personnelFilters" class="personnel-filters">
-        <summary>名簿の詳細条件（時点・王妃所属兵）</summary>
-      <div class="personnel-period-controls">
-        <label>名簿の時点
-          <select id="characterPeriodFilter">
-            <option value="all">全員（時点指定なし）</option>
-            <option value="departure">出航時</option>
-            <option value="chapter-374">第374話時点</option>
-            <option value="latest">最新話時点</option>
-          </select>
-        </label>
-        <label class="personnel-queen-label">王妃所属兵
-          <select id="characterQueenFilter">
-            <option value="all">すべて</option>
-            <option value="1">第1王妃所属兵</option><option value="2">第2王妃所属兵</option>
-            <option value="3">第3王妃所属兵</option><option value="4">第4王妃所属兵</option>
-            <option value="5">第5王妃所属兵</option><option value="6">第6王妃所属兵</option>
-            <option value="7">第7王妃所属兵</option>
-          </select>
-        </label>
-        <p id="personnelRosterSummary" class="guide-source-note" aria-live="polite"></p>
-        <p class="personnel-count-help">人数には復元した枠や死亡・離脱した人物も含みます。原作の人数表とは集計範囲が異なる場合があります。</p>
-      </div>
-      <div id="personnelQueenNav" class="character-camp-nav" aria-label="王妃別の所属兵"></div>
-      </details>
+      <div class="directory-results-toolbar">
+      <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
       <div class="character-view-switch" role="group" aria-label="人物の表示形式">
-        <button id="characterViewCards" class="active" type="button" aria-pressed="true">カード表示</button>
-        <button id="characterViewTable" type="button" aria-pressed="false">配置表表示</button>
-        <button id="characterSpoilerToggle" class="character-spoiler-toggle" type="button" aria-pressed="false">ネタバレ解除</button>
+        <button id="characterViewCards" class="active" type="button" aria-label="カード表示" aria-pressed="true">カード</button>
+        <button id="characterViewTable" type="button" aria-label="配置表表示" aria-pressed="false">配置表</button>
         <label class="assignment-only-toggle" hidden><input id="assignmentOnly" type="checkbox" checked /> 配置に関係する人物のみ</label>
       </div>
-      <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
+      </div>
       <div id="characterDirectory" class="character-directory"></div>
       <div id="characterLoadMore" class="character-load-more"><p id="characterPageStatus" role="status"></p><button id="characterMoreButton" type="button">もっと見る（次の60人）</button></div>
       <noscript><p>JavaScriptが無効です。<a href="characters/">人物索引から個別ページを読む</a>ことができます。</p></noscript>
@@ -626,6 +599,39 @@
         <details><summary id="coverageTitle">収録範囲・出典の確認状況（340〜420話）</summary><p>件数は登録済みの出来事数です。登録がある話も全場面を網羅したとは限りません。「未収録」は対象外を意味せず、入力・確認が必要な範囲です。</p><div id="chapterCoverage"></div></details>
       </section>
     </section>
+    <details class="local-drafts-transfer" aria-labelledby="localDraftsTitle">
+      <summary id="localDraftsTitle">個人編集用：修正メモ・バックアップ</summary>
+      <div>
+        <p>人物や出来事の「詳細」、基本情報の各項目にある「この項目にメモ」から気付いたことを書いてください。メモは自動で保存します。あとでCodexに「修正メモを見て」と伝えるだけで大丈夫です。</p>
+      </div>
+      <p id="draftStorageStatus" class="local-drafts-storage-status" role="status"></p>
+      <details class="local-drafts-overview">
+        <summary>書いたメモを一覧で確認 <span id="draftCount"></span></summary>
+        <ul id="draftOverviewList"></ul>
+      </details>
+      <details class="local-drafts-backup">
+        <summary>バックアップ・復元（必要なときだけ）</summary>
+        <div class="local-drafts-transfer-actions">
+          <button id="exportLocalDrafts" type="button">JSONでバックアップ</button>
+          <button id="chooseLocalDrafts" type="button">バックアップを読み込む</button>
+          <input id="importLocalDrafts" type="file" accept=".json,application/json" hidden />
+        </div>
+        <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
+      </details>
+      <div class="local-drafts-transfer-actions">
+        <button id="resetLocalDrafts" type="button" aria-controls="draftResetConfirmation" aria-expanded="false">メモ・編集を一括リセット</button>
+      </div>
+      <p>反映済みのメモを片付けるときに使います。人物・出来事・基礎資料・考察のメモ、編集値、自分で追加した出来事が対象です。公開データ・検索条件・ネタバレ設定は変わりません。</p>
+      <section id="draftResetConfirmation" hidden aria-labelledby="draftResetTitle">
+        <h2 id="draftResetTitle">バックアップを保存してからリセット</h2>
+        <p id="draftResetSummary"></p>
+        <div class="local-drafts-transfer-actions">
+          <button id="confirmDraftReset" type="button">バックアップの保存を確認したので全件リセット</button>
+          <button id="cancelDraftReset" type="button">キャンセル</button>
+        </div>
+      </section>
+      <p id="draftResetStatus" class="local-drafts-transfer-status" role="status"></p>
+    </details>
   </main>
 
   <footer class="site-footer">
@@ -655,6 +661,6 @@
   <script src="character-facts.js?v=20261017-family"></script>
   <script src="personnel-roster.js?v=20261016-guide2"></script>
   <script src="draft-state.js?v=20261020-reset"></script>
-  <script src="script.js?v=20261020-reset"></script>
+  <script src="script.js?v=20261022-tags"></script>
 </body>
 </html>

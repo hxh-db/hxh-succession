@@ -1,16 +1,24 @@
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+const {spawn}=require('node:child_process');
+const path=require('node:path');
 const events=require('../data/events.json');
-const root='http://127.0.0.1:8765/';
+const port=process.env.HXH_START_SERVER ? '18766' : '8765';
+const root=`http://127.0.0.1:${port}/`;
 const ready=async page=>{
   await page.waitForFunction(()=>viewLinksReady && history.state?.hxhReading && !restoringReadingState);
 };
 const tab=async(page,name)=>{await page.locator(`[data-primary-view="${name}"]`).click();await page.waitForFunction(name=>!document.getElementById(name).hidden,name);};
 const filters=async page=>{const button=page.locator('#timelineFilterToggle');if(await button.isVisible() && await button.getAttribute('aria-expanded')==='false')await button.click();};
 (async()=>{
- const browser=await chromium.launch({channel:'msedge',headless:true});
+ let browser,server;
  try {
+  if(process.env.HXH_START_SERVER) {
+   server=spawn('python',['local_server.py'],{cwd:path.resolve(__dirname,'..'),windowsHide:true,env:{...process.env,SUCCESSION_LOCAL_PORT:port,SUCCESSION_NOTES_DIR:path.resolve(__dirname,'../.local/tag-filters-20261022/drafts')},stdio:['ignore','pipe','ignore']});
+   await new Promise((resolve,reject)=>{server.once('error',reject);server.once('exit',code=>reject(Error(`test server exited: ${code}`)));server.stdout.once('data',resolve);});
+  }
+  browser=await chromium.launch({channel:'msedge',headless:true});
   for(const width of (process.env.HXH_TEST_WIDTHS ? process.env.HXH_TEST_WIDTHS.split(',').map(Number) : [1366,390,320])) {
    const context=await browser.newContext({viewport:{width,height:844}});
    const page=await context.newPage();
@@ -19,8 +27,24 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    await page.goto(root);await ready(page);
    assert.equal(await page.locator('.directory-character-card').count(),60);
    assert.equal(await page.locator('#characterAssignmentTable tbody tr').count(),0);
-   assert.ok(await page.locator('#characterQuickNav button[data-group-id="princes"]').isVisible());
-   assert.equal(await page.locator('#personnelFilters').getAttribute('open'),null);
+   assert.ok(await page.locator('#characterPrinceNav button[data-prince-id="P14"]').isVisible());
+   assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
+   await page.locator('#characterFilterToggle').click();
+   assert.ok(await page.locator('#characterCampNav button[data-group-id="princes"]').isVisible());
+   const categories=page.locator('#characterCampNav');
+   assert.equal(await categories.evaluate(el=>getComputedStyle(el).flexWrap),'wrap');
+   await categories.locator('button[data-group-id="all"]').focus();
+   await page.keyboard.press('End');
+   assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'official');
+   await page.keyboard.press('Home');
+   await categories.locator('button[data-group-id="princes"]').click();
+   assert.equal(await page.locator('.directory-character-card').count(),14);
+   await categories.locator('button[data-group-id="all"]').click();
+   assert.equal(await page.locator('.character-spoiler-details:visible').count(),0);
+   assert.ok(await page.locator('#characterPrinceNav').isVisible());
+   assert.equal(await page.locator('#characterSpoilerTagGroups').isVisible(),false);
+   await page.locator('#characterFilterToggle').click();
+   assert.equal(await page.locator('#personnelFilters').isVisible(),false);
    assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
    await page.locator('#characterSearch').fill('絶対時間');
    assert.equal(await page.locator('.directory-character-card').count(),0);
@@ -30,6 +54,10 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    await page.locator('.directory-character-card[data-character-id="P14-H01"]').waitFor();
    assert.equal(await page.locator('#characterSearch').inputValue(),'絶対時間');
    await page.locator('#characterSearch').fill('');
+   assert.ok(await page.locator('.character-spoiler-details').count()>0);
+   assert.equal(await page.locator('.character-spoiler-details:not([open])').count(),0);
+   assert.equal(await page.locator('.character-spoiler-details > summary:visible').count(),0);
+   assert.equal(await page.locator('#characterSpoilerToggle').count(),0);
    await page.locator('#characterMoreButton').click();
    assert.equal(await page.locator('.directory-character-card').count(),120);
    const personLink=page.locator('.directory-character-card h3 a').nth(70);
@@ -103,27 +131,29 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.ok(page.url().includes('g_search='));
    await page.reload();await ready(page);
    assert.equal(await page.locator('#guideSearch').inputValue(),'戒厳令');
-   await tab(page,'characters');await page.locator('#personnelFilters > summary').click();
+   await tab(page,'characters');
+   if(await page.locator('#characterFilterToggle').getAttribute('aria-expanded')==='false') await page.locator('#characterFilterToggle').click();
    await page.locator('#characterPeriodFilter').selectOption('chapter-374');
+   await page.locator('#characterFilterToggle').click();
    assert.ok(!(await page.locator('#characterDirectory').innerText()).includes('未整理'));
    await tab(page,'timeline');await filters(page);
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
    assert.ok(overflow<=1,`page overflow ${overflow}px at ${width}`);
    assert.deepEqual(errors,[]);
-   fs.mkdirSync('.local/usability-reading-20261018',{recursive:true});
+   fs.mkdirSync('.local/filter-redesign-20261021',{recursive:true});
    await tab(page,'characters');await page.locator('#clearCharacterFilters').click();
-   await page.locator('#personnelFilters').evaluate(el=>{el.open=false;});
+   if(await page.locator('#characterFilterToggle').getAttribute('aria-expanded')==='true') await page.locator('#characterFilterToggle').click();
    await page.evaluate(()=>window.scrollTo(0,0));
-   await page.screenshot({path:`.local/usability-reading-20261018/characters-${width}.png`});
+   await page.screenshot({path:`.local/filter-redesign-20261021/characters-${width}.png`});
    const metrics=await page.evaluate(()=>({width:innerWidth,firstCardY:document.querySelector('.directory-character-card h3').getBoundingClientRect().top,bodyNodes:document.body.querySelectorAll('*').length,cards:document.querySelectorAll('.directory-character-card').length,overflow:document.documentElement.scrollWidth-innerWidth}));
-   fs.writeFileSync(`.local/usability-reading-20261018/metrics-${width}.json`,JSON.stringify(metrics,null,2));
+   fs.writeFileSync(`.local/filter-redesign-20261021/metrics-${width}.json`,JSON.stringify(metrics,null,2));
    await page.goto(root+'theories/Q001/');
    assert.equal(await page.locator('.primary-nav .primary-nav-link').count(),4);
    assert.ok(!(await page.locator('.article-metadata').innerText()).includes('台帳'));
    assert.equal(await page.locator('.article-review-note').getAttribute('open'),null);
-   await page.screenshot({path:`.local/usability-reading-20261018/article-${width}.png`});
+   await page.screenshot({path:`.local/filter-redesign-20261021/article-${width}.png`});
    console.log(`PASS ${width}: bounded cards, spoiler search, history, guide reading position, shared views, clean related events and compact article`);
    await context.close();
   }
- } finally {await browser.close();}
+ } finally {await browser?.close();server?.kill();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

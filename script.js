@@ -2560,9 +2560,6 @@ function setCharacterView(view) {
 function setSpoilersRevealed(revealed, persist = true) {
   spoilersRevealed = revealed;
   document.body.classList.toggle("spoilers-revealed", revealed);
-  const button = document.getElementById("characterSpoilerToggle");
-  button.textContent = revealed ? "ネタバレを隠す" : "ネタバレ解除";
-  button.setAttribute("aria-pressed", String(revealed));
   document.getElementById("characterSpoilerHelp").textContent = revealed
     ? "血縁・任務先の変化・死亡などの後の話の情報を表示中です。"
     : "後の話の情報は隠しています。人物ごとに「後の話の情報を表示」で開けます（全体の設定は変わりません）。";
@@ -2570,7 +2567,6 @@ function setSpoilersRevealed(revealed, persist = true) {
     details.open = revealed;
     details.querySelector("summary").textContent = revealed ? "ネタバレ−" : "ネタバレ＋";
   });
-  document.getElementById("characterSpoilerTagGroups").open = revealed;
   document.querySelectorAll(".person-later-info").forEach((later) => { later.open = revealed; });
   renderCharacterAssignmentTable(currentCharacterResults);
   refreshSharedSpoilers();
@@ -2732,7 +2728,13 @@ function setupCharacterDirectory() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "character-catalog-tag character-facet-relation";
-    button.textContent = `第${prince.rank}王子`;
+    const rank = document.createElement("span");
+    rank.className = "prince-filter-rank";
+    rank.textContent = `第${prince.rank}王子`;
+    const name = document.createElement("span");
+    name.className = "prince-filter-name";
+    name.textContent = getDisplayName(prince).split("＝")[0];
+    button.append(rank, name);
     button.title = `第${prince.rank}王子${getDisplayName(prince)}に関係する人物を表示`;
     button.dataset.princeId = prince.id;
     princeNav.appendChild(button);
@@ -2793,7 +2795,7 @@ function setupCharacterDirectory() {
       });
       row.hidden = !row.querySelector("button[data-tag-id]:not([hidden])");
     });
-    spoilerTagGroups.hidden = !spoilerTagRows.querySelector(".character-tag-row-extra:not([hidden])");
+    spoilerTagGroups.hidden = !spoilersRevealed || !spoilerTagRows.querySelector(".character-tag-row-extra:not([hidden])");
   };
   const findMatchingCharacters = () => {
     const query = search.value.trim();
@@ -2819,9 +2821,19 @@ function setupCharacterDirectory() {
   const apply = () => {
     const filtered = findMatchingCharacters();
     renderCharacterDirectory(filtered);
-    document.getElementById("characterResultSummary").textContent = filtered.length
-      ? `現在の条件に一致：${filtered.length}人。${filtered.some(person => person.setting_only) ? `うち${filtered.filter(person => person.setting_only).length}人は作者設定表のみで確認（本編対応未照合・兵力への加算なし）。` : ""}`
-      : "条件に一致する人物はいません。選択中の条件を外すか「すべて解除」を押してください。";
+    const summary = document.getElementById("characterResultSummary");
+    const settingCount = filtered.filter(person => person.setting_only).length;
+    summary.replaceChildren();
+    const resultCount = document.createElement("strong");
+    resultCount.textContent = `${filtered.length}人`;
+    summary.appendChild(resultCount);
+    if (settingCount || !filtered.length) {
+      const note = document.createElement("span");
+      note.className = "result-count-note";
+      note.textContent = settingCount ? `設定表のみの${settingCount}人を含む` : "一致する人物がいません。条件を解除して再検索できます。";
+      summary.appendChild(note);
+    }
+    document.getElementById("characterCoverageNote").textContent = settingCount ? `表示中の${settingCount}人は作者設定表のみで確認。本編との対応は未照合で、兵力には加算していません。` : "";
     search.placeholder = spoilersRevealed ? "名前・所属・能力などで検索" : "名前・所属などで検索";
     document.getElementById("characterSearchHelp").textContent = spoilersRevealed
       ? "能力・後の展開も検索対象です。" : "ネタバレ非表示中は、能力・後の展開を検索しません。";
@@ -2856,10 +2868,6 @@ function setupCharacterDirectory() {
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
-    document.querySelectorAll("#characterQuickNav button").forEach(button => {
-      const selected = button.dataset.groupId === activeCharacterSection;
-      button.classList.toggle("active", selected); button.setAttribute("aria-pressed", String(selected));
-    });
     document.querySelectorAll(".character-catalog-tag[data-tag-id]").forEach((button) => {
       const selected = [...activeCharacterTags.values()].includes(button.dataset.tagId);
       button.classList.toggle("active", selected);
@@ -2870,10 +2878,8 @@ function setupCharacterDirectory() {
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
-    // 関係王子の行は既定で閉じる。選択中は開いて、見出しに選択中の王子を出す（手で開いたものは閉じない）。
-    const princeDetails = document.getElementById("characterPrinceDetails");
+    // 関係王子はタグ一覧の開閉にかかわらず常設する。
     const selectedPrince = princesData.find((candidate) => candidate.id === princeFilter.value);
-    if (princeDetails && selectedPrince) princeDetails.open = true;
     const princeSummary = document.getElementById("characterPrinceSummary");
     if (princeSummary) princeSummary.textContent = selectedPrince ? `選択中：第${selectedPrince.rank}王子` : "第1〜第14王子から選ぶ";
     activeTagBar.replaceChildren();
@@ -2918,6 +2924,10 @@ function setupCharacterDirectory() {
     document.getElementById("clearCharacterFilters").disabled = noCharacterFilters;
     // 条件がないときは「条件なし」の行を出さず、最初の画面で人物カードまで見えるようにする。
     document.querySelector(".character-tag-catalog")?.classList.toggle("has-active-filters", !noCharacterFilters);
+    const tagConditionCount = activeCharacterTags.size + Number(activeCharacterSection !== "all")
+      + Number(Boolean(activeCharacterAffiliation)) + Number(typeFilter.value !== "all")
+      + Number(campFilter.value !== "all") + Number(periodFilter.value !== "all") + Number(queenFilter.value !== "all");
+    document.getElementById("characterFilterCount").textContent = tagConditionCount ? `（${tagConditionCount}条件を選択中）` : "";
     updateViewPermalink();
   };
   document.getElementById("clearCharacterFilters").addEventListener("click", () => {
@@ -2967,7 +2977,7 @@ function setupCharacterDirectory() {
     apply();
   });
 
-  topGroups.forEach((group) => {
+  [...topGroups.filter(group => group.id === "all"), ...topGroups.filter(group => group.id !== "all")].forEach((group) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `character-camp-nav-button${group.id === "all" ? " active" : ""}`;
@@ -2983,26 +2993,12 @@ function setupCharacterDirectory() {
       apply();
     });
     quickNav.appendChild(button);
-    if (["princes", "major", "all"].includes(group.id)) {
-      const quick = button.cloneNode(true);
-      quick.addEventListener("click", () => button.click());
-      document.getElementById("characterQuickNav").appendChild(quick);
-    }
   });
   document.getElementById("characterMoreButton").addEventListener("click", () => { extendCharacterDirectory(); saveReadingState(); });
-  document.getElementById("characterQuickNav").appendChild((() => {
-    const button = document.createElement("button"); button.type = "button"; button.textContent = "名簿を調べる"; button.className="character-camp-nav-button";
-    button.setAttribute("aria-controls","personnelFilters");
-    button.addEventListener("click", () => { document.getElementById("personnelFilters").open = true; document.getElementById("personnelFilters").scrollIntoView({block:"nearest"}); });
-    return button;
-  })());
   document.getElementById("characterViewCards").addEventListener("click", () => setCharacterView("cards"));
   document.getElementById("characterViewTable").addEventListener("click", () => setCharacterView("table"));
-  document.getElementById("characterSpoilerToggle").addEventListener("click", () => {
-    setSpoilersRevealed(!spoilersRevealed);
-  });
   document.getElementById("assignmentOnly").addEventListener("change", () => { renderCharacterAssignmentTable(currentCharacterResults); updateViewPermalink(); });
-  [quickNav, ...document.querySelectorAll("#characterFilterPanel .character-tag-row-options")].forEach((container) => {
+  [quickNav, princeNav, ...document.querySelectorAll("#characterFilterPanel .character-tag-row-options")].forEach((container) => {
     setupRovingToolbar(container, container.closest(".character-tag-row")?.querySelector(".character-tag-row-label")?.textContent || null);
   });
   typeFilter.value = "all";
@@ -5920,7 +5916,7 @@ function refreshSharedSpoilers() {
   const button = document.getElementById("globalSpoilerToggle");
   if (!button) return;
   // 状態をボタンの文言に含め、スマホでも1行に収める（押した時の動作は title、状態文は読み上げ用に残す）。
-  button.textContent = spoilersRevealed ? "ネタバレ：表示中" : "ネタバレ：非表示";
+  button.textContent = spoilersRevealed ? "ネタバレをまとめて隠す" : "ネタバレをまとめて表示";
   button.title = spoilersRevealed ? "押すとネタバレを隠します" : "押すとネタバレを表示します";
   button.setAttribute("aria-pressed", String(spoilersRevealed));
   document.getElementById("globalSpoilerStatus").textContent = spoilersRevealed ? "全画面でネタバレを表示しています" : "全画面でネタバレを隠しています";
@@ -5930,6 +5926,7 @@ function refreshSharedSpoilers() {
     const control = document.getElementById(id), content = document.getElementById(target);
     if (!control || !content) return;
     control.textContent = spoilersRevealed ? "全画面のネタバレを隠す" : "全画面のネタバレを表示";
+    control.hidden = spoilersRevealed;
     control.setAttribute("aria-expanded", String(spoilersRevealed)); content.hidden = !spoilersRevealed;
     if (spoilersRevealed) render(content); else content.replaceChildren();
   });
@@ -5991,10 +5988,11 @@ function restoreReadingState(snapshot, url) {
     if (snapshot) {
       extendCharacterDirectory(snapshot.characterCount);
       document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=snapshot.details.includes(el.id);});
-      for (const [selector,open] of [[".character-tag-catalog",snapshot.characterFilters],["#timeline",snapshot.timelineFilters]]) {
+      setCharacterFiltersOpen(Boolean(snapshot.characterFilters));
+      for (const [selector,open] of [["#timeline",snapshot.timelineFilters]]) {
         document.querySelector(selector).classList.toggle("filters-open",open);
       }
-      for (const [id,open] of [["characterFilterToggle",snapshot.characterFilters],["timelineFilterToggle",snapshot.timelineFilters]]) {
+      for (const [id,open] of [["timelineFilterToggle",snapshot.timelineFilters]]) {
         const button=document.getElementById(id); button.setAttribute("aria-expanded",String(open)); button.textContent=open?"絞り込みを閉じる":"絞り込みを開く";
       }
     }
@@ -6095,6 +6093,13 @@ function restoreViewFromUrl(url) {
 }
 
 function setupReadingPreferences() {
+  document.getElementById("localDraftsLink").addEventListener("click", event => {
+    event.preventDefault();
+    const drafts = document.querySelector(".local-drafts-transfer");
+    drafts.open = true;
+    document.getElementById("localDraftsTitle").focus();
+    drafts.scrollIntoView({ block: "start" });
+  });
   // 「本文へ移動」：画面の切り替えに使う URL のハッシュ（#characters など）を変えずに本文へフォーカスを移す。
   document.querySelector(".skip-link")?.addEventListener("click", (event) => {
     const main = document.getElementById("main-content");
@@ -6148,18 +6153,20 @@ function setupTimelineFilterToggle() {
   });
 }
 
-function setupCharacterFilterToggle() {
-  const button = document.getElementById("characterFilterToggle");
-  const catalog = document.querySelector(".character-tag-catalog");
-  if (!button || !catalog) return;
-  button.addEventListener("click", () => {
-    const open = !catalog.classList.contains("filters-open");
-    catalog.classList.toggle("filters-open", open);
-    button.setAttribute("aria-expanded", String(open));
-    button.textContent = open ? "絞り込みを閉じる" : "絞り込みを開く";
-  });
+function setCharacterFiltersOpen(open) {
+  const panel = document.getElementById("characterFilterPanel");
+  document.querySelector(".character-tag-catalog").classList.toggle("filters-open", open);
+  document.getElementById("characterFilterToggle").setAttribute("aria-expanded", String(open));
+  panel.hidden = !open;
 }
 
+function setupCharacterFilterToggle() {
+  const toggle = document.getElementById("characterFilterToggle");
+  toggle.addEventListener("click", () => {
+    setCharacterFiltersOpen(toggle.getAttribute("aria-expanded") !== "true");
+    saveReadingState();
+  });
+}
 function setModalBackgroundInert(inert) {
   document.querySelectorAll("body > header, body > main, #backToTop").forEach((element) => { element.inert = inert; });
 }

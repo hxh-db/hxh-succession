@@ -1,0 +1,96 @@
+/* Regression: inline tag disclosure, live filters, history, spoiler boundaries and responsive layout. */
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {spawn}=require('node:child_process');
+const path=require('node:path');
+const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingState);
+(async()=>{
+ let server,browser;
+ const port=process.env.HXH_START_SERVER ? '18765' : '8765';
+ try {
+  if(process.env.HXH_START_SERVER) {
+   server=spawn('python',['local_server.py'],{cwd:path.resolve(__dirname,'..'),windowsHide:true,env:{...process.env,SUCCESSION_LOCAL_PORT:port,SUCCESSION_NOTES_DIR:path.resolve(__dirname,'../.local/tag-filters-20261022/drafts')},stdio:['ignore','pipe','ignore']});
+   await new Promise((resolve,reject)=>{server.once('error',reject);server.once('exit',code=>reject(Error(`test server exited: ${code}`)));server.stdout.once('data',resolve);});
+  }
+  browser=await chromium.launch({channel:'msedge',headless:true});
+  for(const width of [1366,900,390,320]) {
+   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});
+   const page=await context.newPage(),errors=[];
+   page.on('pageerror',e=>errors.push(e.message));
+   await page.route('**/api/drafts',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({format:'hxh-succession-local-drafts',version:1,items:{},entries:[]})}));
+   await page.goto(`http://127.0.0.1:${port}/`);await ready(page);
+   const prince=page.locator('#characterPrinceNav button[data-prince-id="P14"]');
+   assert.ok(await prince.isVisible());
+   const princeLayout=await prince.evaluate(el=>{const rank=el.querySelector('.prince-filter-rank').getBoundingClientRect(),name=el.querySelector('.prince-filter-name').getBoundingClientRect();return {rankBottom:rank.bottom,nameTop:name.top};});
+   assert.ok(princeLayout.nameTop>=princeLayout.rankBottom,'prince number and name must have separate lines on narrow screens');
+   assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
+   assert.equal(await page.locator('#characterCampNav').isVisible(),false);
+   assert.equal(await page.locator('#characterFilterApply').count(),0);
+   fs.mkdirSync('.local/tag-filters-20261022',{recursive:true});
+   await page.screenshot({path:`.local/tag-filters-20261022/closed-${width}.png`});
+   await prince.click();
+   assert.equal(await page.locator('#characterPrinceFilter').inputValue(),'P14');
+   assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
+   await page.locator('#characterFilterToggle').click();
+   assert.equal(await page.locator('#characterFilterPanel').evaluate(el=>el.matches(':modal')),false);
+   assert.equal(await page.locator('#characterSpoilerTagGroups').isVisible(),false);
+   assert.equal(await page.locator('.compact-filter-select').count(),0);
+   const categories=page.locator('#characterCampNav');
+   assert.equal(await categories.evaluate(el=>getComputedStyle(el).flexWrap),'wrap');
+   await categories.locator('[data-group-id="soldier"]').click();
+   assert.ok(await page.locator('#characterFilterPanel').isVisible());
+   assert.ok(await page.evaluate(()=>currentCharacterResults.length>0 && currentCharacterResults.every(p=>p.type==='soldier')));
+   const initial=page.locator('#characterExtraTagGroups button[data-tag-id="initial-room-1014"]');
+   await initial.click();
+   assert.ok(await page.evaluate(()=>currentCharacterResults.every(p=>p.initial_room?.includes('1014'))));
+   const count=await page.locator('.directory-character-card').count();
+   assert.ok(count>0);
+   await page.locator('#characterFilterToggle').click();
+   assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
+   assert.ok((await page.locator('#characterActiveTag').innerText()).includes('1014'));
+   assert.equal(await page.locator('#characterFilterCount').innerText(),'（2条件を選択中）');
+   await page.reload();await ready(page);
+   assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
+   assert.equal(await page.locator('.directory-character-card').count(),count);
+   await page.locator('#characterFilterToggle').click();
+   await page.locator('.directory-character-card h3 a').first().click();
+   await page.locator('#modalClose').click();await ready(page);
+   assert.ok(await page.locator('#characterFilterPanel').isVisible());
+   assert.equal(await page.locator('.directory-character-card').count(),count);
+   await page.locator('[data-primary-view="guide"]').click();
+   await page.locator('[data-primary-view="characters"]').click();
+   assert.ok(await page.locator('#characterFilterPanel').isVisible());
+   await page.locator('#characterFilterToggle').click();
+   await page.locator('#characterActiveTag button').filter({hasText:'1014'}).click();
+   assert.equal(await page.locator('#characterFilterCount').innerText(),'（1条件を選択中）');
+   await page.locator('#clearCharacterFilters').click();
+   assert.equal(await page.locator('#characterPrinceFilter').inputValue(),'all');
+   assert.equal(await page.locator('.directory-character-card').count(),60);
+   await page.locator('#characterFilterToggle').click();
+   await categories.locator('[data-group-id="all"]').focus();
+   await page.keyboard.press('End');
+   assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'official');
+   await page.keyboard.press('Home');
+   assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'all');
+   await page.locator('#characterPeriodFilter').selectOption('chapter-374');
+   assert.ok(page.url().includes('c_when=chapter-374'));
+   await page.locator('#clearCharacterFilters').click();
+   await page.locator('#globalSpoilerToggle').click();
+   assert.ok(await page.locator('#characterSpoilerTagGroups').isVisible());
+   await page.locator('#characterFilterToggle').scrollIntoViewIfNeeded();
+   await page.screenshot({path:`.local/tag-filters-20261022/open-${width}.png`});
+   await page.locator('#globalSpoilerToggle').click();
+   assert.equal(await page.locator('#characterSpoilerTagGroups').isVisible(),false);
+   assert.equal(await page.locator('.character-spoiler-details:visible').count(),0);
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+   await page.locator('#characterFilterToggle').click();
+   await page.locator('#characterSearch').fill('絶対時間');
+   assert.equal(await page.locator('.directory-character-card').count(),0);
+   assert.ok(await page.locator('#characterSearchNotice').isVisible());
+   assert.deepEqual(errors,[]);
+   console.log(`PASS ${width}: always-visible princes, inline tags, immediate filters, external chips, history/reload, keyboard, roster, spoilers, no overflow/errors`);
+   await context.close();
+  }
+ } finally {await browser?.close();server?.kill();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

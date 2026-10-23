@@ -2038,7 +2038,7 @@ function getPrinceByCamp(camp) {
   return camp ? princesData.find((prince) => prince.camp === camp) : null;
 }
 
-// カード表面の「所属・配置先」1行。例：第1王子ベンジャミン陣営・私設兵
+// 人物詳細に表示する所属・配置先。
 function getCharacterAffiliationText(character) {
   if (character.type === "prince") {
     const motherId = character.public_mother_id
@@ -2075,27 +2075,6 @@ function getCharacterAffiliationText(character) {
     ? `第${placementPrince.rank}王子${getDisplayName(placementPrince)}陣営` : null;
   if (base && placement) return `${base}／配置：${placement}`;
   return base || (placement ? `配置：${placement}` : null);
-}
-
-function makeCharacterAffiliationLine(character, filterTag = null) {
-  const text = getCharacterAffiliationText(character);
-  if (!text) return null;
-  const line = document.createElement("p");
-  line.className = "character-affiliation-line";
-  if (filterTag) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "character-affiliation-filter";
-    button.textContent = text;
-    button.title = `「${filterTag.label}」の人物を表示`;
-    button.addEventListener("click", () => {
-      document.dispatchEvent(new CustomEvent("character-tag-filter", { detail: filterTag.id }));
-    });
-    line.appendChild(button);
-  } else {
-    line.textContent = text;
-  }
-  return line;
 }
 
 function createCharacterDirectoryCard(character) {
@@ -2162,9 +2141,7 @@ function createCharacterDirectoryCard(character) {
     && !(tag.category === "兵種" && character.type === "soldier" && character.soldier_category
       && formatAffiliation(character)?.includes(character.soldier_category)));
   const headerAffiliationTags = visibleTags.filter((tag) => tag.category === "所属");
-  // 所属の主タグ（第○王子私設兵・第○王妃所属兵・マフィアの一家）は、下の「所属・配置先」の行で表示する。
-  const primaryAffiliationTag = headerAffiliationTags.find((tag) => /^(?:affiliation-[pq]\d{2}-|mafia-family-)/.test(tag.id));
-  headerAffiliationTags.filter((tag) => tag !== primaryAffiliationTag).forEach((tag) => badges.appendChild(makeCharacterTagButton(
+  headerAffiliationTags.forEach((tag) => badges.appendChild(makeCharacterTagButton(
     tag.id === "group-zodiacs" && character.former_affiliations?.includes("十二支ん")
       ? { ...tag, label: "元十二支ん" } : tag
   )));
@@ -2186,36 +2163,13 @@ function createCharacterDirectoryCard(character) {
   if (identity.rosterState) identity.appendChild(identity.rosterState);
   top.appendChild(identity);
   card.appendChild(top);
-  const context = document.createElement("div");
-  context.className = "character-record-context";
-  const affiliationLine = makeCharacterAffiliationLine(character, primaryAffiliationTag);
-  if (affiliationLine) context.appendChild(affiliationLine);
-  if (character.assignment_history?.length) {
-    CharacterFacts.assignmentRows(character, charactersData).forEach((entry, index) => {
-      const line = document.createElement("p");
-      if (index > 0) line.className = "spoiler-only";
-      line.textContent = entry.text;
-      context.appendChild(line);
-    });
-  } else if (character.initial_room) {
-    const line = document.createElement("p");
-    line.textContent = `初期配置：${formatRoomLabel(character.initial_room)}`;
-    context.appendChild(line);
-  }
-  const nen = document.createElement("p");
-  nen.className = "nen-knowledge-label";
-  if (["unavailable_confirmed", "not_awakened_confirmed"].includes(character.nen_status)) nen.classList.add("spoiler-only");
-  nen.textContent = getNenKnowledgeLabel(character, true);
-  nen.title = getNenKnowledgeLabel(character);
-  if (character.nen_status !== "historical_unorganized") context.appendChild(nen);
   const searchQuery = document.getElementById("characterSearch").value.trim();
   if (searchQuery && CharacterFacts.searchRank(character, searchQuery) > 0) {
     const reason = document.createElement("p");
     reason.className = "character-match-reason";
     reason.textContent = CharacterFacts.searchRank(character, searchQuery) === 1 ? "名前の部分一致" : "説明・所属などに一致（本人名の一致ではありません）";
-    context.appendChild(reason);
+    card.appendChild(reason);
   }
-  card.appendChild(context);
 
   const registrationNotice = CharacterFacts.registrationNotice(character);
   if (registrationNotice) {

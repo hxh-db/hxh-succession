@@ -15,6 +15,7 @@
 #characterPrinceRow .character-tag-row-label { padding: 0; }
 #characterPrinceNav { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
 #characterPrinceNav button { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0; min-height: 50px; padding: 7px 6px; border-radius: 8px; text-align: left; overflow-wrap: anywhere; }
+#characterPrinceNav button[hidden] { display: none; }
 .prince-filter-rank, .prince-filter-name { display: block; }
 .prince-filter-rank { font-size: .78rem; white-space: nowrap; }
 .prince-filter-name { font-size: .8rem; margin-top: 2px; }
@@ -28,6 +29,7 @@
 .tag-filter-help { margin: 0 0 14px; color: var(--muted); font-size: .8rem; }
 #characterFilterPanel .character-tag-row { grid-template-columns: 85px minmax(0, 1fr); }
 #characterFilterPanel .character-tag-row[hidden] { display: none; }
+.character-tag-row-help { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.7; }
 #characterCampNav { flex-wrap: wrap; overflow: visible; gap: 6px; }
 #characterCampNav button { min-height: 36px; padding: 6px 12px; border-radius: 999px; font-size: .84rem; }
 #characterFilterPanel .character-catalog-tag { min-height: 36px; max-width: 100%; white-space: normal; overflow-wrap: anywhere; text-align: left; }

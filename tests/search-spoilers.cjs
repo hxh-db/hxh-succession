@@ -67,8 +67,8 @@ assert.ok(!search('101', false).length, '「101」が1014号室に部分一致�
 
 // 6. 画面側の配線：一覧の検索は CharacterFacts の検索対象を使い、ネタバレ設定を変えたら作り直す。
 const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
-const finder = source.slice(source.indexOf('const findMatchingCharacters'), source.indexOf('const apply = () =>'));
-assert.ok(finder.includes('CharacterFacts.matchesSearch(getCharacterSearchText(character), query)'));
+const finder = source.slice(source.indexOf('const findMatchingCharacters'), source.indexOf('const isTagSelected'));
+assert.ok(finder.includes('CharacterFacts.matchesSearch(facts.search ||= getCharacterSearchText(character), query)'));
 assert.ok(!/notes|nen_ability|mission/.test(finder), '検索の対象は getCharacterSearchFields にまとめる');
 const fieldsFn = source.slice(source.indexOf('function getCharacterSearchFields'), source.indexOf('function getCharacterSearchText'));
 const hiddenBranch = fieldsFn.slice(0, fieldsFn.indexOf('if (!revealed)') + 200);

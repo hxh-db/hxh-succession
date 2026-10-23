@@ -30,15 +30,15 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.ok(await page.locator('#characterPrinceNav button[data-prince-id="P14"]').isVisible());
    assert.equal(await page.locator('#characterFilterPanel').isVisible(),false);
    await page.locator('#characterFilterToggle').click();
-   assert.ok(await page.locator('#characterCampNav button[data-group-id="princes"]').isVisible());
+   assert.ok(await page.locator('#characterCampNav button[data-group-id="royal"]').isVisible());
    const categories=page.locator('#characterCampNav');
    assert.equal(await categories.evaluate(el=>getComputedStyle(el).flexWrap),'wrap');
    await categories.locator('button[data-group-id="all"]').focus();
    await page.keyboard.press('End');
    assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'official');
    await page.keyboard.press('Home');
-   await categories.locator('button[data-group-id="princes"]').click();
-   assert.equal(await page.locator('.directory-character-card').count(),14);
+   await categories.locator('button[data-group-id="royal"]').click();
+   assert.ok(await page.evaluate(()=>currentCharacterResults.length>14 && currentCharacterResults.every(p=>['king','queen','prince'].includes(p.type))));
    await categories.locator('button[data-group-id="all"]').click();
    assert.equal(await page.locator('.character-spoiler-details:visible').count(),0);
    assert.ok(await page.locator('#characterPrinceNav').isVisible());

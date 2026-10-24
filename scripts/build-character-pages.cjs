@@ -154,7 +154,9 @@ function expectedOutputs(onlyId = null) {
     .replace(/ナスビー(?:＝ホイコーロ)?(?:国王)?/g, 'ホイコーロ国王')]));
   if (!onlyId) {
     const countOnly = new Set(read('count_only_characters.json').ids);
-    const directory = characters.filter(p=>!p.roster_projection && !countOnly.has(p.id) && p.verification_status !== 'unverified');
+    const initialIds = new Set(read('personnel_roster.json').members.map(member => member.character_id));
+    const directory = characters.filter(p=>!p.roster_projection && p.verification_status !== 'unverified'
+      && (initialIds.has(p.id) || (!p.is_count_only && !countOnly.has(p.id))));
     // 既存の type / camp で見出しごとに分ける（王子陣営に配置されたハンターは護衛として扱う）。
     const princeCamps = new Set(characters.filter(p => p.type === 'prince').map(p => p.camp).filter(Boolean));
     const indexGroups = [
@@ -177,9 +179,10 @@ function expectedOutputs(onlyId = null) {
     outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p>
 ${links}
 </main></body></html>\n`);
-    const urls = [SITE, SITE+'characters/', ...characters.map(p=>`${SITE}characters/${p.id}/`)];
+    // 人数枠は閲覧できるようにするが、実在の個人として検索エンジンへ推薦しない。
+    const urls = [SITE, SITE+'characters/', ...directory.filter(p=>!p.is_count_only && !countOnly.has(p.id)).map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');
-    const hashes = ['characters.json','character_images.json','events.json','spirit_beasts.json','count_only_characters.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);
+    const hashes = ['characters.json','character_images.json','events.json','spirit_beasts.json','count_only_characters.json','personnel_roster.json','sources.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,'data',file))).digest('hex')]);
     outputs.set('characters/build-manifest.json', JSON.stringify({generator:'scripts/build-character-pages.cjs',site:SITE,character_count:characters.length,directory_count:directory.length,source_sha256:Object.fromEntries(hashes)},null,2)+'\n');
   }
   return outputs;

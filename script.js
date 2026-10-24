@@ -30,9 +30,16 @@ let countOnlyCharacterIds = new Set();
 let personnelRosterData = {members: [], later: [], queen_projections: []};
 
 function isDirectoryCharacter(character) {
-  return !character.roster_projection && (!countOnlyCharacterIds.has(character.id)
-    || personnelRosterData.members.some(member => member.character_id === character.id))
+  // 初期230人には個人未同定の人数枠も含める。旧枠や王妃別の再表示枠は重複させない。
+  const initialMember = personnelRosterData.members.some(member => member.character_id === character.id);
+  return !character.roster_projection
+    && (initialMember || (!character.is_count_only && !countOnlyCharacterIds.has(character.id)))
     && character.verification_status !== "unverified";
+}
+
+function isRosterDirectoryCharacter(character) {
+  return isDirectoryCharacter(character) || Boolean(character.roster_projection && character.roster_view
+    && character.roster_member && character.verification_status !== "unverified");
 }
 
 function getPersonnelPeriod() { return document.getElementById("characterPeriodFilter")?.value || "all"; }
@@ -2099,10 +2106,10 @@ function createCharacterDirectoryCard(character) {
   heading.replaceChildren(makeCharacterDetailLink(character, titleText));
   const badges = document.createElement("div");
   badges.className = "compact-person-badges";
-  if (character.generated_by === "personnel-roster") {
+  if (character.is_count_only || character.generated_by === "personnel-roster") {
     const unknownBadge = document.createElement("span");
     unknownBadge.className = "personnel-roster-badge";
-    unknownBadge.textContent = character.roster_projection ? "個人対応未確定" : "人数枠の仮登録";
+    unknownBadge.textContent = character.roster_projection ? "王妃別の対応未同定枠" : "個人未同定（人数枠）";
     badges.appendChild(unknownBadge);
   }
   if (character.roster_view) {
@@ -2566,7 +2573,7 @@ function getCatalogTagRow(tag) {
   if (tag.id.startsWith("affiliation-p") && tag.id.endsWith("-private")) return "私設兵";
   if (tag.id.startsWith("affiliation-q") || tag.id === "affiliation-royal-guards") return "所属兵";
   if (tag.id.startsWith("mafia-family-")) return "マフィア";
-  if (["group-kurapika-team", "hunter-beyond-kyousen", "qualification-provisional-associate", "group-zodiacs"].includes(tag.id)) return "ハンター";
+  if (["group-kurapika-team", "group-beyond-team", "hunter-beyond-kyousen", "qualification-provisional-associate", "group-zodiacs"].includes(tag.id)) return "ハンター";
   if (tag.category === "所属") return "その他所属";
   if (tag.category === "血縁") {
     return ["relation-parent-child", "relation-siblings"].includes(tag.id) ? "血縁" : null;
@@ -2795,7 +2802,7 @@ function setupCharacterDirectory() {
     const rosterMode = section === "personnel" || queen !== "all" || period !== "all";
     const rosterKey = `${period}/${queen}`;
     if (rosterMode && !cache.rosters.has(rosterKey)) cache.rosters.set(rosterKey, getPersonnelSelection(queen === "all" ? null : Number(queen), period));
-    const universe = rosterMode ? cache.rosters.get(rosterKey) : onboardCharacters;
+    const universe = rosterMode ? cache.rosters.get(rosterKey).filter(isRosterDirectoryCharacter) : onboardCharacters;
     const matches = character => {
       const sectionMatch = inActiveSection(character, section);
       const typeMatch = type === "all" || getCharacterTypeGroup(character) === type;
@@ -5195,16 +5202,29 @@ function showDetailModal(name, category, eventData = null) {
 
     const list = document.createElement("div");
     list.className = "event-list";
-    relatedEvents
-      .slice()
-      .sort((a, b) => sortKey(a) - sortKey(b))
-      .forEach((e) => {
+    // 人物で絞っても、全体のタイムラインと同じ日時・前後関係で並べる。
+    getChronologicalEntries(relatedEvents)
+      .forEach(({ event: e, placement }) => {
         const item = document.createElement("a");
         item.className = "event-item related-event-link";
+        item.dataset.eventId = e.id;
         const url = new URL("index.html", siteRootUrl);
         url.searchParams.set("event", e.id); url.hash = "timeline";
         item.href = url.href;
-        item.textContent = [getEventHeadline(e), `第${e.chapter}話`, CharacterFacts.dayLabel(e), getTimelineTimePlacement(e)?.label].filter(Boolean).join(" · ");
+        const date = document.createElement("span");
+        date.className = "related-event-date";
+        const dayLabel = CharacterFacts.dayLabel(e)
+          || TIMELINE_PERIODS.find(period => period.id === getEventPeriodId(e))?.label;
+        const timeLabel = placement?.estimated && document.getElementById("timeDisplayMode").value === "original"
+          ? "順序のみ（仮時刻を非表示）" : placement?.label;
+        date.textContent = [dayLabel, timeLabel].filter(Boolean).join(" ");
+        const headline = document.createElement("span");
+        headline.className = "related-event-headline";
+        headline.textContent = getEventHeadline(e);
+        const chapter = document.createElement("small");
+        chapter.className = "related-event-chapter";
+        chapter.textContent = `第${e.chapter}話`;
+        item.append(date, headline, chapter);
         item.addEventListener("click", click => {
           if (click.button || click.metaKey || click.ctrlKey || click.shiftKey || click.altKey) return;
           click.preventDefault();

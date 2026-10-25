@@ -68,8 +68,31 @@ assert.equal(fugetsu.day, 3);
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).label, '01:27');
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).estimated, false);
 const position = id => ordered.findIndex(e => e.event.id === id);
+// 400〜404話：別話で描き直した訪問と、午後の呼び出し・到着の順序を守る。
+for (const chain of [
+  ['E403-004', 'E402-007', 'E402-008', 'E402-011'],
+  ['E403-004', 'E403-014', 'E402-008'],
+  ['E403-007', 'E403-011', 'E404-001'],
+  ['E402-009', 'E403-006', 'E403-010', 'E403-011'],
+  ['E404-006', 'E404-002'],
+  ['E402-004', 'E404-003'],
+  ['E404-005', 'E404-007', 'E404-008'],
+]) {
+  for (let i = 1; i < chain.length; i++) {
+    assert.ok(position(chain[i - 1]) < position(chain[i]), `${chain[i - 1]} must precede ${chain[i]}`);
+  }
+}
 assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === 'E402-007')).label, '07:55頃？');
 assert.equal(events.find(e => e.id === 'E402-007').time_estimate_basis, 'user-memo-clock-20261025');
+for (const id of ['E403-014', 'E403-006', 'E403-010', 'E403-011', 'E404-002', 'E404-003', 'E404-005', 'E404-007']) {
+  assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === id)), null, `Do not invent a clock: ${id}`);
+}
+assert.ok(events.find(e => e.id === 'E402-007').same_incident_with.includes('E403-014'));
+assert.ok(events.find(e => e.id === 'E403-014').same_incident_with.includes('E402-007'));
+const death = events.find(e => e.id === 'E404-005');
+assert.match(death.description, /未明/);
+assert.doesNotMatch(death.description, /正午|中央階段/);
+assert.match(events.find(e => e.id === 'E404-008').description, /本日正午/);
 assert.ok(position('E373-007') < position('E374-001'));
 assert.ok(position('E374-001') < position('E374-002'));
 assert.equal(ordered.length, events.length);

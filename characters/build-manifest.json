@@ -4,12 +4,12 @@
   "character_count": 392,
   "directory_count": 363,
   "source_sha256": {
-    "characters.json": "8c99efd9983bfc2e6110a6a6687e493fd5fec66af2b4aede753a6bcc479080cb",
+    "characters.json": "1ada1f9755d0ea5b66cf3add5b4e97b5bfc798bc9cf401f3392726a887bc0dc8",
     "character_images.json": "4dde2ca3d065979476660e0901f8b56433a75084604ad9475401aa3efc1d0cb4",
-    "events.json": "eb0c91f8fa722073bf938387685a8de904cfb1deef0aa00e8e2488e0cd1c9590",
+    "events.json": "1b2a6a61b8733b180dc10482bf6a8d69976e7489d2e88163b4406745406349de",
     "spirit_beasts.json": "7dc752b4c40c8449a15f1bbede6471287733813335335ee980ea18142b15cc3c",
     "count_only_characters.json": "1db40e345457f62071180bb2f8beb151d7ae6700ef5a9309cf379c989a67d227",
     "personnel_roster.json": "de60bb80d9f29e7edb57e5a61fe6215c93ece44bbf8e5957c09dc6980ebc8e5f",
-    "sources.json": "db7878e91c7911970aa5945cc5a9e7b94b301f383da264f3e3fd81c4a554e879"
+    "sources.json": "ae37e07a7883e5a5131b5f15a2b95af4848b835c33d62f823d99260065faf1ab"
   }
 }

@@ -1,4 +1,10 @@
 [
+{
+  "id": "INIT-P02-STAFF-16",
+  "image": "images/characters/camilla-attendant-1-ch416.png",
+  "source_chapter": 416,
+  "source_image": "ch416-20261010/03.jpg（右ページ・寝台の左側）"
+},
   { "id": "EII-U01", "image": "images/characters/eii-u01-ch378.png", "source_chapter": 378, "source_image": "ch378-20261010/04.jpg" },
   { "id": "EII-U02", "image": "images/characters/eii-u02-ch378.png", "source_chapter": 378, "source_image": "ch378-20261010/04.jpg" },
   { "id": "SPD-001", "image": "images/characters/pt-manga-chrollo.webp", "source_chapter": 377, "source_image": "8-写真8.jpg" },

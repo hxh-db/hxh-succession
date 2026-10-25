@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261025-memos",
+  characters: "data/characters.json?v=20261025-camilla-attendants",
   characterTags: "data/character_tags.json?v=20261017-family",
-  characterImages: "data/character_images.json?v=20261017-family",
+  characterImages: "data/character_images.json?v=20261025-camilla-attendants",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261025-memos",
+  events: "data/events.json?v=20261025-camilla-attendants",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261020-notes-delta",
@@ -12,7 +12,7 @@ const DATA = {
   sources: "data/sources.json?v=20261020-notes-delta",
   personnelSnapshots: "data/personnel_snapshots.json?v=20261013b",
   initialPersonnel: "data/intake/initial_personnel_review_20261013.json?v=20261014a",
-  personnelRoster: "data/personnel_roster.json?v=20261014a"
+  personnelRoster: "data/personnel_roster.json?v=20261025-camilla-attendants"
 };
 
 let charactersData = [];

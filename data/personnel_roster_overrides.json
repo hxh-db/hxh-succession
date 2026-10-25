@@ -7,7 +7,35 @@
     "p12.monitors": ["P12-G06"]
   },
   "slot_identities": {},
-  "identity_updates": {},
+  "identity_updates": {
+    "INIT-P02-STAFF-16": {
+      "type": "attendant",
+      "name": "カミーラ従事者1（仮称）",
+      "gender": "女性",
+      "role": "従事者（メイド）",
+      "affiliation": "カミーラ陣営",
+      "mission": "従事",
+      "target": "第2王子カミーラ",
+      "soldier_category": "従事者",
+      "identity_status": "unnamed_confirmed",
+      "is_count_only": false,
+      "source_chapter": 416,
+      "image": "images/characters/camilla-attendant-1-ch416.png",
+      "nen_status": "unknown",
+      "nen_type": null,
+      "nen_ability": null,
+      "status": "死亡",
+      "status_log": [{
+        "chapter": 416,
+        "status": "死亡",
+        "cause": "カミーラのマッサージに従事していたところ、ベンジャミンの銃撃を受けて死亡する。",
+        "killer": "P01",
+        "event_id": "E416-004"
+      }],
+      "role_evidence": "第416話写真3右でカミーラのマッサージに従事する氏名未判明のメイドを確認。寝台に向かって左側の人物。右側は既存登録の執事長フカタキ。私設兵・呪詛要員としての紹介はなく、氏名・所属王妃・念の使用は未確認。",
+      "notes": "氏名未判明のメイド。第416話写真3右の寝台に向かって左側の人物。右側の執事長フカタキとは別人。既存のカミーラ人員枠1を更新したもので、初期230人に別人を追加しない。初期枠への割当ては復元上の対応であり、出航時の在室や第374話の職種別内訳との一対一対応は未確認。"
+    }
+  },
   "display_names": {
     "P04-U01": "ツェリードニヒ警護兵1",
     "P12-G06": "モモゼ監視兵1",

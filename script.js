@@ -3851,7 +3851,7 @@ function renderTimelineChapters(events) {
     const list = document.createElement("div");
     list.className = "chapter-event-list";
     const chapterEvents = grouped.get(chapter).slice().sort((a, b) => descending ? sortKey(b) - sortKey(a) : sortKey(a) - sortKey(b));
-    chapterEvents.forEach((event) => list.appendChild(createScheduleEventCard(event, getTimelineTimePlacement(event))));
+    chapterEvents.forEach((event) => list.appendChild(createScheduleEventCard(event, getTimelineTimePlacement(event), { showTime: true })));
     group.append(heading, list);
     container.appendChild(group);
   });
@@ -4044,7 +4044,7 @@ function renderTimelineSchedule(events) {
   container.appendChild(note);
 }
 
-function createScheduleEventCard(event, placement, { onOpen = null, interactiveLocation = true } = {}) {
+function createScheduleEventCard(event, placement, { onOpen = null, interactiveLocation = true, showTime = false } = {}) {
   const item = document.createElement("article");
   item.className = "schedule-event";
   item.dataset.eventId = event.id;
@@ -4062,6 +4062,10 @@ function createScheduleEventCard(event, placement, { onOpen = null, interactiveL
   const chapter = document.createElement("small");
   chapter.className = "schedule-event-chapter";
   chapter.textContent = getChapterLabel(event);
+  const time = document.createElement("small");
+  time.className = "schedule-event-time";
+  const hideEstimatedTime = placement?.estimated && document.getElementById?.("timeDisplayMode")?.value === "original";
+  time.textContent = hideEstimatedTime ? "順序のみ（仮時刻を非表示）" : placement?.label || "";
   const description = document.createElement("span");
   description.textContent = getEventHeadline(event);
   const participants = document.createElement("small");
@@ -4073,6 +4077,7 @@ function createScheduleEventCard(event, placement, { onOpen = null, interactiveL
     item.appendChild(summary);
   }
   item.append(location, chapter);
+  if (showTime && placement) item.appendChild(time);
   // 確認状態は例外だけをバッジにする（内容の推測もこのリボンに一本化）。
   const ribbon = makeEventReviewRibbon(event, placement, false);
   if (getEventPeriodId(event) === "unknown") ribbon.appendChild(makeChronologyBadge(event));

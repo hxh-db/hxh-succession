@@ -65,6 +65,16 @@ const assert = require('node:assert/strict');
       await page.goBack(); await ready();
       assert.equal(await page.locator('#characterSearch').inputValue(), 'クラピカ');
       assert.ok(await page.locator('#characters').isVisible());
+      await page.locator('[data-primary-view="timeline"]').click();
+      await page.locator('.timeline-view-tab[data-view="chapters"]').click();
+      const chapter402 = page.locator('.chapter-group').filter({has: page.locator('summary').filter({hasText: '第402話'})});
+      await chapter402.locator('summary').click();
+      assert.match((await chapter402.locator('.schedule-event-time').allTextContents()).join('\n'), /07:55頃？/,
+        'chapter view must show the estimated time used by the schedule view');
+      await page.evaluate(() => {const select=document.getElementById('timeDisplayMode'); select.value='original'; select.dispatchEvent(new Event('change', {bubbles:true}));});
+      assert.ok((await chapter402.locator('.schedule-event-time').allTextContents()).includes('順序のみ（仮時刻を非表示）'),
+        'chapter view must respect the approximate-time display setting');
+      await page.locator('[data-primary-view="characters"]').click();
       // Approximate-clock visibility is shared with the timeline, without replacing it with 00:00.
       await page.evaluate(() => {document.getElementById('timeDisplayMode').value = 'original';});
       await person.click();

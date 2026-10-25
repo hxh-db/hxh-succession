@@ -79,12 +79,13 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.equal(await page.locator('#characterSearch').inputValue(),'クラピカ');
    await page.locator('#characterViewCards').click();
    await page.locator('.directory-character-card[data-character-id="P14-H01"] h3 a').click();
-   await page.locator('.related-events-spoiler > summary').click();
-   const related=page.locator('.related-event-link');
+   const relatedTimeline=page.locator('#detailModal .modal-person-timeline');
+   assert.ok(await relatedTimeline.isVisible());
+   assert.equal(await relatedTimeline.locator('summary').count(),0);
+   const related=relatedTimeline.locator('.schedule-event');
    assert.ok(await related.count()>0);
-   assert.equal(await page.locator('.related-events-spoiler p').count(),0);
-   assert.ok(!(await page.locator('.related-events-spoiler').innerText()).includes('整合性点検'));
-   await related.first().click();await page.waitForFunction(()=>document.getElementById('detailModal').dataset.eventId.startsWith('E'));
+   assert.ok(!(await relatedTimeline.innerText()).includes('整合性点検'));
+   await related.first().locator(':scope > span').first().click();await page.waitForFunction(()=>document.getElementById('detailModal').dataset.eventId.startsWith('E'));
    assert.ok(page.url().includes('event='));
    await page.goBack();await ready(page);
    await tab(page,'timeline');await filters(page);

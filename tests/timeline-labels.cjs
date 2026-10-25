@@ -68,6 +68,8 @@ assert.equal(fugetsu.day, 3);
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).label, '01:27');
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).estimated, false);
 const position = id => ordered.findIndex(e => e.event.id === id);
+assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === 'E402-007')).label, '07:55頃？');
+assert.equal(events.find(e => e.id === 'E402-007').time_estimate_basis, 'user-memo-clock-20261025');
 assert.ok(position('E373-007') < position('E374-001'));
 assert.ok(position('E374-001') < position('E374-002'));
 assert.equal(ordered.length, events.length);

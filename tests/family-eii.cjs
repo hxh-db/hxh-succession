@@ -23,14 +23,15 @@ assert.ok(!family.some(p=>['EII-006','EII-007','EII-T01'].includes(p.id)));
 assert.ok(family.some(p=>p.status==='死亡'),'23 is not a current-survivor count');
 for(const id of ['EII-U01','EII-U02']) {
   const p=byId.get(id);
-  assert.equal(p.identity_status,'unnamed_confirmed');
+  assert.equal(p.identity_status,id === 'EII-U02' ? 'provisional' : 'unnamed_confirmed');
   assert.equal(p.source_chapter,378);
-  assert.match(p.name,/^エイ＝イ組員[12]（仮称）$/);
+  if(id === 'EII-U02') { assert.equal(p.name,'ギャトーム'); assert.match(p.notes,/メモに基づく暫定同定/); }
+  else assert.match(p.name,/^エイ＝イ組員1（仮称）$/);
   assert.equal(p.status,'生死未確認');
   assert.ok(events.find(e=>e.id==='E378-002').characters.includes(id));
   const img=fs.readFileSync(p.image);
   assert.equal(img.readUInt32BE(16),77);
-  assert.ok(fs.readFileSync(`characters/${id}/index.html`,'utf8').includes('氏名未判明'));
+  assert.ok(fs.readFileSync(`characters/${id}/index.html`,'utf8').includes(id === 'EII-U02' ? '人物の同定は暫定' : '氏名未判明'));
 }
 for(const id of ['EII-001','KNG-001']) {
   const html=fs.readFileSync(`characters/${id}/index.html`,'utf8');

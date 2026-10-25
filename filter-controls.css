@@ -55,11 +55,9 @@ body:not(.spoilers-revealed) .character-spoiler-details { display: none; }
 .spoiler-reveal-button[hidden] { display: none; }
 .character-result-summary strong { display: block; color: var(--text); font-size: 1.08rem; font-weight: 700; }
 .result-count-note { display: block; font-size: .75rem; color: var(--muted); margin-top: 2px; }
-.modal-card .related-event-link { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; text-decoration: none; }
-.related-event-link .related-event-date { grid-column: 1 / -1; color: var(--text); font-size: .9rem; font-weight: 700; }
-.related-event-link .related-event-headline { min-width: 0; text-decoration: underline; text-underline-offset: 3px; }
-.related-event-link .related-event-chapter { align-self: end; white-space: nowrap; font-size: .85rem; }
-.related-event-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.modal-person-timeline .chronological-events { grid-template-columns: minmax(0, 1fr); }
+.modal-person-timeline .schedule-event { min-width: 0; overflow-wrap: anywhere; }
+.modal-person-timeline .schedule-event:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 900px) {
   #characterPrinceNav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }

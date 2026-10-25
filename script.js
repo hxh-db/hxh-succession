@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261020-notes-delta",
+  characters: "data/characters.json?v=20261025-memos",
   characterTags: "data/character_tags.json?v=20261017-family",
   characterImages: "data/character_images.json?v=20261017-family",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261020-notes-delta",
+  events: "data/events.json?v=20261025-memos",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261020-notes-delta",
@@ -4044,17 +4044,18 @@ function renderTimelineSchedule(events) {
   container.appendChild(note);
 }
 
-function createScheduleEventCard(event, placement) {
+function createScheduleEventCard(event, placement, { onOpen = null, interactiveLocation = true } = {}) {
   const item = document.createElement("article");
   item.className = "schedule-event";
+  item.dataset.eventId = event.id;
   item.setAttribute("role", "button");
   item.tabIndex = 0;
-  const location = document.createElement("button");
-  location.type = "button";
+  const location = document.createElement(interactiveLocation ? "button" : "span");
+  if (interactiveLocation) location.type = "button";
   location.className = "schedule-event-location";
   location.textContent = getLocationKey(event);
-  location.title = `${getLocationKey(event)}でタイムラインを絞り込む`;
-  location.addEventListener("click", (clickEvent) => {
+  if (interactiveLocation) location.title = `${getLocationKey(event)}でタイムラインを絞り込む`;
+  if (interactiveLocation) location.addEventListener("click", (clickEvent) => {
     clickEvent.stopPropagation();
     filterTimelineByEventLocation(event);
   });
@@ -4083,6 +4084,7 @@ function createScheduleEventCard(event, placement) {
   item.appendChild(participantTags);
   item.addEventListener("click", (clickEvent) => {
     if (clickEvent.target.closest("a, button")) return;
+    if (onOpen) { onOpen(event); return; }
     modalReturnFocus = item;
     showDetailModal(event.id, "event", event);
   });
@@ -4090,6 +4092,7 @@ function createScheduleEventCard(event, placement) {
     if (keyEvent.target !== item) return;
     if (keyEvent.key !== "Enter" && keyEvent.key !== " ") return;
     keyEvent.preventDefault();
+    if (onOpen) { onOpen(event); return; }
     modalReturnFocus = item;
     showDetailModal(event.id, "event", event);
   });
@@ -4163,7 +4166,7 @@ function getChronologicalEntries(events, sortOrder = "asc") {
   return sortOrder === "desc" ? ordered.reverse() : ordered;
 }
 
-function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc" } = {}) {
+function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc", onOpen = null, interactiveLocation = true } = {}) {
   const orderedEvents = getChronologicalEntries(events, sortOrder);
   const groups = [];
   orderedEvents.forEach((entry) => {
@@ -4192,7 +4195,7 @@ function createChronologicalAxis(events, { showPeriod = true, sortOrder = "asc" 
     const eventGrid = document.createElement("div");
     eventGrid.className = "chronological-events";
     groupEvents.forEach(({ event, placement: eventPlacement }) => {
-      eventGrid.appendChild(createScheduleEventCard(event, eventPlacement));
+      eventGrid.appendChild(createScheduleEventCard(event, eventPlacement, { onOpen, interactiveLocation }));
     });
     row.append(timeColumn, eventGrid);
     axis.appendChild(row);
@@ -5192,51 +5195,37 @@ function showDetailModal(name, category, eventData = null) {
 
   const relatedEvents = category !== "event" ? getRelatedEvents(record, category) : [];
 
-  if (relatedEvents.length > 0) {
-    const details = document.createElement("details");
-    details.className = "related-events-spoiler";
-
-    const summary = document.createElement("summary");
-    summary.textContent = "関連する出来事";
-    details.appendChild(summary);
-
-    const list = document.createElement("div");
-    list.className = "event-list";
-    // 人物で絞っても、全体のタイムラインと同じ日時・前後関係で並べる。
-    getChronologicalEntries(relatedEvents)
-      .forEach(({ event: e, placement }) => {
-        const item = document.createElement("a");
-        item.className = "event-item related-event-link";
-        item.dataset.eventId = e.id;
+  if (relatedEvents.length > 0 || isPerson) {
+    // リンク一覧へ簡略化せず、詳細を開いた時点で日時の軸と出来事カードを並べる。
+    // 共通のネタバレ非表示時だけ、人物の「後の話の情報」の内側に隠す。
+    const timeline = document.createElement("section");
+    timeline.className = "directory-person-timeline modal-person-timeline";
+    timeline.setAttribute("aria-label", "関連する出来事のタイムライン");
+    const heading = document.createElement("div");
+    heading.className = "directory-person-timeline-heading";
+    const title = document.createElement("h4");
+    title.textContent = "関連する出来事";
+    const count = document.createElement("span");
+    count.textContent = `${relatedEvents.length}件`;
+    heading.append(title, count);
+    timeline.appendChild(heading);
+    if (relatedEvents.length) {
+      const openEvent = e => {
         const url = new URL("index.html", siteRootUrl);
         url.searchParams.set("event", e.id); url.hash = "timeline";
-        item.href = url.href;
-        const date = document.createElement("span");
-        date.className = "related-event-date";
-        const dayLabel = CharacterFacts.dayLabel(e)
-          || TIMELINE_PERIODS.find(period => period.id === getEventPeriodId(e))?.label;
-        const timeLabel = placement?.estimated && document.getElementById("timeDisplayMode").value === "original"
-          ? "順序のみ（仮時刻を非表示）" : placement?.label;
-        date.textContent = [dayLabel, timeLabel].filter(Boolean).join(" ");
-        const headline = document.createElement("span");
-        headline.className = "related-event-headline";
-        headline.textContent = getEventHeadline(e);
-        const chapter = document.createElement("small");
-        chapter.className = "related-event-chapter";
-        chapter.textContent = `第${e.chapter}話`;
-        item.append(date, headline, chapter);
-        item.addEventListener("click", click => {
-          if (click.button || click.metaKey || click.ctrlKey || click.shiftKey || click.altKey) return;
-          click.preventDefault();
-          const navigate = () => { closeDetailModal(true); navigateReadingUrl(url); };
-          if (window.CharacterRoutes?.isActive()) {
-            window.addEventListener("popstate", navigate, {once:true}); closeDetailModal();
-          } else navigate();
-        });
-        list.appendChild(item);
-      });
-    details.appendChild(list);
-    laterTarget.appendChild(details);
+        const navigate = () => { closeDetailModal(true); navigateReadingUrl(url); };
+        if (window.CharacterRoutes?.isActive()) {
+          window.addEventListener("popstate", navigate, {once:true}); closeDetailModal();
+        } else navigate();
+      };
+      timeline.appendChild(createChronologicalAxis(relatedEvents, { onOpen: openEvent, interactiveLocation: false }));
+    } else {
+      const empty = document.createElement("p");
+      empty.className = "timeline-empty-state";
+      empty.textContent = "選択した時点までの関連する出来事は未登録です。";
+      timeline.appendChild(empty);
+    }
+    laterTarget.appendChild(timeline);
   }
 
   renderLocalEditor(editorTarget, record, category);

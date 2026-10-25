@@ -2,13 +2,14 @@
   "generator": "scripts/build-character-pages.cjs",
   "site": "https://hxh-db.github.io/hxh-succession/",
   "character_count": 392,
-  "directory_count": 362,
+  "directory_count": 363,
   "source_sha256": {
     "characters.json": "b1b4d57b9b1d83b5fb31f26065521d11a6acb209cac5939da443cc8788ea8b1a",
-    "character_images.json": "0385cc0c57f97ef4aa5e4d07f33d1ef024a9a2c32d9078049cf414a032308c1d",
-    "events.json": "221885251d0bcf10a068139cad800d20cf4ac6e6c6917776b3cabeff2d4701a6",
-    "spirit_beasts.json": "20dd0de3c58d809ca2aa525268571a51af1bb9f7e7d189213e4da1a93d51d1a5",
-    "count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
-    "sources.json": "f5ae0e3dff4f7aa12239ba829a684dc778385498497e1b6b8061d044774c63ea"
+    "character_images.json": "4dde2ca3d065979476660e0901f8b56433a75084604ad9475401aa3efc1d0cb4",
+    "events.json": "76410d4dec7d28e2ee86ae1161df5e779a0f889896db25587e3a50ba45876188",
+    "spirit_beasts.json": "7dc752b4c40c8449a15f1bbede6471287733813335335ee980ea18142b15cc3c",
+    "count_only_characters.json": "1db40e345457f62071180bb2f8beb151d7ae6700ef5a9309cf379c989a67d227",
+    "personnel_roster.json": "de60bb80d9f29e7edb57e5a61fe6215c93ece44bbf8e5957c09dc6980ebc8e5f",
+    "sources.json": "4b28c73b7a2ef7b2a277ac2fd469593e6a6e5b7758c2527b5de29c34c9e66688"
   }
 }

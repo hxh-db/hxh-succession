@@ -5392,11 +5392,11 @@
     },
     "source_id": "user-original-ch374",
     "location_status": "recorded",
-    "time_estimate": "03:04",
-    "time_estimate_basis": "user-provisional-clocks-20261008",
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
     "chapter": 374,
     "chapter_title": "能力",
-    "day": 3,
+    "day": 2,
     "time_start": null,
     "time_end": null,
     "type": "念能力使用",
@@ -5409,8 +5409,8 @@
     "camp": [
       "チョウライ陣営"
     ],
-    "series": null,
-    "series_index": null,
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 2,
     "revealed_facts": [
       "コインは第3王子チョウライの守護霊獣の口から現れる（その場の人物の内心）",
       "このコインは前日にも出現していたが、気付いていたのは1人だけだった（防寒着の人物の内心）",
@@ -5419,7 +5419,9 @@
     "mysteries": [
       "コインの効果"
     ],
-    "notes": "写真10（印刷86）。部屋番号『1003』は画像にある。チョウライは兵力図の肖像と一致。内心を語る2人（禿頭の人物、防寒着の人物）は名前の明示なし。禿頭の人物は『視えない者・知らない者にわざわざ情報を与える必要はない』と考え、守護霊獣の件をチョウライに伝えていない。生成の仕組みは描かれない。"
+    "notes": "写真10（印刷86）。部屋番号『1003』は画像にある。チョウライは兵力図の肖像と一致。内心を語る2人（禿頭の人物、防寒着の人物）は名前の明示なし。禿頭の人物は『視えない者・知らない者にわざわざ情報を与える必要はない』と考え、守護霊獣の件をチョウライに伝えていない。生成の仕組みは描かれない。 【2026-10-25 コイン時系列の整理】第404話写真3右の毎日午後1時・初日の隠匿と、本場面の「昨日も出現」を合わせ、2日目13時と推定する。旧3日目03:04は撤回。同話の深夜場面と同日・連続時刻とはしない。落下自体は原作描写があり、日付・時刻だけを推定する。",
+    "date_certainty": "estimated",
+    "time_inference": false
   },
   {
     "id": "E374-005",
@@ -6231,7 +6233,10 @@
     "mysteries": [
       "コインの所有者が満たすべき条件と発現する能力"
     ],
-    "notes": "写真7左。チョウライは容姿（額の点）と第374話の兵力図の肖像で同定。私設兵は名前の明示なし。『今朝』とあるが、何日目の朝かは画像にない（ページ順では3日目AM10:05の場面と4日目深夜の場面の間）。部屋番号は E374-004 の1003号室に合わせたが本話の画像に表示はない。 【2026-10-11 外部レビュー（時刻あり・日付なし）で修正】『今朝』だけで何日目かは画像にない。描写順の前後（E376-003〔3日目〕と E376-004〔4日目 水曜日 深夜〕）で日付が分かれるため日付・時刻は作らず、順序指定（time_after_event_id: E376-003、time_before_event_id: E376-004）だけを付けた。"
+    "notes": "写真7左。チョウライは容姿（額の点）と第374話の兵力図の肖像で同定。私設兵は名前の明示なし。『今朝』とあるが、何日目の朝かは画像にない（ページ順では3日目AM10:05の場面と4日目深夜の場面の間）。部屋番号は E374-004 の1003号室に合わせたが本話の画像に表示はない。 【2026-10-11 外部レビュー（時刻あり・日付なし）で修正】『今朝』だけで何日目かは画像にない。描写順の前後（E376-003〔3日目〕と E376-004〔4日目 水曜日 深夜〕）で日付が分かれるため日付・時刻は作らず、順序指定（time_after_event_id: E376-003、time_before_event_id: E376-004）だけを付けた。 【2026-10-25 コイン時系列の整理】写真7左の「今朝も又一枚落ちてきた」は、第404話写真3右の「毎日午後1時」と食い違う。日付・時刻の変更だけでは解消できないため、原文を保持して未解決とする。",
+    "editorial_questions": [
+      "第376話の「今朝」と第404話の毎日午後1時の出現は整合しない。"
+    ]
   },
   {
     "id": "E377-001",
@@ -6781,8 +6786,8 @@
       "その男はいつの間にかいなくなり、倉庫番はすでに死んでいた",
       "オウ＝ケンイは旅団の仕業ではないと受け入れ、敵は抗争を希望している別の組のヒットマンだろうと見る",
       "ノブナガは、空間移動する能力の発動条件の一つに〝マーキング〟（実際に訪れた場所でないと移動出来ないしばり）があり、アジトに入る事自体が目的だったかもしれないと指摘する",
-    "オウ＝ケンイは『…じゃ 手を組もう…って言ったら 乗るか?』と持ちかけるが、内心では旅団を『危険因子（早目につぶす）』と考えている",
-    "ノブナガはオウに『オメーも念能力者ならわかるだろ？』と問いかけ、空間移動能力の発動条件について説明する（写真10左）"
+      "オウ＝ケンイは『…じゃ 手を組もう…って言ったら 乗るか?』と持ちかけるが、内心では旅団を『危険因子（早目につぶす）』と考えている",
+      "ノブナガはオウに『オメーも念能力者ならわかるだろ？』と問いかけ、空間移動能力の発動条件について説明する（写真10左）"
     ],
     "mysteries": [
       "旅団が共闘の提案に乗るか（本話の画像では答えが描かれない）",
@@ -8537,8 +8542,8 @@
     "title": "センリツが司法局でカイザルの事情聴取を受ける",
     "description": "9日目、第2層司法局でセンリツがカイザルの事情聴取を受ける。カイザルは、遺書からキーニ協会員が単独で両王子の逃亡を幇助したという結論に落ち着きそうだが、別の可能性も考えていると話す。何人かの王子がセンリツを自室へ招きたがっていると伝え、危険な王子から守るための拘束だと説明する。センリツは独立した司法機関での聴取であることを確かめ、この時間を利用して次の手を考えようとする",
     "characters": [
-    "P10-H01",
-    "JUD-001"
+      "P10-H01",
+      "JUD-001"
     ],
     "room": null,
     "location": "第2層 司法局",
@@ -8546,18 +8551,21 @@
     "series": null,
     "series_index": null,
     "revealed_facts": [
-    "何人かの王子がセンリツの演奏に『感動』して自分達の部屋に招きたがっている（カイザルの台詞）",
-    "カイザルは、両王子がキーニ協会員に脅され救命艇に乗せられそうになったという話について、両王子が積極的に逃亡を企てたという疑いを排除する材料は遺書以外に無いと述べる",
-    "カイザルは、カチョウ王子とフウゲツ王子にも話を聞く為ここに来てもらっていると述べる",
-    "カイザルはセンリツに『危険な王子から守る為の拘束だよ』と説明する（写真2左）",
+      "何人かの王子がセンリツの演奏に『感動』して自分達の部屋に招きたがっている（カイザルの台詞）",
+      "カイザルは、両王子がキーニ協会員に脅され救命艇に乗せられそうになったという話について、両王子が積極的に逃亡を企てたという疑いを排除する材料は遺書以外に無いと述べる",
+      "カイザルは、カチョウ王子とフウゲツ王子にも話を聞く為ここに来てもらっていると述べる",
+      "カイザルはセンリツに『危険な王子から守る為の拘束だよ』と説明する（写真2左）",
       "センリツは司法局が独立した司法機関であることを確かめ、聴取を自分を守る為の拘束と受け止める"
     ],
     "mysteries": [
       "センリツを招こうとしている王子たちの具体的な目的",
-    "カイザルが考えている『別の可能性』の中身"
+      "カイザルが考えている『別の可能性』の中身"
     ],
     "notes": "第386話写真2（106〜107ページ）。右に『9日目 第2層 司法局』と明記。分刻みの時刻表示はない。2026-10-20のメモに従い再閲覧し、聴取役をカイザル（JUD-001）へ訂正。旧登録の、眼鏡の容姿だけからミザイストムとした同定理由は撤回する。写真2左には聴取役が『危険な王子から守る為の拘束だよ』と説明する台詞があり、旧注記の『明言していない』も訂正。カチョウ王子がここに来ているという点はカイザルの台詞で、本人の死亡状態との関係は本場面だけでは決着しない。",
-    "character_presence": {"P10-H01": "present", "JUD-001": "present"},
+    "character_presence": {
+      "P10-H01": "present",
+      "JUD-001": "present"
+    },
     "date_certainty": "confirmed",
     "location_basis": "写真2右の『9日目 第2層 司法局』の表示。"
   },
@@ -8570,7 +8578,7 @@
         108,
         109,
         110,
-      111
+        111
       ],
       "scene_id": "E386-003"
     },
@@ -8590,18 +8598,18 @@
     "characters": [
       "P09",
       "P07-G06",
-    "P09-P05"
+      "P09-P05"
     ],
     "room": "第1層 1009号室",
     "location": "ハルケンブルグ側の部屋（1009号室として整理）",
     "character_locations": {
       "P09": "第1層 1009号室",
-    "P07-G06": "第1層 1009号室",
-    "P09-P05": "第1層 1009号室"
+      "P07-G06": "第1層 1009号室",
+      "P09-P05": "第1層 1009号室"
     },
     "camp": [
       "ハルケンブルグ陣営",
-    "ベンジャミン陣営"
+      "ベンジャミン陣営"
     ],
     "series": null,
     "series_index": null,
@@ -8609,8 +8617,8 @@
       "ハルケンブルグは、シカクの魂の行方について4つの可能性を挙げ、どれも否定する材料がないとされる",
       "スミドリの肉体は脈・脳波に異常がなく、数値からは『睡眠』と判断された",
       "シカクの肉体に入った人格は、感覚的には自分の肉体と何ら変わらないと述べる",
-    "ハルケンブルグはこの能力を、父上と話し運命を受け入れ覚悟を決めた直後に覚醒した、継承戦を勝ち残る為の能力だと確信している",
-    "ハルケンブルグは能力の確認が必要だとして、スミドリに仮説の実行を頼む"
+      "ハルケンブルグはこの能力を、父上と話し運命を受け入れ覚悟を決めた直後に覚醒した、継承戦を勝ち残る為の能力だと確信している",
+      "ハルケンブルグは能力の確認が必要だとして、スミドリに仮説の実行を頼む"
     ],
     "mysteries": [
       "ハルケンブルグが『これから話す』とした仮説の具体的な中身（画像には描かれない）",
@@ -8732,7 +8740,7 @@
     "source_locator": {
       "chapter": 386,
       "pages": [
-      116
+        116
       ],
       "scene_id": "E386-006"
     },
@@ -9544,7 +9552,7 @@
     "mysteries": [
       "数字が増える条件と効果"
     ],
-    "notes": "画像10左。コベントバの名前はこの話の画像では明示されないが、直後の第390話画像1の名札『第一王子私設兵 コベントバ』で同じ人物と確認できる（同じ硬貨の続きの場面）。硬貨を拾った経緯と変化前の数字（1）は第390話画像1の台詞による。数字が増える条件と効果はこの話では示されない。 【2026-10-11 整合性点検】本文に登場する硬貨を与えているチョウライ（P03）を関係人物に加えた。 【2026-10-11 外部レビューの時系列指摘で修正】日付を未設定→10日目（date_certainty: estimated）、仮時刻を10:30→12:05にした。この話の画像に日付・時刻の表示はない。第389話の照合記録のページ順（01→02→03→04→06→05→07→08→09→10）で、この場面は写真03左の『10日目（火曜日）AM11:30』（E389-002）とE389-003より後のページにあることによる。分単位の時刻は表示順のための仮置き（user-provisional-clocks-20261008）。"
+    "notes": "画像10左。コベントバの名前はこの話の画像では明示されないが、直後の第390話画像1の名札『第一王子私設兵 コベントバ』で同じ人物と確認できる（同じ硬貨の続きの場面）。硬貨を拾った経緯と変化前の数字（1）は第390話画像1の台詞による。数字が増える条件と効果はこの話では示されない。 【2026-10-11 整合性点検】本文に登場する硬貨を与えているチョウライ（P03）を関係人物に加えた。 【2026-10-11 外部レビューの時系列指摘で修正】日付を未設定→10日目（date_certainty: estimated）、仮時刻を10:30→12:05にした。この話の画像に日付・時刻の表示はない。第389話の照合記録のページ順（01→02→03→04→06→05→07→08→09→10）で、この場面は写真03左の『10日目（火曜日）AM11:30』（E389-002）とE389-003より後のページにあることによる。分単位の時刻は表示順のための仮置き（user-provisional-clocks-20261008）。 【2026-10-25 コイン時系列の整理】初日から数えた10日目と丸10日経過を区別する。出現時刻が13時でも数字が変化する時刻まで13時とは未確認のため、既存の10日目・仮12:05は維持する。"
   },
   {
     "id": "E389-010",
@@ -12604,8 +12612,8 @@
     },
     "source_id": "user-original-ch403",
     "location_status": "recorded",
-    "time_estimate": "08:33",
-    "time_estimate_basis": "user-provisional-clocks-20261008",
+    "time_estimate": "13:05",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
     "chapter": 403,
     "chapter_title": "成果",
     "day": 11,
@@ -12631,10 +12639,12 @@
     "mysteries": [
       "硬貨の能力の具体的な効果と発動条件"
     ],
-    "notes": "写真8。この場面に日付表示なし（同話の写真1・5に11日目の表示）。チョウライは『10』のコインに10日前の日付を付し、今後の硬貨に製造年月日を明記して管理すると決め、独白で側近には念能力の効果を推し測る経験と知識が足りないと考え、『1014号室へ電話だ…!』と命じる。仮説は検証前で、能力の効果はこの話で確定しない。側近は名前の明示がないため同定しない。 【2026-10-11 外部レビューの時系列指摘で修正】chapter_order を画像順で振り直し（写真8、E403-006 の後）、仮時刻を E403-006 と入れ替えた（08:25→08:33）。",
+    "notes": "写真8。この場面に日付表示なし（同話の写真1・5に11日目の表示）。チョウライは『10』のコインに10日前の日付を付し、今後の硬貨に製造年月日を明記して管理すると決め、独白で側近には念能力の効果を推し測る経験と知識が足りないと考え、『1014号室へ電話だ…!』と命じる。仮説は検証前で、能力の効果はこの話で確定しない。側近は名前の明示がないため同定しない。 【2026-10-11 外部レビューの時系列指摘で修正】chapter_order を画像順で振り直し（写真8、E403-006 の後）、仮時刻を E403-006 と入れ替えた（08:25→08:33）。 【2026-10-25 コイン時系列の整理】手元7枚＋譲渡3枚＋コベントバの隠匿1枚＝11枚と読む。初日から毎日1枚なら11日目13時以降となる。旧08:33は撤回し13:05を表示順の仮置きとする。5分後の出来事と原作が明示したわけではない。",
     "chapter_order": 9,
     "location_basis": "写真8右の『1003』の表示による。",
-    "date_certainty": "estimated"
+    "date_certainty": "estimated",
+    "time_inference": false,
+    "time_after_event_id": "E404-111"
   },
   {
     "id": "E403-010",
@@ -12728,8 +12738,8 @@
     },
     "source_id": "user-original-ch404",
     "location_status": "unverified",
-    "time_estimate": "09:05",
-    "time_estimate_basis": "user-provisional-clocks-20261008",
+    "time_estimate": "13:10",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
     "chapter": 404,
     "chapter_title": "思惑",
     "chapter_order": 1,
@@ -12763,9 +12773,11 @@
       "硬貨の能力の効果と、持ち主・枚数・経過日数が発動にどう関わるか",
       "初日に現れたコインを誰が持っているか"
     ],
-    "notes": "写真1左〜写真3右（印刷70は写真2右）。この話の画像に日付表示なし（クラピカの独白に『今日が11日目の水曜日』とあり、day=11と矛盾しない）。旧記述の『コインを受け取る』は、画像では『10』のコインをいったん譲り受けて検証後に返し、のちに今日現れた1枚を受け取る流れ。系統・効果はクラピカの推察で未確定。コベントバ（P01-P11）は写真3右で名前が示されるが、場面には推理の対象として描かれる。写真3左〜4右のクラピカの独白（第3王子と第1王子・マフィアの均衡、1003号室と1014号室のどちらが安全か）はこのイベントの続きとして扱う。",
+    "notes": "写真1左〜写真3右（印刷70は写真2右）。この話の画像に日付表示なし（クラピカの独白に『今日が11日目の水曜日』とあり、day=11と矛盾しない）。旧記述の『コインを受け取る』は、画像では『10』のコインをいったん譲り受けて検証後に返し、のちに今日現れた1枚を受け取る流れ。系統・効果はクラピカの推察で未確定。コベントバ（P01-P11）は写真3右で名前が示されるが、場面には推理の対象として描かれる。写真3左〜4右のクラピカの独白（第3王子と第1王子・マフィアの均衡、1003号室と1014号室のどちらが安全か）はこのイベントの続きとして扱う。 【2026-10-25 コイン時系列の整理】写真3右の「毎日午後1時」「今日現れた1枚」から11日目13時以降。旧09:05は撤回し、連絡後の面会を13:10に仮配置する。正確な開始時刻・所要時間は不明。別場所の搬送・通話場面の時刻はこの面会にそろえない。",
     "location_basis": "チョウライの居室と見られるが、この話の画像に部屋番号の表示はない。既存値は変えない。",
-    "date_certainty": "estimated"
+    "date_certainty": "estimated",
+    "time_inference": false,
+    "time_after_event_id": "E403-007"
   },
   {
     "id": "E404-002",
@@ -12876,8 +12888,8 @@
     },
     "source_id": "user-original-ch404",
     "location_status": "unverified",
-    "time_estimate": "09:20",
-    "time_estimate_basis": "user-provisional-clocks-20261008",
+    "time_estimate": "13:20",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
     "chapter": 404,
     "chapter_title": "思惑",
     "chapter_order": 5,
@@ -12905,9 +12917,11 @@
       "クラピカは、第2王子の私設兵が1人で参加することから『何かをしに来る』のは間違いないと考え、センリツからの手紙に記された各王子の秘密の中に第2王子のものはなかったと振り返る（独白）"
     ],
     "mysteries": [],
-    "notes": "写真8左・写真9右（印刷84）。この話の画像に日付表示なし。旧備考の『翌日の午前9:00から1014号室で開催予定』は、画像では『木曜の午前9時から』で、開催場所は示されない（11日目が水曜日なので木曜は翌日に当たる）。開催自体はこの場面では描かれない。話し相手の第1王子私設兵（髪を後ろへ流した男性）は名前の明示がないため同定しない。ビルは登録画像 bill.png と一致、シマヌは台詞で名前が明示される。",
+    "notes": "写真8左・写真9右（印刷84）。この話の画像に日付表示なし。旧備考の『翌日の午前9:00から1014号室で開催予定』は、画像では『木曜の午前9時から』で、開催場所は示されない（11日目が水曜日なので木曜は翌日に当たる）。開催自体はこの場面では描かれない。話し相手の第1王子私設兵（髪を後ろへ流した男性）は名前の明示がないため同定しない。ビルは登録画像 bill.png と一致、シマヌは台詞で名前が明示される。 【2026-10-25 コイン時系列の整理】第3王子との面会後に1014号室で講習の準備を進める流れとして13:20に仮配置する。旧09:20は撤回。帰室後という前後関係と分刻みは編集上の推定で、原作の時計表示ではない。",
     "location_basis": "オイトとワブルのいる居室の入口付近と廊下。部屋番号の表示はない。既存値は変えない。",
-    "date_certainty": "estimated"
+    "date_certainty": "estimated",
+    "time_inference": false,
+    "time_after_event_id": "E404-001"
   },
   {
     "id": "E404-005",
@@ -20619,7 +20633,17 @@
     "chapter_order": 4,
     "verification_status": "review_recorded",
     "source_id": "user-original-ch386",
-    "source_locator": {"chapter": 386, "pages": [112,113,114,115,116], "scene_id": "E386-008"},
+    "source_locator": {
+      "chapter": 386,
+      "pages": [
+        112,
+        113,
+        114,
+        115,
+        116
+      ],
+      "scene_id": "E386-008"
+    },
     "day": 9,
     "date_certainty": "estimated",
     "time_start": null,
@@ -20629,15 +20653,38 @@
     "type": "死亡・能力検証",
     "title": "シカクの肉体が1007号室前で自死する",
     "description": "スミドリの人格が入ったシカクの肉体が1007号室を訪れ、インターホンで第1王子の私設兵と名乗る。ライスが応対する中、廊下で『ベンジャミン王子殿万歳』と叫んで自分の頭を撃ち、死亡する。1007号室側では発砲と自死が報告され、その後、鳴動が止んでいると確認される",
-    "characters": ["P07-G06","P09-P05","P07-G02","P07"],
-    "character_presence": {"P07-G06":"present","P09-P05":"remote","P07-G02":"present","P07":"present"},
-    "character_locations": {"P07-G06":"第1層 1007号室前の廊下","P07-G02":"第1層 1007号室","P07":"第1層 1007号室"},
-    "status_effects": [{"character":"P07-G06","status":"死亡"}],
+    "characters": [
+      "P07-G06",
+      "P09-P05",
+      "P07-G02",
+      "P07"
+    ],
+    "character_presence": {
+      "P07-G06": "present",
+      "P09-P05": "remote",
+      "P07-G02": "present",
+      "P07": "present"
+    },
+    "character_locations": {
+      "P07-G06": "第1層 1007号室前の廊下",
+      "P07-G02": "第1層 1007号室",
+      "P07": "第1層 1007号室"
+    },
+    "status_effects": [
+      {
+        "character": "P07-G06",
+        "status": "死亡"
+      }
+    ],
     "room": "第1層 1007号室",
     "location": "第1層 1007号室前の廊下・室内",
     "location_status": "recorded",
     "location_basis": "写真4左の1007の表札に続き、写真5左で応対、写真6左で廊下での発砲、写真7右で鳴動の停止が描かれる。",
-    "camp": ["ハルケンブルグ陣営","ベンジャミン陣営","ルズールス陣営"],
+    "camp": [
+      "ハルケンブルグ陣営",
+      "ベンジャミン陣営",
+      "ルズールス陣営"
+    ],
     "series": "鳴動",
     "series_index": 3,
     "revealed_facts": [
@@ -20657,7 +20704,13 @@
     "chapter_order": 6,
     "verification_status": "review_recorded",
     "source_id": "user-original-ch386",
-    "source_locator": {"chapter": 386, "pages": [117], "scene_id": "E386-009"},
+    "source_locator": {
+      "chapter": 386,
+      "pages": [
+        117
+      ],
+      "scene_id": "E386-009"
+    },
     "day": 9,
     "date_certainty": "estimated",
     "time_start": null,
@@ -20667,19 +20720,480 @@
     "type": "能力検証・問いかけ",
     "title": "ハルケンブルグが目覚めた男に所属と認識番号を問う",
     "description": "ハルケンブルグのもとで、スミドリの元の肉体側で目覚めた男が『ハル…ケン…ブ…ルグ王子…』と口にする。ハルケンブルグは所属と認識番号を問うが、返答はこの場面に描かれない",
-    "characters": ["P09","P09-P05"],
-    "character_presence": {"P09":"present","P09-P05":"unknown"},
+    "characters": [
+      "P09",
+      "P09-P05"
+    ],
+    "character_presence": {
+      "P09": "present",
+      "P09-P05": "unknown"
+    },
     "room": "第1層 1009号室",
     "location": "ハルケンブルグ側の部屋（1009号室として整理）",
     "location_status": "unverified",
     "location_basis": "ハルケンブルグが検証する部屋へ場面が戻る。画像内に部屋番号はなく、既存配置に基づく1009号室という整理。",
-    "camp": ["ハルケンブルグ陣営"],
+    "camp": [
+      "ハルケンブルグ陣営"
+    ],
     "series": null,
     "series_index": null,
-    "revealed_facts": ["ハルケンブルグは目覚めた男に所属と認識番号を問う。回答は描かれない"],
+    "revealed_facts": [
+      "ハルケンブルグは目覚めた男に所属と認識番号を問う。回答は描かれない"
+    ],
     "mysteries": [],
     "time_after_event_id": "E386-006",
     "time_before_event_id": "E386-004",
     "notes": "第386話写真7左（117ページ）を2026-10-20に再閲覧し旧E386-003から分離。P09-P05は元の肉体との対応を示すが、スミドリ本人の帰還は断定しない。第404話写真5右で語られる、目覚めた元の肉体側にはシカクの人格だけだったという説明は後続話の補足であり、第386話の返答として混ぜない。09:48は描写順のための仮時刻。"
+  },
+  {
+    "id": "E404-101",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-101"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 1,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "1日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 1,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-103",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-103"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 3,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "3日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 3,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-104",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-104"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 4,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "4日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 4,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-105",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-105"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 5,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "5日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 5,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-106",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-106"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 6,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "6日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 6,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-107",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-107"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 7,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "7日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 7,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-108",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-108"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 8,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "8日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 8,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-109",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-109"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 9,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "9日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 9,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-110",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-110"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 10,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "10日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 10,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-111",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-111"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 11,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "11日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 11,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。"
+  },
+  {
+    "id": "E404-112",
+    "chapter": 404,
+    "chapter_title": "思惑",
+    "source_id": "user-hypothesis-coin-daily-20261025",
+    "source_locator": {
+      "chapter": 404,
+      "pages": null,
+      "scene_id": "E404-112"
+    },
+    "verification_status": "hypothesis",
+    "verification_note": "第404話写真3右の毎日午後1時という説明を各日に当てはめた推測。個々の日の落下場面を確認した記録ではない。",
+    "day": 12,
+    "date_certainty": "estimated",
+    "time_start": null,
+    "time_end": null,
+    "time_estimate": "13:00",
+    "time_estimate_basis": "user-hypothesis-coin-daily-20261025",
+    "time_inference": false,
+    "is_estimate": true,
+    "type": "念能力使用",
+    "title": "チョウライの守護霊獣からコインが落ちる",
+    "description": "12日目の13時に、チョウライの守護霊獣からコインが1枚落ちると推測する。",
+    "characters": [
+      "P03"
+    ],
+    "character_presence": {
+      "P03": "mentioned"
+    },
+    "room": null,
+    "location": null,
+    "location_status": "original_unknown",
+    "camp": [
+      "チョウライ陣営"
+    ],
+    "series": "チョウライのコイン出現（毎日13時の仮説）",
+    "series_index": 12,
+    "revealed_facts": [],
+    "mysteries": [],
+    "notes": "2026-10-25ユーザー依頼。毎日13時の出現を1〜12日目に展開する仮説。2日目は原作で落下が描かれるE374-004を使い、重複登録しない。chapter=404は規則の説明がある話数であり、この日の落下が同話で描かれたという意味ではない。落下場所・王子の在室・拾った人物・数字が変わる時刻は補完しない。第376話の「今朝」との食い違いは未解決。12日目は第404話で説明された規則が翌日も続くという推測であり、生成の継続を直接確認したものではない。"
   }
 ]

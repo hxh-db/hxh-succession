@@ -7,7 +7,10 @@ const crypto = require('node:crypto');
 const ROOT = path.resolve(__dirname, '..');
 const INPUT = 'data/intake/initial_personnel_assignments_20261013.json';
 const OUTPUT = 'data/intake/initial_personnel_coverage_20261013';
-const read = file => JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+// Git may check out these text files with CRLF on Windows. Hash the same text
+// that is compared below, so checkout line endings do not invalidate a report.
+const readText = file => fs.readFileSync(path.join(ROOT, file), 'utf8').replace(/\r\n/g, '\n');
+const read = file => JSON.parse(readText(file));
 const config = read(INPUT);
 const counts = read(config.counts_file);
 const characters = read('data/characters.json').filter(person => person.generated_by !== 'personnel-roster');
@@ -130,7 +133,7 @@ const report = {
   review_date: config.review_date, scope: config.scope, counting_policy: config.counting_policy,
   summary, princes, shared_pools: sharedPools, record_reviews: recordReviews,
   corrections: config.corrections, issues: config.issues,
-  source_hashes: Object.fromEntries(sourceFiles.map(file => [file, crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, file))).digest('hex')]))
+  source_hashes: Object.fromEntries(sourceFiles.map(file => [file, crypto.createHash('sha256').update(readText(file), 'utf8').digest('hex')]))
 };
 const md = [
   '# 出航時の初期人員と既存IDの対応（2026-10-13）', '',
@@ -175,7 +178,7 @@ for (const [extension, content] of [['json', JSON.stringify(report, null, 2) + '
   const file = path.join(ROOT, `${OUTPUT}.${extension}`);
   if (process.argv.includes('--check')) {
     assert.ok(fs.existsSync(file), `未生成: ${file}`);
-    assert.equal(fs.readFileSync(file, 'utf8'), content, `再生成が必要: ${file}`);
+    assert.equal(fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'), content, `再生成が必要: ${file}`);
   } else {
     fs.writeFileSync(file, content, 'utf8');
   }

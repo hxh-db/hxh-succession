@@ -147,7 +147,7 @@ const outputs = new Map([
   ['data/characters.json', JSON.stringify([...original, ...generated], null, 2) + '\n']
 ]);
 for (const [file, expected] of outputs) {
-  if (process.argv.includes('--check')) assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), expected, `再生成が必要: ${file}`);
+  if (process.argv.includes('--check')) assert.equal(fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n'), expected, `再生成が必要: ${file}`);
   else fs.writeFileSync(path.join(root, file), expected);
 }
 console.log(`PASS: 出航時${members.length}人、仮登録${generated.filter(p => !p.roster_projection).length}人、王妃別対応未同定枠${projections.length}件`);

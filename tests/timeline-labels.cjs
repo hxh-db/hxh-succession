@@ -29,7 +29,8 @@ const demoted = events.filter(e => e.time_estimate_basis === 'editorial-time-dem
 // 2026-10-10 の16件に 2026-10-11 の外部レビューで3件を追加し、同日のユーザー方針（物語中の経過表示は確定）で E359-001・E361-005・E369-001・E414-001 を確定に戻した
 // E374-001は2026-10-16の場面転換の再指定で独立した編集根拠へ移した。
 // E380-001は2026-10-20の追加メモで仮09:50へ変更し、根拠をuser-memo-delta-20261020へ移した。
-assert.equal(demoted.length, 13);
+// E413-003は2026-10-26に予定時刻の仮置きも撤回し、事前命令の相対順序にした。
+assert.equal(demoted.length, 12);
 assert.equal(events.find(e=>e.id==='E380-001').time_estimate_basis,'user-memo-delta-20261020');
 assert.equal(ctx.getTimelineTimePlacement(events.find(e=>e.id==='E380-001')).label,'09:50頃？');
 // 物語の経過表示から決まる時刻は確定（出航12:00、出航2時間＝14:00、出航18時間＝2日目06:00、発令5分前＝14:10）
@@ -68,6 +69,25 @@ assert.equal(fugetsu.day, 3);
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).label, '01:27');
 assert.equal(ctx.getTimelineTimePlacement(fugetsu).estimated, false);
 const position = id => ordered.findIndex(e => e.event.id === id);
+// 精査で判明した因果関係は、全件でも絞り込み後でも順序を保つ。
+for (const chain of [
+  ['E359-003', 'E360-001', 'E361-001', 'E361-007', 'E361-008', 'E361-005'],
+  ['E375-001', 'E375-002', 'E375-003', 'E376-008'],
+  ['E401-001', 'E401-002', 'E401-003', 'E401-004', 'E412-002'],
+  ['E413-002', 'E413-003', 'E413-008'],
+]) {
+  for (let i = 1; i < chain.length; i++) assert.ok(position(chain[i-1]) < position(chain[i]), chain.join(' -> '));
+  const subset = events.filter(e => chain.includes(e.id));
+  assert.deepEqual(Array.from(ctx.getChronologicalEntries(subset), e => e.event.id), chain);
+  assert.deepEqual(Array.from(ctx.getChronologicalEntries(subset, 'desc'), e => e.event.id), chain.slice().reverse());
+}
+for (const id of ['E360-001', 'E375-002', 'E375-003', 'E376-008', 'E412-002', 'E413-003']) {
+  assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === id)), null, `Do not invent a clock: ${id}`);
+}
+assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === 'E375-001')).label, '09:00頃？');
+assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === 'E387-001')).label, '19:35');
+assert.equal(ctx.getTimelineTimePlacement(events.find(e => e.id === 'E387-001')).estimated, false);
+assert.ok(position('E387-001') < position('E385-002'));
 // 400〜404話：別話で描き直した訪問と、午後の呼び出し・到着の順序を守る。
 for (const chain of [
   ['E403-004', 'E402-007', 'E402-008', 'E402-011'],

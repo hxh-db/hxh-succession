@@ -2246,10 +2246,10 @@ function createCharacterDirectoryCard(character) {
   if (character.type !== "soldier") badges.appendChild(makeCharacterTypeBadge(character.type));
   const allianceLabels = character.type === "prince"
     ? alliancesData.filter((alliance) => alliance.prince_ids.includes(character.id)).map((alliance) => ({
-      partnerLabels: alliance.prince_ids.filter((id) => id !== character.id).map((id) => {
+      label: alliance.prince_ids.filter((id) => id !== character.id).map((id) => {
         const partner = princesData.find((prince) => prince.id === id);
         return partner ? `第${partner.rank}王子${getDisplayName(partner)}` : id;
-      })
+      }).join("・")
     }))
     : [];
   // 念の有無はカード上の「念：…」の1行にまとめ、同じ意味のタグは重ねて出さない（絞り込みの一覧には残す）。
@@ -2270,12 +2270,11 @@ function createCharacterDirectoryCard(character) {
     badges.appendChild(supplement);
   }
   allianceLabels.forEach((alliance) => {
-    ["共闘", ...alliance.partnerLabels].forEach((label, index) => {
-      const badge = document.createElement("span");
-      badge.className = `character-alliance-badge spoiler-only ${index === 0 ? "character-alliance-role" : "character-alliance-partner"}`;
-      badge.textContent = label;
-      badges.appendChild(badge);
-    });
+    const badge = document.createElement("span");
+    badge.className = "character-alliance-badge";
+    badge.classList.add("spoiler-only");
+    badge.textContent = `共闘 → ${alliance.label}`;
+    badges.appendChild(badge);
   });
   identity.append(heading, badges);
   if (identity.rosterState) identity.appendChild(identity.rosterState);
@@ -2360,7 +2359,7 @@ function createCharacterDirectoryCard(character) {
       used.add(deathTag.id);
     }
     visibleTags.filter((tag) => !used.has(tag.id)).forEach((tag) => {
-      const destination = ["血縁", "状態", "念", "念講習会"].includes(tag.category) ? spoilerTagList : tagList;
+      const destination = ["血縁", "状態", "念講習会"].includes(tag.category) ? spoilerTagList : tagList;
       destination.appendChild(makeCharacterTagButton(tag));
     });
     if (tagList.childNodes.length) card.appendChild(tagList);
@@ -2985,20 +2984,20 @@ function setupCharacterDirectory() {
     let rosterText = rosterMode ? (spoilersRevealed || periodFilter.value === "departure"
       ? (periodFilter.value === "departure"
         ? `名簿全体（選択時点・王妃）：${ledger.length}枠。初期復元を含み、全員の初期在籍を個別確認済みという意味ではありません。`
-        : `名簿全体（選択時点・王妃）：${ledger.length}枠／死亡・拘束・辞退・離脱の履歴なし：${withoutStop}枠（うち状態未確認${unknown}枠）。稼働確認済み人数ではありません。`)
-      : `名簿全体（選択時点・王妃）：${ledger.length}枠。状態別の人数はネタバレ表示で確認できます。`) : "";
-    if (rosterMode) rosterText += ` うち個人未同定：${ledger.filter(p => p.is_count_only || p.roster_projection || countOnlyCharacterIds.has(p.id)).length}枠（仮登録として一覧に表示）。検索語・その他の絞り込みを適用する前の集計です。`;
+        : `名簿全体（選択時点・王妃）：${ledger.length}人／死亡・拘束・辞退・離脱の履歴なし：${withoutStop}人（うち状態未確認${unknown}人）。稼働確認済み人数ではありません。`)
+      : `名簿全体（選択時点・王妃）：${ledger.length}人。状態別の人数はネタバレ表示で確認できます。`) : "";
+    if (rosterMode) rosterText += ' 検索語・その他の絞り込みを適用する前の集計です。';
     if (spoilersRevealed && queenFilter.value !== "all" && periodFilter.value === "chapter-374") {
       const queen = Number(queenFilter.value);
       const diagram = PersonnelRoster.diagramCount(personnelSnapshotsData.find(item => item.chapter === 374), queen);
       const initial = PersonnelRoster.select(personnelRosterData, charactersData, {period: "departure", queen}).length;
-      rosterText += ` 初期復元：${initial}枠／第374話の原図記載：${diagram}人。原図の集計範囲・除外条件との対応は未確定で、差は登録漏れを意味しません。`;
+      rosterText += ` 初期復元：${initial}人／第374話の原図記載：${diagram}人。原図の集計範囲・除外条件との対応は未確定で、差は登録漏れを意味しません。`;
     }
     document.getElementById("personnelRosterSummary").textContent = rosterText;
     queenNav.querySelectorAll("button").forEach(button => {
       const rank = Number(button.dataset.queenRank);
       const total = getPersonnelSelection(rank).length;
-      button.textContent = `第${rank}王妃所属兵を表示（${total}枠）`;
+      button.textContent = `第${rank}王妃所属兵を表示（${total}人）`;
       button.title = `兵士・従事者を${periodFilter.value === "all" ? "出航時" : periodFilter.selectedOptions[0].textContent}・第${rank}王妃所属兵で絞り込みます`;
       button.classList.toggle("active", queenFilter.value === String(rank));
       button.setAttribute("aria-pressed", String(queenFilter.value === String(rank)));

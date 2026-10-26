@@ -3059,11 +3059,10 @@ function setupCharacterDirectory() {
       empty.textContent = "条件なし（全員）";
       activeTagBar.appendChild(empty);
     }
-    const noCharacterTagFilters = activeCharacterSection === "all"
+    const noCharacterFilters = activeCharacterSection === "all"
       && princeFilter.value === "all" && !activeCharacterTags.size && !activeCharacterAffiliation
-      && typeFilter.value === "all" && campFilter.value === "all" && queenFilter.value === "all";
-    const noCharacterFilters = noCharacterTagFilters && !search.value.trim() && periodFilter.value === "all";
-    document.getElementById("resetCharacterTags").disabled = noCharacterTagFilters;
+      && typeFilter.value === "all" && campFilter.value === "all" && !search.value.trim()
+      && periodFilter.value === "all" && queenFilter.value === "all";
     document.getElementById("clearCharacterFilters").disabled = noCharacterFilters;
     // 条件がないときは「条件なし」の行を出さず、最初の画面で人物カードまで見えるようにする。
     document.querySelector(".character-tag-catalog")?.classList.toggle("has-active-filters", !noCharacterFilters);
@@ -3073,7 +3072,8 @@ function setupCharacterDirectory() {
     document.getElementById("characterFilterCount").textContent = tagConditionCount ? `（${tagConditionCount}条件を選択中）` : "";
     updateViewPermalink();
   };
-  const resetCharacterTagSelections = () => {
+  document.getElementById("clearCharacterFilters").addEventListener("click", () => {
+    search.value = "";
     activeCharacterTags.clear();
     activeCharacterSection = "all";
     activeCharacterSubgroup = null;
@@ -3081,16 +3081,8 @@ function setupCharacterDirectory() {
     typeFilter.value = "all";
     campFilter.value = "all";
     princeFilter.value = "all";
-    queenFilter.value = "all";
-  };
-  document.getElementById("resetCharacterTags").addEventListener("click", () => {
-    resetCharacterTagSelections();
-    apply();
-  });
-  document.getElementById("clearCharacterFilters").addEventListener("click", () => {
-    search.value = "";
     periodFilter.value = "all";
-    resetCharacterTagSelections();
+    queenFilter.value = "all";
     apply();
   });
   search.addEventListener("input", apply);

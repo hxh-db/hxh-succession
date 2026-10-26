@@ -4,12 +4,12 @@
   "character_count": 392,
   "directory_count": 363,
   "source_sha256": {
-    "characters.json": "381dbde0f385bd3fbad57ac348642914b2c20c05cd431d478a40d0e36c8a3dd9",
+    "characters.json": "04aa1da54f3954acf956a864e92a0c48cf6b8572519cbc3d35f11f2713161bf3",
     "character_images.json": "958b6563f243d4c77d87128748e163da911cebcbf8208e3e9f53987260a751e1",
     "events.json": "1236eb883e17546c8a71ccf9f19c233b486afd227d3e93f4b60a3c080af49666",
     "spirit_beasts.json": "20dd0de3c58d809ca2aa525268571a51af1bb9f7e7d189213e4da1a93d51d1a5",
     "count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
     "personnel_roster.json": "adff8435bf16f9eaa848d7e2ba4cf79e355fb16c57967382c0ea72a2d60d7d06",
-    "sources.json": "db7878e91c7911970aa5945cc5a9e7b94b301f383da264f3e3fd81c4a554e879"
+    "sources.json": "174f906e1d0a469fddfafe6abcec1a1835b63023cfb3aac7b7ac8377ee9da809"
   }
 }

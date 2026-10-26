@@ -78,3 +78,11 @@
 - 公式公開状況は `sources.json` に記録する。
 - 詳細な出来事は原作話数を最優先の根拠とする。
 - 二次資料だけで追加した情報は、原作確認待ちとして `research_backlog.json` に残す。
+
+## web_research.json（Web調査と追加資料）
+
+- 作者資料・公式補助資料・細かな考察の採否を、出典と既存データとの比較付きで記録する。`sources.json` の出典ID、人物・出来事・考察記事へ参照する。
+- `confirmed_supplement` は公式補助資料の確認範囲に限る。原作の確認状態を上げない。`needs_primary` は一次資料待ち、`hypothesis` は読者の仮説、`superseded` は後の説明との対照用、`excluded` は確定情報への採用見送り。
+- 検索インデックスだけの確認は出典の `verification_status: search_index_checked` に明記する。本文取得や原画像の判読とは区別する。一次資料待ちの名前を人数枠へ割り当てたり、人物を増員したりしない。
+- `chapter` は項目本文と関連出来事を含むネタバレ上限。外部記事は更新され得るため、リンク先まで同じ範囲と保証しない。タイトルと検索語に後の結論を含めない。
+- `python scripts/build-web-research.py` で `research/index.html` を生成し、`python scripts/build-theories.py` で関連記事の調査リンクを同期する。両方の `--check` はファイルを変更しない。スキーマ・参照・話数範囲は `validate_data.py` でも検査する。

@@ -23,6 +23,7 @@ def write_page(path, content):
 
 
 questions = json.loads((ROOT / 'data/open_questions.json').read_text(encoding='utf-8'))
+web_research = json.loads((ROOT / 'data/web_research.json').read_text(encoding='utf-8'))
 events = {e['id']: e for e in json.loads((ROOT / 'data/events.json').read_text(encoding='utf-8'))}
 # Each entry: neutral title, conclusion, interpretation, counterargument, next evidence.
 editorial = {
@@ -140,6 +141,9 @@ def shell(title, body, depth=0, article_id=None):
 out = ROOT / 'theories'
 cards = []
 for a in articles:
+    related_research = [r for r in web_research['entries'] if a['id'] in r['related_theory_ids']]
+    if related_research:
+        a['updated'] = web_research['checked_at']
     refs = [events[i] for i in a['refs']]
     question = next((q for q in questions if q['id'] == a['id']), None)
     checked = question.get('last_checked_chapter') if question else None
@@ -148,7 +152,8 @@ for a in articles:
                      if checked else ('状況の更新確認は未了です。' if a['id'] in {'fugetsu-overnight', 'halkenburg-four-days'} else 'その後の解決状況は未確認です。'))
     metadata = f'<dl class="article-metadata"><div><dt>本文のネタバレ</dt><dd>第{a["chapter"]}話まで</dd></div><div><dt>記事の最終更新日</dt><dd><time datetime="2026-10-18">2026年10月18日</time></dd></div></dl><details class="article-review-note"><summary>その後の解決状況について</summary><p>{checked_label} 更新日は記事の編集日で、原作の再確認日ではありません。</p></details>'
     if a.get('updated'):
-        metadata = metadata.replace('2026-10-18', a['updated']).replace('2026年10月18日', '2026年10月20日')
+        year, month, day = map(int, a['updated'].split('-'))
+        metadata = metadata.replace('2026-10-18', a['updated']).replace('2026年10月18日', f'{year}年{month}月{day}日')
     assert max(e['chapter'] for e in refs) <= a['chapter'], f'{a["id"]}: 参照場面が上限を超えています'
     mentioned = [int(n) for n in re.findall(r'第?(\d{3})話', ' '.join(str(a[k]) for k in ['conclusion', 'theory', 'weakness', 'next_step']) + ' '.join(key_points[a['id']]))]
     assert not mentioned or max(mentioned) <= a['chapter'], f'{a["id"]}: 本文の話数が上限を超えています'
@@ -172,6 +177,14 @@ for a in articles:
     related = '<a href="../Q012/">ドルフィンの解除条件の考察</a>' if a['id']=='emperor-time' else '<a href="../emperor-time/">発動時刻と12時間の食い違い</a>' if a['id']=='Q012' else ''
     timeline = '<table><caption>第369話からの逆算（確定時刻ではない）</caption><tr><th>開始</th><th>失神</th><th>覚醒</th></tr><tr><td>1日目18時ごろ</td><td>1日目21時ごろ</td><td>2日目6時ごろ</td></tr></table>' if a['id']=='emperor-time' else ''
     body = f'''<a href="../">← 謎・考察一覧</a><p class="eyebrow">{esc(a['category'])}</p><h1>{esc(a['title'])}</h1><p>本文を含むネタバレ範囲：第{a['chapter']}話まで · 執筆日：2026年10月13日</p><p class="scope-note">{esc(a['status'])}。原作全話での未解決を保証する一覧ではありません。参照場面は既存の照合記録に基づきます。</p><details class="spoiler-article"><summary>第{a['chapter']}話までのネタバレを含む記事を読む</summary><nav class="toc" aria-label="記事の目次"><a href="#conclusion">結論</a><a href="#key-points">重要な根拠3点</a><a href="#theory">考察</a><a href="#limits">反証・限界</a><a href="#evidence">詳しい参照場面</a></nav><h2 id="conclusion">現時点の結論</h2><p class="conclusion">{esc(a['conclusion'])}</p><h2 id="key-points">重要な根拠3点</h2>{points}<h2 id="theory">考察：どう読むと説明できるか</h2><p>{esc(a['theory'])}</p>{timeline}{comparison}<h2 id="limits">反証・断定できない点</h2><p>{esc(a['weakness'])}</p><h2>何が分かれば判断が進むか</h2><p>{esc(a['next_step'])}</p>{related}<details class="evidence-details" id="evidence"><summary>詳しい参照場面と確認状態を開く（{len(refs)}件）</summary><ul class="evidence">{evidence}</ul></details></details><p><a href="../">謎・考察一覧へ戻る</a></p>'''
+    if related_research:
+        in_scope = [r for r in related_research if r['chapter'] <= a['chapter']]
+        links = ''.join(f'<li><a href="../../research/#{r["id"]}">{esc(r["title"])}</a>（出典と採否を確認）</li>' for r in in_scope)
+        related_html = '<h2>関連するWeb調査と追加資料</h2>'
+        if links:
+            related_html += f'<ul>{links}</ul>'
+        related_html += f'<p><a href="../../research/?q={esc(a["id"], quote=True)}">このテーマの調査をすべて見る</a>（後の話を含む項目は調査ページで範囲を確認できます）</p>'
+        body = body.replace('</details></details><p>', f'</details>{related_html}</details><p>')
     body = body.replace('重要な根拠3点', 'この記事の要点3つ')
     body = re.sub(r'<p class="scope-note">.*?</p>', '', body)
     body = body.replace(f'<p>本文を含むネタバレ範囲：第{a["chapter"]}話まで · 執筆日：2026年10月13日</p>', metadata)
@@ -191,6 +204,7 @@ options=''.join(f'<option>{esc(c)}</option>' for c in dict.fromkeys(a['category'
 chapter_options = '<option value="">制限なし</option>' + ''.join(f'<option value="{chapter}">第{chapter}話まで読了</option>' for chapter in range(340, max(e['chapter'] for e in events.values()) + 1))
 body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを{len(articles)}本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">{len(articles)}本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
 body = body.replace('</select></label></div>', f'</select></label><label>読んだ話数<select id="essay-read-through">{chapter_options}</select></label></div>')
+body = body.replace('<div class="essay-filters"', '<p><a href="../research/">Web調査と追加資料</a>：作者の人物表・公式資料・細かな説を、出典と採否付きで確認できます。</p><div class="essay-filters"', 1)
 write_page(out/'index.html', shell('謎・考察',body))
 if stale_pages:
     print('Regenerate theory pages with: python scripts/build-theories.py')

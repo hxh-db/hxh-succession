@@ -20,6 +20,7 @@ const checks = [
   [process.execPath, ['scripts/build-initial-personnel-review.cjs', '--check']],
   [process.execPath, ['scripts/build-character-pages.cjs', '--check']],
   [python, ['scripts/build-theories.py', '--check']],
+  [python, ['scripts/build-web-research.py', '--check']],
   [python, ['-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_*.py']]
 ];
 for (const file of fs.readdirSync(path.join(ROOT, 'tests')).sort()) {
@@ -27,7 +28,7 @@ for (const file of fs.readdirSync(path.join(ROOT, 'tests')).sort()) {
   checks.push([process.execPath, [`tests/${file}`]]);
 }
 if (args.includes('--browser')) {
-  for (const name of ['draft-preservation', 'draft-reset', 'loading-recovery', 'spoiler-sync', 'event-link-spoilers', 'draft-recovery-backup', 'draft-corruption', 'draft-navigation', 'local-edit-display', 'draft-field-merge', 'event-creation', 'missing-record', 'draft-inflight-checkpoint']) {
+  for (const name of ['draft-preservation', 'draft-reset', 'loading-recovery', 'spoiler-sync', 'event-link-spoilers', 'draft-recovery-backup', 'draft-corruption', 'draft-navigation', 'local-edit-display', 'draft-field-merge', 'event-creation', 'missing-record', 'draft-inflight-checkpoint', 'web-research']) {
     checks.push([process.execPath, [`tests/${name}-browser.cjs`]]);
   }
 }

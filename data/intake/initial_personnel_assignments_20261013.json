@@ -823,6 +823,13 @@
       ],
       "status": "initial_destination_unknown",
       "reason": "マカハ・マンダムは第2王妃に関わる登録だが、初期の王子別派遣先を確認できない。IDのP05や標的から第5王子の枠を埋めない。"
+    },
+    {
+      "status": "face_reference",
+      "ids": [
+        "HA-U01"
+      ],
+      "reason": "第383話のHバッジの協会員。個別の顔を確認しているが、初期配属・既存の人数枠への対応は未確定。"
     }
   ],
   "out_of_scope_personnel_ids": [

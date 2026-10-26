@@ -375,6 +375,20 @@ def validate_cross_references(base):
         sources = json.load(f)
     errors.extend(duplicate_errors("出典ID", [source["id"] for source in sources]))
     source_ids = {source["id"] for source in sources}
+    with open(base / "web_research.json", encoding="utf-8") as f:
+        research = json.load(f)
+    errors.extend(duplicate_errors("Web調査ID", [row["id"] for row in research["entries"]]))
+    event_map = {event["id"]: event for event in events}
+    theory_ids = {q["id"] for q in questions} | {"emperor-time", "fugetsu-overnight", "halkenburg-four-days"}
+    for row in research["entries"]:
+        for field, valid in (("source_ids", source_ids), ("related_character_ids", id_set),
+                             ("related_event_ids", event_ids), ("related_theory_ids", theory_ids)):
+            for ref in row[field]:
+                if ref not in valid:
+                    errors.append(f"Web調査の参照先がありません: {row['id']} -> {field} -> {ref}")
+        for ref in row["related_event_ids"]:
+            if ref in event_map and event_map[ref]["chapter"] > row["chapter"]:
+                errors.append(f"Web調査の話数範囲を超える参照: {row['id']} -> {ref}")
     for snapshot in snapshots:
         chapter = snapshot["chapter"]
         if snapshot["source_id"] not in source_ids:
@@ -460,6 +474,7 @@ def main():
         ("character_images.json", "character_images.schema.json"),
         ("alliances.json", "alliances.schema.json"),
         ("sources.json", "sources.schema.json"),
+        ("web_research.json", "web_research.schema.json"),
     ]
 
     all_ok = True

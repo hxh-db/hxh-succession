@@ -46,6 +46,8 @@ node scripts/check-project.cjs --browser
 
 - `theories/` — 謎・考察一覧と17本の静的記事。本文はネタバレ設定に従って初期開閉し、個別にも開けます。
 - `scripts/build-theories.py` — 記事の執筆内容と生成処理。編集後に `python scripts/build-theories.py` を実行してください。`--check` は書き換えずに生成漏れ・生成元との差分を検出します。根拠は `data/events.json` の説明・確認状態を参照し、既存の謎一覧から各記事へリンクします。公開反映は既存の公開手順で別途行います。
+- `research/` — 「Web調査と追加資料」。作者の人物表、公式資料、細かな考察を出典・取り込み状況・留保付きで検索できます。「謎・考察」一覧と関連記事から開けます。人物名・分類・取り込み状況・読んだ話数で絞り込み、URLから同じ条件へ戻れます。
+- `data/web_research.json` / `scripts/build-web-research.py` — 調査台帳とその表示の生成元。更新後に `python scripts/build-web-research.py` と `python scripts/build-theories.py` を実行します。原作未照合の名前は調査候補として保持し、人物数や兵力へ自動追加しません。
 
 - `index.html` - ページ本体
 - `style.css` - レイアウトとデザイン

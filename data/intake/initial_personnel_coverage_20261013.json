@@ -14,8 +14,8 @@
     "individual_candidates": 113,
     "unresolved_individual_slots": 117,
     "author_setting_only_candidates": 9,
-    "existing_personnel_records_reviewed": 186,
-    "public_character_records": 266,
+    "existing_personnel_records_reviewed": 187,
+    "public_character_records": 271,
     "count_only_records": 23
   },
   "princes": [
@@ -3277,6 +3277,37 @@
       "status": "allocation_candidate",
       "prince_rank": 8,
       "group_key": "p08.monitors"
+    },
+    {
+      "id": "EII-U01",
+      "name": "エイ＝イ組員1（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "EII-U02",
+      "name": "ギャトーム",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "MC-U01",
+      "name": "晩餐会の司会者・輪状の髪飾りの人物（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "MC-U02",
+      "name": "晩餐会の司会者・左右にまとめた髪の人物（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "HA-U01",
+      "name": "1013号室のHバッジの協会員（第383話・仮称）",
+      "status": "face_reference",
+      "target": null,
+      "reason": "第383話のHバッジの協会員。個別の顔を確認しているが、初期配属・既存の人数枠への対応は未確定。"
     }
   ],
   "corrections": [
@@ -3295,10 +3326,10 @@
     "本編未照合の作者設定表9人を含め、対応候補は初期の個人配置を全件確認済みではない。未対応枠も原作未登場者や新規登録すべき人物と断定しない。"
   ],
   "source_hashes": {
-    "data/intake/initial_personnel_assignments_20261013.json": "ce49fb89c276024df03547fc65f1f55f4567991148202d941de061e11ae263fb",
+    "data/intake/initial_personnel_assignments_20261013.json": "d6a11610eeff56a2b0898156d5009e82df0b7629debeda0bbfbdd0219a5c0da7",
     "data/intake/initial_personnel_review_20261013.json": "e8bdc469c84eeecad04f9c3e66247e098883f6fa9d9fdd1d876146512be25e5a",
-    "data/characters.json": "67fd7667b17747d52cf6f210c529c3a690ff01a77ccfb1d00f0144b5b5f8f1ea",
+    "data/characters.json": "04aa1da54f3954acf956a864e92a0c48cf6b8572519cbc3d35f11f2713161bf3",
     "data/count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
-    "data/character_images.json": "0a4c51165a596a19df9b9d582aba25dce327920e9dfce1260ff58f248fb5964b"
+    "data/character_images.json": "958b6563f243d4c77d87128748e163da911cebcbf8208e3e9f53987260a751e1"
   }
 }

@@ -1,0 +1,61 @@
+const {chromium} = require('playwright');
+const assert = require('node:assert/strict');
+const path = require('node:path');
+const fs = require('node:fs');
+const {fixture, ROOT} = require('./helpers/browser-fixture.cjs');
+(async () => {
+  const browser = await chromium.launch({channel:'msedge', headless:true});
+  const output = path.join(ROOT, '.local/web-research-20261026');
+  fs.mkdirSync(output, {recursive:true});
+  try {
+    for (const width of [1280, 390]) {
+      const {context, base, state} = await fixture(browser, {width, prefix:'/hxh-succession'});
+      const page = await context.newPage();
+      const errors = [];
+      page.on('pageerror', error => errors.push(error.message));
+      await page.goto(base + 'research/');
+      await page.waitForSelector('#research-filters:visible');
+      assert.equal(await page.locator('.research-card').count(), 29);
+      assert.equal(await page.locator('.spoiler-article[open]').count(), 0);
+      const search = page.locator('#research-search');
+      await search.fill('ムハハハサレ');
+      assert.equal(await page.locator('.research-card:visible').count(), 1);
+      assert.equal(await page.locator('.research-card:visible').getAttribute('id'), 'WEB-003');
+      await page.locator('#WEB-003 summary').click();
+      assert.ok(await page.locator('#WEB-003').innerText().then(t => t.includes('人物追加・人数枠への割当て・生存状態の登録は保留')));
+      assert.equal(await page.evaluate(() => localStorage.getItem('hxh-succession-spoilers-revealed-v1')), null);
+      await search.fill('');
+      await page.locator('#research-read').selectOption('370');
+      assert.equal(await page.locator('#WEB-029').isVisible(), false);
+      assert.equal(await page.locator('#WEB-003').isVisible(), true);
+      await page.locator('#research-read').selectOption('');
+      await page.locator('#research-status').selectOption('needs_primary');
+      assert.ok(await page.locator('.research-card:visible').count() > 0);
+      assert.equal(await page.locator('#WEB-008').isVisible(), false);
+      await page.reload();
+      assert.equal(await page.locator('#research-status').inputValue(), 'needs_primary');
+      await page.locator('#research-status').selectOption('');
+      await search.fill('カイザル');
+      await page.locator('#WEB-018 summary').click();
+      assert.ok(await page.locator('#WEB-018').innerText().then(t => t.includes('どれも心音だけで確定しない')));
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+      await page.screenshot({path:path.join(output, `research-${width}.png`), fullPage:false});
+      await page.goto(base + 'theories/Q014/');
+      await page.locator('.spoiler-article > summary').click();
+      await page.locator('a[href="../../research/#WEB-010"]').click();
+      assert.ok(page.url().endsWith('/research/#WEB-010'));
+      assert.equal(await page.locator('#WEB-010').isVisible(), true);
+      assert.equal(state.puts, 0, 'Research browsing must not save or modify notes');
+      assert.deepEqual(errors, []);
+      await context.close();
+    }
+    const {context, base} = await fixture(browser, {javaScriptEnabled:false});
+    const page = await context.newPage();
+    await page.goto(base + 'research/');
+    await page.locator('#WEB-008 summary').click();
+    assert.ok(await page.locator('#WEB-008').innerText().then(t => t.includes('原作ページの確認状態は上げない')));
+    assert.equal(await page.locator('#research-filters').isVisible(), false);
+    await context.close();
+    console.log('PASS: research search, read limits, status and URL restore, scoped links, spoiler defaults, 1280/390px, no-JS, no notes writes');
+  } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });

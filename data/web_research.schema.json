@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Web調査と採否の台帳",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "checked_at", "scope", "entries"],
+  "properties": {
+    "version": {"const": 1},
+    "checked_at": {"type": "string", "format": "date"},
+    "scope": {"type": "string", "minLength": 1},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "category", "chapter", "status", "summary", "database_comparison", "assessment", "next_check", "source_ids", "related_character_ids", "related_event_ids", "related_theory_ids", "keywords", "checked_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^WEB-[0-9]{3}$"},
+          "title": {"type": "string", "minLength": 1},
+          "category": {"enum": ["作者資料", "人物・能力", "考察", "時系列・訂正", "採用見送り"]},
+          "chapter": {"type": "integer", "minimum": 1},
+          "status": {"enum": ["confirmed_supplement", "already_recorded", "needs_primary", "hypothesis", "superseded", "excluded"]},
+          "summary": {"type": "string", "minLength": 1},
+          "database_comparison": {"type": "string", "minLength": 1},
+          "assessment": {"type": "string", "minLength": 1},
+          "next_check": {"type": "string", "minLength": 1},
+          "source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "related_character_ids": {"$ref": "#/definitions/ids"},
+          "related_event_ids": {"$ref": "#/definitions/ids"},
+          "related_theory_ids": {"$ref": "#/definitions/ids"},
+          "keywords": {"$ref": "#/definitions/ids"},
+          "checked_at": {"type": "string", "format": "date"}
+        }
+      }
+    }
+  },
+  "definitions": {"ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+}

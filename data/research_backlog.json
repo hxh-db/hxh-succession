@@ -166,5 +166,37 @@
     "reason": "2026-10-16の23件再照合では10件の留保を解消。2026-10-17、場面・話数の裏付けがないE372-009はユーザー指定で公開出来事から削除し、非公開の修正記録に元データを保全した。継続は対応原作未発見5件と部分保留7件。タフディー殺害はユーザー指定の読解として採用するが、死亡の瞬間の直接描写がない点を原作確認済みに格上げしない。過去の照合結果はdata/intake/pending23_recheck_20261016.mdと同名JSONに残す。",
     "required_source": "第347・351〜358話の対象場面、残る7件の氏名・直接描写・人数内訳の根拠。画像未発見と原作上の未判明を区別する。削除したE372-009の場面探しは継続課題から外す。",
     "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-WEB-AUTHOR-SHEETS-20261026",
+    "priority": "high",
+    "topic": "ジャンプ流！人物表の追加候補",
+    "reason": "WEB-003・004：エリックス／ムハハハサレ／ゾメーサ、Kitokattamu／Nadaasuが二次索引にある。既存の人物台帳に未登録。氏名・兵種・既存人数枠との対応は未確認のため増員しない。",
+    "required_source": "第21号DVDの該当欄を原寸で判読し、顔・氏名・兵種を照合",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-WEB-NEN-CHART-20261026",
+    "priority": "high",
+    "topic": "ハンゾーと冨樫展念能力資料の原図確認",
+    "reason": "WEB-005〜007：公式商品説明で資料の存在は確認。旧強化系の断定を撤回したが、変化系への確定は保留。中間点と修練度・数値モデルは別項目。",
+    "required_source": "公式図録の念能力資料原図。主系統・位置・修練度を個別判読",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-WEB-COIN-EDITIONS-20261026",
+    "priority": "medium",
+    "topic": "第390話の硬貨の版差指摘",
+    "reason": "WEB-014：本誌10→単行本1との比較指摘を発見。両版の直接比較は未実施。時系列・発動条件の解釈へ使う前に照合。",
+    "required_source": "第390話の本誌と37巻の同一コマ",
+    "status": "needs_original_review"
+  },
+  {
+    "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",
+    "priority": "medium",
+    "topic": "第406話の本の文字の独立解読",
+    "reason": "WEB-010：電話名・元の持ち主・条件の解読記事あり。既存写真7を再閲覧したが名前の細字と記事内の揺れに留保。人物名・能力名は確定しない。",
+    "required_source": "第406話の本の原寸画像と五十音対応表による一字ずつの照合",
+    "status": "needs_original_review"
   }
 ]

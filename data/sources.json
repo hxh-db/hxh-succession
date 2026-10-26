@@ -865,5 +865,285 @@
     "url": null,
     "checked_at": "2026-10-25",
     "supports": "E402-007のtime_estimateを07:55とする提供メモの時刻編集。7:50の通話後という前後関係を維持する表示用の仮時刻であり、原作の時計表示ではない。"
+  },
+  {
+    "id": "web-jumpryu21-official",
+    "title": "集英社公式通販：ジャンプ流！21号",
+    "url": "https://store.hpplus.jp/products/367379",
+    "source_type": "official_publication",
+    "supports": "冨樫義博特集の冊子・DVDの存在とセット内容。DVD内の人物表の文字までは確認していない。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-puzzle-catalog-official",
+    "title": "集英社：冨樫義博展 -PUZZLE- 公式図録",
+    "url": "https://jumpcs.shueisha.co.jp/shop/g/g4530430311583/",
+    "source_type": "official_publication",
+    "supports": "作者メモに基づく念能力解説を収録する176ページの図録。全展示品を掲載するものではない。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": "公式見本画像6点も確認したが、念系統表の掲載ページは見本にない。個別系統の一次判読とは区別。"
+  },
+  {
+    "id": "web-hunterpedia-erikkusu",
+    "title": "Hunterpedia：Erikkusu",
+    "url": "https://hunterxhunter.fandom.com/wiki/Erikkusu",
+    "source_type": "secondary_reference",
+    "supports": "エリックスをツベッパ護衛の準協会員とし、Jump Ryu! Vol.21を出典に挙げる索引。",
+    "checked_at": "2026-10-26",
+    "verification_status": "search_index_checked",
+    "notes": "本文取得は制限されるため検索インデックスを確認。DVD原画の確認には使わない。"
+  },
+  {
+    "id": "web-hunterpedia-muhahahasare",
+    "title": "Hunterpedia：Muhahahasare",
+    "url": "https://hunterxhunter.fandom.com/wiki/Muhahahasare",
+    "source_type": "secondary_reference",
+    "supports": "ムハハハサレをツベッパ護衛の準協会員とし、Jump Ryu! Vol.21を出典に挙げる索引。",
+    "checked_at": "2026-10-26",
+    "verification_status": "search_index_checked",
+    "notes": "本文取得は制限されるため検索インデックスを確認。現在の生存・所在の証明には使わない。"
+  },
+  {
+    "id": "web-hunterpedia-zomeesa",
+    "title": "Hunterpedia：Zomeesa",
+    "url": "https://hunterxhunter.fandom.com/wiki/Zomeesa",
+    "source_type": "secondary_reference",
+    "supports": "ゾメーサをツベッパ護衛の準協会員とし、Jump Ryu! Vol.21を出典に挙げる索引。",
+    "checked_at": "2026-10-26",
+    "verification_status": "search_index_checked",
+    "notes": "本文取得は制限されるため検索インデックスを確認。既存人数枠との対応は未確認。"
+  },
+  {
+    "id": "web-blackwhale-registry",
+    "title": "Black Whale：Passenger Registry",
+    "url": "https://exploreblackwhale.com/characters",
+    "source_type": "secondary_reference",
+    "supports": "Kitokattamu・Nadaasuなど、作者資料由来と説明される名前候補の探索用索引。",
+    "checked_at": "2026-10-26",
+    "verification_status": "search_index_checked",
+    "notes": "Canonicalというサイト独自のラベルは引き継がない。人物・場所・本編登場の一次証拠ではない。"
+  },
+  {
+    "id": "web-tk-nen-midpoint",
+    "title": "暇つぶしブログ：冨樫展初出情報①「中間点」について",
+    "url": "https://tk1118.blog.jp/archives/52149315.html",
+    "source_type": "fan_analysis",
+    "supports": "2023-01-20の記事。図録紹介によるハンゾー変化系・中間点の情報と、習得効率の数値に関する筆者の仮説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-phinks-official-game",
+    "title": "HUNTER×HUNTER NEN×IMPACT公式：フィンクス",
+    "url": "https://hunterhunter-ni.bushiroad.com/character/phinks/",
+    "source_type": "official_licensed_game",
+    "supports": "廻天（リッパー・サイクロトロン）の表記と、腕を回すほどパンチ力が増すという紹介。",
+    "checked_at": "2026-10-26",
+    "verification_status": "official_page_checked",
+    "notes": "Web閲覧ツールでは404だったが、公式URLのHTMLを直接取得し本文を確認。ゲーム固有の性能・隙・技名を原作の制約へ転記しない。"
+  },
+  {
+    "id": "web-phinks-realsound",
+    "title": "Real Sound：フィンクスの「廻天」は強いのか",
+    "url": "https://realsound.jp/book/2023/05/post-1322956.html",
+    "source_type": "fan_analysis",
+    "supports": "2023-05-10の記事。回転の蓄積や使用制限に関する仮説。原作未提示の追加条件は筆者の想定。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-skypenguin-406",
+    "title": "スカイペンギン：406話「神器」感想・考察",
+    "url": "https://skypenguin.net/2024/11/11/恋のダイヤル-6700-イマワシ電話でクロロが探す人物/",
+    "source_type": "fan_analysis",
+    "supports": "2024-11-11の記事。本のハンター文字を電話の能力名・元の持ち主・探索手順として解読した説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": "名前は記事内にもマクガイド／マグガイドの揺れがある。原作の原寸文字と独立照合するまで人物名・能力名を確定しない。"
+  },
+  {
+    "id": "web-silent-anigala",
+    "title": "アニギャラ：サイレントマジョリティーと38巻のミスリード",
+    "url": "https://anigala-rew.jp/column/hunter-s-20240929/",
+    "source_type": "fan_analysis",
+    "supports": "2024-09-29の記事。ロンギの念使用告白からヒュリコフの推理を再検討する外部犯説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-silent-may",
+    "title": "MAY：サイレントマジョリティーの能力者は誰か②",
+    "url": "https://note.com/may7984979849/n/nde5938a74ba9",
+    "source_type": "fan_analysis",
+    "supports": "2026-03-17の記事。ベレレインテ等の候補と、人数を基準とする射程・接触機会を用いた推理。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-silent-amamizu",
+    "title": "雨水：サイレントマジョリティーの犯人に関する考察",
+    "url": "https://note.com/nana3nana73/n/n4f259c0bc6a4",
+    "source_type": "fan_analysis",
+    "supports": "宿主の周囲の人数、解除時の反動、宿主との接触を用いた推理。接触必須は筆者の仮定。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-coin-kyanos",
+    "title": "はなくそモグモグ：王位継承戦を考察（404話）",
+    "url": "https://kyanoscreate.hatenablog.com/entry/2024/10/28/015603",
+    "source_type": "fan_analysis",
+    "supports": "2024-10-28の記事。第390話の硬貨の本誌10→単行本1という修正指摘、譲渡履歴と所有者別の効果の考察。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": "版の違いは記事の指摘。今回は同じコマの本誌・単行本両版を直接比較していない。"
+  },
+  {
+    "id": "web-skypenguin-403",
+    "title": "スカイペンギン：630日とパルプンテの考察",
+    "url": "https://skypenguin.net/2024/10/23/『630日経つとパルプンテ』とはどういう意味？第3/",
+    "source_type": "fan_analysis",
+    "supports": "2024-10-23の記事。硬貨の桁と不可思議を結び付ける読み。発動日数の実証ではない。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-fugetsu-taokasu402",
+    "title": "タオカス：402話とフウゲツの呪念の考察",
+    "url": "https://taokasu.com/hunter-hunter-402/",
+    "source_type": "fan_analysis",
+    "supports": "ルズールス以外の原因候補として、タイソン教典の禁忌や別の呪いを検討する記事。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": "ページ更新日と元の話の掲載時点を混同しない。接触・受領・発動の実証なし。"
+  },
+  {
+    "id": "web-kaiser-chidoru",
+    "title": "ちーどる：センリツ達は芝居でカイザルを試している説",
+    "url": "https://note.com/kokoro_hunter/n/n9f35bd317596",
+    "source_type": "fan_analysis",
+    "supports": "2024-10-15の記事。暗殺計画をカイザルへの試し行為と読む説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-woble-jiro412",
+    "title": "ジロギン：412話「質問」の感想",
+    "url": "https://www.g913-jiro.com/entry/2026/07/06/140018",
+    "source_type": "fan_analysis",
+    "supports": "2026-07-06の記事。入れ替わった乳児のオーラとビヨンドの呪いを関連付ける仮説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-woble-twins",
+    "title": "ハンターズラボ：ワブル王子双子説",
+    "url": "https://note.com/r_g263/n/nb586bc880145",
+    "source_type": "fan_analysis",
+    "supports": "2026-07-03の記事。第411話時点での双子仮説。後の第412話の証言との照合が必要。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-halkenburg-keiw404",
+    "title": "コウサツハクショ：404話「思惑」",
+    "url": "https://kei-w.com/hanta404kansou/",
+    "source_type": "fan_analysis",
+    "supports": "2024-10-29の記事。スミドリとシカクの人格移動・睡眠・覚醒の整理。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-halkenburg-jiro386",
+    "title": "ジロギン：386話のハルケンブルグの不可解な点",
+    "url": "https://www.g913-jiro.com/entry/2018/10/29/215633",
+    "source_type": "fan_analysis",
+    "supports": "2018-10-29の記事。当時のスミドリ／シカクの人格の行方についての分岐仮説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-chrollo-target",
+    "title": "ハンターハンターの謎を解く：クロロが奪いたい能力者",
+    "url": "https://hunterxhunternonazowotoku.hatenablog.com/entry/2025/09/15/210045",
+    "source_type": "fan_analysis",
+    "supports": "2025-09-15の記事。クロロの探索対象をカミーラまたはツェリードニヒと予想する説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-tyson-taboo",
+    "title": "まったり考察部屋：タイソン教典の禁忌の考察",
+    "url": "https://otakaranet.com/taisonnouryoku.html",
+    "source_type": "fan_analysis",
+    "supports": "第389話付近を基に、禁忌を他者への加害と予想する説。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-marayam-anabre",
+    "title": "アナブレ：375話とマラヤーム居住区の謎",
+    "url": "https://anabre.net/archives/hh375-review49355.html",
+    "source_type": "fan_analysis",
+    "supports": "第375話の扉の内外、異空間と実世界の境界を整理する記事。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-morena-jiro409",
+    "title": "ジロギン：409話「交渉③」の感想",
+    "url": "https://www.g913-jiro.com/entry/2024/12/02/184905",
+    "source_type": "fan_analysis",
+    "supports": "2024-12-02の記事。ボークセンのカードへの細工と選択の読解。第410話より前の考察。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-sheila-amenohi",
+    "title": "雨ノ日玖作：クルタ族・旅団・ツェリードニヒ・シーラの因縁",
+    "url": "https://note.com/amenohi939/n/n3605d4da3979",
+    "source_type": "fan_analysis",
+    "supports": "2024-09-15の記事。過去編とクルタ族事件をつなぐ仮説。シーラやパリストンの関与を確定する資料ではない。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-kaiyou-mysteries",
+    "title": "KAI-YOU：王位継承編の伏線まとめ",
+    "url": "https://kai-you.net/article/90726",
+    "source_type": "fan_analysis",
+    "supports": "2024-12-05追記のある記事。棺の数、国王の役割などの論点を抽出する比較資料。古い予想と追記を分ける。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": ""
+  },
+  {
+    "id": "web-418-ai-dialogue",
+    "title": "眞水清輝：418話「仮定」の感想",
+    "url": "https://note.com/survivelifedx777/n/n8028236b9544",
+    "source_type": "fan_analysis",
+    "supports": "2026-08-25の記事。遺言書の矛盾という話題を掲げ、ChatGPTとの対話を転載している。",
+    "checked_at": "2026-10-26",
+    "verification_status": "page_checked",
+    "notes": "AI対話である旨を本文で確認。反響の広がり、設定の正否、作者の意図の根拠としては採用しない。"
   }
 ]

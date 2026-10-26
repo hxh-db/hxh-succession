@@ -1,0 +1,853 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-26",
+  "scope": "公式公開資料・作者人物表・念能力資料・王位継承戦の主要な謎と細部の考察を横断調査。Web全件の網羅、X全投稿、DVD・図録全文、原作全話の再照合は未実施。",
+  "entries": [
+    {
+      "id": "WEB-001",
+      "title": "作者公式Xの人物表と訂正版",
+      "category": "作者資料",
+      "chapter": 366,
+      "status": "already_recorded",
+      "summary": "第9王子私設兵14人の表と、スミドリへの訂正は既に収録されている。",
+      "database_comparison": "author_settingが14人にあり、設定表のみの人物は本編での顔との対応未確認として分離済み。",
+      "assessment": "追加人物を重複作成しない。今回X本文の取得は403で、2026-10-09の既存一次確認を引き継ぐ。",
+      "next_check": "別陣営の表を見つけた場合も、表の氏名・顔・兵種と本編の登場を別々に照合する。",
+      "source_ids": [
+        "togashi-x-20241217-p09",
+        "togashi-x-20241217-p09-correction"
+      ],
+      "related_character_ids": [
+        "P09",
+        "P09-P05"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-002",
+      "title": "ジャンプ流！の人物設定表",
+      "category": "作者資料",
+      "chapter": 358,
+      "status": "needs_primary",
+      "summary": "公式通販で第21号のDVD・冊子の存在を確認した。人物表の全文を読める公開一次画像は今回確保できていない。",
+      "database_comparison": "既存の低解像度画像3枚は2026-10-09に判読保留と記録済み。",
+      "assessment": "公式商品の説明は資料の所在を裏付けるが、各欄の氏名・人数・所属の証明にはならない。",
+      "next_check": "DVDの人物表が映る原寸フレームで、欄の見出し・顔・氏名を組にして確認する。",
+      "source_ids": [
+        "web-jumpryu21-official"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "構想",
+        "DVD",
+        "設定表"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-003",
+      "title": "ツベッパ陣営の準協会員名候補",
+      "category": "作者資料",
+      "chapter": 358,
+      "status": "needs_primary",
+      "summary": "Hunterpediaはエリックス、ムハハハサレ、ゾメーサを、第21号の人物表で名前が示されたツベッパ護衛と記載する。",
+      "database_comparison": "既存の人物台帳にこの3名の登録はない。既存の第5王子側の人数枠と同じ人物かは未確認。",
+      "assessment": "候補名を調査台帳へ採用。人物追加・人数枠への割当て・生存状態の登録は保留する。",
+      "next_check": "第21号の該当欄でカナと準協会員の注記を直接読む。既存枠との対応が取れれば同じIDを更新する。",
+      "source_ids": [
+        "web-hunterpedia-erikkusu",
+        "web-hunterpedia-muhahahasare",
+        "web-hunterpedia-zomeesa",
+        "web-jumpryu21-official"
+      ],
+      "related_character_ids": [
+        "P05"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "エリックス",
+        "ムハハハサレ",
+        "ゾメーサ",
+        "Erikkusu",
+        "Muhahahasare",
+        "Zomeesa"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-004",
+      "title": "別の人物名索引にある未登録候補",
+      "category": "作者資料",
+      "chapter": 358,
+      "status": "needs_primary",
+      "summary": "海外の人物索引には、Kitokattamu・Nadaasuを第21号の資料由来とする記述がある。",
+      "database_comparison": "既存の仮称人物と同一か、人数枠のどこに属するか、カナの正しい読みが未確認。",
+      "assessment": "原表へ戻るための索引として保存する。索引のCanonical表記や現在地は採用しない。",
+      "next_check": "DVDと照合し、原表の氏名・兵種・所属を確認する。ローマ字だけからカナを復元しない。",
+      "source_ids": [
+        "web-blackwhale-registry",
+        "web-jumpryu21-official"
+      ],
+      "related_character_ids": [
+        "P05"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "Kitokattamu",
+        "Nadaasu"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-005",
+      "title": "冨樫展の図録と念能力メモ",
+      "category": "作者資料",
+      "chapter": 390,
+      "status": "needs_primary",
+      "summary": "集英社の商品説明に、作者メモに基づく念能力解説の収録が明記されている。",
+      "database_comparison": "既存調査では翻訳図から人物の属性を確定することを保留している。",
+      "assessment": "資料の存在と収録内容の概要は公式確認済み。見本画像に念系統表の原図はなく、各人の系統・修練度は今回一次確認できていない。",
+      "next_check": "図録の念能力資料ページを照合し、主系統・偏り・修練度・適用時点を分けて記録する。",
+      "source_ids": [
+        "web-puzzle-catalog-official"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "念系統",
+        "修練度",
+        "中間点",
+        "構想"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-006",
+      "title": "ハンゾーの念系統にある食い違い",
+      "category": "人物・能力",
+      "chapter": 372,
+      "status": "needs_primary",
+      "summary": "冨樫展の図録紹介では、ハンゾーを具現化系との中間にいる変化系と説明している。",
+      "database_comparison": "人物データの旧登録は強化系だったが、その根拠は確認できない。",
+      "assessment": "強化系の断定を外して未照合と表示する。変化系への確定変更は図録原図の確認後とする。分身の術の既存記録は保持する。",
+      "next_check": "公式図録の該当座標と説明文を一次判読し、主系統と得意な技を混同しない。",
+      "source_ids": [
+        "web-tk-nen-midpoint",
+        "web-puzzle-catalog-official"
+      ],
+      "related_character_ids": [
+        "P12-H01"
+      ],
+      "related_event_ids": [
+        "E372-003"
+      ],
+      "related_theory_ids": [],
+      "keywords": [
+        "ハンゾー",
+        "変化系",
+        "強化系"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-007",
+      "title": "念系統の中間点と習得効率",
+      "category": "人物・能力",
+      "chapter": 390,
+      "status": "hypothesis",
+      "summary": "図録紹介の「中間点」と、習得レベル・威力精度が何％になるかという筆者の数値モデルは別の情報である。",
+      "database_comparison": "既存の人物台帳には中間点の独立項目がない。",
+      "assessment": "今後の項目候補として保存する。二つの系統を100％使える、という数値を人物へ追加しない。",
+      "next_check": "原図の定義を確認してから主系統・位置・修練度を分ける。数値未提示の部分はnullのままとする。",
+      "source_ids": [
+        "web-tk-nen-midpoint",
+        "web-puzzle-catalog-official"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "習得率",
+        "威力",
+        "精度",
+        "中間点"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-008",
+      "title": "フィンクスの正式能力名",
+      "category": "人物・能力",
+      "chapter": 377,
+      "status": "confirmed_supplement",
+      "summary": "公式ゲームサイト本文に、廻天（リッパー・サイクロトロン）という表記と、腕の回転によるパンチ力増大の説明がある。",
+      "database_comparison": "人物・マフィア台帳は正式名の再照合待ちとして一般的な能力説明だけになっていた。",
+      "assessment": "両台帳へ正式名を補足した。公式ライセンス作品による補助確認であり、原作ページの確認状態は上げない。",
+      "next_check": "原作の該当ページで表記を再確認する。倍率・上限・蓄積保持時間などは補わない。",
+      "source_ids": [
+        "web-phinks-official-game"
+      ],
+      "related_character_ids": [
+        "SPD-003"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "フィンクス",
+        "廻天",
+        "リッパー・サイクロトロン"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-009",
+      "title": "廻天の追加制約という考察",
+      "category": "考察",
+      "chapter": 377,
+      "status": "hypothesis",
+      "summary": "回し終えてからの有効時間、相手の目の前で回す必要などを想定する考察がある。",
+      "database_comparison": "既存台帳にこうした追加制約は登録されていない。",
+      "assessment": "制約候補の比較として保存する。記事の「ありそう」は原作で示された発動条件ではない。",
+      "next_check": "発動説明や失敗例が示されるまで、条件・倍率・最大威力の確定欄へ入れない。",
+      "source_ids": [
+        "web-phinks-realsound"
+      ],
+      "related_character_ids": [
+        "SPD-003"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "回転",
+        "蓄積",
+        "制約"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-010",
+      "title": "クロロの本にある文字の解読",
+      "category": "人物・能力",
+      "chapter": 406,
+      "status": "needs_primary",
+      "summary": "第406話の本の文字を「恋のダイヤル6700／いまわし電話」と読み、条件入力と番号表示による探索を説明する解読記事がある。",
+      "database_comparison": "Q014とE406-006は電話の名称・元の持ち主を補完していない。今回、既存写真7の本の文字も再閲覧した。",
+      "assessment": "解読候補を保存する。人名の表記が記事内でも揺れ、元画像では細かな文字に留保があるため、人物・正式能力名の確定登録はしない。",
+      "next_check": "原寸の本の文字を五十音対応表と一字ずつ照合する。写真の人物を探索対象や船内の乗客と同一視しない。",
+      "source_ids": [
+        "web-skypenguin-406",
+        "user-original-ch406"
+      ],
+      "related_character_ids": [
+        "SPD-001"
+      ],
+      "related_event_ids": [
+        "E406-006",
+        "E406-009"
+      ],
+      "related_theory_ids": [
+        "Q014"
+      ],
+      "keywords": [
+        "ハンター文字",
+        "6700",
+        "いまわし電話",
+        "マクガイド",
+        "ナルミ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-011",
+      "title": "サイレントマジョリティーの外部犯説",
+      "category": "考察",
+      "chapter": 401,
+      "status": "hypothesis",
+      "summary": "ロンギの念使用告白から、ヒュリコフが数えた隠れ念能力者と術者の推理を再検討する記事がある。",
+      "database_comparison": "Q002は視認者と術者、現場の人物と遠隔操作を区別しているが、この外部記事への参照はなかった。",
+      "assessment": "比較説として採用。別の能力を持つことや協定を結ぶことだけでは、複数能力の所持・過去の犯行を完全には否定できない。",
+      "next_check": "術者の独白と実際の行動を結ぶ描写で検討する。記事時点の推理を最新話の結論としない。",
+      "source_ids": [
+        "web-silent-anigala"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [
+        "E370-003",
+        "E372-001",
+        "E401-001"
+      ],
+      "related_theory_ids": [
+        "Q002"
+      ],
+      "keywords": [
+        "ロンギ",
+        "ヒュリコフ",
+        "外部犯"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-012",
+      "title": "サイレントマジョリティーの候補比較",
+      "category": "考察",
+      "chapter": 403,
+      "status": "hypothesis",
+      "summary": "ベレレインテ・スラッカ・シェジュール・ユヒライを比較し、初期殺害の機会と人数による射程を検討する説がある。",
+      "database_comparison": "初期殺害Q001と講習会暗殺Q002は既に別の問いとして管理されている。",
+      "assessment": "同一犯・接触必須・射程の形・接触不能といった前提が未確定。候補名を犯人タグ・除外確定へ変換しない。",
+      "next_check": "前提を一つずつ検証し、初期事件が別犯だった場合も比較する。",
+      "source_ids": [
+        "web-silent-may"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [
+        "E359-002",
+        "E359-003",
+        "E370-003",
+        "E376-002"
+      ],
+      "related_theory_ids": [
+        "Q001",
+        "Q002"
+      ],
+      "keywords": [
+        "ベレレインテ",
+        "スラッカ",
+        "射程"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-013",
+      "title": "人数による発動条件と反動の説",
+      "category": "考察",
+      "chapter": 376,
+      "status": "hypothesis",
+      "summary": "宿主の周囲から人が減ると解除・反動が起きるのではないか、と読む説がある。",
+      "database_comparison": "Q002では術者の在室条件・射程を未解決としている。",
+      "assessment": "標的の範囲と最低人数の発動条件は別。接触必須や10人以上必要という条件を確定情報にしない。",
+      "next_check": "参加者の退室、黒ぼっこの出現・解除、反動の説明をそれぞれ照合する。",
+      "source_ids": [
+        "web-silent-amamizu"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [
+        "E370-003",
+        "E376-002"
+      ],
+      "related_theory_ids": [
+        "Q002"
+      ],
+      "keywords": [
+        "黒ぼっこ",
+        "宿主",
+        "反動",
+        "人数"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-014",
+      "title": "硬貨の本誌と単行本の修正指摘",
+      "category": "時系列・訂正",
+      "chapter": 404,
+      "status": "needs_primary",
+      "summary": "第390話で渡された硬貨の数字が本誌の10から単行本の1へ変わった、という比較指摘がある。",
+      "database_comparison": "Q004では数字と所有者の変化を追うが、版差の確認項目がなかった。",
+      "assessment": "要確認の版差として登録。今回は両版を直接比べておらず、公式訂正済みとは扱わない。",
+      "next_check": "37巻の該当コマと当時の本誌を比較し、同じ硬貨・同じ受渡し場面か確認する。",
+      "source_ids": [
+        "web-coin-kyanos"
+      ],
+      "related_character_ids": [
+        "P03"
+      ],
+      "related_event_ids": [
+        "E389-009",
+        "E404-001"
+      ],
+      "related_theory_ids": [
+        "Q004"
+      ],
+      "keywords": [
+        "コイン",
+        "硬貨",
+        "390話",
+        "版差"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-015",
+      "title": "硬貨の所有者別の履歴",
+      "category": "考察",
+      "chapter": 417,
+      "status": "hypothesis",
+      "summary": "硬貨を物ごとに追い、誰が保持して誰へ渡したかを分けて効果を考える説がある。",
+      "database_comparison": "コベントバの初日拾得はE404-009へ既に分離されている。第417話の報告も登録済み。",
+      "assessment": "照合方法として採用。生成日、所有者変更、刻印の数字、絵柄、報告者を別の変数として追う。公開データにない受渡しを作らない。",
+      "next_check": "同一の硬貨を識別できる範囲だけ履歴化し、操作の報告と発動条件の実証を分ける。",
+      "source_ids": [
+        "web-coin-kyanos"
+      ],
+      "related_character_ids": [
+        "P03"
+      ],
+      "related_event_ids": [
+        "E404-009",
+        "E417-005"
+      ],
+      "related_theory_ids": [
+        "Q004"
+      ],
+      "keywords": [
+        "コベントバ",
+        "所有者",
+        "譲渡"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-016",
+      "title": "630日と不可思議の読み",
+      "category": "考察",
+      "chapter": 404,
+      "status": "hypothesis",
+      "summary": "硬貨の桁の増加と大数の単位を結び付け、パルプンテの発言を読む説がある。",
+      "database_comparison": "Q004はコインの具体的効果・数字が変わる条件を未解決にしている。",
+      "assessment": "語の関連を読む参考説として採用。想定日数や能力覚醒の予測を発動実験の結果にしない。",
+      "next_check": "作中人物の推察、読者の語呂解釈、実際に発現した効果を別々に照合する。",
+      "source_ids": [
+        "web-skypenguin-403"
+      ],
+      "related_character_ids": [
+        "P03"
+      ],
+      "related_event_ids": [
+        "E404-001"
+      ],
+      "related_theory_ids": [
+        "Q004"
+      ],
+      "keywords": [
+        "630日",
+        "パルプンテ",
+        "不可思議"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-017",
+      "title": "フウゲツへの攻撃の別候補",
+      "category": "考察",
+      "chapter": 402,
+      "status": "hypothesis",
+      "summary": "ルズールス以外に、タイソン教典の罰や別系統の呪いを原因候補とする説がある。",
+      "database_comparison": "Q005にはルズールス・別の術者・酷使や衰弱の比較があるが、教典説の出典はなかった。",
+      "assessment": "比較仮説へ追加。フウゲツの教典受領・熟読、具体的な禁忌、罰の発動を結ぶ証拠が足りない。",
+      "next_check": "教典への接触と痕・衰弱の時間関係を確認し、単なる隣接した場面から因果を確定しない。",
+      "source_ids": [
+        "web-fugetsu-taokasu402"
+      ],
+      "related_character_ids": [
+        "P06",
+        "P07",
+        "P11"
+      ],
+      "related_event_ids": [
+        "E400-006",
+        "E402-005",
+        "E402-006"
+      ],
+      "related_theory_ids": [
+        "Q005"
+      ],
+      "keywords": [
+        "教典",
+        "禁忌",
+        "フウゲツ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-018",
+      "title": "カイザルを試す芝居という説",
+      "category": "考察",
+      "chapter": 402,
+      "status": "hypothesis",
+      "summary": "センリツたちの暗殺計画を、カイザルの本心を探るための芝居だと読む説がある。",
+      "database_comparison": "E400-005・E402-006は提案と計画の会話を記録し、カイザルの能力・所属は確定していない。",
+      "assessment": "本人の好意、他者からの操作、自己操作、芝居という読みを混同しない。どれも心音だけで確定しない。",
+      "next_check": "誰が何を知っているか、計画を実行したか、心音と独白の対応を確認する。",
+      "source_ids": [
+        "web-kaiser-chidoru"
+      ],
+      "related_character_ids": [
+        "JUD-001"
+      ],
+      "related_event_ids": [
+        "E400-005",
+        "E402-006"
+      ],
+      "related_theory_ids": [
+        "Q005"
+      ],
+      "keywords": [
+        "カイザル",
+        "心音",
+        "芝居",
+        "センリツ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-019",
+      "title": "乳児から感じたオーラの正体",
+      "category": "考察",
+      "chapter": 414,
+      "status": "hypothesis",
+      "summary": "第412話の身元の説明を受け、初期の禍々しいオーラを守護霊獣以外のものと見る説がある。",
+      "database_comparison": "Q007は儀式を受けた娘と船内の乳児を区別する。初期オーラとビヨンドの呪いを結ぶ根拠は未登録。",
+      "assessment": "未解決の比較説として採用。乳児の父をビヨンドとしたり、オーラを呪いと断定したりしない。",
+      "next_check": "オーラの発生源、儀式を受けた者、本人の念覚醒を別々に確認する。",
+      "source_ids": [
+        "web-woble-jiro412"
+      ],
+      "related_character_ids": [
+        "P14",
+        "Q08"
+      ],
+      "related_event_ids": [
+        "E412-002",
+        "E414-003"
+      ],
+      "related_theory_ids": [
+        "Q006",
+        "Q007"
+      ],
+      "keywords": [
+        "ワブル",
+        "乳児",
+        "オーラ",
+        "守護霊獣"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-020",
+      "title": "第411話時点の双子説の扱い",
+      "category": "考察",
+      "chapter": 412,
+      "status": "superseded",
+      "summary": "第411話時点では双子という仮説が提示された。第412話のオイトの証言は、娘と妹の息子の入れ替えを説明する。",
+      "database_comparison": "E412-002とQ007は後の証言を既に反映している。",
+      "assessment": "双子説を現行の人物関係へ取り込まない。過去の予想として出典と参照時点を保存する。",
+      "next_check": "古い考察を引用する際は第412話以降の説明と対照し、娘と甥のレコードを混ぜない。",
+      "source_ids": [
+        "web-woble-twins"
+      ],
+      "related_character_ids": [
+        "P14",
+        "Q08"
+      ],
+      "related_event_ids": [
+        "E412-002"
+      ],
+      "related_theory_ids": [
+        "Q007"
+      ],
+      "keywords": [
+        "双子説",
+        "入れ替え"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-021",
+      "title": "人格移動の初期仮説と後の説明",
+      "category": "考察",
+      "chapter": 417,
+      "status": "hypothesis",
+      "summary": "第386話時点のスミドリとシカクの分岐仮説と、第404話の睡眠・覚醒の説明を比べられる。",
+      "database_comparison": "Q008は肉体の死亡・人格・継承資格を分けている。",
+      "assessment": "古い分岐を結論にせず、肉体と人格を別の軸で追う比較資料として採用。",
+      "next_check": "第413話以降の鳴動と、第三者の本人確認の報告を区別して再照合する。",
+      "source_ids": [
+        "web-halkenburg-jiro386",
+        "web-halkenburg-keiw404"
+      ],
+      "related_character_ids": [
+        "P09",
+        "P09-P05"
+      ],
+      "related_event_ids": [
+        "E404-002",
+        "E413-001",
+        "E417-005"
+      ],
+      "related_theory_ids": [
+        "Q008"
+      ],
+      "keywords": [
+        "スミドリ",
+        "シカク",
+        "人格移動"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-022",
+      "title": "クロロが探す能力者の候補説",
+      "category": "考察",
+      "chapter": 406,
+      "status": "hypothesis",
+      "summary": "探索対象をカミーラまたはツェリードニヒと予想する記事がある。",
+      "database_comparison": "Q014では対象の人物・能力・所在を未確定としている。",
+      "assessment": "候補比較として採用。探索対象と、電話の元の持ち主と、本の写真の人物を自動的に同じ人にしない。",
+      "next_check": "入力された探索条件と対象発見を直接結ぶ説明を待つ。盗める条件も別に確認する。",
+      "source_ids": [
+        "web-chrollo-target"
+      ],
+      "related_character_ids": [
+        "SPD-001",
+        "P02",
+        "P04"
+      ],
+      "related_event_ids": [
+        "E406-006",
+        "E406-009"
+      ],
+      "related_theory_ids": [
+        "Q014"
+      ],
+      "keywords": [
+        "クロロ",
+        "探索対象",
+        "カミーラ",
+        "ツェリードニヒ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-023",
+      "title": "棺の数と国王の役割",
+      "category": "考察",
+      "chapter": 413,
+      "status": "hypothesis",
+      "summary": "14の棺と勝者1人の関係、国王が儀式の一部と語る意味を問う考察がある。",
+      "database_comparison": "E413-001ではハルケンブルグの肉体と資格についてナスビーが説明する。Q013は神器と儀式の関係を扱う。",
+      "assessment": "棺に入ることと資格喪失を同一視しない。勝者・国王・乗客の誰を贄とするかという予想は未確定。",
+      "next_check": "棺の機能、命の火、魂と継承資格、国王の役割の完了条件を照合する。",
+      "source_ids": [
+        "web-kaiyou-mysteries"
+      ],
+      "related_character_ids": [
+        "KNG-001",
+        "P09"
+      ],
+      "related_event_ids": [
+        "E413-001",
+        "E406-007"
+      ],
+      "related_theory_ids": [
+        "Q013"
+      ],
+      "keywords": [
+        "棺",
+        "ナスビー",
+        "命の火",
+        "儀式"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-024",
+      "title": "タイソン教典の唯一の禁忌",
+      "category": "考察",
+      "chapter": 400,
+      "status": "hypothesis",
+      "summary": "禁忌を他者への加害や殺害と予想する記事がある。",
+      "database_comparison": "E375-009の霊獣解説と既存霊獣台帳に禁忌の存在はあるが、その中身の確定記録はない。",
+      "assessment": "未整理だった論点を追加。愛という教義だけでは禁忌の文言や罰の作用は決まらない。",
+      "next_check": "禁忌の具体的な説明、違反者、反動の発現が結び付くか確認する。",
+      "source_ids": [
+        "web-tyson-taboo"
+      ],
+      "related_character_ids": [
+        "P06"
+      ],
+      "related_event_ids": [
+        "E375-009",
+        "E389-004",
+        "E400-010"
+      ],
+      "related_theory_ids": [],
+      "keywords": [
+        "タイソン",
+        "教典",
+        "禁忌",
+        "ジュリアーノ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-025",
+      "title": "マラヤームの異空間と出入り",
+      "category": "考察",
+      "chapter": 375,
+      "status": "hypothesis",
+      "summary": "1013号室の扉の内外で、元の空間と隔絶された空間を分けて読む整理がある。",
+      "database_comparison": "E372-007・E375-005と人物備考には空間の異常を記録済み。",
+      "assessment": "入れる人・出られる人・声が届く範囲・解除条件の整理候補として採用。現実の1013号室と異空間内の所在を合算しない。",
+      "next_check": "本体と分身、入室と帰還、誰の視点かを分け、後の戒厳令場面も照合する。",
+      "source_ids": [
+        "web-marayam-anabre"
+      ],
+      "related_character_ids": [
+        "P13",
+        "P12-H01",
+        "P13-H02"
+      ],
+      "related_event_ids": [
+        "E372-007",
+        "E375-005"
+      ],
+      "related_theory_ids": [],
+      "keywords": [
+        "マラヤーム",
+        "異空間",
+        "1013号室",
+        "境界"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-026",
+      "title": "交渉ゲームの予想と決着",
+      "category": "考察",
+      "chapter": 410,
+      "status": "superseded",
+      "summary": "第409話時点の記事は、カードの傷・イカサマ・意外な結論を検討している。",
+      "database_comparison": "データベースは既に第410話までの交渉の決着を記録している。",
+      "assessment": "409話時点の予想を現在の未解決事項として増やさない。細工とその結果を後の説明に照らす比較用に残す。",
+      "next_check": "親と子のルール、同意、イカサマ時の扱いを第410話の説明とセットで確認する。",
+      "source_ids": [
+        "web-morena-jiro409"
+      ],
+      "related_character_ids": [],
+      "related_event_ids": [
+        "E409-008",
+        "E409-009",
+        "E410-004",
+        "E410-005"
+      ],
+      "related_theory_ids": [],
+      "keywords": [
+        "モレナ",
+        "ボークセン",
+        "交渉ゲーム",
+        "イカサマ"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-027",
+      "title": "シーラとクルタ族事件の接続説",
+      "category": "考察",
+      "chapter": 397,
+      "status": "hypothesis",
+      "summary": "旅団の過去編とクルタ族事件を結び、シーラやツェリードニヒの関与を推測する説がある。",
+      "database_comparison": "本サイトの主対象は継承戦。既存の過去編記録だけで、情報漏洩・黒幕・虐殺の動機は決まらない。",
+      "assessment": "関連する長期伏線として保存する。推測の血縁・犯人・協力関係を人物へ付与しない。",
+      "next_check": "クラピカ追憶編と第395〜397話を対照し、同名・同じ本・同じ小物と因果関係を分ける。",
+      "source_ids": [
+        "web-sheila-amenohi"
+      ],
+      "related_character_ids": [
+        "P04",
+        "SPD-001"
+      ],
+      "related_event_ids": [],
+      "related_theory_ids": [],
+      "keywords": [
+        "シーラ",
+        "サラサ",
+        "クルタ族",
+        "ディノ・ハンター"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-028",
+      "title": "時系列比較と採用済みの解釈",
+      "category": "時系列・訂正",
+      "chapter": 382,
+      "status": "already_recorded",
+      "summary": "既存の時系列サイトはハルケンブルグの直訴を7日目と置く。本サイトは初日込みの数え方で6日目と推定している。",
+      "database_comparison": "BACKLOG-010とhalkenburg-four-daysの記事に両案が残され、ユーザー指定の仮配置を採用済み。",
+      "assessment": "外部の推定日を公式日時として上書きしない。フウゲツの76時間からの逆算も既存記事で検討済み。",
+      "next_check": "明示日時と同時刻の根拠が増えた時に再検討する。経過4日と4日目の違いを保持する。",
+      "source_ids": [
+        "taokasu-succession-timeline"
+      ],
+      "related_character_ids": [
+        "P09",
+        "P11"
+      ],
+      "related_event_ids": [
+        "E382-001",
+        "E381-004"
+      ],
+      "related_theory_ids": [
+        "halkenburg-four-days",
+        "fugetsu-overnight"
+      ],
+      "keywords": [
+        "4日",
+        "6日目",
+        "7日目",
+        "76時間"
+      ],
+      "checked_at": "2026-10-26"
+    },
+    {
+      "id": "WEB-029",
+      "title": "第418話の矛盾指摘を含むAI対話記事",
+      "category": "採用見送り",
+      "chapter": 418,
+      "status": "excluded",
+      "summary": "遺言書の矛盾を話題にした記事は、本文でChatGPTとの対話転載と説明している。",
+      "database_comparison": "E418-001・E418-004・E418-005は、物体への干渉と本人の仮定を既に記録している。",
+      "assessment": "作者の誤り・反響の規模・能力条件を確定する証拠には採用しない。論点を原作へ戻して確認するための記録だけ残す。",
+      "next_check": "遺言書作成と読み上げの順序、他人への直接干渉と物体変更、本人の検証と未検証の推測を原作で確認する。",
+      "source_ids": [
+        "web-418-ai-dialogue"
+      ],
+      "related_character_ids": [
+        "P04"
+      ],
+      "related_event_ids": [
+        "E418-001",
+        "E418-004",
+        "E418-005"
+      ],
+      "related_theory_ids": [],
+      "keywords": [
+        "ツェリードニヒ",
+        "遺言書",
+        "仮定",
+        "充電",
+        "AI"
+      ],
+      "checked_at": "2026-10-26"
+    }
+  ]
+}

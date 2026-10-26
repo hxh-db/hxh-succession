@@ -13,7 +13,7 @@
 - `data/events.json` - タイムラインのイベント全件
 - `data/spirit_beasts.json` / `data/factions.json` / `data/mafia.json` - 守護霊獣・派閥・下層マフィアのデータ
 - `data/alliances.json` - 別陣営の王子間の共闘関係。人物の `camp` と初期配置の人数には合算しない
-- `data/*.schema.json` - 主要な公開JSON 12ファイルに対応するJSON Schema。人物タグ・画像・共闘・出典も検証する
+- `data/*.schema.json` - 主要な公開JSON 13ファイルに対応するJSON Schema。人物タグ・画像・共闘・出典・Web調査も検証する
 - `validate_data.py` - データ検証スクリプト（プロジェクトルートで実行）
 - `images/characters/*.png` - 一部キャラのポートレート。`characters.json` の `image` に存在しないパスを書くと自動で頭文字アバターにフォールバックする（`script.js` の `makeAvatar` 参照）
 

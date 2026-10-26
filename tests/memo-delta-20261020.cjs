@@ -38,5 +38,23 @@ assert.equal(people.find(p=>p.id==='P07-G06').status_log.find(log=>log.chapter==
 for(const event of [death,wake]) {assert.equal(event.time_start,null);assert.equal(event.time_estimate_basis,'editorial-scene-split-20261020');}
 const code=fs.readFileSync('script.js','utf8');
 const reset=code.slice(code.indexOf('resetButton.addEventListener("click", async () =>'),code.indexOf('editor.appendChild(form);',code.indexOf('resetButton.addEventListener("click", async () =>')));
-assert.match(reset,/previous\.memo/,'edit reset must keep memo text');
-console.log('PASS: memo delta clocks, Nen basis, short headlines, Kaiser attribution, three-scene split, death/series references and non-destructive edit reset');
+// Run the actual reset handler: restoring public fields must preserve the memo and local event.
+const vm = require('node:vm');
+const originalDraft = {memo: 'keep memo', edits: {notes: 'local edit'}, createdRecord: {id: 'LOCAL-test'}, updatedAt: '2026-01-01T00:00:00Z'};
+let handler;
+const sandbox = vm.createContext({
+  resetButton: {addEventListener(_event, callback) { handler = callback; }}, memoTimer: null,
+  localDrafts: {items: {test: structuredClone(originalDraft)}}, recordKey: 'test',
+  DraftState: require('../draft-state.js'), saveLocalDrafts: async () => true,
+  reopenDetailAfterReload() {}, record: {}, category: 'event', view: 'modal', formStatus: {}
+});
+vm.runInContext(reset, sandbox);
+(async () => {
+  await handler();
+  const result = sandbox.localDrafts.items.test;
+  assert.equal(result.memo, originalDraft.memo);
+  assert.equal(result.createdRecord.id, originalDraft.createdRecord.id);
+  assert.equal(Object.keys(result.edits).length, 0);
+  assert.ok(Date.parse(result.updatedAt) > Date.parse(originalDraft.updatedAt));
+  console.log('PASS: memo delta clocks, Nen basis, short headlines, Kaiser attribution, three-scene split, death/series references and non-destructive edit reset');
+})().catch(error => {console.error(error); process.exitCode = 1;});

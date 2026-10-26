@@ -103,6 +103,10 @@ let draftFileHealthy = false;
 let pendingDraftMigration = false;
 let draftSaveQueue = Promise.resolve();
 let draftResetInProgress = false;
+let draftLoadError = "";
+let unreadableBrowserDraft = null;
+let draftSaveCount = 0;
+let draftChangesUnsaved = false;
 const draftMemoFlushers = new Set();
 const DRAFT_RESET_STATUS_KEY = "hxh-succession-draft-reset-status-v1";
 const originalRecords = new Map();
@@ -110,7 +114,7 @@ const originalRecords = new Map();
 const LOCAL_EDIT_FIELDS = {
   event: [
     { key: "description", label: "出来事", kind: "textarea", required: true },
-    { key: "day", label: "日（空欄は未設定）", kind: "number" },
+    { key: "day", label: "日（0〜12日、空欄は未設定）", kind: "number", min: 0, max: 12 },
     { key: "time_start", label: "確定時刻", kind: "time" },
     { key: "time_estimate", label: "推測時刻", kind: "time" },
     { key: "location", label: "場所", kind: "text" },
@@ -200,87 +204,104 @@ function appendCreatedEvents(events) {
 
 async function loadLocalDrafts() {
   let browserDrafts = { version: 1, items: {} };
+  let browserText;
   try {
-    const saved = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null");
-    if (saved?.version === 1 && saved.items && typeof saved.items === "object" && !Array.isArray(saved.items)) {
-      browserDrafts = saved;
+    browserText = localStorage.getItem(LOCAL_DRAFTS_KEY);
+    const saved = DraftState.validateSnapshot(JSON.parse(browserText || "null"));
+    if (saved) {
+      browserDrafts = {...saved, items: validateDraftImport({...saved, format: saved.format || "hxh-succession-local-drafts"})};
     }
   } catch (error) {
+    if (browserText != null) {
+      unreadableBrowserDraft = browserText;
+      draftLoadError = "ブラウザのメモを読み込めません。元のデータを残し、メモの変更を停止しています。「読み込めないブラウザデータを保存」で控えを取り、修復後に再読み込みしてください。";
+    }
     console.warn("ローカル編集の読み込みに失敗しました", error);
   }
   localDrafts = browserDrafts;
+  if (!LOCAL_DRAFTS_API) return;
+  let response, serverPayload, serverItems;
   try {
-    if (!LOCAL_DRAFTS_API) return;
-    const response = await fetch(LOCAL_DRAFTS_API, { cache: "no-store" });
-    if (!response.ok) return;
-    const serverPayload = await response.json();
-    const serverItems = validateDraftImport(serverPayload);
-    const serverSavedAt = Date.parse(serverPayload.exportedAt || "") || 0;
-    const merged = { ...serverItems };
-    for (const [key, draft] of Object.entries(browserDrafts.items)) {
-      const browserUpdatedAt = Date.parse(draft.updatedAt || "") || 0;
-      if ((!merged[key] && browserUpdatedAt > serverSavedAt)
-        || (merged[key] && browserUpdatedAt > (Date.parse(merged[key].updatedAt || "") || 0))) {
-        merged[key] = draft;
-      }
+    response = await fetch(LOCAL_DRAFTS_API, { cache: "no-store", signal: AbortSignal.timeout(8000) });
+    if (!response.ok) {
+      if (response.status === 500) draftLoadError ||= "PCのメモを読み込めません。元ファイルを残し、メモの変更を停止しています。ファイルを確認してから再読み込みしてください。";
+      return;
     }
-    localDrafts = DraftState.epoch(browserDrafts) === DraftState.epoch(serverPayload)
-      ? { ...DraftState.merge(serverPayload), items: merged }
-      : DraftState.merge(browserDrafts, { ...serverPayload, items: serverItems });
-    pendingDraftMigration = JSON.stringify(localDrafts.items) !== JSON.stringify(serverItems)
-      || DraftState.epoch(localDrafts) !== DraftState.epoch(serverPayload);
+    serverPayload = await response.json();
+    DraftState.validateSnapshot(serverPayload);
+    serverItems = validateDraftImport(serverPayload);
+  } catch (error) {
+    if (response?.ok) draftLoadError ||= "PCのメモの形式が正しくありません。元ファイルを残し、メモの変更を停止しています。修復後に再読み込みしてください。";
+    console.warn("PC上のメモファイルを読み込めませんでした", error);
+    return;
+  }
+  try {
+    // A later export may only contain another page's changes. Absence is not deletion:
+    // cleared items carry timestamps, and whole-store resets carry a generation.
+    localDrafts = DraftState.merge(browserDrafts, { ...serverPayload, items: serverItems });
+    pendingDraftMigration = !draftLoadError && (JSON.stringify(localDrafts.items) !== JSON.stringify(serverItems)
+      || DraftState.epoch(localDrafts) !== DraftState.epoch(serverPayload));
     draftStorageMode = "file";
     draftFileHealthy = true;
-    localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
+    if (!draftLoadError) localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
   } catch (error) {
     console.warn("PC上のメモファイルを読み込めませんでした", error);
   }
 }
 
 async function saveLocalDrafts() {
-  if (draftResetInProgress) return false;
-  let browserSaved = false;
-  try {
-    const stored = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null");
-    if (DraftState.epoch(stored) > DraftState.epoch(localDrafts)) {
-      window.location.reload();
-      return false;
-    }
-    localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(localDrafts));
-    browserSaved = true;
-  } catch (error) {
-    console.warn("ブラウザ内のメモ保存に失敗しました", error);
-  }
-  if (draftStorageMode !== "file") return browserSaved;
-  const snapshot = JSON.stringify(buildDraftExport());
-  draftSaveQueue = draftSaveQueue.catch(() => {}).then(async () => {
-    const latest = await fetch(LOCAL_DRAFTS_API, { cache: "no-store" });
-    if (!latest.ok) throw new Error(`HTTP ${latest.status}`);
-    const current = await latest.json();
-    if (DraftState.epoch(current) > DraftState.epoch(JSON.parse(snapshot))) {
-      localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(current));
-      window.location.reload();
-      throw new Error("別のページでメモがリセットされました。");
-    }
-    const response = await fetch(LOCAL_DRAFTS_API, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: snapshot
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return true;
-  });
+  if (draftResetInProgress || draftLoadError) return false;
+  draftSaveCount++;
+  draftChangesUnsaved = true;
+  updateDraftExitGuard();
+  const snapshot = JSON.parse(JSON.stringify(buildDraftExport()));
+  draftSaveQueue = draftSaveQueue.catch(() => {}).then(() => DraftState.persist({
+    source: snapshot, key: LOCAL_DRAFTS_KEY,
+    storage: {getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value)},
+    fetcher: (...args) => fetch(...args), api: draftStorageMode === "file" ? LOCAL_DRAFTS_API : null
+  }));
   try {
     const saved = await draftSaveQueue;
+    localDrafts = DraftState.merge(saved, localDrafts);
+    draftChangesUnsaved = false;
     draftFileHealthy = true;
     updateDraftStorageStatus();
-    return saved;
+    return true;
   } catch (error) {
+    draftChangesUnsaved = true;
     draftFileHealthy = false;
     updateDraftStorageStatus();
     console.warn("PC上のメモファイルへ保存できませんでした", error);
     return false;
+  } finally {
+    draftSaveCount--;
+    updateDraftExitGuard();
   }
+}
+
+function checkpointPendingDrafts() {
+  if (draftResetInProgress || draftLoadError) return true;
+  for (const flush of [...draftMemoFlushers]) flush();
+  if (!draftChangesUnsaved && !draftSaveCount) return true;
+  try {
+    localDrafts = DraftState.checkpoint({source: localDrafts, key: LOCAL_DRAFTS_KEY,
+      storage: {getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value)}});
+    return true;
+  } catch (error) {
+    console.warn("移動前のメモの控えを保存できませんでした", error);
+    return false;
+  }
+}
+
+function guardDraftExit(event) {
+  if (checkpointPendingDrafts()) return;
+  event.preventDefault();
+  event.returnValue = "";
+}
+
+function updateDraftExitGuard() {
+  if (draftChangesUnsaved || draftSaveCount || draftMemoFlushers.size) window.addEventListener("beforeunload", guardDraftExit);
+  else window.removeEventListener("beforeunload", guardDraftExit);
 }
 
 function buildDraftExport() {
@@ -299,7 +320,7 @@ function buildDraftExport() {
     ...(localDrafts.resetAt ? { resetAt: localDrafts.resetAt } : {}),
     exportedAt: new Date().toISOString(),
     items: localDrafts.items,
-    entries: Object.entries(localDrafts.items).map(([key, draft]) => ({
+    entries: Object.entries(localDrafts.items).filter(([, draft]) => DraftState.hasContent(draft)).map(([key, draft]) => ({
       key, title: labels.get(key) || draft.title || draft.createdRecord?.description || key, memo: draft.memo || "", edits: draft.edits || {}, isNew: Boolean(draft.createdRecord), updatedAt: draft.updatedAt || null
     }))
   };
@@ -313,15 +334,24 @@ function validateDraftImport(payload) {
   const items = {};
   for (const [key, draft] of Object.entries(payload.items)) {
     const category = key.split(":")[0];
-    if (!LOCAL_EDIT_FIELDS[category] || !key.includes(":") ||
+    if (!Object.hasOwn(LOCAL_EDIT_FIELDS, category) || !key.slice(category.length + 1).trim() || !key.includes(":") ||
         !draft || typeof draft !== "object" || Array.isArray(draft)) {
       throw new Error("メモJSONの項目に不正な形式があります。");
     }
     const safe = {};
+    if (draft.memo !== undefined && typeof draft.memo !== "string") throw new Error("メモ本文の形式が正しくありません。");
     if (category === "theory" && typeof draft.title === "string") safe.title = draft.title;
     if (draft.createdRecord !== undefined) safe.createdRecord = validateCreatedEvent(draft.createdRecord, key);
     if (typeof draft.memo === "string") safe.memo = draft.memo;
     if (typeof draft.updatedAt === "string") safe.updatedAt = draft.updatedAt;
+    if (draft.fieldUpdatedAt !== undefined) {
+      if (!draft.fieldUpdatedAt || typeof draft.fieldUpdatedAt !== "object" || Array.isArray(draft.fieldUpdatedAt) ||
+          Object.entries(draft.fieldUpdatedAt).some(([field, value]) => !["memo", "edits", "title", "createdRecord"].includes(field) ||
+            typeof value !== "string" || !Number.isFinite(Date.parse(value)))) {
+        throw new Error("メモの項目別更新日時の形式が正しくありません。");
+      }
+      safe.fieldUpdatedAt = {...draft.fieldUpdatedAt};
+    }
     if (draft.edits !== undefined) {
       if (!draft.edits || typeof draft.edits !== "object" || Array.isArray(draft.edits)) {
         throw new Error("編集内容の形式が正しくありません。");
@@ -330,9 +360,15 @@ function validateDraftImport(payload) {
       for (const field of LOCAL_EDIT_FIELDS[category]) {
         if (!Object.hasOwn(draft.edits, field.key)) continue;
         const value = draft.edits[field.key];
-        if (field.kind === "number" ? value !== null && !Number.isInteger(value)
+        if (field.required && (typeof value !== "string" || !value.trim())) {
+          throw new Error(`${field.label}を入力してください。`);
+        }
+        if (field.kind === "number" ? value !== null && (!Number.isInteger(value) || value < field.min || value > field.max)
           : value !== null && typeof value !== "string") {
           throw new Error("編集内容の値が正しくありません。");
+        }
+        if (field.kind === "time" && value && !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value)) {
+          throw new Error("時刻は00:00〜23:59で入力してください。");
         }
         safe.edits[field.key] = value;
       }
@@ -352,11 +388,11 @@ function renderDraftOverview() {
   const entries = buildDraftExport().entries
     .filter((item) => item.isNew || item.memo || Object.keys(item.edits).length)
     .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
-  count.textContent = `（${entries.length}件）`;
+  count.textContent = draftLoadError ? `（読み込めた分${entries.length}件・他は未確認）` : `（${entries.length}件）`;
   list.replaceChildren();
   if (!entries.length) {
     const empty = document.createElement("li");
-    empty.textContent = "まだメモはありません。";
+    empty.textContent = draftLoadError ? "メモの全件を読み込めていません。元の保存データは残しています。" : "まだメモはありません。";
     list.appendChild(empty);
     return;
   }
@@ -364,7 +400,7 @@ function renderDraftOverview() {
     const row = document.createElement("li");
     const title = document.createElement("strong");
     title.textContent = entry.title;
-    const summary = entry.memo || (entry.isNew ? "追加した出来事（このPCに保存）" : `編集した項目：${Object.keys(entry.edits).join("、")}`);
+    const summary = entry.memo || (entry.isNew ? `追加した出来事（${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存）` : `編集した項目：${Object.keys(entry.edits).join("、")}`);
     row.append(title, document.createTextNode(` — ${summary.length > 160 ? `${summary.slice(0, 160)}…` : summary}`));
     list.appendChild(row);
   });
@@ -373,14 +409,19 @@ function renderDraftOverview() {
 function updateDraftStorageStatus() {
   const status = document.getElementById("draftStorageStatus");
   if (!status) return;
+  if (draftLoadError) { status.textContent = draftLoadError; return; }
   status.textContent = draftStorageMode === "file"
     ? draftFileHealthy ? "● PCへの自動保存が有効です。公開データには反映されません。"
-      : "⚠ PCへの保存に失敗しました。ブラウザ内の控えをバックアップしてください。"
+      : "⚠ PCへの保存に失敗しました。入力内容を控え、メモ一覧からバックアップしてください。"
     : `保存先：このブラウザ。メモ・編集は自動保存されます。他の端末とは共有されません。${LOCAL_DRAFTS_API ? " PC保存には接続できていません。" : ""}`;
 }
 
 function downloadDraftBackup(payload, filename = "codex-notes.json") {
   const content = JSON.stringify(payload, null, 2) + "\n";
+  downloadDraftText(content, filename);
+}
+
+function downloadDraftText(content, filename) {
   const url = URL.createObjectURL(new Blob([content], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
@@ -391,6 +432,32 @@ function downloadDraftBackup(payload, filename = "codex-notes.json") {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
+async function readCurrentDrafts({requireFile = true} = {}) {
+  if (draftLoadError) throw new Error(draftLoadError);
+  await Promise.all([...draftMemoFlushers].map(flush => flush()));
+  await draftSaveQueue.catch(() => {});
+  let browser = null, browserText;
+  try { browserText = localStorage.getItem(LOCAL_DRAFTS_KEY); } catch (_) { /* A file copy may still be available. */ }
+  if (browserText != null) browser = DraftState.validateSnapshot(JSON.parse(browserText));
+  let file = null, fileRevision = null, fileReadFailed = false;
+  if (draftStorageMode === "file") {
+    try {
+      const response = await fetch(LOCAL_DRAFTS_API, {cache: "no-store", signal: AbortSignal.timeout(8000)});
+      if (!response.ok) throw new Error("PCのメモを読み込めませんでした。");
+      file = await response.json();
+      DraftState.validateSnapshot(file);
+      file = {...file, items: validateDraftImport(file)};
+      fileRevision = response.headers.get("ETag");
+    } catch (error) {
+      if (requireFile) throw error;
+      fileReadFailed = true;
+    }
+  }
+  localDrafts = DraftState.merge(localDrafts, browser, file);
+  renderDraftOverview();
+  return {payload: buildDraftExport(), fileRevision, fileReadFailed};
+}
+
 function setupDraftReset() {
   const button = document.getElementById("resetLocalDrafts");
   const confirm = document.getElementById("confirmDraftReset");
@@ -398,6 +465,7 @@ function setupDraftReset() {
   const panel = document.getElementById("draftResetConfirmation");
   const status = document.getElementById("draftResetStatus");
   let backedUp = null;
+  let fileRevision = null;
   const signature = payload => JSON.stringify({resetAt: payload.resetAt || null, items: payload.items});
   const hide = () => {
     panel.hidden = true;
@@ -405,19 +473,9 @@ function setupDraftReset() {
     backedUp = null;
   };
   async function currentDrafts() {
-    await Promise.all([...draftMemoFlushers].map(flush => flush()));
-    await draftSaveQueue.catch(() => {});
-    let browser = null;
-    try { browser = JSON.parse(localStorage.getItem(LOCAL_DRAFTS_KEY) || "null"); } catch (_) { /* File may still be available. */ }
-    let file = null;
-    if (draftStorageMode === "file") {
-      const response = await fetch(LOCAL_DRAFTS_API, {cache: "no-store"});
-      if (!response.ok) throw new Error("PCのメモを読み込めませんでした。リセットしていません。");
-      file = await response.json();
-      file = {...file, items: validateDraftImport(file)};
-    }
-    localDrafts = DraftState.merge(localDrafts, browser, file);
-    return buildDraftExport();
+    const current = await readCurrentDrafts();
+    fileRevision = current.fileRevision;
+    return current.payload;
   }
   try {
     const count = sessionStorage.getItem(DRAFT_RESET_STATUS_KEY);
@@ -432,7 +490,7 @@ function setupDraftReset() {
     hide();
     try {
       const payload = await currentDrafts();
-      const count = Object.keys(payload.items).length;
+      const count = payload.entries.length;
       if (!count) { status.textContent = "リセットするメモ・編集はありません。"; return; }
       const filename = `codex-notes-before-reset-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
       downloadDraftBackup(payload, filename);
@@ -466,8 +524,10 @@ function setupDraftReset() {
       draftResetInProgress = true;
       const empty = DraftState.reset(previous);
       if (draftStorageMode === "file") {
-        const response = await fetch(LOCAL_DRAFTS_API, {method: "PUT", headers: {"Content-Type": "application/json"},
+        const response = await fetch(LOCAL_DRAFTS_API, {method: "PUT", headers: {"Content-Type": "application/json",
+          ...(fileRevision ? {"If-Match": fileRevision} : {})}, signal: AbortSignal.timeout(8000),
           body: JSON.stringify({format: previous.format, ...empty, exportedAt: new Date().toISOString(), entries: []})});
+        if (response.status === 412) throw new Error("別のページでメモが変わりました。新しいバックアップを保存してからやり直してください。まだ消していません。");
         if (!response.ok) throw new Error("PCへの保存に失敗しました。メモ・編集は消していません。");
         fileReset = true;
       }
@@ -476,7 +536,7 @@ function setupDraftReset() {
       renderDraftOverview();
       try {
         sessionStorage.removeItem(REOPEN_DETAIL_KEY);
-        sessionStorage.setItem(DRAFT_RESET_STATUS_KEY, String(Object.keys(previous.items).length));
+        sessionStorage.setItem(DRAFT_RESET_STATUS_KEY, String(previous.entries.length));
       } catch (_) { /* Reset is complete even if the success notice cannot be remembered. */ }
       window.location.reload();
     } catch (error) {
@@ -509,6 +569,22 @@ function setupDraftTransfer() {
   updateDraftStorageStatus();
   renderDraftOverview();
   setupDraftReset();
+  window.addEventListener("pagehide", checkpointPendingDrafts);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") checkpointPendingDrafts();
+  });
+  if (draftLoadError) {
+    document.querySelector(".local-drafts-transfer").open = true;
+    [exportButton, chooseButton, document.getElementById("resetLocalDrafts")].forEach(button => { button.disabled = true; });
+    const rawBackup = document.getElementById("exportUnreadableBrowserDraft");
+    rawBackup.hidden = unreadableBrowserDraft === null;
+    rawBackup.addEventListener("click", () => {
+      try {
+        downloadDraftText(unreadableBrowserDraft, "codex-notes-unreadable.json");
+        status.textContent = "元のブラウザデータをそのまま保存しました。修復用の控えとして保管してください。";
+      } catch (_) { status.textContent = "控えを保存できませんでした。このブラウザの保存データは残しています。"; }
+    });
+  }
   try {
     const importedCount = sessionStorage.getItem(DRAFT_IMPORT_STATUS_KEY);
     if (importedCount) {
@@ -520,18 +596,22 @@ function setupDraftTransfer() {
   }
 
   exportButton.addEventListener("click", async () => {
-    const count = Object.keys(localDrafts.items).length;
-    if (!count) {
-      status.textContent = "保存済みのメモ・編集はまだありません。";
-      return;
-    }
+    exportButton.disabled = true;
+    status.textContent = "最新のメモを確認しています…";
     try {
-      downloadDraftBackup(buildDraftExport());
-      status.textContent = `${count}件のJSONのダウンロードを開始しました。完了後、Codexに保存先を伝えてください。`;
+      const {payload, fileReadFailed} = await readCurrentDrafts({requireFile: false});
+      const count = payload.entries.length;
+      if (!count) {
+        status.textContent = fileReadFailed ? "このページ・ブラウザにメモはありません。PCの最新メモは取得できていないため未確認です。"
+          : "保存済みのメモ・編集はまだありません。";
+        return;
+      }
+      downloadDraftBackup(payload);
+      status.textContent = `${count}件のJSONのダウンロードを開始しました。${fileReadFailed ? "PCの最新メモは取得できず、このページ・ブラウザで保持する内容だけを含みます。" : "完了後、Codexに保存先を伝えてください。"}`;
     } catch (error) {
       status.textContent = "ファイルに保存できませんでした。";
       console.warn("メモJSONの保存に失敗しました", error);
-    }
+    } finally { exportButton.disabled = false; }
   });
 
   chooseButton.addEventListener("click", () => fileInput.click());
@@ -540,12 +620,18 @@ function setupDraftTransfer() {
     if (!file) return;
     try {
       const imported = validateDraftImport(JSON.parse(await file.text()));
+      await readCurrentDrafts();
       const conflicts = Object.keys(imported).filter((key) => Object.hasOwn(localDrafts.items, key)).length;
       if (conflicts && !window.confirm(`${conflicts}件はブラウザ内のメモを上書きします。読み込みますか？`)) {
         status.textContent = "読み込みを取り消しました。";
         return;
       }
       const previous = localDrafts;
+      // An explicit restore is a new edit, even when the backup has older timestamps.
+      Object.entries(imported).forEach(([key, item]) => {
+        item.updatedAt = DraftState.timestamp(previous.items[key]);
+        delete item.fieldUpdatedAt;
+      });
       localDrafts = { ...previous, items: { ...previous.items, ...imported } };
       if (!await saveLocalDrafts()) {
         localDrafts = previous;
@@ -572,6 +658,30 @@ function applyLocalDrafts(records, categoryForRecord) {
     LOCAL_EDIT_FIELDS[category].forEach(({ key: field }) => {
       if (Object.hasOwn(edits, field)) record[field] = edits[field];
     });
+    if (category === "event") {
+      const original = originalRecords.get(key);
+      const changed = (field) => Object.hasOwn(edits, field) && record[field] !== (original[field] ?? null);
+      if (Object.keys(edits).length) record.local_edited = true;
+      // The public headline, summary and clock evidence describe the original text.
+      if (changed("description")) { delete record.title; delete record.summary; }
+      if (changed("day")) {
+        record.date_certainty = "unknown";
+        record.time_inference = false;
+        delete record.period;
+        delete record.relative_days_before_departure;
+      }
+      if (changed("time_start") || changed("time_estimate")) {
+        record.local_time_edited = true;
+        record.time_inference = false;
+        record.time_end = null;
+        delete record.time_estimate_basis;
+      }
+      if (changed("location")) {
+        record.room = null;
+        record.location_status = "unverified";
+        delete record.location_basis;
+      }
+    }
   });
 }
 
@@ -591,7 +701,7 @@ function reopenDetailAfterReload(record, category, view = "modal") {
 }
 
 async function loadJson(path) {
-  const res = await fetch(path);
+  const res = await fetch(path, {signal: AbortSignal.timeout(15000)});
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
   return res.json();
 }
@@ -2136,10 +2246,10 @@ function createCharacterDirectoryCard(character) {
   if (character.type !== "soldier") badges.appendChild(makeCharacterTypeBadge(character.type));
   const allianceLabels = character.type === "prince"
     ? alliancesData.filter((alliance) => alliance.prince_ids.includes(character.id)).map((alliance) => ({
-      label: alliance.prince_ids.filter((id) => id !== character.id).map((id) => {
+      partnerLabels: alliance.prince_ids.filter((id) => id !== character.id).map((id) => {
         const partner = princesData.find((prince) => prince.id === id);
         return partner ? `第${partner.rank}王子${getDisplayName(partner)}` : id;
-      }).join("・")
+      })
     }))
     : [];
   // 念の有無はカード上の「念：…」の1行にまとめ、同じ意味のタグは重ねて出さない（絞り込みの一覧には残す）。
@@ -2160,11 +2270,12 @@ function createCharacterDirectoryCard(character) {
     badges.appendChild(supplement);
   }
   allianceLabels.forEach((alliance) => {
-    const badge = document.createElement("span");
-    badge.className = "character-alliance-badge";
-    badge.classList.add("spoiler-only");
-    badge.textContent = `共闘 → ${alliance.label}`;
-    badges.appendChild(badge);
+    ["共闘", ...alliance.partnerLabels].forEach((label, index) => {
+      const badge = document.createElement("span");
+      badge.className = `character-alliance-badge spoiler-only ${index === 0 ? "character-alliance-role" : "character-alliance-partner"}`;
+      badge.textContent = label;
+      badges.appendChild(badge);
+    });
   });
   identity.append(heading, badges);
   if (identity.rosterState) identity.appendChild(identity.rosterState);
@@ -2249,7 +2360,7 @@ function createCharacterDirectoryCard(character) {
       used.add(deathTag.id);
     }
     visibleTags.filter((tag) => !used.has(tag.id)).forEach((tag) => {
-      const destination = ["血縁", "状態", "念講習会"].includes(tag.category) ? spoilerTagList : tagList;
+      const destination = ["血縁", "状態", "念", "念講習会"].includes(tag.category) ? spoilerTagList : tagList;
       destination.appendChild(makeCharacterTagButton(tag));
     });
     if (tagList.childNodes.length) card.appendChild(tagList);
@@ -2558,7 +2669,10 @@ function setSpoilersRevealed(revealed, persist = true) {
   document.dispatchEvent(new CustomEvent("spoiler-visibility-change", { detail: { revealed } }));
   if (!revealed) {
     document.querySelectorAll(".directory-character-details").forEach((details) => { details.open = false; });
-    document.getElementById("detailModal")?.classList.add("hidden");
+    const lightbox = document.getElementById("imageLightbox");
+    if (lightbox?.open) lightbox.close();
+    const modal = document.getElementById("detailModal");
+    if (!modal.classList.contains("hidden") && !modal.querySelector(".local-event-create-form")) closeDetailModal();
   }
   if (persist) {
     try {
@@ -2871,20 +2985,20 @@ function setupCharacterDirectory() {
     let rosterText = rosterMode ? (spoilersRevealed || periodFilter.value === "departure"
       ? (periodFilter.value === "departure"
         ? `名簿全体（選択時点・王妃）：${ledger.length}枠。初期復元を含み、全員の初期在籍を個別確認済みという意味ではありません。`
-        : `名簿全体（選択時点・王妃）：${ledger.length}人／死亡・拘束・辞退・離脱の履歴なし：${withoutStop}人（うち状態未確認${unknown}人）。稼働確認済み人数ではありません。`)
-      : `名簿全体（選択時点・王妃）：${ledger.length}人。状態別の人数はネタバレ表示で確認できます。`) : "";
-    if (rosterMode) rosterText += ' 検索語・その他の絞り込みを適用する前の集計です。';
+        : `名簿全体（選択時点・王妃）：${ledger.length}枠／死亡・拘束・辞退・離脱の履歴なし：${withoutStop}枠（うち状態未確認${unknown}枠）。稼働確認済み人数ではありません。`)
+      : `名簿全体（選択時点・王妃）：${ledger.length}枠。状態別の人数はネタバレ表示で確認できます。`) : "";
+    if (rosterMode) rosterText += ` うち個人未同定：${ledger.filter(p => p.is_count_only || p.roster_projection || countOnlyCharacterIds.has(p.id)).length}枠（仮登録として一覧に表示）。検索語・その他の絞り込みを適用する前の集計です。`;
     if (spoilersRevealed && queenFilter.value !== "all" && periodFilter.value === "chapter-374") {
       const queen = Number(queenFilter.value);
       const diagram = PersonnelRoster.diagramCount(personnelSnapshotsData.find(item => item.chapter === 374), queen);
       const initial = PersonnelRoster.select(personnelRosterData, charactersData, {period: "departure", queen}).length;
-      rosterText += ` 初期復元：${initial}人／第374話の原図記載：${diagram}人。原図の集計範囲・除外条件との対応は未確定で、差は登録漏れを意味しません。`;
+      rosterText += ` 初期復元：${initial}枠／第374話の原図記載：${diagram}人。原図の集計範囲・除外条件との対応は未確定で、差は登録漏れを意味しません。`;
     }
     document.getElementById("personnelRosterSummary").textContent = rosterText;
     queenNav.querySelectorAll("button").forEach(button => {
       const rank = Number(button.dataset.queenRank);
       const total = getPersonnelSelection(rank).length;
-      button.textContent = `第${rank}王妃所属兵を表示（${total}人）`;
+      button.textContent = `第${rank}王妃所属兵を表示（${total}枠）`;
       button.title = `兵士・従事者を${periodFilter.value === "all" ? "出航時" : periodFilter.selectedOptions[0].textContent}・第${rank}王妃所属兵で絞り込みます`;
       button.classList.toggle("active", queenFilter.value === String(rank));
       button.setAttribute("aria-pressed", String(queenFilter.value === String(rank)));
@@ -2945,10 +3059,11 @@ function setupCharacterDirectory() {
       empty.textContent = "条件なし（全員）";
       activeTagBar.appendChild(empty);
     }
-    const noCharacterFilters = activeCharacterSection === "all"
+    const noCharacterTagFilters = activeCharacterSection === "all"
       && princeFilter.value === "all" && !activeCharacterTags.size && !activeCharacterAffiliation
-      && typeFilter.value === "all" && campFilter.value === "all" && !search.value.trim()
-      && periodFilter.value === "all" && queenFilter.value === "all";
+      && typeFilter.value === "all" && campFilter.value === "all" && queenFilter.value === "all";
+    const noCharacterFilters = noCharacterTagFilters && !search.value.trim() && periodFilter.value === "all";
+    document.getElementById("resetCharacterTags").disabled = noCharacterTagFilters;
     document.getElementById("clearCharacterFilters").disabled = noCharacterFilters;
     // 条件がないときは「条件なし」の行を出さず、最初の画面で人物カードまで見えるようにする。
     document.querySelector(".character-tag-catalog")?.classList.toggle("has-active-filters", !noCharacterFilters);
@@ -2958,8 +3073,7 @@ function setupCharacterDirectory() {
     document.getElementById("characterFilterCount").textContent = tagConditionCount ? `（${tagConditionCount}条件を選択中）` : "";
     updateViewPermalink();
   };
-  document.getElementById("clearCharacterFilters").addEventListener("click", () => {
-    search.value = "";
+  const resetCharacterTagSelections = () => {
     activeCharacterTags.clear();
     activeCharacterSection = "all";
     activeCharacterSubgroup = null;
@@ -2967,8 +3081,16 @@ function setupCharacterDirectory() {
     typeFilter.value = "all";
     campFilter.value = "all";
     princeFilter.value = "all";
-    periodFilter.value = "all";
     queenFilter.value = "all";
+  };
+  document.getElementById("resetCharacterTags").addEventListener("click", () => {
+    resetCharacterTagSelections();
+    apply();
+  });
+  document.getElementById("clearCharacterFilters").addEventListener("click", () => {
+    search.value = "";
+    periodFilter.value = "all";
+    resetCharacterTagSelections();
     apply();
   });
   search.addEventListener("input", apply);
@@ -3805,8 +3927,11 @@ function setupFilters() {
 function renderActiveTimelineView() {
   const gate = document.querySelector("#timelineSpoilerGate p");
   const token = document.getElementById("participantFilter")?.value;
+  const linkedEvent = eventsData.find(event => event.id === new URL(location.href).searchParams.get("event"));
   const count = filteredEventsData.filter(event => activeTimelineView !== "schedule" || activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId).length;
-  if (gate) gate.textContent = token && token !== "all"
+  if (gate) gate.textContent = linkedEvent
+    ? `リンク先は第${linkedEvent.chapter}話の出来事です。ネタバレを表示すると、この出来事の詳細を読めます。`
+    : token && token !== "all"
     ? `ネタバレを表示すると、${formatRoyalName(token)}の出来事 ${count}件を読めます。`
     : "出来事は死亡・能力・後の展開を含みます。ネタバレを表示すると読めます。";
   const events = filteredEventsData;
@@ -4429,17 +4554,20 @@ function setupDetailModal() {
 }
 
 function setupEventCreation() {
-  document.getElementById("addTimelineEvent").addEventListener("click", showEventCreation);
+  const button = document.getElementById("addTimelineEvent");
+  button.disabled = Boolean(draftLoadError);
+  button.addEventListener("click", showEventCreation);
 }
 
 function showEventCreation() {
+  if (draftLoadError) return;
   const modal = document.getElementById("detailModal");
   const content = document.getElementById("modalContent");
   content.replaceChildren();
   document.getElementById("modalTitle").textContent = "出来事を追加";
   const help = document.createElement("p");
   help.className = "local-editor-help";
-  help.textContent = "このPCに保存し、タイムラインへ追加します。公開データには反映しません。推測の時刻は確定時刻と区別してください。";
+  help.textContent = `${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存し、タイムラインへ追加します。公開データには反映しません。推測の時刻は確定時刻と区別してください。`;
   const form = document.createElement("form");
   form.className = "local-editor-form local-event-create-form";
   const inputs = new Map();
@@ -4532,9 +4660,9 @@ function showEventCreation() {
       const record = buildLocalEventRecord(values, id, chapterOrder);
       const key = `event:${id}`;
       validateCreatedEvent(record, key);
-      localDrafts.items[key] = { ...(localDrafts.items[key] || {}), createdRecord: record, updatedAt: new Date().toISOString() };
+      localDrafts.items[key] = DraftState.editItem(localDrafts.items[key], {createdRecord: record});
       if (!await saveLocalDrafts()) {
-        status.textContent = "PCに保存できませんでした。ブラウザ内の控えは残っています。再度保存してください。";
+        status.textContent = "保存できませんでした。入力内容をコピーして控え、もう一度保存してください。";
         return;
       }
       reopenDetailAfterReload(record, "event");
@@ -4544,7 +4672,9 @@ function showEventCreation() {
   });
   content.append(help, form);
   modalReturnFocus = document.activeElement;
+  modal.dataset.eventId = "";
   modal.classList.remove("hidden"); modal.setAttribute("aria-hidden", "false");
+  setModalBackgroundInert(true);
   document.body.classList.add("modal-open"); inputs.get("description").focus();
 }
 
@@ -4671,6 +4801,13 @@ function setupGuideMemos() {
 function renderLocalEditor(container, record, category, view = "modal") {
   // 公開サイト（PC保存なし）では、自分用メモ・編集の欄ごと出さない。
   if (!memoEditorEnabled()) return;
+  if (draftLoadError) {
+    const message = document.createElement("p");
+    message.className = "local-editor-status";
+    message.textContent = "メモを読み込めないため編集を停止しています。ページ上部のメモ管理で確認してください。";
+    container.appendChild(message);
+    return;
+  }
   const recordKey = localRecordKey(record, category);
   const saved = localDrafts.items[recordKey] || {};
   const section = document.createElement("section");
@@ -4704,6 +4841,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   status.className = "local-editor-status";
   status.setAttribute("role", "status");
   let memoTimer = null;
+  let memoRevision = 0;
   const flushMemo = () => {
     if (!memoTimer) return;
     clearTimeout(memoTimer);
@@ -4714,21 +4852,23 @@ function renderLocalEditor(container, record, category, view = "modal") {
   async function persistMemo() {
     if (draftResetInProgress) return false;
     const text = memo.value.trim();
+    const revision = memoRevision;
     const previous = localDrafts.items[recordKey] || {};
-    if (text || Object.keys(previous.edits || {}).length > 0) {
-      localDrafts.items[recordKey] = { ...previous, memo: text, updatedAt: new Date().toISOString() };
-    } else {
-      delete localDrafts.items[recordKey];
-    }
+    // Keep an empty, dated item so another tab cannot restore the erased memo.
+    // A local event remains an event even when its memo is empty.
+    localDrafts.items[recordKey] = DraftState.editItem(previous, {memo: text});
     const saved = await saveLocalDrafts();
     renderDraftOverview();
-    status.textContent = saved
-      ? draftStorageMode === "file" ? "PCに保存しました。" : "ブラウザに保存しました。PCへの自動保存は無効です。"
-      : "PCに保存できませんでした。ブラウザ内の控えは残っています。";
+    if (revision === memoRevision) status.textContent = saved
+        ? draftStorageMode === "file" ? "PCに保存しました。" : "ブラウザに保存しました。PCへの自動保存は無効です。"
+        : "保存できませんでした。入力内容をコピーして控え、もう一度保存してください。";
+    return saved;
   }
   memo.addEventListener("input", () => {
+    memoRevision++;
     clearTimeout(memoTimer);
     draftMemoFlushers.add(flushMemo);
+    updateDraftExitGuard();
     status.textContent = "保存中…";
     memoTimer = setTimeout(flushMemo, 650);
   });
@@ -4764,9 +4904,13 @@ function renderLocalEditor(container, record, category, view = "modal") {
     const input = field.kind === "textarea" ? document.createElement("textarea") : document.createElement("input");
     if (field.kind === "textarea") input.rows = field.key === "notes" ? 5 : 3;
     else input.type = field.kind === "number" ? "number" : field.kind === "time" ? "time" : "text";
-    if (field.kind === "number") { input.min = "0"; input.step = "1"; }
+    if (field.kind === "number") {
+      input.min = String(field.min ?? 0); input.step = "1";
+      if (field.max !== undefined) input.max = String(field.max);
+    }
     if (field.required) input.required = true;
-    input.value = record[field.key] ?? "";
+    input.value = category === "event" && field.key === "location"
+      ? record.location || record.room || "" : record[field.key] ?? "";
     label.appendChild(input);
     form.appendChild(label);
     inputs.set(field.key, input);
@@ -4774,7 +4918,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   if (category === "event") {
     const timeHelp = document.createElement("p");
     timeHelp.className = "local-editor-help";
-    timeHelp.textContent = "確定時刻と推測時刻は同時に入力できません。根拠がない場合は空欄にしてください。";
+    timeHelp.textContent = "確定時刻と推測時刻は同時に入力できません。根拠がない場合は空欄にしてください。時刻の変更後は自動補間せず、日の変更後は確度未確認として表示します。";
     form.appendChild(timeHelp);
   }
   const formStatus = document.createElement("p");
@@ -4804,6 +4948,10 @@ function renderLocalEditor(container, record, category, view = "modal") {
     const values = {};
     for (const field of LOCAL_EDIT_FIELDS[category]) {
       const raw = inputs.get(field.key).value.trim();
+      if (field.required && !raw) {
+        formStatus.textContent = `${field.label}を入力してください。`;
+        return;
+      }
       values[field.key] = field.kind === "number" ? (raw === "" ? null : Number(raw))
         : field.kind === "time" ? (raw || null) : raw;
     }
@@ -4819,17 +4967,14 @@ function renderLocalEditor(container, record, category, view = "modal") {
     const edits = {};
     LOCAL_EDIT_FIELDS[category].forEach((field) => {
       const baseline = field.kind === "number" || field.kind === "time"
-        ? (original[field.key] ?? null) : (original[field.key] ?? "");
+        ? (original[field.key] ?? null) : category === "event" && field.key === "location"
+          ? original.location || original.room || "" : (original[field.key] ?? "");
       if (values[field.key] !== baseline) edits[field.key] = values[field.key];
     });
     const previous = localDrafts.items[recordKey] || {};
-    if (Object.keys(edits).length || previous.memo || previous.createdRecord) {
-      localDrafts.items[recordKey] = { ...previous, edits, updatedAt: new Date().toISOString() };
-    } else {
-      delete localDrafts.items[recordKey];
-    }
+    localDrafts.items[recordKey] = DraftState.editItem(previous, {edits});
     if (!await saveLocalDrafts()) {
-      formStatus.textContent = "PCに保存できませんでした。ブラウザ内の控えは残っています。";
+      formStatus.textContent = "保存できませんでした。入力内容をコピーして控え、もう一度保存してください。";
       return;
     }
     reopenDetailAfterReload(record, category, view);
@@ -4841,10 +4986,9 @@ function renderLocalEditor(container, record, category, view = "modal") {
       await persistMemo();
     }
     const previous = localDrafts.items[recordKey] || {};
-    if (previous.memo || previous.createdRecord) localDrafts.items[recordKey] = { ...previous, edits: {}, updatedAt: new Date().toISOString() };
-    else delete localDrafts.items[recordKey];
+    localDrafts.items[recordKey] = DraftState.editItem(previous, {edits: {}});
     if (!await saveLocalDrafts()) {
-      formStatus.textContent = "PCに変更を保存できませんでした。";
+      formStatus.textContent = "変更を保存できませんでした。";
       return;
     }
     reopenDetailAfterReload(record, category, view);
@@ -4935,7 +5079,7 @@ function showDetailModal(name, category, eventData = null) {
     }
     extraSections.push(...CharacterFacts.questionSections(record, eventsData));
     const fromTheory = initialViewUrl.searchParams.get("from_theory");
-    if (/^(?:Q00[1-9]|Q01[0-4]|emperor-time)$/.test(fromTheory || "")) {
+    if (/^(?:Q00[1-9]|Q01[0-4]|emperor-time|fugetsu-overnight|halkenburg-four-days)$/.test(fromTheory || "")) {
       const back = document.createElement("a");
       back.href = new URL(`theories/${fromTheory}/#evidence`, siteRootUrl).href;
       const returnUrl = new URL(back.href);
@@ -5754,6 +5898,7 @@ function isMajorCharacter(character) {
 
 function getEventVerificationLabel(event) {
   if (event.local_created) return event.is_estimate ? "自分で追加・内容は推測" : "自分で追加・未照合";
+  if (event.local_edited) return "自分で編集・変更箇所は未照合";
   return ({ review_recorded: "原作確認記録あり", unverified: "原作再照合待ち", hypothesis: "内容は推測" })[event.verification_status] || "原作再照合待ち";
 }
 
@@ -5785,12 +5930,13 @@ function makeEventReviewRibbon(event, placement = getTimelineTimePlacement(event
   const ribbon = document.createElement("div");
   ribbon.className = "event-review-ribbon";
   const content = document.createElement("span");
-  content.className = `review-badge review-${event.verification_status || "unverified"}`;
+  content.className = `review-badge review-${event.local_edited ? "unverified" : event.verification_status || "unverified"}`;
   content.textContent = getEventVerificationLabel(event);
   ribbon.appendChild(content);
   const clock = document.createElement("span");
   clock.className = `review-badge clock-${placement?.estimated ? "provisional" : "original"}`;
-  clock.textContent = placement?.estimated ? "仮時刻（順序用）" : placement ? "原作の時刻表記・経過表示" : "時刻未登録";
+  const clockEdited = event.local_created || event.local_time_edited;
+  clock.textContent = placement?.estimated ? "仮時刻（順序用）" : placement ? clockEdited ? "自分で入力した確定時刻（未照合）" : "原作の時刻表記・経過表示" : "時刻未登録";
   ribbon.appendChild(clock);
   const date = getDateCertaintyLabel(event);
   if (date) { const badge = document.createElement("span"); badge.className = "review-badge"; badge.textContent = date; ribbon.appendChild(badge); }
@@ -5833,7 +5979,8 @@ function makeCompactEventReviewRibbon(event) {
     if (title) badge.title = title;
     ribbon.appendChild(badge);
   };
-  if (event.local_created) add(event.is_estimate ? "自分で追加・内容は推測" : "自分で追加", "review-local", "このPCで追加した出来事です。公開データではありません。");
+  if (event.local_created) add(event.is_estimate ? "自分で追加・内容は推測" : "自分で追加", "review-local", "自分で追加した出来事です。公開データではありません。");
+  else if (event.local_edited) add("自分で編集", "review-local", "この端末だけの変更です。変更箇所は原作未照合です。");
   else if (event.is_estimate || event.verification_status === "hypothesis") {
     // 「内容は推測」と「推測」を1つにまとめる。
     add("内容は推測", "review-hypothesis", makeCertaintyBadge({ ...event, is_estimate: true }).title);
@@ -5876,6 +6023,14 @@ function makeEventSourcePanel(event) {
   const panel = document.createElement("section");
   panel.className = "event-source-panel";
   panel.appendChild(makeRecordPermalink("event", event.id));
+  if (event.local_created || event.local_edited) {
+    const scope = document.createElement("p");
+    scope.className = "record-link-scope local-editor-help";
+    scope.textContent = event.local_created
+      ? `このリンクは、${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存した出来事を開きます。他の端末へ渡す場合は、メモ管理のJSONバックアップで内容も渡してください。`
+      : "このリンクに自分用の編集は含まれません。編集を保存していない環境では公開データが表示されます。";
+    panel.appendChild(scope);
+  }
   const details = document.createElement("details");
   details.className = "editorial-status event-source-details";
   const summary = document.createElement("summary");
@@ -5890,14 +6045,16 @@ function makeEventSourcePanel(event) {
   };
   details.appendChild(makeEventReviewRibbon(event));
   const source = sourcesData.find((entry) => entry.id === event.source_id);
-  addLine(`出典：${source?.title || "原作再照合待ち"}`);
+  addLine(`${event.local_edited ? "公開データの出典" : "出典"}：${source?.title || "原作再照合待ち"}`);
+  if (event.local_edited) addLine("この画面には自分用の編集が含まれます。出典・確認記録は公開データのもので、変更箇所の裏付けではありません。");
   if (source?.url && !/^\s*(?:javascript|data):/i.test(source.url)) {
     const link = document.createElement("a"); link.href = source.url; link.textContent = "確認資料・登録索引を開く";
     const p = document.createElement("p"); p.appendChild(link); details.appendChild(p);
   }
   addLine(event.verification_note ? `確認上の留保：${event.verification_note}` : "", "event-verification-note");
   addLine(`内容の確認：${getEventVerificationLabel(event)}`);
-  const dateLabel = getDateCertaintyLabel(event);
+  const dateLabel = event.local_created && event.day != null
+    ? "自分で入力した日付（未照合）" : getDateCertaintyLabel(event);
   addLine(`日付の確度：${dateLabel || "原作記録に基づく日付"}`);
   addLine(`場所の確認：${getLocationReviewLabel(event)}`);
   if (event.time_estimate_basis) {
@@ -6057,6 +6214,7 @@ function updateViewPermalink() {
     if ((key.startsWith("t_") && visibleView !== "timeline") || (key.startsWith("c_") && visibleView !== "characters") || (key.startsWith("g_") && visibleView !== "guide")) url.searchParams.delete(key);
   });
   history.replaceState(history.state, "", url.href);
+  updateRecordLinkStatus(url);
   document.getElementById("currentViewLink").href = url.href;
   saveReadingState();
 }
@@ -6073,6 +6231,17 @@ function makeRecordPermalink(kind, id) {
   const link = document.createElement("a"); link.className = "record-permalink"; link.href = url.href;
   link.textContent = kind === "event" ? "この出来事のリンク" : "この人物のリンク";
   return link;
+}
+
+function updateRecordLinkStatus(url) {
+  const eventId = url.searchParams.get("event"), personId = url.searchParams.get("person");
+  const missingEvent = eventId && !eventsData.some(event => event.id === eventId);
+  const missingPerson = personId && !charactersData.some(person => person.id === personId);
+  const status = document.getElementById("recordLinkStatus");
+  status.hidden = !missingEvent && !missingPerson;
+  document.getElementById("recordLinkMessage").textContent = missingEvent
+    ? `リンク先の出来事が見つかりません。${eventId.startsWith("LOCAL-") ? "自分で追加した出来事は、保存したPC／ブラウザで開くか、JSONバックアップを読み込んでください。" : "リンクが古いか、現在のデータに収録されていない可能性があります。"}`
+    : missingPerson ? "リンク先の人物が見つかりません。リンクが古いか、現在のデータに収録されていない可能性があります。" : "";
 }
 
 function restoreViewFromUrl(url) {
@@ -6119,9 +6288,16 @@ function restoreViewFromUrl(url) {
   if (person && spoilersRevealed) {
     document.querySelector(`.directory-character-card[data-character-id="${person.id}"] .directory-character-details`)?.setAttribute("open", "");
   }
+  updateRecordLinkStatus(url);
 }
 
 function setupReadingPreferences() {
+  document.getElementById("clearRecordLink").addEventListener("click", () => {
+    const url = new URL(location.href);
+    ["event", "person", "detail"].forEach(key => url.searchParams.delete(key));
+    navigateReadingUrl(url);
+    document.querySelector("[data-primary-view][aria-current='page']")?.focus({preventScroll: true});
+  });
   document.getElementById("localDraftsLink").addEventListener("click", event => {
     event.preventDefault();
     const drafts = document.querySelector(".local-drafts-transfer");
@@ -6138,7 +6314,16 @@ function setupReadingPreferences() {
     main.scrollIntoView({ block: "start" });
   });
   document.getElementById("globalSpoilerToggle").addEventListener("click", () => setSpoilersRevealed(!spoilersRevealed));
-  document.querySelectorAll("[data-reveal-global]").forEach((button) => button.addEventListener("click", () => setSpoilersRevealed(true)));
+  window.addEventListener("storage", event => {
+    if (event.key === SPOILER_VISIBILITY_KEY) setSpoilersRevealed(event.newValue === "true", false);
+  });
+  document.querySelectorAll("[data-reveal-global]").forEach((button) => button.addEventListener("click", () => {
+    setSpoilersRevealed(true);
+    if (button.closest("#timelineSpoilerGate")) {
+      const linkedEvent = eventsData.find(event => event.id === new URL(location.href).searchParams.get("event"));
+      if (linkedEvent) showDetailModal(linkedEvent.id, "event", linkedEvent);
+    }
+  }));
   const previousSnapshot = history.state?.readingSnapshot;
   refreshSharedSpoilers(); renderChapterCoverage(); restoreViewFromUrl(initialViewUrl);
   viewLinksReady = true;
@@ -6201,6 +6386,13 @@ function setModalBackgroundInert(inert) {
 }
 
 async function init() {
+  const loadStatus = document.getElementById("databaseLoadStatus");
+  const main = document.getElementById("main-content");
+  const panels = document.querySelectorAll("[data-primary-panel], .reading-preferences, .local-drafts-transfer");
+  document.getElementById("databaseLoadMessage").textContent = "データを読み込んでいます…";
+  main.setAttribute("aria-busy", "true");
+  panels.forEach(panel => { panel.inert = true; });
+  document.getElementById("retryDatabaseLoad").addEventListener("click", () => window.location.reload());
   try {
     const [characters, characterTags, characterImages, countOnlyCharacters, events, openQuestions, spiritBeasts, factions, mafia, allianceData, personnelSnapshots, initialPersonnel, personnelRoster, sources] = await Promise.all([
       loadJson(DATA.characters),
@@ -6393,6 +6585,7 @@ async function init() {
           ? { eventId: modal.dataset.eventId, scrollTop: modal.querySelector(".modal-card").scrollTop } : null;
       },
       restoreBackground:(background, personId)=>{
+        if (!spoilersRevealed) return;
         const event = eventsData.find((entry)=>entry.id===background?.eventId);
         if (!event) return;
         showDetailModal(event.id, "event", event);
@@ -6405,8 +6598,6 @@ async function init() {
       const person = charactersData.find((candidate) => candidate.id === initialViewUrl.searchParams.get("person"));
       if (person) showDetailModal(person.id, person.type === "prince" ? "prince" : "bodyguard");
     }
-    const linkedEvent = eventsData.find(event => event.id === initialViewUrl.searchParams.get("event"));
-    if (linkedEvent) showDetailModal(linkedEvent.id, "event", linkedEvent);
 
     try {
       const pending = JSON.parse(sessionStorage.getItem(REOPEN_DETAIL_KEY) || "null");
@@ -6433,8 +6624,18 @@ async function init() {
     if (!["characters", "places", "timeline", "guide"].includes(location.hash.slice(1))) {
       scrollToCurrentHash();
     }
+    loadStatus.hidden = true;
+    panels.forEach(panel => { panel.inert = false; });
   } catch (err) {
     console.error("データの読み込みに失敗しました", err);
+    main.classList.add("database-load-failed");
+    document.getElementById("databaseLoadMessage").textContent = location.protocol === "file:"
+      ? "ファイルを直接開くと検索データを読み込めません。run_server.bat を起動し、http://127.0.0.1:8765/ を開いてください。"
+      : "データを読み込めませんでした。接続を確認して再読み込みしてください。人物索引と謎・考察は、下のリンクから読めます。";
+    document.getElementById("retryDatabaseLoad").hidden = false;
+    window.scrollTo({top: 0, behavior: "instant"});
+  } finally {
+    main.setAttribute("aria-busy", "false");
   }
 }
 

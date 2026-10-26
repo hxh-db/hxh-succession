@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "出典台帳",
+  "type": "array",
+  "items": {
+    "type": "object", "required": ["id", "title", "url", "source_type", "supports"],
+    "properties": {
+      "id": {"type": "string", "minLength": 1},
+      "title": {"type": "string", "minLength": 1},
+      "url": {"type": ["string", "null"]},
+      "source_type": {"type": "string", "minLength": 1},
+      "supports": {"type": "string", "minLength": 1},
+      "checked_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+      "notes": {"type": "string"},
+      "media_url": {"type": "string"},
+      "verification_status": {"type": "string"}
+    }
+  }
+}

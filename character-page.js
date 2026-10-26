@@ -12,6 +12,7 @@
     button.textContent = value ? "ネタバレを隠す" : "ネタバレを表示";
     button.setAttribute("aria-pressed", String(value));
     status.textContent = value ? "共通設定：ネタバレを表示しています" : "共通設定：ネタバレを隠しています";
+    if (!value && document.getElementById("imageLightbox")?.open) document.getElementById("imageLightbox").close();
     if (persist) try { localStorage.setItem(key, String(value)); } catch (_) { /* no storage */ }
   };
   button.hidden = false; update(revealed, false);

@@ -77,3 +77,18 @@ body:not(.spoilers-revealed) .character-spoiler-details { display: none; }
   .directory-results-toolbar { gap: 10px; align-items: start; padding: 12px 0; }
   .directory-results-toolbar .character-view-switch { max-width: none; flex-wrap: nowrap; }
 }
+/* A failed request must leave a visible explanation and a usable recovery action. */
+.database-load-status {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid #b9a572;
+  border-radius: 0.6rem;
+  background: #fff9e9;
+  color: #302b20;
+}
+.database-load-status p { margin: 0.4rem 0; }
+.database-load-status a { color: #164b83; }
+.database-load-status button { color: #fff; background: #164b83; border-color: #164b83; }
+.database-load-failed > :not(#databaseLoadStatus) { display: none !important; }
+#exportUnreadableBrowserDraft[hidden] { display: none; }
+.local-drafts-transfer-actions button:disabled { opacity: 0.45; cursor: not-allowed; }

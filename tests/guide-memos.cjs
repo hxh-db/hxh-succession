@@ -48,11 +48,11 @@ const context = vm.createContext({
   localStorage: {getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value)},
   fetch: async (url, options) => {
     if (options.method === 'PUT') puts.push({url, ...options});
-    return {ok: true, json: async () => ({version: 1, items: {}})};
+    return {ok: true, json: async () => ({format: 'hxh-succession-local-drafts', version: 1, items: {}, entries: []})};
   },
   setTimeout: callback => { const id = timers.size + 1; timers.set(id, callback); return id; },
   clearTimeout: id => timers.delete(id),
-  renderDraftOverview() {}, updateDraftStorageStatus() {}, memoEditorEnabled: () => true
+  renderDraftOverview() {}, updateDraftStorageStatus() {}, updateDraftExitGuard() {}, memoEditorEnabled: () => true
 });
 const fields = source.match(/const LOCAL_EDIT_FIELDS = ([\s\S]*?);\r?\n/)[1];
 vm.runInContext(`const LOCAL_EDIT_FIELDS = ${fields};
@@ -60,7 +60,8 @@ vm.runInContext(`const LOCAL_EDIT_FIELDS = ${fields};
   let localDrafts = {version: 1, items: {}};
   let draftStorageMode = 'browser', draftFileHealthy = false;
   let draftSaveQueue = Promise.resolve();
-  let draftResetInProgress = false; const draftMemoFlushers = new Set();
+  let draftResetInProgress = false, draftLoadError = ''; const draftMemoFlushers = new Set();
+  let draftSaveCount = 0, draftChangesUnsaved = false;
   const charactersData = [], eventsData = [], spiritBeastsData = [];
   ${['localRecordKey', 'getGuideMemoRecords', 'setupGuideMemos', 'renderLocalEditor', 'saveLocalDrafts', 'buildDraftExport', 'validateDraftImport'].map(extract).join('\n')}
   setupGuideMemos(); setupGuideMemos();`, context);
@@ -94,7 +95,9 @@ const flush = () => new Promise(resolve => setImmediate(resolve));
   assert.equal(memoFor(restored).value, '基本数値の確認メモ');
   first.value = ''; sections[0].all().find(node => node.tag === 'button').listeners.click();
   await flush();
-  assert.ok(!JSON.parse(storage.get('test')).items[key]);
-  assert.equal(Object.keys(JSON.parse(storage.get('test')).items).length, 1);
+  const final = JSON.parse(storage.get('test'));
+  assert.equal(final.items[key].memo, '');
+  assert.ok(Date.parse(final.items[key].updatedAt), 'clearing must have a timestamp to beat a stale tab');
+  assert.equal(require('../draft-state.js').envelope(final).entries.length, 1);
   console.log(`guide-memos: ${sections.length} sections; autosave, blur, export/import, restore, delete passed`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

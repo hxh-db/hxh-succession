@@ -1,10 +1,27 @@
 """Build static, source-linked theory pages. Run from any directory."""
 import json
 import re
+import argparse
+import sys
 from pathlib import Path
 from html import escape as esc
 
 ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--check', action='store_true', help='Report stale pages without writing files')
+args = parser.parse_args()
+stale_pages = []
+
+
+def write_page(path, content):
+    if args.check:
+        if not path.exists() or path.read_text(encoding='utf-8') != content:
+            stale_pages.append(str(path.relative_to(ROOT)))
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding='utf-8')
+
+
 questions = json.loads((ROOT / 'data/open_questions.json').read_text(encoding='utf-8'))
 events = {e['id']: e for e in json.loads((ROOT / 'data/events.json').read_text(encoding='utf-8'))}
 # Each entry: neutral title, conclusion, interpretation, counterargument, next evidence.
@@ -116,12 +133,11 @@ def shell(title, body, depth=0, article_id=None):
     base = '../' * (depth + 1)
     if article_id:
         body = (f'<div data-theory-id="{esc(article_id, quote=True)}">{body}</div>'
-                f'<script src="{base}draft-state.js?v=20261020-reset"></script>'
-                f'<script src="{base}theories/theory-memos.js?v=20261020-reset"></script>')
-    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261018-reading"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261015-search"></script></body></html>'''
+                f'<script src="{base}draft-state.js?v=20261026-inflight-checkpoint"></script>'
+                f'<script src="{base}theories/theory-memos.js?v=20261026-field-merge"></script>')
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261018-reading"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main">{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261026-spoiler-sync"></script></body></html>'''
 
 out = ROOT / 'theories'
-out.mkdir(exist_ok=True)
 cards = []
 for a in articles:
     refs = [events[i] for i in a['refs']]
@@ -159,8 +175,8 @@ for a in articles:
     body = body.replace('重要な根拠3点', 'この記事の要点3つ')
     body = re.sub(r'<p class="scope-note">.*?</p>', '', body)
     body = body.replace(f'<p>本文を含むネタバレ範囲：第{a["chapter"]}話まで · 執筆日：2026年10月13日</p>', metadata)
-    dest=out/a['id']; dest.mkdir(exist_ok=True)
-    (dest/'index.html').write_text(shell(a['title'], body, 1, a['id']), encoding='utf-8')
+    dest=out/a['id']
+    write_page(dest/'index.html', shell(a['title'], body, 1, a['id']))
     # 本文の全文検索はしない。関連する人物名・別名と編集指定語だけを索引にする。
     terms = list(search_terms.get(a['id'], []))
     for e in refs:
@@ -175,5 +191,10 @@ options=''.join(f'<option>{esc(c)}</option>' for c in dict.fromkeys(a['category'
 chapter_options = '<option value="">制限なし</option>' + ''.join(f'<option value="{chapter}">第{chapter}話まで読了</option>' for chapter in range(340, max(e['chapter'] for e in events.values()) + 1))
 body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを{len(articles)}本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">{len(articles)}本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
 body = body.replace('</select></label></div>', f'</select></label><label>読んだ話数<select id="essay-read-through">{chapter_options}</select></label></div>')
-(out/'index.html').write_text(shell('謎・考察',body),encoding='utf-8')
-print(f'Built {len(articles)} articles and index.')
+write_page(out/'index.html', shell('謎・考察',body))
+if stale_pages:
+    print('Regenerate theory pages with: python scripts/build-theories.py')
+    for page in stale_pages:
+        print(f'STALE: {page}')
+    sys.exit(1)
+print(f'PASS: {len(articles)} articles and index match their sources.' if args.check else f'Built {len(articles)} articles and index.')

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "人物画像の指定",
+  "type": "array",
+  "items": {
+    "type": "object", "required": ["id", "image"],
+    "properties": {
+      "id": {"type": "string", "minLength": 1},
+      "image": {"type": "string", "minLength": 1},
+      "source_chapter": {"type": "integer", "minimum": 1},
+      "source_image": {"type": "string", "minLength": 1},
+      "source_url": {"type": "string", "minLength": 1},
+      "source_note": {"type": "string"},
+      "crop": {
+        "type": "object", "required": ["size", "position"],
+        "properties": {
+          "size": {"type": "string", "minLength": 1},
+          "position": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

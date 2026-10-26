@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import tempfile
 import threading
@@ -44,11 +45,13 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
             part.startswith("codex-notes") and part.endswith(".json") for part in parts
         )
 
-    def _send_json(self, status: int, payload: dict) -> None:
+    def _send_json(self, status: int, payload: dict, revision: str | None = None) -> None:
         content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Cache-Control", "no-store")
+        if revision is not None:
+            self.send_header("ETag", revision)
         self.send_header("Content-Length", str(len(content)))
         self.end_headers()
         self.wfile.write(content)
@@ -58,13 +61,12 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
             self.send_error(403)
             return
         if self._path() == "/api/drafts":
-            if DRAFT_FILE.exists():
-                try:
-                    self._send_json(200, json.loads(DRAFT_FILE.read_text(encoding="utf-8")))
-                except (OSError, json.JSONDecodeError):
-                    self._send_json(500, {"error": "メモファイルを読めません。元ファイルは残しています。"})
-            else:
-                self._send_json(200, {"format": "hxh-succession-local-drafts", "version": 1, "items": {}})
+            try:
+                raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else b""
+                payload = json.loads(raw) if raw else {"format": "hxh-succession-local-drafts", "version": 1, "items": {}, "entries": []}
+                self._send_json(200, payload, self._revision(raw))
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+                self._send_json(500, {"error": "メモファイルを読めません。元ファイルは残しています。"})
             return
         if self._is_private_path() or self._path().startswith("/api/"):
             self.send_error(404)
@@ -120,8 +122,16 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
     def _save_drafts(self, payload: dict) -> None:
         temp_path = None
         try:
-            if DRAFT_FILE.exists():
-                current = json.loads(DRAFT_FILE.read_text(encoding="utf-8"))
+            raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else b""
+            expected = self.headers.get("If-Match")
+            if expected is None:
+                self._send_json(428, {"error": "保存方式が更新されました。ページを再読み込みしてから保存してください。"})
+                return
+            if expected != self._revision(raw):
+                self._send_json(412, {"error": "別のページで更新されました。最新のメモと合わせて再保存してください。"})
+                return
+            if raw:
+                current = json.loads(raw)
                 if reset_epoch(current) > reset_epoch(payload):
                     self._send_json(409, {"error": "別のページでメモがリセットされました。再読み込みしてください。"})
                     return
@@ -133,12 +143,16 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
                 temp.flush()
                 os.fsync(temp.fileno())
             os.replace(temp_path, DRAFT_FILE)
-        except (OSError, json.JSONDecodeError):
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
             if temp_path is not None:
                 temp_path.unlink(missing_ok=True)
             self._send_json(500, {"error": "PCへの保存に失敗しました。"})
             return
         self._send_json(200, {"saved": True, "count": len(payload["items"])})
+
+    @staticmethod
+    def _revision(raw: bytes) -> str:
+        return '"' + hashlib.sha256(raw).hexdigest() + '"'
 
 
 if __name__ == "__main__":

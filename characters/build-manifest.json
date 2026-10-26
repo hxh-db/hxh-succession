@@ -7,9 +7,9 @@
     "characters.json": "381dbde0f385bd3fbad57ac348642914b2c20c05cd431d478a40d0e36c8a3dd9",
     "character_images.json": "958b6563f243d4c77d87128748e163da911cebcbf8208e3e9f53987260a751e1",
     "events.json": "1236eb883e17546c8a71ccf9f19c233b486afd227d3e93f4b60a3c080af49666",
-    "spirit_beasts.json": "7dc752b4c40c8449a15f1bbede6471287733813335335ee980ea18142b15cc3c",
-    "count_only_characters.json": "1db40e345457f62071180bb2f8beb151d7ae6700ef5a9309cf379c989a67d227",
-    "personnel_roster.json": "de60bb80d9f29e7edb57e5a61fe6215c93ece44bbf8e5957c09dc6980ebc8e5f",
-    "sources.json": "ae37e07a7883e5a5131b5f15a2b95af4848b835c33d62f823d99260065faf1ab"
+    "spirit_beasts.json": "20dd0de3c58d809ca2aa525268571a51af1bb9f7e7d189213e4da1a93d51d1a5",
+    "count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
+    "personnel_roster.json": "adff8435bf16f9eaa848d7e2ba4cf79e355fb16c57967382c0ea72a2d60d7d06",
+    "sources.json": "db7878e91c7911970aa5945cc5a9e7b94b301f383da264f3e3fd81c4a554e879"
   }
 }

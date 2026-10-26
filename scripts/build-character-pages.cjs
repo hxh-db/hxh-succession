@@ -114,7 +114,7 @@ ${person.verification_status === 'unverified' ? '<meta name="robots" content="no
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">
-<script src="../../character-page.js?v=20261011d" defer></script>
+<script src="../../character-page.js?v=20261026-spoiler-sync" defer></script>
 </head><body class="standalone-character-page" data-character-id="${escape(person.id)}">
 <header class="site-header"><div class="header-inner"><p>HUNTER×HUNTER 王位継承戦データベース</p></div>
 <nav class="primary-nav"><a href="../../#characters">人物一覧</a><a href="../../#timeline">出来事</a><a href="../../characters/">人物索引</a></nav></header>

@@ -22,9 +22,12 @@ class DraftResetServerTests(unittest.TestCase):
                 thread.start()
                 try:
                     def put(payload):
+                        with urlopen(f"http://{host}/api/drafts") as current:
+                            revision = current.headers["ETag"]
                         request = Request(f"http://{host}/api/drafts", method="PUT",
                                           data=json.dumps(payload).encode(),
-                                          headers={"Content-Type": "application/json", "Origin": f"http://{host}"})
+                                          headers={"Content-Type": "application/json", "Origin": f"http://{host}",
+                                                   "If-Match": revision})
                         with urlopen(request) as response:
                             return response.status
 

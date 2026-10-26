@@ -8,16 +8,19 @@
     let drafts = {version: 1, items: {}};
     let queue = Promise.resolve();
     const browser = () => {
-      try { return JSON.parse(storage.getItem(KEY)) || {}; } catch (_) { return {}; }
+      let raw;
+      try { raw = storage.getItem(KEY); } catch (_) { return null; }
+      return state.validateSnapshot(raw == null ? null : JSON.parse(raw));
     };
     const file = async () => {
-      const response = await fetcher(api, {cache: 'no-store'});
+      const response = await fetcher(api, {cache: 'no-store', signal: AbortSignal.timeout(8000)});
       if (!response.ok) throw new Error('メモファイルを読み込めませんでした');
       const payload = await response.json();
       if (payload.format !== 'hxh-succession-local-drafts' || payload.version !== 1 ||
           !payload.items || typeof payload.items !== 'object' || Array.isArray(payload.items)) {
         throw new Error('メモファイルの形式が不正です');
       }
+      state.validateSnapshot(payload);
       return payload;
     };
     return {
@@ -26,28 +29,24 @@
         return drafts.items[key]?.memo || '';
       },
       save(key, title, memo) {
+        const edited = state.editItem(drafts.items[key], {title, memo: memo.trim()});
+        const snapshot = {...drafts, items: {...drafts.items, [key]: edited}};
+        drafts = snapshot;
         const task = queue.catch(() => {}).then(async () => {
           // Reload before writing so notes made on other pages are not replaced by a stale snapshot.
           const current = merge(browser(), api ? await file() : null);
-          if (state.epoch(current) > state.epoch(drafts)) {
+          if (state.epoch(current) > state.epoch(snapshot)) {
             throw new Error('別のページでメモがリセットされました。再読み込みしてから新しく入力してください。');
           }
-          drafts = merge(drafts, current);
-          drafts.items[key] = {...drafts.items[key], title, memo: memo.trim(), updatedAt: new Date().toISOString()};
-          let browserSaved = false;
-          try { storage.setItem(KEY, JSON.stringify(drafts)); browserSaved = true; } catch (_) { /* File save may still succeed. */ }
-          if (api) {
-            const payload = {format: 'hxh-succession-local-drafts', ...drafts,
-              exportedAt: new Date().toISOString(),
-              entries: Object.entries(drafts.items).map(([key, draft]) => ({key,
-                title: draft.title || key, memo: draft.memo || '', edits: draft.edits || {},
-                isNew: Boolean(draft.createdRecord), updatedAt: draft.updatedAt || null}))};
-            const response = await fetcher(api, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)});
-            if (!response.ok) throw new Error('PCへの保存に失敗しました。ブラウザの控えと、メモ欄の内容を確認してください。');
-          } else if (!browserSaved) throw new Error('保存できませんでした。メモをコピーして控えてください。');
+          const saved = await state.persist({source: merge(current, snapshot), storage, key: KEY, fetcher, api});
+          drafts = merge(saved, drafts);
         });
         queue = task;
         return task;
+      },
+      checkpoint(key, title, memo) {
+        const edited = state.editItem(drafts.items[key], {title, memo: memo.trim()});
+        drafts = state.checkpoint({source: {...drafts, items: {...drafts.items, [key]: edited}}, storage, key: KEY});
       }
     };
   }
@@ -83,23 +82,47 @@
   (main.querySelector('.spoiler-article') || main).appendChild(details);
   let timer;
   let revision = 0;
+  let unsaved = false, saving = 0;
+  function checkpoint() {
+    if (!unsaved && !timer && !saving) return true;
+    try { store.checkpoint(key, title, memo.value); return true; }
+    catch (_) { return false; }
+  }
+  function guardExit(event) {
+    if (checkpoint()) return;
+    event.preventDefault(); event.returnValue = '';
+  }
+  function updateExitGuard() {
+    if (unsaved || timer || saving) window.addEventListener('beforeunload', guardExit);
+    else window.removeEventListener('beforeunload', guardExit);
+  }
   async function save() {
     clearTimeout(timer); timer = null;
     const current = revision;
+    saving++; unsaved = true; updateExitGuard();
     status.textContent = '保存中…';
     try {
       await store.save(key, title, memo.value);
-      if (current === revision) status.textContent = api ? 'PCに保存しました。' : 'ブラウザに保存しました。';
+      if (current === revision) {
+        unsaved = false;
+        status.textContent = api ? 'PCに保存しました。' : 'ブラウザに保存しました。';
+      }
     } catch (error) { status.textContent = error.message; }
+    finally { saving--; updateExitGuard(); }
   }
-  memo.addEventListener('input', () => { revision++; clearTimeout(timer); status.textContent = '保存中…'; timer = setTimeout(save, 650); });
+  memo.addEventListener('input', () => { revision++; unsaved = true; clearTimeout(timer); status.textContent = '保存中…'; timer = setTimeout(save, 650); updateExitGuard(); });
   memo.addEventListener('blur', () => { if (timer) save(); });
   button.addEventListener('click', save);
+  window.addEventListener('pagehide', checkpoint);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && (unsaved || timer)) { checkpoint(); save(); }
+  });
   window.addEventListener('storage', event => {
     if (event.key !== KEY || !event.newValue) return;
     try {
       if (state.epoch(JSON.parse(event.newValue)) > state.epoch(JSON.parse(event.oldValue || 'null'))) {
         clearTimeout(timer); timer = null; revision++;
+        unsaved = false; updateExitGuard();
         memo.disabled = button.disabled = true;
         memo.value = '';
         status.textContent = '別のページでメモがリセットされました。再読み込みしてから新しく入力してください。';

@@ -36,6 +36,15 @@
   </header>
 
   <main id="main-content" class="page-container" tabindex="-1">
+    <section id="databaseLoadStatus" class="database-load-status" aria-label="データの読み込み" role="status">
+      <p id="databaseLoadMessage">検索データを読み込めない場合は、人物索引または謎・考察を開いてください。</p>
+      <button id="retryDatabaseLoad" class="local-editor-button" type="button" hidden>再読み込み</button>
+      <p><a href="characters/">人物索引を開く</a> · <a href="theories/">謎・考察を開く</a></p>
+    </section>
+    <section id="recordLinkStatus" class="database-load-status" role="status" hidden>
+      <p id="recordLinkMessage"></p>
+      <button id="clearRecordLink" class="local-editor-button" type="button">リンク指定を解除して一覧を見る</button>
+    </section>
     <div class="reading-preferences" aria-label="全画面共通の表示設定">
       <button id="globalSpoilerToggle" type="button" aria-pressed="false" aria-describedby="globalSpoilerStatus" title="押すとネタバレを表示します">ネタバレをまとめて表示</button>
       <span id="globalSpoilerStatus" class="visually-hidden" role="status">全画面でネタバレを隠しています</span>
@@ -614,6 +623,7 @@
         <div class="local-drafts-transfer-actions">
           <button id="exportLocalDrafts" type="button">JSONでバックアップ</button>
           <button id="chooseLocalDrafts" type="button">バックアップを読み込む</button>
+          <button id="exportUnreadableBrowserDraft" type="button" hidden>読み込めないブラウザデータを保存</button>
           <input id="importLocalDrafts" type="file" accept=".json,application/json" hidden />
         </div>
         <p id="localDraftsTransferStatus" class="local-drafts-transfer-status" role="status"></p>
@@ -660,7 +670,7 @@
   <script src="character-routing.js?v=20261017-event-person"></script>
   <script src="character-facts.js?v=20261025-memos"></script>
   <script src="personnel-roster.js?v=20261016-guide2"></script>
-  <script src="draft-state.js?v=20261020-reset"></script>
-  <script src="script.js?v=20261025-camilla-attendants"></script>
+  <script src="draft-state.js?v=20261026-inflight-checkpoint"></script>
+  <script src="script.js?v=20261026-link-recovery"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 - `data/events.json` - タイムラインのイベント全件
 - `data/spirit_beasts.json` / `data/factions.json` / `data/mafia.json` - 守護霊獣・派閥・下層マフィアのデータ
 - `data/alliances.json` - 別陣営の王子間の共闘関係。人物の `camp` と初期配置の人数には合算しない
-- `data/*.schema.json` - 上記5ファイルに対応するJSON Schema
+- `data/*.schema.json` - 主要な公開JSON 12ファイルに対応するJSON Schema。人物タグ・画像・共闘・出典も検証する
 - `validate_data.py` - データ検証スクリプト（プロジェクトルートで実行）
 - `images/characters/*.png` - 一部キャラのポートレート。`characters.json` の `image` に存在しないパスを書くと自動で頭文字アバターにフォールバックする（`script.js` の `makeAvatar` 参照）
 
@@ -28,6 +28,8 @@ python local_server.py
 その後ブラウザで `http://127.0.0.1:8765/` を開いて確認してください。このローカルサーバーだけがメモを `.local/drafts.json` に自動保存します。`index.html` を直接 `file://` で開くと `fetch` が失敗してデータが表示されないので、必ずサーバー経由にしてください。
 
 ## データ編集・追加の流れ
+
+全体の検証は `node scripts/check-project.cjs` で実行できます。重要な保存・復旧・ネタバレ同期の隔離ブラウザ検査も含める場合は `--browser` を付けます。生成元を編集した後は各ビルドを実行し、検証コマンド自体では生成物を更新しません。詳しい保存仕様・前提環境はREADMEを参照してください。
 1. `data/events.json` にイベントを追加します。
    - 必須フィールド: `id`（例: `E345-002`）, `chapter`, `description`, `characters`（配列。`characters.json` の `id` か、該当しない無名キャラはそのままの名前文字列）
    - 任意: `chapter_title`, `day`, `time_start`/`time_end`（`HH:MM`）, `room`/`location`, `camp`, `revealed_facts`, `mysteries`, `notes`
@@ -58,9 +60,10 @@ python check_status_sync.py
 - `script.js` は `type` フィールドをそのままクラス名として使うため、種別名にスペースを入れないでください。
 
 ## 既知の制約・次に取り掛かると良いタスク（提案）
-- `characters.json` の118キャラのうちポートレートがあるのは一部のみ。残りは頭文字アバターのまま
+- ポートレートがない人物は頭文字アバターで表示します。人数だけの仮登録には別人の顔を流用しません。
 - ナビの `#timeline` 等のアンカーリンクは、データの非同期読み込み完了前のレイアウトを基準にブラウザがスクロール位置を決めるため、共有リンクや再読み込み直後は意図した位置からずれる場合がある（`script.js` の `init()` 末尾でデータ描画後に `location.hash` への再スクロールを行っている。新しいセクションを追加した際はここも確認すること）
-- イベント追加用の入力UI（管理画面）を作り、JSONを自動生成・検証する
+- 出来事のローカル追加UIは実装済みです。追加内容は個人メモとして保存し、公開JSONへの採用は別作業です。
+- 個人メモの変更には `DraftState.editItem(previous, changes)` を使います。メモ・内容編集・題名・追加記録の更新日時（`fieldUpdatedAt`）を分け、別タブの異なる変更を保持します。`updatedAt` だけを更新する全項目の置換はバックアップ復元用です。復元時は古い `fieldUpdatedAt` を取り除き、確認済みの上書きを新しい日時で適用します。
 - ガントチャートの時間スケールを分単位で厳密に配置する
 
 ## 補足

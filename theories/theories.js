@@ -4,6 +4,10 @@ try {
     document.querySelectorAll('.spoiler-article').forEach(el => { el.open = true; });
   }
 } catch (_) { /* Private browsing: keep the safe collapsed default. */ }
+window.addEventListener('storage', event => {
+  if (event.key !== 'hxh-succession-spoilers-revealed-v1') return;
+  document.querySelectorAll('.spoiler-article').forEach(el => { el.open = event.newValue === 'true'; });
+});
 // 根拠詳細から戻るリンクは、この記事だけを開く。全体のネタバレ設定は変えない。
 if (location.hash === '#evidence') {
   const article = document.querySelector('.spoiler-article');

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 JSON データの検証スクリプト
-characters.json, events.json, spirit_beasts.json, factions.json, mafia.json,
-personnel_snapshots.json
-を対応するスキーマファイルで検証します。
+公開データの構造、IDの一意性、ファイル間の参照と出来事の前後関係を検証します。
 """
 
 import json
 import re
 import sys
+from collections import Counter
+from graphlib import CycleError, TopologicalSorter
 from pathlib import Path
 
 try:
@@ -29,15 +29,19 @@ def validate_json_file(data_path, schema_path):
         return False, [f"JSON パースエラー: {e}"]
     except FileNotFoundError:
         return False, [f"ファイルが見つかりません: {data_path}"]
+    except (OSError, UnicodeError) as e:
+        return False, [f"ファイルを読めません: {data_path}: {e}"]
 
     if not schema_path.exists():
-        return True, ["スキーマファイルなし（スキップ）"]
+        return False, [f"スキーマファイルが見つかりません: {schema_path}"]
 
     try:
         with open(schema_path, encoding="utf-8") as f:
             schema = json.load(f)
     except json.JSONDecodeError as e:
         return False, [f"スキーマ パースエラー: {e}"]
+    except (OSError, UnicodeError) as e:
+        return False, [f"スキーマを読めません: {schema_path}: {e}"]
 
     validator = jsonschema.Draft7Validator(schema)
     for error in validator.iter_errors(data):
@@ -236,6 +240,29 @@ def validate_nen_ability_editorial(characters):
     return errors
 
 
+def duplicate_errors(label, values):
+    return [f"{label}が重複しています: {value}"
+            for value, count in sorted(Counter(values).items()) if count > 1]
+
+
+def validate_chronology_order(events):
+    # Both fields describe directed edges. A -> B -> A has no consistent order,
+    # even when each ID exists and the individual JSON records are valid.
+    predecessors = {event["id"]: set() for event in events}
+    for event in events:
+        before = event.get("time_before_event_id")
+        after = event.get("time_after_event_id")
+        if before in predecessors:
+            predecessors[before].add(event["id"])
+        if after in predecessors:
+            predecessors[event["id"]].add(after)
+    try:
+        tuple(TopologicalSorter(predecessors).static_order())
+    except CycleError as error:
+        return [f"出来事の前後関係が循環しています: {' → '.join(error.args[1])}"]
+    return []
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -250,6 +277,7 @@ def validate_cross_references(base):
     errors.extend(validate_same_incidents(events))
     errors.extend(validate_nen_ability_editorial(characters))
     errors.extend(validate_absence_claims(characters, events))
+    errors.extend(validate_chronology_order(events))
 
     ids = [character["id"] for character in characters]
     names = [character["name"] for character in characters]
@@ -260,10 +288,8 @@ def validate_cross_references(base):
     prince_room_reference = re.compile(r"10(?:0[1-9]|1[0-4])号室")
     noncanonical_place = re.compile(r"王子居住区|エリア\d+|第\d+王子居室|の居室")
 
-    for label, values in (("人物ID", ids), ("人物名", names)):
-        duplicates = sorted({value for value in values if values.count(value) > 1})
-        for value in duplicates:
-            errors.append(f"{label}が重複しています: {value}")
+    for label, values in (("人物ID", ids), ("人物名", names), ("出来事ID", [event["id"] for event in events])):
+        errors.extend(duplicate_errors(label, values))
 
     for character in characters:
         room = character.get("room")
@@ -300,8 +326,7 @@ def validate_cross_references(base):
                 errors.append(f"人物別所在地の人物がイベント参加者に含まれていません: {event['id']} -> {token}")
 
     question_ids = [question["id"] for question in questions]
-    for question_id in sorted({value for value in question_ids if question_ids.count(value) > 1}):
-        errors.append(f"未解決事項IDが重複しています: {question_id}")
+    errors.extend(duplicate_errors("未解決事項ID", question_ids))
     for question in questions:
         for event_id in question["related_event_ids"]:
             if event_id not in event_ids:
@@ -309,14 +334,47 @@ def validate_cross_references(base):
 
     with open(base / "character_tags.json", encoding="utf-8") as f:
         character_tags = json.load(f)
+    tag_ids = {tag["id"] for tag in character_tags["definitions"]}
+    prince_ids = {character["id"] for character in characters if character["type"] == "prince"}
+    errors.extend(duplicate_errors("人物タグID", [tag["id"] for tag in character_tags["definitions"]]))
+    errors.extend(duplicate_errors("人物タグ割当", [row["character_id"] for row in character_tags["assignments"]]))
     for assignment in character_tags["assignments"]:
         if assignment["character_id"] not in id_set:
             errors.append(f"人物タグの参照先がありません: {assignment['character_id']}")
+        for tag_id in assignment["tag_ids"]:
+            # These internal relationship tokens are consumed by getRelatedPrinceIds,
+            # rather than displayed as catalog tags. Their prince must still exist.
+            relationship = re.fullmatch(r"(?:guard|target)-(p\d{2})", tag_id, re.IGNORECASE)
+            if tag_id not in tag_ids and not (relationship and relationship[1].upper() in prince_ids):
+                errors.append(f"未定義の人物タグ: {assignment['character_id']} -> {tag_id}")
+
+    with open(base / "character_images.json", encoding="utf-8") as f:
+        images = json.load(f)
+    errors.extend(duplicate_errors("人物画像ID", [image["id"] for image in images]))
+    for image in images:
+        if image["id"] not in id_set:
+            errors.append(f"人物画像の参照先がありません: {image['id']}")
+
+    with open(base / "alliances.json", encoding="utf-8") as f:
+        alliances = json.load(f)["alliances"]
+    errors.extend(duplicate_errors("共闘ID", [alliance["id"] for alliance in alliances]))
+    for alliance in alliances:
+        for prince_id in alliance["prince_ids"]:
+            if prince_id not in prince_ids:
+                errors.append(f"共闘の王子参照が不正: {alliance['id']} -> {prince_id}")
+        for person_id in alliance["cooperator_ids"]:
+            if person_id not in id_set:
+                errors.append(f"共闘の協力者参照先がありません: {alliance['id']} -> {person_id}")
+        for event_id in alliance["evidence_event_ids"]:
+            if event_id not in event_ids:
+                errors.append(f"共闘の根拠となる出来事参照先がありません: {alliance['id']} -> {event_id}")
 
     with open(base / "personnel_snapshots.json", encoding="utf-8") as f:
         snapshots = json.load(f)["snapshots"]
     with open(base / "sources.json", encoding="utf-8") as f:
-        source_ids = {source["id"] for source in json.load(f)}
+        sources = json.load(f)
+    errors.extend(duplicate_errors("出典ID", [source["id"] for source in sources]))
+    source_ids = {source["id"] for source in sources}
     for snapshot in snapshots:
         chapter = snapshot["chapter"]
         if snapshot["source_id"] not in source_ids:
@@ -398,6 +456,10 @@ def main():
         ("open_questions.json", "open_questions.schema.json"),
         ("personnel_snapshots.json", "personnel_snapshots.schema.json"),
         ("personnel_roster.json", "personnel_roster.schema.json"),
+        ("character_tags.json", "character_tags.schema.json"),
+        ("character_images.json", "character_images.schema.json"),
+        ("alliances.json", "alliances.schema.json"),
+        ("sources.json", "sources.schema.json"),
     ]
 
     all_ok = True
@@ -419,7 +481,13 @@ def main():
             all_ok = False
 
     print("\n検証中: ファイル間の参照")
-    cross_errors = validate_cross_references(base)
+    if all_ok:
+        try:
+            cross_errors = validate_cross_references(base)
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            cross_errors = [f"参照検証に必要なデータを読めません。ファイルと形式を確認してください: {error}"]
+    else:
+        cross_errors = ["JSON・スキーマのエラーを修正してから、参照検証を再実行してください。"]
     if cross_errors:
         print("  エラー:")
         for error in cross_errors:

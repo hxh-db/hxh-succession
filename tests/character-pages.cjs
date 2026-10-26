@@ -23,7 +23,9 @@ for (const [file,html] of outputs) {
   }
 }
 const sitemap = outputs.get('sitemap.xml');
-assert.equal((sitemap.match(/<loc>/g)||[]).length, characters.length+2);
+const countOnly = new Set(require('../data/count_only_characters.json').ids);
+const directory = characters.filter(p => !p.roster_projection && !p.is_count_only && !countOnly.has(p.id) && p.verification_status !== 'unverified');
+assert.equal((sitemap.match(/<loc>/g)||[]).length, directory.length+2);
 for (const person of characters) {
   const html = outputs.get(`characters/${person.id}/index.html`);
   assert.ok(html.includes(`characters/${person.id}/">`),`canonical ID: ${person.id}`);

@@ -1,4 +1,4 @@
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 (async()=>{
  const browser=await chromium.launch({channel:'msedge',headless:true});
@@ -32,7 +32,12 @@ const assert=require('node:assert/strict');
    await page.goto('http://127.0.0.1:8765/?c_search=%E3%82%AA%E3%83%8B%E3%82%AA%E3%83%BC%E3%83%AB#characters');
    await page.locator('.directory-character-card[data-character-id="SWU-001"]').waitFor();
    const oni=page.locator('.directory-character-card[data-character-id="SWU-001"]');
-   assert.match(await oni.innerText(),/兄弟姉妹/);
+   const siblings=oni.locator('.character-blood-chain').filter({has:page.getByRole('button',{name:'兄弟',exact:true})});
+   assert.equal(await siblings.count(),1);
+   assert.equal(await siblings.getByRole('button',{name:'ホイコーロ国王',exact:true}).count(),1);
+   const brocco=siblings.getByRole('button',{name:'ブロッコ',exact:true});
+   assert.equal(await brocco.count(),1);
+   assert.match(await brocco.getAttribute('title'),/母親の同異は未確認/);
    assert.match(await oni.innerText(),/親子/);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    assert.deepEqual(errors,[]);

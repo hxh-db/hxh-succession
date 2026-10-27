@@ -18,7 +18,8 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css?v=20261018-reading" />
-  <link rel="stylesheet" href="filter-controls.css?v=20261026-draft-recovery" />
+  <link rel="stylesheet" href="filter-controls.css?v=20261027-search" />
+  <link rel="stylesheet" href="draft-conflicts.css?v=20261027-conflicts" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">本文へ移動</a>
@@ -67,9 +68,9 @@
         <div class="search-toolbar">
         <label class="character-search-label">
           <span>人物を探す</span>
-          <input id="characterSearch" type="search" placeholder="名前・所属などで検索" aria-describedby="characterSearchHelp" />
+          <input id="characterSearch" type="search" placeholder="例：クラピカ ハンター" aria-describedby="characterSearchHelp" />
         </label><button id="clearCharacterFilters" type="button">すべて解除</button></div>
-        <p id="characterSearchHelp" class="search-scope-help">ネタバレ非表示中は、能力・後の展開を検索しません。</p>
+        <p id="characterSearchHelp" class="search-scope-help">空白で区切るとすべての語を含む人物を探せます。ネタバレ非表示中は、能力・後の展開を検索しません。</p>
         <div id="characterSearchNotice" class="search-scope-notice" hidden><p>能力・後の展開は検索対象外です。該当しそうな場合は、ネタバレを表示して同じ検索語で探せます。</p><button type="button" data-reveal-global>ネタバレを表示して再検索</button></div>
 
         <div id="characterPrinceRow" class="character-tag-row">
@@ -201,6 +202,16 @@
         <button class="timeline-view-tab active" id="timeline-tab-schedule" type="button" role="tab" aria-selected="true" aria-controls="timeline-panel-schedule" data-view="schedule">時系列</button>
         <button class="timeline-view-tab" id="timeline-tab-chapters" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-chapters" data-view="chapters" tabindex="-1">話数別</button>
         <button class="timeline-view-tab" id="timeline-tab-questions" type="button" role="tab" aria-selected="false" aria-controls="timeline-panel-questions" data-view="questions" tabindex="-1">未解決事項</button>
+      </div>
+      <div id="timelineSearchBox" class="timeline-search-box">
+        <div class="search-toolbar">
+          <label class="character-search-label" for="timelineSearch"><span>出来事を探す</span>
+            <input id="timelineSearch" type="search" placeholder="本文・人物・場所の言葉で検索" aria-describedby="timelineSearchHelp timelineSearchStatus" />
+          </label>
+          <button id="clearTimelineSearch" type="button">検索をクリア</button>
+        </div>
+        <p id="timelineSearchHelp" class="search-scope-help">検索を始めると全日程から探します。空白で区切るとすべての語を含む出来事を探せます。話数・人物・場所でも絞れます。</p>
+        <p id="timelineSearchStatus" class="search-scope-help" role="status" aria-live="polite"></p>
       </div>
       <button id="timelineFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="timelineControls" title="話数・種類・人物・場所・並び順など">絞り込みを開く</button>
       <div class="timeline-controls" id="timelineControls">
@@ -668,9 +679,11 @@
   </dialog>
 
   <script src="character-routing.js?v=20261017-event-person"></script>
-  <script src="character-facts.js?v=20261025-memos"></script>
-  <script src="personnel-roster.js?v=20261016-guide2"></script>
-  <script src="draft-state.js?v=20261026-inflight-checkpoint"></script>
-  <script src="script.js?v=20261026-quality-recovery-fix"></script>
+  <script src="character-facts.js?v=20261027-search"></script>
+  <script src="event-search.js?v=20261027-search"></script>
+  <script src="personnel-roster.js?v=20261027-personal-evidence"></script>
+  <script src="draft-state.js?v=20261027-conflicts"></script>
+  <script src="draft-conflicts.js?v=20261027-conflicts"></script>
+  <script src="script.js?v=20261027-search"></script>
 </body>
 </html>

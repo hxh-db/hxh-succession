@@ -1,21 +1,15 @@
 /* Regression: character details share the timeline chronology, not chapter order. */
-const {chromium} = require('playwright');
-const {spawn} = require('node:child_process');
+const {chromium} = require('./helpers/isolated-browser.cjs');
+
 const path = require('node:path');
 const fs = require('node:fs');
 const assert = require('node:assert/strict');
 
 (async () => {
-  let server, browser;
+  let browser;
   const port = '18771', root = `http://127.0.0.1:${port}/`;
   try {
-    server = spawn('python', ['local_server.py'], {cwd: path.resolve(__dirname, '..'), windowsHide: true,
-      env: {...process.env, SUCCESSION_LOCAL_PORT: port, SUCCESSION_NOTES_DIR: path.resolve(__dirname, '../.local/related-events-20261025/drafts')},
-      stdio: ['ignore', 'pipe', 'ignore']});
-    await new Promise((resolve, reject) => {
-      server.once('error', reject); server.once('exit', code => reject(Error(`server exited ${code}`)));
-      server.stdout.once('data', resolve);
-    });
+
     browser = await chromium.launch({channel: 'msedge', headless: true});
     for (const width of [1280, 390, 320]) {
       const context = await browser.newContext({viewport: {width, height: 844}});
@@ -101,5 +95,5 @@ const assert = require('node:assert/strict');
       await context.close();
       console.log(`PASS ${width}: chronological order, date-first rows, approximate clocks, preboarding, spoiler/chapter scope, keyboard links and back`);
     }
-  } finally {await browser?.close(); server?.kill();}
+  } finally {await browser?.close();}
 })().catch(error => {console.error(error); process.exitCode = 1;});

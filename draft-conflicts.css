@@ -1,0 +1,11 @@
+.draft-conflicts {margin-block:1rem;padding:.85rem;border:1px solid #bf994b;border-radius:.6rem;background:#28251c;min-width:0;max-width:100%;}
+.draft-conflicts[hidden] {display:none;}
+.draft-conflicts h5 {font-size:1rem;margin:0 0 .5rem;}
+.draft-conflicts p {font-size:.88rem;line-height:1.6;}
+.draft-conflicts fieldset {min-width:0;margin-block:.75rem;padding:.6rem;border:1px solid #7f704d;}
+.draft-conflicts legend {padding-inline:.25rem;}
+.draft-conflict-choice {margin-block:.75rem;min-width:0;}
+.draft-conflict-choice pre {white-space:pre-wrap;overflow-wrap:anywhere;max-height:14rem;overflow:auto;font:inherit;font-size:.9rem;line-height:1.6;padding:.5rem;background:#141c29;border-radius:.35rem;}
+.draft-conflict-choice button {padding:.45rem .75rem;max-width:100%;border:1px solid #d7b261;border-radius:.4rem;background:#3b321e;color:#fff;cursor:pointer;}
+.draft-conflict-choice button:disabled {opacity:.55;cursor:wait;}
+.draft-conflict-status:empty {display:none;}

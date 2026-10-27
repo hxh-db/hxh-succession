@@ -1,4 +1,4 @@
-const {chromium} = require('playwright');
+const {chromium} = require('./helpers/isolated-browser.cjs');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 (async () => {

@@ -1,4 +1,4 @@
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const root='http://127.0.0.1:8765/';
@@ -24,6 +24,10 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.match(await page.locator('#modalContent').innerText(),/返答は.*描かれない/);
    await page.goto(root+'?c_search='+encodeURIComponent('オウ＝ケンイ')+'#characters');await ready(page);
    assert.match(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').innerText(),/念：確認済み/);
+   await page.locator('#globalSpoilerToggle').click();
+   assert.ok(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').isHidden());
+   await page.locator('#globalSpoilerToggle').click();
+   assert.ok(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').isVisible());
    await page.goto(root+'?t_chapter=386&t_period=all#timeline');await ready(page);
    const order=await page.evaluate(()=>getChronologicalEntries(filteredEventsData).map(entry=>entry.event.id));
    const chain=['E386-003','E386-008','E386-006','E386-009','E386-004'];

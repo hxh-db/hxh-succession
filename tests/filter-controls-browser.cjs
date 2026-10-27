@@ -1,18 +1,15 @@
 /* Regression: inline tag disclosure, live filters, history, spoiler boundaries and responsive layout. */
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const {spawn}=require('node:child_process');
+
 const path=require('node:path');
 const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingState);
 (async()=>{
- let server,browser;
+ let browser;
  const port=process.env.HXH_START_SERVER ? '18765' : '8765';
  try {
-  if(process.env.HXH_START_SERVER) {
-   server=spawn('python',['local_server.py'],{cwd:path.resolve(__dirname,'..'),windowsHide:true,env:{...process.env,SUCCESSION_LOCAL_PORT:port,SUCCESSION_NOTES_DIR:path.resolve(__dirname,'../.local/tag-filters-20261022/drafts')},stdio:['ignore','pipe','ignore']});
-   await new Promise((resolve,reject)=>{server.once('error',reject);server.once('exit',code=>reject(Error(`test server exited: ${code}`)));server.stdout.once('data',resolve);});
-  }
+
   browser=await chromium.launch({channel:'msedge',headless:true});
   for(const width of [1366,900,390,320]) {
    const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});
@@ -149,5 +146,5 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    console.log(`PASS ${width}: always-visible princes, inline tags, immediate filters, external chips, history/reload, keyboard, roster, spoilers, no overflow/errors`);
    await context.close();
   }
- } finally {await browser?.close();server?.kill();}
+ } finally {await browser?.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

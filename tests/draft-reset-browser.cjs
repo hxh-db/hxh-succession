@@ -25,7 +25,7 @@ const old = {format: 'hxh-succession-local-drafts', version: 1, exportedAt: '202
   try {
     for (const mode of ['browser', 'file']) for (const width of [1280, 390]) {
       const context = await browser.newContext({viewport: {width, height: 844}, acceptDownloads: true});
-      let file = structuredClone(old), failWrite = false, puts = 0;
+      let file = structuredClone(old), failWrite = false, puts = 0, revision = 0;
       const base = mode === 'file' ? 'http://127.0.0.1:8765/' : 'https://hxh-reset.test/hxh-succession/';
       await context.route('**/*', async route => {
         const url = new URL(route.request().url());
@@ -33,9 +33,13 @@ const old = {format: 'hxh-succession-local-drafts', version: 1, exportedAt: '202
           if (route.request().method() === 'PUT') {
             puts++;
             if (failWrite) return route.fulfill({status: 500, body: '{}'});
+            const expected = route.request().headers()['if-match'];
+            if (!expected) return route.fulfill({status: 428, body: '{}'});
+            if (expected !== `"${revision}"`) return route.fulfill({status: 412, body: '{}'});
             file = route.request().postDataJSON();
+            revision++;
           }
-          return route.fulfill({contentType: 'application/json', body: JSON.stringify(file)});
+          return route.fulfill({contentType: 'application/json', headers: {ETag: `"${revision}"`}, body: JSON.stringify(file)});
         }
         let relative = decodeURIComponent(url.pathname).replace(/^\/hxh-succession\//, '').replace(/^\//, '');
         if (!relative || relative.endsWith('/')) relative += 'index.html';
@@ -65,6 +69,10 @@ const old = {format: 'hxh-succession-local-drafts', version: 1, exportedAt: '202
         const payload = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
         assert.equal(Object.keys(payload.items).length, 4);
         assert.equal(payload.items['event:LOCAL-RESET-TEST'].createdRecord.id, 'LOCAL-RESET-TEST');
+        assert.deepEqual(payload.items['event:LOCAL-RESET-TEST'].createdRecord,old.items['event:LOCAL-RESET-TEST'].createdRecord,
+          'Reading/backing up a legacy event must not rewrite its stored fields');
+        assert.ok(!payload.items['event:LOCAL-RESET-TEST'].conflicts,
+          'Display defaults must not create a conflict against the unchanged legacy record');
         await page.locator('#draftResetConfirmation').waitFor();
         assert.ok(await page.locator('#draftResetSummary').innerText().then(text => text.includes('4件')));
         return payload;
@@ -132,7 +140,11 @@ const old = {format: 'hxh-succession-local-drafts', version: 1, exportedAt: '202
       await page.screenshot({path: `.local/draft-reset-test/${mode}-${width}.png`});
       // Backups remain compatible with the existing restore control after the generation changed.
       await page.locator('.local-drafts-backup > summary').click();
-      await Promise.all([page.waitForEvent('load'), page.locator('#importLocalDrafts').setInputFiles({name: 'codex-notes-test.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(backup))})]);
+      try {
+        await Promise.all([page.waitForEvent('load'), page.locator('#importLocalDrafts').setInputFiles({name: 'codex-notes-test.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(backup))})]);
+      } catch (error) {
+        throw new Error(`Restore after reset ${mode}/${width}: ${await page.locator('#localDraftsTransferStatus').textContent()}; page errors: ${errors.join('; ')}`,{cause:error});
+      }
       await ready(page);
       assert.equal(await page.evaluate(KEY => Object.keys(JSON.parse(localStorage.getItem(KEY)).items).length, KEY), 4);
       assert.ok(await page.evaluate(() => eventsData.some(event => event.id === 'LOCAL-RESET-TEST')));

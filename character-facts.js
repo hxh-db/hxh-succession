@@ -4,6 +4,13 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.CharacterFacts = api;
 })(typeof window === 'undefined' ? globalThis : window, function () {
+  const localFieldEdited = (person,field) => Boolean(person.local_edit_fields?.includes(field));
+  function publicRecord(person) {
+    const {local_edited,local_edit_fields,local_public_values,...original}=person;
+    return {...original,...local_public_values};
+  }
+  const localEditLabels = person => (person.local_edit_fields || []).map(field=>
+    ({status:'状態',room:'部屋・現在地',role:'役割',nen_ability:'念能力',notes:'備考'})[field] || field);
   function locationLabel(value) {
     return String(value || '').replace(/第?([1-5])層\s*/g, '第$1層 ')
       .replace(/(^|[^\d])(10\d{2})(?!号室)/g, '$1$2号室').trim();
@@ -16,6 +23,8 @@
     });
   }
   function latestLocation(person, events) {
+    if(localFieldEdited(person,'room')) return {location:locationLabel(person.room) || '未設定',chapter:null,eventId:null,
+      presence:'unknown',review:'unverified',locationStatus:'local',confirmed:null,candidates:[]};
     const minutes = value => /^\d{1,2}:\d{2}$/.test(value || '') ? Number(value.split(':')[0]) * 60 + Number(value.split(':')[1]) : null;
     const byId = new Map(events.map(e => [e.id, e]));
     const before = (a, b, seen = new Set()) => {
@@ -83,6 +92,7 @@
   // 最後の所在の表示を部品に分ける。{text, eventId, chapter} の部品は根拠の出来事へのリンクにできる（画面ごとに描画）。
   // 場所を画像で確認できた記録（location_status: recorded）と、場所が推定の記録を言葉で区別する。
   function latestLocationParts(person, events) {
+    if(localFieldEdited(person,'room')) return {main:[{text:`自分用の場所：${locationLabel(person.room) || '未設定'}（未照合）`}],confirmed:null,candidates:[]};
     const latest = latestLocation(person, events);
     if (!latest) return {main: [{text: '未登録'}], confirmed: null, candidates: []};
     const ref = (text, entry) => entry.eventId ? {text, eventId: entry.eventId, chapter: entry.chapter} : {text};
@@ -117,6 +127,7 @@
   }
   // 能力欄の編集上の注記。文字列・配列のどちらでも受け付け、「能力欄の編集注記：」を付けた行にする。
   function nenAbilityEditorialLines(person) {
+    if(localFieldEdited(person,'nen_ability')) return ['能力欄は自分用の変更です。公開データの能力名・系統・出典は、変更後の能力の裏付けではありません。'];
     const value = person?.nen_ability_editorial;
     return (Array.isArray(value) ? value : [value]).map(v => String(v ?? '').trim()).filter(Boolean).map(v => `能力欄の編集注記：${v}`);
   }
@@ -146,6 +157,7 @@
     });
   }
   function statusLabel(person, events) {
+    if(localFieldEdited(person,'status')) return `${person.status || '未設定'}（自分用の変更・未照合）`;
     const log = person.status_log?.at(-1);
     const event = events.find(e => e.id === log?.event_id);
     const parts = [log?.chapter ? `第${log.chapter}話時点` : null,
@@ -154,6 +166,7 @@
   }
   // 編集者向けの詳しい根拠表示。読者向けの本文ではなく「編集状況」欄やツールチップで使う。
   function statusEditorialNote(person, events) {
+    if(localFieldEdited(person,'status')) return '状態は自分用の変更（未照合）です。元の確認話数・出来事は、変更後の状態の根拠ではありません。';
     const log = person.status_log?.at(-1);
     const event = events.find(e => e.id === log?.event_id);
     return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
@@ -189,6 +202,7 @@
     return relation.group === 'siblings' ? '兄弟姉妹' : relation.group === 'parent-child' ? (relation.nominal ? '親子（名義上）' : '親子') : '血縁';
   }
   function isConfirmedNenUser(person) {
+    if(localFieldEdited(person,'nen_ability')) return isConfirmedNenUser(publicRecord(person));
     if (person.verification_status === 'unverified') return false;
     if (person.nen_status) return person.nen_status === 'confirmed';
     if (typeof person.nen_user === 'boolean') return person.nen_user;
@@ -198,6 +212,7 @@
     return Boolean(ability && !/^(?:非念能力者|念能力は持たない|詳細不明$|本人の念使用.*未確認|本人固有の念能力.*未確認)/.test(ability));
   }
   function nenKnowledgeLabel(person, compact = false) {
+    if(localFieldEdited(person,'nen_ability')) return '自分用の能力欄：未照合（公開データの念使用確認とは別）';
     if (person.nen_status === 'historical_unorganized') return '念：この時点の能力情報は未整理';
     const state = person.verification_status === 'unverified' ? 'unknown' : person.nen_status || (isConfirmedNenUser(person) ? 'confirmed' : 'unknown');
     const labels = compact
@@ -206,6 +221,7 @@
     return (labels[state] || labels.unknown) + (person.nen_status_chapter ? `（第${person.nen_status_chapter}話${compact ? '' : '時点'}）` : '');
   }
   function nenTypeLabel(person) {
+    if(localFieldEdited(person,'nen_ability')) return `変更した能力は未照合（公開データの系統：${nenTypeLabel(publicRecord(person))}）`;
     if (person.nen_status === 'historical_unorganized') return 'この時点の能力情報は未整理';
     return person.nen_type_detail || person.nen_type || '未確認';
   }
@@ -292,7 +308,7 @@
     const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
       SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
     if (!revealed) return initial.filter(Boolean);
-    return [...initial, person.role, person.camp, person.nen_ability, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
+    return [...initial, person.status, person.role, person.camp, person.nen_ability, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
       person.room, person.current_assignment, person.location, ...(extra.later || [])].filter(Boolean);
   }
   function buildSearchText(fields) {
@@ -308,17 +324,19 @@
     return new RegExp(source);
   }
   function matchesSearch(text, query) {
-    const pattern = searchPattern(query);
-    return !pattern || pattern.test(text);
+    return searchPatterns(query).every(pattern => pattern.test(text));
+  }
+  function searchPatterns(query) {
+    return String(query || '').split(/\s+/).map(searchPattern).filter(Boolean);
   }
   function searchRank(person, query) {
     const q = normalizeSearchText(query);
     if (!q) return 0;
-    const pattern = searchPattern(query);
+    const patterns = searchPatterns(query);
     const names = searchNames(person).map(normalizeSearchText);
     const romaji = names.map(katakanaToRomaji);
     if (names.includes(q) || romaji.includes(q)) return 0;
-    return [...names, ...romaji].some(n => pattern.test(n)) ? 1 : 2;
+    return [...names, ...romaji].some(n => patterns.some(pattern => pattern.test(n))) ? 1 : 2;
   }
   function questionSections(event, events = []) {
     const sections = new Map();
@@ -350,6 +368,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
-    normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, matchesSearch};
+  return {localFieldEdited,publicRecord,localEditLabels,assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
+    normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, searchPatterns, matchesSearch};
 });

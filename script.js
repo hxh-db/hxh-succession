@@ -63,6 +63,8 @@ let mafiaData = [];
 let personnelSnapshotsData = [];
 let initialPersonnelData = null;
 let filteredEventsData = [];
+let eventSearchIndex = null;
+let previousTimelineQuery = "";
 // 原作画像がなく出来事を登録していない話。0件を「対象外」と誤解されないよう、表示で明示する。
 const UNCOLLECTED_CHAPTERS = new Map([[396, "原作画像未提供"], [397, "原作画像未提供"]]);
 const UNCOLLECTED_RANGE_LABEL = "第396〜397話は未収録（原作画像未提供）";
@@ -316,7 +318,7 @@ function buildDraftExport() {
   ]));
   return {
     format: "hxh-succession-local-drafts",
-    version: 1,
+    version: localDrafts.version || 1,
     ...(localDrafts.resetAt ? { resetAt: localDrafts.resetAt } : {}),
     exportedAt: new Date().toISOString(),
     items: localDrafts.items,
@@ -327,7 +329,7 @@ function buildDraftExport() {
 }
 
 function validateDraftImport(payload) {
-  if (payload?.format !== "hxh-succession-local-drafts" || payload.version !== 1 ||
+  if (payload?.format !== "hxh-succession-local-drafts" || ![1,2].includes(payload.version) ||
       !payload.items || typeof payload.items !== "object" || Array.isArray(payload.items)) {
     throw new Error("このサイトのメモJSONではありません。");
   }
@@ -341,13 +343,19 @@ function validateDraftImport(payload) {
     const safe = {};
     if (draft.memo !== undefined && typeof draft.memo !== "string") throw new Error("メモ本文の形式が正しくありません。");
     if (category === "theory" && typeof draft.title === "string") safe.title = draft.title;
-    if (draft.createdRecord !== undefined) safe.createdRecord = validateCreatedEvent(draft.createdRecord, key);
+    if (draft.createdRecord !== undefined) {
+      validateCreatedEvent(draft.createdRecord, key);
+      // Validate without adding defaults to stored legacy values. Otherwise a
+      // read alone creates a same-time conflict against the original copy.
+      // appendCreatedEvents builds the normalized record used by the screen.
+      safe.createdRecord = JSON.parse(JSON.stringify(draft.createdRecord));
+    }
     if (typeof draft.memo === "string") safe.memo = draft.memo;
     if (typeof draft.updatedAt === "string") safe.updatedAt = draft.updatedAt;
     if (draft.fieldUpdatedAt !== undefined) {
       if (!draft.fieldUpdatedAt || typeof draft.fieldUpdatedAt !== "object" || Array.isArray(draft.fieldUpdatedAt) ||
           Object.entries(draft.fieldUpdatedAt).some(([field, value]) => !["memo", "edits", "title", "createdRecord"].includes(field) ||
-            typeof value !== "string" || !Number.isFinite(Date.parse(value)))) {
+            !DraftState.validDate(value))) {
         throw new Error("メモの項目別更新日時の形式が正しくありません。");
       }
       safe.fieldUpdatedAt = {...draft.fieldUpdatedAt};
@@ -376,8 +384,22 @@ function validateDraftImport(payload) {
         throw new Error("確定時刻と推測時刻が同時に入力されています。");
       }
     }
+    if (draft.conflicts !== undefined) {
+      // Every selectable candidate must satisfy the same screen-specific rules
+      // as the displayed value (including created-event IDs and participants).
+      DraftState.validateSnapshot({version:payload.version,items:{[key]:draft}});
+      safe.conflicts = JSON.parse(JSON.stringify(draft.conflicts));
+      for (const [field,choices] of Object.entries(safe.conflicts)) {
+        for (const choice of choices) if(choice.present) {
+          choice.value=validateDraftImport({format:payload.format,version:payload.version,
+            items:{[key]:{[field]:choice.value}}})[key][field];
+        }
+      }
+    }
     items[key] = safe;
   }
+  DraftState.validateSnapshot(payload);
+  DraftState.validateSnapshot({...payload,items});
   return items;
 }
 
@@ -386,7 +408,6 @@ function renderDraftOverview() {
   const list = document.getElementById("draftOverviewList");
   if (!count || !list) return;
   const entries = buildDraftExport().entries
-    .filter((item) => item.isNew || item.memo || Object.keys(item.edits).length)
     .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
   count.textContent = draftLoadError ? `（読み込めた分${entries.length}件・他は未確認）` : `（${entries.length}件）`;
   list.replaceChildren();
@@ -400,7 +421,8 @@ function renderDraftOverview() {
     const row = document.createElement("li");
     const title = document.createElement("strong");
     title.textContent = entry.title;
-    const summary = entry.memo || (entry.isNew ? `追加した出来事（${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存）` : `編集した項目：${Object.keys(entry.edits).join("、")}`);
+    const conflictNotice=DraftState.hasConflicts(localDrafts.items[entry.key]) ? '同時刻の競合候補あり。詳細で採用する案を選べます。 ' : '';
+    const summary = conflictNotice + (entry.memo || (entry.isNew ? `追加した出来事（${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存）` : `編集した項目：${Object.keys(entry.edits).join("、")}`));
     row.append(title, document.createTextNode(` — ${summary.length > 160 ? `${summary.slice(0, 160)}…` : summary}`));
     list.appendChild(row);
   });
@@ -631,14 +653,27 @@ function setupDraftTransfer() {
       Object.entries(imported).forEach(([key, item]) => {
         item.updatedAt = DraftState.timestamp(previous.items[key]);
         delete item.fieldUpdatedAt;
+        for (const choices of Object.values(item.conflicts || {})) for (const choice of choices) choice.updatedAt = item.updatedAt;
       });
-      localDrafts = { ...previous, items: { ...previous.items, ...imported } };
+      localDrafts = { ...previous, version: previous.version === 2 || Object.values(imported).some(DraftState.hasConflicts) ? 2 : 1,
+        items: { ...previous.items, ...imported } };
       if (!await saveLocalDrafts()) {
-        localDrafts = previous;
-        localStorage.setItem(LOCAL_DRAFTS_KEY, JSON.stringify(previous));
-        throw new Error("PCに保存できませんでした。");
+        // Persist may already have kept the import in the browser while a
+        // different page checkpointed newer input. Never roll back that store
+        // to the snapshot taken before the awaited file request.
+        let retained = false;
+        try {
+          localDrafts = DraftState.checkpoint({source: localDrafts, key: LOCAL_DRAFTS_KEY,
+            storage: {getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value)}});
+          retained = true;
+        } catch (_) { /* A newer reset or corrupt copy must remain untouched. */ }
+        renderDraftOverview();
+        throw new Error(retained
+          ? "PCへの保存に失敗しました。読み込んだ内容はブラウザの控えに残しています。接続を確認してから再読み込みしてください。"
+          : "PCへの保存に失敗しました。ブラウザの控えは変更していません。元の読み込み用JSONを保管し、保存状態を確認してから再読み込みしてください。");
       }
-      sessionStorage.setItem(DRAFT_IMPORT_STATUS_KEY, String(Object.keys(imported).length));
+      try { sessionStorage.setItem(DRAFT_IMPORT_STATUS_KEY, String(Object.keys(imported).length)); }
+      catch (_) { /* A missing success notice must not turn a completed restore into an error. */ }
       window.location.reload();
     } catch (error) {
       status.textContent = `読み込めませんでした：${error.message}`;
@@ -658,6 +693,15 @@ function applyLocalDrafts(records, categoryForRecord) {
     LOCAL_EDIT_FIELDS[category].forEach(({ key: field }) => {
       if (Object.hasOwn(edits, field)) record[field] = edits[field];
     });
+    if(["prince","bodyguard"].includes(category)) {
+      const original=originalRecords.get(key);
+      const changed=Object.keys(edits).filter(field=>record[field] !== original[field]);
+      if(changed.length) {
+        record.local_edited=true;
+        record.local_edit_fields=changed;
+        record.local_public_values=Object.fromEntries(changed.map(field=>[field,original[field]]));
+      }
+    }
     if (category === "event") {
       const original = originalRecords.get(key);
       const changed = (field) => Object.hasOwn(edits, field) && record[field] !== (original[field] ?? null);
@@ -1086,13 +1130,24 @@ function makeAvatar(label, nenType, imageSrc = null, imageCrop = null, zoom = nu
   const imageName = zoom?.name || label;
   if (imageSrc) {
     if (imageCrop) {
-      div.setAttribute("role", "img");
-      div.setAttribute("aria-label", imageName);
+      showInitials();
       div.style.backgroundImage = `url("${imageSrc}")`;
       div.style.backgroundRepeat = "no-repeat";
       div.style.backgroundSize = imageCrop.size;
       div.style.backgroundPosition = imageCrop.position;
-      if (zoom) makeAvatarZoomable(div, imageSrc, zoom);
+      const probe=document.createElement("img");
+      const failed=()=>{
+        div.style.backgroundImage="";div.style.backgroundSize="";div.style.backgroundPosition="";div.style.backgroundRepeat="";
+        clearAvatarZoomable(div);showInitials();
+      };
+      probe.onerror=failed;
+      probe.onload=()=>{
+        if(!probe.naturalWidth) {failed();return;}
+        div.textContent="";div.removeAttribute("aria-hidden");
+        div.setAttribute("role","img");div.setAttribute("aria-label",imageName);
+        if(zoom) makeAvatarZoomable(div,imageSrc,zoom);
+      };
+      probe.src=imageSrc;
       return div;
     }
     const img = document.createElement("img");
@@ -1645,6 +1700,7 @@ function isConfirmedNenUser(character) {
 }
 
 function getNenAbilityName(character) {
+  if(CharacterFacts.localFieldEdited(character,"nen_ability")) return "自分用の変更（未照合）";
   if (character.nen_ability_name) return character.nen_ability_name;
   const ability = character.nen_ability || "";
   const named = ability.match(/^([^。：]{2,28}?)(?:（[^）]+）)?[：:]/);
@@ -2296,6 +2352,15 @@ function createCharacterDirectoryCard(character) {
     card.appendChild(notice);
   }
 
+  const countOnly = character.is_count_only || countOnlyCharacterIds.has(character.id) ||
+    (character.generated_by === "personnel-roster" && character.is_count_only !== false);
+  if (!countOnly) {
+    const knowledge = document.createElement("p");
+    knowledge.className = "nen-knowledge-label spoiler-only";
+    knowledge.textContent = getNenKnowledgeLabel(character, true);
+    card.appendChild(knowledge);
+  }
+
   if (visibleTags.some((tag) => tag.category !== "所属")) {
     const tagList = document.createElement("div");
     tagList.className = "character-structured-tags";
@@ -2387,6 +2452,8 @@ function createCharacterDirectoryCard(character) {
   // 後の話の情報は、この人物の中だけで折りたたむ。全画面のネタバレ設定は変えない。
   const later = makeLaterInfoDetails();
   details.appendChild(later);
+  const localNotice=makeCharacterLocalEditNotice(character);
+  if(localNotice) later.appendChild(localNotice);
   const latestPlace = document.createElement("div");
   latestPlace.className = "character-latest-place";
   latestPlace.append(makeLatestLocationContent(character, "最後の所在"));
@@ -2428,10 +2495,10 @@ function createCharacterDirectoryCard(character) {
   const statusHistory = makeCharacterStatusHistory(character);
   if (statusHistory) later.appendChild(statusHistory);
 
-  if (isConfirmedNenUser(character)) {
+  if (isConfirmedNenUser(character) || CharacterFacts.localFieldEdited(character,"nen_ability")) {
     const abilitySection = document.createElement("section");
     abilitySection.className = "directory-nen-ability";
-    if (character.nen_ability_image) {
+    if (character.nen_ability_image && !CharacterFacts.localFieldEdited(character,"nen_ability")) {
       const abilityImage = makeBeastImage(character.nen_ability_image, `${getDisplayName(character)}の念能力の画像`);
       if (abilityImage) {
         if (character.nen_ability_image_source) abilityImage.title = character.nen_ability_image_source;
@@ -2440,7 +2507,7 @@ function createCharacterDirectoryCard(character) {
     } else {
       const missingImage = document.createElement("span");
       missingImage.className = "ability-image-missing";
-      missingImage.textContent = "画像未登録";
+      missingImage.textContent = CharacterFacts.localFieldEdited(character,"nen_ability") ? "変更後の能力の画像・根拠は未照合" : "画像未登録";
       abilitySection.appendChild(missingImage);
     }
     const abilityText = document.createElement("div");
@@ -2449,7 +2516,7 @@ function createCharacterDirectoryCard(character) {
     const type = document.createElement("p");
     type.textContent = `本人の念系統：${CharacterFacts.nenTypeLabel(character)}`;
     abilityText.append(abilityHeading, type, makeReadableBlock(formatDisplayText(character.nen_ability) || "能力の詳細は未判明。"));
-    if (character.nen_ability_image && character.nen_ability_image_source) {
+    if (character.nen_ability_image && character.nen_ability_image_source && !CharacterFacts.localFieldEdited(character,"nen_ability")) {
       const caption = document.createElement("p");
       caption.className = "guide-source-note";
       caption.textContent = character.nen_ability_image_source;
@@ -2974,9 +3041,9 @@ function setupCharacterDirectory() {
       summary.appendChild(note);
     }
     document.getElementById("characterCoverageNote").textContent = settingCount ? `表示中の${settingCount}人は作者設定表のみで確認。本編との対応は未照合で、兵力には加算していません。` : "";
-    search.placeholder = spoilersRevealed ? "名前・所属・能力などで検索" : "名前・所属などで検索";
+    search.placeholder = spoilersRevealed ? "例：クラピカ 絶対時間" : "例：クラピカ ハンター";
     document.getElementById("characterSearchHelp").textContent = spoilersRevealed
-      ? "能力・後の展開も検索対象です。" : "ネタバレ非表示中は、能力・後の展開を検索しません。";
+      ? "空白で区切るとすべての語を含む人物を探せます。能力・後の展開も検索対象です。" : "空白で区切るとすべての語を含む人物を探せます。ネタバレ非表示中は、能力・後の展開を検索しません。";
     document.getElementById("characterSearchNotice").hidden = spoilersRevealed || filtered.length > 0 || !search.value.trim();
     const rosterMode = activeCharacterSection === "personnel" || queenFilter.value !== "all" || periodFilter.value !== "all";
     const ledger = rosterMode ? getPersonnelSelection(queenFilter.value === "all" ? null : Number(queenFilter.value)) : [];
@@ -3532,6 +3599,7 @@ function filterTimelineByEventLocation(event) {
 function filterTimelineByParticipant(token) {
   activatePrimaryView("timeline", true);
   ["roomFilter", "typeFilter", "chapterFilter", "seriesFilter"].forEach(id => { document.getElementById(id).value = "all"; });
+  document.getElementById("timelineSearch").value = "";
   document.getElementById("hideHypothesisEvents").checked = false;
   document.getElementById("timeDisplayMode").value = "all";
   document.getElementById("participantFilter").value = token;
@@ -3724,6 +3792,9 @@ function getEventTypeGroup(event) {
 }
 
 function applyFilter() {
+  const query = document.getElementById("timelineSearch").value.trim();
+  const searchMatch = eventSearchIndex?.matcher(query) || (()=>true);
+  previousTimelineQuery = query;
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedType = document.getElementById("typeFilter").value;
   const selectedParticipant = document.getElementById("participantFilter").value;
@@ -3737,7 +3808,7 @@ function applyFilter() {
       || (event.characters || []).includes(selectedParticipant);
     const chapterMatch = selectedChapter === "all" || String(event.chapter) === selectedChapter;
     const seriesMatch = selectedSeries === "all" || event.series === selectedSeries;
-    return roomMatch && typeMatch && participantMatch && chapterMatch && seriesMatch
+    return searchMatch(event) && roomMatch && typeMatch && participantMatch && chapterMatch && seriesMatch
       && !(document.getElementById("hideHypothesisEvents")?.checked && event.is_estimate);
   });
 
@@ -3757,6 +3828,8 @@ function renderTimelineActiveFilters() {
   const selectedChapter = document.getElementById("chapterFilter").value;
   const selectedSeries = document.getElementById("seriesFilter").value;
   const filters = [];
+  const query = document.getElementById("timelineSearch").value.trim();
+  if (query) filters.push({label:`検索：${query}`,target:"timelineSearch"});
   const selectedType = document.getElementById("typeFilter").value;
   if (selectedType !== "all") {
     filters.push({ label: `種類：${EVENT_TYPE_GROUPS.find((group) => group.id === selectedType)?.label || selectedType}`, target: "typeFilter" });
@@ -3795,7 +3868,7 @@ function renderTimelineActiveFilters() {
     button.title = `${filter.label}の絞り込みを解除`;
     button.addEventListener("click", () => {
       if (filter.target === "period") activeTimelinePeriodId = "all";
-      else document.getElementById(filter.target).value = "all";
+      else document.getElementById(filter.target).value = filter.target === "timelineSearch" ? "" : "all";
       applyFilter();
     });
     container.appendChild(button);
@@ -3803,6 +3876,7 @@ function renderTimelineActiveFilters() {
 }
 
 function getTimelineEventsIgnoringType() {
+  const searchMatch = eventSearchIndex?.matcher(document.getElementById("timelineSearch").value) || (()=>true);
   const selectedRoom = document.getElementById("roomFilter").value;
   const selectedParticipant = document.getElementById("participantFilter").value;
   const selectedChapter = document.getElementById("chapterFilter").value;
@@ -3814,7 +3888,7 @@ function getTimelineEventsIgnoringType() {
     const chapterMatch = selectedChapter === "all" || String(event.chapter) === selectedChapter;
     const seriesMatch = selectedSeries === "all" || event.series === selectedSeries;
     const periodMatch = activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId;
-    return roomMatch && participantMatch && chapterMatch && seriesMatch && periodMatch
+    return searchMatch(event) && roomMatch && participantMatch && chapterMatch && seriesMatch && periodMatch
       && !(document.getElementById("hideHypothesisEvents")?.checked && event.is_estimate);
   });
 }
@@ -3832,6 +3906,7 @@ function refreshTypeAvailability() {
 }
 
 function resetFilters() {
+  document.getElementById("timelineSearch").value = "";
   document.getElementById("roomFilter").value = "all";
   document.getElementById("typeFilter").value = "all";
   document.getElementById("participantFilter").value = "all";
@@ -3846,6 +3921,16 @@ function resetFilters() {
 }
 
 function setupFilters() {
+  eventSearchIndex = EventSearch.createIndex(eventsData,charactersData,{formatText:formatPublicDetailText,locationLabel:getLocationKey});
+  const search = document.getElementById("timelineSearch");
+  const searchInput = event=>{
+    if(event.isComposing || search.value.trim()===previousTimelineQuery) return;
+    if(!previousTimelineQuery && search.value.trim()) activeTimelinePeriodId = "all";
+    applyFilter();
+  };
+  search.addEventListener("input",searchInput);
+  search.addEventListener("compositionend",searchInput);
+  document.getElementById("clearTimelineSearch").addEventListener("click",()=>{search.value="";applyFilter();search.focus();});
   const roomFilter = document.getElementById("roomFilter");
   const typeFilter = document.getElementById("typeFilter");
   const participantFilter = document.getElementById("participantFilter");
@@ -3920,6 +4005,10 @@ function renderActiveTimelineView() {
   const token = document.getElementById("participantFilter")?.value;
   const linkedEvent = eventsData.find(event => event.id === new URL(location.href).searchParams.get("event"));
   const count = filteredEventsData.filter(event => activeTimelineView !== "schedule" || activeTimelinePeriodId === "all" || getEventPeriodId(event) === activeTimelinePeriodId).length;
+  const query = document.getElementById("timelineSearch").value.trim();
+  document.getElementById("timelineSearchStatus").textContent = query
+    ? `${count}件${activeTimelineView === "schedule" && activeTimelinePeriodId !== "all" ? "（選択した日付内）" : "（全日程）"}${count === 0 ? "。言葉を減らすか、選択中の条件を解除してください。" : ""}` : "";
+  document.getElementById("clearTimelineSearch").disabled = !query;
   if (gate) gate.textContent = linkedEvent
     ? `リンク先は第${linkedEvent.chapter}話の出来事です。ネタバレを表示すると、この出来事の詳細を読めます。`
     : token && token !== "all"
@@ -3935,6 +4024,7 @@ function renderActiveTimelineView() {
 
 function renderTimelineChapters(events) {
   const container = document.getElementById("chapterEventGroups");
+  const openStates=new Map([...container.querySelectorAll(".chapter-group[data-chapter]")].map(group=>[group.dataset.chapter,group.open]));
   container.replaceChildren();
   if (!events.length) {
     const empty = document.createElement("p");
@@ -3961,7 +4051,8 @@ function renderTimelineChapters(events) {
     }
     const group = document.createElement("details");
     group.className = "chapter-group";
-    group.open = chapters.length === 1 || index === 0;
+    group.dataset.chapter=String(chapter);
+    group.open = openStates.has(String(chapter)) ? openStates.get(String(chapter)) : chapters.length === 1 || index === 0;
     const heading = document.createElement("summary");
     heading.textContent = `第${chapter}話 — ${grouped.get(chapter).length}件の出来事`;
     const list = document.createElement("div");
@@ -3980,6 +4071,7 @@ function activateTimelineView(view, moveFocus = false) {
 
   activeTimelineView = view;
   const isQuestions = view === "questions";
+  document.getElementById("timelineSearchBox").hidden = isQuestions;
   document.getElementById("timelineControls").hidden = isQuestions;
   document.getElementById("timelineFilterToggle")?.toggleAttribute("hidden", isQuestions);
   document.getElementById("timelineActiveFilters").hidden = isQuestions;
@@ -4819,6 +4911,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   const memo = document.createElement("textarea");
   memo.rows = 4;
   memo.value = typeof saved.memo === "string" ? saved.memo : "";
+  let submittedMemo=memo.value.trim();
   memo.placeholder = category === "guide"
     ? "例：この説明の出典を再確認したい／補足したい情報がある"
     : "例：この時刻は再確認したい／この人物の所属に疑問あり";
@@ -4833,6 +4926,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   status.setAttribute("role", "status");
   let memoTimer = null;
   let memoRevision = 0;
+  let refreshConflicts=()=>{};
   const flushMemo = () => {
     if (!memoTimer) return;
     clearTimeout(memoTimer);
@@ -4842,14 +4936,20 @@ function renderLocalEditor(container, record, category, view = "modal") {
   };
   async function persistMemo() {
     if (draftResetInProgress) return false;
+    status.textContent="保存中…";
     const text = memo.value.trim();
     const revision = memoRevision;
     const previous = localDrafts.items[recordKey] || {};
     // Keep an empty, dated item so another tab cannot restore the erased memo.
     // A local event remains an event even when its memo is empty.
-    localDrafts.items[recordKey] = DraftState.editItem(previous, {memo: text});
+    localDrafts.items[recordKey] = DraftState.editItem(previous,text===submittedMemo?{}:{memo:text});
+    submittedMemo=text;
     const saved = await saveLocalDrafts();
     renderDraftOverview();
+    refreshConflicts();
+    if(revision===memoRevision && saved && !DraftState.hasConflicts(localDrafts.items[recordKey])) {
+      memo.value=localDrafts.items[recordKey]?.memo || '';submittedMemo=memo.value.trim();
+    }
     if (revision === memoRevision) status.textContent = saved
         ? draftStorageMode === "file" ? "PCに保存しました。" : "ブラウザに保存しました。PCへの自動保存は無効です。"
         : "保存できませんでした。入力内容をコピーして控え、もう一度保存してください。";
@@ -4873,6 +4973,21 @@ function renderLocalEditor(container, record, category, view = "modal") {
     persistMemo();
   });
   section.append(memoLabel, memoButton, status);
+  const conflictBox=document.createElement('div');
+  section.appendChild(conflictBox);
+  refreshConflicts=DraftConflicts.render(conflictBox,{getItem:()=>localDrafts.items[recordKey],onResolve:async(field,choice,expected)=>{
+    const controls=[...section.querySelectorAll('input,textarea,button')].map(node=>[node,node.disabled]);
+    controls.forEach(([node])=>{node.disabled=true;});
+    try {
+      await readCurrentDrafts();
+      localDrafts.items[recordKey]=DraftState.resolveConflict(localDrafts.items[recordKey],field,choice,expected);
+      if(!await saveLocalDrafts()) throw new Error('保存できませんでした。候補を控え、もう一度保存してください。');
+      renderDraftOverview();
+      memo.value=localDrafts.items[recordKey]?.memo || '';submittedMemo=memo.value.trim();
+      if(field!=='memo') reopenDetailAfterReload(record,category,view);
+      else memo.focus();
+    } finally {controls.forEach(([node,disabled])=>{node.disabled=disabled;});}
+  }});
 
   if (category === "guide") {
     container.appendChild(section);
@@ -4888,6 +5003,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
   const form = document.createElement("form");
   form.className = "local-editor-form";
   const inputs = new Map();
+  const displayedValues = new Map();
   LOCAL_EDIT_FIELDS[category].forEach((field) => {
     const label = document.createElement("label");
     label.className = "local-editor-label";
@@ -4905,6 +5021,7 @@ function renderLocalEditor(container, record, category, view = "modal") {
     label.appendChild(input);
     form.appendChild(label);
     inputs.set(field.key, input);
+    displayedValues.set(field.key,input.value.trim());
   });
   if (category === "event") {
     const timeHelp = document.createElement("p");
@@ -4963,7 +5080,10 @@ function renderLocalEditor(container, record, category, view = "modal") {
       if (values[field.key] !== baseline) edits[field.key] = values[field.key];
     });
     const previous = localDrafts.items[recordKey] || {};
-    localDrafts.items[recordKey] = DraftState.editItem(previous, {edits});
+    // Reading a backup/current state may merge another candidate while this
+    // form still shows its earlier value. An untouched form is not a choice.
+    const changed=[...inputs].some(([key,input])=>input.value.trim()!==displayedValues.get(key));
+    localDrafts.items[recordKey] = DraftState.editItem(previous, changed ? {edits} : {});
     if (!await saveLocalDrafts()) {
       formStatus.textContent = "保存できませんでした。入力内容をコピーして控え、もう一度保存してください。";
       return;
@@ -5025,7 +5145,7 @@ function makeCharacterStatusHistory(character) {
   const rows = CharacterFacts.statusHistoryRows(character, getPersonnelEvents());
   if (!rows.length) return null;
   const section = document.createElement("section"); section.className = "character-status-history";
-  const heading = document.createElement("h4"); heading.textContent = "状態の経緯";
+  const heading = document.createElement("h4"); heading.textContent = CharacterFacts.localFieldEdited(character,"status") ? "公開データの状態の経緯" : "状態の経緯";
   const list = document.createElement("ul"); list.className = "readable-list";
   for (const row of rows) {
     const li = document.createElement("li"); li.textContent = `${row.text}（${row.review}）`;
@@ -5120,6 +5240,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "分類", value: record.soldier_category === roleLabel ? "" : record.soldier_category || "不明" },
       { label: "所属・配置先", value: getCharacterAffiliationText(record) || formatAffiliation(record) || "不明" },
       { label: "役割", value: roleLabel },
+      { label: "役割・兵種の根拠", value: CharacterFacts.localFieldEdited(record,"role") ? "自分用の役割欄は未照合です。元の兵種・役割の根拠は変更後の値を裏付けません。" : record.role_evidence || "", later: true, readable: true },
       { label: "担当陣営", value: assignmentRows[0]?.text || (record.camp !== record.affiliation ? formatAssignment(record) : "") },
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
       { label: "選択時点の担当", value: record.roster_view?.assignment || "", later: true },
@@ -5184,16 +5305,15 @@ function showDetailModal(name, category, eventData = null) {
     period.className = "personnel-modal-period guide-source-note";
     const control = document.getElementById("characterPeriodFilter");
     period.textContent = `名簿の表示時点：${control.selectedOptions[0].textContent}。初期配置は復元を含みます。`;
+    if(record.roster_view.public_data) period.textContent += " この時点の人物情報は公開データの履歴です。自分用の変更は適用していません。";
     content.appendChild(period);
   }
   // 顔画像がある人物だけ、詳細の先頭に拡大できるアバターを置く（頭文字アバターは出さない）。
   if (isPerson && record.image) {
     const label = record.type === "prince" ? `第${record.rank}` : (record.name || "").slice(0, 2);
     const modalAvatar = makeAvatar(label, record.nen_type, record.image, record.image_crop || null, getAvatarZoom(record));
-    if (modalAvatar.classList.contains("avatar-zoomable")) {
-      modalAvatar.classList.add("modal-character-avatar");
-      content.appendChild(modalAvatar);
-    }
+    modalAvatar.classList.add("modal-character-avatar");
+    content.appendChild(modalAvatar);
   }
   // 人物は、後の話の情報をこの詳細の中だけで折りたたむ（全画面の設定は変えない）。
   const later = isPerson ? makeLaterInfoDetails() : null;
@@ -5235,6 +5355,8 @@ function showDetailModal(name, category, eventData = null) {
     const authorSetting = makeAuthorSettingPanel(record);
     if (authorSetting) content.appendChild(authorSetting);
     content.appendChild(later);
+    const localNotice=makeCharacterLocalEditNotice(record);
+    if(localNotice) later.appendChild(localNotice);
     const relatives = getBloodRelations(record);
     if (relatives.length) {
       const family = document.createElement("section");
@@ -5255,7 +5377,7 @@ function showDetailModal(name, category, eventData = null) {
     later.appendChild(makeDetailList(details.filter((entry) => entry.later)));
     const knowledge = document.createElement("p"); knowledge.textContent = getNenKnowledgeLabel(record);
     later.appendChild(knowledge);
-    if (record.nen_ability_image && isConfirmedNenUser(record)) {
+    if (record.nen_ability_image && isConfirmedNenUser(record) && !CharacterFacts.localFieldEdited(record,"nen_ability")) {
       const abilityImage = makeBeastImage(record.nen_ability_image, `${getDisplayName(record)}の念能力の画像`);
       if (abilityImage) later.appendChild(abilityImage);
       if (record.nen_ability_image_source) { const p = document.createElement("p"); p.className = "guide-source-note"; p.textContent = record.nen_ability_image_source; later.appendChild(p); }
@@ -5841,6 +5963,8 @@ function activatePrimaryView(view, updateHash = false) {
 function setupPrimaryNavigation() {
   document.querySelectorAll("[data-primary-view]").forEach((link) => {
     link.addEventListener("click", (event) => {
+      if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+          link.hasAttribute("download") || (link.target && link.target.toLowerCase()!=="_self")) return;
       event.preventDefault();
       activatePrimaryView(link.dataset.primaryView, true);
     });
@@ -5862,7 +5986,7 @@ function setupPrimaryNavigation() {
   let scrollTimer;
   window.addEventListener("scroll", () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(saveReadingState, 120); }, {passive:true});
   window.addEventListener("pagehide", saveReadingState);
-  document.addEventListener("toggle", event => { if (event.target.closest?.("#guide, #characters")) saveReadingState(); }, true);
+  document.addEventListener("toggle", event => { if (event.target.closest?.("#guide, #characters, #chapterEventGroups")) saveReadingState(); }, true);
   activatePrimaryView(location.hash.slice(1) || "characters");
 }
 
@@ -5871,7 +5995,9 @@ function setupPrimaryNavigation() {
 // データ描画前に走るブラウザのフラグメントスクロールは、描画後にレイアウトが
 // 大きく伸びるとズレるため、描画完了後に改めてスクロールし直す
 function scrollToCurrentHash() {
-  const id = decodeURIComponent(location.hash.slice(1));
+  let id;
+  try { id = decodeURIComponent(location.hash.slice(1)); }
+  catch (_) { return; } // A malformed anchor must not fail database initialization.
   if (!id) return;
   const target = document.getElementById(id);
   if (target) target.scrollIntoView();
@@ -5981,6 +6107,30 @@ function makeCompactEventReviewRibbon(event) {
   return ribbon;
 }
 
+function makeCharacterLocalEditNotice(person) {
+  if(!person.local_edit_fields?.length) return null;
+  const panel=document.createElement("section");panel.className="character-local-edit-notice guide-source-note";
+  const heading=document.createElement("h4");heading.textContent="自分用の変更（未照合）";
+  const note=document.createElement("p");
+  note.textContent=`変更した欄：${CharacterFacts.localEditLabels(person).join("・")}。公開データの確認記録・履歴は、変更後の値の裏付けではありません。`;
+  const proof=document.createElement("details"),summary=document.createElement("summary");
+  summary.textContent="公開データの値と根拠";proof.appendChild(summary);
+  const original=CharacterFacts.publicRecord(person);
+  const labels={status:"状態",room:"部屋・現在地",role:"役割",nen_ability:"念能力",notes:"備考"};
+  for(const field of person.local_edit_fields) {
+    const paragraph=document.createElement("p");
+    paragraph.textContent=`公開データの${labels[field] || field}：${field==="status" ? CharacterFacts.statusLabel(original,eventsData) : original[field] || "未設定"}`;
+    proof.appendChild(paragraph);
+    const evidence=document.createElement("p");
+    if(field==="status") evidence.textContent=CharacterFacts.statusEditorialNote(original,eventsData);
+    else if(field==="room") evidence.textContent=`公開データの所在記録：${CharacterFacts.latestLocationLabel(original,eventsData)}`;
+    else if(field==="role" && original.role_evidence) evidence.textContent=`公開データの役割・兵種の根拠：${original.role_evidence}`;
+    else if(field==="nen_ability") evidence.textContent=`公開データの念系統：${CharacterFacts.nenTypeLabel(original)}。${CharacterFacts.nenKnowledgeLabel(original)}。${CharacterFacts.nenAbilityEditorialLines(original).join(" ")}`;
+    if(evidence.textContent) proof.appendChild(evidence);
+  }
+  panel.append(heading,note,proof);return panel;
+}
+
 function makeCharacterReviewPanel(person) {
   const panel = document.createElement("section");
   panel.className = "character-review-panel";
@@ -5988,7 +6138,7 @@ function makeCharacterReviewPanel(person) {
   const rows = CharacterFacts.claimRows(person, scopedEvents).filter(row => row.event_ids.every(id => scopedEvents.some(event => event.id === id)));
   if (!rows.length) return panel;
   const heading = document.createElement("h4");
-  heading.textContent = "出来事の記録から分かること";
+  heading.textContent = person.local_edited ? "公開データの出来事記録" : "出来事の記録から分かること";
   panel.appendChild(heading);
   rows.forEach(row => {
     const paragraph = document.createElement("p");
@@ -6117,7 +6267,7 @@ function refreshSharedSpoilers() {
 const VIEW_FILTER_CONTROLS = {
   c_search: "characterSearch", c_type: "characterTypeFilter", c_camp: "characterCampFilter", c_prince: "characterPrinceFilter",
   c_when: "characterPeriodFilter", c_queen: "characterQueenFilter", g_search: "guideSearch",
-  t_room: "roomFilter", t_type: "typeFilter", t_person: "participantFilter", t_chapter: "chapterFilter", t_series: "seriesFilter", t_sort: "timelineSortOrder", t_clock: "timeDisplayMode"
+  t_search: "timelineSearch", t_room: "roomFilter", t_type: "typeFilter", t_person: "participantFilter", t_chapter: "chapterFilter", t_series: "seriesFilter", t_sort: "timelineSortOrder", t_clock: "timeDisplayMode"
 };
 
 // 履歴は全タブの条件を保持。共有URLは表示中のタブだけに絞る。
@@ -6131,6 +6281,7 @@ function captureReadingState() {
     assignmentOnly: document.getElementById("assignmentOnly").checked,
     characterCount: characterVisibleCount, scrollY: window.scrollY,
     details: [...document.querySelectorAll("#guide details[id], #characters details[id]")].filter(el=>el.open).map(el=>el.id),
+    chapterDetails:Object.fromEntries([...document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]")].map(group=>[group.dataset.chapter,group.open])),
     characterFilters: document.querySelector(".character-tag-catalog").classList.contains("filters-open"),
     timelineFilters: document.getElementById("timeline").classList.contains("filters-open")
   };
@@ -6163,7 +6314,10 @@ function restoreReadingState(snapshot, url) {
     restoreViewFromUrl(restored);
     if (snapshot) {
       extendCharacterDirectory(snapshot.characterCount);
-      document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=snapshot.details.includes(el.id);});
+      document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=(snapshot.details || []).includes(el.id);});
+      document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]").forEach(group=>{
+        if(Object.hasOwn(snapshot.chapterDetails || {},group.dataset.chapter)) group.open=Boolean(snapshot.chapterDetails[group.dataset.chapter]);
+      });
       setCharacterFiltersOpen(Boolean(snapshot.characterFilters));
       for (const [selector,open] of [["#timeline",snapshot.timelineFilters]]) {
         document.querySelector(selector).classList.toggle("filters-open",open);
@@ -6189,8 +6343,9 @@ function updateViewPermalink() {
   if (!viewLinksReady || restoringReadingState || window.CharacterRoutes?.isActive()) return;
   const url = new URL(location.href);
   Object.entries(VIEW_FILTER_CONTROLS).forEach(([key, id]) => {
-    const value = document.getElementById(id)?.value;
-    if (value && value !== "all" && !(key === "t_sort" && value === "asc")) url.searchParams.set(key, value);
+    const control = document.getElementById(id);
+    const value = control?.value;
+    if (value && !(control.tagName === "SELECT" && value === "all") && !(key === "t_sort" && value === "asc")) url.searchParams.set(key, value);
     else url.searchParams.delete(key);
   });
   const state = { c_group: activeCharacterSection, c_tags: [...activeCharacterTags.values()].join(","), c_affiliation: activeCharacterAffiliation,
@@ -6239,7 +6394,7 @@ function restoreViewFromUrl(url) {
   // 履歴の別エントリへ戻った時に、存在しない条件を現在値から持ち越さない。
   Object.entries(VIEW_FILTER_CONTROLS).forEach(([key,id])=>{
     const control=document.getElementById(id);
-    if (control) control.value = key === "t_sort" ? "asc" : ["c_search","g_search"].includes(key) ? "" : "all";
+    if (control) control.value = key === "t_sort" ? "asc" : ["c_search","g_search","t_search"].includes(key) ? "" : "all";
   });
   activeCharacterSection="all"; activeTimelinePeriodId="day-1";
   Object.entries(VIEW_FILTER_CONTROLS).forEach(([key, id]) => {
@@ -6252,6 +6407,7 @@ function restoreViewFromUrl(url) {
   activeCharacterAffiliation = url.searchParams.get("c_affiliation"); activeCharacterTags.clear();
   (url.searchParams.get("c_tags") || "").split(",").filter((id) => characterTagDefinitions.has(id)).forEach(id => toggleCharacterTagFilter(id));
   const period = url.searchParams.get("t_period");
+  if(url.searchParams.get("t_search")?.trim() && !period) activeTimelinePeriodId = "all";
   if (TIMELINE_PERIODS.some((entry) => entry.id === period)) activeTimelinePeriodId = period;
   const chapter = url.searchParams.get("t_chapter");
   if (chapter && ![...document.getElementById("chapterFilter").options].some((option) => option.value === chapter) && /^\d+$/.test(chapter)) {
@@ -6272,6 +6428,7 @@ function restoreViewFromUrl(url) {
   updateGuideSearch();
   const event = eventsData.find((entry) => entry.id === url.searchParams.get("event"));
   if (event) {
+    document.getElementById("timelineSearch").value = "";
     ["roomFilter", "typeFilter", "participantFilter", "seriesFilter"].forEach((id) => { document.getElementById(id).value = "all"; });
     document.getElementById("chapterFilter").value = String(event.chapter); activeTimelinePeriodId = "all"; applyFilter();
     if (spoilersRevealed) showDetailModal(event.id, "event", event);

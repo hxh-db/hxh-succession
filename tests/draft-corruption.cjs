@@ -4,7 +4,7 @@ const {createStore, KEY} = require('../theories/theory-memos.js');
 (async () => {
   const pending = {version: 1, items: {'guide:new': {memo: 'new note', updatedAt: '2026-10-26T00:00:00Z'}}};
   const corrupt = ['{broken', ...[
-    {version: 2, items: {}}, {version: 1, items: []},
+    {version: 999, items: {}}, {version: 1, items: []},
     {version: 1, items: {'guide:old': null}},
     {version: 1, items: {'guide:old': {memo: 42}}},
     {version: 1, items: {'guide:old': {edits: []}}}

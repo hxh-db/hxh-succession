@@ -16,6 +16,15 @@ for (const query of ['死亡', '刹那', '遺体安置室']) {
   assert.equal(search(query, false).length, 0, `非表示で「${query}」に一致してはいけない`);
   assert.ok(search(query, true).length > 0, `表示中は「${query}」に一致する`);
 }
+const statusOnly={id:'STATUS-ONLY',name:'検査用の人物',type:'soldier',status:'死亡'};
+assert.ok(facts.matchesSearch(facts.buildSearchText(facts.searchFields(statusOnly,{revealed:true})),'死亡'));
+assert.ok(!facts.matchesSearch(facts.buildSearchText(facts.searchFields(statusOnly,{revealed:false})),'死亡'));
+assert.ok(search('死亡',true).some(person=>person.id==='P12'),'モモゼの状態欄だけでも検索できる');
+const historicalPeople=[{...statusOnly,status_log:[{chapter:373,status:'存命'},{chapter:400,status:'死亡'}]}];
+const historicalRoster={members:[{character_id:statusOnly.id,prince_ranks:[],history:[]}],later:[],queen_projections:[]};
+const earlier=require('../personnel-roster.js').select(historicalRoster,historicalPeople,{period:'chapter-374'})[0];
+assert.ok(!facts.matchesSearch(facts.buildSearchText(facts.searchFields(earlier,{revealed:true})),'死亡'));
+assert.ok(facts.matchesSearch(facts.buildSearchText(facts.searchFields(earlier,{revealed:true})),'存命'));
 // 非表示時の検索対象に、後の話の情報のフィールドの値が入っていないこと。
 const hiddenOnly = ['notes', 'nen_ability', 'mission', 'target', 'room', 'current_assignment', 'location', 'camp'];
 for (const person of people) {
@@ -64,6 +73,14 @@ assert.deepEqual(search('1014', false).map(p => p.id).sort(), initial1014);
 assert.ok(initial1014.length >= 10);
 assert.ok(search('1014', true).length > initial1014.length);
 assert.ok(!search('101', false).length, '「101」が1014号室に部分一致してはいけない');
+
+// Multiple words combine across visible fields, and names rank above mentions.
+for(const query of ['クラピカ ハンター','ハンター　クラピカ']) assert.equal(search(query,false)[0].id,'P14-H01');
+assert.ok(search('1014 護衛',false).some(person=>person.id==='P14-H01'));
+assert.equal(search('クラピカ 絶対時間',false).length,0);
+assert.equal(search('クラピカ 絶対時間',true)[0].id,'P14-H01');
+assert.ok(!search('第1王子 護衛',false).some(person=>/^P1[0-4]$/.test(person.id)));
+assert.ok(!facts.matchesSearch('1014号室|護衛','101 護衛'));
 
 // 6. 画面側の配線：一覧の検索は CharacterFacts の検索対象を使い、ネタバレ設定を変えたら作り直す。
 const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');

@@ -1,15 +1,14 @@
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
-const {spawn}=require('node:child_process');
+
 const path=require('node:path');
 const fs=require('node:fs');
 const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingState);
 (async()=>{
- let server,browser;
+ let browser;
  try {
   const port='18767';
-  server=spawn('python',['local_server.py'],{cwd:path.resolve(__dirname,'..'),windowsHide:true,env:{...process.env,SUCCESSION_LOCAL_PORT:port,SUCCESSION_NOTES_DIR:path.resolve(__dirname,'../.local/contextual-tags/drafts')},stdio:['ignore','pipe','ignore']});
-  await new Promise((resolve,reject)=>{server.once('error',reject);server.once('exit',code=>reject(Error(`test server exited: ${code}`)));server.stdout.once('data',resolve);});
+
   browser=await chromium.launch({channel:'msedge',headless:true});
   for(const width of [1366,390]) {
    const context=await browser.newContext({viewport:{width,height:900}});
@@ -77,11 +76,20 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    await page.locator('#characterFilterPanel [data-tag-id="name-unnamed"]').click();
    await page.locator('#characterFilterPanel [data-tag-id="name-known"]').click();
    assert.ok(await page.evaluate(()=>currentCharacterResults.length>0 && activeCharacterTags.get('名前')==='name-known'),'same-row replacement stays available');
+   await page.locator('#characterSearch').fill('ヒュリコフ');
+   const hyurkov=page.locator('.directory-character-card[data-character-id="P01-P06"]');
+   await hyurkov.waitFor();
+   assert.match(await hyurkov.locator('.character-spoiler-details').innerText(),/ソエモノ/);
+   assert.match(await hyurkov.locator('.character-spoiler-details').innerText(),/親子[\s\S]*ビヨンド/);
+   await page.locator('#characterFilterPanel [data-tag-id="nen-soemono"]').click();
+   await page.locator('#characterFilterPanel [data-tag-id="relation-parent-child"]').click();
+   assert.equal(await page.locator('.directory-character-card').count(),1,'both requested tags combine on Hyurkov');
+   assert.equal(await page.locator('.directory-character-card').first().getAttribute('data-character-id'),'P01-P06');
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    assert.deepEqual(errors,[]);
    fs.mkdirSync('.local/contextual-tags',{recursive:true});
    await page.screenshot({path:`.local/contextual-tags/${width}.png`});
    await context.close();
   }
- } finally {await browser?.close();server?.kill();}
+ } finally {await browser?.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -39,7 +39,7 @@ const storage = new Map();
 const puts = [];
 const timers = new Map();
 const context = vm.createContext({
-  console, Date, Map, Object, Boolean, DraftState: require('../draft-state.js'),
+  console, Date, Map, Object, Boolean, DraftState: require('../draft-state.js'), DraftConflicts:{render:()=>()=>{}},
   document: {
     createElement: tag => new Element(tag),
     querySelectorAll: () => sections,

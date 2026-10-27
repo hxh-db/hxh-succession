@@ -1,0 +1,239 @@
+[
+  {
+    "name": "browser-fixture",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-preservation",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-reset",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "loading-recovery",
+    "groups": [
+      "critical",
+      "navigation"
+    ]
+  },
+  {
+    "name": "spoiler-sync",
+    "groups": [
+      "critical",
+      "navigation"
+    ]
+  },
+  {
+    "name": "event-link-spoilers",
+    "groups": [
+      "critical",
+      "navigation"
+    ]
+  },
+  {
+    "name": "draft-recovery-backup",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-corruption",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-navigation",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "local-edit-display",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-field-merge",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-conflicts",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "draft-import-failure",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "character-local-edits",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "reading-recovery",
+    "groups": [
+      "critical",
+      "navigation",
+      "directory"
+    ]
+  },
+  {
+    "name": "search-discovery",
+    "groups": [
+      "critical",
+      "navigation",
+      "directory"
+    ]
+  },
+  {
+    "name": "url-fragments",
+    "groups": [
+      "critical",
+      "navigation"
+    ]
+  },
+  {
+    "name": "avatar-recovery",
+    "groups": [
+      "critical",
+      "directory"
+    ]
+  },
+  {
+    "name": "static-avatar",
+    "groups": [
+      "critical",
+      "directory"
+    ]
+  },
+  {
+    "name": "event-creation",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "missing-record",
+    "groups": [
+      "critical",
+      "navigation"
+    ]
+  },
+  {
+    "name": "draft-inflight-checkpoint",
+    "groups": [
+      "critical",
+      "drafts"
+    ]
+  },
+  {
+    "name": "web-research",
+    "groups": [
+      "critical",
+      "research"
+    ]
+  },
+  {
+    "name": "camilla-attendants",
+    "groups": [
+      "directory"
+    ]
+  },
+  {
+    "name": "contextual-tags",
+    "groups": [
+      "directory"
+    ]
+  },
+  {
+    "name": "family-eii",
+    "groups": [
+      "directory"
+    ]
+  },
+  {
+    "name": "filter-controls",
+    "groups": [
+      "directory",
+      "navigation"
+    ]
+  },
+  {
+    "name": "personnel-roster",
+    "groups": [
+      "directory"
+    ]
+  },
+  {
+    "name": "related-events",
+    "groups": [
+      "directory",
+      "navigation"
+    ]
+  },
+  {
+    "name": "event-person",
+    "groups": [
+      "navigation"
+    ]
+  },
+  {
+    "name": "memo-application",
+    "groups": [
+      "navigation"
+    ]
+  },
+  {
+    "name": "memo-delta-20261020",
+    "groups": [
+      "navigation"
+    ]
+  },
+  {
+    "name": "memo-notes",
+    "groups": [
+      "navigation"
+    ]
+  },
+  {
+    "name": "theory-search",
+    "groups": [
+      "research"
+    ]
+  },
+  {
+    "name": "usability-reading",
+    "groups": [
+      "navigation"
+    ]
+  }
+]

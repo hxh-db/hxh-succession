@@ -32,7 +32,8 @@ function makeElement(tag) {
     remove() { if (this.parentNode) this.parentNode.children = this.parentNode.children.filter(c => c !== this); }
   };
 }
-const ctx = vm.createContext({document: {createElement: makeElement}, getDisplayName: p => p.display_name || p.name});
+const createdImages=[];
+const ctx = vm.createContext({document: {createElement: tag=>{const element=makeElement(tag);if(tag==='img') createdImages.push(element);return element;}}, getDisplayName: p => p.display_name || p.name});
 vm.runInContext(['getAvatarZoom', 'makeAvatarZoomable', 'clearAvatarZoomable', 'makeAvatar'].map(extract).join('\n'), ctx);
 
 // 1. 画像のある王子：ボタンとして拡大でき、キャプションに人物名と出典の話数を出す。
@@ -48,8 +49,16 @@ assert.equal(avatar.dataset.zoomCaption, '第14王子ワブル（第400話より
 
 // 2. 切り抜き（背景画像）でも、拡大時は元画像全体を指す。
 const cropped = ctx.makeAvatar('クロ', null, 'images/characters/sheet.webp', {size: 'auto 400%', position: '96% 99%'}, ctx.getAvatarZoom({type: 'phantom_troupe', name: 'クロロ'}));
+assert.ok(!cropped.classList.contains('zoomable-image'),'A crop must not offer zoom until its image loads');
+createdImages.at(-1).naturalWidth=100;createdImages.at(-1).onload();
 assert.equal(cropped.dataset.zoomSrc, 'images/characters/sheet.webp');
 assert.equal(cropped.dataset.zoomCaption, 'クロロ');
+const brokenCrop=ctx.makeAvatar('仮',null,'images/missing.webp',{size:'400%',position:'50% 50%'},ctx.getAvatarZoom({name:'仮称'}));
+createdImages.at(-1).onerror();
+assert.equal(brokenCrop.textContent,'仮');
+assert.equal(brokenCrop.getAttribute('role'),null);
+assert.equal(brokenCrop.getAttribute('tabindex'),null);
+assert.equal(brokenCrop.style.backgroundImage,'');
 
 // 3. 頭文字アバター・画像の読み込み失敗は拡大しない。
 const initials = ctx.makeAvatar('ハル', null, null, null, ctx.getAvatarZoom({type: 'soldier', name: 'ハルケン'}));

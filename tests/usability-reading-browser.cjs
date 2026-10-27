@@ -1,7 +1,7 @@
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const {spawn}=require('node:child_process');
+
 const path=require('node:path');
 const events=require('../data/events.json');
 const port=process.env.HXH_START_SERVER ? '18766' : '8765';
@@ -12,12 +12,9 @@ const ready=async page=>{
 const tab=async(page,name)=>{await page.locator(`[data-primary-view="${name}"]`).click();await page.waitForFunction(name=>!document.getElementById(name).hidden,name);};
 const filters=async page=>{const button=page.locator('#timelineFilterToggle');if(await button.isVisible() && await button.getAttribute('aria-expanded')==='false')await button.click();};
 (async()=>{
- let browser,server;
+ let browser;
  try {
-  if(process.env.HXH_START_SERVER) {
-   server=spawn('python',['local_server.py'],{cwd:path.resolve(__dirname,'..'),windowsHide:true,env:{...process.env,SUCCESSION_LOCAL_PORT:port,SUCCESSION_NOTES_DIR:path.resolve(__dirname,'../.local/tag-filters-20261022/drafts')},stdio:['ignore','pipe','ignore']});
-   await new Promise((resolve,reject)=>{server.once('error',reject);server.once('exit',code=>reject(Error(`test server exited: ${code}`)));server.stdout.once('data',resolve);});
-  }
+
   browser=await chromium.launch({channel:'msedge',headless:true});
   for(const width of (process.env.HXH_TEST_WIDTHS ? process.env.HXH_TEST_WIDTHS.split(',').map(Number) : [1366,390,320])) {
    const context=await browser.newContext({viewport:{width,height:844}});
@@ -156,5 +153,5 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    console.log(`PASS ${width}: bounded cards, spoiler search, history, guide reading position, shared views, clean related events and compact article`);
    await context.close();
   }
- } finally {await browser?.close();server?.kill();}
+ } finally {await browser?.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

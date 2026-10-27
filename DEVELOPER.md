@@ -29,7 +29,7 @@ python local_server.py
 
 ## データ編集・追加の流れ
 
-全体の検証は `node scripts/check-project.cjs` で実行できます。重要な保存・復旧・ネタバレ同期の隔離ブラウザ検査も含める場合は `--browser` を付けます。生成元を編集した後は各ビルドを実行し、検証コマンド自体では生成物を更新しません。詳しい保存仕様・前提環境はREADMEを参照してください。
+全体の検証は `node scripts/check-project.cjs` で実行できます。重要な隔離ブラウザ検査は `--browser`、全件は `--browser=all`、検索・名簿は `--browser=directory` を指定します。`--list` で選択／未実施と分類、`--only-browser` でブラウザだけの実行を確認できます。新しいブラウザ検査は `scripts/browser-checks.json` へ分類を登録します。生成元を編集した後は各ビルドを実行し、検証コマンド自体では生成物を更新しません。保存形式の検査は `DRAFT_FORMAT.md`、現行の照合件数・対象・次の作業は `data/intake/current_review_status.md` を参照してください。後者は `python scripts/build-review-status.py --write` で事実データを変更せず更新できます。詳しい前提環境はREADMEを参照してください。
 1. `data/events.json` にイベントを追加します。
    - 必須フィールド: `id`（例: `E345-002`）, `chapter`, `description`, `characters`（配列。`characters.json` の `id` か、該当しない無名キャラはそのままの名前文字列）
    - 任意: `chapter_title`, `day`, `time_start`/`time_end`（`HH:MM`）, `room`/`location`, `camp`, `revealed_facts`, `mysteries`, `notes`
@@ -63,7 +63,7 @@ python check_status_sync.py
 - ポートレートがない人物は頭文字アバターで表示します。人数だけの仮登録には別人の顔を流用しません。
 - ナビの `#timeline` 等のアンカーリンクは、データの非同期読み込み完了前のレイアウトを基準にブラウザがスクロール位置を決めるため、共有リンクや再読み込み直後は意図した位置からずれる場合がある（`script.js` の `init()` 末尾でデータ描画後に `location.hash` への再スクロールを行っている。新しいセクションを追加した際はここも確認すること）
 - 出来事のローカル追加UIは実装済みです。追加内容は個人メモとして保存し、公開JSONへの採用は別作業です。
-- 個人メモの変更には `DraftState.editItem(previous, changes)` を使います。メモ・内容編集・題名・追加記録の更新日時（`fieldUpdatedAt`）を分け、別タブの異なる変更を保持します。`updatedAt` だけを更新する全項目の置換はバックアップ復元用です。復元時は古い `fieldUpdatedAt` を取り除き、確認済みの上書きを新しい日時で適用します。
+- 個人メモの変更には `DraftState.editItem(previous, changes)` を使います。メモ・内容編集・題名・追加記録の更新日時（`fieldUpdatedAt`）を分け、別タブの異なる変更を保持します。未変更の欄の日時を進めないでください。同時刻の候補はversion 2の `conflicts` に保持し、`DraftState.resolveConflict` で表示時の候補集合が最新かを確認して選択します。`updatedAt` だけを更新する全項目の置換はバックアップ復元用です。復元時は古い `fieldUpdatedAt` を取り除き、競合候補の日時も復元日時へそろえ、確認済みの上書きを適用します。保存形式の詳細は `DRAFT_FORMAT.md` を参照してください。
 - ガントチャートの時間スケールを分単位で厳密に配置する
 
 ## 補足

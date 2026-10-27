@@ -34,9 +34,13 @@
       if (person) result.push({member: {...projection, initial: true, basis: 'pooled_identity', observed_from: 0}, person});
     }
     return result.map(({member, person}) => {
+      const historical = chapter !== null && period !== 'latest';
+      if(historical && person.local_edited) {
+        const {local_edited,local_edit_fields,local_public_values,...publicData}=person;
+        person={...publicData,...local_public_values};
+      }
       let selected = state(person, member, chapter, events);
       if (member.inactive_from && (chapter === null || chapter >= member.inactive_from)) selected = {...selected, status: member.inactive_status, inactive: true};
-      const historical = chapter !== null && period !== 'latest';
       let rank = member.prince_ranks?.length === 1 ? member.prince_ranks[0] : null;
       const assignment = (person.assignment_history || []).filter(log => chapter !== null && log.chapter <= chapter).sort((a,b) => a.chapter-b.chapter).at(-1);
       if (assignment?.prince_id) rank = Number(assignment.prince_id.slice(1));
@@ -55,7 +59,6 @@
       return {...person, ...(historical ? {
         status: selected.status, room: selectedRoom, initial_room: initialRoom, current_assignment: assignmentLabel,
         camp: prince?.camp || null, target: rank ? `第${rank}王子` : null,
-        role: member.group === 'monitors' ? '監視兵' : person.type === 'hunter' ? '護衛ハンター' : person.type === 'attendant' ? '従事者' : '警護兵',
         assignment_history: (person.assignment_history || []).filter(log => log.chapter <= chapter),
         status_log: (person.status_log || []).filter(log => log.chapter <= chapter),
         claim_history: [], target_history: [], location: null, location_basis_chapter: null,
@@ -65,7 +68,7 @@
         nen_ability: null, nen_ability_name: null, nen_type: null, nen_type_detail: null,
         nen_status: 'historical_unorganized', nen_user: null, nen_status_chapter: null,
         nen_ability_image: null, nen_ability_image_source: null
-      } : {}), roster_view: {...selected, assignment: assignmentLabel, period, initial: member.initial, basis: member.basis, slot_id: member.slot_id || null},
+      } : {}), roster_view: {...selected, assignment: assignmentLabel, period, public_data:historical, initial: member.initial, basis: member.basis, slot_id: member.slot_id || null},
         roster_member: member};
     });
   }

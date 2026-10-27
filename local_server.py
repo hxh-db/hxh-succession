@@ -12,6 +12,8 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from draft_format import validate_snapshot
+
 
 ROOT = Path(__file__).resolve().parent
 PRIVATE_DIR = Path(os.environ.get("SUCCESSION_NOTES_DIR", ROOT / ".local")).resolve()
@@ -22,14 +24,20 @@ ALLOWED_HOSTS = {f"127.0.0.1:{PORT}", f"localhost:{PORT}"}
 DRAFT_LOCK = threading.Lock()
 
 
+def reject_non_json_number(value):
+    raise ValueError(f"JSONに使用できない数値: {value}")
+
+
 def reset_epoch(payload: dict) -> datetime:
+    baseline = datetime(1970, 1, 1, tzinfo=timezone.utc)
     try:
         value = datetime.fromisoformat(payload.get("resetAt", "").replace("Z", "+00:00"))
         if value.tzinfo is None:
-            return datetime.min.replace(tzinfo=timezone.utc)
-        return value
+            value = value.replace(tzinfo=timezone.utc)
+        value = value.replace(microsecond=value.microsecond // 1000 * 1000)
+        return max(baseline, value)
     except (ValueError, TypeError, AttributeError):
-        return datetime.min.replace(tzinfo=timezone.utc)
+        return baseline
 
 
 class LocalSiteHandler(SimpleHTTPRequestHandler):
@@ -62,10 +70,11 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
             return
         if self._path() == "/api/drafts":
             try:
-                raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else b""
-                payload = json.loads(raw) if raw else {"format": "hxh-succession-local-drafts", "version": 1, "items": {}, "entries": []}
-                self._send_json(200, payload, self._revision(raw))
-            except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+                raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else None
+                payload = json.loads(raw, parse_constant=reject_non_json_number) if raw is not None else {"format": "hxh-succession-local-drafts", "version": 1, "items": {}, "entries": []}
+                validate_snapshot(payload, envelope=True)
+                self._send_json(200, payload, self._revision(raw or b""))
+            except (OSError, UnicodeDecodeError, ValueError):
                 self._send_json(500, {"error": "メモファイルを読めません。元ファイルは残しています。"})
             return
         if self._is_private_path() or self._path().startswith("/api/"):
@@ -106,13 +115,13 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
             self._send_json(413, {"error": "メモのサイズが大きすぎます。"})
             return
         try:
-            payload = json.loads(self.rfile.read(length))
-        except (UnicodeDecodeError, json.JSONDecodeError):
+            payload = json.loads(self.rfile.read(length), parse_constant=reject_non_json_number)
+        except (UnicodeDecodeError, ValueError):
             self._send_json(400, {"error": "メモの形式が正しくありません。"})
             return
-        if (not isinstance(payload, dict) or payload.get("format") != "hxh-succession-local-drafts"
-                or payload.get("version") != 1 or not isinstance(payload.get("items"), dict)
-                or not isinstance(payload.get("entries"), list)):
+        try:
+            validate_snapshot(payload, envelope=True)
+        except ValueError:
             self._send_json(400, {"error": "メモの形式が正しくありません。"})
             return
         # A delayed write from a tab opened before a reset must not resurrect its notes.
@@ -122,16 +131,20 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
     def _save_drafts(self, payload: dict) -> None:
         temp_path = None
         try:
-            raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else b""
+            raw = DRAFT_FILE.read_bytes() if DRAFT_FILE.exists() else None
             expected = self.headers.get("If-Match")
             if expected is None:
                 self._send_json(428, {"error": "保存方式が更新されました。ページを再読み込みしてから保存してください。"})
                 return
-            if expected != self._revision(raw):
+            if expected != self._revision(raw or b""):
                 self._send_json(412, {"error": "別のページで更新されました。最新のメモと合わせて再保存してください。"})
                 return
-            if raw:
-                current = json.loads(raw)
+            if raw is not None:
+                current = json.loads(raw, parse_constant=reject_non_json_number)
+                validate_snapshot(current, envelope=True)
+                if current["version"] > payload["version"]:
+                    self._send_json(409, {"error": "メモの保存形式が更新されました。古い画面を再読み込みしてください。元ファイルは残しています。"})
+                    return
                 if reset_epoch(current) > reset_epoch(payload):
                     self._send_json(409, {"error": "別のページでメモがリセットされました。再読み込みしてください。"})
                     return
@@ -143,10 +156,10 @@ class LocalSiteHandler(SimpleHTTPRequestHandler):
                 temp.flush()
                 os.fsync(temp.fileno())
             os.replace(temp_path, DRAFT_FILE)
-        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        except (OSError, UnicodeDecodeError, ValueError):
             if temp_path is not None:
                 temp_path.unlink(missing_ok=True)
-            self._send_json(500, {"error": "PCへの保存に失敗しました。"})
+            self._send_json(500, {"error": "PCへの保存に失敗しました。元ファイルは残しています。"})
             return
         self._send_json(200, {"saved": True, "count": len(payload["items"])})
 

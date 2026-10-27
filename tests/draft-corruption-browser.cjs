@@ -11,10 +11,14 @@ const KEY = 'hxh-succession-local-drafts-v1';
       {width: 390, local: false, raw: '{broken browser data'},
       {width: 1280, local: false, raw: JSON.stringify({version: 1, items: {'guide:test': null}})},
       {width: 390, local: true, raw: JSON.stringify({version: 1, items: {'guide:test': {memo: 42}}})},
-      {width: 1280, local: true, badFile: true}
+      {width: 1280, local: true, badFile: true},
+      {width: 390, local: false, raw: JSON.stringify({version: 1, resetAt: 'invalid', items: {}})},
+      {width: 1280, local: true, raw: JSON.stringify({version: 1, items: {'guide:test': {memo: 'keep', updatedAt: '2026-02-30T00:00:00Z'}}})},
+      {width: 390, local: true, file: {...empty(), resetAt: 'invalid'}},
+      {width: 1280, local: true, file: {...empty(), items: {'event:E383-004': {edits: {day: 13}}}}}
     ];
     for (const options of cases) {
-      const file = options.badFile ? {...empty(), items: {'guide:test': null}} : empty();
+      const file = options.file || (options.badFile ? {...empty(), items: {'guide:test': null}} : empty());
       const {context, base, state} = await fixture(browser, {...options, drafts: file});
       if (options.raw) await context.addInitScript(({KEY, raw}) => {
         if (!localStorage.getItem(KEY)) localStorage.setItem(KEY, raw);

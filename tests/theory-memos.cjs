@@ -38,11 +38,23 @@ const fetcher = async (url, options) => {
   await publicStore.load('theory:Q001');
   await publicStore.save('theory:Q001', '記事1', 'ブラウザ保存');
   assert.equal(JSON.parse(values.get(KEY)).items['theory:Q001'].memo, 'ブラウザ保存');
+  // Old/imported candidates may contain surrounding whitespace. Saving the
+  // untouched textarea must not turn that normalization into a selection.
+  const draftState=require('../draft-state.js'),conflictTime='2026-10-26T00:00:00Z';
+  const spaced=draftState.merge(...['  候補A  ','  候補B  '].map(memo=>({version:1,
+    items:{'theory:Q001':{memo,updatedAt:conflictTime}}})));
+  let spacedRaw=JSON.stringify(spaced);
+  const spacedStore=createStore({storage:{getItem:()=>spacedRaw,setItem:(_key,value)=>{spacedRaw=value;}},api:null});
+  const untouched=await spacedStore.load('theory:Q001');
+  await spacedStore.save('theory:Q001','記事1',untouched);
+  assert.equal(JSON.parse(spacedRaw).items['theory:Q001'].conflicts.memo.length,2);
+  spacedStore.checkpoint('theory:Q001','記事1',untouched);
+  assert.deepEqual(JSON.parse(spacedRaw).items['theory:Q001'].conflicts.memo.map(choice=>choice.value),['  候補A  ','  候補B  ']);
   // Main-page importer/exporter accepts article notes and preserves their readable titles.
   const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
   const importer = source.slice(source.indexOf('function validateDraftImport('), source.indexOf('function renderDraftOverview('));
   const fields = source.match(/const LOCAL_EDIT_FIELDS = ([\s\S]*?);\r?\n/)[1];
-  const sandbox = vm.createContext({payload: file});
+  const sandbox = vm.createContext({payload: file, DraftState: require('../draft-state.js')});
   vm.runInContext(`const LOCAL_EDIT_FIELDS = ${fields}; ${importer}
     result = validateDraftImport(payload);`, sandbox);
   assert.equal(sandbox.result['theory:Q002'].title, '謎・考察：記事2');

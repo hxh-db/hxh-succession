@@ -29,8 +29,10 @@
   const zoom = document.getElementById("lightboxZoom");
   if (!dialog || !enlarged || !caption || !close || !zoom || typeof dialog.showModal !== "function") return;
   const triggers = document.querySelectorAll(".zoomable-image[data-zoom-src]");
+  const avatarReady = new WeakMap();
   let returnFocus = null;
   const open = (trigger) => {
+    if (avatarReady.get(trigger) === false) return;
     returnFocus = trigger;
     enlarged.src = trigger.dataset.zoomSrc;
     enlarged.alt = trigger.dataset.zoomAlt || "拡大画像";
@@ -42,7 +44,40 @@
     close.focus();
   };
   triggers.forEach((trigger) => {
-    trigger.setAttribute("role", "button");
+    if (trigger.matches?.(".character-page-avatar")) {
+      // CSS crops have no error event. Probe their source, and also handle an
+      // ordinary img that finished (or failed) before this deferred script ran.
+      const source = trigger.dataset.zoomSrc;
+      const href = trigger.getAttribute("href");
+      const name = trigger.dataset.zoomAlt || "顔画像";
+      const image = trigger.querySelector("img") || document.createElement("img");
+      avatarReady.set(trigger, false);
+      trigger.dataset.avatarState = "loading";
+      trigger.removeAttribute("href");
+      trigger.setAttribute("aria-disabled", "true");
+      const failed = () => {
+        trigger.dataset.avatarState = "error";
+        trigger.classList.remove("zoomable-image");
+        for (const attribute of ["href", "role", "tabindex", "aria-disabled", "data-zoom-src", "data-zoom-alt", "data-zoom-caption"]) trigger.removeAttribute(attribute);
+        trigger.textContent = (document.querySelector("h1")?.textContent || name).slice(0, 2);
+        trigger.style.cssText += ";display:grid;place-items:center;color:#172b4d;font-size:1.5rem;font-weight:bold";
+        trigger.setAttribute("role", "img");
+        trigger.setAttribute("aria-label", `${name}を読み込めませんでした`);
+        trigger.title = `${name}を読み込めませんでした`;
+      };
+      const loaded = () => {
+        if (!image.naturalWidth) { failed(); return; }
+        avatarReady.set(trigger, true);
+        trigger.dataset.avatarState = "ready";
+        trigger.setAttribute("href", href);
+        trigger.removeAttribute("aria-disabled");
+        trigger.setAttribute("role", "button");
+      };
+      image.addEventListener("load", loaded);
+      image.addEventListener("error", failed);
+      if (!image.getAttribute("src")) image.src = source;
+      else if (image.complete) loaded();
+    } else trigger.setAttribute("role", "button");
     trigger.addEventListener("click", (event) => { event.preventDefault(); open(trigger); });
     trigger.addEventListener("keydown", (event) => {
       if (event.key !== "Enter" && event.key !== " ") return;

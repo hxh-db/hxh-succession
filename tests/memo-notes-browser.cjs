@@ -1,10 +1,11 @@
-const {chromium} = require('playwright');
+const {chromium} = require('./helpers/isolated-browser.cjs');
 const assert = require('node:assert/strict');
 (async()=>{
   const browser = await chromium.launch({channel:'msedge',headless:true});
   try {
     for (const width of [1280,390]) {
       const page = await browser.newPage({viewport:{width,height:844}});
+      await page.addInitScript(() => localStorage.setItem('hxh-succession-spoilers-revealed-v1', 'true'));
       const errors=[]; page.on('pageerror',error=>errors.push(error.message));
       await page.route('**/api/drafts',route=>route.fulfill({contentType:'application/json',
         body:JSON.stringify({format:'hxh-succession-local-drafts',version:1,items:{},entries:[]})}));

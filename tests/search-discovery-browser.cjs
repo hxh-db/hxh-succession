@@ -1,0 +1,74 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path');
+const {fixture,ready,ROOT}=require('./helpers/browser-fixture.cjs');
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true});
+ try {
+  for(const width of [1280,390]) {
+   const {context,base}=await fixture(browser,{local:false,width,prefix:'/hxh-succession'});
+   const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+   await page.goto(base+'?t_search='+encodeURIComponent('戒厳令')+'#timeline');await ready(page);
+   assert.ok(!await page.locator('#timelineSearchBox').isVisible());
+   assert.equal(await page.locator('.schedule-event:visible').count(),0);
+   await page.locator('#globalSpoilerToggle').click();
+   assert.equal(await page.locator('#timelineSearch').inputValue(),'戒厳令');
+   assert.equal(await page.evaluate(()=>activeTimelinePeriodId),'all');
+   assert.ok(await page.locator('#timelineSearchBox').isVisible());
+   await page.locator('#timelineSearch').fill('ベンジャミン 戒厳令');
+   const ids=await page.evaluate(()=>filteredEventsData.map(event=>event.id));
+   assert.ok(ids.includes('E414-001'));assert.ok(ids.length>1);
+   assert.match(await page.locator('#timelineSearchStatus').innerText(),new RegExp('^'+ids.length+'件'));
+   const first=page.locator('#timelineSchedule .schedule-event').first();await first.focus();await page.keyboard.press('Enter');
+   await page.locator('#detailModal:not(.hidden)').waitFor();
+   assert.match(await page.locator('#detailModal').getAttribute('data-event-id'),/^E/);
+   await page.keyboard.press('Escape');
+   await page.locator('[data-primary-view="guide"]').click();await page.goBack();
+   try {await ready(page);} catch(error) {throw new Error(`History ${page.url()}: ${JSON.stringify(await page.evaluate(()=>({ready:viewLinksReady,restoring:restoringReadingState,busy:document.getElementById('main-content').getAttribute('aria-busy')})))}, errors=${errors.join('; ')}`,{cause:error});}
+   assert.equal(await page.locator('#timelineSearch').inputValue(),'ベンジャミン 戒厳令');
+   assert.deepEqual(await page.evaluate(()=>filteredEventsData.map(event=>event.id)),ids);
+   const shared=await context.newPage();await shared.bringToFront();await shared.goto(await page.locator('#currentViewLink').getAttribute('href'));await ready(shared);
+   assert.equal(await shared.locator('#timelineSearch').inputValue(),'ベンジャミン 戒厳令');
+   assert.deepEqual(await shared.evaluate(()=>filteredEventsData.map(event=>event.id)),ids);await shared.close();
+   if(await page.locator('#timelineFilterToggle').isVisible() && await page.locator('#timelineFilterToggle').getAttribute('aria-expanded')==='false') await page.locator('#timelineFilterToggle').click();
+   await page.locator('#chapterFilter').selectOption('414');
+   assert.ok(await page.evaluate(()=>filteredEventsData.length>0 && filteredEventsData.every(event=>event.chapter===414)));
+   await page.locator('#clearTimelineSearch').click();
+   assert.equal(await page.locator('#chapterFilter').inputValue(),'414','Clearing words keeps the selected chapter');
+   await page.locator('#clearFilters').click();
+   await page.locator('#timelineSearch').fill('all');
+   assert.equal(new URL(await page.locator('#currentViewLink').getAttribute('href')).searchParams.get('t_search'),'all');
+   await page.locator('#clearTimelineSearch').click();
+   await page.locator('#timelineSearch').fill('絶対に存在しない検索語');
+   assert.match(await page.locator('#timelineSearchStatus').innerText(),/^0件.*言葉を減らす/);
+   await page.locator('#clearTimelineSearch').click();
+   await page.locator('#timelineSearch').fill('クラピカ 電話');
+   assert.equal(await page.evaluate(()=>activeTimelinePeriodId),'all');
+   assert.ok(await page.evaluate(()=>filteredEventsData.some(event=>event.chapter===343)),'Search crosses the default day boundary');
+   await page.locator('[data-primary-view="characters"]').click();
+   await page.locator('#characterSearch').fill('クラピカ ハンター');
+   assert.equal(await page.locator('.directory-character-card').first().getAttribute('data-character-id'),'P14-H01');
+   await page.locator('#characterSearch').fill('モレナ');
+   await page.locator('.directory-character-card[data-character-id="EII-001"] h3 a').click();
+   await page.getByRole('button',{name:'この人物の出来事を見る',exact:true}).click();
+   assert.equal(await page.locator('#timelineSearch').inputValue(),'','A person history clears a previous keyword constraint');
+   assert.ok(await page.evaluate(()=>filteredEventsData.length>0 && filteredEventsData.every(event=>event.characters.includes('EII-001'))));
+   await page.locator('#timelineSearch').fill('戒厳令');
+   await page.locator('#globalSpoilerToggle').click();
+   assert.ok(!await page.locator('#timelineSearchBox').isVisible());
+   assert.equal(await page.locator('.schedule-event:visible').count(),0);
+   await page.locator('[data-primary-view="characters"]').click();
+   await page.locator('#characterSearch').fill('クラピカ 絶対時間');assert.equal(await page.locator('.directory-character-card').count(),0);
+   await page.locator('#globalSpoilerToggle').click();
+   assert.equal(await page.locator('.directory-character-card').first().getAttribute('data-character-id'),'P14-H01');
+   await page.locator('[data-primary-view="timeline"]').click();
+   await page.locator('#clearFilters').click();await page.locator('#timelineSearch').fill('ベンジャミン 戒厳令');
+   if(await page.locator('#timelineFilterToggle').isVisible() && await page.locator('#timelineFilterToggle').getAttribute('aria-expanded')==='true') await page.locator('#timelineFilterToggle').click();
+   await page.evaluate(()=>window.scrollTo(0,0));
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);
+   fs.mkdirSync(path.join(ROOT,'.local/quality-search-20261027'),{recursive:true});
+   await page.screenshot({path:path.join(ROOT,`.local/quality-search-20261027/search-${width}.png`)});
+   await context.close();console.log(`PASS search ${width}: scene keywords, AND names, chapter combinations, shared links/history, empty recovery, person history and spoiler protection`);
+  }
+ } finally {await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

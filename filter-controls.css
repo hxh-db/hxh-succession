@@ -11,6 +11,11 @@
 .character-search-label input { height: 48px; padding: 12px 14px; background: #111e2e; border-color: #344256; font-size: 1rem; }
 #clearCharacterFilters { min-height: 44px; padding: 8px 12px; border-radius: 8px; white-space: nowrap; }
 .search-scope-help { font-size: .8rem; }
+.timeline-search-box { display:grid; gap:8px; margin:16px 0; min-width:0; }
+.timeline-search-box[hidden], body:not(.spoilers-revealed) .timeline-search-box { display:none; }
+#clearTimelineSearch { min-height:44px; padding:8px 12px; white-space:nowrap; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--text); font:inherit; cursor:pointer; }
+#clearTimelineSearch:disabled { opacity:.45; cursor:default; }
+#clearTimelineSearch:not(:disabled):hover { border-color:var(--accent); }
 #characterPrinceRow { grid-template-columns: 1fr; gap: 8px; }
 #characterPrinceRow .character-tag-row-label { padding: 0; }
 #characterPrinceNav { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
@@ -24,6 +29,11 @@
 #characterFilterToggle[aria-expanded="true"]::before { content: '▾'; }
 #characterFilterToggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 #characterFilterCount { font-size: .8rem; font-weight: 400; }
+.character-tag-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border-top: 1px solid var(--border); }
+.character-tag-toolbar #characterFilterToggle { flex: 1 1 auto; width: auto; border-top: 0; }
+#resetCharacterTags { min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--accent); font: inherit; font-size: .82rem; cursor: pointer; }
+#resetCharacterTags:disabled { opacity: .45; cursor: default; }
+#resetCharacterTags:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 #characterFilterPanel { padding: 0 0 12px; }
 #characterFilterPanel[hidden] { display: none; }
 .tag-filter-help { margin: 0 0 14px; color: var(--muted); font-size: .8rem; }

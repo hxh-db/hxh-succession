@@ -1,5 +1,5 @@
 /* Uses Edge and the local server; intercept drafts so no personal notes are written. */
-const {chromium} = require('playwright');
+const {chromium} = require('./helpers/isolated-browser.cjs');
 const assert = require('node:assert/strict');
 (async () => {
   const browser = await chromium.launch({channel:'msedge',headless:true});

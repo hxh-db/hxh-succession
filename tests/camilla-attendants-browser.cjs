@@ -1,19 +1,13 @@
-const {chromium} = require('playwright');
-const {spawn} = require('node:child_process');
+const {chromium} = require('./helpers/isolated-browser.cjs');
+
 const path = require('node:path');
 const assert = require('node:assert/strict');
 (async () => {
-  let server, browser;
+  let browser;
   const base = 'http://127.0.0.1:18773/';
   const id = 'INIT-P02-STAFF-16';
   try {
-    server = spawn('python', ['local_server.py'], {cwd: path.resolve(__dirname, '..'), windowsHide: true,
-      env: {...process.env, SUCCESSION_LOCAL_PORT: '18773', SUCCESSION_NOTES_DIR: path.resolve(__dirname, '../.local/camilla-attendants/drafts')},
-      stdio: ['ignore', 'pipe', 'ignore']});
-    await new Promise((resolve, reject) => {
-      server.once('error', reject); server.once('exit', code => reject(Error(`server exited ${code}`)));
-      server.stdout.once('data', resolve);
-    });
+
     browser = await chromium.launch({channel: 'msedge', headless: true});
     for (const width of [1280, 390, 320]) {
       const context = await browser.newContext({viewport: {width, height: 844}});
@@ -56,6 +50,5 @@ const assert = require('node:assert/strict');
     console.log('PASS: both standalone pages work without JavaScript and keep deaths collapsed initially');
   } finally {
     if (browser) await browser.close();
-    if (server) server.kill();
   }
 })().catch(error => {console.error(error); process.exitCode = 1;});

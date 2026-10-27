@@ -1,23 +1,97 @@
 /* Shared reset generation: an old tab must never restore a deleted draft snapshot. */
 (function (root) {
   'use strict';
-  const epoch = source => Date.parse(source?.resetAt || '') || 0;
+  const epoch = source => Math.max(0, Date.parse(source?.resetAt || '') || 0);
   const updated = item => Date.parse(item?.updatedAt || '') || 0;
   const fields = ['memo', 'edits', 'title', 'createdRecord'];
   const timestamp = item => new Date(Math.max(Date.now(), updated(item) + 1,
     ...fields.map(field => (Date.parse(item?.fieldUpdatedAt?.[field] || '') || 0) + 1))).toISOString();
-  const hasContent = item => Boolean(item?.createdRecord || item?.memo?.trim() || Object.keys(item?.edits || {}).length);
-  function validateSnapshot(source) {
-    if (source == null) return source;
-    const record = value => value && typeof value === 'object' && !Array.isArray(value);
-    if (!record(source) || source.version !== 1 || !record(source.items) ||
-        Object.values(source.items).some(item => !record(item) ||
-          ['memo', 'title'].some(key => item[key] !== undefined && typeof item[key] !== 'string') ||
-          (item.edits !== undefined && !record(item.edits)) ||
-          (item.createdRecord !== undefined && !record(item.createdRecord)) ||
-          (item.fieldUpdatedAt !== undefined && (!record(item.fieldUpdatedAt) ||
-            Object.entries(item.fieldUpdatedAt).some(([key, value]) => !fields.includes(key) ||
-              typeof value !== 'string' || !Number.isFinite(Date.parse(value))))))) {
+  const hasContent = item => Boolean(item?.createdRecord || item?.memo?.trim() || Object.keys(item?.edits || {}).length || Object.keys(item?.conflicts || {}).length);
+  const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const canonical = value => value && typeof value === 'object'
+    ? Array.isArray(value) ? `[${value.map(canonical).join(',')}]`
+      : `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`
+    : JSON.stringify(value);
+  const choiceKey = choice => choice.present ? `1:${canonical(choice.value)}` : '0';
+  const hasConflicts = item => Boolean(Object.keys(item?.conflicts || {}).length);
+  const choiceSignature = choices => choices.map(choice=>`${Date.parse(choice.updatedAt)}:${choiceKey(choice)}`).sort().join('\n');
+  function orderChoices(choices) {
+    const unique = new Map();
+    for (const choice of choices) {
+      const key = choiceKey(choice), old = unique.get(key);
+      if (!old || Date.parse(choice.updatedAt) > Date.parse(old.updatedAt)) unique.set(key,{...choice,updatedAt:new Date(Date.parse(choice.updatedAt)).toISOString()});
+    }
+    return [...unique.values()].sort((a,b)=>Date.parse(b.updatedAt)-Date.parse(a.updatedAt) ||
+      (choiceKey(a)<choiceKey(b)?-1:choiceKey(a)>choiceKey(b)?1:0));
+  }
+  function validDate(value) {
+    if (typeof value !== 'string') return false;
+    const parts = value.match(/^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(?:\.\d{1,9})?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d))?$/);
+    if (!parts || Number(parts[1]) < 1) return false;
+    const [, year, month, day] = parts.map(Number);
+    const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const time = Date.parse(value);
+    return month >= 1 && month <= 12 && day >= 1 && day <= days[month - 1] &&
+      time >= Date.parse('0001-01-01T00:00:00Z') && time <= Date.parse('9999-12-31T23:59:59.999Z');
+  }
+  function validValues(values) {
+    if (!record(values)) return false;
+    for (const [key, value] of Object.entries(values)) {
+      if (key === 'day' && value !== null && (!Number.isInteger(value) || value < 0 || value > 12)) return false;
+      if (['time_start', 'time_estimate', 'time_end'].includes(key) && value !== null && value !== '' &&
+          (typeof value !== 'string' || !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value))) return false;
+      if (['description', 'location', 'type', 'notes', 'room', 'status', 'role', 'nen_ability', 'appearance', 'nen_type', 'ability'].includes(key) &&
+          (key === 'description' ? typeof value !== 'string' || !value.trim() : value !== null && typeof value !== 'string')) return false;
+    }
+    return !(values.time_start && values.time_estimate);
+  }
+  function finiteNumbers(value) {
+    if (typeof value === 'number') return Number.isFinite(value);
+    if (value && typeof value === 'object') return Object.values(value).every(finiteNumbers);
+    return true;
+  }
+  function validItem(item) {
+    if (!record(item) || ['memo', 'title'].some(key => item[key] !== undefined && typeof item[key] !== 'string') ||
+        (Object.hasOwn(item, 'updatedAt') && !validDate(item.updatedAt)) ||
+        (item.edits !== undefined && !validValues(item.edits))) return false;
+    if (item.createdRecord !== undefined) {
+      const created = item.createdRecord;
+      if (!validValues(created) || ['chapter', 'chapter_order'].some(key => created[key] !== undefined &&
+          (!Number.isInteger(created[key]) || created[key] < 1)) ||
+          (created.characters !== undefined && (!Array.isArray(created.characters) || created.characters.some(id => typeof id !== 'string')))) return false;
+    }
+    if (item.fieldUpdatedAt !== undefined && (!record(item.fieldUpdatedAt) ||
+        !Object.entries(item.fieldUpdatedAt).every(([key, value]) => fields.includes(key) && validDate(value)))) return false;
+    if (item.conflicts !== undefined) {
+      if (!record(item.conflicts)) return false;
+      for (const [field, choices] of Object.entries(item.conflicts)) {
+        if (!fields.includes(field) || !Array.isArray(choices) || choices.length < 2) return false;
+        const seen = new Set();
+        for (const choice of choices) {
+          if (!record(choice) || typeof choice.present !== 'boolean' || !validDate(choice.updatedAt) ||
+              Date.parse(choice.updatedAt) !== fieldTime(item, field)) return false;
+          if (choice.present ? !Object.hasOwn(choice, 'value') || !validItem({[field]: choice.value}) : Object.hasOwn(choice, 'value')) return false;
+          const key = choiceKey(choice);
+          if (seen.has(key)) return false;
+          seen.add(key);
+        }
+        if (Math.max(...choices.map(choice=>Date.parse(choice.updatedAt))) !== fieldTime(item,field) ||
+            !seen.has(choiceKey({present:Object.hasOwn(item,field),value:item[field]}))) return false;
+      }
+    }
+    return true;
+  }
+  function validateSnapshot(source, {required = false} = {}) {
+    if (source == null && !required) return source;
+    if (!record(source) || ![1,2].includes(source.version) || !record(source.items) || !finiteNumbers(source) ||
+        (source.format !== undefined && source.format !== 'hxh-succession-local-drafts') ||
+        ['resetAt', 'exportedAt'].some(key => Object.hasOwn(source, key) && !validDate(source[key])) ||
+        (source.entries !== undefined && (!Array.isArray(source.entries) || source.entries.some(entry => !record(entry) ||
+          ['key', 'memo', 'title'].some(key => entry[key] !== undefined && typeof entry[key] !== 'string') ||
+          (entry.updatedAt != null && !validDate(entry.updatedAt))))) ||
+        Object.entries(source.items).some(([key, item]) => !key.trim() || ['__proto__', 'constructor', 'prototype'].includes(key) || !validItem(item) ||
+          (source.version === 1 && hasConflicts(item)))) {
       throw new Error('メモの保存データの形式が正しくありません。元のデータは変更していません。');
     }
     return source;
@@ -26,24 +100,53 @@
     const value = Date.parse(item?.fieldUpdatedAt?.[field] || '');
     return Number.isFinite(value) ? value : updated(item);
   };
-  function editItem(previous = {}, changes) {
+  function editItem(previous = {}, changes, {resolve} = {}) {
     const updatedAt = timestamp(previous);
     // Stamp unchanged fields with their old date, including absent fields. This
     // lets a memo save retain edits made elsewhere from the same starting record.
-    const fieldUpdatedAt = Object.fromEntries(fields.map(field => [field,
-      Object.hasOwn(changes, field) ? updatedAt : new Date(fieldTime(previous, field)).toISOString()]));
-    return {...previous, ...changes, updatedAt, fieldUpdatedAt};
+    const conflicts = {...previous.conflicts};
+    const fieldUpdatedAt = Object.fromEntries(fields.map(field => {
+      const changed = Object.hasOwn(changes, field) &&
+        (resolve === field || canonical(changes[field]) !== canonical(previous[field]) ||
+          Object.hasOwn(previous,field) !== (changes[field] !== undefined));
+      if (changed) delete conflicts[field];
+      return [field, changed ? updatedAt : new Date(fieldTime(previous, field)).toISOString()];
+    }));
+    const result = {...previous, ...changes, updatedAt, fieldUpdatedAt};
+    for (const field of fields) if (Object.hasOwn(changes,field) && changes[field] === undefined) delete result[field];
+    if (Object.keys(conflicts).length) result.conflicts = conflicts;
+    else delete result.conflicts;
+    return result;
+  }
+  function resolveConflict(item, field, choice, expectedChoices = item?.conflicts?.[field]) {
+    if (!item?.conflicts?.[field]?.some(candidate => choiceKey(candidate) === choiceKey(choice)) ||
+        !expectedChoices || choiceSignature(expectedChoices) !== choiceSignature(item.conflicts[field])) {
+      throw new Error('競合した内容が更新されています。読み直してから選んでください。');
+    }
+    return editItem(item,{[field]:choice.present ? choice.value : undefined},{resolve:field});
   }
   function mergeItem(current, incoming) {
     if (!current) return incoming;
-    const latest = updated(incoming) >= updated(current) ? incoming : current;
-    if (!current.fieldUpdatedAt && !incoming.fieldUpdatedAt) return latest;
-    const result = {...latest, fieldUpdatedAt: {}};
+    const later = updated(incoming) - updated(current);
+    const latest = later > 0 || (later === 0 && canonical(incoming) > canonical(current)) ? incoming : current;
+    const result = {...latest, updatedAt:new Date(Math.max(updated(current),updated(incoming))).toISOString(), fieldUpdatedAt: {}, conflicts: {}};
     for (const field of fields) {
-      const chosen = fieldTime(incoming, field) >= fieldTime(current, field) ? incoming : current;
-      result.fieldUpdatedAt[field] = new Date(fieldTime(chosen, field)).toISOString();
-      if (Object.hasOwn(chosen, field)) result[field] = chosen[field];
+      const time = Math.max(fieldTime(current,field),fieldTime(incoming,field));
+      const choices = [];
+      for (const item of [current,incoming]) {
+        if (fieldTime(item,field) !== time) continue;
+        choices.push({present:Object.hasOwn(item,field),...(Object.hasOwn(item,field)?{value:item[field]}:{}),updatedAt:new Date(time).toISOString()},...(item.conflicts?.[field] || []));
+      }
+      const ordered = orderChoices(choices);
+      const chosen = ordered[0];
+      result.fieldUpdatedAt[field] = chosen.updatedAt;
+      if (chosen.present) result[field] = chosen.value;
       else delete result[field];
+      if (ordered.length > 1) result.conflicts[field] = ordered;
+    }
+    if (!hasConflicts(result)) {
+      delete result.conflicts;
+      if (!current.fieldUpdatedAt && !incoming.fieldUpdatedAt && !current.conflicts && !incoming.conflicts) return latest;
     }
     return result;
   }
@@ -56,10 +159,11 @@
         items[key] = mergeItem(items[key], item);
       }
     }
-    return {version: 1, ...(resetTime ? {resetAt: new Date(resetTime).toISOString()} : {}), items};
+    // Every new write uses v2 so an older client cannot strip conflict metadata.
+    return {version:2, ...(resetTime ? {resetAt: new Date(resetTime).toISOString()} : {}), items};
   }
   function reset(source, now = Date.now()) {
-    return {version: 1, resetAt: new Date(Math.max(now, epoch(source) + 1)).toISOString(), items: {}};
+    return {version:2, resetAt: new Date(Math.max(now, epoch(source) + 1)).toISOString(), items: {}};
   }
   function readBrowser(storage, key) {
     let raw;
@@ -70,7 +174,7 @@
   }
   // Lifecycle handlers cannot wait for an HTTP request or a Web Lock callback.
   function checkpoint({source, storage, key}) {
-    validateSnapshot(source);
+    validateSnapshot(source, {required: true});
     const current = readBrowser(storage, key);
     if (epoch(current) > epoch(source)) throw new Error('別のページでメモがリセットされました。再読み込みしてください。');
     const pending = merge(current, source);
@@ -92,7 +196,7 @@
   }
   async function persist({source, storage, key, fetcher, api}) {
     return withLock(async () => {
-      validateSnapshot(source);
+      validateSnapshot(source, {required: true});
       let pending = merge(source);
       const combine = current => {
         if (epoch(current) > epoch(source)) throw new Error('別のページでメモがリセットされました。再読み込みしてください。');
@@ -116,7 +220,7 @@
         const response = await fetcher(api, {cache: 'no-store', signal: AbortSignal.timeout(8000)});
         if (!response.ok) throw new Error('PCのメモを読み込めませんでした。');
         const file = await response.json();
-        if (file?.format !== 'hxh-succession-local-drafts' || file.version !== 1 ||
+        if (file?.format !== 'hxh-succession-local-drafts' || ![1,2].includes(file.version) ||
             !file.items || typeof file.items !== 'object' || Array.isArray(file.items)) {
           throw new Error('PCのメモの形式が正しくありません。元ファイルは残しています。');
         }
@@ -134,7 +238,7 @@
       throw new Error('別のページの保存と重なりました。メモ欄を残したまま、もう一度保存してください。');
     });
   }
-  const api = {epoch, merge, reset, timestamp, editItem, hasContent, envelope, persist, validateSnapshot, checkpoint};
+  const api = {epoch, merge, reset, timestamp, editItem, hasContent, envelope, persist, validateSnapshot, checkpoint, validDate, resolveConflict, hasConflicts};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.DraftState = api;
 })(typeof window === 'undefined' ? globalThis : window);

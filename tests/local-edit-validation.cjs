@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const code = fs.readFileSync(require('node:path').join(__dirname, '../script.js'), 'utf8');
 const fields = code.match(/const LOCAL_EDIT_FIELDS = ([\s\S]*?);\r?\n/)[1];
 const importer = code.slice(code.indexOf('function validateDraftImport('), code.indexOf('function renderDraftOverview('));
-const context = vm.createContext({});
+const context = vm.createContext({DraftState: require('../draft-state.js')});
 vm.runInContext(`const LOCAL_EDIT_FIELDS = ${fields}; ${importer}`, context);
 const parse = (edits, key = 'event:E361-001') => context.validateDraftImport({
   format: 'hxh-succession-local-drafts', version: 1, items: {[key]: {memo: 'keep', edits}}

@@ -1,9 +1,10 @@
-const {chromium}=require('playwright');
+const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 (async()=>{
  const browser=await chromium.launch({channel:'msedge',headless:true});
  try {
   const page=await browser.newPage({viewport:{width:390,height:844}});
+  await page.addInitScript(() => localStorage.setItem('hxh-succession-spoilers-revealed-v1', 'true'));
   const errors=[]; page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/api/drafts',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({format:'hxh-succession-local-drafts',version:1,items:{},entries:[]})}));
   for (const [id,title] of [['E361-001','サイールドによる3名の殺害'],['E361-007','クラピカがサイールドを拘束し、裏窓を奪う']]) {
@@ -19,8 +20,8 @@ const assert=require('node:assert/strict');
    await page.goto(`http://127.0.0.1:8765/?event=${id}#timeline`);
    await page.waitForFunction(()=>!document.getElementById('detailModal').classList.contains('hidden'));
    const fields=await page.locator('#modalContent .detail-list dt').evaluateAll(items=>Object.fromEntries(items.map(el=>[el.textContent,el.nextElementSibling.textContent])));
-   assert.ok(fields['日'].includes(day));
-   assert.ok(fields['時刻'].includes(time));
+   assert.ok(fields['日時'].includes(day));
+   assert.ok(fields['日時'].includes(time));
   }
   await page.goto('http://127.0.0.1:8765/?event=E361-008#timeline');
   await page.waitForFunction(()=>!document.getElementById('detailModal').classList.contains('hidden'));

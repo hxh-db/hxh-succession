@@ -22,7 +22,7 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
     const result=await page.evaluate(()=>{
      const base=location.href;
      const selector='#characterFilterPanel button[data-tag-id], #characterCampNav button, #characterPrinceNav button';
-     const buttons=[...document.querySelectorAll(selector)].filter(b=>spoilersRevealed || !b.closest('#characterSpoilerTagRows'));
+     const buttons=[...document.querySelectorAll(selector)].filter(b=>!b.disabled && (spoilersRevealed || !b.closest('#characterSpoilerTagRows')));
      const failures=[];
      for(const button of buttons) {
       const hidden=button.hidden, selected=button.getAttribute('aria-pressed')==='true';

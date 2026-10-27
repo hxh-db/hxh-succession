@@ -171,7 +171,12 @@
     const event = events.find(e => e.id === log?.event_id);
     return `状態の確認話数：${log?.chapter ? `第${log.chapter}話` : '未登録'}／根拠の出来事：${event ? `${event.id}（${reviewLabel(event)}）` : '未照合'}`;
   }
+  function familyHistoryUnorganized(person) {
+    return Boolean(person.roster_view?.public_data && !person.historical_known_fields?.some(field=>['parent_ids','children','known_half_sibling_ids','known_sibling_ids','public_mother_id','reported_biological_mother_id','suggested_father_id','suggested_child_id'].includes(field)));
+  }
   function familyRelations(person, people) {
+    const historical=person.roster_view?.public_data;
+    if (familyHistoryUnorganized(person)) return [];
     const byId = new Map(people.map(p => [p.id,p]));
     const relations = new Map();
     const add = (id, kind, group = 'parent-child', speculative = false, extra = {}) => {
@@ -182,10 +187,10 @@
     if (!person.parent_ids && person.type === 'prince') parents = people.filter(p=>p.type==='queen' && (p.children||[]).includes(person.id)).map(p=>p.id);
     if (!person.parent_ids && ['P05-G01','P05-G02'].includes(person.id)) parents = ['BYD-001'];
     parents.filter(id=>id!=='KNG-001').forEach(id=>add(id,byId.get(id)?.type==='queen'?'母':'親'));
-    if (person.type === 'queen' || person.id === 'BYD-001') {
+    if (person.type === 'queen' || person.id === 'BYD-001' || (historical && person.historical_known_fields?.includes('children'))) {
       (person.children || (person.id==='BYD-001' ? ['P05-G01','P05-G02'] : [])).forEach(id=>add(id,'子'));
-      people.filter(p=>p.public_mother_id===person.id).forEach(p=>add(p.id,'公的な子'));
-      people.filter(p=>p.reported_biological_mother_id===person.id).forEach(p=>add(p.id,'実子説','parent-child',true));
+      if (!historical) people.filter(p=>p.public_mother_id===person.id).forEach(p=>add(p.id,'公的な子'));
+      if (!historical) people.filter(p=>p.reported_biological_mother_id===person.id).forEach(p=>add(p.id,'実子説','parent-child',true));
     }
     if (person.public_mother_id) add(person.public_mother_id,'公的な母');
     if (person.reported_biological_mother_id) add(person.reported_biological_mother_id,'実母説','parent-child',true);
@@ -194,7 +199,7 @@
     (person.known_half_sibling_ids || (person.known_half_sibling_id?[person.known_half_sibling_id]:[])).forEach(id=>add(id,'異母兄弟','siblings'));
     (person.known_sibling_ids||[]).forEach(id=>add(id,'兄弟（母親の同異は未確認）','siblings'));
     (person.nominal_parent_relations||[]).forEach(r=>add(r.id,'父（名義上）','parent-child',false,{nominal:true,note:r.note}));
-    people.forEach(child=>(child.nominal_parent_relations||[]).filter(r=>r.id===person.id)
+    if (!historical) people.forEach(child=>(child.nominal_parent_relations||[]).filter(r=>r.id===person.id)
       .forEach(r=>add(child.id,'子（名義上）','parent-child',false,{nominal:true,note:r.note})));
     return [...relations.values()];
   }
@@ -224,6 +229,15 @@
     if(localFieldEdited(person,'nen_ability')) return `変更した能力は未照合（公開データの系統：${nenTypeLabel(publicRecord(person))}）`;
     if (person.nen_status === 'historical_unorganized') return 'この時点の能力情報は未整理';
     return person.nen_type_detail || person.nen_type || '未確認';
+  }
+  function tagIsSpoiler(tag, person = {}) {
+    if (!tag) return false;
+    if (['血縁', '状態', '念', '念の系統', '念講習会'].includes(tag.category)) return true;
+    const secretMission = value => /暗殺|呪殺|憑依|潜入/.test(value || '');
+    if (tag.category === '任務' && secretMission(tag.label)) return true;
+    if (tag.id?.startsWith('possession-target-')) return true;
+    return ['対象', '護衛'].includes(tag.category) && Boolean(secretMission(person.mission) ||
+      person.target_history?.length || person.assignment_history?.length);
   }
   function registrationNotice(person) {
     if (person.roster_projection) return '王妃所属兵の対応未同定枠です。全体名簿と同じ人員を表し、別人として人数に加算しません。';
@@ -309,7 +323,8 @@
     const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
       SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
     if (!revealed) return initial.filter(Boolean);
-    return [...initial, person.status, person.role, person.camp, person.nen_ability, person.nen_ability_name, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
+    const status = !person.roster_view?.public_data || person.historical_known_fields?.includes('status') ? person.status : null;
+    return [...initial, status, person.role, person.camp, person.nen_ability, person.nen_ability_name, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
       person.room, person.current_assignment, person.location, ...(extra.later || [])].filter(Boolean);
   }
   function buildSearchText(fields) {
@@ -369,6 +384,6 @@
     const day = `${event.day}日目`;
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
-  return {localFieldEdited,publicRecord,localEditLabels,assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, registrationNotice, statusHistoryRows, searchRank, questionSections,
+  return {localFieldEdited,publicRecord,localEditLabels,assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, familyHistoryUnorganized, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, tagIsSpoiler, registrationNotice, statusHistoryRows, searchRank, questionSections,
     normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, searchPatterns, matchesSearch};
 });

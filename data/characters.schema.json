@@ -78,6 +78,33 @@
           }
         }
       },
+      "fact_history": {
+        "type":"array", "minItems":1,
+        "description":"読者に確認できた話数に基づく人物属性の追記・更新。氏名・顔とは分離し、未整理の最新属性を過去へコピーしない。",
+        "items":{
+          "type":"object","additionalProperties":false,"required":["chapter","values","basis","source_event_ids"],
+          "properties":{
+            "chapter":{"type":"integer","minimum":1},
+            "basis":{"type":"string","minLength":1},
+            "source_event_ids":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}},
+            "values":{"type":"object","minProperties":1,"additionalProperties":false,"properties":{
+              "type":{"anyOf":[{"$ref":"#/items/properties/type"},{"type":"null"}]},
+              "is_hunter":{"type":["boolean","null"]},
+              "soldier_category":{"type":["string","null"]},"affiliation":{"type":["string","null"]},
+              "camp":{"type":["string","null"]},"queen":{"type":["string","null"]},
+              "role":{"type":["string","null"]},"mission":{"type":["string","null"]},"target":{"type":["string","null"]},
+              "room":{"type":["string","null"]},"initial_room":{"type":["string","null"]},"current_assignment":{"type":["string","null"]},
+              "parent_ids":{"type":"array","uniqueItems":true,"items":{"type":"string"}},
+              "children":{"type":"array","uniqueItems":true,"items":{"type":"string"}},
+              "known_half_sibling_ids":{"type":"array","uniqueItems":true,"items":{"type":"string"}},
+              "known_sibling_ids":{"type":"array","uniqueItems":true,"items":{"type":"string"}},
+              "public_mother_id":{"type":["string","null"]},"reported_biological_mother_id":{"type":["string","null"]},
+              "suggested_father_id":{"type":["string","null"]},"suggested_child_id":{"type":["string","null"]},
+              "nen_role":{"enum":["soemono",null]}
+            }}
+          }
+        }
+      },
       "former_affiliations": { "type": "array", "items": { "type": "string" } },
       "assignment_history": { "type": "array", "items": { "type": "object", "required": ["label", "prince_id", "room", "chapter"], "properties": { "label": { "type": "string" }, "prince_id": { "type": "string" }, "room": { "type": "string" }, "chapter": { "type": "integer", "minimum": 1 }, "event_id": { "type": "string" } } } },
       "nen_origin": { "type": "string", "enum": ["nen_class", "prior", "unknown"], "description": "念講習での目覚めと、それ以前からの念能力者を区別する" },

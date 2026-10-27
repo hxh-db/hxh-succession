@@ -27,7 +27,7 @@ assert.throws(() => diagramCount({princes:[{queen_deployments:[deployment(9),dep
 assert.equal(at('chapter-374').find(p => p.id === 'P01-G01').status, '死亡');
 assert.equal(at('chapter-374').find(p => p.id === 'P12-G06').status, '拘束');
 const hurykov374 = at('chapter-374').find(p => p.id === 'P01-P06');
-assert.deepEqual(hurykov374.review_claims, []);
+assert.deepEqual(hurykov374.review_claims.map(claim=>claim.event_ids), [['E366-004']]);
 assert.equal(hurykov374.nen_ability_editorial, null);
 assert.ok(at('latest').find(p => p.id === 'P01-P06').review_claims.length > 0);
 for (const period of ['departure', 'chapter-374', 'chapter-413']) for (const person of at(period)) {
@@ -36,14 +36,15 @@ for (const period of ['departure', 'chapter-374', 'chapter-413']) for (const per
     assert.ok([...claim.text.matchAll(/第?(\d{3})話/g)].every(m => Number(m[1]) <= chapterFor(period)));
   }
 }
-assert.equal(at('departure').find(p => p.id === 'P12-H01').room, '第1層 1012号室');
+assert.equal(at('departure').find(p => p.id === 'P12-H01').room, null, 'no unreviewed initial placement before the first dated record');
 assert.equal(at('chapter-374').find(p => p.id === 'P12-H01').room, '第1層 1013号室');
 const initialHanzo = people.find(p => p.id === 'P12-H01').initial_room;
-for (const period of ['departure', 'chapter-374', 'latest']) {
+assert.equal(at('departure').find(p => p.id === 'P12-H01').initial_room, null);
+for (const period of ['chapter-374', 'latest']) {
   assert.equal(at(period).find(p => p.id === 'P12-H01').initial_room, initialHanzo);
 }
 assert.match(at('chapter-374').find(p => p.id === 'P12-H01').roster_view.assignment, /第13王子マラヤーム/);
-assert.doesNotMatch(at('chapter-374').find(p => p.id === 'P12-H01').notes, /P13/);
+assert.equal(at('chapter-374').find(p => p.id === 'P12-H01').notes, null, 'unreviewed latest notes are not historical facts');
 for (const period of ['departure', 'chapter-374']) {
   const person = at(period).find(p => p.id === 'P12-H01');
   assert.equal(person.nen_status, 'historical_unorganized');

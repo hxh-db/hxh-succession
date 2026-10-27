@@ -23,6 +23,8 @@ const assert = require('node:assert/strict');
       await chip.press('Enter');
       await page.waitForURL('**/characters/P14-H01/');
       assert.equal(await page.locator('#modalTitle').innerText(),'クラピカ');
+      assert.equal(await page.evaluate(()=>Boolean(getPersonAtSelectedPeriod('P14-H01').roster_view?.public_data)),false,'timeline links use their own view context');
+      assert.ok(await page.evaluate(()=>getPersonnelEvents().some(event=>event.chapter>374)),'a hidden roster setting must not truncate timeline-linked details');
       assert.equal(await page.locator('#detailModal').getAttribute('data-event-id'),'');
       await page.goBack();
       await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));

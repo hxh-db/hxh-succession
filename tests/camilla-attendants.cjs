@@ -45,7 +45,7 @@ for (const [index, id] of ids.entries()) {
     const historical = select(roster, people, {period, events}).find(p => p.id === id);
     assert.ok(historical && !historical.roster_view.inactive);
     assert.equal(historical.status_log.length, 0, 'do not leak later death to earlier roster');
-    assert.doesNotMatch(historical.notes, /死亡|殺害|銃撃/);
+    assert.equal(historical.notes, null, 'unreviewed latest notes are absent, including later deaths');
   }
   assert.equal(select(roster, people, {period: 'chapter-416', events}).find(p => p.id === id).roster_view.inactive, true);
   const html = fs.readFileSync(`characters/${id}/index.html`, 'utf8');

@@ -281,6 +281,32 @@ def validate_nen_history(characters, events):
     return errors
 
 
+def validate_fact_history(characters, events):
+    errors = []
+    event_by_id = {event['id']: event for event in events}
+    people = {person['id'] for person in characters}
+    relation_lists = ('parent_ids', 'children', 'known_half_sibling_ids', 'known_sibling_ids')
+    relation_ids = ('public_mother_id', 'reported_biological_mother_id', 'suggested_father_id', 'suggested_child_id')
+    for person in characters:
+        previous = 0
+        for entry in person.get('fact_history', []):
+            chapter = entry['chapter']
+            if chapter <= previous:
+                errors.append(f'{person["id"]}: 属性履歴の話数は重複なく昇順にしてください')
+            previous = chapter
+            sources = [event_by_id.get(key) for key in entry['source_event_ids']]
+            if any(source is None or source['chapter'] > chapter or person['id'] not in source.get('characters', []) for source in sources):
+                errors.append(f'{person["id"]}: 属性履歴の出典・人物・判明話数が一致しません')
+            if not any(source and source['chapter'] == chapter for source in sources):
+                errors.append(f'{person["id"]}: 属性履歴の判明話数に対応する出典が必要です')
+            values = entry['values']
+            targets = [target for field in relation_lists for target in values.get(field, [])]
+            targets += [values[field] for field in relation_ids if values.get(field)]
+            if any(target not in people or target == person['id'] for target in targets):
+                errors.append(f'{person["id"]}: 属性履歴の関係人物IDが不正です')
+    return errors
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -291,6 +317,7 @@ def validate_cross_references(base):
         questions = json.load(f)
     errors.extend(validate_assignment_references(characters, events))
     errors.extend(validate_nen_history(characters, events))
+    errors.extend(validate_fact_history(characters, events))
     errors.extend(validate_character_evidence(characters, events))
     errors.extend(validate_simultaneous_scenes(events))
     errors.extend(validate_same_incidents(events))

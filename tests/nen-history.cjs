@@ -19,7 +19,7 @@ assert.doesNotMatch(at('P01-P06',413).nen_ability_name,/鋼/);
 assert.match(at('P01-P06',415).nen_ability_name,/鋼/);
 assert.match(at('P01-P06',415).nen_ability,/365日/);
 const nuk=at('P02-P07',374);
-assert.doesNotMatch(nuk.role,/担当外れ/);
+assert.equal(nuk.role,null,'unreviewed role must not be taken from the latest record');
 assert.equal(nuk.mission,null);
 assert.equal(matches(nuk,'ヌクオコン 担当外れ',true),false);
 assert.equal(select(roster,people,{period:'chapter-374',events}).length,230);

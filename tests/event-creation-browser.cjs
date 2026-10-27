@@ -37,6 +37,13 @@ const KEY = 'hxh-succession-local-drafts-v1';
       assert.equal(record.day, 0); assert.equal(record.time_start, null); assert.equal(record.time_estimate, '00:00');
       assert.deepEqual(record.characters, ['P14-H01']);
       assert.equal(await page.locator('#modalTitle').innerText(), '追加画面から登録する検証用の出来事。');
+      // Freshly created details need an immediate undo path even before the
+      // user has followed the record's permalink.
+      await Promise.all([page.waitForEvent('load'),modal.locator('[data-event-trash="trash"]').click()]);await ready(page);
+      assert.equal(await page.evaluate(id=>eventsData.some(event=>event.id===id),record.id),false);
+      assert.equal(new URL(page.url()).searchParams.get('event'),record.id);
+      await Promise.all([page.waitForEvent('load'),page.locator('#recordLinkStatus [data-event-trash="restore"]').click()]);await ready(page);
+      assert.equal(await page.evaluate(id=>eventsData.filter(event=>event.id===id).length,record.id),1);
       await modal.locator('.event-source-details > summary').click();
       assert.match(await modal.locator('.event-source-details').innerText(), /日付の確度：自分で入力した日付（未照合）/);
       assert.match(await modal.locator('.record-link-scope').innerText(), local ? /このPC/ : /このブラウザ/);

@@ -59,6 +59,8 @@
       return {...person, ...(historical ? {
         status: selected.status, room: selectedRoom, initial_room: initialRoom, current_assignment: assignmentLabel,
         camp: prince?.camp || null, target: rank ? `第${rank}王子` : null,
+        role: member.group === 'monitors' ? '監視兵' : person.role,
+        role_evidence: person.source_chapter && person.source_chapter <= chapter ? person.role_evidence : null,
         assignment_history: (person.assignment_history || []).filter(log => log.chapter <= chapter),
         status_log: (person.status_log || []).filter(log => log.chapter <= chapter),
         claim_history: [], target_history: [], location: null, location_basis_chapter: null,

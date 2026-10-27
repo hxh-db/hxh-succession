@@ -1,0 +1,1541 @@
+{
+  "date": "2026-10-24",
+  "scope": "非自動生成の無名・仮称登録全件と第2王子の名前付き15人。個別の顔・役割と人数表の枠を区別する。",
+  "records": [
+    {
+      "id": "SAA-U01",
+      "name": "シャ＝ア組員1（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U02",
+      "name": "シャ＝ア組員2（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U03",
+      "name": "シャ＝ア組員3（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U04",
+      "name": "シャ＝ア組員4（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U05",
+      "name": "シャ＝ア組員5（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U06",
+      "name": "シャ＝ア組員6（仮称）",
+      "source_chapter": 377,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（氏名未判明）",
+        "soldier_category": null
+      },
+      "evidence": "第377話のクロロとの会話・137ページの立ち絵と薔薇の印を確認した記録による。シャ＝アの組員までを記録し、幹部・若頭などの役職は断定しない。"
+    },
+    {
+      "id": "SAA-U07",
+      "name": "シャ＝ア組員7（仮称）",
+      "source_chapter": 378,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "組員（倉庫の案内役）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "組員（倉庫の案内役）",
+        "soldier_category": null
+      },
+      "evidence": "第378話161〜165ページの倉庫案内と遺体の場面を確認した記録による。シャ＝アの案内役の組員までを記録し、幹部・若頭とは断定しない。"
+    },
+    {
+      "id": "P02-P01",
+      "name": "モスワナ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ベンジャミン担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ベンジャミン担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P02",
+      "name": "バケット",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（チョウライ担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（チョウライ担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P03",
+      "name": "ヒニョーリ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ツェリードニヒ担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ツェリードニヒ担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P04",
+      "name": "ジダル",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ツベッパ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ツベッパ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P05",
+      "name": "ブルベーナ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（タイソン担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（タイソン担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P06",
+      "name": "リサムセッタ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ルズールス担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ルズールス担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P07",
+      "name": "ヌクオコン",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（サレサレ担当・担当外れ）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（サレサレ担当・担当外れ）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P08",
+      "name": "カコ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ハルケンブルグ担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（ハルケンブルグ担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P09",
+      "name": "モズベ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（カチョウ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（カチョウ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P10",
+      "name": "メシュシ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（フウゲツ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（フウゲツ担当・準協会員）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P11",
+      "name": "カビッチ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（モモゼ担当・担当外れ）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（モモゼ担当・担当外れ）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P12",
+      "name": "ターラー",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（マラヤーム担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵（マラヤーム担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P13",
+      "name": "サラヘル",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "カミーラ私設兵隊長（ワブル担当）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カミーラ私設兵隊長（ワブル担当）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P14",
+      "name": "ウマンマ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "除念師",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "除念師",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第389話写真8〜9の個人紹介枠に第2王子私設兵と明記。サラヘルは私設兵隊長、ウマンマは除念師とも明記される。第374話の私設兵12人・従事者7人との時点・兼務・個人対応は未確定。"
+    },
+    {
+      "id": "P02-P15",
+      "name": "フカタキ",
+      "source_chapter": 389,
+      "review_method": "第389話写真8〜9を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "執事長",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "執事長",
+        "soldier_category": null
+      },
+      "evidence": "第389話写真9左の会話で執事長と呼ばれ、フカタキが応答する。執事長として従事者に分類する。私設兵という個別の肩書は確認できない。第374話の従事者7人との一対一対応は未確定。"
+    },
+    {
+      "id": "P14-U01",
+      "name": "ワブル王室警備兵1（仮称）",
+      "source_chapter": 359,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第359話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P14-U02",
+      "name": "ワブル王室警備兵2（仮称）",
+      "source_chapter": 359,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第359話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P14-U03",
+      "name": "ワブル王室警備兵3（仮称）",
+      "source_chapter": 359,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第359話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P14-U04",
+      "name": "ワブル王室警備兵4（仮称）",
+      "source_chapter": 359,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のワブル王室警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第359話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P13-A01",
+      "name": "マラヤーム従事者1（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-A02",
+      "name": "マラヤーム従事者2（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-A03",
+      "name": "マラヤーム従事者3（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-A04",
+      "name": "マラヤーム従事者4（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-A05",
+      "name": "マラヤーム従事者5（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "氏名不明のマラヤーム従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-G02A",
+      "name": "マラヤーム警備兵1（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のマラヤーム警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のマラヤーム警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-G02B",
+      "name": "マラヤーム警備兵2（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名不明のマラヤーム警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名不明のマラヤーム警備兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W01",
+      "name": "マラヤーム監視兵1（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W02",
+      "name": "マラヤーム監視兵2（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W03",
+      "name": "マラヤーム監視兵3（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W04",
+      "name": "マラヤーム監視兵4（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W05",
+      "name": "マラヤーム監視兵5（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P13-W06",
+      "name": "マラヤーム監視兵6（仮称）",
+      "source_chapter": 368,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "氏名・所属王妃不明のマラヤーム監視兵",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P12-G06",
+      "name": "モモゼ監視兵（第一王妃付・仮称）",
+      "source_chapter": 361,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "モモゼ警備兵（第1王妃スパイ）",
+        "soldier_category": "王妃所属兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "モモゼ警備兵（第1王妃スパイ）",
+        "soldier_category": "王妃所属兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P01-P14",
+      "name": "ベンジャミン私設兵A（仮称）",
+      "source_chapter": null,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "ハルケンブルグ陣営に配置されたベンジャミン私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "ハルケンブルグ陣営に配置されたベンジャミン私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P01-P15",
+      "name": "ベンジャミン私設兵B（仮称）",
+      "source_chapter": null,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "soldier",
+        "role": "カチョウ陣営に配置されたベンジャミン私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "カチョウ陣営に配置されたベンジャミン私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P07-H02",
+      "name": "ルズールス護衛ハンターA（仮称）",
+      "source_chapter": null,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "hunter",
+        "role": "人数のみで作られた旧レコード（人物一覧には表示しない）",
+        "soldier_category": "ハンター（雇用経路未確認）"
+      },
+      "after": {
+        "type": "hunter",
+        "role": "人数のみで作られた旧レコード（人物一覧には表示しない）",
+        "soldier_category": "ハンター（雇用経路未確認）"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P07-H03",
+      "name": "ルズールス護衛ハンターB（仮称）",
+      "source_chapter": null,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": true,
+      "before": {
+        "type": "hunter",
+        "role": "人数のみで作られた旧レコード（人物一覧には表示しない）",
+        "soldier_category": "ハンター（雇用経路未確認）"
+      },
+      "after": {
+        "type": "hunter",
+        "role": "人数のみで作られた旧レコード（人物一覧には表示しない）",
+        "soldier_category": "ハンター（雇用経路未確認）"
+      },
+      "evidence": "個別の顔・姿との対応を確認できない旧人数レコード。人物一覧には表示しない。人数や所属制度から個人の兵種を確定しない。"
+    },
+    {
+      "id": "P14-P04",
+      "name": "ワブル陣営兵A（仮称）",
+      "source_chapter": 360,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "ワブル警護兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "ワブル警護兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第360話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P14-P05",
+      "name": "ワブル陣営兵B（仮称）",
+      "source_chapter": 360,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "ワブル警護兵",
+        "soldier_category": "王室警備兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "ワブル警護兵",
+        "soldier_category": "王室警備兵"
+      },
+      "evidence": "第360話の個別の顔・死亡場面と、第360話の上位王妃からの派遣制度を用いた既存照合記録による。監視という役割の登録で、所属王妃と各顔の対応は未確定。王室警備兵という旧分類から特定王妃の所属を推定しない。"
+    },
+    {
+      "id": "P04-L03",
+      "name": "王立軍学校同期兵A（仮称）",
+      "source_chapter": 394,
+      "review_method": "第394話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第394話写真6〜7の王立軍学校4期出身者の会話で、本人たちが私設兵のオレらと述べる。第4王子側の私設兵という分類は維持。シンという呼称と各顔の対応、個人名は保留する。"
+    },
+    {
+      "id": "P04-L04",
+      "name": "王立軍学校同期兵B（仮称）",
+      "source_chapter": 394,
+      "review_method": "第394話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第394話写真6〜7の王立軍学校4期出身者の会話で、本人たちが私設兵のオレらと述べる。第4王子側の私設兵という分類は維持。シンという呼称と各顔の対応、個人名は保留する。"
+    },
+    {
+      "id": "P04-L05",
+      "name": "王立軍学校同期兵C（仮称）",
+      "source_chapter": 394,
+      "review_method": "第394話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "王立軍学校4期生／第4王子ツェリードニヒ私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第394話写真6〜7の王立軍学校4期出身者の会話で、本人たちが私設兵のオレらと述べる。第4王子側の私設兵という分類は維持。シンという呼称と各顔の対応、個人名は保留する。"
+    },
+    {
+      "id": "P14-M03",
+      "name": "ワブル従事者3（仮称）",
+      "source_chapter": 361,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "attendant",
+        "role": "第14王子ワブル従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "第14王子ワブル従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "第361話写真9右下で辞職を申し出る従事者2人の個別の顔を確認した記録による。居室に残る従事者2人と区別。実際の退去はこの申出だけでは確定しない。"
+    },
+    {
+      "id": "P14-M04",
+      "name": "ワブル従事者4（仮称）",
+      "source_chapter": 361,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "attendant",
+        "role": "第14王子ワブル従事者",
+        "soldier_category": "従事者"
+      },
+      "after": {
+        "type": "attendant",
+        "role": "第14王子ワブル従事者",
+        "soldier_category": "従事者"
+      },
+      "evidence": "第361話写真9右下で辞職を申し出る従事者2人の個別の顔を確認した記録による。居室に残る従事者2人と区別。実際の退去はこの申出だけでは確定しない。"
+    },
+    {
+      "id": "P07-U01",
+      "name": "ルズールスの居室の男性・額タトゥーの金髪（仮称）",
+      "source_chapter": 414,
+      "review_method": "第414話写真1・3を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第7王子私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "1007号室で就寝する人物（兵種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第414話写真1で1007号室にいる姿を確認。写真3には協会員と第1王子私設兵の会話もあり、居室にいることだけでは第7王子私設兵と断定できない。この人物個別の所属・兵種は未確認。"
+    },
+    {
+      "id": "P07-U02",
+      "name": "ルズールス私設兵・歯抜けの金髪（仮称）",
+      "source_chapter": 414,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第7王子私設兵",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "第7王子私設兵",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第414話の刺突・遺体と、第415話の協会員による第7王子私設兵殺害の証言をつなぐ既存照合記録による。氏名は未確認。"
+    },
+    {
+      "id": "P04-U01",
+      "name": "第4王子準協会員・丸刈りの男性（仮称）",
+      "source_chapter": 348,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第4王子私設兵／条件付き合格者5名の一人",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "第4王子私設兵／条件付き合格者5名の一人",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第348話写真6の条件付き合格者5人の報告場面と顔の照合記録による。丸刈りの1人として登録。第374話の準協会員5枠への個別対応は未確定。"
+    },
+    {
+      "id": "P04-U02",
+      "name": "第4王子私設兵・髪を後ろに流した男性（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第4王子私設兵（氏名未確認）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "第4王子私設兵（氏名未確認）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第362話写真5のサルコフ背後に立つ第4王子側の兵としての照合記録による。氏名・準協会員資格・既存兵との同一性は未確定。同定用登録であり増員へ加算しない。"
+    },
+    {
+      "id": "P04-U03",
+      "name": "第4王子私設兵・丸刈りの男性（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第4王子私設兵（氏名未確認）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "soldier",
+        "role": "第4王子私設兵（氏名未確認）",
+        "soldier_category": "私設兵"
+      },
+      "evidence": "第362話写真5のサルコフ背後に立つ第4王子側の兵としての照合記録による。氏名・準協会員資格・既存兵との同一性は未確定。同定用登録であり増員へ加算しない。"
+    },
+    {
+      "id": "P08-U01",
+      "name": "サレサレの居室の女性A（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P08-U02",
+      "name": "サレサレの居室の女性B（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P08-U03",
+      "name": "サレサレの居室の女性C（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P08-U04",
+      "name": "サレサレの居室の女性D（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P08-U05",
+      "name": "サレサレの居室の女性E（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P08-U06",
+      "name": "サレサレの居室の女性F（仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真8を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第8王子サレサレの私設兵（ユーザー指定による分類）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "サレサレの居室にいる女性（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真8右の居室場面で姿を確認。以前の私設兵分類はユーザー指定による整理で、原作の職種明示ではない。今回の根拠に基づく整理では兵種を未確認とする。第374話の従事者3人との個人対応も未確定。"
+    },
+    {
+      "id": "P10-U01",
+      "name": "第10王子警護人・髪を後ろに流した長髪の人物（仮称）",
+      "source_chapter": 366,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第10王子側の警護人（氏名・所属兵種は未確定）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第10王子側の警護人（所属兵種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第366話写真3の1010号室でカチョウに叱責される警護人の顔の照合記録による。警護という役割まで記録し、私設兵・王妃所属兵・協会員のいずれかは確定しない。"
+    },
+    {
+      "id": "P10-U02",
+      "name": "第10王子警護人・丸刈りで丸い顔の人物（仮称）",
+      "source_chapter": 366,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第10王子側の警護人（氏名・所属兵種は未確定）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第10王子側の警護人（所属兵種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第366話写真3の1010号室でカチョウに叱責される警護人の顔の照合記録による。警護という役割まで記録し、私設兵・王妃所属兵・協会員のいずれかは確定しない。"
+    },
+    {
+      "id": "P10-U03",
+      "name": "第10王子警護人・明るい髪のおかっぱの人物（仮称）",
+      "source_chapter": 366,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第10王子側の警護人（氏名・所属兵種は未確定）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第10王子側の警護人（所属兵種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第366話写真3の1010号室でカチョウに叱責される警護人の顔の照合記録による。警護という役割まで記録し、私設兵・王妃所属兵・協会員のいずれかは確定しない。"
+    },
+    {
+      "id": "P10-U04",
+      "name": "第10王子警護人・黒い短髪の人物（仮称）",
+      "source_chapter": 366,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第10王子側の警護人（氏名・所属兵種は未確定）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第10王子側の警護人（所属兵種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第366話写真3の1010号室でカチョウに叱責される警護人の顔の照合記録による。警護という役割まで記録し、私設兵・王妃所属兵・協会員のいずれかは確定しない。"
+    },
+    {
+      "id": "P06-U01",
+      "name": "タイソンをマッサージする男性A（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第6王子側の私設兵（第362話の人物同定用仮登録）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "タイソンをマッサージする人物（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真7左でタイソンをマッサージする姿を個別に確認。この場面に各人の私設兵・従事者という肩書はない。第374話の私設兵5人・従事者5人、後の名前付き私設兵との対応は未確定。"
+    },
+    {
+      "id": "P06-U02",
+      "name": "タイソンをマッサージする男性B（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第6王子側の私設兵（第362話の人物同定用仮登録）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "タイソンをマッサージする人物（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真7左でタイソンをマッサージする姿を個別に確認。この場面に各人の私設兵・従事者という肩書はない。第374話の私設兵5人・従事者5人、後の名前付き私設兵との対応は未確定。"
+    },
+    {
+      "id": "P06-U03",
+      "name": "タイソンをマッサージする男性C（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第6王子側の私設兵（第362話の人物同定用仮登録）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "タイソンをマッサージする人物（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真7左でタイソンをマッサージする姿を個別に確認。この場面に各人の私設兵・従事者という肩書はない。第374話の私設兵5人・従事者5人、後の名前付き私設兵との対応は未確定。"
+    },
+    {
+      "id": "P06-U04",
+      "name": "タイソンをマッサージする男性D（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第6王子側の私設兵（第362話の人物同定用仮登録）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "タイソンをマッサージする人物（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真7左でタイソンをマッサージする姿を個別に確認。この場面に各人の私設兵・従事者という肩書はない。第374話の私設兵5人・従事者5人、後の名前付き私設兵との対応は未確定。"
+    },
+    {
+      "id": "P06-U05",
+      "name": "タイソンをマッサージする男性E（第362話・仮称）",
+      "source_chapter": 362,
+      "review_method": "第362話写真7を今回再閲覧",
+      "count_only": false,
+      "before": {
+        "type": "soldier",
+        "role": "第6王子側の私設兵（第362話の人物同定用仮登録）",
+        "soldier_category": "私設兵"
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "タイソンをマッサージする人物（職種未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第362話写真7左でタイソンをマッサージする姿を個別に確認。この場面に各人の私設兵・従事者という肩書はない。第374話の私設兵5人・従事者5人、後の名前付き私設兵との対応は未確定。"
+    },
+    {
+      "id": "BYD-U01",
+      "name": "ビヨンド側の同行者A（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U02",
+      "name": "ビヨンド側の同行者B（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U03",
+      "name": "ビヨンド側の同行者C（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U04",
+      "name": "ビヨンド側の同行者D（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U05",
+      "name": "ビヨンド側の同行者E（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U06",
+      "name": "ビヨンド側の同行者F（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U07",
+      "name": "ビヨンド側の同行者G（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U08",
+      "name": "ビヨンド側の同行者H（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "BYD-U09",
+      "name": "ビヨンド側の同行者I（第340話・仮称）",
+      "source_chapter": 340,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "expedition_member",
+        "role": "第340話の探検隊関係者（顔による人物同定用）",
+        "soldier_category": null
+      },
+      "evidence": "第340話のビヨンド背後の顔一覧を確認した記録による。同行者としての姿までを記録し、私設兵・協専所属・ハンター資格は未確認。既存人物との同一性も保留する。"
+    },
+    {
+      "id": "EII-U01",
+      "name": "エイ＝イ組員1（仮称）",
+      "source_chapter": 378,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "氏名未判明のエイ＝イ一家構成員",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "氏名未判明のエイ＝イ一家構成員",
+        "soldier_category": null
+      },
+      "evidence": "第378話写真4左のエイ＝イ一家の顔一覧を確認した記録による。一家構成員までを記録し、氏名・個別の役職は未確定。"
+    },
+    {
+      "id": "EII-U02",
+      "name": "エイ＝イ組員2（仮称）",
+      "source_chapter": 378,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "mafia",
+        "role": "氏名未判明のエイ＝イ一家構成員",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "mafia",
+        "role": "氏名未判明のエイ＝イ一家構成員",
+        "soldier_category": null
+      },
+      "evidence": "第378話写真4左のエイ＝イ一家の顔一覧を確認した記録による。一家構成員までを記録し、氏名・個別の役職は未確定。"
+    },
+    {
+      "id": "MC-U01",
+      "name": "晩餐会の司会者・輪状の髪飾りの人物（仮称）",
+      "source_chapter": 382,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "official",
+        "role": "第一回日曜晩餐会の司会者（氏名未確認）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第一回日曜晩餐会の司会者（所属・氏名未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第382話45ページのマイクを持つ2人と第383話のトークショーを確認した記録による。司会という役割は確認できるが、官職・政府所属は未確認のため司法・政府の分類を外す。"
+    },
+    {
+      "id": "MC-U02",
+      "name": "晩餐会の司会者・左右にまとめた髪の人物（仮称）",
+      "source_chapter": 382,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "official",
+        "role": "第一回日曜晩餐会の司会者（氏名未確認）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "unclassified",
+        "role": "第一回日曜晩餐会の司会者（所属・氏名未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第382話45ページのマイクを持つ2人と第383話のトークショーを確認した記録による。司会という役割は確認できるが、官職・政府所属は未確認のため司法・政府の分類を外す。"
+    },
+    {
+      "id": "HA-U01",
+      "name": "1013号室のHバッジの協会員（第383話・仮称）",
+      "source_chapter": 383,
+      "review_method": "既存の原作照合記録・顔資料を確認",
+      "count_only": false,
+      "before": {
+        "type": "hunter",
+        "role": "1013号室で人員配置を協議するハンター協会員（氏名未確認）",
+        "soldier_category": null
+      },
+      "after": {
+        "type": "hunter",
+        "role": "1013号室で人員配置を協議するハンター協会員（氏名未確認）",
+        "soldier_category": null
+      },
+      "evidence": "第383話50ページでウェルゲーの隣に立つHバッジの人物を確認した記録による。協会員としての登録を維持し、出航時の担当王子や初期の人数枠への対応は保留する。"
+    }
+  ],
+  "generated_review": {
+    "count_only_slots": 114,
+    "queen_projections": 7,
+    "policy": "第374話の職種別人数と第360話の配置制度に基づく復元枠。原図の従事者・私設兵・協会員・王妃所属兵という区分を保つ。staffは職種未確認とし、個人未確認枠を人物一覧に表示しない。"
+  }
+}

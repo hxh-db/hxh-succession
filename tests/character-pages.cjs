@@ -26,6 +26,14 @@ const sitemap = outputs.get('sitemap.xml');
 const countOnly = new Set(require('../data/count_only_characters.json').ids);
 const directory = characters.filter(p => !p.roster_projection && !p.is_count_only && !countOnly.has(p.id) && p.verification_status !== 'unverified');
 assert.equal((sitemap.match(/<loc>/g)||[]).length, directory.length+2);
+for (const p of characters.filter(p => p.is_count_only)) {
+  assert.ok(!sitemap.includes(`/characters/${p.id}/`));
+  const initialIds = new Set(require('../data/personnel_roster.json').members.map(member => member.character_id));
+  assert.equal(outputs.get('characters/index.html').includes(`href="${p.id}/"`), initialIds.has(p.id) && p.verification_status !== 'unverified');
+  const html = outputs.get(`characters/${p.id}/index.html`);
+  assert.ok(html.includes('noindex,follow'));
+  assert.doesNotMatch(html, /人物一覧には表示しません/);
+}
 for (const person of characters) {
   const html = outputs.get(`characters/${person.id}/index.html`);
   assert.ok(html.includes(`characters/${person.id}/">`),`canonical ID: ${person.id}`);

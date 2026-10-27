@@ -30,17 +30,19 @@ function shortName(prefix, role) {
   return `${base}${n}`;
 }
 function anonymous(id, name, ranks, category, queen, notes, projection = false) {
-  const type = category === 'attendants' ? 'attendant' : category === 'hunters' ? 'hunter' : 'soldier';
+  const type = category === 'staff' ? 'unclassified' : category === 'attendants' ? 'attendant' : category === 'hunters' ? 'hunter' : 'soldier';
+  const role = {staff:'私設兵・従事者（個人対応未確定）', attendants:'従事者', hunters:'護衛ハンター', private:'私設兵', monitors:'監視兵', maternal:'王妃所属兵'}[category];
   const prince = ranks.length === 1 ? counts.princes.find(p => p.rank === ranks[0]) : null;
   const record = {id, type, position_code: id, name, status: '未確認', is_hunter: type === 'hunter',
-    role: category === 'monitors' ? '監視兵' : type === 'attendant' ? '従事者' : '警護兵',
+    role,
     affiliation: queen ? `第${queen}王妃所属兵` : null,
     camp: prince ? `${prince.name}陣営` : null,
     initial_room: prince ? `第1層 ${1000 + prince.rank}号室` : null,
     initial_room_basis: '人数枠の復元。個人の出航時在室を直接確認したものではない。',
-    mission: category === 'monitors' ? '監視' : type === 'attendant' ? '従事' : '護衛',
+    mission: category === 'staff' ? null : category === 'monitors' ? '監視' : type === 'attendant' ? '従事' : '護衛',
     soldier_category: queen ? '王妃所属兵' : category === 'private' ? '私設兵' : null,
-    status_log: [], notes, is_placeholder: true, identity_status: 'provisional',
+    status_log: [], notes, is_placeholder: true, identity_status: 'provisional', is_count_only: true,
+    role_evidence: `第374話の職種別人数と第360話の派遣制度を用いた人数枠の復元。${role}の個人を確認した記録ではない。氏名・顔・個別の登場場面は未確認。`,
     generated_by: 'personnel-roster', roster_projection: projection};
   if (projection) record.display_name = name.replace('監視兵', '監視枠');
   Object.assign(record, overrides.identity_updates?.[id] || {}, {id, generated_by: 'personnel-roster', roster_projection: projection});
@@ -64,7 +66,8 @@ function addGroup(key, ranks, category, capacity, known, queen = null, notes = '
     let q = id ? queenRank(people.get(id)) : null;
     if (!id) {
       q = category === 'monitors' ? remainingQueens.shift() : queen;
-      id = anonymous(slot, shortName(prefix, category === 'attendants' ? '従事者' : category === 'monitors' ? '監視兵' : '警護兵'),
+      const label = {staff:'人員', attendants:'従事者', hunters:'護衛ハンター', private:'私設兵', monitors:'監視兵', maternal:'王妃所属兵'}[category];
+      id = anonymous(slot, shortName(prefix, `${label}枠`),
         ranks, category, q, `出航時の人数枠を埋める仮登録。氏名・顔は未確認。${notes}`);
     }
     assert.ok(people.has(id), `不明なID ${id}`);
@@ -126,7 +129,7 @@ const events = read('data/events.json');
 const snapshot = read('data/personnel_snapshots.json').snapshots.find(s => s.chapter === 374);
 const report = [
   '# 出航時名簿と王妃別人数の照合', '',
-  `出航時230枠。既存人物IDとの対応${members.length - generated.filter(p => !p.roster_projection).length}枠、人数枠の仮登録${generated.filter(p => !p.roster_projection).length}枠。対応済みのIDにも初期配置の復元・作者設定表のみの人物を含み、全員の初期在室を個別確認したという意味ではない。`, '',
+  `出航時230枠。個人IDとの対応${members.filter(m => !people.get(m.character_id).is_count_only).length}枠、個人未同定${members.filter(m => people.get(m.character_id).is_count_only).length}枠。未同定枠は「個人未同定（人数枠）」として人物一覧に表示する。対応済みのIDにも初期配置の復元・作者設定表のみの人物を含み、全員の初期在室を個別確認したという意味ではない。`, '',
   '王妃別の個人未同定枠は全体名簿と同じ人員を示す。全体230枠へ追加しない。', '',
   '初期復元・原図記載・履歴上の停止なしは異なる集計です。停止なしには状態未確認を含み、稼働確認済み人数ではありません。原図との比較範囲・除外条件は未確定で、差を登録漏れとは扱いません。', '',
   '| 王妃 | 初期復元人数 | 第374話 原図記載人数 | 第374話 死亡・拘束・辞退・離脱の履歴なし | うち状態未確認 | 差（履歴−原図・参考） |',

@@ -80,7 +80,10 @@
             <div id="characterPrinceNav" class="character-tag-row-options" aria-label="関係王子"></div>
           </div>
         </div>
-        <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel">タグで絞り込む<span id="characterFilterCount"></span></button>
+        <div class="character-tag-toolbar">
+          <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel">タグで絞り込む<span id="characterFilterCount"></span></button>
+          <button id="resetCharacterTags" type="button" title="分類・関係王子・所属などのタグを解除します。検索語・名簿の時点・表示形式は残します。" disabled>タグをリセット</button>
+        </div>
         <div id="characterFilterPanel" class="character-filter-panel" role="region" aria-labelledby="characterFilterToggle" hidden>
           <p class="tag-filter-help">タグを組み合わせて絞り込めます。もう一度押すと解除できます。</p>
           <div class="character-tag-row">
@@ -679,11 +682,11 @@
   </dialog>
 
   <script src="character-routing.js?v=20261017-event-person"></script>
-  <script src="character-facts.js?v=20261027-search"></script>
+  <script src="character-facts.js?v=20261027-integrated"></script>
   <script src="event-search.js?v=20261027-search"></script>
-  <script src="personnel-roster.js?v=20261027-personal-evidence"></script>
+  <script src="personnel-roster.js?v=20261027-integrated"></script>
   <script src="draft-state.js?v=20261027-conflicts"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261027-search"></script>
+  <script src="script.js?v=20261027-integrated"></script>
 </body>
 </html>

@@ -14,8 +14,8 @@
     "individual_candidates": 113,
     "unresolved_individual_slots": 117,
     "author_setting_only_candidates": 9,
-    "existing_personnel_records_reviewed": 187,
-    "public_character_records": 271,
+    "existing_personnel_records_reviewed": 171,
+    "public_character_records": 280,
     "count_only_records": 23
   },
   "princes": [
@@ -287,7 +287,7 @@
               "qualification_at_departure": "unreviewed"
             }
           ],
-          "notes": "第389話写真8〜9の呪詛担当13人・除念師1人・執事長1人。原図の私設兵12／従事者7との職種対応は未確定で、15人全員を私設兵12枠へは割り振らない。"
+          "notes": "第374話の原図は私設兵12人・従事者7人。第389話写真8〜9では私設兵と明記された14人（呪詛担当13人・除念師1人）と執事長フカタキを確認。職種別人数との時点・兼務・個人対応は未確定。差分4枠を警護兵または従事者4人と断定しない。"
         },
         {
           "key": "p02.monitors",
@@ -1798,6 +1798,60 @@
       "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
     },
     {
+      "id": "SAA-005",
+      "name": "ツドンケ",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-006",
+      "name": "ソンビン",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U01",
+      "name": "シャ＝ア組員1（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U02",
+      "name": "シャ＝ア組員2（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U03",
+      "name": "シャ＝ア組員3（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U04",
+      "name": "シャ＝ア組員4（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U05",
+      "name": "シャ＝ア組員5（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U06",
+      "name": "シャ＝ア組員6（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
+      "id": "SAA-U07",
+      "name": "シャ＝ア組員7（仮称）",
+      "status": "outside_initial_prince_scope",
+      "reason": "王族本人・マフィア・旅団・探検チームの同定資料等。今回の230人枠へ加算しない。"
+    },
+    {
       "id": "SAA-001",
       "name": "ブロッコ＝リー",
       "status": "outside_initial_prince_scope",
@@ -2910,7 +2964,7 @@
     },
     {
       "id": "P07-U01",
-      "name": "ルズールス私設兵・額タトゥーの金髪（仮称）",
+      "name": "ルズールスの居室の男性・額タトゥーの金髪（仮称）",
       "status": "initial_quota_unverified",
       "target": "p07.private",
       "reason": "第414話の顔資料2件。第415話の第7王子私設兵殺害の証言との個別対応、既知のバラーテ・マクネとの同一性、初期枠の在籍は未確定。"
@@ -3326,10 +3380,10 @@
     "本編未照合の作者設定表9人を含め、対応候補は初期の個人配置を全件確認済みではない。未対応枠も原作未登場者や新規登録すべき人物と断定しない。"
   ],
   "source_hashes": {
-    "data/intake/initial_personnel_assignments_20261013.json": "d6a11610eeff56a2b0898156d5009e82df0b7629debeda0bbfbdd0219a5c0da7",
+    "data/intake/initial_personnel_assignments_20261013.json": "72aff976bd9f1f4373011f51617e9f311fa028e53599755793f13ec7352a54dd",
     "data/intake/initial_personnel_review_20261013.json": "e8bdc469c84eeecad04f9c3e66247e098883f6fa9d9fdd1d876146512be25e5a",
-    "data/characters.json": "978b8dd7a3b0771706b09d2ea47d6d1007723cb6716990e7a0604fff7f5db493",
+    "data/characters.json": "57d60fcaab4773f2e1b53465f90ed0adf05dfac4202d332b3c0f9507298c8184",
     "data/count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
-    "data/character_images.json": "958b6563f243d4c77d87128748e163da911cebcbf8208e3e9f53987260a751e1"
+    "data/character_images.json": "ecd0cb930276a651c1c486c08a70be051b5a945d0fb13d6d01cc173503fa9a51"
   }
 }

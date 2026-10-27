@@ -95,6 +95,69 @@
         "nen_type": "不明（公式未開示）",
         "ability": "詳細不明",
         "character_id": "SAA-004"
+      },
+      {
+        "name": "ツドンケ",
+        "role": "舎弟頭",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-005"
+      },
+      {
+        "name": "ソンビン",
+        "role": "組員",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-006"
+      },
+      {
+        "name": "シャ＝ア組員1（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U01"
+      },
+      {
+        "name": "シャ＝ア組員2（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U02"
+      },
+      {
+        "name": "シャ＝ア組員3（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U03"
+      },
+      {
+        "name": "シャ＝ア組員4（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U04"
+      },
+      {
+        "name": "シャ＝ア組員5（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U05"
+      },
+      {
+        "name": "シャ＝ア組員6（仮称）",
+        "role": "組員（氏名未判明）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U06"
+      },
+      {
+        "name": "シャ＝ア組員7（仮称）",
+        "role": "組員（倉庫の案内役）（死亡）",
+        "nen_type": null,
+        "ability": null,
+        "character_id": "SAA-U07"
       }
     ],
     "note": "シュウ＝ウ一家と共闘してモレナ討伐に動く。組長ブロッコは国王の腹違いの兄（二線者）。第384話ではタハオが組員8人と300人超の労働者の失踪を旅団へ説明し、ノブナガ・フィンクス・フェイタンとエイ＝イ一家への対処を協議する。約250名規模で武装"

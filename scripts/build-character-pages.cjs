@@ -14,14 +14,14 @@ const typeNames = {king:'国王', prince:'王子', queen:'王妃', hunter:'ハ�
 function displayName(person) { return person.display_name || person.name.replace(/＝ホイコーロ$/, ''); }
 function titleName(person) { return (['prince','queen'].includes(person.type) ? `第${person.rank}${typeNames[person.type]} ` : '') + displayName(person); }
 function publicFields(person) {
-  return [['登録名', person.id === 'KNG-001' ? displayName(person) : person.name], ['分類', typeNames[person.type] || person.type],
+  return [['登録名', person.id === 'KNG-001' ? displayName(person) : person.name], ['分類', person.is_count_only ? '人数枠（個人未同定）' : person.type === 'unclassified' ? '関係者（職種未確認）' : typeNames[person.type] || person.type],
     ['初期配置（現在地ではありません）', person.initial_room]];
 }
 function spoilerFields(person, events = []) {
   // Explicit allowlist: never copy notes, spoiler_notes, research or editor state.
   return [['状態', CharacterFacts.statusLabel(person, events)],
     ['所属', person.former_affiliations?.length ? `${person.affiliation || ''}（旧所属：${person.former_affiliations.join('・')}）` : person.affiliation],
-    ['役割', person.target ? (person.role || '').replace(person.target, '').trim() : person.role], ['母（王妃）', person.queen], ['任務', person.role?.includes(person.mission) ? null : person.mission],
+    ['役割', person.target ? (person.role || '').replace(person.target, '').trim() : person.role], ['役割・兵種の根拠', person.role_evidence], ['母（王妃）', person.queen], ['任務', person.role?.includes(person.mission) ? null : person.mission],
     ['最後の登録任務先', person.current_assignment], ['最後の所在', CharacterFacts.latestLocationParts(person, events)],
     ['念使用の確認', CharacterFacts.nenKnowledgeLabel(person)],
     ['念系統', CharacterFacts.nenTypeLabel(person)], ['念能力', person.nen_ability || '本人固有の能力は未確認'], ['守護霊獣', person.id === 'KNG-001' ? person.spirit_beast_name?.replace('ナスビー', 'ホイコーロ国王') : person.spirit_beast_name]];
@@ -110,7 +110,7 @@ function pageHtml(person, events, characters, sources, beasts = []) {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escape(title)}</title>
 <meta name="description" content="${escape(description)}">
-${person.verification_status === 'unverified' ? '<meta name="robots" content="noindex,follow">' : ''}
+${person.verification_status === 'unverified' || person.is_count_only || person.roster_projection ? '<meta name="robots" content="noindex,follow">' : ''}
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">

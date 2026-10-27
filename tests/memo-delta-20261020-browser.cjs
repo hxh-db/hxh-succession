@@ -23,11 +23,20 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.match(await page.locator('#modalTitle').innerText(),/所属と認識番号/);
    assert.match(await page.locator('#modalContent').innerText(),/返答は.*描かれない/);
    await page.goto(root+'?c_search='+encodeURIComponent('オウ＝ケンイ')+'#characters');await ready(page);
-   assert.match(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').innerText(),/念：確認済み/);
+   const ou=page.locator('.directory-character-card[data-character-id="SAA-002"]');
+   assert.equal(await ou.locator('.nen-knowledge-label').count(),0,'do not repeat Nen status on cards');
+   await ou.locator('h3 a').click();
+   assert.match(await page.locator('#modalContent').innerText(),/念使用：確認済み/,'the verified fact remains available in details');
+   await page.locator('#modalClose').click();
+   await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));
    await page.locator('#globalSpoilerToggle').click();
-   assert.ok(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').isHidden());
+   await ou.locator('h3 a').click();
+   assert.doesNotMatch(await page.locator('#modalContent').innerText(),/念使用：確認済み/,'detail status follows spoiler visibility');
+   await page.locator('#modalClose').click();
+   await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));
    await page.locator('#globalSpoilerToggle').click();
-   assert.ok(await page.locator('.directory-character-card[data-character-id="SAA-002"] .nen-knowledge-label').isVisible());
+   await ou.locator('h3 a').click();
+   assert.match(await page.locator('#modalContent').innerText(),/念使用：確認済み/);
    await page.goto(root+'?t_chapter=386&t_period=all#timeline');await ready(page);
    const order=await page.evaluate(()=>getChronologicalEntries(filteredEventsData).map(entry=>entry.event.id));
    const chain=['E386-003','E386-008','E386-006','E386-009','E386-004'];
@@ -36,7 +45,7 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    fs.mkdirSync('.local/notes-delta-20261020/screens',{recursive:true});
    await page.screenshot({path:`.local/notes-delta-20261020/screens/timeline-${width}.png`});
    assert.deepEqual(errors,[]);await context.close();
-   console.log(`PASS ${width}: Kaiser participant link, separated death and wake scenes, approximate time, Nen badge and no horizontal overflow`);
+   console.log(`PASS ${width}: Kaiser participant link, separated death and wake scenes, approximate time, Nen fact in details and no horizontal overflow`);
   }
  } finally {await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

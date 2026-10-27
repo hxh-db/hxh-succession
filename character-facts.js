@@ -226,9 +226,10 @@
     return person.nen_type_detail || person.nen_type || '未確認';
   }
   function registrationNotice(person) {
+    if (person.roster_projection) return '王妃所属兵の対応未同定枠です。全体名簿と同じ人員を表し、別人として人数に加算しません。';
+    if (person.is_count_only) return '氏名・顔との対応が未確認の人数枠です。登場確認済みの個人とは区別した仮登録です。';
     if (person.identity_status === 'unnamed_confirmed') return '原作で顔と所属を確認した氏名未判明の人物です。番号は識別用の仮称で、本名や現在の生死を示しません。';
     if (person.verification_status === 'unverified') return '出典未確認の旧登録です。氏名・所属・能力を確認済みの人物情報として扱わないでください。';
-    if (person.roster_projection) return '王妃所属兵の対応未同定枠です。全体名簿と同じ人員を表し、別人として人数に加算しません。';
     if (person.identity_status === 'provisional') return '人物の同定は暫定です。詳細で根拠を確認できます。';
     if (person.generated_by) return '人数資料から復元した仮登録です。個人の氏名・容姿・出航時の在室を確認したものではありません。';
     if (person.is_identity_reference) return '顔の対応を確認するための仮登録です。既存の名前付き人物と重複する可能性があり、人数に加算しません。';
@@ -281,7 +282,7 @@
     return result;
   }
   const SEARCH_TYPE_LABELS = {king:'国王', prince:'王子', queen:'王妃', hunter:'ハンター', soldier:'兵士', attendant:'従事者',
-    mercenary:'傭兵', expedition_member:'探検隊関係者', mafia:'マフィア', phantom_troupe:'幻影旅団', official:'司法・政府'};
+    mercenary:'傭兵', expedition_member:'探検隊関係者', mafia:'マフィア', phantom_troupe:'幻影旅団', official:'司法・政府', unclassified:'関係者 職種未確認'};
   function shortName(person) {
     return String(person.display_name || person.name || '').replace(/＝ホイコーロ/g, '');
   }

@@ -9,7 +9,7 @@
       "id": { "type": "string", "minLength": 1 },
       "type": {
         "type": "string",
-        "enum": ["king", "prince", "queen", "hunter", "soldier", "attendant", "mercenary", "expedition_member", "mafia", "phantom_troupe", "official"]
+        "enum": ["king", "prince", "queen", "hunter", "soldier", "attendant", "mercenary", "expedition_member", "mafia", "phantom_troupe", "official", "unclassified"]
       },
       "position_code": { "type": ["string", "null"] },
       "current_assignment": { "type": ["string", "null"] },
@@ -45,6 +45,8 @@
       "mission": { "type": ["string", "null"] },
       "target": { "type": ["string", "null"] },
       "role": { "type": ["string", "null"] },
+      "role_evidence": { "type": "string", "minLength": 1, "description": "個別の役割・兵種を確認した話数と場面、または断定できない範囲" },
+      "is_count_only": { "type": "boolean", "description": "個人確認のない人数枠。現在の初期名簿に含まれる枠は個人未同定と明示して一覧・索引へ表示し、サイトマップでは推薦しない" },
       "room": { "type": ["string", "null"] },
       "initial_room": { "type": ["string", "null"], "description": "台帳の当初の担当居室。現在地ではなく、所属・任務対象から別の居室へ飛躍しない" },
       "initial_room_basis": { "type": "string", "description": "初期担当居室の根拠・未確認範囲" },

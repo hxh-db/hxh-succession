@@ -1,5 +1,5 @@
 const DATA = {
-  characters: "data/characters.json?v=20261027-integrated",
+  characters: "data/characters.json?v=20261027-history-trash",
   characterTags: "data/character_tags.json?v=20261027-integrated",
   characterImages: "data/character_images.json?v=20261027-integrated",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
@@ -191,7 +191,7 @@ function validateCreatedEvent(record, key) {
 function appendCreatedEvents(events) {
   const existingIds = new Set(events.map((event) => event.id));
   Object.entries(localDrafts.items).forEach(([key, draft]) => {
-    if (!draft.createdRecord) return;
+    if (!draft.createdRecord || DraftState.isTrashed(draft)) return;
     try {
       const record = validateCreatedEvent(draft.createdRecord, key);
       if (existingIds.has(record.id)) return;
@@ -407,8 +407,21 @@ function renderDraftOverview() {
   const count = document.getElementById("draftCount");
   const list = document.getElementById("draftOverviewList");
   if (!count || !list) return;
-  const entries = buildDraftExport().entries
+  const allEntries = buildDraftExport().entries
     .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
+  const entries = allEntries.filter(entry => !DraftState.isTrashed(localDrafts.items[entry.key]));
+  const trash = document.getElementById("localEventTrashList");
+  if (trash) {
+    trash.replaceChildren();
+    const deleted = allEntries.filter(entry => DraftState.isTrashed(localDrafts.items[entry.key]));
+    document.getElementById("localEventTrashCount").textContent = `（${deleted.length}件）`;
+    for (const entry of deleted) {
+      const row = document.createElement("li");
+      row.append(document.createTextNode(entry.title + " "), makeEventTrashButton(entry.key, false));
+      trash.appendChild(row);
+    }
+    if (!deleted.length) { const row = document.createElement("li"); row.textContent = "ゴミ箱は空です。"; trash.appendChild(row); }
+  }
   count.textContent = draftLoadError ? `（読み込めた分${entries.length}件・他は未確認）` : `（${entries.length}件）`;
   list.replaceChildren();
   if (!entries.length) {
@@ -424,8 +437,38 @@ function renderDraftOverview() {
     const conflictNotice=DraftState.hasConflicts(localDrafts.items[entry.key]) ? '同時刻の競合候補あり。詳細で採用する案を選べます。 ' : '';
     const summary = conflictNotice + (entry.memo || (entry.isNew ? `追加した出来事（${draftStorageMode === "file" ? "このPC" : "このブラウザ"}に保存）` : `編集した項目：${Object.keys(entry.edits).join("、")}`));
     row.append(title, document.createTextNode(` — ${summary.length > 160 ? `${summary.slice(0, 160)}…` : summary}`));
+    if (entry.isNew) row.appendChild(makeEventTrashButton(entry.key, true));
     list.appendChild(row);
   });
+}
+
+function makeEventTrashButton(key, trashed) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "local-editor-button secondary";
+  button.dataset.eventTrash = trashed ? "trash" : "restore";
+  button.textContent = trashed ? "ゴミ箱へ移す" : "復元する";
+  button.disabled = Boolean(draftLoadError);
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    try {
+      for (const flush of [...draftMemoFlushers]) await flush();
+      const previous = localDrafts.items[key];
+      validateCreatedEvent(previous?.createdRecord, key);
+      localDrafts.items[key] = DraftState.setTrashed(previous, trashed);
+      if (!await saveLocalDrafts()) throw new Error("保存できませんでした。データは残っています。同じ操作で再試行できます。");
+      const url = new URL(location.href);
+      if (!trashed) { url.searchParams.set("event", previous.createdRecord.id); url.hash = "timeline"; }
+      history.replaceState(history.state, "", url);
+      location.reload();
+    } catch (error) {
+      button.disabled = false;
+      let status = button.parentElement.querySelector(".event-trash-status");
+      if (!status) { status = document.createElement("p"); status.className = "event-trash-status"; status.setAttribute("role", "status"); button.after(status); }
+      status.textContent = error.message;
+    }
+  });
+  return button;
 }
 
 function updateDraftStorageStatus() {
@@ -876,7 +919,10 @@ function getPrinceAffiliationRank(character) {
 function getNenClassLabel(character) {
   const first = isNenClassParticipant(character, 1);
   const second = isNenClassParticipant(character, 2);
-  if (character.id === "P14-H01") return "第一回・第二回念講習会の講師";
+  if (character.id === "P14-H01") {
+    const chapter = character.roster_view?.public_data ? character.roster_view.chapter : Infinity;
+    return chapter >= 411 ? "第一回・第二回念講習会の講師" : chapter >= 369 ? "第一回念講習会の講師" : null;
+  }
   if (first && second) return "第一回・第二回とも参加";
   if (first) return "第一回念講習会に参加";
   if (second) return "第二回念講習会に参加";
@@ -886,7 +932,8 @@ function getNenClassLabel(character) {
 function isNenClassParticipant(character, round) {
   if (character.id === "P14-H01" || (round === 2 && character.id === "P03-G01")) return false;
   const eventId = round === 1 ? "E369-002" : "E411-003";
-  return (eventsData.find((event) => event.id === eventId)?.characters || []).includes(character.id);
+  const event = eventsData.find((event) => event.id === eventId);
+  return Boolean(event && (!character.roster_view?.public_data || event.chapter <= character.roster_view.chapter) && event.characters.includes(character.id));
 }
 
 function formatLocationLabel(value) {
@@ -1703,6 +1750,7 @@ function isConfirmedNenUser(character) {
 function getNenAbilityName(character) {
   if(CharacterFacts.localFieldEdited(character,"nen_ability")) return "自分用の変更（未照合）";
   if (character.nen_ability_name) return character.nen_ability_name;
+  if (character.nen_history_view) return "能力名は未整理";
   const ability = character.nen_ability || "";
   const named = ability.match(/^([^。：]{2,28}?)(?:（[^）]+）)?[：:]/);
   if (named && !/^(?:詳細不明|念能力者だが詳細不明|念を使用可能|変化系念能力|強化系念能力)/.test(named[1])) {
@@ -1739,6 +1787,9 @@ function getCharacterNenTypeTagIds(character) {
 
 function getCharacterTags(character) {
   const ids = new Set(characterTagsById.get(character.id) || []);
+  if (character.roster_view?.public_data) {
+    for (const id of ids) if (["念", "念講習会", "念の系統", "任務", "対象", "状態"].includes(characterTagDefinitions.get(id)?.category)) ids.delete(id);
+  }
   ids.add(`type-${character.type}`);
   ids.add(getCharacterNameTagId(character));
   getCharacterNenTypeTagIds(character).forEach(id => ids.add(id));
@@ -1780,7 +1831,7 @@ function getCharacterTags(character) {
     ids.add(CHARACTER_MISSION_TAG_IDS[character.mission]);
   }
   if (/^死亡/.test(character.status || "")) ids.add("status-deceased");
-  if (confirmedKillsById.has(character.id)) ids.add("status-killer");
+  if (!character.roster_view?.public_data && confirmedKillsById.has(character.id)) ids.add("status-killer");
   if (isNenClassParticipant(character, 1)) ids.add("nen-class-1");
   if (isNenClassParticipant(character, 2)) ids.add("nen-class-2");
   if (character.mission === "護衛" && ![...ids].some((id) => id.startsWith("guard-"))) {
@@ -5107,6 +5158,12 @@ function renderLocalEditor(container, record, category, view = "modal") {
   });
   editor.appendChild(form);
   section.appendChild(editor);
+  if (category === "event" && record.local_created && localDrafts.items[recordKey]?.createdRecord) {
+    const trashActions = document.createElement("div");
+    trashActions.className = "local-event-trash-actions";
+    trashActions.appendChild(makeEventTrashButton(recordKey, true));
+    section.appendChild(trashActions);
+  }
   container.appendChild(section);
 }
 
@@ -5252,6 +5309,7 @@ function showDetailModal(name, category, eventData = null) {
       { label: "任務対象", value: record.role?.includes(record.target) ? "" : formatDisplayText(record.target), later: true },
       { label: "念系統", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理" : CharacterFacts.nenTypeLabel(record), later: true },
       { label: "能力", value: record.nen_status === "historical_unorganized" ? "この時点の能力情報は未整理（当時未判明という意味ではありません）" : record.nen_ability || "不明", later: true, readable: true },
+      { label: "能力情報の範囲", value: record.nen_history_view ? `第${record.nen_history_view.chapter}話までに読者へ示された情報のうち、出典を整理した範囲です。${record.nen_history_view.basis}` : "", later: true, readable: true },
       { label: "念講習会", value: getNenClassLabel(record) || "", later: true },
       { label: "備考", value: formatPublicDetailText(record.notes) || "", later: true, readable: true }
     ];
@@ -5306,7 +5364,7 @@ function showDetailModal(name, category, eventData = null) {
     period.className = "personnel-modal-period guide-source-note";
     const control = document.getElementById("characterPeriodFilter");
     period.textContent = `名簿の表示時点：${control.selectedOptions[0].textContent}。初期配置は復元を含みます。`;
-    if(record.roster_view.public_data) period.textContent += " この時点の人物情報は公開データの履歴です。自分用の変更は適用していません。";
+    if(record.roster_view.public_data) period.textContent += " 公開データの状態・配置と、話数別に整理した能力を表示します。自分用の変更は適用していません。他の属性には最新の登録を含みます。";
     content.appendChild(period);
   }
   // 顔画像がある人物だけ、詳細の先頭に拡大できるアバターを置く（頭文字アバターは出さない）。
@@ -6389,6 +6447,11 @@ function updateRecordLinkStatus(url) {
   document.getElementById("recordLinkMessage").textContent = missingEvent
     ? `リンク先の出来事が見つかりません。${eventId.startsWith("LOCAL-") ? "自分で追加した出来事は、保存したPC／ブラウザで開くか、JSONバックアップを読み込んでください。" : "リンクが古いか、現在のデータに収録されていない可能性があります。"}`
     : missingPerson ? "リンク先の人物が見つかりません。リンクが古いか、現在のデータに収録されていない可能性があります。" : "";
+  status.querySelector("[data-event-trash]")?.remove();
+  if (missingEvent && DraftState.isTrashed(localDrafts.items[`event:${eventId}`])) {
+    document.getElementById("recordLinkMessage").textContent = "この出来事はゴミ箱にあります。メモ・編集内容を含めて復元できます。";
+    status.appendChild(makeEventTrashButton(`event:${eventId}`, false));
+  }
 }
 
 function restoreViewFromUrl(url) {

@@ -1223,7 +1223,7 @@
   ],
   "source_sha256": {
     "data/events.json": "7336d905b8a4f9eae43a2960b493ec975fd5f9388c9e7ec8e2fa30a51de9a3c5",
-    "data/characters.json": "57d60fcaab4773f2e1b53465f90ed0adf05dfac4202d332b3c0f9507298c8184",
+    "data/characters.json": "0a55514e933dfa9836565965deb8b05f56e47dffb0d3ccc59724515a32125b80",
     "data/research_backlog.json": "95aede4b38c08eabb9933119cfe9190397c027919d00430c79c65591ef85ec23",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
     "data/intake/review_targets.json": "a5955000e449c7a205e767c8b319fb45a8dd116c6bdf1d7f5fa2967f7c3b12e5",

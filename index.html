@@ -632,6 +632,11 @@
         <summary>書いたメモを一覧で確認 <span id="draftCount"></span></summary>
         <ul id="draftOverviewList"></ul>
       </details>
+      <details id="localEventTrash" class="local-drafts-trash">
+        <summary>追加した出来事のゴミ箱 <span id="localEventTrashCount"></span></summary>
+        <p>個人で追加した出来事を、メモ・編集内容ごと復元できます。自動では消去しません。一括リセットではゴミ箱も対象になります。</p>
+        <ul id="localEventTrashList"></ul>
+      </details>
       <details class="local-drafts-backup">
         <summary>バックアップ・復元（必要なときだけ）</summary>
         <div class="local-drafts-transfer-actions">
@@ -682,11 +687,11 @@
   </dialog>
 
   <script src="character-routing.js?v=20261017-event-person"></script>
-  <script src="character-facts.js?v=20261027-integrated"></script>
+  <script src="character-facts.js?v=20261027-history-trash"></script>
   <script src="event-search.js?v=20261027-search"></script>
-  <script src="personnel-roster.js?v=20261027-integrated"></script>
-  <script src="draft-state.js?v=20261027-conflicts"></script>
+  <script src="personnel-roster.js?v=20261027-history-trash"></script>
+  <script src="draft-state.js?v=20261027-history-trash"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261027-integrated"></script>
+  <script src="script.js?v=20261027-history-trash"></script>
 </body>
 </html>

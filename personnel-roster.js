@@ -6,6 +6,18 @@
   const chapterFor = (period, latest = 420) => period === 'departure' ? 0 : period === 'latest' ? latest : /^chapter-\d+$/.test(period) ? Number(period.slice(8)) : null;
   // 希望の表明だけでは、実際に配置から外れたと数えない。
   const isInactive = status => /死亡|拘束|辞退|離脱/.test(String(status || '').replace(/離脱希望（実際の離脱は未確認）/g, ''));
+  function historicalNen(person, chapter) {
+    const entry = (person.nen_history || []).filter(item => item.chapter <= chapter)
+      .sort((a,b) => a.chapter - b.chapter).at(-1);
+    return {
+      nen_ability: entry?.nen_ability || null, nen_ability_name: entry?.nen_ability_name || null,
+      nen_type: entry?.nen_type || null, nen_type_detail: null,
+      nen_status: entry?.nen_status || 'historical_unorganized', nen_user: entry ? entry.nen_status === 'confirmed' : null,
+      nen_status_chapter: entry?.chapter || null, nen_role: null, nen_origin: null,
+      nen_ability_editorial: null, nen_ability_image: null, nen_ability_image_source: null,
+      nen_history_view: entry ? {chapter:entry.chapter, basis:entry.basis, source_event_ids:entry.source_event_ids} : null
+    };
+  }
   function state(person, member, chapter, events = []) {
     if (chapter === null) return {status: person.status, inactive: isInactive(person.status), assignment: person.current_assignment || person.camp || '', chapter: null};
     // 出航時の復元在籍と、その後の生存・稼働確認は別の情報。
@@ -56,20 +68,21 @@
       const claimsAtChapter = (person.review_claims || []).filter(claim =>
         claim.event_ids?.length && claim.event_ids.every(id => eventById.has(id) && eventById.get(id).chapter <= chapter)
         && [...(claim.text || '').matchAll(/第?(\d{3})話/g)].every(match => Number(match[1]) <= chapter));
+      const ability = historical ? historicalNen(person, chapter) : null;
+      if (ability?.nen_history_view) claimsAtChapter.push({text:`第${ability.nen_history_view.chapter}話までに読者へ示された能力情報：${ability.nen_history_view.basis}`,event_ids:ability.nen_history_view.source_event_ids});
       return {...person, ...(historical ? {
         status: selected.status, room: selectedRoom, initial_room: initialRoom, current_assignment: assignmentLabel,
         camp: prince?.camp || null, target: rank ? `第${rank}王子` : null,
-        role: member.group === 'monitors' ? '監視兵' : person.role,
+        role: ({monitors:'監視兵',private:'私設兵',maternal:'王妃所属兵',attendants:'従事者',hunters:'ハンター',staff:'職種未確認の人員枠'})[member.group] || '役割未整理（選択時点）',
+        mission: member.group === 'monitors' ? '監視' : null,
         role_evidence: person.source_chapter && person.source_chapter <= chapter ? person.role_evidence : null,
         assignment_history: (person.assignment_history || []).filter(log => log.chapter <= chapter),
         status_log: (person.status_log || []).filter(log => log.chapter <= chapter),
         claim_history: [], target_history: [], location: null, location_basis_chapter: null,
-        review_claims: claimsAtChapter, reference_images: [],
+        review_claims: claimsAtChapter, reference_images: [], spoiler_notes: null, faction_note: null,
         nen_ability_editorial: null, status_review_note: null,
-        notes: `選択時点：${assignmentLabel}。初期配置には人数枠からの復元を含み、個人の出航時在室をすべて確認済みという意味ではありません。${person.generated_by ? person.notes + '。' : ''}${member.notes || ''}`,
-        nen_ability: null, nen_ability_name: null, nen_type: null, nen_type_detail: null,
-        nen_status: 'historical_unorganized', nen_user: null, nen_status_chapter: null,
-        nen_ability_image: null, nen_ability_image_source: null
+        notes: `選択時点：${assignmentLabel}。初期配置・役割には名簿からの復元を含み、個人の出航時在室をすべて確認済みという意味ではありません。能力は選んだ話数までに読者へ判明した内容のうち、出典を整理した範囲を表示します。`,
+        ...ability
       } : {}), roster_view: {...selected, assignment: assignmentLabel, period, public_data:historical, initial: member.initial, basis: member.basis, slot_id: member.slot_id || null},
         roster_member: member};
     });
@@ -85,5 +98,5 @@
     if (new Set(monitoring.map(d => d.count)).size > 1) throw new Error(`第${queen}王妃の原図監視人数が不一致`);
     return (monitoring[0]?.count || 0) + placements.filter(d => d.purpose !== '下位王子の監視').reduce((n,d) => n + d.count, 0);
   }
-  return {chapterFor, state, select, counts, diagramCount};
+  return {chapterFor, state, select, counts, diagramCount, historicalNen};
 });

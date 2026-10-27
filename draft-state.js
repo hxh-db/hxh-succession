@@ -14,6 +14,8 @@
     : JSON.stringify(value);
   const choiceKey = choice => choice.present ? `1:${canonical(choice.value)}` : '0';
   const hasConflicts = item => Boolean(Object.keys(item?.conflicts || {}).length);
+  const isTrashed = item => Boolean(item?.createdRecord?.trashedAt ||
+    item?.conflicts?.createdRecord?.some(choice => choice.present && choice.value?.trashedAt));
   const choiceSignature = choices => choices.map(choice=>`${Date.parse(choice.updatedAt)}:${choiceKey(choice)}`).sort().join('\n');
   function orderChoices(choices) {
     const unique = new Map();
@@ -57,7 +59,7 @@
         (item.edits !== undefined && !validValues(item.edits))) return false;
     if (item.createdRecord !== undefined) {
       const created = item.createdRecord;
-      if (!validValues(created) || ['chapter', 'chapter_order'].some(key => created[key] !== undefined &&
+      if (!validValues(created) || (Object.hasOwn(created, 'trashedAt') && !validDate(created.trashedAt)) || ['chapter', 'chapter_order'].some(key => created[key] !== undefined &&
           (!Number.isInteger(created[key]) || created[key] < 1)) ||
           (created.characters !== undefined && (!Array.isArray(created.characters) || created.characters.some(id => typeof id !== 'string')))) return false;
     }
@@ -124,6 +126,24 @@
       throw new Error('競合した内容が更新されています。読み直してから選んでください。');
     }
     return editItem(item,{[field]:choice.present ? choice.value : undefined},{resolve:field});
+  }
+  function setTrashed(item, trashed) {
+    if (!/^LOCAL-[a-zA-Z0-9-]+$/.test(item?.createdRecord?.id || '')) throw new Error('個人で追加した出来事だけをゴミ箱へ移せます。');
+    const when = timestamp(item);
+    const mark = value => {
+      const record = {...value};
+      if (trashed) record.trashedAt = when;
+      else delete record.trashedAt;
+      return record;
+    };
+    const result = editItem(item, {createdRecord:mark(item.createdRecord)}, {resolve:'createdRecord'});
+    // Moving an event is not a choice between conflicting event descriptions.
+    if (item.conflicts?.createdRecord) {
+      const choices = orderChoices(item.conflicts.createdRecord.map(choice => ({...choice,
+        ...(choice.present ? {value:mark(choice.value)} : {}), updatedAt:result.fieldUpdatedAt.createdRecord})));
+      if (choices.length > 1) result.conflicts = {...result.conflicts, createdRecord:choices};
+    }
+    return result;
   }
   function mergeItem(current, incoming) {
     if (!current) return incoming;
@@ -238,7 +258,7 @@
       throw new Error('別のページの保存と重なりました。メモ欄を残したまま、もう一度保存してください。');
     });
   }
-  const api = {epoch, merge, reset, timestamp, editItem, hasContent, envelope, persist, validateSnapshot, checkpoint, validDate, resolveConflict, hasConflicts};
+  const api = {epoch, merge, reset, timestamp, editItem, hasContent, envelope, persist, validateSnapshot, checkpoint, validDate, resolveConflict, hasConflicts, isTrashed, setTrashed};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.DraftState = api;
 })(typeof window === 'undefined' ? globalThis : window);

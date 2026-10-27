@@ -140,6 +140,8 @@ def validate_snapshot(source, *, envelope=False) -> None:
             created = item["createdRecord"]
             if not valid_values(created) or any(key in created and (not integer(created[key]) or created[key] < 1) for key in ("chapter", "chapter_order")) or ("characters" in created and (not isinstance(created["characters"], list) or any(not isinstance(value, str) for value in created["characters"]))):
                 raise ValueError("追加した出来事の形式が正しくありません。")
+            if "trashedAt" in created and not valid_date(created["trashedAt"]):
+                raise ValueError("ゴミ箱へ移した日時の形式が正しくありません。")
         if "fieldUpdatedAt" in item:
             dates = item["fieldUpdatedAt"]
             if not isinstance(dates, dict) or any(key not in FIELDS or not valid_date(value) for key, value in dates.items()):

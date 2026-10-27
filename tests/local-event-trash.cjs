@@ -1,0 +1,30 @@
+const assert=require('node:assert/strict');
+const D=require('../draft-state.js');
+const original=D.editItem({}, {createdRecord:{id:'LOCAL-trash-test',description:'personal event',chapter:361,chapter_order:1,day:null,characters:[]},memo:'keep this memo',edits:{location:'keep this edit'}});
+const removed=D.setTrashed(original,true);
+assert.ok(D.isTrashed(removed));
+const stale=D.editItem(original,{memo:'memo from an older tab'});
+const source=item=>({version:2,items:{'event:LOCAL-trash-test':item,'guide:untouched':{memo:'other memo'}}});
+const merged=D.merge(source(removed),source(stale));
+assert.ok(D.isTrashed(merged.items['event:LOCAL-trash-test']));
+assert.equal(merged.items['event:LOCAL-trash-test'].memo,'memo from an older tab');
+assert.equal(merged.items['event:LOCAL-trash-test'].edits.location,'keep this edit');
+assert.equal(merged.items['guide:untouched'].memo,'other memo');
+const backup=JSON.parse(JSON.stringify(D.envelope(merged)));
+D.validateSnapshot(backup,{required:true});
+assert.ok(D.isTrashed(backup.items['event:LOCAL-trash-test']));
+const restored=D.setTrashed(backup.items['event:LOCAL-trash-test'],false);
+assert.ok(!D.isTrashed(restored));
+assert.ok(!D.isTrashed(D.merge(merged,source(restored)).items['event:LOCAL-trash-test']));
+assert.equal(restored.memo,'memo from an older tab');
+assert.equal(restored.createdRecord.description,'personal event');
+assert.equal(Object.keys(D.merge(source(removed),D.reset(source(removed))).items).length,0);
+assert.throws(()=>D.setTrashed({createdRecord:{id:'E361-001'}},true));
+const other={...original,createdRecord:{...original.createdRecord,description:'alternative description'}};
+const conflict=D.merge(source(original),source(other)).items['event:LOCAL-trash-test'];
+for(const item of [D.setTrashed(conflict,true),D.setTrashed(D.setTrashed(conflict,true),false)]){
+ D.validateSnapshot(source(item));
+ assert.equal(item.conflicts.createdRecord.length,2,'trash and restore do not silently pick event content');
+ assert.deepEqual(item.conflicts.createdRecord.map(c=>c.value.description).sort(),['alternative description','personal event']);
+}
+console.log('PASS: reversible local-event trash, stale memo saves, JSON backup, restored content, reset generations and public-event guard');

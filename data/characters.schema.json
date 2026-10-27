@@ -61,6 +61,23 @@
       "nen_status": { "type": "string", "enum": ["confirmed", "unknown", "unavailable_confirmed", "not_awakened_confirmed"], "description": "本人の念使用の確認状態。旧nen_user=falseを使用不可とみなさない" },
       "nen_status_chapter": { "type": "integer", "minimum": 1 },
       "nen_status_basis": { "type": "string" },
+      "nen_history": {
+        "type": "array", "minItems": 1,
+        "description": "その話数までに読者へ判明した能力情報。作中の習得時点とは別。各項目は表示可能な情報全体を持つ。未整備の話数は未整理のままにする。",
+        "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["chapter", "nen_status", "nen_type", "nen_ability_name", "nen_ability", "basis", "source_event_ids"],
+          "properties": {
+            "chapter": {"type": "integer", "minimum": 1},
+            "nen_status": {"enum": ["confirmed", "unknown", "unavailable_confirmed", "not_awakened_confirmed"]},
+            "nen_type": {"type": ["string", "null"]},
+            "nen_ability_name": {"type": ["string", "null"]},
+            "nen_ability": {"type": ["string", "null"]},
+            "basis": {"type": "string", "minLength": 1},
+            "source_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+          }
+        }
+      },
       "former_affiliations": { "type": "array", "items": { "type": "string" } },
       "assignment_history": { "type": "array", "items": { "type": "object", "required": ["label", "prince_id", "room", "chapter"], "properties": { "label": { "type": "string" }, "prince_id": { "type": "string" }, "room": { "type": "string" }, "chapter": { "type": "integer", "minimum": 1 }, "event_id": { "type": "string" } } } },
       "nen_origin": { "type": "string", "enum": ["nen_class", "prior", "unknown"], "description": "念講習での目覚めと、それ以前からの念能力者を区別する" },

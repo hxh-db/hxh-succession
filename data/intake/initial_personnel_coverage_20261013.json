@@ -3382,7 +3382,7 @@
   "source_hashes": {
     "data/intake/initial_personnel_assignments_20261013.json": "72aff976bd9f1f4373011f51617e9f311fa028e53599755793f13ec7352a54dd",
     "data/intake/initial_personnel_review_20261013.json": "e8bdc469c84eeecad04f9c3e66247e098883f6fa9d9fdd1d876146512be25e5a",
-    "data/characters.json": "57d60fcaab4773f2e1b53465f90ed0adf05dfac4202d332b3c0f9507298c8184",
+    "data/characters.json": "0a55514e933dfa9836565965deb8b05f56e47dffb0d3ccc59724515a32125b80",
     "data/count_only_characters.json": "ae304f848d6b4ffac79662a48eff33632ae6bbf7c36250a296f055596cf6d1af",
     "data/character_images.json": "ecd0cb930276a651c1c486c08a70be051b5a945d0fb13d6d01cc173503fa9a51"
   }

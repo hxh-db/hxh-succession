@@ -32,6 +32,8 @@
   {"name":"mafia-underlings","groups":["directory"]},
   {"name":"personnel-roster","groups":["directory"]},
   {"name":"roster-visibility","groups":["directory"]},
+  {"name":"nen-history","groups":["directory"]},
+  {"name":"local-event-trash","groups":["drafts"]},
   {"name":"related-events","groups":["directory","navigation"]},
   {"name":"event-person","groups":["navigation"]},
   {"name":"memo-application","groups":["navigation"]},

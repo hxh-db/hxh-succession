@@ -263,6 +263,24 @@ def validate_chronology_order(events):
     return []
 
 
+def validate_nen_history(characters, events):
+    errors = []
+    event_by_id = {event["id"]: event for event in events}
+    for person in characters:
+        previous_chapter = 0
+        for entry in person.get("nen_history", []):
+            chapter = entry["chapter"]
+            if chapter <= previous_chapter:
+                errors.append(f'{person["id"]}: 能力履歴の話数は重複なく昇順にしてください')
+            previous_chapter = chapter
+            sources = [event_by_id.get(key) for key in entry["source_event_ids"]]
+            if any(source is None or source["chapter"] > chapter or person["id"] not in source.get("characters", []) for source in sources):
+                errors.append(f'{person["id"]}: 能力履歴の出典・人物・判明話数が一致しません')
+            if not any(source and source["chapter"] == chapter for source in sources):
+                errors.append(f'{person["id"]}: 能力履歴の判明話数に対応する出典が必要です')
+    return errors
+
+
 def validate_cross_references(base):
     errors = []
     with open(base / "characters.json", encoding="utf-8") as f:
@@ -272,6 +290,7 @@ def validate_cross_references(base):
     with open(base / "open_questions.json", encoding="utf-8") as f:
         questions = json.load(f)
     errors.extend(validate_assignment_references(characters, events))
+    errors.extend(validate_nen_history(characters, events))
     errors.extend(validate_character_evidence(characters, events))
     errors.extend(validate_simultaneous_scenes(events))
     errors.extend(validate_same_incidents(events))

@@ -309,7 +309,7 @@
     const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
       SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
     if (!revealed) return initial.filter(Boolean);
-    return [...initial, person.status, person.role, person.camp, person.nen_ability, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
+    return [...initial, person.status, person.role, person.camp, person.nen_ability, person.nen_ability_name, person.nen_type, person.nen_type_detail, person.notes, person.mission, person.target,
       person.room, person.current_assignment, person.location, ...(extra.later || [])].filter(Boolean);
   }
   function buildSearchText(fields) {

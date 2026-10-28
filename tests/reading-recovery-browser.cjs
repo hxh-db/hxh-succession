@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 const {fixture,ready}=require('./helpers/browser-fixture.cjs');
@@ -53,7 +54,7 @@ const {fixture,ready}=require('./helpers/browser-fixture.cjs');
    await page.locator('[data-primary-view="characters"]').click();
    await page.locator('#characterSearch').fill('死亡');
    assert.equal(await page.locator('.directory-character-card[data-character-id="P12"]').count(),1);
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    assert.equal(await page.locator('.directory-character-card[data-character-id="P12"]').count(),0);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);
    await context.close();console.log(`PASS reading recovery ${width}: chapter keys/multiple/all-closed/history/position/person, Ctrl+new-tab and modifier defaults, status search spoiler protection`);

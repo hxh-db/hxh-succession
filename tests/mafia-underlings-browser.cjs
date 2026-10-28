@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium} = require('./helpers/isolated-browser.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -25,7 +26,7 @@ const base = 'http://127.0.0.1:8765/';
       assert.equal(await page.locator('.directory-character-card[data-character-id="EII-007"]').count(), 0);
       await page.locator('#characterSearch').fill('ツドンケ');
       const card = page.locator('.directory-character-card[data-character-id="SAA-005"]');
-      await page.locator('#globalSpoilerToggle').click();
+      await toggleDisclosure(page);
       await card.locator('h3 a').click();
       await page.locator('#detailModal:not(.hidden)').waitFor();
       assert.match(await page.locator('#modalContent').innerText(), /色紙|サイン/);

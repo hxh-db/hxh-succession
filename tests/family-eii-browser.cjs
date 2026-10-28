@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 (async()=>{
@@ -17,8 +18,8 @@ const assert=require('node:assert/strict');
    }
    const morena=page.locator('.directory-character-card[data-character-id="EII-001"]');
    assert.ok(!(await morena.innerText()).includes('親子（名義上）'));
-   await page.locator('#globalSpoilerToggle').click();
-   await page.waitForFunction(()=>document.getElementById('globalSpoilerToggle').getAttribute('aria-pressed')==='true');
+   await toggleDisclosure(page);
+   await page.waitForFunction(()=>(document.getElementById('spoilerRange').value==='all'?'true':'false')==='true');
    assert.match(await morena.innerText(),/親子（名義上）/);
    assert.match(await morena.innerText(),/ホイコーロ国王/);
    await morena.locator('h3 a').click();

@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 /* Regression: inline tag disclosure, live filters, history, spoiler boundaries and responsive layout. */
 const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
@@ -86,10 +87,12 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'official');
    await page.keyboard.press('Home');
    assert.equal(await page.evaluate(()=>document.activeElement.dataset.groupId),'all');
-   await page.locator('#characterPeriodFilter').selectOption('chapter-374');
-   assert.ok(page.url().includes('c_when=chapter-374'));
+   assert.equal(await page.locator('#characterPeriodFilter,#characterQueenFilter').count(),0);
+   assert.equal(new URL(page.url()).searchParams.has('c_when'),false);
+   await page.locator('#characterSearch').fill('ヒュリコフ');
+   await page.waitForURL(url=>url.searchParams.get('c_search')==='ヒュリコフ');
    await page.locator('#clearCharacterFilters').click();
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    assert.ok(await page.locator('#characterSpoilerTagGroups').isVisible());
    const family=page.locator('#characterSpoilerTagRows [data-tag-category="血縁"]');
    assert.deepEqual(await family.locator('button').allTextContents(),['親子','兄弟']);
@@ -127,7 +130,7 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.equal(await page.locator('#characterFilterCount').innerText(),'（2条件を選択中）');
    await page.locator('#characterFilterToggle').scrollIntoViewIfNeeded();
    await page.screenshot({path:`.local/tag-filters-20261022/open-${width}.png`});
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    assert.equal(await page.locator('#characterSpoilerTagGroups').isVisible(),false);
    assert.equal(await nenTypes.isVisible(),false);
    assert.equal(await page.locator('#characterFilterCount').innerText(),'（1条件を選択中）');

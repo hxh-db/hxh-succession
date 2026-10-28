@@ -2705,6 +2705,11 @@ body.modal-open {
 
 /* Shared reading preferences and static character pages. */
 .reading-preferences { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0; font-size:.85rem; }
+.spoiler-preferences { display:flex; flex-direction:column; gap:5px; margin:10px 0; }
+.spoiler-range-label { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-weight:600; }
+.spoiler-range-select { max-width:100%; min-height:44px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--surface, #fff); color:var(--text); font:inherit; }
+.spoiler-range-help { color:var(--muted); font-size:.82rem; line-height:1.5; }
+.reading-preferences .spoiler-preferences { flex:1 1 100%; margin:0; }
 .reading-preferences button, #pageSpoilerToggle { padding:9px 13px; border:1px solid var(--border); border-radius:8px; cursor:pointer; background:var(--surface, #fff); color:var(--text); }
 .global-spoiler-gate { padding:20px; margin:16px 0; border:1px dashed var(--border); border-radius:10px; }
 body.spoilers-revealed .global-spoiler-gate { display:none; }

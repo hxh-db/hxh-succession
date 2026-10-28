@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -29,12 +30,12 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.match(await page.locator('#modalContent').innerText(),/念使用：確認済み/,'the verified fact remains available in details');
    await page.locator('#modalClose').click();
    await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    await ou.locator('h3 a').click();
    assert.doesNotMatch(await page.locator('#modalContent').innerText(),/念使用：確認済み/,'detail status follows spoiler visibility');
    await page.locator('#modalClose').click();
    await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    await ou.locator('h3 a').click();
    assert.match(await page.locator('#modalContent').innerText(),/念使用：確認済み/);
    await page.goto(root+'?t_chapter=386&t_period=all#timeline');await ready(page);

@@ -7,7 +7,7 @@ const countOnly = new Set(require('../data/count_only_characters.json').ids);
 const review = require('../data/intake/unnamed_roles_review_20261024.json');
 const {select} = require('../personnel-roster.js');
 const source = fs.readFileSync(require.resolve('../script.js'), 'utf8');
-const predicate = source.slice(source.indexOf('function isDirectoryCharacter('), source.indexOf('function getPersonnelPeriod('));
+const predicate = source.slice(source.indexOf('function isDirectoryCharacter('), source.indexOf('function getCharacterRecord('));
 const context = vm.createContext({countOnlyCharacterIds:countOnly, personnelRosterData:roster});
 vm.runInContext(predicate, context);
 const visible = p => context.isDirectoryCharacter(p);
@@ -43,7 +43,7 @@ assert.equal(people.find(p => p.id === 'P14-M03').type, 'attendant');
 for (const p of people.filter(p => /^P04-L0[345]$/.test(p.id))) assert.equal(p.soldier_category, '私設兵');
 for (const period of ['departure','chapter-374','latest','all']) {
   const ledger = select(roster, people, {period});
-  assert.equal(ledger.filter(p => context.isRosterDirectoryCharacter(p)).length, ledger.length);
+  assert.equal(ledger.filter(visible).length, ledger.length);
   const fukataki = ledger.find(p => p.id === 'P02-P15');
   if (period === 'departure' || period === 'chapter-374') assert.equal(fukataki.role_evidence, null);
   else assert.match(fukataki.role_evidence, /第389話/);
@@ -52,7 +52,7 @@ assert.equal(select(roster, people, {period:'departure'}).length, 230);
 assert.equal(select(roster, people, {period:'departure'}).filter(visible).length, 230);
 for (let queen = 1; queen <= 7; queen++) {
   const ledger = select(roster, people, {period:'departure', queen});
-  assert.equal(ledger.filter(p => context.isRosterDirectoryCharacter(p)).length, ledger.length);
+  assert.equal(ledger.filter(visible).length, ledger.length-1,'queen-only reference projection is excluded from ordinary search');
   assert.equal(ledger.filter(p => p.roster_projection).length, 1);
 }
 assert.equal(people.filter(visible).filter(p => p.roster_projection).length, 0);

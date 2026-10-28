@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 /* Regression: character details share the timeline chronology, not chapter order. */
 const {chromium} = require('./helpers/isolated-browser.cjs');
 
@@ -25,7 +26,7 @@ const assert = require('node:assert/strict');
       assert.ok(await list.isHidden(), 'related event headlines must remain behind the spoiler control');
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => document.getElementById('detailModal').classList.contains('hidden'));
-      await page.locator('#globalSpoilerToggle').click();
+      await toggleDisclosure(page);
       await person.click();
       assert.ok(await list.isVisible(), 'timeline must already be expanded when the person opens');
       assert.equal(await list.locator('summary').count(), 0, 'no extra related-events disclosure');
@@ -77,10 +78,13 @@ const assert = require('node:assert/strict');
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => document.getElementById('detailModal').classList.contains('hidden'));
       await page.goto(root + '?c_when=chapter-374&c_search=' + encodeURIComponent('ヒュリコフ') + '#characters'); await ready();
+      assert.equal(await page.locator('#spoilerRange').inputValue(),'basic');
+      assert.ok(await page.locator('#characterLegacyFilterNotice').isVisible());
+      await page.locator('#spoilerRange').selectOption('all');
       await page.locator('.directory-character-card[data-character-id="P01-P06"] h3 a').click();
       const chapters = await list.locator('.schedule-event-chapter').allTextContents();
       assert.ok(chapters.length > 0);
-      assert.ok(chapters.every(text => Number(text.match(/\d+/)[0]) <= 374), 'chapter-scoped details must not expose later events');
+      assert.ok(chapters.some(text => Number(text.match(/\d+/)[0]) > 374), 'the explicitly selected all-information level includes later records');
       await page.goto(root + '?event=E402-007#timeline'); await ready();
       assert.match(await page.locator('#modalContent').innerText(), /07:55頃？/);
       await page.goto(root + '?c_search=' + encodeURIComponent('ギャトーム') + '#characters'); await ready();

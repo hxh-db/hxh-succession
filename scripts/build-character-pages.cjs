@@ -114,7 +114,8 @@ ${person.verification_status === 'unverified' || person.is_count_only || person.
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">
-<script src="../../character-page.js?v=20261027-avatar-recovery" defer></script>
+<script src="../../spoiler-preferences.js?v=20261028-ui" defer></script>
+<script src="../../character-page.js?v=20261028-ui" defer></script>
 </head><body class="standalone-character-page" data-character-id="${escape(person.id)}">
 <header class="site-header"><div class="header-inner"><p>HUNTER×HUNTER 王位継承戦データベース</p></div>
 <nav class="primary-nav"><a href="../../#characters">人物一覧</a><a href="../../#timeline">出来事</a><a href="../../characters/">人物索引</a></nav></header>
@@ -125,8 +126,7 @@ ${definitionList(publicFields(person))}
 ${evidence ? `<p class="author-setting-badge">${person.setting_only ? '作者設定表／本編対応未確認' : '作者設定表で氏名確認'}</p>` : ''}
 <p class="character-page-actions"><a class="character-page-list-link" href="../../?person=${encodeURIComponent(person.id)}#characters">人物一覧で見る</a></p>
 <p>初期配置は台帳の当初の担当先です。後任の人物や復元枠も含み、全員の出航時の在室を示すものではありません。後の展開は下の折りたたみにまとめています。</p>
-<button type="button" id="pageSpoilerToggle" aria-pressed="false" hidden>ネタバレを表示</button>
-<p id="pageSpoilerStatus" role="status">詳細には後の展開を含みます。下の項目を開くと表示できます。</p>
+<div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="${Math.max(...events.map(event=>event.chapter))}" hidden></div>
 <details class="character-page-spoilers" data-nosnippet><summary>人物詳細（後の展開を含む）</summary>
 ${definitionList(spoilerFields(person, events))}
 ${familyHtml(person, characters)}
@@ -177,8 +177,9 @@ function expectedOutputs(onlyId = null) {
       return members.length ? `<h2>${escape(heading)}（${members.length}人）</h2>\n<ul class="static-character-index">${members.map(p => `<li><a href="${encodeURIComponent(p.id)}/">${escape(titleName(p))}</a></li>`).join('\n')}</ul>` : '';
     }).filter(Boolean).join('\n');
     outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p>
+<div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="${Math.max(...events.map(event=>event.chapter))}" hidden></div>
 ${links}
-</main></body></html>\n`);
+</main><script src="../spoiler-preferences.js?v=20261028-ui" defer></script><script src="../character-page.js?v=20261028-ui" defer></script></body></html>\n`);
     // 人数枠は閲覧できるようにするが、実在の個人として検索エンジンへ推薦しない。
     const urls = [SITE, SITE+'characters/', ...directory.filter(p=>!p.is_count_only && !countOnly.has(p.id)).map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');

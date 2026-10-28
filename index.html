@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261018-reading" />
+  <link rel="stylesheet" href="style.css?v=20261028-ui" />
   <link rel="stylesheet" href="filter-controls.css?v=20261027-search" />
   <link rel="stylesheet" href="draft-conflicts.css?v=20261027-conflicts" />
 </head>
@@ -47,8 +47,7 @@
       <button id="clearRecordLink" class="local-editor-button" type="button">リンク指定を解除して一覧を見る</button>
     </section>
     <div class="reading-preferences" aria-label="全画面共通の表示設定">
-      <button id="globalSpoilerToggle" type="button" aria-pressed="false" aria-describedby="globalSpoilerStatus" title="押すとネタバレを表示します">ネタバレをまとめて表示</button>
-      <span id="globalSpoilerStatus" class="visually-hidden" role="status">全画面でネタバレを隠しています</span>
+      <div id="spoilerPreferences" class="spoiler-preferences"></div>
       <a id="currentViewLink" href="#characters">表示リンク</a>
       <a id="localDraftsLink" href="#localDraftsTitle">メモ管理</a>
     </div>
@@ -61,6 +60,7 @@
           <p>初期配置は当初の担当居室（後任は最初の確認配置）で、現在地や出航時の在室者一覧ではありません。「念：未確認」は使用不可を意味しません。親子説は未確定情報として区別します。</p>
           <p>関係王子はそのまま選べます。「タグで絞り込む」を開くと、分類・所属・任務などのタグが並びます。各行は1つ選択でき、違う行の条件は組み合わせます。選択中のタグをもう一度押すか、選択中の条件の「×」で解除できます。</p>
           <p id="characterSpoilerHelp">後の話の情報は隠しています。人物ごとに「後の話の情報を表示」で開けます（全体の設定は変わりません）。</p>
+          <p>出航時や第374話の配置・人数は、基礎資料の「配置図・人数表」で確認できます。</p>
           <p id="characterCoverageNote"></p>
         </details>
       </div>
@@ -82,7 +82,7 @@
         </div>
         <div class="character-tag-toolbar">
           <button id="characterFilterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="characterFilterPanel">タグで絞り込む<span id="characterFilterCount"></span></button>
-          <button id="resetCharacterTags" type="button" title="分類・関係王子・所属などのタグを解除します。検索語・名簿の時点・表示形式は残します。" disabled>タグをリセット</button>
+          <button id="resetCharacterTags" type="button" title="分類・関係王子・所属などのタグを解除します。検索語・表示形式は残します。" disabled>タグをリセット</button>
         </div>
         <div id="characterFilterPanel" class="character-filter-panel" role="region" aria-labelledby="characterFilterToggle" hidden>
           <p class="tag-filter-help">タグを組み合わせて絞り込めます。もう一度押すと解除できます。</p>
@@ -102,39 +102,13 @@
             </div>
           </div>
         </div>
-          <h3 class="filter-section-heading">名簿を調べる</h3>
-
-      <div id="personnelFilters" class="personnel-filters">
-      <div class="personnel-period-controls">
-        <label>名簿の時点
-          <select id="characterPeriodFilter">
-            <option value="all">全員（時点指定なし）</option>
-            <option value="departure">出航時</option>
-            <option value="chapter-374">第374話時点</option>
-            <option value="latest">最新話時点</option>
-          </select>
-        </label>
-        <label class="personnel-queen-label">王妃所属兵
-          <select id="characterQueenFilter">
-            <option value="all">すべて</option>
-            <option value="1">第1王妃所属兵</option><option value="2">第2王妃所属兵</option>
-            <option value="3">第3王妃所属兵</option><option value="4">第4王妃所属兵</option>
-            <option value="5">第5王妃所属兵</option><option value="6">第6王妃所属兵</option>
-            <option value="7">第7王妃所属兵</option>
-          </select>
-        </label>
-        <p id="personnelRosterSummary" class="guide-source-note" aria-live="polite"></p>
-        <p class="personnel-count-help">人数には復元した枠や死亡・離脱した人物も含みます。原作の人数表とは集計範囲が異なる場合があります。</p>
-      </div>
-      <div id="personnelQueenNav" class="character-camp-nav" aria-label="王妃別の所属兵"></div>
-      </div>
-
         </div>
         <div class="character-filter-status">
           <div id="characterActiveTag" class="character-active-tag" aria-label="選択中の人物条件"></div>
           <p id="characterSpoilerFilterNotice" class="search-scope-help" role="status" hidden>ネタバレ非表示のため、後の情報を使う絞り込み条件は解除しました。</p>
 
         </div>
+        <p id="characterLegacyFilterNotice" class="search-scope-help" role="status" hidden>以前の時点指定は解除しました。人物検索は表示範囲の設定に従います。配置・人数の資料は基礎資料にあります。</p>
       </div>
       <div class="character-controls">
         <div class="advanced-character-filters" hidden aria-hidden="true">
@@ -688,11 +662,12 @@
   </dialog>
 
   <script src="character-routing.js?v=20261017-event-person"></script>
+  <script src="spoiler-preferences.js?v=20261028-ui"></script>
   <script src="character-facts.js?v=20261028-temporal"></script>
   <script src="event-search.js?v=20261027-search"></script>
   <script src="personnel-roster.js?v=20261028-temporal"></script>
   <script src="draft-state.js?v=20261027-history-trash"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261028-temporal"></script>
+  <script src="script.js?v=20261028-ui"></script>
 </body>
 </html>

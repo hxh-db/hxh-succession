@@ -1,3 +1,4 @@
+const {disclosureState}=require('./helpers/disclosure.cjs');
 const {chromium} = require('playwright');
 const assert = require('node:assert/strict');
 const {fixture, ready} = require('./helpers/browser-fixture.cjs');
@@ -17,7 +18,7 @@ const {fixture, ready} = require('./helpers/browser-fixture.cjs');
         assert.ok(await page.locator('#recordLinkStatus').isVisible());
         assert.match(await page.locator('#recordLinkMessage').innerText(), message);
         assert.ok(await page.locator('#detailModal').isHidden());
-        assert.equal(await page.locator('#globalSpoilerToggle').getAttribute('aria-pressed'), 'false');
+        assert.equal(await disclosureState(page), 'false');
         await page.locator('#clearRecordLink').click(); await ready(page);
         assert.ok(await page.locator('#recordLinkStatus').isHidden());
         const url = new URL(page.url());

@@ -4,6 +4,7 @@
   {"name":"draft-reset","groups":["critical","drafts"]},
   {"name":"loading-recovery","groups":["critical","navigation"]},
   {"name":"spoiler-sync","groups":["critical","navigation"]},
+  {"name":"disclosure-range","groups":["critical","directory","navigation","research"]},
   {"name":"event-link-spoilers","groups":["critical","navigation"]},
   {"name":"draft-recovery-backup","groups":["critical","drafts"]},
   {"name":"draft-corruption","groups":["critical","drafts"]},

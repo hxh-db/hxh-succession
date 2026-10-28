@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium} = require('./helpers/isolated-browser.cjs');
 
 const path = require('node:path');
@@ -18,7 +19,7 @@ const assert = require('node:assert/strict');
       const kacho = page.locator('.directory-character-card[data-character-id="P10"]');
       const fugetsu = page.locator('.directory-character-card[data-character-id="P11"]');
       assert.equal(await kacho.locator('.character-alliance-badge:visible').count(), 0, 'hidden spoilers must remain hidden');
-      await page.locator('#globalSpoilerToggle').click();
+      await toggleDisclosure(page);
       assert.deepEqual(await kacho.locator('.character-alliance-badge').allTextContents(), ['共闘', '第11王子フウゲツ']);
       assert.deepEqual(await fugetsu.locator('.character-alliance-badge').allTextContents(), ['共闘', '第10王子カチョウ']);
       assert.equal(await kacho.locator('.character-alliance-role').count(), 1);
@@ -29,7 +30,7 @@ const assert = require('node:assert/strict');
       await page.locator('#modalClose').click();
       await page.waitForFunction(() => document.getElementById('detailModal').classList.contains('hidden'));
       assert.deepEqual(await kacho.locator('.character-alliance-badge').allTextContents(), ['共闘', '第11王子フウゲツ']);
-      await page.locator('#globalSpoilerToggle').click();
+      await toggleDisclosure(page);
       assert.equal(await kacho.locator('.character-alliance-badge:visible').count(), 0);
       assert.equal(await fugetsu.locator('.character-alliance-badge:visible').count(), 0);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));

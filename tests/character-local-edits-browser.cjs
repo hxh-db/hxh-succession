@@ -48,14 +48,15 @@ const KEY='hxh-succession-local-drafts-v1';
    await save(editor);
    assert.equal(await page.locator('#modalContent img[src*="kurapika-dowsing-chain"]').count(),0,'Original ability image must not illustrate a private replacement');
    assert.match(await page.locator('#modalContent .character-local-edit-notice').innerText(),/役割.*念能力/s);
-   await page.goto(base+'?c_group=personnel&c_when=chapter-374&c_search='+encodeURIComponent('クラピカ')+'#characters');await ready(page);
+   await page.goto(base+'?c_group=personnel&c_search='+encodeURIComponent('クラピカ')+'#characters');await ready(page);
    const card=page.locator('.directory-character-card[data-character-id="P14-H01"]');
-   assert.doesNotMatch(await card.innerText(),/検査用の私的/);
-   assert.equal(await card.locator('.character-local-edit-notice').count(),0);
+   assert.match(await page.evaluate(()=>currentCharacterResults.find(p=>p.id==='P14-H01').role),/検査用の私的/);
+   assert.equal(await card.locator('.character-local-edit-notice').count(),1);
    await card.locator('h3 a').click();
-   assert.match(await page.locator('.personnel-modal-period').innerText(),/公開データ.*自分用の変更は適用していません/);
+   assert.match(await page.locator('#modalContent .character-local-edit-notice').innerText(),/自分用/);
+   assert.match(await page.locator('#modalContent').innerText(),/検査用の私的/);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);
-   await context.close();console.log(`PASS personal character edits ${local?'file':'browser'} ${width}: unverified status/place/ability/role, separate public evidence, undo+memo, static and historical public scope`);
+   await context.close();console.log(`PASS personal character edits ${local?'file':'browser'} ${width}: unverified status/place/ability/role, separate public evidence, undo+memo, static public data and normal search scope`);
   }
  } finally {await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

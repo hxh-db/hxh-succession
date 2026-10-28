@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 
@@ -61,7 +62,7 @@ const ready=page=>page.waitForFunction(()=>viewLinksReady && !restoringReadingSt
    assert.ok(await queen.isVisible());
    assert.equal(await queen.getAttribute('aria-pressed'),'true');
    await page.locator('#clearCharacterFilters').click();
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    await page.locator('#characterFilterPanel [data-tag-id="relation-parent-child"]').click();
    await page.locator('#characterFilterPanel [data-tag-id="relation-siblings"]').click();
    await page.locator('#characterCampNav [data-group-id="mafia"]').click();

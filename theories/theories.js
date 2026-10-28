@@ -1,13 +1,16 @@
 /* Shared spoiler preference is read, never changed by opening one article. */
-try {
-  if (localStorage.getItem('hxh-succession-spoilers-revealed-v1') === 'true') {
-    document.querySelectorAll('.spoiler-article').forEach(el => { el.open = true; });
-  }
-} catch (_) { /* Private browsing: keep the safe collapsed default. */ }
-window.addEventListener('storage', event => {
-  if (event.key !== 'hxh-succession-spoilers-revealed-v1') return;
-  document.querySelectorAll('.spoiler-article').forEach(el => { el.open = event.newValue === 'true'; });
-});
+(() => {
+  const container=document.getElementById('spoilerPreferences');
+  if(!container)return;
+  const update=(revealed,persist=true)=>{
+    document.querySelectorAll('.spoiler-article').forEach(el=>{el.open=revealed;});
+    control.setValue(revealed);
+    if(persist)try{localStorage.setItem(SpoilerPreferences.STORAGE_KEY,String(revealed));}catch(_){/* no storage */}
+  };
+  const control=SpoilerPreferences.mount(container,{latestChapter:Number(container.dataset.latestChapter),onChange:update});
+  update(SpoilerPreferences.read(),false);
+  window.addEventListener('storage',event=>{if(event.key===SpoilerPreferences.STORAGE_KEY)update(event.newValue==='true',false);});
+})();
 // 根拠詳細から戻るリンクは、この記事だけを開く。全体のネタバレ設定は変えない。
 if (location.hash === '#evidence') {
   const article = document.querySelector('.spoiler-article');

@@ -1,0 +1,42 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const {fixture,ready}=require('./helpers/browser-fixture.cjs');
+const DraftState=require('../draft-state.js');
+(async()=>{const browser=await chromium.launch({channel:'msedge',headless:true});try{for(const width of [1280,390]){
+ const {context,base}=await fixture(browser,{local:false,width,prefix:'/hxh-succession'}),main=await context.newPage(),errors=[];
+ context.on('page',p=>p.on('pageerror',e=>errors.push(e.message)));main.on('pageerror',e=>errors.push(e.message));
+ await main.goto(base+'?person=P12&detail=1&spoilers=all#characters');await ready(main);
+ assert.equal(await main.locator('#spoilerRange').inputValue(),'basic');
+ assert.deepEqual(await main.locator('#spoilerRange option').evaluateAll(options=>options.map(o=>o.value)),['basic','all']);
+ assert.match(await main.locator('#spoilerRangeHelp').innerText(),/読み終えた範囲/);
+ assert.equal(await main.locator('#modalContent .person-later-info').evaluate(el=>el.open),false);
+ const max=await main.evaluate(()=>Math.max(...eventsData.map(e=>e.chapter)));
+ assert.match(await main.locator('#spoilerRange option[value="all"]').innerText(),new RegExp(`収録済み全情報.*第${max}話まで`));
+ const other=await context.newPage();await other.goto(base+'characters/P14-H01/');await other.locator('#spoilerRange').waitFor();
+ assert.equal(await other.locator('#spoilerRange').inputValue(),'basic');
+ await other.locator('#spoilerRange').selectOption('all');await main.waitForFunction(()=>spoilersRevealed);
+ assert.equal(await other.locator('.character-page-spoilers').evaluate(el=>el.open),true);
+ const article=await context.newPage();await article.goto(base+'theories/Q001/');await article.locator('#spoilerRange').waitFor();
+ assert.equal(await article.locator('#spoilerRange').inputValue(),'all');await article.locator('#spoilerRange').selectOption('basic');
+ await main.waitForFunction(()=>!spoilersRevealed&&!CharacterRoutes.isActive());await other.waitForFunction(()=>!document.querySelector('.character-page-spoilers').open);
+ assert.equal(await main.locator('#spoilerRange').inputValue(),'basic');
+ for(const route of ['theories/','research/','characters/']){
+  await article.goto(base+route);await article.locator('#spoilerRange').waitFor();assert.equal(await article.locator('#spoilerRange').count(),1);
+  assert.equal(await article.locator('#spoilerRange').inputValue(),'basic');await article.locator('#spoilerRange').selectOption('all');await article.locator('#spoilerRange').selectOption('basic');
+  assert.ok(await article.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ }
+ await main.locator('#spoilerRange').selectOption('all');
+ await main.goto(base+'?c_when=chapter-374&c_search='+encodeURIComponent('ヒュリコフ ビヨンド')+'#characters');await ready(main);
+ assert.equal(await main.locator('#spoilerRange').inputValue(),'basic','retired chapter bookmark cannot expand a previously allowed range');
+ assert.equal(await main.locator('.directory-character-card').count(),0);assert.equal(new URL(main.url()).searchParams.has('c_when'),false);
+ await main.reload();await ready(main);assert.equal(await main.locator('#spoilerRange').inputValue(),'basic');
+ await main.locator('#spoilerRange').selectOption('all');assert.deepEqual(await main.evaluate(()=>currentCharacterResults.map(p=>p.id).sort()),['BYD-001','P01-P06']);
+ const share=await main.locator('#currentViewLink').getAttribute('href'),fresh=await fixture(browser,{local:false,width,prefix:'/hxh-succession'}),recipient=await fresh.context.newPage();
+ await recipient.goto(share);await ready(recipient);assert.equal(await recipient.locator('#spoilerRange').inputValue(),'basic');assert.equal(await recipient.locator('.directory-character-card').count(),0);
+ await fresh.context.close();
+ const altered=await fixture(browser,{local:false,width,prefix:'/hxh-succession'}),edited=await altered.context.newPage();
+ const snapshot={format:'hxh-succession-local-drafts',version:1,items:{'event:LOCAL-coverage':DraftState.editItem({},{createdRecord:{id:'LOCAL-coverage',description:'検証ブラウザ内の追加',chapter:999,chapter_order:1,day:null,characters:[]}})},entries:[]};
+ await altered.context.addInitScript(snapshot=>localStorage.setItem('hxh-succession-local-drafts-v1',JSON.stringify(snapshot)),snapshot);
+ await edited.goto(base);await ready(edited);assert.equal(await edited.evaluate(()=>eventsData.find(e=>e.id==='LOCAL-coverage').chapter),999);
+ assert.match(await edited.locator('#spoilerRange option[value="all"]').innerText(),new RegExp(`第${max}話まで`),'private chapter changes do not alter the published coverage label');
+ await altered.context.close();assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${width}: common two-level control, legacy preference/scope migration, cross-page/tab sync, safe shared link and public coverage bound`);
+}}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

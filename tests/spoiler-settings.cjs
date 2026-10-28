@@ -32,6 +32,8 @@ class Element {
   constructor(tag) { this.tagName = tag; this.children = []; this.listeners = {}; this.open = false; this.textContent = ''; }
   appendChild(child) { this.children.push(child); return child; }
   addEventListener(type, fn) { this.listeners[type] = fn; }
+  setAttribute(key,value) { (this.attrs ||= {})[key]=value; }
+  replaceChildren(...nodes) { this.children=nodes; }
 }
 const ctx = vm.createContext({document: {createElement: tag => new Element(tag)}, spoilersRevealed: false});
 vm.runInContext(extract('makeLaterInfoDetails'), ctx);
@@ -46,18 +48,20 @@ assert.equal(ctx.spoilersRevealed, false);
 const stored = new Map();
 const pageListeners = {};
 const details = {open: false, addEventListener: (type, fn) => { pageListeners[type] = fn; }};
-const button = {hidden: true, textContent: '', attrs: {}, setAttribute(k, v) { this.attrs[k] = v; },
-  addEventListener: (type, fn) => { button.click = fn; }};
-const status = {textContent: ''};
+const container = new Element('div');container.dataset={latestChapter:'420'};
 const pageCtx = vm.createContext({
-  document: {getElementById: id => ({pageSpoilerToggle: button, pageSpoilerStatus: status})[id], querySelector: () => details},
+  document: {getElementById: id => id==='spoilerPreferences'?container:null, querySelector: () => details,
+    createElement:tag=>new Element(tag),createTextNode:text=>({textContent:text})},
   localStorage: {getItem: k => stored.get(k) ?? null, setItem: (k, v) => stored.set(k, v)},
   window: {addEventListener: () => {}}
 });
+vm.runInContext(fs.readFileSync(path.join(root, 'spoiler-preferences.js'), 'utf8'), pageCtx);
 vm.runInContext(fs.readFileSync(path.join(root, 'character-page.js'), 'utf8'), pageCtx);
 details.open = true;
 pageListeners.toggle?.();
 assert.equal(stored.size, 0, 'opening the static details must not persist the shared setting');
-button.click();
+const select=container.children[0].children.find(node=>node.tagName==='select');
+assert.deepEqual(select.children.map(option=>option.value),['basic','all']);
+select.value='all';select.listeners.change();
 assert.equal(stored.get('hxh-succession-spoilers-revealed-v1'), 'true');
 console.log('PASS: opening a person card/modal/static page keeps the shared spoiler setting; later-chapter info is folded locally');

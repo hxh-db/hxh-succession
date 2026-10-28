@@ -112,6 +112,7 @@ const caption = {textContent: ''};
 const close = {addEventListener: on('close'), focus: () => focused.push('close')};
 const zoomButton = {setAttribute() {}, addEventListener: on('zoom'), focus: () => focused.push('zoom')};
 const pageCtx = vm.createContext({
+  SpoilerPreferences: require('../spoiler-preferences.js'),
   document: {
     getElementById: id => ({imageLightbox: dialog, lightboxImage: enlarged, lightboxCaption: caption, lightboxClose: close, lightboxZoom: zoomButton})[id] || null,
     querySelector: () => null, querySelectorAll: () => [trigger], activeElement: null

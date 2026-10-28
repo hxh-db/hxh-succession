@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium}=require('./helpers/isolated-browser.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -104,7 +105,7 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.ok(await page.locator('#timeline').isVisible());
    await page.goForward();await ready(page);await page.goForward();await ready(page);
    assert.equal(await page.locator('#participantFilter').inputValue(),'EII-001');
-   await page.locator('#globalSpoilerToggle').click();
+   await toggleDisclosure(page);
    assert.match(await page.locator('#timelineSpoilerGate').innerText(),new RegExp(`モレナ.*${events.filter(e=>e.characters.includes('EII-001')).length}件`));
    await page.locator('#timelineSpoilerGate button').click();
    await page.locator('.timeline-view-tab[data-view="chapters"]').click();
@@ -131,7 +132,7 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.equal(await page.locator('#guideSearch').inputValue(),'戒厳令');
    await tab(page,'characters');
    if(await page.locator('#characterFilterToggle').getAttribute('aria-expanded')==='false') await page.locator('#characterFilterToggle').click();
-   await page.locator('#characterPeriodFilter').selectOption('chapter-374');
+   assert.equal(await page.locator('#characterPeriodFilter,#characterQueenFilter').count(),0);
    await page.locator('#characterFilterToggle').click();
    assert.ok(!(await page.locator('#characterDirectory').innerText()).includes('未整理'));
    await tab(page,'timeline');await filters(page);

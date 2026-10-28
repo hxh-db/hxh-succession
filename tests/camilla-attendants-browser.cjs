@@ -1,3 +1,4 @@
+const {toggleDisclosure}=require('./helpers/disclosure.cjs');
 const {chromium} = require('./helpers/isolated-browser.cjs');
 
 const path = require('node:path');
@@ -22,14 +23,16 @@ const assert = require('node:assert/strict');
       await link.click();
       assert.ok(await page.locator('#detailModal .modal-person-timeline').isHidden());
       await page.keyboard.press('Escape');
-      await page.locator('#globalSpoilerToggle').click();
+      await toggleDisclosure(page);
       await link.click();
       assert.ok(await page.locator('#detailModal .modal-person-timeline [data-event-id="E416-004"]').isVisible());
       assert.match(await page.locator('#detailModal').innerText(), /死亡/);
       assert.ok(await page.locator('#detailModal img').evaluateAll(imgs => imgs.some(img => img.complete && img.naturalWidth > 0)));
       assert.ok(await page.locator('#detailModal .modal-card').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
       await page.goto(`${base}?c_group=personnel&c_when=chapter-374&person=${id}&detail=1#characters`); await ready();
-      assert.equal(await page.locator('#detailModal .modal-person-timeline [data-event-id="E416-004"]').count(), 0);
+      assert.equal(await page.locator('#spoilerRange').inputValue(),'basic');
+      assert.ok(await page.locator('#detailModal .modal-person-timeline').isHidden());
+      assert.equal(await page.locator('#modalContent .person-later-info').evaluate(el=>el.open),false);
       assert.doesNotMatch(await page.locator('#detailModal').innerText(), /ベンジャミンの銃撃を受けて死亡/);
       assert.deepEqual(errors, []);
       await context.close();

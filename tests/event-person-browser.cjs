@@ -1,3 +1,4 @@
+const {toggleDisclosure,disclosureState}=require('./helpers/disclosure.cjs');
 /* Uses Edge and the local server; intercept drafts so no personal notes are written. */
 const {chromium} = require('./helpers/isolated-browser.cjs');
 const assert = require('node:assert/strict');
@@ -11,8 +12,8 @@ const assert = require('node:assert/strict');
         body:JSON.stringify({format:'hxh-succession-local-drafts',version:1,items:{},entries:[]})}));
       await page.goto('http://127.0.0.1:8765/?c_when=chapter-374&t_period=day-1&t_chapter=361#timeline');
       await page.locator('.schedule-event').first().waitFor({state:'attached'});
-      if (await page.locator('#globalSpoilerToggle').getAttribute('aria-pressed') === 'false') {
-        await page.locator('#globalSpoilerToggle').click();
+      if (await disclosureState(page) === 'false') {
+        await toggleDisclosure(page);
       }
       const filters = await page.evaluate(()=>({person:document.getElementById('participantFilter').value,
         chapter:document.getElementById('chapterFilter').value,period:activeTimelinePeriodId}));
@@ -23,8 +24,8 @@ const assert = require('node:assert/strict');
       await chip.press('Enter');
       await page.waitForURL('**/characters/P14-H01/');
       assert.equal(await page.locator('#modalTitle').innerText(),'クラピカ');
-      assert.equal(await page.evaluate(()=>Boolean(getPersonAtSelectedPeriod('P14-H01').roster_view?.public_data)),false,'timeline links use their own view context');
-      assert.ok(await page.evaluate(()=>getPersonnelEvents().some(event=>event.chapter>374)),'a hidden roster setting must not truncate timeline-linked details');
+      assert.equal(await page.evaluate(()=>Boolean(getCharacterRecord('P14-H01').roster_view?.public_data)),false,'timeline links use the normal character record');
+      assert.ok(await page.locator('#modalContent .schedule-event-chapter').evaluateAll(nodes=>nodes.some(node=>Number(node.textContent.match(/\d+/)?.[0])>374)),'the all-information setting includes later linked events');
       assert.equal(await page.locator('#detailModal').getAttribute('data-event-id'),'');
       await page.goBack();
       await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));

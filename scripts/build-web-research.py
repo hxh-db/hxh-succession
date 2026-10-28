@@ -63,19 +63,19 @@ def build():
     chapters = ''.join(f'<option value="{c}">第{c}話まで読了</option>' for c in range(340, max(e['chapter'] for e in events.values()) + 1))
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Web調査と追加資料 | 王位継承戦データまとめ</title><meta name="description" content="作者の設定資料、公式資料、細かな考察を出典・採否・未確認点とともに整理。">
-<link rel="stylesheet" href="../style.css?v=20261018-reading"><link rel="stylesheet" href="../theories/theories.css?v=20261018-reading"><link rel="stylesheet" href="research.css?v=20261026"></head>
+<link rel="stylesheet" href="../style.css?v=20261028-ui"><link rel="stylesheet" href="../theories/theories.css?v=20261018-reading"><link rel="stylesheet" href="research.css?v=20261026"></head>
 <body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="../index.html">王位継承戦データまとめ</a><p>出典から追加情報を調べる</p></div>
 <nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="../index.html#characters">人物一覧</a><a class="primary-nav-link" href="../index.html#timeline">出来事</a><a class="primary-nav-link" href="../index.html#guide">基礎資料</a><a class="primary-nav-link" href="../theories/">謎・考察</a></nav></header>
-<main id="main" class="essay-main"><p><a href="../theories/">← 謎・考察</a></p><h1>Web調査と追加資料</h1>
+<main id="main" class="essay-main"><div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="{max(e['chapter'] for e in events.values())}" hidden></div><p><a href="../theories/">← 謎・考察</a></p><h1>Web調査と追加資料</h1>
 <p>作者の人物表、公式資料、細かな考察を{len(data['entries'])}件に整理しました。公式の補足、一次資料待ちの候補、読者の仮説を分けて読めます。</p>
 <p>{escape(data['scope'])}</p><p class="research-tally">{tally}</p>
-<p>本文は初期状態では閉じています。「読んだ話数」で対象を絞れます。外部記事は後から更新される場合があり、リンク先のネタバレ範囲は各サイトで確認してください。</p>
+<p>本文は初期状態では閉じています。「資料の対象話数」は各資料全体の話数上限で絞り込む条件で、全画面の表示設定とは別です。外部記事は後から更新される場合があり、リンク先のネタバレ範囲は各サイトで確認してください。</p>
 <div class="essay-filters" id="research-filters" hidden><label>人物名・テーマ<input id="research-search" type="search" placeholder="例：人物表、カイザル、コイン"></label>
 <label>分類<select id="research-category"><option value="">すべて</option>{categories}</select></label>
 <label>取り込み状況<select id="research-status"><option value="">すべて</option>{status_options}</select></label>
-<label>読んだ話数<select id="research-read"><option value="">制限なし</option>{chapters}</select></label></div>
+<label>資料の対象話数<select id="research-read"><option value="">制限なし</option>{chapters}</select></label></div>
 <p id="research-count" role="status">{len(data['entries'])}件の調査項目</p><div class="research-list">{''.join(cards)}</div><p id="research-empty" hidden>条件に合う調査項目はありません。</p>
-</main><script src="../theories/theory-search.js?v=20261015-search"></script><script src="../theories/theories.js?v=20261026-spoiler-sync"></script><script src="research.js?v=20261026"></script></body></html>'''
+</main><script src="../spoiler-preferences.js?v=20261028-ui"></script><script src="../theories/theory-search.js?v=20261015-search"></script><script src="../theories/theories.js?v=20261028-ui"></script><script src="research.js?v=20261026"></script></body></html>'''
 
 
 def main():
@@ -91,7 +91,7 @@ def main():
         print('PASS: research catalog matches its sources.')
     else:
         path.parent.mkdir(exist_ok=True)
-        path.write_text(content, encoding='utf-8')
+        path.write_text(content, encoding='utf-8', newline='\n')
         print('Built research catalog.')
     return 0
 

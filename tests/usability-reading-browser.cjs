@@ -85,7 +85,11 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    assert.ok(!(await relatedTimeline.innerText()).includes('整合性点検'));
    await related.first().locator(':scope > span').first().click();await page.waitForFunction(()=>document.getElementById('detailModal').dataset.eventId.startsWith('E'));
    assert.ok(page.url().includes('event='));
-   await page.goBack();await ready(page);
+   await page.goBack();
+   await page.waitForFunction(()=>history.state?.hxhCharacterModal && !restoringReadingState);
+   assert.equal(await page.locator('#modalTitle').innerText(),'クラピカ');
+   await page.keyboard.press('Escape');
+   await page.waitForFunction(()=>document.getElementById('detailModal').classList.contains('hidden'));await ready(page);
    await tab(page,'timeline');await filters(page);
    await page.locator('#chapterFilter').selectOption('340');
    await tab(page,'characters');

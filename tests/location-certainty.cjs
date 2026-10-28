@@ -99,7 +99,8 @@ const ctx = vm.createContext({
   spoilersRevealed: false, URL, location: {href: 'http://127.0.0.1:8765/?t_chapter=400#characters'}, CharacterFacts: facts,
   siteRootUrl: new URL('http://127.0.0.1:8765/'),
   document: {createElement: tag => new Node(tag), createTextNode: value => ({text: value}), createDocumentFragment: () => new Node('#fragment')},
-  showDetailModal: (id, category) => opened.push([id, category])
+  showDetailModal: (id, category) => opened.push([id, category]),
+  openPersonEvent: () => false
 });
 vm.runInContext('function getPersonnelEvents() { return eventsData; }', ctx);
 vm.runInContext(['sortKey', 'makeLocationPartNodes', 'fillLatestLocationContent', 'makeLatestLocationContent',
@@ -115,6 +116,14 @@ assert.match(first.href, new RegExp(`[?&]event=${bLatest.eventId}`));
 assert.doesNotMatch(first.href, /t_chapter/);
 first.listeners.click({preventDefault() {}, stopPropagation() {}});
 assert.deepEqual(opened.pop(), [bLatest.eventId, 'event']);
+const routed=[];
+ctx.openPersonEvent=(event,focusKind)=>{routed.push([event.id,focusKind]);return true;};
+first.listeners.click({preventDefault() {},stopPropagation() {}});
+assert.deepEqual(routed.pop(),[bLatest.eventId,'location']);
+assert.equal(opened.length,0,'the person return route must not open a second detail');
+first.listeners.click({ctrlKey:true,preventDefault(){throw new Error('modified links must keep native navigation');},stopPropagation(){}});
+assert.equal(routed.length,0);
+ctx.openPersonEvent=()=>false;
 // History API後の人物URLにいても、新しいタブ・リンクコピー先は一覧の出来事へ。
 for (const rootUrl of ['http://127.0.0.1:8765/', 'https://hxh-db.github.io/hxh-succession/']) {
   ctx.siteRootUrl = new URL(rootUrl);

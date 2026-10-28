@@ -18,6 +18,7 @@
   {"name":"search-discovery","groups":["critical","navigation","directory"]},
   {"name":"search-result-jump","groups":["critical","navigation","directory"]},
   {"name":"person-detail-disclosure","groups":["critical","navigation","directory"]},
+  {"name":"person-event-return","groups":["critical","navigation","directory"]},
   {"name":"url-fragments","groups":["critical","navigation"]},
   {"name":"avatar-recovery","groups":["critical","directory"]},
   {"name":"static-avatar","groups":["critical","directory"]},

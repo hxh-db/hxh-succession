@@ -2190,9 +2190,10 @@ function makeLocationPartNodes(parts) {
     link.textContent = part.text;
     link.title = `根拠の出来事を開く（第${event.chapter}話：${event.title || String(event.description || "").split("。")[0]}）`;
     link.addEventListener("click", (clickEvent) => {
+      if (clickEvent.button || clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.shiftKey || clickEvent.altKey) return;
       clickEvent.preventDefault();
       clickEvent.stopPropagation();
-      showDetailModal(event.id, "event", event);
+      if (!openPersonEvent(event,'location')) showDetailModal(event.id, "event", event);
     });
     fragment.appendChild(link);
   });
@@ -5195,11 +5196,23 @@ function makeCharacterStatusHistory(character) {
   section.append(heading, list); return section;
 }
 
+function openPersonEvent(event, focusKind='event') {
+  const personId=history.state?.characterId;
+  if (!personId || !window.CharacterRoutes?.isActive()) return false;
+  const modal=document.getElementById('detailModal');
+  const snapshot={scrollTop:modal.querySelector('.modal-card').scrollTop,eventId:event.id,focusKind,
+    laterOpen:Boolean(modal.querySelector('.person-later-info')?.open),revealed:spoilersRevealed};
+  if (!window.CharacterRoutes.suspendForEvent(snapshot)) return false;
+  const url=new URL('index.html',siteRootUrl);url.searchParams.set('event',event.id);url.hash='timeline';
+  closeDetailModal(true);navigateReadingUrl(url,{returnPersonId:personId,returnEventId:event.id});return true;
+}
+
 function showDetailModal(name, category, eventData = null) {
   if (["prince", "bodyguard"].includes(category) && charactersData.some((person) => person.id === name)) window.CharacterRoutes?.open(name);
   // 詳細を開いても全画面のネタバレ設定は変えない・保存しない。後の話は詳細内の折りたたみで扱う。
   const modal = document.getElementById("detailModal");
   const wasHidden = modal.classList.contains("hidden");
+  const previousRecord = modal.dataset.recordKey;
   const titleEl = document.getElementById("modalTitle");
   const content = document.getElementById("modalContent");
   content.innerHTML = "";
@@ -5320,6 +5333,11 @@ function showDetailModal(name, category, eventData = null) {
   }
 
   const isPerson = ["prince", "bodyguard"].includes(category);
+  if (category === "event" && personEventReturn(record.id)) {
+    const back = document.createElement("button"); back.type = "button";
+    back.className = "local-editor-button secondary"; back.textContent = "元の人物へ戻る";
+    back.addEventListener("click", closeDetailModal); content.appendChild(back);
+  }
   if (isPerson) {
     const actions = document.createElement("div"); actions.className = "local-editor-actions";
     if (window.CharacterRoutes?.background()?.eventId) {
@@ -5508,18 +5526,17 @@ function showDetailModal(name, category, eventData = null) {
     timeline.appendChild(heading);
     if (relatedEvents.length) {
       const openEvent = e => {
+        if (isPerson && openPersonEvent(e)) return;
         const url = new URL("index.html", siteRootUrl);
         url.searchParams.set("event", e.id); url.hash = "timeline";
-        const navigate = () => { closeDetailModal(true); navigateReadingUrl(url); };
-        if (window.CharacterRoutes?.isActive()) {
-          window.addEventListener("popstate", navigate, {once:true}); closeDetailModal();
-        } else navigate();
+        closeDetailModal(true);
+        navigateReadingUrl(url);
       };
       timeline.appendChild(createChronologicalAxis(relatedEvents, { onOpen: openEvent, interactiveLocation: false }));
     } else {
       const empty = document.createElement("p");
       empty.className = "timeline-empty-state";
-      empty.textContent = "選択した時点までの関連する出来事は未登録です。";
+      empty.textContent = "関連する出来事は未登録です。";
       timeline.appendChild(empty);
     }
     laterTarget.appendChild(timeline);
@@ -5530,10 +5547,12 @@ function showDetailModal(name, category, eventData = null) {
 
   if (wasHidden) modalReturnFocus = document.activeElement;
   modal.dataset.eventId = category === "event" ? record.id : "";
+  modal.dataset.recordKey = `${category}:${record.id || name}`;
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
   setModalBackgroundInert(true);
+  if (wasHidden || previousRecord !== modal.dataset.recordKey) modal.querySelector('.modal-card').scrollTop = 0;
   document.getElementById("modalClose").focus();
 }
 
@@ -5546,6 +5565,13 @@ function closeDetailModal(fromHistory = false) {
   setModalBackgroundInert(false);
   if (modalReturnFocus && document.contains(modalReturnFocus)) modalReturnFocus.focus({ preventScroll: true });
   modalReturnFocus = null;
+}
+
+function personEventReturn(eventId=document.getElementById('detailModal').dataset.eventId) {
+  const state=history.state;
+  const linkedId=new URL(location.href).searchParams.get('event');
+  return eventId && state?.returnEventId===eventId && linkedId===eventId && charactersData.some(person=>person.id===state.returnPersonId)
+    ? state.returnPersonId : null;
 }
 
 function setupBackToTop() {
@@ -6317,7 +6343,7 @@ function captureReadingState() {
 }
 
 function saveReadingState() {
-  if (!viewLinksReady || restoringReadingState || window.CharacterRoutes?.isActive()) return;
+  if (!viewLinksReady || restoringReadingState || history.state?.hxhCharacterModal || window.CharacterRoutes?.isActive()) return;
   history.replaceState({...history.state, hxhReading:true, readingSnapshot:captureReadingState()}, "", location.href);
 }
 
@@ -6365,9 +6391,9 @@ function restoreReadingState(snapshot, url) {
   } catch (error) { restoringReadingState=false; throw error; }
 }
 
-function navigateReadingUrl(url) {
+function navigateReadingUrl(url, context = {}) {
   saveReadingState();
-  history.pushState({hxhReading:true}, "", url.href);
+  history.pushState({hxhReading:true,...context}, "", url.href);
   restoreReadingState(null,url);
 }
 
@@ -6829,7 +6855,26 @@ async function init() {
     setupReadingPreferences();
     window.CharacterRoutes?.setup({rootUrl:siteRootUrl.href,
       getPerson:(id)=>charactersData.find((person)=>person.id===id),
-      open:(id)=>{ const person=charactersData.find((candidate)=>candidate.id===id); showDetailModal(id,person.type==="prince"?"prince":"bodyguard"); },
+      canReturnToPerson:()=>Boolean(personEventReturn()),
+      restoreList:(url,state)=>{ if(url)restoreReadingState(state?.readingSnapshot,new URL(url)); },
+      restoreReading:(state)=>restoreReadingState(state.readingSnapshot,new URL(location.href)),
+      restoreListFocus:(id)=>[...document.querySelectorAll('[data-character-link]')]
+        .find(el=>el.dataset.characterLink===id && !el.closest('#detailModal') && el.checkVisibility())?.focus({preventScroll:true}),
+      open:(id,snapshot)=>{
+        const person=charactersData.find((candidate)=>candidate.id===id);
+        showDetailModal(id,person.type==="prince"?"prince":"bodyguard");
+        if (snapshot) {
+          const modal=document.getElementById('detailModal'),later=modal.querySelector('.person-later-info');
+          if (later && snapshot.revealed===spoilersRevealed) later.open=Boolean(snapshot.laterOpen);
+          const target=snapshot.focusKind==='location'
+            ? [...modal.querySelectorAll('.latest-place-event-link')].find(el=>new URL(el.href).searchParams.get('event')===snapshot.eventId)
+            : [...modal.querySelectorAll('.schedule-event')].find(el=>el.dataset.eventId===snapshot.eventId);
+          if (target?.checkVisibility()) {
+            target.focus({preventScroll:true});
+            modal.querySelector('.modal-card').scrollTop=snapshot.scrollTop || 0;
+          }
+        }
+      },
       captureBackground:()=>{
         const modal = document.getElementById("detailModal");
         return !modal.classList.contains("hidden") && modal.dataset.eventId

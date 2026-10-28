@@ -1,9 +1,14 @@
 /* Shared spoiler preference is read, never changed by opening one article. */
+function refreshArticleTitle() {
+  const heading=document.querySelector('.spoiler-article .essay-title');
+  if(heading) document.title=`${heading.closest('.spoiler-article').open ? heading.textContent : '考察記事'} | 王位継承戦データまとめ`;
+}
 (() => {
   const container=document.getElementById('spoilerPreferences');
   if(!container)return;
   const update=(revealed,persist=true)=>{
-    document.querySelectorAll('.spoiler-article').forEach(el=>{el.open=revealed;});
+    document.querySelectorAll('.spoiler-article,.spoiler-directory').forEach(el=>{el.open=revealed;});
+    refreshArticleTitle();
     control.setValue(revealed);
     if(persist)try{localStorage.setItem(SpoilerPreferences.STORAGE_KEY,String(revealed));}catch(_){/* no storage */}
   };
@@ -11,20 +16,28 @@
   update(SpoilerPreferences.read(),false);
   window.addEventListener('storage',event=>{if(event.key===SpoilerPreferences.STORAGE_KEY)update(event.newValue==='true',false);});
 })();
-// 根拠詳細から戻るリンクは、この記事だけを開く。全体のネタバレ設定は変えない。
-if (location.hash === '#evidence') {
-  const article = document.querySelector('.spoiler-article');
-  if (article) {
-    article.open = true;
-    const evidence = document.getElementById('evidence');
-    if (evidence?.tagName === 'DETAILS') evidence.open = true;
-    document.getElementById('evidence')?.scrollIntoView();
-  }
-}
-document.querySelectorAll('a[href="#evidence"]').forEach(link => link.addEventListener('click', () => {
-  const evidence = document.getElementById('evidence');
-  if (evidence?.tagName === 'DETAILS') evidence.open = true;
-}));
+// Deep links never disclose a closed article. After an explicit open, resolve
+// the requested section without changing the shared preference.
+(() => {
+  const article=document.querySelector('.spoiler-article .essay-title')?.closest('.spoiler-article');
+  if(!article)return;
+  const findSection=fragment=>[...article.querySelectorAll('[data-section]')].find(node=>node.dataset.section===fragment);
+  const followFragment=()=>{
+    if(!article.open)return;
+    let fragment;try{fragment=decodeURIComponent(location.hash.slice(1));}catch(_){return;}
+    const target=findSection(fragment);if(!target)return;
+    if(target.tagName==='DETAILS')target.open=true;
+    requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+  };
+  article.addEventListener('toggle',()=>{refreshArticleTitle();followFragment();});
+  article.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{
+    const url=new URL(link.href);if(!findSection(url.hash.slice(1)))return;
+    event.preventDefault();history.pushState(history.state,'',url.href);followFragment();
+  }));
+  window.addEventListener('hashchange',followFragment);
+  window.addEventListener('popstate',followFragment);
+  refreshArticleTitle();followFragment();
+})();
 const search = document.getElementById('essay-search');
 const articleState = () => {
   const params = new URL(location.href).searchParams;

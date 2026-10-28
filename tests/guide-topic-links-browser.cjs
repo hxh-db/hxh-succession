@@ -1,0 +1,23 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const {fixture,ready}=require('./helpers/browser-fixture.cjs');
+(async()=>{const b=await chromium.launch({channel:'msedge',headless:true});try{for(const width of [1280,390]){
+ const {context,base}=await fixture(b,{local:false,width,prefix:'/hxh-succession'}),p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.goto(base+'#guide');await ready(p);await p.locator('#spoilerRange').selectOption('all');await p.locator('#guideSearch').fill('戒厳令');
+ const law=p.locator('[data-guide-target="lawGuideTitle"]');assert.equal(await law.evaluate(e=>e.tagName),'A');
+ const nativeLink=await law.getAttribute('href');await law.click();assert.equal(await p.evaluate(()=>document.activeElement.id),'lawGuideTitle');
+ const share=await p.locator('#currentViewLink').getAttribute('href');assert.equal(new URL(share).searchParams.get('g_topic'),'lawGuideTitle');assert.equal(new URL(share).searchParams.get('g_search'),'戒厳令');
+ const fresh=await fixture(b,{local:false,width,prefix:'/hxh-succession'}),recipient=await fresh.context.newPage();recipient.on('pageerror',e=>errors.push(e.message));
+ await recipient.goto(share);await ready(recipient);assert.equal(await recipient.locator('#spoilerRange').inputValue(),'basic');
+ assert.ok(await recipient.locator('#recordLinkStatus').isVisible());assert.match(await recipient.locator('#recordLinkMessage').innerText(),/表示範囲.*非表示/);
+ assert.ok(await recipient.locator('#lawGuideTitle').isHidden());assert.equal(await recipient.evaluate(()=>document.activeElement.id),'recordLinkStatus');
+ await recipient.locator('#spoilerRange').selectOption('all');await recipient.waitForFunction(()=>document.activeElement.id==='lawGuideTitle');assert.ok(await recipient.locator('#recordLinkStatus').isHidden());
+ await recipient.locator('#guideSearch').fill('念');assert.equal(new URL(recipient.url()).searchParams.has('g_topic'),false);assert.equal(await recipient.evaluate(()=>document.activeElement.id),'guideSearch');
+ await recipient.reload();await ready(recipient);assert.equal(await recipient.locator('#guideSearch').inputValue(),'念');assert.notEqual(await recipient.evaluate(()=>document.activeElement.id),'lawGuideTitle');
+ await recipient.locator('#spoilerRange').selectOption('basic');await recipient.goto(base+'?g_topic=shipMapTitle#guide');await ready(recipient);
+ assert.equal(await recipient.evaluate(()=>document.activeElement.id),'shipMapTitle');assert.equal(await recipient.locator('#spoilerRange').inputValue(),'basic');
+ await recipient.goto(base+'?g_topic=localDraftsTitle#guide');await ready(recipient);assert.match(await recipient.locator('#recordLinkMessage').innerText(),/項目が見つかりません/);assert.ok(await recipient.locator('#guide').isVisible());
+ await recipient.locator('#clearRecordLink').click();await ready(recipient);assert.equal(new URL(recipient.url()).searchParams.has('g_topic'),false);assert.ok(await recipient.locator('#recordLinkStatus').isHidden());
+ await p.locator('[data-primary-view="characters"]').click();await p.goBack();await ready(p);assert.equal(new URL(p.url()).searchParams.get('g_topic'),'lawGuideTitle');
+ const opened=await context.newPage();await opened.goto(new URL(nativeLink,base).href);await ready(opened);assert.equal(await opened.evaluate(()=>document.activeElement.id),'lawGuideTitle');
+ assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);await fresh.context.close();await context.close();console.log(`PASS ${width}: native topic links, precise view URL, basic/all receivers, pending disclosure, search detachment, history and invalid target safety`);
+}}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -93,7 +93,7 @@ const assert = require('node:assert/strict');
       assert.ok(await list.isVisible());
       await page.goto(root + 'theories/Q005/');
       await page.locator('.spoiler-article').evaluate(el => {el.open = true;});
-      assert.match(await page.locator('#theory').innerText(), /考察/);
+      assert.match(await page.locator('.spoiler-article [data-section="theory"]').innerText(), /考察/);
       assert.equal(await page.locator('.spoiler-article table tbody tr').count(), 3);
       assert.deepEqual(errors, []);
       await context.close();

@@ -2710,6 +2710,16 @@ body.modal-open {
 .spoiler-range-select { max-width:100%; min-height:44px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--surface, #fff); color:var(--text); font:inherit; }
 .spoiler-range-help { color:var(--muted); font-size:.82rem; line-height:1.5; }
 .reading-preferences .spoiler-preferences { flex:1 1 100%; margin:0; }
+.character-result-jump { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin:8px 0; }
+.character-result-jump > span { color:var(--muted); font-size:.9rem; }
+.character-result-jump > button { min-height:44px; padding:8px 14px; border:1px solid var(--border); border-radius:8px; background:var(--surface); color:var(--accent); font:inherit; cursor:pointer; }
+#characterResults { scroll-margin-top:16px; }
+#characterResults:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+.spoiler-directory { margin:16px 0; padding:14px; border:1px solid var(--border); border-radius:10px; }
+.spoiler-directory > summary { color:var(--accent); cursor:pointer; font-weight:600; min-height:44px; }
+.spoiler-directory[open] > summary { margin-bottom:16px; }
+.essay-title { font-size:1.6rem; line-height:1.5; }
+.article-fragment-anchor { display:block; scroll-margin-top:16px; }
 .reading-preferences button, #pageSpoilerToggle { padding:9px 13px; border:1px solid var(--border); border-radius:8px; cursor:pointer; background:var(--surface, #fff); color:var(--text); }
 .global-spoiler-gate { padding:20px; margin:16px 0; border:1px dashed var(--border); border-radius:10px; }
 body.spoilers-revealed .global-spoiler-gate { display:none; }
@@ -3039,15 +3049,16 @@ details.local-drafts-transfer { display:block; }
 .guide-reading-intro h3 { margin-top: 0; }
 .guide-navigation label { display: block; font-weight: 700; margin-bottom: 10px; }
 .guide-navigation input { width: 100%; box-sizing: border-box; min-height: 44px; }
-.guide-navigation input, .guide-navigation button { padding: 10px 12px; font: inherit; color: var(--text); background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; }
-.guide-navigation button { cursor: pointer; min-height: 44px; }
-.guide-navigation button:hover { border-color: var(--accent); }
+.guide-navigation input, .guide-navigation button, .guide-navigation a { padding: 10px 12px; font: inherit; color: var(--text); background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; }
+.guide-navigation button, .guide-navigation a { cursor: pointer; min-height: 44px; }
+.guide-navigation button:hover, .guide-navigation a:hover { border-color: var(--accent); }
 .guide-navigation :focus-visible, #guide .guide-table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .guide-table-hint { display: none; }
 #guideSearchStatus { color: var(--muted); font-size: .9rem; }
 #guideContents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; padding-left: 24px; }
 #guideContents li { min-width: 0; }
-#guideContents button { display: block; width: 100%; text-align: left; line-height: 1.55; white-space: normal; min-height: 44px; }
+#guideContents a { box-sizing:border-box; text-decoration:none; }
+#guideContents button, #guideContents a { display: block; width: 100%; text-align: left; line-height: 1.55; white-space: normal; min-height: 44px; }
 #guide h3 { scroll-margin-top: 24px; }
 #guide h4 { margin-top: 24px; }
 #guide details:not(.guide-local-memo) { margin-top: 16px; }

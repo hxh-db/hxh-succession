@@ -20,6 +20,7 @@ let sourcesData = [];
 let viewLinksReady = false;
 let spoilerPreferenceControl = null;
 let recordedChapterLimit = null;
+let pendingGuideTopicNavigation = false;
 let restoringReadingState = false;
 let characterVisibleCount = 60;
 const initialViewUrl = new URL(location.href);
@@ -2664,6 +2665,7 @@ function renderCharacterDirectory(characters) {
   container.innerHTML = "";
   const query = document.getElementById("characterSearch")?.value || "";
   currentCharacterResults = characters.slice().sort((a, b) => CharacterFacts.searchRank(a, query) - CharacterFacts.searchRank(b, query) || sortCharacters(a, b));
+  document.getElementById("characterQuickResultCount").textContent = `${currentCharacterResults.length}人が一致`;
   characterVisibleCount = 60;
   currentCharacterResults.slice(0, characterVisibleCount).forEach((character) => {
     container.appendChild(createCharacterDirectoryCard(character));
@@ -2846,6 +2848,17 @@ function setupCharacterDirectory() {
   const princeFilter = document.getElementById("characterPrinceFilter");
   const activeTagBar = document.getElementById("characterActiveTag");
   const onboardCharacters = charactersData.filter(isDirectoryCharacter);
+  document.getElementById("showCharacterResults").addEventListener("click", () => {
+    const target=document.getElementById("characterResults");
+    const offsets=[...document.querySelectorAll('.site-header,.primary-nav')].map(node=>{
+      const style=getComputedStyle(node);
+      return ['fixed','sticky'].includes(style.position) && style.top !== 'auto'
+        ? Math.max(node.getBoundingClientRect().bottom,node.getBoundingClientRect().height+(parseFloat(style.top)||0))+12 : 16;
+    });
+    target.style.scrollMarginTop=`${Math.max(16,...offsets)}px`;
+    target.focus({preventScroll:true});target.scrollIntoView({block:"start",behavior:"instant"});
+    saveReadingState();
+  });
   [...new Set(onboardCharacters.map((character) => character.camp).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "ja")).forEach((camp) => {
       const option = document.createElement("option");
@@ -4841,16 +4854,43 @@ function setupGuideNavigation() {
     copy.querySelectorAll(".guide-local-memo, #princeStatusContent, #initialPersonnelContent, #personnelSnapshotContent").forEach((node) => node.remove());
     section.dataset.guideSearchText = normalizeGuideQuery(copy.textContent);
   });
-  document.getElementById("guideSearch")?.addEventListener("input", updateGuideSearch);
+  const clearTopicLink=()=>{
+    const url=new URL(location.href);url.searchParams.delete('g_topic');
+    history.replaceState(history.state,'',url.href);pendingGuideTopicNavigation=false;
+  };
+  document.getElementById("guideSearch")?.addEventListener("input", () => {clearTopicLink();updateGuideSearch();});
   document.getElementById("guideSearchClear")?.addEventListener("click", () => {
-    const input = document.getElementById("guideSearch"); input.value = ""; updateGuideSearch(); input.focus();
+    const input = document.getElementById("guideSearch"); input.value = ""; clearTopicLink();updateGuideSearch(); input.focus();
   });
-  document.querySelectorAll("[data-guide-target]").forEach((button) => button.addEventListener("click", () => {
+  document.querySelectorAll("[data-guide-target]").forEach((button) => button.addEventListener("click", (event) => {
+    if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+    event.preventDefault();
     const target = document.getElementById(button.dataset.guideTarget);
     if (!target || target.closest("section").hidden) return;
+    const url=new URL(location.href);url.searchParams.set('g_topic',target.id);history.replaceState(history.state,'',url.href);
+    pendingGuideTopicNavigation=false;updateViewPermalink();
     target.setAttribute("tabindex", "-1"); target.focus({preventScroll:true}); target.scrollIntoView({block:"start"});
+    saveReadingState();
   }));
+  document.addEventListener('spoiler-visibility-change',()=>followGuideTopicLink());
   updateGuideSearch();
+}
+
+function findGuideTopic(id) {
+  if(!id)return null;
+  const section=[...document.querySelectorAll('#guide > .guide-facts,#guide > .guide-data-section')].find(node=>node.getAttribute('aria-labelledby')===id);
+  return section?.querySelector('h3')||null;
+}
+
+function followGuideTopicLink(focusStatus=false) {
+  if(!pendingGuideTopicNavigation||restoringReadingState||document.getElementById('guide').hidden)return;
+  const target=findGuideTopic(new URL(location.href).searchParams.get('g_topic'));
+  if(target&&!target.closest('section').hidden){
+    pendingGuideTopicNavigation=false;target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});saveReadingState();
+  } else {
+    if(!target)pendingGuideTopicNavigation=false;
+    if(focusStatus){const status=document.getElementById('recordLinkStatus');status.tabIndex=-1;status.focus({preventScroll:true});status.scrollIntoView({block:'start'});}
+  }
 }
 
 function setupGuideMemos() {
@@ -5233,17 +5273,20 @@ function showDetailModal(name, category, eventData = null) {
     if (!record) return;
     titleEl.textContent = record.identity_title || getDisplayName(record);
     const roleLabel = record.role ? (record.target ? record.role.replace(record.target, "").trim() : record.role) : record.roster_view?.public_data ? "役割未整理（選択時点）" : "不明";
+    const basicRole = CharacterFacts.basicRole(record);
+    const basicRoleLabel = basicRole ? (record.target ? basicRole.replace(record.target, "").trim() : basicRole) : "";
     const assignmentRows = CharacterFacts.assignmentRows(record, charactersData);
     details = [
-      { label: "分類", value: record.soldier_category === roleLabel ? "" : record.soldier_category || (record.roster_view?.public_data && !record.type ? "分類未整理（選択時点）" : "不明") },
+      { label: "分類", value: record.soldier_category === basicRoleLabel ? "" : record.soldier_category || (record.roster_view?.public_data && !record.type ? "分類未整理（選択時点）" : "不明") },
       { label: "所属・配置先", value: getCharacterAffiliationText(record) || formatAffiliation(record) || (record.roster_view?.public_data ? "所属未整理（選択時点）" : "不明") },
-      { label: "役割", value: roleLabel },
+      { label: "役割", value: basicRoleLabel || (record.role ? "" : "不明") },
+      { label: "役割（詳細）", value: roleLabel === basicRoleLabel ? "" : roleLabel, later:true, readable:true },
       { label: "血縁", value: CharacterFacts.familyHistoryUnorganized(record) ? "この時点の血縁情報は未整理" : "", later:true },
       { label: "役割・兵種の根拠", value: CharacterFacts.localFieldEdited(record,"role") ? "自分用の役割欄は未照合です。元の兵種・役割の根拠は変更後の値を裏付けません。" : record.role_evidence || "", later: true, readable: true },
       { label: "担当陣営", value: assignmentRows[0]?.text || (record.camp !== record.affiliation ? formatAssignment(record) : "") },
       { label: "初期配置", value: record.initial_room ? formatRoomLabel(record.initial_room) : "" },
       { label: "選択時点の担当", value: record.roster_view?.assignment || "", later: true },
-      { label: "任務", value: record.role?.includes(record.mission) ? "" : formatDisplayText(record.mission) },
+      { label: "任務", value: record.role?.includes(record.mission) ? "" : formatDisplayText(record.mission), later:CharacterFacts.tagIsSpoiler({category:"任務",label:record.mission},record) },
       { label: "状態", value: CharacterFacts.statusLabel(record, eventsData), later: true },
       { label: "配置履歴", value: assignmentRows.length > 1 ? assignmentRows.map(entry => entry.text).join("\n") : "", later: true },
       { label: "最後の所在", value: "latest-location", later: true },
@@ -6315,6 +6358,9 @@ function restoreReadingState(snapshot, url) {
     requestAnimationFrame(()=>{
       window.scrollTo({top:snapshot?.scrollY || 0,behavior:"instant"});
       restoringReadingState=false; updateViewPermalink();
+      const topic=findGuideTopic(new URL(location.href).searchParams.get('g_topic'));
+      if(snapshot&&topic&&!topic.closest('section').hidden)pendingGuideTopicNavigation=false;
+      else followGuideTopicLink(!snapshot);
     });
   } catch (error) { restoringReadingState=false; throw error; }
 }
@@ -6400,11 +6446,16 @@ function updateRecordLinkStatus(url) {
   const eventId = url.searchParams.get("event"), personId = url.searchParams.get("person");
   const missingEvent = eventId && !eventsData.some(event => event.id === eventId);
   const missingPerson = personId && !charactersData.some(person => person.id === personId);
+  const topicId=url.hash==='#guide' ? url.searchParams.get('g_topic') : null;
+  const topic=findGuideTopic(topicId),unavailableTopic=topicId&&(!topic||topic.closest('section').hidden);
   const status = document.getElementById("recordLinkStatus");
-  status.hidden = !missingEvent && !missingPerson;
+  status.hidden = !missingEvent && !missingPerson && !unavailableTopic;
   document.getElementById("recordLinkMessage").textContent = missingEvent
     ? `リンク先の出来事が見つかりません。${eventId.startsWith("LOCAL-") ? "自分で追加した出来事は、保存したPC／ブラウザで開くか、JSONバックアップを読み込んでください。" : "リンクが古いか、現在のデータに収録されていない可能性があります。"}`
-    : missingPerson ? "リンク先の人物が見つかりません。リンクが古いか、現在のデータに収録されていない可能性があります。" : "";
+    : missingPerson ? "リンク先の人物が見つかりません。リンクが古いか、現在のデータに収録されていない可能性があります。"
+    : unavailableTopic ? (!topic ? "リンク先の資料項目が見つかりません。目次から選び直してください。"
+      : !spoilersRevealed&&!topic.closest('section').matches('.guide-facts,.guide-initial-setting') ? "リンク先の資料は現在の表示範囲では非表示です。上の表示範囲で収録済み全情報を選ぶと確認できます。"
+      : "リンク先の資料は現在の検索条件に一致しません。ガイドの検索をクリアして確認してください。") : "";
   status.querySelector("[data-event-trash]")?.remove();
   if (missingEvent && DraftState.isTrashed(localDrafts.items[`event:${eventId}`])) {
     document.getElementById("recordLinkMessage").textContent = "この出来事はゴミ箱にあります。メモ・編集内容を含めて復元できます。";
@@ -6422,6 +6473,9 @@ function retireDatedDirectoryScope(period) {
 
 function restoreViewFromUrl(inputUrl) {
   const url = new URL(inputUrl);
+  const readingUrl=new URL(location.href);const topic=url.searchParams.get('g_topic');
+  if(topic)readingUrl.searchParams.set('g_topic',topic);else readingUrl.searchParams.delete('g_topic');
+  history.replaceState(history.state,'',readingUrl.href);pendingGuideTopicNavigation=Boolean(topic);
   const legacy = url.searchParams.has("c_when") || url.searchParams.has("c_queen");
   const basicFallback = retireDatedDirectoryScope(url.searchParams.get("c_when"));
   const queen = url.searchParams.get("c_queen");
@@ -6487,7 +6541,7 @@ function restoreViewFromUrl(inputUrl) {
 function setupReadingPreferences() {
   document.getElementById("clearRecordLink").addEventListener("click", () => {
     const url = new URL(location.href);
-    ["event", "person", "detail"].forEach(key => url.searchParams.delete(key));
+    ["event", "person", "detail", "g_topic"].forEach(key => url.searchParams.delete(key));
     navigateReadingUrl(url);
     document.querySelector("[data-primary-view][aria-current='page']")?.focus({preventScroll: true});
   });
@@ -6823,6 +6877,7 @@ async function init() {
     }
     loadStatus.hidden = true;
     panels.forEach(panel => { panel.inert = false; });
+    followGuideTopicLink(true);
   } catch (err) {
     console.error("データの読み込みに失敗しました", err);
     main.classList.add("database-load-failed");

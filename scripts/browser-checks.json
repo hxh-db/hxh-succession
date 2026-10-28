@@ -16,6 +16,8 @@
   {"name":"character-local-edits","groups":["critical","drafts"]},
   {"name":"reading-recovery","groups":["critical","navigation","directory"]},
   {"name":"search-discovery","groups":["critical","navigation","directory"]},
+  {"name":"search-result-jump","groups":["critical","navigation","directory"]},
+  {"name":"person-detail-disclosure","groups":["critical","navigation","directory"]},
   {"name":"url-fragments","groups":["critical","navigation"]},
   {"name":"avatar-recovery","groups":["critical","directory"]},
   {"name":"static-avatar","groups":["critical","directory"]},
@@ -44,5 +46,8 @@
   {"name":"memo-delta-20261020","groups":["navigation"]},
   {"name":"memo-notes","groups":["navigation"]},
   {"name":"theory-search","groups":["research"]},
-  {"name":"usability-reading","groups":["navigation"]}
+  {"name":"theory-disclosure","groups":["critical","navigation","research"]},
+  {"name":"usability-reading","groups":["navigation"]},
+  {"name":"guide-entry","groups":["critical","navigation"]},
+  {"name":"guide-topic-links","groups":["critical","navigation"]}
 ]

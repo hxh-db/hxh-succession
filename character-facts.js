@@ -315,12 +315,17 @@
     const text = String(role || '').replace(/（[^）]*）|\([^)]*\)/g, '').trim();
     return !text || /[、。]/.test(text) ? null : text;
   }
+  function basicRole(person) {
+    const role=initialRole(person.role);
+    const secret=tagIsSpoiler({category:'任務',label:person.mission},person);
+    return role && !(secret && role.includes(person.mission)) ? role : null;
+  }
   // ネタバレ非表示の時は、名前・別名・所属・初期配置・分類だけを検索対象にする。
   // 表示中は、状態・念能力・備考・任務・配置先など後の話の情報も対象にする。
   // extra.initial / extra.later には画面側で整形した値（所属の表示名・守護霊獣など）を渡す。
   function searchFields(person, {revealed = false, extra = {}} = {}) {
     const names = searchNames(person);
-    const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, initialRole(person.role),
+    const initial = [...names, ...names.map(katakanaToRomaji), person.affiliation, basicRole(person),
       SEARCH_TYPE_LABELS[person.type], person.soldier_category, person.initial_room, ...(extra.initial || [])];
     if (!revealed) return initial.filter(Boolean);
     const status = !person.roster_view?.public_data || person.historical_known_fields?.includes('status') ? person.status : null;
@@ -385,5 +390,5 @@
     return ({confirmed: day, estimated: `推定${day}`, provisional: `暫定${day}`, unknown: `${day}（確度未確認）`})[dateCertainty(event)];
   }
   return {localFieldEdited,publicRecord,localEditLabels,assignmentRows, latestLocation, latestLocationLabel, latestLocationParts, partsText, nenAbilityEditorialLines, groupLocationCandidates, readableSegments, dateCertainty, dateCertaintyLabel, dayLabel, claimRows, statusLabel, statusEditorialNote, familyRelations, familyRelationLabel, familyHistoryUnorganized, isConfirmedNenUser, nenKnowledgeLabel, nenTypeLabel, tagIsSpoiler, registrationNotice, statusHistoryRows, searchRank, questionSections,
-    normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, searchFields, buildSearchText, searchPattern, searchPatterns, matchesSearch};
+    normalizeSearchText, katakanaToRomaji, royalAliases, initialRole, basicRole, searchFields, buildSearchText, searchPattern, searchPatterns, matchesSearch};
 });

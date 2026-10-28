@@ -93,7 +93,7 @@
   try { storage = localStorage; } catch (_) { storage = {getItem() { return null; }, setItem() { throw new Error('Storage unavailable'); }}; }
   const store = createStore({storage, fetcher: (...args) => fetch(...args), api});
   const key = `theory:${main.dataset.theoryId}`;
-  const title = `謎・考察：${main.querySelector('h1').textContent.trim()}`;
+  const title = `謎・考察：${(main.querySelector('.essay-title') || main.querySelector('h1')).textContent.trim()}`;
   const details = document.createElement('details');
   details.className = 'local-editor-collapsed';
   const summary = document.createElement('summary'); summary.textContent = 'この記事にメモ';

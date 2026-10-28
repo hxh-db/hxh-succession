@@ -133,12 +133,13 @@ articles.insert(2, dict(id='halkenburg-four-days',title='ハルケンブルグ�
 def shell(title, body, depth=0, article_id=None):
     base = '../' * (depth + 1)
     if article_id:
+        title = '考察記事'
         body = (f'<div data-theory-id="{esc(article_id, quote=True)}">{body}</div>'
                 f'<link rel="stylesheet" href="{base}draft-conflicts.css?v=20261027-conflicts">'
                 f'<script src="{base}draft-state.js?v=20261027-history-trash"></script>'
                 f'<script src="{base}draft-conflicts.js?v=20261027-conflicts"></script>'
-                f'<script src="{base}theories/theory-memos.js?v=20261027-conflicts"></script>')
-    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261028-ui"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main"><div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="{max(e['chapter'] for e in events.values())}" hidden></div>{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}spoiler-preferences.js?v=20261028-ui"></script><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261028-ui"></script></body></html>'''
+                f'<script src="{base}theories/theory-memos.js?v=20261029-reading"></script>')
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | 王位継承戦データまとめ</title><meta name="description" content="王位継承戦の謎を、参照場面・考察・反証に分けて整理。"><link rel="stylesheet" href="{base}style.css?v=20261029-reading"><link rel="stylesheet" href="{base}theories/theories.css?v=20261018-reading"></head><body><a class="skip-link" href="#main">本文へ移動</a><header class="site-header"><div class="header-inner"><a class="site-title" href="{base}index.html">王位継承戦データまとめ</a><p>カキン王位継承戦の人物、出来事、作中の基礎資料を確認</p></div><nav class="primary-nav" aria-label="メインメニュー"><a class="primary-nav-link" href="{base}index.html#characters">人物一覧</a><a class="primary-nav-link" href="{base}index.html#timeline">出来事</a><a class="primary-nav-link" href="{base}index.html#guide">基礎資料</a><a class="primary-nav-link active" href="{base}theories/" aria-current="page">謎・考察</a></nav></header><main id="main" class="essay-main"><div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="{max(e['chapter'] for e in events.values())}" hidden></div>{body}</main><footer class="essay-main">個人による考察です。原作の事実と仮説を分けて記載しています。</footer><script src="{base}spoiler-preferences.js?v=20261028-ui"></script><script src="{base}theories/theory-search.js?v=20261015-search"></script><script src="{base}theories/theories.js?v=20261029-reading"></script></body></html>'''
 
 out = ROOT / 'theories'
 cards = []
@@ -190,6 +191,15 @@ for a in articles:
     body = body.replace('重要な根拠3点', 'この記事の要点3つ')
     body = re.sub(r'<p class="scope-note">.*?</p>', '', body)
     body = body.replace(f'<p>本文を含むネタバレ範囲：第{a["chapter"]}話まで · 執筆日：2026年10月13日</p>', metadata)
+    body = body.replace(f'<p class="eyebrow">{esc(a["category"])}</p><h1>{esc(a["title"])}</h1>', '<h1>考察記事</h1>')
+    body = body.replace('</summary><nav class="toc"', f'</summary><p class="eyebrow">{esc(a["category"])}</p><h2 class="essay-title">{esc(a["title"])}</h2><nav class="toc"', 1)
+    # Native fragment navigation can open closed <details>. Public fragment
+    # targets stay outside; explicit disclosure resolves the inner destination.
+    sections = ['conclusion', 'key-points', 'theory', 'limits', 'evidence']
+    for section in sections:
+        body = body.replace(f' id="{section}"', f' data-section="{section}"')
+    anchors = ''.join(f'<span id="{section}" class="article-fragment-anchor" aria-hidden="true"></span>' for section in sections)
+    body = body.replace('<details class="spoiler-article">', anchors + '<details class="spoiler-article">', 1)
     dest=out/a['id']
     write_page(dest/'index.html', shell(a['title'], body, 1, a['id']))
     # 本文の全文検索はしない。関連する人物名・別名と編集指定語だけを索引にする。
@@ -206,6 +216,9 @@ options=''.join(f'<option>{esc(c)}</option>' for c in dict.fromkeys(a['category'
 chapter_options = '<option value="">制限なし</option>' + ''.join(f'<option value="{chapter}">第{chapter}話まで読了</option>' for chapter in range(340, max(e['chapter'] for e in events.values()) + 1))
 body=f'''<p class="eyebrow">物語の疑問を、根拠から考える</p><h1>謎・考察</h1><p>作中の謎、能力の解釈、時系列の食い違いを{len(articles)}本の記事にまとめました。各記事で事実・登場人物の推測・この記事の考察を分けています。</p><p>身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。</p><div class="essay-filters" hidden><label>記事を探す<input id="essay-search" type="search" placeholder="人物名・テーマで検索"></label><label>分類<select id="essay-category"><option value="">すべて</option>{options}</select></label></div><p id="essay-count" role="status">{len(articles)}本の記事</p><div class="essay-grid">{''.join(cards)}</div><p id="essay-empty" hidden>該当する記事はありません。検索語や分類を変えてください。</p>'''
 body = body.replace('</select></label></div>', f'</select></label><label>記事の対象話数<select id="essay-read-through">{chapter_options}</select></label></div><p class="scope-note">記事全体の話数上限で絞り込みます。全画面の表示設定とは別です。</p>')
+body = body.replace('身元など説明が進んだテーマも含みます。記事ごとの参照範囲を確認してください。本文は初期状態では閉じています。', '題名や検索にも後の展開を含みます。必要なときに下の一覧を開き、記事ごとの参照範囲を確認してください。')
+start = body.index('<div class="essay-filters"')
+body = body[:start] + '<details class="spoiler-directory"><summary>考察の題名・検索を開く（後の展開を含みます）</summary>' + body[start:] + '</details>'
 body = body.replace('<div class="essay-filters"', '<p><a href="../research/">Web調査と追加資料</a>：作者の人物表・公式資料・細かな説を、出典と採否付きで確認できます。</p><div class="essay-filters"', 1)
 write_page(out/'index.html', shell('謎・考察',body))
 if stale_pages:

@@ -18,8 +18,13 @@ for (const directory of fs.readdirSync(path.join(root, 'theories'), {withFileTyp
   for (const ref of html.matchAll(/event=(E\d{3}-\d+)/g)) assert.ok(events.get(ref[1])?.chapter <= limit);
   const points = html.match(/<ul class="key-evidence">([\s\S]*?)<\/ul>/)[1];
   assert.equal((points.match(/<li>/g) || []).length, 3);
-  assert.ok(html.indexOf('id="key-points"') < html.indexOf('id="theory"'));
-  assert.ok(html.indexOf('id="limits"') < html.indexOf('class="evidence-details"'));
+  assert.ok(html.indexOf('data-section="key-points"') < html.indexOf('data-section="theory"'));
+  assert.ok(html.indexOf('data-section="limits"') < html.indexOf('class="evidence-details"'));
+  assert.match(html,/<title>考察記事 \|/);
+  for(const section of ['conclusion','key-points','theory','limits','evidence']) {
+    assert.ok(html.indexOf(`id="${section}"`)<html.indexOf('<details class="spoiler-article">'),'public fragment target stays outside disclosure');
+    assert.ok(article.includes(`data-section="${section}"`));
+  }
   assert.ok(!html.includes('class="evidence-details" open'));
 }
 const bill = fs.readFileSync(path.join(root, 'theories/Q010/index.html'), 'utf8');

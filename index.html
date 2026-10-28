@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261028-ui" />
+  <link rel="stylesheet" href="style.css?v=20261029-reading" />
   <link rel="stylesheet" href="filter-controls.css?v=20261027-search" />
   <link rel="stylesheet" href="draft-conflicts.css?v=20261027-conflicts" />
 </head>
@@ -70,6 +70,7 @@
           <span>人物を探す</span>
           <input id="characterSearch" type="search" placeholder="例：クラピカ ハンター" aria-describedby="characterSearchHelp" />
         </label><button id="clearCharacterFilters" type="button">すべて解除</button></div>
+        <div class="character-result-jump"><span id="characterQuickResultCount"></span><button id="showCharacterResults" type="button" aria-label="結果を見る" aria-controls="characterResults" aria-describedby="characterQuickResultCount">結果を見る ↓</button></div>
         <p id="characterSearchHelp" class="search-scope-help">空白で区切るとすべての語を含む人物を探せます。ネタバレ非表示中は、能力・後の展開を検索しません。</p>
         <div id="characterSearchNotice" class="search-scope-notice" hidden><p>能力・後の展開は検索対象外です。該当しそうな場合は、ネタバレを表示して同じ検索語で探せます。</p><button type="button" data-reveal-global>ネタバレを表示して再検索</button></div>
 
@@ -139,7 +140,7 @@
           </div>
         </div>
       </div>
-      <div class="directory-results-toolbar">
+      <div id="characterResults" class="directory-results-toolbar" tabindex="-1" role="region" aria-label="人物の検索結果" aria-describedby="characterResultSummary">
       <p id="characterResultSummary" class="character-result-summary" aria-live="polite"></p>
       <div class="character-view-switch" role="group" aria-label="人物の表示形式">
         <button id="characterViewCards" class="active" type="button" aria-label="カード表示" aria-pressed="true">カード</button>
@@ -248,36 +249,36 @@
 
     <section id="guide" class="primary-view" data-primary-panel="guide" hidden>
       <div class="section-header"><p class="section-kicker">全体像から細かな条件へ</p><h2>王位継承戦 基礎情報ガイド</h2><p>参加条件、守護霊獣、警護と司法、各勢力の能力や契約を整理。仕組みを読み、根拠の場面へ戻れるガイドです。</p></div>
+      <nav class="guide-navigation" aria-label="基礎情報ガイドの目次">
+        <label for="guideSearch">ガイド内を検索</label><input id="guideSearch" type="search" placeholder="例：参加資格、監視、戒厳令、レベル" autocomplete="off">
+        <p id="guideSearchStatus" role="status" aria-live="polite"></p><button type="button" id="guideSearchClear">検索をクリア</button>
+        <ol id="guideContents"><li><a href="?g_topic=guideFactsTitle#guide" data-guide-target="guideFactsTitle">継承戦の基本数値</a></li>
+<li><a href="?g_topic=shipMapTitle#guide" data-guide-target="shipMapTitle">ブラックホエール号の見取り図</a></li>
+<li class="guide-later-topic"><a href="?g_topic=princeStatusTitle#guide" data-guide-target="princeStatusTitle">王子の人数と状況</a></li>
+<li class="guide-later-topic"><a href="?g_topic=successionRulesTitle#guide" data-guide-target="successionRulesTitle">継承戦の制度・勝者と参加条件</a></li>
+<li class="guide-later-topic"><a href="?g_topic=nenBasicsTitle#guide" data-guide-target="nenBasicsTitle">念を読むための基本用語</a></li>
+<li><a href="?g_topic=shipRolesTitle#guide" data-guide-target="shipRolesTitle">船内の立場と役割</a></li>
+<li class="guide-later-topic"><a href="?g_topic=guardAssignmentTitle#guide" data-guide-target="guardAssignmentTitle">王子の警護人と王妃所属兵</a></li>
+<li class="guide-later-topic"><a href="?g_topic=initialPersonnelTitle#guide" data-guide-target="initialPersonnelTitle">出航時の王子別初期配置（復元案）</a></li>
+<li class="guide-later-topic"><a href="?g_topic=lawGuideTitle#guide" data-guide-target="lawGuideTitle">船内法・捜査・戒厳令</a></li>
+<li class="guide-later-topic"><a href="?g_topic=nenLessonsTitle#guide" data-guide-target="nenLessonsTitle">念講習会は何のためにあるか</a></li>
+<li class="guide-later-topic"><a href="?g_topic=mafiaGuideTitle#guide" data-guide-target="mafiaGuideTitle">三大マフィア・王子との関係・二線者</a></li>
+<li class="guide-later-topic"><a href="?g_topic=contagionGuideTitle#guide" data-guide-target="contagionGuideTitle">恋のエチュード：加入・レベル・能力の増殖</a></li>
+<li class="guide-later-topic"><a href="?g_topic=negotiationGameTitle#guide" data-guide-target="negotiationGameTitle">モレナとボークセンの交渉ゲーム（第407〜410話）</a></li>
+<li class="guide-later-topic"><a href="?g_topic=contractGuideTitle#guide" data-guide-target="contractGuideTitle">和平と念の契約：誰にどの条件がかかるか</a></li>
+<li class="guide-later-topic"><a href="?g_topic=soemonoTitle#guide" data-guide-target="soemonoTitle">死後の呪いと詛贄者（ソエモノ）</a></li>
+<li class="guide-later-topic"><a href="?g_topic=royalTreasuresTitle#guide" data-guide-target="royalTreasuresTitle">カキン王家の三種の神器</a></li>
+<li class="guide-later-topic"><a href="?g_topic=beyondTeamTitle#guide" data-guide-target="beyondTeamTitle">ビヨンドチームと乗船経路</a></li>
+<li class="guide-later-topic"><a href="?g_topic=darkContinentTitle#guide" data-guide-target="darkContinentTitle">暗黒大陸のリスクと持ち帰りたい資源</a></li>
+<li class="guide-later-topic"><a href="?g_topic=guideQuestionsTitle#guide" data-guide-target="guideQuestionsTitle">間違えやすい点・まだ決まっていないこと</a></li></ol>
+      </nav>
+      <p id="guideNoResults" hidden>該当する項目はありません。短い言葉で検索するか、ネタバレの表示設定を確認してください。</p>
+      <div class="global-spoiler-gate" id="guideSpoilerGate"><p>初期表示は基本数値・船の構造・立場の説明です。ルールの詳細や実例には後の話で明かされる情報があるため、全画面共通のネタバレ設定で表示します。</p><button type="button" data-reveal-global>ネタバレを表示してガイド全体を読む</button></div>
       <div class="guide-reading-intro">
         <h3>最初に押さえる3つの視点</h3>
         <ol class="rule-list"><li><strong>王位を争う舞台：</strong>14人の王子がブラックホエール号に乗り、次の王を決める争いが進みます。まず人数・船の構造・継承の条件から読むと、登場人物の目的がつかめます。</li><li><strong>同時に働く複数のルール：</strong>王位継承の制度、船内法、念能力の条件、陣営間の約束は別々です。一つの条件を満たしても、他の制約までなくなるわけではありません。</li><li><strong>情報の確かさ：</strong>作中の制度や能力解説と、人物の説明・証言・推測を区別します。例外や未判明の条件は各項目に併記しています。</li></ol>
         <p>上から読むと基礎から詳細へ進めます。調べたい言葉があるときは目次や検索を使ってください。個々の人物の能力は人物一覧、実際に起きた順序は出来事一覧にまとめています。</p>
       </div>
-      <div class="global-spoiler-gate" id="guideSpoilerGate"><p>初期表示は基本数値・船の構造・立場の説明です。ルールの詳細や実例には後の話で明かされる情報があるため、全画面共通のネタバレ設定で表示します。</p><button type="button" data-reveal-global>ネタバレを表示してガイド全体を読む</button></div>
-      <nav class="guide-navigation" aria-label="基礎情報ガイドの目次">
-        <label for="guideSearch">ガイド内を検索</label><input id="guideSearch" type="search" placeholder="例：参加資格、監視、戒厳令、レベル" autocomplete="off">
-        <p id="guideSearchStatus" role="status" aria-live="polite"></p><button type="button" id="guideSearchClear">検索をクリア</button>
-        <ol id="guideContents"><li><button type="button" data-guide-target="guideFactsTitle">継承戦の基本数値</button></li>
-<li><button type="button" data-guide-target="shipMapTitle">ブラックホエール号の見取り図</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="princeStatusTitle">王子の人数と状況</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="successionRulesTitle">継承戦の制度・勝者と参加条件</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="nenBasicsTitle">念を読むための基本用語</button></li>
-<li><button type="button" data-guide-target="shipRolesTitle">船内の立場と役割</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="guardAssignmentTitle">王子の警護人と王妃所属兵</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="initialPersonnelTitle">出航時の王子別初期配置（復元案）</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="lawGuideTitle">船内法・捜査・戒厳令</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="nenLessonsTitle">念講習会は何のためにあるか</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="mafiaGuideTitle">三大マフィア・王子との関係・二線者</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="contagionGuideTitle">恋のエチュード：加入・レベル・能力の増殖</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="negotiationGameTitle">モレナとボークセンの交渉ゲーム（第407〜410話）</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="contractGuideTitle">和平と念の契約：誰にどの条件がかかるか</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="soemonoTitle">死後の呪いと詛贄者（ソエモノ）</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="royalTreasuresTitle">カキン王家の三種の神器</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="beyondTeamTitle">ビヨンドチームと乗船経路</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="darkContinentTitle">暗黒大陸のリスクと持ち帰りたい資源</button></li>
-<li class="guide-later-topic"><button type="button" data-guide-target="guideQuestionsTitle">間違えやすい点・まだ決まっていないこと</button></li></ol>
-      </nav>
-      <p id="guideNoResults" hidden>該当する項目はありません。短い言葉で検索するか、ネタバレの表示設定を確認してください。</p>
       <section class="guide-facts" aria-labelledby="guideFactsTitle">
         <h3 id="guideFactsTitle">継承戦の基本数値</h3>
         <p>カキンでは性別にかかわらず国王の子を「王子」と呼び、生まれ順に第○王子と呼びます。番号が若ければ自動的に次の王になる、という仕組みではありません。正妻に表向きの序列はないと説明される一方、警護・監視の運用には上下の違いがあります。</p>
@@ -663,11 +664,11 @@
 
   <script src="character-routing.js?v=20261017-event-person"></script>
   <script src="spoiler-preferences.js?v=20261028-ui"></script>
-  <script src="character-facts.js?v=20261028-temporal"></script>
+  <script src="character-facts.js?v=20261029-reading"></script>
   <script src="event-search.js?v=20261027-search"></script>
   <script src="personnel-roster.js?v=20261028-temporal"></script>
   <script src="draft-state.js?v=20261027-history-trash"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261028-ui"></script>
+  <script src="script.js?v=20261029-reading"></script>
 </body>
 </html>

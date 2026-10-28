@@ -1,0 +1,23 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const {fixture,ready}=require('./helpers/browser-fixture.cjs');
+(async()=>{const b=await chromium.launch({channel:'msedge',headless:true});try{for(const width of [1280,390,320]){
+ const {context,base}=await fixture(b,{local:false,width,prefix:'/hxh-succession'}),p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.goto(base+'#characters');await ready(p);
+ const count=async()=>{const total=await p.evaluate(()=>currentCharacterResults.length);assert.equal(parseInt(await p.locator('#characterQuickResultCount').innerText()),total);assert.equal(parseInt(await p.locator('#characterResultSummary strong').innerText()),total);return total;};
+ const initial=await count();assert.ok(initial>60);assert.equal(await p.locator('.directory-character-card').count(),60);
+ await p.locator('#characterSearch').focus();await p.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));const before=await p.evaluate(()=>scrollY);
+ await p.locator('#characterSearch').evaluate(input=>{input.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));input.value='くら';input.dispatchEvent(new InputEvent('input',{bubbles:true,isComposing:true,data:'ら'}));});
+ assert.equal(await p.evaluate(()=>document.activeElement.id),'characterSearch');assert.equal(await p.evaluate(()=>scrollY),before);
+ await p.locator('#characterSearch').evaluate(input=>input.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true,data:'クラピカ'})));
+ await p.locator('#characterSearch').fill('クラピカ');await count();assert.equal(await p.evaluate(()=>document.activeElement.id),'characterSearch');
+ const jump=async()=>{const url=p.url();await p.locator('#showCharacterResults').focus();await p.keyboard.press('Enter');assert.equal(await p.evaluate(()=>document.activeElement.id),'characterResults');assert.equal(p.url(),url);const rect=await p.locator('#characterResults').boundingBox();assert.ok(rect.y>=0&&rect.y+rect.height<=900,`result heading must be visible at ${rect.y}`);};
+ await jump();await p.locator('#characterViewTable').click();await count();await p.locator('#characterSearch').fill('一致しない人物99999');assert.equal(await count(),0);await jump();assert.match(await p.locator('#characterResultSummary').innerText(),/一致する人物がいません/);
+ await p.locator('#characterViewCards').click();await jump();
+ await p.locator('#characterSearch').fill('ヒュリコフ 鋼の錬金術師');assert.equal(await count(),0);await p.locator('#spoilerRange').selectOption('all');assert.ok(await count()>0);
+ await p.locator('#clearCharacterFilters').click();await p.locator('#characterFilterToggle').click();await p.locator('#characterFilterPanel [data-tag-id="affiliation-q02-guards"]').click();assert.ok(await count()>0);
+ await p.locator('#resetCharacterTags').click();assert.equal(await count(),initial);
+ await p.locator('#characterPrinceNav [data-prince-id="P14"]').click();assert.ok(await count()>0);
+ await p.evaluate(()=>{Object.assign(document.querySelector('.site-header').style,{position:'fixed',top:'0',left:'0',right:'0',zIndex:'5'});});
+ await p.locator('#showCharacterResults').click();const target=await p.locator('#characterResults').boundingBox(),header=await p.locator('.site-header').boundingBox();assert.ok(target.y>=header.y+header.height,'fixed header must not cover the result heading');
+ assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${width}: full counts, IME/focus, explicit keyboard jump, zero results, cards/table, tags/prince/disclosure and header offset`);
+}}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -2709,21 +2709,45 @@ function extendCharacterDirectory(limit = characterVisibleCount + 60) {
   updateCharacterPageStatus();
 }
 
+function updateAssignmentTableScrollHint() {
+  const container = document.getElementById("characterAssignmentTable");
+  const hint = document.getElementById("characterAssignmentScrollHint");
+  const overflowing = container.clientWidth > 0 && container.querySelector("tbody tr")
+    && container.scrollWidth > container.clientWidth + 1;
+  hint.hidden = !overflowing;
+  if (overflowing) {
+    container.tabIndex = 0;
+    container.setAttribute("role", "region");
+    container.setAttribute("aria-label", "人物の配置表");
+    container.setAttribute("aria-describedby", hint.id);
+  } else {
+    ["tabindex", "role", "aria-label", "aria-describedby"].forEach(attribute=>container.removeAttribute(attribute));
+  }
+}
+
 function renderCharacterAssignmentTable(characters) {
   const container = document.getElementById("characterAssignmentTable");
+  const summary = document.getElementById("characterAssignmentSummary");
+  summary.hidden = activeCharacterView !== "table";
+  if (!renderCharacterAssignmentTable.observer) {
+    renderCharacterAssignmentTable.observer = new ResizeObserver(updateAssignmentTableScrollHint);
+    renderCharacterAssignmentTable.observer.observe(container);
+  }
   container.innerHTML = "";
-  if (activeCharacterView !== "table") return;
+  if (activeCharacterView !== "table") { updateAssignmentTableScrollHint(); return; }
   const assignmentOnly = document.getElementById("assignmentOnly")?.checked;
   const rows = assignmentOnly
     ? characters.filter((character) => character.roster_view || ["soldier", "hunter", "attendant"].includes(character.type))
     : characters;
+  const settingCount = rows.filter(character=>character.setting_only).length;
+  summary.textContent = `検索結果${characters.length}人のうち、配置表に${rows.length}人を表示${settingCount ? `（表内の${settingCount}人は設定表のみ）` : ""}。`;
   const table = document.createElement("table");
   const caption = document.createElement("caption");
   caption.textContent = spoilersRevealed
     ? "ネタバレ表示中：配置・任務・最後の所在を表示しています。"
     : "初期配置を表示中。任務・最後の所在はネタバレ非表示です。";
   const head = document.createElement("thead");
-  head.innerHTML = `<tr><th>人物</th><th>役割区分</th><th>所属</th><th>${spoilersRevealed ? "配置・護衛先" : "初期配置"}</th><th>任務</th><th>最後の所在</th></tr>`;
+  head.innerHTML = `<tr><th scope="col">人物</th><th scope="col">役割区分</th><th scope="col">所属</th><th scope="col">${spoilersRevealed ? "配置・護衛先" : "初期配置"}</th><th scope="col">任務</th><th scope="col">最後の所在</th></tr>`;
   const body = document.createElement("tbody");
   rows.forEach((character) => {
     const roleCategory = [
@@ -2742,8 +2766,8 @@ function renderCharacterAssignmentTable(characters) {
       spoilersRevealed ? [formatDisplayText(character.mission), formatDisplayText(character.target)].filter(Boolean).join("：") || "—" : "非表示",
       spoilersRevealed ? CharacterFacts.latestLocationLabel(character, eventsData) : "非表示"
     ].forEach((value, columnIndex) => {
-      const cell = document.createElement("td");
-      if (columnIndex === 0) cell.appendChild(makeCharacterDetailLink(character, value));
+      const cell = document.createElement(columnIndex === 0 ? "th" : "td");
+      if (columnIndex === 0) { cell.scope = "row"; cell.appendChild(makeCharacterDetailLink(character, value)); }
       else cell.textContent = value;
       row.appendChild(cell);
     });
@@ -2753,10 +2777,13 @@ function renderCharacterAssignmentTable(characters) {
   if (rows.length === 0) {
     const empty = document.createElement("p");
     empty.className = "timeline-empty-state";
-    empty.textContent = "このグループには配置表の対象人物がいません。「配置に関係する人物のみ」を外すと全員を表示できます。";
+    empty.textContent = characters.length
+      ? "このグループには配置表の対象人物がいません。「配置に関係する人物のみ」を外すと全員を表示できます。"
+      : "条件に一致する人物はいません。検索語やタグを見直してください。";
     container.appendChild(empty);
   }
   container.appendChild(table);
+  updateAssignmentTableScrollHint();
 }
 
 function setCharacterView(view) {
@@ -3084,10 +3111,10 @@ function setupCharacterDirectory() {
     if (settingCount || !filtered.length) {
       const note = document.createElement("span");
       note.className = "result-count-note";
-      note.textContent = settingCount ? `設定表のみの${settingCount}人を含む` : "一致する人物がいません。条件を解除して再検索できます。";
+      note.textContent = settingCount ? `検索結果に設定表のみの${settingCount}人を含む` : "一致する人物がいません。条件を解除して再検索できます。";
       summary.appendChild(note);
     }
-    document.getElementById("characterCoverageNote").textContent = settingCount ? `表示中の${settingCount}人は作者設定表のみで確認。本編との対応は未照合で、兵力には加算していません。` : "";
+    document.getElementById("characterCoverageNote").textContent = settingCount ? `検索結果の${settingCount}人は作者設定表のみで確認。本編との対応は未照合で、兵力には加算していません。` : "";
     search.placeholder = spoilersRevealed ? "例：クラピカ 絶対時間" : "例：クラピカ ハンター";
     document.getElementById("characterSearchHelp").textContent = spoilersRevealed
       ? "空白で区切るとすべての語を含む人物を探せます。能力・後の展開も検索対象です。" : "空白で区切るとすべての語を含む人物を探せます。ネタバレ非表示中は、能力・後の展開を検索しません。";

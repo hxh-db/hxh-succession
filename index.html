@@ -17,8 +17,8 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261029-picker" />
-  <link rel="stylesheet" href="filter-controls.css?v=20261027-search" />
+  <link rel="stylesheet" href="style.css?v=20261029-table-reading" />
+  <link rel="stylesheet" href="filter-controls.css?v=20261030-table-reading" />
   <link rel="stylesheet" href="draft-conflicts.css?v=20261027-conflicts" />
 </head>
 <body>
@@ -151,6 +151,8 @@
       <div id="characterDirectory" class="character-directory"></div>
       <div id="characterLoadMore" class="character-load-more"><p id="characterPageStatus" role="status"></p><button id="characterMoreButton" type="button" aria-controls="characterDirectory">もっと見る（次の60人）</button></div>
       <noscript><p>JavaScriptが無効です。<a href="characters/">人物索引から個別ページを読む</a>ことができます。</p></noscript>
+      <p id="characterAssignmentSummary" class="search-scope-help" aria-live="polite" hidden></p>
+      <p id="characterAssignmentScrollHint" class="search-scope-help" hidden>横にスクロールすると、右側の項目も読めます。人物名は左端に残ります。</p>
       <div id="characterAssignmentTable" class="character-assignment-table" hidden></div>
     </section>
 
@@ -678,6 +680,6 @@
   <script src="personnel-roster.js?v=20261028-temporal"></script>
   <script src="draft-state.js?v=20261027-history-trash"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261029-empty-period"></script>
+  <script src="script.js?v=20261029-table-reading"></script>
 </body>
 </html>

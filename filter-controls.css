@@ -84,8 +84,8 @@ body:not(.spoilers-revealed) .character-spoiler-details { display: none; }
   #characterCampNav button, #characterFilterPanel .character-catalog-tag, .character-active-tag button { min-height: 44px; }
   #personnelFilters .personnel-period-controls { grid-template-columns: 1fr; }
   #personnelFilters select { font-size: 1rem; }
-  .directory-results-toolbar { gap: 10px; align-items: start; padding: 12px 0; }
-  .directory-results-toolbar .character-view-switch { max-width: none; flex-wrap: nowrap; }
+  .directory-results-toolbar { gap: 10px; align-items: start; padding: 12px 0; flex-wrap: wrap; }
+  .directory-results-toolbar .character-view-switch { max-width: 100%; flex-wrap: wrap; }
 }
 /* A failed request must leave a visible explanation and a usable recovery action. */
 .database-load-status {

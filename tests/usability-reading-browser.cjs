@@ -119,7 +119,7 @@ const filters=async page=>{const button=page.locator('#timelineFilterToggle');if
    await page.reload();await ready(page);
    assert.equal(await page.evaluate(()=>activeTimelineView),'chapters');
    await filters(page);await page.locator('#clearFilters').click();
-   assert.equal(await page.evaluate(()=>activeTimelinePeriodId),'day-1');
+   assert.equal(await page.evaluate(()=>activeTimelinePeriodId),'all','reset clears the date too, per the 2026-10-29 user decision');
    await tab(page,'guide');
    await page.locator('#guideSearch').fill('戒厳令');
    assert.match(await page.locator('#guideSearchStatus').innerText(),/19項目中2項目/);

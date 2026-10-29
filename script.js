@@ -2696,7 +2696,9 @@ function updateCharacterPageStatus() {
   const more = document.getElementById("characterLoadMore");
   more.hidden = activeCharacterView !== "cards" || total === 0;
   document.getElementById("characterPageStatus").textContent = `${total}人中${shown}人を表示`;
-  document.getElementById("characterMoreButton").hidden = shown >= total;
+  const button = document.getElementById("characterMoreButton"),remaining=total-shown;
+  button.hidden = remaining <= 0;
+  if (remaining > 0) button.textContent = `もっと見る（次の${Math.min(60,remaining)}人）`;
 }
 
 function extendCharacterDirectory(limit = characterVisibleCount + 60) {
@@ -3217,7 +3219,20 @@ function setupCharacterDirectory() {
     });
     quickNav.appendChild(button);
   });
-  document.getElementById("characterMoreButton").addEventListener("click", () => { extendCharacterDirectory(); saveReadingState(); });
+  const moreButton=document.getElementById('characterMoreButton');
+  moreButton.addEventListener('click',event=>{
+    const keyboard=event.detail===0 && document.activeElement===moreButton;
+    const directory=document.getElementById('characterDirectory'),previous=directory.children.length;
+    extendCharacterDirectory();
+    if (keyboard) {
+      const card=directory.children[previous],heading=card?.querySelector('h3 a') || card?.querySelector('h3');
+      if (heading) {
+        if (heading.tagName==='H3') heading.tabIndex=-1;
+        heading.focus({preventScroll:true});heading.scrollIntoView({block:'nearest',behavior:'instant'});
+      }
+    }
+    saveReadingState();
+  });
   document.getElementById("characterViewCards").addEventListener("click", () => setCharacterView("cards"));
   document.getElementById("characterViewTable").addEventListener("click", () => setCharacterView("table"));
   document.getElementById("assignmentOnly").addEventListener("change", () => { renderCharacterAssignmentTable(currentCharacterResults); updateViewPermalink(); });
@@ -3953,8 +3968,8 @@ function resetFilters() {
   document.getElementById("timelineSortOrder").value = "asc";
   if (document.getElementById("hideHypothesisEvents")) document.getElementById("hideHypothesisEvents").checked = false;
   if (document.getElementById("timeDisplayMode")) document.getElementById("timeDisplayMode").value = "all";
-  // 「解除」で全期間へ広げない。選んだ期間（全期間なら1日目）を保つ。
-  if (activeTimelinePeriodId === "all") activeTimelinePeriodId = "day-1";
+  // 「すべて解除」は日付も含めて解除する（2026-10-29ユーザー指定）。
+  activeTimelinePeriodId = "all";
   applyFilter();
 }
 

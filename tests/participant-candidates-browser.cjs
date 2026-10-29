@@ -48,6 +48,10 @@ const {fixture,ready}=require('./helpers/browser-fixture.cjs');
  await input.fill('くらぴか');assert.equal(await select.inputValue(),'P04-U01');assert.equal((await eventIds()).length,0);
  await page.reload();await ready(page);await open();assert.equal(await select.inputValue(),'P04-U01');assert.equal((await eventIds()).length,0);
  await page.goto(base+'?t_person=P04-U01#timeline');await ready(page);await open();assert.equal(await select.inputValue(),'P04-U01');assert.equal((await eventIds()).length,0);
+ for(const id of ['UNKNOWN','constructor','__proto__']) {
+  await page.goto(base+'?t_person='+encodeURIComponent(id)+'#timeline');await ready(page);await open();assert.equal(await select.inputValue(),'all');
+  assert.equal(await page.evaluate(()=>filteredEventsData.length),await page.evaluate(()=>eventsData.length),'unrecognized IDs must not create a false participant');
+ }
  // Existing links and the person-details route can select people outside a previously narrowed picker.
  await page.goto(base+'?t_person=P13#timeline');await ready(page);await open();assert.equal(await select.inputValue(),'P13');
  await input.fill('くらぴか');await page.locator('[data-primary-view="characters"]').click();await page.locator('#characterSearch').fill('モレナ');

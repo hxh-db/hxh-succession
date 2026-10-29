@@ -3955,7 +3955,7 @@ function clearParticipantCandidateSearch() {
 function ensureParticipantOption(id) {
   const select=document.getElementById('participantFilter');
   if ([...select.options].some(option=>option.value===id)) return;
-  if (!CHAR_MAP[id] && !participantCandidateOptions.some(option=>option.id===id)) return;
+  if (!Object.hasOwn(CHAR_MAP,id) && !participantCandidateOptions.some(option=>option.id===id)) return;
   const option=document.createElement('option');option.value=id;option.textContent=formatRoyalName(id);select.appendChild(option);
   participantCandidateSignature=null;
 }
@@ -3970,7 +3970,7 @@ function renderParticipantCandidates() {
   participantCandidateSignature = signature;
   const matches = participantCandidateOptions.filter(option=>CharacterFacts.matchesSearch(option.search,query));
   const pinned = selected !== 'all' && !matches.some(option=>option.id===selected)
-    ? participantCandidateOptions.find(option=>option.id===selected) || (CHAR_MAP[selected] ? {id:selected,label:formatRoyalName(selected)} : null) : null;
+    ? participantCandidateOptions.find(option=>option.id===selected) || (Object.hasOwn(CHAR_MAP,selected) ? {id:selected,label:formatRoyalName(selected)} : null) : null;
   const fragment = document.createDocumentFragment();
   const addOption = (id,label) => {
     const option = document.createElement('option'); option.value=id; option.textContent=label; fragment.appendChild(option);
@@ -4023,7 +4023,7 @@ function setupFilters() {
   participantCandidateOptions = getUniqueParticipants(eventsData)
     .sort((a, b) => formatRoyalName(a).localeCompare(formatRoyalName(b), "ja"))
     .map((token) => {
-      const person=CHAR_MAP[token];
+      const person=Object.hasOwn(CHAR_MAP,token) ? CHAR_MAP[token] : null;
       const names=[token,formatRoyalName(token),person?.name,person?.display_name,...(person?.aliases || []),...(person ? CharacterFacts.royalAliases(person) : [])].filter(Boolean);
       return {id:token,label:formatRoyalName(token),search:CharacterFacts.buildSearchText([...names,...names.map(CharacterFacts.katakanaToRomaji)])};
     });

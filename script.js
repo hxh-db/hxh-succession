@@ -3894,7 +3894,7 @@ function renderTimelineActiveFilters() {
   }
   if (filters.length === 0) {
     const guide = document.createElement("p");
-    guide.textContent = "各イベントの場所・人物タグを押すと、その履歴だけに絞り込めます。";
+    guide.textContent = "場所タグで同じ場所の出来事に絞れます。人物のリンクからは詳細を開けます。";
     container.appendChild(guide);
     return;
   }

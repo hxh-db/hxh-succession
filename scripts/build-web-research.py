@@ -75,7 +75,7 @@ def build():
 <label>取り込み状況<select id="research-status"><option value="">すべて</option>{status_options}</select></label>
 <label>資料の対象話数<select id="research-read"><option value="">制限なし</option>{chapters}</select></label></div>
 <p id="research-count" role="status">{len(data['entries'])}件の調査項目</p><div class="research-list">{''.join(cards)}</div><p id="research-empty" hidden>条件に合う調査項目はありません。</p>
-</main><script src="../spoiler-preferences.js?v=20261028-ui"></script><script src="../theories/theory-search.js?v=20261015-search"></script><script src="../theories/theories.js?v=20261029-reading"></script><script src="research.js?v=20261026"></script></body></html>'''
+</main><script src="../spoiler-preferences.js?v=20261028-ui"></script><script src="../theories/theory-search.js?v=20261015-search"></script><script src="../theories/theories.js?v=20261029-native-links"></script><script src="research.js?v=20261026"></script></body></html>'''
 
 
 def main():

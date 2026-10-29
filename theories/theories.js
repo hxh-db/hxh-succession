@@ -21,22 +21,36 @@ function refreshArticleTitle() {
 (() => {
   const article=document.querySelector('.spoiler-article .essay-title')?.closest('.spoiler-article');
   if(!article)return;
+  let focusOnOpen=false;
   const findSection=fragment=>[...article.querySelectorAll('[data-section]')].find(node=>node.dataset.section===fragment);
-  const followFragment=()=>{
+  const followFragment=(focus=false)=>{
     if(!article.open)return;
     let fragment;try{fragment=decodeURIComponent(location.hash.slice(1));}catch(_){return;}
     const target=findSection(fragment);if(!target)return;
     if(target.tagName==='DETAILS')target.open=true;
-    requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+    requestAnimationFrame(()=>{
+      if(!article.open)return;
+      target.scrollIntoView({block:'start'});
+      if(focus){
+        const destination=target.tagName==='DETAILS' ? target.querySelector(':scope > summary') : target;
+        if(destination && destination.tagName!=='SUMMARY')destination.tabIndex=-1;
+        destination?.focus({preventScroll:true});
+      }
+    });
   };
-  article.addEventListener('toggle',()=>{refreshArticleTitle();followFragment();});
+  article.querySelector(':scope > summary').addEventListener('click',()=>{focusOnOpen=true;});
+  article.addEventListener('toggle',()=>{refreshArticleTitle();const focus=focusOnOpen;focusOnOpen=false;followFragment(focus);});
   article.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{
+    if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || link.hasAttribute('download') || (link.target && link.target.toLowerCase()!=='_self'))return;
     const url=new URL(link.href);if(!findSection(url.hash.slice(1)))return;
-    event.preventDefault();history.pushState(history.state,'',url.href);followFragment();
+    event.preventDefault();if(url.href!==location.href)history.pushState(history.state,'',url.href);followFragment(true);
   }));
-  window.addEventListener('hashchange',followFragment);
-  window.addEventListener('popstate',followFragment);
-  refreshArticleTitle();followFragment();
+  window.addEventListener('hashchange',()=>followFragment(true));
+  window.addEventListener('popstate',()=>followFragment(true));
+  // Resolve the initial target after the browser's native fragment navigation.
+  // Otherwise its later focus/scroll can undo the destination set by the script.
+  window.addEventListener('pageshow',()=>followFragment(true));
+  refreshArticleTitle();if(document.readyState==='complete')followFragment(true);
 })();
 const search = document.getElementById('essay-search');
 const articleState = () => {

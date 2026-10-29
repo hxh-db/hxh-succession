@@ -4300,6 +4300,7 @@ function renderTimelineSchedule(events) {
   const heading = document.createElement("div");
   heading.className = "schedule-selected-heading";
   const title = document.createElement("h4");
+  title.id = "timelineScheduleHeading";
   title.textContent = selectedPeriod.id === "all" ? "全日程" : selectedPeriod.label;
   heading.appendChild(title);
   if (activeTimelinePeriodId === "all") {
@@ -4319,9 +4320,35 @@ function renderTimelineSchedule(events) {
   container.appendChild(heading);
 
   if (selectedEvents.length === 0) {
-    const empty = document.createElement("p");
+    const uncollected = getUncollectedChapterMessage();
+    // This whole panel remains behind the common spoiler gate, including counts.
+    const canBroadenPeriod = !uncollected && activeTimelinePeriodId !== "all" && events.length > 0;
+    const empty = document.createElement(canBroadenPeriod ? "div" : "p");
     empty.className = "timeline-empty-state";
-    empty.textContent = getUncollectedChapterMessage() || "条件に一致する出来事はありません。選択中の条件を外すか「すべて解除」を押してください。";
+    if (canBroadenPeriod) {
+      empty.classList.add("search-scope-notice");
+      const message = document.createElement("p");
+      message.textContent = `この日付にはありません。ほかの条件を保った全日程では${events.length}件あります。`;
+      const showAll = document.createElement("button");
+      showAll.id = "timelineShowAllPeriods";
+      showAll.type = "button";
+      showAll.textContent = "全日程で見る";
+      showAll.addEventListener("click", () => {
+        if (!spoilersRevealed) return;
+        saveReadingState();
+        history.pushState({hxhReading:true}, "", location.href);
+        activeTimelinePeriodId = "all";
+        applyFilter();
+        const destination = document.getElementById("timelineScheduleHeading");
+        destination.tabIndex = -1;
+        destination.focus({preventScroll:true});
+        destination.scrollIntoView({block:"nearest",behavior:"instant"});
+        saveReadingState();
+      });
+      empty.append(message, showAll);
+    } else {
+      empty.textContent = uncollected || "条件に一致する出来事はありません。選択中の条件を外すか「すべて解除」を押してください。";
+    }
     container.appendChild(empty);
   } else {
     if (selectedEvents.some((event) => event.series === "セレモニー退室時刻（10分間隔の仮定）")) {
@@ -6544,7 +6571,7 @@ function setupLinkedRecordFilterEdits() {
   document.addEventListener("click",event=>{
     const button=event.target.closest("button");if(!button)return;
     if (button.matches("#characterCampNav button, #characterPrinceNav button, #characterFilterPanel button, #characterActiveTag button, #resetCharacterTags, #clearCharacterFilters, #characterViewCards, #characterViewTable")) detach("characters");
-    if (button.matches("#timelinePeriodTabs button, #timelineActiveFilters button, #clearTimelineSearch, #timelineLatestDay, #clearFilters, #addTimelineEvent, #timeline [data-timeline-view]")) detach("timeline");
+    if (button.matches("#timelinePeriodTabs button, #timelineActiveFilters button, #timelineShowAllPeriods, #clearTimelineSearch, #timelineLatestDay, #clearFilters, #addTimelineEvent, #timeline [data-timeline-view]")) detach("timeline");
   },true);
   document.addEventListener("character-tag-filter",()=>detach("characters"),true);
   document.addEventListener("character-affiliation-filter",()=>detach("characters"),true);

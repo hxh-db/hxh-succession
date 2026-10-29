@@ -38,6 +38,7 @@
   {"name":"filter-toolbar","groups":["critical","navigation"]},
   {"name":"character-load-more","groups":["critical","directory","navigation"]},
   {"name":"timeline-reset","groups":["critical","navigation"]},
+  {"name":"timeline-empty-period","groups":["critical","navigation"]},
   {"name":"hunter-tag-groups","groups":["directory"]},
   {"name":"mafia-underlings","groups":["directory"]},
   {"name":"personnel-roster","groups":["directory"]},

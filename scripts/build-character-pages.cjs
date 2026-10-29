@@ -32,22 +32,25 @@ function locationPartsHtml(parts) {
     ? `<a class="latest-place-event-link" href="../../?event=${encodeURIComponent(part.eventId)}#timeline" title="根拠の出来事 ${escape(part.eventId)}">${escape(part.text)}</a>`
     : escape(part.text)).join('');
 }
-function latestLocationHtml({main, confirmed, candidates}) {
+function latestLocationHtml({main, confirmed, candidates}, events) {
   let html = `<p class="latest-place-main">${locationPartsHtml(main)}</p>`;
   if (confirmed) html += `<p class="latest-place-confirmed">${locationPartsHtml(confirmed)}</p>`;
-  if (candidates.length) html += `<p class="latest-place-candidates-label">ほかの関係記録（本人の在室は未確認）</p><ul class="readable-list latest-place-candidates">${candidates.map(group => `<li>${locationPartsHtml([{text: `第${group.chapter}話`, eventId: group.eventIds[0]}, {text: group.text.slice(`第${group.chapter}話`.length)}])}</li>`).join('')}</ul>`;
+  if (candidates.length) html += `<p class="latest-place-candidates-label">ほかの関係記録（本人の在室は未確認）</p><ul class="readable-list latest-place-candidates">${candidates.map(group => {
+    const links=group.eventIds.map(id=>events.find(event=>event.id===id)).filter(Boolean).map(event=>`<li>${locationPartsHtml([{eventId:event.id,text:event.title || String(event.description || '').split('。')[0] || event.id}])}</li>`).join('');
+    return `<li>${locationPartsHtml([{text: `第${group.chapter}話`, eventId: group.eventIds[0]}, {text: group.text.slice(`第${group.chapter}話`.length)}])}${group.eventIds.length>1?`<details data-location-group="${escape(group.eventIds.join(','))}"><summary>${group.eventIds.length}件の記録を見る</summary><ul class="readable-list">${links}</ul></details>`:''}</li>`;
+  }).join('')}</ul>`;
   return html;
 }
 // 長い記述（念能力など）は話数の区切りで箇条書きにする。データは変えず表示だけを分ける。
 const READABLE_LABELS = new Set(['念能力']);
-function fieldValue(label, value) {
+function fieldValue(label, value, events) {
   const segments = READABLE_LABELS.has(label) ? CharacterFacts.readableSegments(value) : [];
   if (segments.length > 1) return `<ul class="readable-list">${segments.map(s => `<li>${escape(s)}</li>`).join('')}</ul>`;
-  if (label === '最後の所在') return latestLocationHtml(value);
+  if (label === '最後の所在') return latestLocationHtml(value, events);
   return escape(value);
 }
-function definitionList(fields) {
-  return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${fieldValue(label, value)}</dd>`).join('\n') + '</dl>';
+function definitionList(fields, events = []) {
+  return '<dl class="detail-list">' + fields.filter(([,v]) => v !== undefined && v !== null && v !== '').map(([label,value]) => `<dt>${escape(label)}</dt><dd>${fieldValue(label, value, events)}</dd>`).join('\n') + '</dl>';
 }
 function familyHtml(person, characters) {
   const relatives = CharacterFacts.familyRelations(person, characters);
@@ -128,7 +131,7 @@ ${evidence ? `<p class="author-setting-badge">${person.setting_only ? '作者設
 <p>初期配置は台帳の当初の担当先です。後任の人物や復元枠も含み、全員の出航時の在室を示すものではありません。後の展開は下の折りたたみにまとめています。</p>
 <div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="${Math.max(...events.map(event=>event.chapter))}" hidden></div>
 <details class="character-page-spoilers" data-nosnippet><summary>人物詳細（後の展開を含む）</summary>
-${definitionList(spoilerFields(person, events))}
+${definitionList(spoilerFields(person, events), events)}
 ${familyHtml(person, characters)}
 ${abilityMedia}
 ${beast}

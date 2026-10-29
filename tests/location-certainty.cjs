@@ -91,6 +91,11 @@ class Node {
   append(...nodes) { this.children.push(...nodes); }
   replaceChildren(...nodes) { this.children = nodes; }
   addEventListener(type, fn) { this.listeners[type] = fn; }
+  querySelectorAll(selector) {
+    assert.ok(['details[data-location-group]','details[data-location-group][open]'].includes(selector));
+    const walk = node => (node.children || []).flatMap(child=>[child,...walk(child)]);
+    return walk(this).filter(node=>node.tagName==='details' && node.dataset.locationGroup && (!selector.endsWith('[open]') || node.open));
+  }
 }
 const opened = [];
 const ctx = vm.createContext({
@@ -100,7 +105,8 @@ const ctx = vm.createContext({
   siteRootUrl: new URL('http://127.0.0.1:8765/'),
   document: {createElement: tag => new Node(tag), createTextNode: value => ({text: value}), createDocumentFragment: () => new Node('#fragment')},
   showDetailModal: (id, category) => opened.push([id, category]),
-  openPersonEvent: () => false
+  openPersonEvent: () => false,
+  formatPublicDetailText: value => value
 });
 vm.runInContext('function getPersonnelEvents() { return eventsData; }', ctx);
 vm.runInContext(['sortKey', 'makeLocationPartNodes', 'fillLatestLocationContent', 'makeLatestLocationContent',
@@ -196,3 +202,15 @@ assert.ok(index.includes('id="characterFilterToggle"'), 'タグ一覧の開閉�
 assert.ok(index.includes('id="characterPrinceNav"'), '関係王子の条件を維持');
 
 console.log('PASS: location certainty labels, evidence links (spoiler-safe), same-incident scenes, ability editorial notes, grouped prince filters');
+
+// Every record in a grouped candidate is reachable; refresh preserves explicit opens only while revealed.
+ctx.spoilersRevealed=true;
+const morena=people.find(person=>person.id==='EII-001');
+const morenaContent=ctx.makeLatestLocationContent(morena);
+const candidateGroup=morenaContent.querySelectorAll('details[data-location-group]').find(el=>el.dataset.locationGroup.split(',').length===6);
+assert.ok(candidateGroup);
+for(const id of candidateGroup.dataset.locationGroup.split(',')) assert.ok(links(candidateGroup).some(a=>new URL(a.href).searchParams.get('event')===id));
+candidateGroup.open=true;ctx.fillLatestLocationContent(morenaContent,morena);
+assert.ok(morenaContent.querySelectorAll('details[data-location-group][open]').some(el=>el.dataset.locationGroup===candidateGroup.dataset.locationGroup));
+ctx.spoilersRevealed=false;ctx.fillLatestLocationContent(morenaContent,morena);
+assert.equal(links(morenaContent).length,0);assert.equal(morenaContent.querySelectorAll('details[data-location-group][open]').length,0);

@@ -2207,7 +2207,7 @@ function makeLocationPartNodes(parts) {
       if (clickEvent.button || clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.shiftKey || clickEvent.altKey) return;
       clickEvent.preventDefault();
       clickEvent.stopPropagation();
-      if (!openPersonEvent(event,'location')) showDetailModal(event.id, "event", event);
+      if (!openPersonEvent(event,'location',link)) showDetailModal(event.id, "event", event);
     });
     fragment.appendChild(link);
   });
@@ -2215,6 +2215,7 @@ function makeLocationPartNodes(parts) {
 }
 
 function fillLatestLocationContent(container, person) {
+  const openGroups = new Set([...container.querySelectorAll('details[data-location-group][open]')].map(el=>el.dataset.locationGroup));
   container.replaceChildren();
   const { main, confirmed, candidates } = CharacterFacts.latestLocationParts(person, eventsData);
   if (container.dataset.heading) {
@@ -2245,6 +2246,24 @@ function fillLatestLocationContent(container, person) {
         { text: `第${group.chapter}話`, eventId: group.eventIds[0], chapter: group.chapter },
         { text: group.text.slice(`第${group.chapter}話`.length) }
       ]));
+      if (group.eventIds.length > 1) {
+        const details = document.createElement("details");
+        details.dataset.locationGroup = group.eventIds.join(",");
+        details.open = spoilersRevealed && openGroups.has(details.dataset.locationGroup);
+        const summary = document.createElement("summary");
+        summary.textContent = `${group.eventIds.length}件の記録を見る`;
+        const records = document.createElement("ul");
+        records.className = "readable-list";
+        group.eventIds.forEach(id=>{
+          const event = eventsData.find(entry=>entry.id===id);
+          if (!event) return;
+          const row = document.createElement("li");
+          row.appendChild(makeLocationPartNodes([{eventId:id,text:formatPublicDetailText(event.title || String(event.description || "").split("。")[0]) || id}]));
+          records.appendChild(row);
+        });
+        details.append(summary, records);
+        item.appendChild(details);
+      }
       list.appendChild(item);
     });
     container.append(note, list);
@@ -5346,11 +5365,13 @@ function makeCharacterStatusHistory(character) {
   section.append(heading, list); return section;
 }
 
-function openPersonEvent(event, focusKind='event') {
+function openPersonEvent(event, focusKind='event', origin=null) {
   const personId=history.state?.characterId;
   if (!personId || !window.CharacterRoutes?.isActive()) return false;
   const modal=document.getElementById('detailModal');
   const snapshot={scrollTop:modal.querySelector('.modal-card').scrollTop,eventId:event.id,focusKind,
+    locationGroups:[...modal.querySelectorAll('details[data-location-group][open]')].map(el=>el.dataset.locationGroup),
+    locationGroup:origin?.closest('details[data-location-group]')?.dataset.locationGroup,
     laterOpen:Boolean(modal.querySelector('.person-later-info')?.open),revealed:spoilersRevealed};
   if (!window.CharacterRoutes.suspendForEvent(snapshot)) return false;
   const url=new URL('index.html',siteRootUrl);url.searchParams.set('event',event.id);url.hash='timeline';
@@ -7018,8 +7039,9 @@ async function init() {
         if (snapshot) {
           const modal=document.getElementById('detailModal'),later=modal.querySelector('.person-later-info');
           if (later && snapshot.revealed===spoilersRevealed) later.open=Boolean(snapshot.laterOpen);
+          if (snapshot.revealed===spoilersRevealed) modal.querySelectorAll('details[data-location-group]').forEach(el=>{el.open=(snapshot.locationGroups || []).includes(el.dataset.locationGroup);});
           const target=snapshot.focusKind==='location'
-            ? [...modal.querySelectorAll('.latest-place-event-link')].find(el=>new URL(el.href).searchParams.get('event')===snapshot.eventId)
+            ? [...modal.querySelectorAll('.latest-place-event-link')].find(el=>new URL(el.href).searchParams.get('event')===snapshot.eventId && (!snapshot.locationGroup || el.closest('details[data-location-group]')?.dataset.locationGroup===snapshot.locationGroup))
             : [...modal.querySelectorAll('.schedule-event')].find(el=>el.dataset.eventId===snapshot.eventId);
           if (target?.checkVisibility()) {
             target.focus({preventScroll:true});

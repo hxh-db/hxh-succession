@@ -14,9 +14,13 @@
     for(const event of events) {
       const fields=[event.id,`第${event.chapter}話`,event.title,event.summary,event.description,event.notes,
         event.type,event.series,event.location,event.room,locationLabel(event),
-        ...(event.revealed_facts || []),...(event.mysteries || []),
-        ...(event.characters || []).flatMap(token=>names.get(token) || [token])];
-      textByEvent.set(event,facts.buildSearchText(fields.filter(value=>value!=null).map(formatText)));
+        ...(event.revealed_facts || []),...(event.mysteries || [])];
+      // Display formatting can shorten royal names. Keep public participant
+      // names/aliases as well, without indexing hidden editorial scene text.
+      const participants=(event.characters || []).flatMap(token=>names.get(token) || [token]);
+      textByEvent.set(event,facts.buildSearchText([
+        ...fields.filter(value=>value!=null).map(formatText),...participants,...participants.map(formatText)
+      ]));
     }
     return {matcher(query) {
       const patterns=facts.searchPatterns(query);

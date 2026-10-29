@@ -22,7 +22,17 @@ assert.deepEqual(find('呪詛'),['E410-001'],'Speculative scenes remain searchab
 const internal={description:'非表示用の編集文字列'};
 const formatted=createIndex([internal],[],{formatText:()=>''});
 assert.ok(!formatted.matcher('編集文字列')(internal));
+const shortened=createIndex(events,people,{formatText:value=>String(value??'').replace(/＝ホイコーロ/g,'')});
+for(const query of ['ベンジャミン＝ホイコーロ 電話','ベンジャミン 電話','第1王子 電話','BENJAMIN 電話']) {
+  assert.deepEqual(events.filter(shortened.matcher(query)).map(event=>event.id),['E350-001'],query);
+}
+assert.deepEqual(events.filter(shortened.matcher('未来の状態')),[]);
+assert.deepEqual(events.filter(shortened.matcher('後で判明する能力')),[]);
 const real=require('../data/events.json'),actualPeople=require('../data/characters.json');
 const actual=createIndex(real,actualPeople);
 assert.ok(real.filter(actual.matcher('ベンジャミン 戒厳令')).some(event=>event.id==='E414-001'));
+const actualShortened=createIndex(real,actualPeople,{formatText:value=>String(value??'').replace(/＝ホイコーロ/g,'')});
+for(const person of actualPeople.filter(p=>p.name.includes('＝ホイコーロ')&&real.some(e=>e.characters.includes(p.id)))) {
+  assert.ok(real.filter(actualShortened.matcher(person.name)).some(e=>e.characters.includes(person.id)),person.name);
+}
 console.log('PASS: scene text/name/alias/romaji search; AND words, numeric boundaries, literal punctuation, and no inherited future facts');

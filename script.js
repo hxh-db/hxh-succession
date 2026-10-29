@@ -3851,6 +3851,9 @@ function renderTimelineActiveFilters() {
   if (selectedSeries !== "all") {
     filters.push({ label: `一連の出来事：${selectedSeries}`, target: "seriesFilter" });
   }
+  if (document.getElementById("hideHypothesisEvents").checked) {
+    filters.push({ label: "内容が推測の出来事を非表示", target: "hideHypothesisEvents" });
+  }
   if (filters.length === 0) {
     const guide = document.createElement("p");
     guide.textContent = "各イベントの場所・人物タグを押すと、その履歴だけに絞り込めます。";
@@ -3861,16 +3864,26 @@ function renderTimelineActiveFilters() {
   label.className = "timeline-active-filters-label";
   label.textContent = "絞り込み中";
   container.appendChild(label);
-  filters.forEach((filter) => {
+  filters.forEach((filter, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "timeline-active-filter";
     button.textContent = `${filter.label} ×`;
     button.title = `${filter.label}の絞り込みを解除`;
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+      const restoreFocus = event.detail === 0 && document.activeElement === button;
       if (filter.target === "period") activeTimelinePeriodId = "all";
-      else document.getElementById(filter.target).value = filter.target === "timelineSearch" ? "" : "all";
+      else {
+        const control = document.getElementById(filter.target);
+        if (control.type === "checkbox") control.checked = false;
+        else control.value = filter.target === "timelineSearch" ? "" : "all";
+      }
       applyFilter();
+      if (restoreFocus) {
+        const remaining = container.querySelectorAll(".timeline-active-filter");
+        const target = remaining[index] || remaining[index - 1] || document.getElementById("timelineSearch");
+        target.focus({ preventScroll: true });
+      }
     });
     container.appendChild(button);
   });

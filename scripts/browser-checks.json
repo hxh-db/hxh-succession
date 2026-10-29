@@ -32,6 +32,7 @@
   {"name":"contextual-tags","groups":["directory"]},
   {"name":"family-eii","groups":["directory"]},
   {"name":"filter-controls","groups":["directory","navigation"]},
+  {"name":"timeline-active-filters","groups":["critical","navigation"]},
   {"name":"hunter-tag-groups","groups":["directory"]},
   {"name":"mafia-underlings","groups":["directory"]},
   {"name":"personnel-roster","groups":["directory"]},

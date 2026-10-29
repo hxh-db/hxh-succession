@@ -55,6 +55,8 @@ let initialPersonnelData = null;
 let filteredEventsData = [];
 let eventSearchIndex = null;
 let previousTimelineQuery = "";
+let participantCandidateOptions = [];
+let participantCandidateSignature = null;
 // 原作画像がなく出来事を登録していない話。0件を「対象外」と誤解されないよう、表示で明示する。
 const UNCOLLECTED_CHAPTERS = new Map([[396, "原作画像未提供"], [397, "原作画像未提供"]]);
 const UNCOLLECTED_RANGE_LABEL = "第396〜397話は未収録（原作画像未提供）";
@@ -3103,9 +3105,15 @@ function setupCharacterDirectory() {
       clear.textContent = `${label} ×`;
       clear.title = `${label}の条件を解除`;
       clear.setAttribute("aria-label", `${label}を解除`);
-      clear.addEventListener("click", () => {
+      clear.addEventListener("click", (event) => {
+        const restoreFocus = event.detail === 0 && document.activeElement === clear;
+        const index = [...activeTagBar.querySelectorAll('button')].indexOf(clear);
         clearFilter();
         apply();
+        if (restoreFocus) {
+          const remaining=activeTagBar.querySelectorAll('button');
+          (remaining[index] || remaining[index-1] || search).focus({preventScroll:true});
+        }
       });
       activeTagBar.appendChild(clear);
     };
@@ -3599,10 +3607,12 @@ function filterTimelineByEventLocation(event) {
 
 function filterTimelineByParticipant(token) {
   activatePrimaryView("timeline", true);
+  clearParticipantCandidateSearch();
   ["roomFilter", "typeFilter", "chapterFilter", "seriesFilter"].forEach(id => { document.getElementById(id).value = "all"; });
   document.getElementById("timelineSearch").value = "";
   document.getElementById("hideHypothesisEvents").checked = false;
   document.getElementById("timeDisplayMode").value = "all";
+  ensureParticipantOption(token);
   document.getElementById("participantFilter").value = token;
   activeTimelinePeriodId = "all";
   activateTimelineView("schedule");
@@ -3793,6 +3803,7 @@ function getEventTypeGroup(event) {
 }
 
 function applyFilter() {
+  renderParticipantCandidates();
   const query = document.getElementById("timelineSearch").value.trim();
   const searchMatch = eventSearchIndex?.matcher(query) || (()=>true);
   previousTimelineQuery = query;
@@ -3920,6 +3931,7 @@ function refreshTypeAvailability() {
 }
 
 function resetFilters() {
+  clearParticipantCandidateSearch();
   document.getElementById("timelineSearch").value = "";
   document.getElementById("roomFilter").value = "all";
   document.getElementById("typeFilter").value = "all";
@@ -3932,6 +3944,43 @@ function resetFilters() {
   // 「解除」で全期間へ広げない。選んだ期間（全期間なら1日目）を保つ。
   if (activeTimelinePeriodId === "all") activeTimelinePeriodId = "day-1";
   applyFilter();
+}
+
+function clearParticipantCandidateSearch() {
+  document.getElementById('participantCandidateSearch').value = '';
+  participantCandidateSignature = null;
+  renderParticipantCandidates();
+}
+
+function ensureParticipantOption(id) {
+  const select=document.getElementById('participantFilter');
+  if ([...select.options].some(option=>option.value===id)) return;
+  if (!CHAR_MAP[id] && !participantCandidateOptions.some(option=>option.id===id)) return;
+  const option=document.createElement('option');option.value=id;option.textContent=formatRoyalName(id);select.appendChild(option);
+  participantCandidateSignature=null;
+}
+
+function renderParticipantCandidates() {
+  const input = document.getElementById('participantCandidateSearch');
+  const select = document.getElementById('participantFilter');
+  const selected = select.value || 'all';
+  const query = input.value.trim();
+  const signature = JSON.stringify([input.value,selected]);
+  if (signature === participantCandidateSignature) return;
+  participantCandidateSignature = signature;
+  const matches = participantCandidateOptions.filter(option=>CharacterFacts.matchesSearch(option.search,query));
+  const pinned = selected !== 'all' && !matches.some(option=>option.id===selected)
+    ? participantCandidateOptions.find(option=>option.id===selected) || (CHAR_MAP[selected] ? {id:selected,label:formatRoyalName(selected)} : null) : null;
+  const fragment = document.createDocumentFragment();
+  const addOption = (id,label) => {
+    const option = document.createElement('option'); option.value=id; option.textContent=label; fragment.appendChild(option);
+  };
+  addOption('all','すべての人物');
+  if (pinned) addOption(pinned.id,`${pinned.label}（選択中）`);
+  matches.forEach(option=>addOption(option.id,option.label));
+  select.replaceChildren(fragment); select.value=selected;
+  document.getElementById('participantCandidateStatus').textContent = `候補${matches.length}件。${pinned ? '現在の人物選択は維持しています。' : !matches.length ? '検索語を変えるかクリアしてください。' : ''}`;
+  document.getElementById('clearParticipantCandidates').disabled = !input.value;
 }
 
 function setupFilters() {
@@ -3971,14 +4020,21 @@ function setupFilters() {
   });
   pillify("typeFilter");
 
-  getUniqueParticipants(eventsData)
+  participantCandidateOptions = getUniqueParticipants(eventsData)
     .sort((a, b) => formatRoyalName(a).localeCompare(formatRoyalName(b), "ja"))
-    .forEach((token) => {
-      const opt = document.createElement("option");
-      opt.value = token;
-      opt.textContent = formatRoyalName(token);
-      participantFilter.appendChild(opt);
+    .map((token) => {
+      const person=CHAR_MAP[token];
+      const names=[token,formatRoyalName(token),person?.name,person?.display_name,...(person?.aliases || []),...(person ? CharacterFacts.royalAliases(person) : [])].filter(Boolean);
+      return {id:token,label:formatRoyalName(token),search:CharacterFacts.buildSearchText([...names,...names.map(CharacterFacts.katakanaToRomaji)])};
     });
+  participantCandidateSignature = null;
+  renderParticipantCandidates();
+  const candidateSearch=document.getElementById('participantCandidateSearch');
+  candidateSearch.addEventListener('input',event=>{if(!event.isComposing)renderParticipantCandidates();});
+  candidateSearch.addEventListener('compositionend',renderParticipantCandidates);
+  document.getElementById('clearParticipantCandidates').addEventListener('click',()=>{
+    clearParticipantCandidateSearch();candidateSearch.focus({preventScroll:true});
+  });
 
   [...new Set([...eventsData.map((event) => event.chapter), ...UNCOLLECTED_CHAPTERS.keys()])].sort((a, b) => a - b).forEach((chapter) => {
     const option = document.createElement("option");
@@ -6512,6 +6568,8 @@ function retireDatedDirectoryScope(period) {
 
 function restoreViewFromUrl(inputUrl) {
   const url = new URL(inputUrl);
+  clearParticipantCandidateSearch();
+  ensureParticipantOption(url.searchParams.get('t_person'));
   const readingUrl=new URL(location.href);const topic=url.searchParams.get('g_topic');
   if(topic)readingUrl.searchParams.set('g_topic',topic);else readingUrl.searchParams.delete('g_topic');
   history.replaceState(history.state,'',readingUrl.href);pendingGuideTopicNavigation=Boolean(topic);

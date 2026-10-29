@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css?v=20261029-reading" />
+  <link rel="stylesheet" href="style.css?v=20261029-picker" />
   <link rel="stylesheet" href="filter-controls.css?v=20261027-search" />
   <link rel="stylesheet" href="draft-conflicts.css?v=20261027-conflicts" />
 </head>
@@ -202,7 +202,16 @@
         <details class="timeline-more-filters">
           <summary>人物・場所・一連の出来事で絞る</summary>
           <div class="timeline-more-filter-grid">
-            <label>人物 <select id="participantFilter"><option value="all">すべての人物</option></select></label>
+            <div class="participant-filter-control">
+              <label for="participantCandidateSearch">人物候補を探す</label>
+              <div class="participant-candidate-toolbar">
+                <input id="participantCandidateSearch" type="search" placeholder="名前・第1王子など" aria-controls="participantFilter" aria-describedby="participantCandidateHelp participantCandidateStatus" />
+                <button id="clearParticipantCandidates" type="button" disabled>候補検索をクリア</button>
+              </div>
+              <p id="participantCandidateHelp" class="search-scope-help">入力は候補を絞るだけです。下で人物を選ぶと出来事を絞り込みます。</p>
+              <label>人物 <select id="participantFilter" aria-describedby="participantCandidateStatus"><option value="all">すべての人物</option></select></label>
+              <p id="participantCandidateStatus" class="search-scope-help" role="status" aria-live="polite"></p>
+            </div>
             <label>場所 <select id="roomFilter"><option value="all">すべての場所</option></select></label>
             <label>一連の出来事 <select id="seriesFilter"><option value="all">すべて</option></select></label>
           </div>
@@ -669,6 +678,6 @@
   <script src="personnel-roster.js?v=20261028-temporal"></script>
   <script src="draft-state.js?v=20261027-history-trash"></script>
   <script src="draft-conflicts.js?v=20261027-conflicts"></script>
-  <script src="script.js?v=20261029-filters"></script>
+  <script src="script.js?v=20261029-picker"></script>
 </body>
 </html>

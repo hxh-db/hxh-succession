@@ -35,6 +35,7 @@
   {"name":"timeline-active-filters","groups":["critical","navigation"]},
   {"name":"participant-candidates","groups":["critical","navigation"]},
   {"name":"character-filter-focus","groups":["critical","directory","navigation"]},
+  {"name":"filter-toolbar","groups":["critical","navigation"]},
   {"name":"hunter-tag-groups","groups":["directory"]},
   {"name":"mafia-underlings","groups":["directory"]},
   {"name":"personnel-roster","groups":["directory"]},

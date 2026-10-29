@@ -1079,30 +1079,40 @@ function pillify(id) {
   const container = document.createElement("div");
   container.className = "pill-filter";
   container.id = id;
+  const label = selectEl.closest('label');
+  const labelText = selectEl.getAttribute('aria-label') || (label && [...label.childNodes].filter(node=>node!==selectEl).map(node=>node.textContent).join(' ').trim()) || '絞り込み';
   let currentValue = selectEl.value || "all";
   let availability = null;
+  const buttons = new Map();
 
   function render() {
-    container.innerHTML = "";
-    Array.from(selectEl.options).forEach((opt) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "pill" + (opt.value === currentValue ? " active" : "");
-      btn.textContent = opt.textContent;
-      btn.dataset.value = opt.value;
+    const options=Array.from(selectEl.options),values=new Set(options.map(option=>option.value));
+    for (const [value,button] of buttons) if (!values.has(value)) {button.remove();buttons.delete(value);}
+    options.forEach((opt,index) => {
+      let btn=buttons.get(opt.value);
+      if (!btn) {
+        btn=document.createElement('button');btn.type='button';btn.className='pill';btn.dataset.value=opt.value;
+        btn.addEventListener('click',()=>{
+          if (currentValue===opt.value) return;
+          currentValue=opt.value;render();container.dispatchEvent(new Event('change'));
+        });
+        buttons.set(opt.value,btn);
+      }
+      const selected=opt.value===currentValue;
+      btn.classList.toggle('active',selected);
+      if (btn.getAttribute('aria-pressed')!==String(selected)) btn.setAttribute('aria-pressed',String(selected));
+      let text=opt.textContent,title='',disabled=false;
       if (availability && opt.value !== "all") {
         const count = availability[opt.value] || 0;
-        btn.textContent = `${opt.textContent} ${count}`;
-        btn.disabled = count === 0 && opt.value !== currentValue;
-        btn.title = count === 0 ? "選択中の条件には該当する出来事がありません" : `${count}件`;
+        text=`${opt.textContent} ${count}`;
+        disabled=count===0 && !selected;
+        title=count===0 ? '選択中の条件には該当する出来事がありません' : `${count}件`;
       }
-      btn.addEventListener("click", () => {
-        if (currentValue === opt.value) return;
-        currentValue = opt.value;
-        render();
-        container.dispatchEvent(new Event("change"));
-      });
-      container.appendChild(btn);
+      if (btn.textContent!==text) btn.textContent=text;
+      if (btn.getAttribute('aria-label')!==text) btn.setAttribute('aria-label',text);
+      if (btn.disabled!==disabled) btn.disabled=disabled;
+      if (title) {if (btn.title!==title) btn.title=title;} else btn.removeAttribute('title');
+      if (container.children[index]!==btn) container.insertBefore(btn,container.children[index] || null);
     });
   }
 
@@ -1117,6 +1127,8 @@ function pillify(id) {
 
   render();
   selectEl.replaceWith(container);
+  setupRovingToolbar(container,labelText);
+  container.setAttribute('aria-description','矢印キーで移動し、Enterまたはスペースで選択できます。');
 }
 
 // ===== キャラクターアバター =====

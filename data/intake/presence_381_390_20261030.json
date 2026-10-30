@@ -1,0 +1,486 @@
+{
+  "date": "2026-10-30",
+  "scope": "第381〜390話の所在区分。既存の全話原作照合記録と今回の画像再閲覧を区別し、所在の確度・日時・能力は変更しない。",
+  "records": [
+    {
+      "event_id": "E381-001",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録。中央警察署でミザイストムとフウゲツが対面。",
+      "character_presence": {
+        "HA-002": "present",
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E381-002",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録。戻るフウゲツと付き添うミザイストム、迎えるカチョウの再会場面。",
+      "character_presence": {
+        "P10": "present",
+        "P11": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E381-003",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録。13:44の電話を受けるセンリツ本人。指示する側のミザイストムを在室者へ追加しない。",
+      "character_presence": {
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E381-004",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録。カチョウ・フウゲツ・センリツの前で監視担当者が説明し、演奏を聴く。監視者の操作は疑いのまま。",
+      "character_presence": {
+        "P10": "present",
+        "P11": "present",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E381-005",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録、写真7〜9。1008号室でリハンが守護霊獣を捕食させ、サレサレ本人も室内に描かれる。",
+      "character_presence": {
+        "P01-P13": "present",
+        "P08": "present"
+      }
+    },
+    {
+      "event_id": "E381-006",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録、写真9左〜10。リハンの交替要請と、1011側のウショウヒが指示を受ける別カット。交替先への到着と混同しない。",
+      "character_presence": {
+        "P01-P13": "present",
+        "P11-G01": "present"
+      },
+      "character_locations": {
+        "P01-P13": "第1層 1008号室側（交替前）",
+        "P11-G01": "第1層 1011号室側（交替前）"
+      }
+    },
+    {
+      "event_id": "E381-008",
+      "source_id": "user-original-ch381",
+      "evidence": "既存の第381話全話照合記録、写真10。1011号室のウショウヒとフウゲツ。1008への移動後の場面にはしない。",
+      "character_presence": {
+        "P11-G01": "present",
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E382-001",
+      "source_id": "user-original-ch382",
+      "evidence": "既存の第382話全話照合記録。ハルケンブルグが国王の元へ入り、ナスビー・ヌグイと対面する。",
+      "character_presence": {
+        "P09": "present",
+        "KNG-001": "present",
+        "KNG-002": "present"
+      }
+    },
+    {
+      "event_id": "E382-002",
+      "source_id": "user-original-ch382",
+      "evidence": "既存の第382話全話照合記録。1009のシカクへのベンジャミンの指示は通信。戻ったハルケンブルグが矢を放つ場にはベンジャミンは来ない。",
+      "character_presence": {
+        "P09": "present",
+        "P07-G06": "present",
+        "P01": "remote"
+      }
+    },
+    {
+      "event_id": "E382-003",
+      "source_id": "user-original-ch382",
+      "evidence": "既存の第382話全話照合記録、写真10右の部分留保を維持。横たわる男の名・死亡と、私設兵のウショウヒへの同定が画像で明示されない。既存の死亡扱いは格上げせず、個別の所在区分も未判定とする。",
+      "character_presence": {
+        "P08": "unknown",
+        "P11-G01": "unknown"
+      }
+    },
+    {
+      "event_id": "E383-003",
+      "source_id": "user-original-ch383",
+      "evidence": "既存の第383話全話照合記録。キーニのピアノに続いてセンリツ本人がフルートを演奏する場面。",
+      "character_presence": {
+        "P10-H01": "present",
+        "P10-H02": "present"
+      }
+    },
+    {
+      "event_id": "E383-004",
+      "source_id": "user-original-ch383",
+      "evidence": "既存の第383話全話照合記録、写真6〜7。双子とキーニが救命艇へ移動し、キーニが自死。センリツは演奏を放送する側で、救命艇の発射場には同行しない。",
+      "character_presence": {
+        "P10": "present",
+        "P11": "present",
+        "P10-H01": "remote",
+        "P10-H02": "body"
+      },
+      "character_locations": {
+        "P10-H01": "演奏会場（救命艇の発射場へ放送）",
+        "P10-H02": "救命艇の発射場（双子を送り出した後）"
+      }
+    },
+    {
+      "event_id": "E383-005",
+      "source_id": "user-original-ch383",
+      "evidence": "既存の第383話全話照合記録、写真8〜10。船外の救命艇でカチョウがフウゲツを扉へ押し込み死亡。本人の遺体は写真10左で描かれる。",
+      "character_presence": {
+        "P10": "body",
+        "P11": "present"
+      },
+      "character_locations": {
+        "P10": "船外の救命艇（本人の遺体）"
+      }
+    },
+    {
+      "event_id": "E383-006",
+      "source_id": "user-original-ch383",
+      "evidence": "第383話写真10を直接再閲覧。船内のフウゲツのそばに現れるカチョウの姿は守護霊獣2人セゾン。本人の遺体は同じ写真の船外の救命艇にあり、本人の生還や在室としない。既存の人物IDを変更せず本人の遺体の所在を分ける。",
+      "character_presence": {
+        "P10": "body",
+        "P11": "present"
+      },
+      "character_locations": {
+        "P10": "船外の救命艇（本人の遺体。船内の姿は念獣）"
+      }
+    },
+    {
+      "event_id": "E384-001",
+      "source_id": "user-original-ch384",
+      "evidence": "既存の第384話全話照合記録。シャ＝ア一家アジトでタハオとノブナガ・フィンクス・フェイタンが話す。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present",
+        "SAA-004": "present"
+      }
+    },
+    {
+      "event_id": "E384-002",
+      "source_id": "user-original-ch384",
+      "evidence": "既存の第384話全話照合記録。同じアジトで旅団3名とタハオがマフィアの流儀について話す続き。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present",
+        "SAA-004": "present"
+      }
+    },
+    {
+      "event_id": "E384-003",
+      "source_id": "user-original-ch384",
+      "evidence": "既存の第384話全話照合記録。1004号室で王子が電話を切りテータとの修行を再開する。通話相手の所在地を確定しない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E384-004",
+      "source_id": "user-original-ch384",
+      "evidence": "既存の第384話全話照合記録。1004号室でツェリードニヒとテータが描かれ、王子自身の念獣が現れる。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E384-005",
+      "source_id": "user-original-ch384",
+      "evidence": "既存の第384話全話照合記録。同室でテータが絶の指導を行い王子が応じる。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E385-001",
+      "source_id": "user-original-ch385",
+      "evidence": "既存の第385話全話照合記録の部分留保を維持。王子とテータは修行を行うが、小さな背景の警護兵をサルコフと同定した根拠は未確認。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present",
+        "P04-P02": "unknown"
+      }
+    },
+    {
+      "event_id": "E385-002",
+      "source_id": "user-original-ch385",
+      "evidence": "既存の第385話全話照合記録。王子とテータの銃撃場面に、センリツの演奏は放送で届く。演奏者本人が1004に来たわけではない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present",
+        "P10-H01": "remote"
+      }
+    },
+    {
+      "event_id": "E385-003",
+      "source_id": "user-original-ch385",
+      "evidence": "既存の第385話全話照合記録。実際の王子は無傷で別の位置に現れ、テータがそれを目撃。予知上の死体を本人の遺体にしない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E385-004",
+      "source_id": "user-original-ch385",
+      "evidence": "既存の第385話全話照合記録。テータと王子に対し、センリツは呼び出す対象として言及されるだけで到着していない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present",
+        "P10-H01": "mentioned"
+      }
+    },
+    {
+      "event_id": "E385-005",
+      "source_id": "user-original-ch385",
+      "evidence": "既存の第385話全話照合記録。目を覚ましたテータのそばでサルコフが話す場面。",
+      "character_presence": {
+        "P04-M01": "present",
+        "P04-P02": "present"
+      }
+    },
+    {
+      "event_id": "E386-003",
+      "source_id": "user-original-ch386",
+      "evidence": "第386話写真3を直接再閲覧。ハルケンブルグ本人、睡眠状態のスミドリの本体とシカクの肉体で話すスミドリが描かれる。一方シカク本人の魂・意識の所在は4仮説のどれも否定できないと明示。肉体の描写だけでシカク本人の在室・死亡を確定せずunknown。",
+      "character_presence": {
+        "P09": "present",
+        "P07-G06": "unknown",
+        "P09-P05": "present"
+      },
+      "character_locations": {
+        "P09": "第1層 1009号室",
+        "P07-G06": "第1層 1009号室",
+        "P09-P05": "本体は睡眠状態、意識はシカクの肉体（王子側の説明）"
+      }
+    },
+    {
+      "event_id": "E386-004",
+      "source_id": "user-original-ch386",
+      "evidence": "既存の第386話全話照合記録。1014号室のクラピカとビル、講習で反発するラジオラスが対面している。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P11-M02": "present"
+      }
+    },
+    {
+      "event_id": "E386-005",
+      "source_id": "user-original-ch386",
+      "evidence": "既存の第386話全話照合記録。1004号室でツェリードニヒがサルコフに計時を命じる対面。",
+      "character_presence": {
+        "P04": "present",
+        "P04-P02": "present"
+      }
+    },
+    {
+      "event_id": "E386-006",
+      "source_id": "user-original-ch386",
+      "evidence": "既存の第386話全話照合記録。ベンジャミンとバルサミルコの報告・指示に対し、カンジドルは呼び戻す対象でこの場への到着は描かれない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "present",
+        "P01-P09": "mentioned"
+      }
+    },
+    {
+      "event_id": "E386-007",
+      "source_id": "user-original-ch386",
+      "evidence": "既存の第386話全話照合記録。私設兵同士の対話でリハン本人が監視状況を話す。第5・第14王子本人の在室には拡張しない。",
+      "character_presence": {
+        "P01-P13": "present"
+      }
+    },
+    {
+      "event_id": "E387-001",
+      "source_id": "user-original-ch387",
+      "evidence": "既存の第387話全話照合記録。王子とテータの修行・同一銃撃の別視点。予知された映像内の死体を現実の王子の死亡にしない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E388-001",
+      "source_id": "user-original-ch388",
+      "evidence": "既存の第388話全話照合記録、写真2〜8。待機する受講者と順に別室に入る受講者を含む一連の講習。オイトは寝台のある別室に描かれ、全員が同時に別室に入ったとはしない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P11-M02": "present",
+        "P05-P01": "present",
+        "P10-M02": "present",
+        "P03-P03": "present",
+        "Q08": "present",
+        "P03-P01": "present"
+      },
+      "character_locations": {
+        "Q08": "1014号室内の別室（寝台側）"
+      }
+    },
+    {
+      "event_id": "E388-004",
+      "source_id": "user-original-ch388",
+      "evidence": "既存の第388話全話照合記録、写真9〜10。第5王子側のリハンの内省と、バルサミルコ側の別カット。自重命令を回想することを対面の証拠にしない。",
+      "character_presence": {
+        "P01-P13": "present",
+        "P01-P05": "present"
+      },
+      "character_locations": {
+        "P01-P13": "第5王子の監視側",
+        "P01-P05": "別場面（リハンと同室の描写ではない）"
+      }
+    },
+    {
+      "event_id": "E388-003",
+      "source_id": "user-original-ch388",
+      "evidence": "既存の第388話全話照合記録、写真10左。鳴動時にクラピカ・ビル・ワブルを抱いたオイトが同じ場に描かれる。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E388-005",
+      "source_id": "user-original-ch388",
+      "evidence": "既存の第388話全話照合記録。1005号室でマオールがツベッパへ対面で報告する。",
+      "character_presence": {
+        "P05": "present",
+        "P05-P01": "present"
+      }
+    },
+    {
+      "event_id": "E389-002",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話照合記録、写真3左〜4。ベンジャミンとバルサミルコの側に対しビクトは無線、ハルケンブルグは戦況の説明対象。",
+      "character_presence": {
+        "P01": "present",
+        "P09": "mentioned",
+        "P01-P05": "present",
+        "P01-P10": "remote"
+      }
+    },
+    {
+      "event_id": "E389-004",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話照合記録、写真6左・5右。ジュリアーノとイズナビの交替の会話、退室後のタイソンによる誕生日祝いを含む。",
+      "character_presence": {
+        "P06": "present",
+        "P06-P01": "present",
+        "P06-H01": "present"
+      }
+    },
+    {
+      "event_id": "E389-006",
+      "source_id": "user-original-ch389",
+      "evidence": "第389話写真8〜9を直接再閲覧、写真7左・10右の既存照合と比較。9名の呪詛担当は担当表の紹介で、全員が隊長の相談の場に集まっているとはしない。モスワナは別の呪詛準備のカット。サラヘル・ウマンマ・カビッチ・ヌクオコン・フカタキは会話、カミーラはその前の監視居住区のカット。",
+      "character_presence": {
+        "P02": "present",
+        "P02-P01": "present",
+        "P02-P02": "mentioned",
+        "P02-P03": "mentioned",
+        "P02-P04": "mentioned",
+        "P02-P05": "mentioned",
+        "P02-P06": "mentioned",
+        "P02-P07": "present",
+        "P02-P08": "mentioned",
+        "P02-P09": "mentioned",
+        "P02-P10": "mentioned",
+        "P02-P11": "present",
+        "P02-P12": "mentioned",
+        "P02-P13": "present",
+        "P02-P14": "present",
+        "P02-P15": "present"
+      },
+      "character_locations": {
+        "P02-P01": "呪詛準備の場面（具体的な場所は不明）",
+        "P02": "V.VIPエリア 第2王子監視居住区の場面"
+      }
+    },
+    {
+      "event_id": "E389-007",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話照合記録、写真10左。チョウライが対面のテンフトリへ硬貨を与える。",
+      "character_presence": {
+        "P03": "present",
+        "P03-P01": "present"
+      }
+    },
+    {
+      "event_id": "E389-009",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話照合記録、写真10左。チョウライが硬貨を与えるのをコベントバ本人が見ている。硬貨の版差の主張は追加しない。",
+      "character_presence": {
+        "P01-P11": "present",
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E389-010",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話照合記録、写真5左・7。カンジドルと応答するサトビ本人に対し、他の6名はシカク自死当時の配置を振り返る紹介図と説明の対象。現在の在室・就寝へ流用しない。",
+      "character_presence": {
+        "P01-P09": "present",
+        "P07-G01": "present",
+        "P07-G02": "mentioned",
+        "P07-G03": "mentioned",
+        "P07-G04": "mentioned",
+        "P07-G05": "mentioned",
+        "P07-P02": "mentioned",
+        "HA-007": "mentioned"
+      }
+    },
+    {
+      "event_id": "E390-001",
+      "source_id": "user-original-ch390",
+      "evidence": "既存の第390話全話照合記録、写真1〜2。コベントバが手持ちの10の硬貨を確認する場面と、チョウライがオニオールの部屋へ行く場面を分ける。コベントバを訪問先へ移さない。",
+      "character_presence": {
+        "P01-P11": "present",
+        "P03": "present",
+        "SWU-001": "present"
+      },
+      "character_locations": {
+        "P01-P11": "第3王子の居室側（硬貨の確認）",
+        "SWU-001": "シュウ＝ウ一家組長の部屋"
+      }
+    },
+    {
+      "event_id": "E390-002",
+      "source_id": "user-original-ch390",
+      "evidence": "既存の第390話全話照合記録。ヒンリギへのオニオールの指示は電話。その後ヒンリギがザクロとリンチを呼ぶ場面と分ける。",
+      "character_presence": {
+        "SWU-001": "remote",
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "present"
+      }
+    },
+    {
+      "event_id": "E390-003",
+      "source_id": "user-original-ch390",
+      "evidence": "既存の第390話全話照合記録。第3層フードコートでヒンリギ・ザクロ・リンチの3名が実際に戦闘する。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "present"
+      }
+    },
+    {
+      "event_id": "E390-004",
+      "source_id": "user-original-ch390",
+      "evidence": "既存の第390話全話照合記録、写真10。ヒンリギが兵士と約束して離れる場面にザクロとリンチもいて応答する。銃の変化が遠隔でも3名本人は退く場面に描かれる。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "present"
+      }
+    }
+  ]
+}

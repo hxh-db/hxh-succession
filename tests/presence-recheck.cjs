@@ -3,10 +3,12 @@ const events=require('../data/events.json'),characters=require('../data/characte
 const byId=Object.fromEntries(events.map(event=>[event.id,event]));
 const secondAudit=require('../data/intake/presence_362_369_20261030.json');
 const thirdAudit=require('../data/intake/presence_370_380_20261030.json');
+const fourthAudit=require('../data/intake/presence_381_390_20261030.json');
 assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
 assert.equal(secondAudit.records.length,53);
 assert.equal(thirdAudit.records.length,46);
-const records=[...audit.records,...secondAudit.records,...thirdAudit.records];
+assert.equal(fourthAudit.records.length,44);
+const records=[...audit.records,...secondAudit.records,...thirdAudit.records,...fourthAudit.records];
 assert.equal(new Set(records.map(row=>row.event_id)).size,records.length);
 for(const row of records){
  const event=byId[row.event_id];assert.ok(event,row.event_id);
@@ -50,6 +52,17 @@ assert.equal(byId['E378-004'].character_presence['EII-002'],'mentioned','a repor
 assert.equal(Object.keys(byId['E380-006'].character_locations).length,22,'the ship diagram provides separate locations for all 22 people');
 assert.notEqual(byId['E380-006'].character_locations['HA-004'],byId['E380-006'].character_locations['HA-002']);
 assert.equal(byId['E380-006'].character_locations['SPD-004'],'倉庫入り口');
+assert.equal(byId['E382-003'].character_presence['P11-G01'],'unknown','an uncertain guard identification stays uncertain');
+assert.equal(byId['E383-006'].character_presence.P10,'body','the figure beside Fugetsu is a spirit beast, while Kacho’s own body remains outside');
+assert.ok(byId['E383-006'].character_locations.P10.includes('救命艇'));
+assert.equal(byId['E385-001'].character_presence['P04-P02'],'unknown','a tiny background guard has not been identified as Salkov');
+assert.equal(byId['E385-002'].character_presence['P10-H01'],'remote');
+assert.equal(byId['E385-004'].character_presence['P10-H01'],'mentioned','a summons is not an arrival');
+assert.equal(byId['E386-003'].character_presence['P07-G06'],'unknown','Shikaku’s own consciousness remains unresolved');
+assert.ok(byId['E386-003'].character_locations['P09-P05'].includes('本体は睡眠'));
+assert.equal(byId['E389-006'].character_presence['P02-P02'],'mentioned','a curse assignment portrait does not place every soldier in the planning meeting');
+assert.equal(byId['E389-010'].character_presence['P07-P02'],'mentioned','earlier sleeping arrangements are not present-day presence');
+assert.equal(byId['E390-002'].character_presence['SWU-001'],'remote');
 const kururi=characters.find(person=>person.id==='BYD-U09');
 assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
 assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));

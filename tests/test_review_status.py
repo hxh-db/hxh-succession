@@ -70,6 +70,25 @@ class ReviewStatusTests(unittest.TestCase):
         with patch("sys.argv",[str(SCRIPT),"--check"]),patch.object(Path,"write_text",side_effect=AssertionError("check wrote")),contextlib.redirect_stdout(io.StringIO()):
             runpy.run_path(str(SCRIPT),run_name="__main__")
 
+    def test_deferred_material_stays_visible_without_becoming_verified(self):
+        fixture = self.fixture()
+        fixture[2][0].update(topic="open original review", required_source="manga")
+        fixture[2].append({"id":"optional", "status":"deferred_material", "topic":"extra original", "reason":"user scope", "required_source":"DVD"})
+        fixture[4]["optional"] = {"event_ids":["E002-001"], "evidence_paths":["existing-review.md"], "next_action":"original becomes available"}
+        before = copy.deepcopy(fixture)
+        report = review.build_report(*fixture)
+        self.assertEqual(fixture,before)
+        self.assertEqual([row["id"] for row in report["active_backlog"]],["open"])
+        self.assertEqual([row["id"] for row in report["deferred_material_backlog"]],["optional"])
+        self.assertEqual(report["counts"]["deferred_material_backlog"],1)
+        self.assertEqual(report["counts"]["event_verification"]["unverified"],1)
+        self.assertNotIn("optional", [row["id"] for row in report["resolved_backlog"]])
+        self.assertIn("extra original", review.render(report))
+        self.assertIn("original becomes available", review.render(report))
+        fixture[4]["optional"]["event_ids"] = ["missing"]
+        with self.assertRaises(AssertionError):
+            review.build_report(*fixture)
+
     def test_stale_output_check_fails_without_writing(self):
         original_read=Path.read_text
         def read(path,*args,**kwargs):

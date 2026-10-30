@@ -22,7 +22,7 @@ def build_report(events, characters, backlog, pending, targets, web_research, sc
     excluded_ids = {event["id"] for event in events if event["chapter"] in excluded_chapters}
     assert len(by_event) == len(events) and len(by_character) == len(characters)
     assert len({row["id"] for row in backlog}) == len(backlog), "台帳IDが重複"
-    active, completed, inference = [], [], []
+    active, completed, inference, deferred = [], [], [], []
     for row in backlog:
         if row["status"] in CLOSED:
             (inference if row["status"] == "resolved_with_inference" else completed).append(row)
@@ -49,7 +49,8 @@ def build_report(events, characters, backlog, pending, targets, web_research, sc
         assert set(scope.get("web_research_ids", [])) <= by_web.keys(), f"存在しないWeb調査ID: {row['id']}"
         assert event_ids or character_ids or scope.get("web_research_ids"), f"対象が空: {row['id']}"
         assert scope.get("evidence_paths") and scope.get("next_action"), f"根拠・次の作業が必要: {row['id']}"
-        active.append({**row, **scope, "event_ids": sorted(event_ids), "character_ids": sorted(character_ids)})
+        entry = {**row, **scope, "event_ids": sorted(event_ids), "character_ids": sorted(character_ids)}
+        (deferred if row["status"] == "deferred_material" else active).append(entry)
     unverified = []
     for event in events:
         if event.get("verification_status") != "unverified":
@@ -68,8 +69,10 @@ def build_report(events, characters, backlog, pending, targets, web_research, sc
                        "with_presence": sum(bool(event.get("character_presence")) for event in events),
                        "with_source_pages": sum(bool(event.get("source_locator", {}).get("pages")) for event in events),
                        "day_unset": sum(event.get("day") is None for event in events),
-                       "active_backlog": len(active), "resolved_backlog": len(completed), "adopted_inference_backlog": len(inference)},
+                       "active_backlog": len(active), "resolved_backlog": len(completed), "adopted_inference_backlog": len(inference),
+                       "deferred_material_backlog": len(deferred)},
             "active_backlog": active, "resolved_backlog": completed, "adopted_inference_backlog": inference,
+            "deferred_material_backlog": deferred,
             "scope_exclusions": scope_exclusions, "excluded_event_ids": sorted(excluded_ids),
             "unverified_events": unverified,
             "hypothesis_event_ids": [event["id"] for event in events if event.get("verification_status") == "hypothesis"],
@@ -81,12 +84,17 @@ def render(report):
     lines = ["# 現行の照合状況（自動集計）", "", report["scope"], "",
              f"人物{counts['characters']}件・出来事{counts['events']}件。確認状態：" + "、".join(f"{key} {value}件" for key, value in counts["event_verification"].items()) + "。", "",
              f"所在区分のある出来事{counts['with_presence']}件、ページ根拠のある出来事{counts['with_source_pages']}件、日付空欄{counts['day_unset']}件。これらの差分を不具合や原作未確認の件数と読み替えない。", "",
-             f"未解決の台帳{counts['active_backlog']}件、解消済み{counts['resolved_backlog']}件、採用仮説を含む整理済み{counts['adopted_inference_backlog']}件。", "",
+             f"今回の未解決の台帳{counts['active_backlog']}件、解消済み{counts['resolved_backlog']}件、採用仮説を含む整理済み{counts['adopted_inference_backlog']}件、追加資料の候補{counts['deferred_material_backlog']}件。候補への移動は原本の確認完了を意味しない。", "",
              "## 未解決の台帳", "", "対象IDは比較する範囲であり、対象の全レコードが誤りという意味ではない。全IDと履歴は同名JSONを参照。", ""]
     for row in report["active_backlog"]:
         ids = row["event_ids"] + row["character_ids"] + row.get("web_research_ids", [])
         lines += [f"### {row['id']}：{row['topic']}", "", f"状態：{row['status']}。対象：" + "、".join(ids[:12]) + (f" ほか（全{len(ids)}件）" if len(ids) > 12 else "") + "。", "",
                   f"必要な根拠：{row['required_source']}", "", "既存資料：" + "、".join(f"`{name}`" for name in row["evidence_paths"]), "", f"次の作業：{row['next_action']}", ""]
+    if report["deferred_material_backlog"]:
+        lines += ["## 追加資料の候補（今回の本編照合から分離）", "", "ユーザー指定により原本の入手後に再開する候補。調査完了・原作確認済みには数えない。", ""]
+        for row in report["deferred_material_backlog"]:
+            lines += [f"### {row['id']}：{row['topic']}", "", row["reason"], "", f"必要な根拠：{row['required_source']}", "",
+                      "既存資料：" + "、".join(f"`{name}`" for name in row["evidence_paths"]), "", f"再開条件：{row['next_action']}", ""]
     if report["scope_exclusions"]:
         lines += ["## 今回の照合対象外", ""]
         for exclusion in report["scope_exclusions"]:
@@ -111,7 +119,7 @@ def load_report(root=ROOT):
     contents = {name: (root / name).read_text(encoding="utf-8") for name in INPUTS}
     values = [json.loads(contents[name]) for name in INPUTS]
     report = build_report(values[0], values[1], values[2], values[3], values[4]["targets"], values[5]["entries"], values[4].get("scope_exclusions"))
-    for row in report["active_backlog"]:
+    for row in report["active_backlog"] + report["deferred_material_backlog"]:
         for name in row["evidence_paths"]:
             assert (root / name).is_file() and (root / name).resolve().is_relative_to(root.resolve()), f"既存資料の参照切れ: {name}"
     report["source_sha256"] = {name: hashlib.sha256(text.encode()).hexdigest() for name, text in contents.items()}

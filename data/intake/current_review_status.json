@@ -8,12 +8,13 @@
       "review_recorded": 429,
       "unverified": 13
     },
-    "with_presence": 157,
+    "with_presence": 210,
     "with_source_pages": 126,
     "day_unset": 64,
-    "active_backlog": 12,
+    "active_backlog": 10,
     "resolved_backlog": 10,
-    "adopted_inference_backlog": 3
+    "adopted_inference_backlog": 3,
+    "deferred_material_backlog": 2
   },
   "active_backlog": [
     {
@@ -68,59 +69,6 @@
         "E344-007",
         "E347-001",
         "E349-001",
-        "E362-001",
-        "E362-002",
-        "E362-005",
-        "E362-006",
-        "E362-007",
-        "E362-008",
-        "E362-009",
-        "E363-001",
-        "E363-002",
-        "E363-003",
-        "E363-005",
-        "E363-006",
-        "E364-001",
-        "E364-002",
-        "E364-005",
-        "E364-006",
-        "E364-007",
-        "E364-008",
-        "E365-001",
-        "E365-002",
-        "E365-004",
-        "E365-005",
-        "E365-006",
-        "E365-007",
-        "E366-002",
-        "E366-003",
-        "E366-004",
-        "E366-007",
-        "E366-008",
-        "E366-009",
-        "E366-010",
-        "E366-011",
-        "E366-012",
-        "E366-013",
-        "E367-001",
-        "E367-002",
-        "E367-003",
-        "E367-004",
-        "E367-005",
-        "E367-006",
-        "E368-002",
-        "E368-003",
-        "E368-004",
-        "E368-006",
-        "E368-007",
-        "E368-008",
-        "E368-009",
-        "E368-010",
-        "E369-001",
-        "E369-002",
-        "E369-003",
-        "E369-004",
-        "E369-005",
         "E370-001",
         "E370-002",
         "E370-003",
@@ -621,46 +569,6 @@
       "character_ids": []
     },
     {
-      "id": "BACKLOG-WEB-AUTHOR-SHEETS-20261026",
-      "priority": "high",
-      "topic": "ジャンプ流！人物表の追加候補",
-      "reason": "WEB-003・004：エリックス／ムハハハサレ／ゾメーサ、Kitokattamu／Nadaasuが二次索引にある。既存の人物台帳に未登録。氏名・兵種・既存人数枠との対応は未確認のため増員しない。",
-      "required_source": "第21号DVDの該当欄を原寸で判読し、顔・氏名・兵種を照合",
-      "status": "needs_original_review",
-      "web_research_ids": [
-        "WEB-003",
-        "WEB-004"
-      ],
-      "evidence_paths": [
-        "data/intake/web_research_20261026.md",
-        "data/intake/initial_personnel_coverage_20261013.md"
-      ],
-      "next_action": "DVDの該当欄を原寸判読し、氏名・顔・兵種・既存枠との対応を確認する。二次索引だけで増員しない。",
-      "event_ids": [],
-      "character_ids": []
-    },
-    {
-      "id": "BACKLOG-WEB-NEN-CHART-20261026",
-      "priority": "high",
-      "topic": "ハンゾーと冨樫展念能力資料の原図確認",
-      "reason": "WEB-005〜007：公式商品説明で資料の存在は確認。旧強化系の断定を撤回したが、変化系への確定は保留。中間点と修練度・数値モデルは別項目。",
-      "required_source": "公式図録の念能力資料原図。主系統・位置・修練度を個別判読",
-      "status": "needs_original_review",
-      "character_ids": [
-        "P12-H01"
-      ],
-      "web_research_ids": [
-        "WEB-005",
-        "WEB-006",
-        "WEB-007"
-      ],
-      "evidence_paths": [
-        "data/intake/web_research_20261026.md"
-      ],
-      "next_action": "公式図録の原図で主系統・位置・修練度を個別判読する。二次情報だけで保留を解除しない。",
-      "event_ids": []
-    },
-    {
       "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",
       "priority": "medium",
       "topic": "第406話の本の文字の独立解読",
@@ -797,6 +705,48 @@
       "reason": "【2026-10-20 採用仮説】第376話の最初の手紙の訪問（E376-008）を3日目とする推定を起点に、「国王軍の銃を下ろすのに4日かかった」を初日込みの3・4・5・6日目と数え、本サイトでは6日目に配置する。丸4日経過なら7日目となる別案は残る。第382話末の8日目20時は晩餐会場面固有の日時で、冒頭の直訴・続く能力発動には流用しない。考察記事 theories/halkenburg-four-days/ 参照。 第375話から第376話へのつながりを起点とする。原作の日時表示による確定ではない。",
       "required_source": "第375・376・382話の原作画像と今後の日時補足",
       "status": "resolved_with_inference"
+    }
+  ],
+  "deferred_material_backlog": [
+    {
+      "id": "BACKLOG-WEB-AUTHOR-SHEETS-20261026",
+      "priority": "high",
+      "topic": "ジャンプ流！人物表の追加候補",
+      "reason": "WEB-003・004：エリックス／ムハハハサレ／ゾメーサ、Kitokattamu／Nadaasuが二次索引にある。既存の人物台帳に未登録。氏名・兵種・既存人数枠との対応は未確認のため増員しない。 2026-10-30ユーザー回答：今回は本編の既存データ照合を優先し、原本が未保管の本件は追加資料の候補へ戻す。原図確認完了や氏名・系統の確定を意味しない。",
+      "required_source": "第21号DVDの該当欄を原寸で判読し、顔・氏名・兵種を照合",
+      "status": "deferred_material",
+      "web_research_ids": [
+        "WEB-003",
+        "WEB-004"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md",
+        "data/intake/initial_personnel_coverage_20261013.md"
+      ],
+      "next_action": "ユーザーが該当原本を提供するか、本文を確認できる公式資料が入手できた時に再開する。今回の本編照合の完了条件へ含めない。原本未確認の情報を人物へ追加しない。",
+      "event_ids": [],
+      "character_ids": []
+    },
+    {
+      "id": "BACKLOG-WEB-NEN-CHART-20261026",
+      "priority": "high",
+      "topic": "ハンゾーと冨樫展念能力資料の原図確認",
+      "reason": "WEB-005〜007：公式商品説明で資料の存在は確認。旧強化系の断定を撤回したが、変化系への確定は保留。中間点と修練度・数値モデルは別項目。 2026-10-30ユーザー回答：今回は本編の既存データ照合を優先し、原本が未保管の本件は追加資料の候補へ戻す。原図確認完了や氏名・系統の確定を意味しない。",
+      "required_source": "公式図録の念能力資料原図。主系統・位置・修練度を個別判読",
+      "status": "deferred_material",
+      "character_ids": [
+        "P12-H01"
+      ],
+      "web_research_ids": [
+        "WEB-005",
+        "WEB-006",
+        "WEB-007"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md"
+      ],
+      "next_action": "ユーザーが該当原本を提供するか、本文を確認できる公式資料が入手できた時に再開する。今回の本編照合の完了条件へ含めない。原本未確認の情報を人物へ追加しない。",
+      "event_ids": []
     }
   ],
   "scope_exclusions": [
@@ -1100,11 +1050,11 @@
     "E372-009"
   ],
   "source_sha256": {
-    "data/events.json": "04e5fe6ce56349ca2a6e54c1cede694e3512829df76fb70804df0df7f7737917",
+    "data/events.json": "1adf822dac9ed4cd0794ea6800191c328661aebd632d0bb3158fb4e81c46db0c",
     "data/characters.json": "57e50bedb87ce1061670565aba0e95180f7f7a325fb3e28a4df0d114f315206d",
-    "data/research_backlog.json": "4bc1b5589d494cb3bf408538945e8f90d4a2d43a98f9bcf8f8a3c340deb6e5c9",
+    "data/research_backlog.json": "99b69d77d40c08e97b9cb8fb32f5e757eeb456a8c637ba20c93adab2136071d5",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
-    "data/intake/review_targets.json": "67b3904f535cd159ff9882553a5e93486da8a080c3fe9e887f29278a15ae248c",
+    "data/intake/review_targets.json": "73eea538c973368363e50383741daefb283e32be4cb9277bc882316fac0d7894",
     "data/web_research.json": "9b9f4425ff3fab647625c290df012ea09a2eea39a5b1b20537a21cb0d6502666"
   }
 }

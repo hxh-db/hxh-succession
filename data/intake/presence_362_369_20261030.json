@@ -1,0 +1,615 @@
+{
+  "date": "2026-10-30",
+  "scope": "第362〜369話の所在区分。既存の原作全話照合記録と今回直接再閲覧した画像を各行で区別する。登場人物の追加・削除、氏名・能力・日時・場所の確度の変更は行わない。",
+  "records": [
+    {
+      "event_id": "E362-001",
+      "source_id": "user-original-ch362",
+      "evidence": "既存の第362話全話照合記録、写真5〜6・9〜10。廊下のテータとサルコフ、集合後の王子への回答を含む。3人の登場を確認するが、部屋番号は確定しない。",
+      "character_presence": {
+        "P04-M01": "present",
+        "P04-P02": "present",
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E362-002",
+      "source_id": "user-original-ch362",
+      "evidence": "第362話写真8左を直接再閲覧。ハルケンブルグ本人が倒れた警護人を見ている。警護人の生死や個別IDは補わない。",
+      "character_presence": {
+        "P09": "present"
+      }
+    },
+    {
+      "event_id": "E362-005",
+      "source_id": "user-original-ch362",
+      "evidence": "既存の第362話全話照合記録、写真2。セレモニーでツベッパとツェリードニヒが対面して話す。",
+      "character_presence": {
+        "P05": "present",
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E362-006",
+      "source_id": "user-original-ch362",
+      "evidence": "既存の第362話全話照合記録、写真5左〜6右。王子の退席と集合指示。1004号室への到着は確認されていないため、本人の登場と到着を分ける。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E362-007",
+      "source_id": "user-original-ch362",
+      "evidence": "第362話写真8右を直接再閲覧。上段の長髪・短髪・明るい長髪、DJ機材前、下段で腕を上げた2名という既存の6仮称IDの位置と人物メモを突合。サレサレと女性たちは描かれるが、氏名・兵種・第374話の従事者との対応は確定しない。",
+      "character_presence": {
+        "P08": "present",
+        "P08-U01": "present",
+        "P08-U02": "present",
+        "P08-U03": "present",
+        "P08-U04": "present",
+        "P08-U05": "present",
+        "P08-U06": "present"
+      }
+    },
+    {
+      "event_id": "E362-008",
+      "source_id": "user-original-ch362",
+      "evidence": "既存の第362話全話照合記録、写真7右。ルズールスが協会員と対面する。名前の出ない協会員のIDは補わない。",
+      "character_presence": {
+        "P07": "present"
+      }
+    },
+    {
+      "event_id": "E362-009",
+      "source_id": "user-original-ch362",
+      "evidence": "既存の第362話全話照合記録、写真7左。タイソンと手足の手入れをする5名。第400話の名前付き人物との未確認の同定は追加しない。",
+      "character_presence": {
+        "P06": "present",
+        "P06-U01": "present",
+        "P06-U02": "present",
+        "P06-U03": "present",
+        "P06-U04": "present",
+        "P06-U05": "present"
+      }
+    },
+    {
+      "event_id": "E363-001",
+      "source_id": "user-original-ch363",
+      "evidence": "既存の第363話全話照合記録、写真3〜4。カミーラ・国王・ベンジャミンの対面。",
+      "character_presence": {
+        "P02": "present",
+        "KNG-001": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E363-002",
+      "source_id": "user-original-ch363",
+      "evidence": "第363話写真5を直接再閲覧し、写真6〜7の既存照合記録と比較。国王への誓いは退席前、バルサミルコの制止は1001号室。国王を1001号室に配置しない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "present",
+        "KNG-001": "present"
+      },
+      "character_locations": {
+        "KNG-001": "出航セレモニー会場",
+        "P01-P05": "第1層 1001号室"
+      }
+    },
+    {
+      "event_id": "E363-003",
+      "source_id": "user-original-ch363",
+      "evidence": "既存の第363話全話照合記録、写真8右。ベンジャミンとバルサミルコが私設兵への指示場面にいる。名前のない集合兵を別IDへ推定しない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "present"
+      }
+    },
+    {
+      "event_id": "E363-005",
+      "source_id": "user-original-ch363",
+      "evidence": "既存の第363話全話照合記録、写真1。チョウライ本人が側近の報告を受ける。報告対象の第14王子側を在室者へ加えない。",
+      "character_presence": {
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E363-006",
+      "source_id": "user-original-ch363",
+      "evidence": "既存の第363話全話照合記録、写真8左〜9右。チョウライ・カミーラ・ツェリードニヒ・ツベッパそれぞれの反応を別カットで描く。共通の部屋・同時刻の集合ではなく、個別の部屋番号を新規に確定しない。",
+      "character_presence": {
+        "P03": "present",
+        "P02": "present",
+        "P04": "present",
+        "P05": "present"
+      }
+    },
+    {
+      "event_id": "E364-001",
+      "source_id": "user-original-ch364",
+      "evidence": "既存の第364話全話照合記録、写真1〜6。銃撃・制圧の場のビンセント、クラピカ、ビル、オイトと抱かれたワブル。貸与先オイトを遠隔通信の相手と取り違えない。",
+      "character_presence": {
+        "P01-P03": "present",
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E364-002",
+      "source_id": "user-original-ch364",
+      "evidence": "既存の第364話全話照合記録、写真7〜8左。拘束中のビンセントが服毒して死亡、クラピカとビルが対応する。事件中の死亡後の扱いをbodyとし、新しい死亡時刻は作らない。",
+      "character_presence": {
+        "P01-P03": "body",
+        "P14-H01": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E364-005",
+      "source_id": "user-original-ch364",
+      "evidence": "既存の第364話全話照合記録、写真8。1001号室でベンジャミンとバルサミルコが状況を分析し、バビマイナが後任を命じられる。聞いていた1014号室への同席ではない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P04": "present",
+        "P01-P05": "present"
+      }
+    },
+    {
+      "event_id": "E364-006",
+      "source_id": "user-original-ch364",
+      "evidence": "第364話写真10右を直接再閲覧、写真9の既存照合記録と比較。クラピカとオイトが室内で偵察方針を相談。搭載保留を解除・再発動の証拠としない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E364-007",
+      "source_id": "user-original-ch364",
+      "evidence": "第364話写真10左を直接再閲覧。クラピカ・オイト・シマヌの側に3王子からの連絡が届くが、3王子本人との通話はまだ始まっていない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14-M02": "present",
+        "P01": "mentioned",
+        "P03": "mentioned",
+        "P05": "mentioned"
+      }
+    },
+    {
+      "event_id": "E364-008",
+      "source_id": "user-original-ch364",
+      "evidence": "第364話写真10左下を直接再閲覧。到着するバビマイナは扉の外。室内側のクラピカ・ビル・オイト・ワブルと同室への入室を意味しない。",
+      "character_presence": {
+        "P01-P04": "present",
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present"
+      },
+      "character_locations": {
+        "P01-P04": "1014号室前（扉の外）"
+      }
+    },
+    {
+      "event_id": "E365-001",
+      "source_id": "user-original-ch365",
+      "evidence": "既存の第365話全話照合記録と現行イベント注記、写真1〜3。室内の5名に対し、実際に電話へ出たチョウライは遠隔。ベンジャミンとツベッパは着信元として言及されるだけで、本人の描写や応答は確認されない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-M02": "present",
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P03": "remote",
+        "P01": "mentioned",
+        "P05": "mentioned"
+      }
+    },
+    {
+      "event_id": "E365-002",
+      "source_id": "user-original-ch365",
+      "evidence": "既存の第365話全話照合記録、写真2左〜4。1014号室のクラピカとチョウライの電話。王子はこの場に来ていない。",
+      "character_presence": {
+        "P03": "remote",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E365-004",
+      "source_id": "user-original-ch365",
+      "evidence": "第365話写真7〜9を直接再閲覧。クラピカ・オイト・ワブルは1003号室へ移動。ビル・シマヌは1014側に残り、バビマイナを入れる。最後にチョウライの部屋へ入るが、残留者をそこへ移さない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P14-M02": "present",
+        "P01-P04": "present",
+        "P03": "present"
+      },
+      "character_locations": {
+        "P14-H02": "第1層 1014号室",
+        "P14-M02": "第1層 1014号室",
+        "P01-P04": "第1層 1014号室",
+        "P03": "第3王子の居室"
+      }
+    },
+    {
+      "event_id": "E365-005",
+      "source_id": "user-original-ch365",
+      "evidence": "第365話写真9左を直接再閲覧、写真10の既存照合記録と比較。クラピカ・チョウライ・オイト・ワブル、同席するコベントバとスラッカ。直前の移動場面と分ける。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P03": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P01-P11": "present",
+        "P03-G01": "present"
+      }
+    },
+    {
+      "event_id": "E365-006",
+      "source_id": "user-original-ch365",
+      "evidence": "既存の第365話全話照合記録、写真4左〜5右。マオールとクラピカの通話で、マオールはまだ1014号室に到着していない。",
+      "character_presence": {
+        "P05-P01": "remote",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E365-007",
+      "source_id": "user-original-ch365",
+      "evidence": "既存の第365話全話照合記録、写真5左〜7右。シマヌとクラピカの室内の相談、オイトとワブルも室内に描かれる。王子への見立てと本人の所在を混同しない。",
+      "character_presence": {
+        "P14-M02": "present",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E366-002",
+      "source_id": "user-original-ch366",
+      "evidence": "第366話写真10右を直接再閲覧。1014号室へ戻ったクラピカとオイトらの相談。ビル・バビマイナ・スラッカ・サカタ・ハシトウも室内に描かれる。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P01-P04": "present",
+        "P03-G01": "present",
+        "P03-P02": "present",
+        "P03-P03": "present"
+      }
+    },
+    {
+      "event_id": "E366-003",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話照合記録、写真6右。1004号室でテータが王子へ練習を教える対面場面。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E366-004",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話照合記録、写真9右。1001号室でベンジャミンとヒュリコフが話す。話題のバビマイナは関係人物へ追加しない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E366-007",
+      "source_id": "user-original-ch366",
+      "evidence": "第366話写真8を直接再閲覧。カミーラとドゥアズルの対面に対し、ハルケンブルグは殺害指示の話題のみ。",
+      "character_presence": {
+        "P02": "present",
+        "Q02": "present",
+        "P09": "mentioned"
+      }
+    },
+    {
+      "event_id": "E366-008",
+      "source_id": "user-original-ch366",
+      "evidence": "第366話写真8左を直接再閲覧。締め出されたムッセは鳥で会話を盗聴する側。カミーラとドゥアズルは盗聴対象で、ムッセとの同室を確認する場面ではない。",
+      "character_presence": {
+        "P01-P08": "present",
+        "P02": "remote",
+        "Q02": "remote"
+      },
+      "character_locations": {
+        "P01-P08": "1002号室の警護から締め出された場所（室内への同席ではない）"
+      }
+    },
+    {
+      "event_id": "E366-009",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話照合記録、写真10左。37564号室でクロロ本人が隣の乗客と話す。",
+      "character_presence": {
+        "SPD-001": "present"
+      }
+    },
+    {
+      "event_id": "E366-010",
+      "source_id": "user-original-ch366",
+      "evidence": "第366話写真2右を直接再閲覧。眠るモモゼと、休息中のナゴマム・タフディーが描かれる。他の4名は人物紹介と警護配置を示すが、上段の小さな警護兵を各IDへ個別同定していないためmentioned。紹介図から全員をモモゼの寝室に置かず、休息場所の部屋番号は不明とする。",
+      "character_presence": {
+        "P12": "present",
+        "P01-P10": "mentioned",
+        "P12-G02": "mentioned",
+        "P12-G03": "mentioned",
+        "P12-G04": "mentioned",
+        "P12-G05": "present",
+        "P12-Q05": "present"
+      },
+      "character_locations": {
+        "P12-G05": "第12王子の警護兵の休息場所（部屋番号不明）",
+        "P12-Q05": "第12王子の警護兵の休息場所（部屋番号不明）"
+      }
+    },
+    {
+      "event_id": "E366-011",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話照合記録、写真5左。1005号室にツベッパ、電話のマオール、監視兵ブッチ。マオールの1014号室への到着はまだ描かれない。",
+      "character_presence": {
+        "P05": "present",
+        "P05-P01": "present",
+        "P01-P12": "present"
+      }
+    },
+    {
+      "event_id": "E366-012",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話照合記録、写真9左。帰室したクラピカ・オイト・ワブルと出向兵3名、迎えるビル・バビマイナ。コベントバは帰室に同行していない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P03-P02": "present",
+        "P03-P03": "present",
+        "P03-G01": "present",
+        "P01-P04": "present"
+      }
+    },
+    {
+      "event_id": "E366-013",
+      "source_id": "user-original-ch366",
+      "evidence": "第366話写真2左を直接再閲覧。バチャエムとリョウジが同じ場で警護シフトについて会話する。写真内の氏名表記を対応させた既存IDを維持。",
+      "character_presence": {
+        "P11-G03": "present",
+        "P11-G02": "present"
+      }
+    },
+    {
+      "event_id": "E367-001",
+      "source_id": "user-original-ch367",
+      "evidence": "第367話写真6を直接再閲覧し、写真4〜9右の既存照合記録と比較。室内でオイト・ビルらが虫の操作を実演する。王子を抱くシマヌも同じ室内。ビルが実際の操作者だという虚偽の説明は採用しない。",
+      "character_presence": {
+        "Q08": "present",
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P14-M02": "present",
+        "P14": "present",
+        "P01-P04": "present",
+        "P05-P01": "present",
+        "P03-G01": "present",
+        "P03-P02": "present",
+        "P03-P03": "present"
+      }
+    },
+    {
+      "event_id": "E367-002",
+      "source_id": "user-original-ch367",
+      "evidence": "既存の第367話全話照合記録、写真1〜3。1014号室へのマオール到着と主寝室への場所変更。同席する警護兵と王妃・王子、虫を探すビルとシマヌを区別するが、他室への移動は推定しない。",
+      "character_presence": {
+        "P05-P01": "present",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P14-M02": "present",
+        "P01-P04": "present",
+        "P03-G01": "present",
+        "P03-P02": "present",
+        "P03-P03": "present"
+      }
+    },
+    {
+      "event_id": "E367-003",
+      "source_id": "user-original-ch367",
+      "evidence": "既存の第367話全話照合記録、写真3〜4。主寝室でクラピカがマオールと警護兵へ説明、オイトとワブルも同席。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P05-P01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P01-P04": "present",
+        "P03-G01": "present",
+        "P03-P02": "present",
+        "P03-P03": "present"
+      }
+    },
+    {
+      "event_id": "E367-004",
+      "source_id": "user-original-ch367",
+      "evidence": "既存の第367話全話照合記録、写真9〜10。1014側のオイト・ビル・クラピカと、ゴキブリを通じて見える第13王子を区別。マラヤームを1014号室へ置かない。",
+      "character_presence": {
+        "Q08": "present",
+        "P14-H02": "present",
+        "P14-H01": "present",
+        "P13": "remote"
+      }
+    },
+    {
+      "event_id": "E367-005",
+      "source_id": "user-original-ch367",
+      "evidence": "既存の第367話全話照合記録、写真9。実演の続きでクラピカとバビマイナが話し、マオール・他の警護兵・オイト・ビルが同席する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P01-P04": "present",
+        "P05-P01": "present",
+        "P03-G01": "present",
+        "P03-P02": "present",
+        "P03-P03": "present",
+        "Q08": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E367-006",
+      "source_id": "user-original-ch367",
+      "evidence": "既存の第367話全話照合記録、写真10右。1014号室のバビマイナとクラピカが互いの能力を探る独白。過去の映像・電話ではない。",
+      "character_presence": {
+        "P01-P04": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E368-002",
+      "source_id": "user-original-ch368",
+      "evidence": "第368話写真7を直接再閲覧。倒れるクラピカと受け止めようとするビルを確認。オイトはこの失神コマには描かれず、同時に気を失ったという第369話の説明だけで、この場への同席は確定しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "Q08": "unknown"
+      }
+    },
+    {
+      "event_id": "E368-003",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話照合記録、写真2〜3。1014側のオイト・クラピカ・バビマイナ・ビルに対し、モモゼへの襲撃は虫を介した遠隔視。モモゼの所在を1014へ移さない。",
+      "character_presence": {
+        "Q08": "present",
+        "P14-H01": "present",
+        "P12": "remote",
+        "P01-P04": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E368-004",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話照合記録、写真9〜10。1004号室でツェリードニヒがテータの念教育について問い、テータが対面で答える。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E368-006",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話照合記録、写真5〜6。バビマイナとオイトの会話、クラピカ・ビル・サカタも室内に描かれる。",
+      "character_presence": {
+        "P01-P04": "present",
+        "Q08": "present",
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P03-P02": "present"
+      }
+    },
+    {
+      "event_id": "E368-007",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話照合記録、写真6。バビマイナが円を解き、クラピカ・オイト・サカタがいる場面の続き。",
+      "character_presence": {
+        "P01-P04": "present",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P03-P02": "present"
+      }
+    },
+    {
+      "event_id": "E368-008",
+      "source_id": "user-original-ch368",
+      "evidence": "第368話写真7右を直接再閲覧。ビルがクラピカへ参加意向と開始予定を伝える。参加予定の各王子本人は同室へ追加しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E368-009",
+      "source_id": "user-original-ch368",
+      "evidence": "第368話写真1を直接再閲覧。記録するオイト、読み取るクラピカ、円で探るバビマイナが1014側にいる。遠隔視対象の第13王子と混同しない。",
+      "character_presence": {
+        "Q08": "present",
+        "P14-H01": "present",
+        "P01-P04": "present"
+      }
+    },
+    {
+      "event_id": "E368-010",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話照合記録、写真8。ハンゾー本人が金髪の協会員と犯人像を話す。相手の氏名や休息中の警護兵の犯行をこの場で新たに確定しない。",
+      "character_presence": {
+        "P12-H01": "present"
+      }
+    },
+    {
+      "event_id": "E369-001",
+      "source_id": "user-original-ch369",
+      "evidence": "第369話写真3を直接再閲覧。目を覚ますクラピカ、応じるビル、ベッドのオイト。失神時間・絶対時間の説明を解除や再発動の新しい証拠にはしない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E369-002",
+      "source_id": "user-original-ch369",
+      "evidence": "第369話写真9を直接再閲覧し、写真8・10の既存全話照合記録と比較。16名は実際の講習参加者として集まる。紹介中の回想に現れる王子たちは参加者へ加えない。",
+      "character_presence": {
+        "P13-H01": "present",
+        "P13-G01": "present",
+        "P11-M01": "present",
+        "P11-M02": "present",
+        "P10-M01": "present",
+        "P10-M02": "present",
+        "P09-P03": "present",
+        "P09-P04": "present",
+        "P08-G01": "present",
+        "P07-G01": "present",
+        "P05-P01": "present",
+        "P05-G01": "present",
+        "P04-P03": "present",
+        "P04-P04": "present",
+        "P03-P01": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E369-003",
+      "source_id": "user-original-ch369",
+      "evidence": "第369話写真4・7を直接再閲覧。1014側のクラピカ・オイト・ビル。ダクトで見えた顔の正体や第4王子本人の同席は確定しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E369-004",
+      "source_id": "user-original-ch369",
+      "evidence": "既存の第369話全話照合記録、写真8右。オイトがクラピカへ念の指南を求め、本人同士が対面で話す。",
+      "character_presence": {
+        "Q08": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E369-005",
+      "source_id": "user-original-ch369",
+      "evidence": "既存の第369話全話照合記録、写真10。ヒュリコフ自身が講習会場を観察して独白する。正体不明の能力者を別の既存IDへ同定しない。",
+      "character_presence": {
+        "P01-P06": "present"
+      }
+    }
+  ]
+}

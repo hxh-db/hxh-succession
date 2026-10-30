@@ -1,8 +1,11 @@
 const assert=require('node:assert/strict');
 const events=require('../data/events.json'),characters=require('../data/characters.json'),audit=require('../data/intake/presence_recheck_20261030.json');
 const byId=Object.fromEntries(events.map(event=>[event.id,event]));
+const secondAudit=require('../data/intake/presence_362_369_20261030.json');
 assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
-for(const row of audit.records){
+assert.equal(secondAudit.records.length,53);
+assert.equal(new Set([...audit.records,...secondAudit.records].map(row=>row.event_id)).size,audit.records.length+53);
+for(const row of [...audit.records,...secondAudit.records]){
  const event=byId[row.event_id];assert.ok(event,row.event_id);
  assert.deepEqual(row.character_presence,event.character_presence,row.event_id);
  assert.deepEqual(Object.keys(row.character_presence).sort(),[...event.characters].sort(),row.event_id);
@@ -20,6 +23,19 @@ assert.equal(byId['E359-007'].character_presence.P13,'unknown','an adopted depar
 assert.equal(byId['E360-001'].character_presence['P10-H01'],'remote');
 assert.equal(byId['E361-001'].character_presence['P14-H03'],'body');
 assert.ok(byId['E361-006'].character_locations.P12.includes('第12王子'),'Momoze does not follow the others to the next room');
+assert.equal(byId['E364-007'].character_presence.P03,'mentioned','an incoming request is not a connected call');
+assert.equal(byId['E365-001'].character_presence.P03,'remote');
+assert.equal(byId['E365-001'].character_presence.P01,'mentioned');
+assert.equal(byId['E365-006'].character_presence['P05-P01'],'remote','Maor has not arrived at room 1014 yet');
+assert.equal(byId['E365-004'].character_locations['P14-H02'],'第1層 1014号室','Bill stays behind during the visit');
+assert.ok(byId['E363-002'].character_locations['KNG-001'].includes('セレモニー'),'the king is not taken to room 1001');
+assert.equal(byId['E366-007'].character_presence.P09,'mentioned','an assassination target is not in the meeting');
+assert.equal(byId['E366-008'].character_presence.P02,'remote','Musse listens from outside the protected meeting');
+assert.equal(byId['E366-010'].character_presence['P01-P10'],'mentioned','an introductory portrait does not independently identify a person in the small guard shot');
+assert.ok(byId['E366-010'].character_locations['P12-Q05'].includes('休息場所'),'resting guards are not in Momoze’s bedroom');
+assert.equal(byId['E367-004'].character_presence.P13,'remote');
+assert.equal(byId['E368-003'].character_presence.P12,'remote');
+assert.equal(byId['E368-002'].character_presence.Q08,'unknown','a later report of simultaneous fainting does not show Oito beside Bill');
 const kururi=characters.find(person=>person.id==='BYD-U09');
 assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
 assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));

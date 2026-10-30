@@ -135,7 +135,7 @@
         "data/intake/web_research_20261026.md",
         "data/intake/initial_personnel_coverage_20261013.md"
       ],
-      "next_action": "DVDの該当欄を原寸判読し、氏名・顔・兵種・既存枠との対応を確認する。二次索引だけで増員しない。"
+      "next_action": "ユーザーが該当原本を提供するか、本文を確認できる公式資料が入手できた時に再開する。今回の本編照合の完了条件へ含めない。原本未確認の情報を人物へ追加しない。"
     },
     "BACKLOG-WEB-NEN-CHART-20261026": {
       "character_ids": [
@@ -149,7 +149,7 @@
       "evidence_paths": [
         "data/intake/web_research_20261026.md"
       ],
-      "next_action": "公式図録の原図で主系統・位置・修練度を個別判読する。二次情報だけで保留を解除しない。"
+      "next_action": "ユーザーが該当原本を提供するか、本文を確認できる公式資料が入手できた時に再開する。今回の本編照合の完了条件へ含めない。原本未確認の情報を人物へ追加しない。"
     },
     "BACKLOG-WEB-COIN-EDITIONS-20261026": {
       "chapters": [

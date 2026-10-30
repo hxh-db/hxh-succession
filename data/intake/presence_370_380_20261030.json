@@ -1,0 +1,549 @@
+{
+  "date": "2026-10-30",
+  "scope": "第370〜380話の所在区分。既存の全話原作照合記録と今回の画像再閲覧を区別し、所在の確度・日時・能力は変更しない。",
+  "records": [
+    {
+      "event_id": "E370-001",
+      "source_id": "user-original-ch370",
+      "evidence": "既存の第370話全話照合記録、写真1〜6。クラピカと16参加者、報告をするバビマイナは1014側。王子たち本人を追加しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P13-H01": "present",
+        "P13-G01": "present",
+        "P11-M01": "present",
+        "P11-M02": "present",
+        "P10-M01": "present",
+        "P10-M02": "present",
+        "P09-P03": "present",
+        "P09-P04": "present",
+        "P08-G01": "present",
+        "P07-G01": "present",
+        "P05-P01": "present",
+        "P05-G01": "present",
+        "P04-P03": "present",
+        "P04-P04": "present",
+        "P03-P01": "present",
+        "P01-P06": "present",
+        "P01-P04": "present"
+      }
+    },
+    {
+      "event_id": "E370-002",
+      "source_id": "user-original-ch370",
+      "evidence": "既存の第370話全話照合記録、写真5右。主寝室にビル・オイト・ワブル。バビマイナは円を解いた理由をビルが推測する話題で、主寝室での訓練の同席者ではない。",
+      "character_presence": {
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P01-P04": "mentioned"
+      }
+    },
+    {
+      "event_id": "E370-003",
+      "source_id": "user-original-ch370",
+      "evidence": "既存の第370話全話照合記録、写真7〜10。クラピカ・ロベリー・ベレレインテ・ヒュリコフの前で襲撃され死亡したバリゲンはbody。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P13-G01": "body",
+        "P10-M01": "present",
+        "P13-H01": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E371-002",
+      "source_id": "user-original-ch371",
+      "evidence": "既存の第371話全話照合記録。1014号室でクラピカ本人が継続の判断期限を伝える。",
+      "character_presence": {
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E371-008",
+      "source_id": "user-original-ch371",
+      "evidence": "既存の第371話全話照合記録。再開する講習でクラピカがヒュリコフとベレレインテにチェックを任せる。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P01-P06": "present",
+        "P13-H01": "present"
+      }
+    },
+    {
+      "event_id": "E372-001",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録、写真1〜2右。クラピカ・シェジュール・ユヒライの対面に対し、ロベリーは既に拘束されたとの言及と小さな紹介像。",
+      "character_presence": {
+        "P09-P03": "present",
+        "P09-P04": "present",
+        "P14-H01": "present",
+        "P10-M01": "mentioned"
+      }
+    },
+    {
+      "event_id": "E372-002",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録、写真2左。第6王妃が捜査官の聴取を拒む対面。",
+      "character_presence": {
+        "Q06": "present"
+      }
+    },
+    {
+      "event_id": "E372-004",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録、写真5右。1008号室でサレサレと監視のリハンが描かれる。念獣の解析はリハンの推測として維持。",
+      "character_presence": {
+        "P08": "present",
+        "P01-P13": "present"
+      }
+    },
+    {
+      "event_id": "E372-005",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録、写真5左。タイソン・イズナビと、比較対象として同じ場面に描かれるオラーウ。氏名のない金髪の男の同定は追加しない。",
+      "character_presence": {
+        "P06": "present",
+        "P06-H01": "present",
+        "P01-P07": "present"
+      }
+    },
+    {
+      "event_id": "E372-006",
+      "source_id": "user-original-ch372",
+      "evidence": "第372話写真7を直接再閲覧、写真6の既存照合と比較。クラピカ・サカタ・第9王子私設兵2名の会談。ハルケンブルグは意向と刻印の説明対象で会談にいない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P03-P02": "present",
+        "P09-P03": "present",
+        "P09-P04": "present",
+        "P09": "mentioned"
+      }
+    },
+    {
+      "event_id": "E372-007",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録。分身のハンゾーが空の1013号室を確認する。マラヤームとビスケは見当たらず、不在の説明対象。",
+      "character_presence": {
+        "P12-H01": "present",
+        "P13": "mentioned",
+        "P13-H02": "mentioned"
+      }
+    },
+    {
+      "event_id": "E372-008",
+      "source_id": "user-original-ch372",
+      "evidence": "既存の第372話全話照合記録。1002号室でカミーラとムッセが対面している。",
+      "character_presence": {
+        "P02": "present",
+        "P01-P08": "present"
+      }
+    },
+    {
+      "event_id": "E372-010",
+      "source_id": "user-original-ch372",
+      "evidence": "第372話写真3を直接再閲覧。念獣のそばにハンゾーとビスケ、食卓のマラヤームも描かれる。後の空室を確認する分身の場面と分ける。",
+      "character_presence": {
+        "P13-H02": "present",
+        "P12-H01": "present",
+        "P13": "present"
+      }
+    },
+    {
+      "event_id": "E373-001",
+      "source_id": "user-original-ch373",
+      "evidence": "既存の第373話全話照合記録。ムッセがカミーラを撃つが、念獣に殺されカミーラは蘇生する。最終状態でムッセbody、カミーラpresentとする。",
+      "character_presence": {
+        "P02": "present",
+        "P01-P08": "body"
+      }
+    },
+    {
+      "event_id": "E373-002",
+      "source_id": "user-original-ch373",
+      "evidence": "第373話写真6を直接再閲覧し、退室前の既存照合記録と比較。ヴォルフは銃撃後の遺体、ヒュリコフとカミーラは本人。ドゥアズルは1002側、ベンジャミンは1001での指示・着席のカットで、通路に出たことにはしない。",
+      "character_presence": {
+        "P01-G01": "body",
+        "P01-P06": "present",
+        "P02": "present",
+        "Q02": "present",
+        "P01": "present"
+      },
+      "character_locations": {
+        "Q02": "第1層 1002号室",
+        "P01": "第1層 1001号室"
+      }
+    },
+    {
+      "event_id": "E373-003",
+      "source_id": "user-original-ch373",
+      "evidence": "既存の第373話全話照合記録、写真7右。1001号室へ来たカミーラと、椅子に座るベンジャミンの銃撃場面。",
+      "character_presence": {
+        "P02": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E373-004",
+      "source_id": "user-original-ch373",
+      "evidence": "第373話写真8を直接再閲覧し、写真7左の既存照合と比較。拘束されるカミーラと、拘束・監視をするヒュリコフ本人。",
+      "character_presence": {
+        "P02": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E373-006",
+      "source_id": "user-original-ch373",
+      "evidence": "第373話写真8左を直接再閲覧、写真9の既存照合と比較。ベンジャミンが能力を継承し、既に亡くなったムッセとビンセントに言及する。カミーラは独房でミミズクの監視対象として描かれ、ベンジャミンの部屋への再入室ではない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P08": "mentioned",
+        "P01-P03": "mentioned",
+        "P02": "remote"
+      },
+      "character_locations": {
+        "P02": "独房（ベンジャミンと同室ではない）"
+      }
+    },
+    {
+      "event_id": "E373-007",
+      "source_id": "user-original-ch373",
+      "evidence": "既存の第373話全話照合記録、写真10。分身のハンゾーが1014でクラピカに報告、オイトとワブルも描かれる。消えた第13王子と第7王妃は言及、ウェルゲーは電話。",
+      "character_presence": {
+        "P12-H01": "present",
+        "P14-H01": "present",
+        "P13-G03": "remote",
+        "P13": "mentioned",
+        "Q07": "mentioned",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E374-001",
+      "source_id": "user-original-ch374",
+      "evidence": "第374話写真1を直接再閲覧し、続く既存照合記録と比較。クラピカとハンゾーの側に対しウェルゲーは電話、第13王子は念空間についての話題。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P13-G03": "remote",
+        "P12-H01": "present",
+        "P13": "mentioned"
+      }
+    },
+    {
+      "event_id": "E374-002",
+      "source_id": "user-original-ch374",
+      "evidence": "既存の第374話全話照合記録。フウゲツがトンネルを通りカチョウのベッドへ現れ、姉妹が出会う。部屋を通話先と混同しない。",
+      "character_presence": {
+        "P11": "present",
+        "P10": "present"
+      }
+    },
+    {
+      "event_id": "E374-004",
+      "source_id": "user-original-ch374",
+      "evidence": "既存の第374話全話照合記録。チョウライ本人の食卓に硬貨が落ちる場面。",
+      "character_presence": {
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E374-005",
+      "source_id": "user-original-ch374",
+      "evidence": "既存の第374話全話照合記録。カチョウのベッドへ来たフウゲツと、鼓動を察して話しかけるセンリツ。フウゲツが隠れていることと不在は異なる。",
+      "character_presence": {
+        "P10-H01": "present",
+        "P10": "present",
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E375-003",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話照合記録、写真5右。ハルケンブルグ本人が1009号室を出る。国王への到着・面会はこの記録では確認しない。",
+      "character_presence": {
+        "P09": "present"
+      }
+    },
+    {
+      "event_id": "E375-004",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話照合記録、写真5左。戻ったフウゲツが再度扉の出現を願う。カチョウとの同室は主張しない。",
+      "character_presence": {
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E375-007",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話照合記録、写真6〜8。目覚めたハンゾーの本体、姿を変えるビスケ、ウェルゲーが対面して話す。空室にいた分身と区別。",
+      "character_presence": {
+        "P13-H02": "present",
+        "P13-G03": "present",
+        "P12-H01": "present"
+      }
+    },
+    {
+      "event_id": "E375-008",
+      "source_id": "user-original-ch375",
+      "evidence": "第375話写真9を直接再閲覧し、写真10の既存照合と比較。念空間側のウェルゲーと扉の外に出るベレレインテ。1014号室への出発を到着としない。",
+      "character_presence": {
+        "P13-H01": "present",
+        "P13-G03": "present"
+      },
+      "character_locations": {
+        "P13-H01": "1013号室の扉の外側（通常の船内側）",
+        "P13-G03": "念空間内の1013号室側（境界から確認）"
+      }
+    },
+    {
+      "event_id": "E376-002",
+      "source_id": "user-original-ch376",
+      "evidence": "第376話写真3を直接再閲覧し、写真4〜5の既存照合と比較。ミュハンの遺体、リビング側のクラピカ・ベレレインテに対し、ビル・オイト・ワブルは主寝室側。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P04-P03": "body",
+        "P13-H01": "present",
+        "P14-H02": "present",
+        "Q08": "present",
+        "P14": "present"
+      },
+      "character_locations": {
+        "P04-P03": "1014号室内のトイレ",
+        "P14-H02": "1014号室内の主寝室",
+        "Q08": "1014号室内の主寝室",
+        "P14": "1014号室内の主寝室"
+      }
+    },
+    {
+      "event_id": "E376-003",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話照合記録、写真6〜7右。カチョウとセンリツが音で合図し、センリツが台所で機器を探す一連の場面。",
+      "character_presence": {
+        "P10": "present",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E376-004",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話照合記録、写真8。フウゲツ本人が扉とトンネルを調べる。カチョウへの思いを本人の同席とはしない。",
+      "character_presence": {
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E376-005",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話照合記録、写真9。ツェリードニヒが兵の報告を受け、テータが同席し心中で驚く。報告兵の名前は補わない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E376-007",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話照合記録、写真10。王子がテータの前で水見式を行う。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present"
+      }
+    },
+    {
+      "event_id": "E377-001",
+      "source_id": "user-original-ch377",
+      "evidence": "既存の第377話全話照合記録、写真1〜2右。カチョウと母の対面、退室後のセンリツとの合図の場面を含む。母を退室後の計画相談に同席させない。",
+      "character_presence": {
+        "P10": "present",
+        "Q06": "present",
+        "P10-H01": "present"
+      },
+      "character_locations": {
+        "Q06": "カチョウの退室前に面会した部屋（退室後の相談場所ではない）"
+      }
+    },
+    {
+      "event_id": "E377-002",
+      "source_id": "user-original-ch377",
+      "evidence": "既存の第377話全話照合記録、写真2左〜3。センリツとキーニの会話に対し、フウゲツ出現の回想や姉妹の顔は説明対象。二人をこの会話へ同席させない。",
+      "character_presence": {
+        "P10-H01": "present",
+        "P10-H02": "present",
+        "P10": "mentioned",
+        "P11": "mentioned"
+      }
+    },
+    {
+      "event_id": "E377-004",
+      "source_id": "user-original-ch377",
+      "evidence": "既存の第377話全話照合記録、写真10。解散後に残ったクロロ・シズク・ボノレノフが組み方を相談する対面場面。",
+      "character_presence": {
+        "SPD-001": "present",
+        "SPD-006": "present",
+        "SPD-007": "present"
+      }
+    },
+    {
+      "event_id": "E378-001",
+      "source_id": "user-original-ch378",
+      "evidence": "既存の第378話全話照合記録、写真1〜3。電話する2組長と、それぞれの側で指示を受ける若頭を別陣営の場所に分ける。4名が共通の部屋に集まったわけではない。",
+      "character_presence": {
+        "SWU-001": "present",
+        "SWU-002": "present",
+        "SAA-001": "present",
+        "SAA-002": "present"
+      },
+      "character_locations": {
+        "SWU-001": "シュウ＝ウ一家側の指示場面",
+        "SWU-002": "シュウ＝ウ一家側の指示場面",
+        "SAA-001": "シャ＝ア一家側の指示場面",
+        "SAA-002": "シャ＝ア一家側の指示場面"
+      }
+    },
+    {
+      "event_id": "E378-004",
+      "source_id": "user-original-ch378",
+      "evidence": "既存の第378話全話照合記録、写真10右。殺害は捜査側の報告で、犯人ルイーニーの犯行場面自体は描かれていない。写真10左で倉庫から覗く別場面を、この殺人現場への在室証拠にしない。",
+      "character_presence": {
+        "EII-002": "mentioned"
+      }
+    },
+    {
+      "event_id": "E379-001",
+      "source_id": "user-original-ch379",
+      "evidence": "既存の第379話全話照合記録。ルイーニーの殺害時にカシューも居合わせ、後の証言へつながる。捜査時の証言と犯行時を混同しない。",
+      "character_presence": {
+        "EII-002": "present",
+        "EII-010": "present"
+      }
+    },
+    {
+      "event_id": "E379-002",
+      "source_id": "user-original-ch379",
+      "evidence": "既存の第379話全話照合記録。倉庫のノブナガ・フィンクス・フェイタンと棚の上のルイーニーが描かれる。尾行される側がルイーニーに気付いているとはしない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present",
+        "EII-002": "present"
+      }
+    },
+    {
+      "event_id": "E379-003",
+      "source_id": "user-original-ch379",
+      "evidence": "既存の第379話全話照合記録。食堂でイットクとフランクリンが対面して話す。",
+      "character_presence": {
+        "SAA-003": "present",
+        "SPD-005": "present"
+      }
+    },
+    {
+      "event_id": "E379-004",
+      "source_id": "user-original-ch379",
+      "evidence": "既存の第379話全話照合記録。アジト前でオウと旅団3名が対面する。説明中の犯人は人物へ加えない。",
+      "character_presence": {
+        "SAA-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E379-005",
+      "source_id": "user-original-ch379",
+      "evidence": "既存の第379話全話照合記録。ルイーニーの消失前の会話と残ったカシュー。消失後も同室にいることにはしない。",
+      "character_presence": {
+        "EII-002": "present",
+        "EII-010": "present"
+      }
+    },
+    {
+      "event_id": "E380-001",
+      "source_id": "user-original-ch380",
+      "evidence": "既存の第380話全話照合記録。会議のミザイストムと、会議後の指示を出すボトバイ本人。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present"
+      }
+    },
+    {
+      "event_id": "E380-004",
+      "source_id": "user-original-ch380",
+      "evidence": "既存の第380話全話照合記録、写真8〜9。イルミ・カルトのID確認にミザイストムとボトバイが対面する。旅団全員の所在は言及であって集結場面ではない。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "SPD-009": "present",
+        "SPD-010": "present"
+      }
+    },
+    {
+      "event_id": "E380-005",
+      "source_id": "user-original-ch380",
+      "evidence": "既存の第380話全話照合記録、写真10。ミザイストムがボトバイとギンタへ後を任せる場面と、本部側でフウゲツへ話す場面。ボトバイとギンタの本部への同行は確認しない。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-012": "present",
+        "P11": "present"
+      },
+      "character_locations": {
+        "HA-003": "ミザイストムが本部へ戻る前の捜索側",
+        "HA-012": "ミザイストムが本部へ戻る前の捜索側"
+      }
+    },
+    {
+      "event_id": "E380-006",
+      "source_id": "user-original-ch380",
+      "evidence": "第380話写真6の船内断面図を直接再閲覧。出航4日目AM10:00の各人物の名前と場所が図中に明示される。紹介用の顔一覧ではなく時点付きの配置記録なので、各人物の場所を別々に記録する。クックル表記は既存のHA-016対応を維持。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-015": "present",
+        "HA-012": "present",
+        "HA-009": "present",
+        "HA-004": "present",
+        "HA-013": "present",
+        "EII-010": "present",
+        "SPD-010": "present",
+        "SPD-009": "present",
+        "EII-002": "present",
+        "SWU-002": "present",
+        "SPD-001": "present",
+        "SPD-007": "present",
+        "SPD-006": "present",
+        "SPD-004": "present",
+        "SPD-008": "present",
+        "SAA-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-005": "present",
+        "HA-016": "present"
+      },
+      "character_locations": {
+        "HA-002": "第3層 政治特区（中央警察・国王軍支部）",
+        "HA-003": "第3層 政治特区（中央警察・国王軍支部）",
+        "HA-015": "第3層 政治特区（中央警察・国王軍支部）",
+        "HA-012": "第3層 政治特区（中央警察・国王軍支部）",
+        "HA-016": "第3層 政治特区（中央警察・国王軍支部）",
+        "HA-009": "第3層 医科学特区（中央病院・総合研究所）",
+        "HA-004": "第3層 医科学特区（中央病院・総合研究所）",
+        "HA-013": "第3層 医科学特区（中央病院・総合研究所）",
+        "EII-010": "第3層 一般客室",
+        "SPD-010": "第3層 展望エリア",
+        "SPD-009": "第3層 展望エリア",
+        "EII-002": "エイ＝イ一家事務所",
+        "SWU-002": "シュウ＝ウ一家事務所",
+        "SPD-001": "中央連絡通路（4↔5）",
+        "SPD-007": "中央連絡通路（4↔5）",
+        "SPD-006": "中央連絡通路（4↔5）",
+        "SPD-004": "倉庫入り口",
+        "SPD-008": "第5層 一般客室",
+        "SAA-002": "シャ＝ア一家事務所",
+        "SPD-002": "シャ＝ア一家事務所",
+        "SPD-003": "シャ＝ア一家事務所",
+        "SPD-005": "第5層 中央食堂"
+      }
+    }
+  ]
+}

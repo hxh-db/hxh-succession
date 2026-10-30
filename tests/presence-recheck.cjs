@@ -2,10 +2,13 @@ const assert=require('node:assert/strict');
 const events=require('../data/events.json'),characters=require('../data/characters.json'),audit=require('../data/intake/presence_recheck_20261030.json');
 const byId=Object.fromEntries(events.map(event=>[event.id,event]));
 const secondAudit=require('../data/intake/presence_362_369_20261030.json');
+const thirdAudit=require('../data/intake/presence_370_380_20261030.json');
 assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
 assert.equal(secondAudit.records.length,53);
-assert.equal(new Set([...audit.records,...secondAudit.records].map(row=>row.event_id)).size,audit.records.length+53);
-for(const row of [...audit.records,...secondAudit.records]){
+assert.equal(thirdAudit.records.length,46);
+const records=[...audit.records,...secondAudit.records,...thirdAudit.records];
+assert.equal(new Set(records.map(row=>row.event_id)).size,records.length);
+for(const row of records){
  const event=byId[row.event_id];assert.ok(event,row.event_id);
  assert.deepEqual(row.character_presence,event.character_presence,row.event_id);
  assert.deepEqual(Object.keys(row.character_presence).sort(),[...event.characters].sort(),row.event_id);
@@ -36,6 +39,17 @@ assert.ok(byId['E366-010'].character_locations['P12-Q05'].includes('休息場所
 assert.equal(byId['E367-004'].character_presence.P13,'remote');
 assert.equal(byId['E368-003'].character_presence.P12,'remote');
 assert.equal(byId['E368-002'].character_presence.Q08,'unknown','a later report of simultaneous fainting does not show Oito beside Bill');
+assert.equal(byId['E370-002'].character_presence['P01-P04'],'mentioned','thinking about Babimyna does not put him in Oito’s training');
+assert.equal(byId['E372-007'].character_presence['P13-H02'],'mentioned','Biscuit is absent from the empty room inspected by the clone');
+assert.equal(byId['E372-006'].character_presence.P09,'mentioned');
+assert.equal(byId['E373-006'].character_presence['P01-P08'],'mentioned','a dead subordinate’s inherited ability is not his corpse or presence');
+assert.equal(byId['E373-006'].character_presence.P02,'remote');
+assert.equal(byId['E374-001'].character_presence['P13-G03'],'remote');
+assert.ok(byId['E376-002'].character_locations.Q08.includes('主寝室'));
+assert.equal(byId['E378-004'].character_presence['EII-002'],'mentioned','a report of the crime does not depict the killer at the crime scene');
+assert.equal(Object.keys(byId['E380-006'].character_locations).length,22,'the ship diagram provides separate locations for all 22 people');
+assert.notEqual(byId['E380-006'].character_locations['HA-004'],byId['E380-006'].character_locations['HA-002']);
+assert.equal(byId['E380-006'].character_locations['SPD-004'],'倉庫入り口');
 const kururi=characters.find(person=>person.id==='BYD-U09');
 assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
 assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));

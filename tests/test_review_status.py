@@ -51,6 +51,17 @@ class ReviewStatusTests(unittest.TestCase):
             with self.subTest(changes=changes),self.assertRaises(AssertionError):
                 review.build_report(*fixture)
 
+    def test_scope_exclusion_does_not_delete_or_promote_event_records(self):
+        fixture = self.fixture()
+        fixture[4]["open"]["event_ids"] = ["E001-001","E002-001"]
+        before = copy.deepcopy(fixture)
+        report = review.build_report(*fixture, scope_exclusions=[{"chapters":[2],"reason":"user scope"}])
+        self.assertEqual(fixture,before)
+        self.assertEqual(report["active_backlog"][0]["event_ids"],["E001-001"])
+        self.assertEqual(report["excluded_event_ids"],["E002-001"])
+        self.assertTrue(report["unverified_events"][0]["excluded_from_current_review"])
+        self.assertEqual(report["counts"]["event_verification"]["unverified"],1)
+
     def test_current_report_is_valid_and_check_never_writes(self):
         report=review.load_report()
         active={row["id"] for row in report["active_backlog"]}

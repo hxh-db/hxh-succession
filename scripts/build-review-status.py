@@ -12,11 +12,14 @@ OUTPUT = "data/intake/current_review_status"
 CLOSED = {"resolved", "resolved_with_inference"}
 
 
-def build_report(events, characters, backlog, pending, targets, web_research):
+def build_report(events, characters, backlog, pending, targets, web_research, scope_exclusions=None):
     by_event = {row["id"]: row for row in events}
     by_character = {row["id"]: row for row in characters}
     by_web = {row["id"]: row for row in web_research}
     old = {row["event_id"]: row for row in pending["records"]}
+    scope_exclusions = scope_exclusions or []
+    excluded_chapters = {chapter for row in scope_exclusions for chapter in row["chapters"]}
+    excluded_ids = {event["id"] for event in events if event["chapter"] in excluded_chapters}
     assert len(by_event) == len(events) and len(by_character) == len(characters)
     assert len({row["id"] for row in backlog}) == len(backlog), "台帳IDが重複"
     active, completed, inference = [], [], []
@@ -35,6 +38,7 @@ def build_report(events, characters, backlog, pending, targets, web_research):
             event_ids.update(event["id"] for event in events if event["id"] in old and event.get("verification_status") == "unverified")
         else:
             assert scope.get("event_selector") is None, "未知の出来事範囲"
+        event_ids.difference_update(excluded_ids)
         character_ids = set(scope.get("character_ids", []))
         if scope.get("character_selector") == "unnamed":
             character_ids.update(person["id"] for person in characters if person.get("is_placeholder") and not person.get("is_count_only") and not person.get("generated_by"))
@@ -54,6 +58,7 @@ def build_report(events, characters, backlog, pending, targets, web_research):
         unverified.append({"event_id": event["id"], "chapter": event["chapter"], "description": event["description"],
                            "review_kind": "source_not_found" if prior.get("outcome") == "source_not_found" else "partial_or_identity_review",
                            "current_note": event.get("verification_note", ""), "historical_outcome": prior.get("outcome"),
+                           "excluded_from_current_review": event["id"] in excluded_ids,
                            "historical_remaining": prior.get("remaining", ""), "existing_image_references": prior.get("images", []),
                            "evidence_paths": ["data/events.json", "data/intake/pending23_recheck_20261016.json"],
                            "next_action": "既存索引・照合記録を先に確認し、現在の留保に対応する原作を比較する。未発見・判読保留・原作上の未明示を混同しない。"})
@@ -65,6 +70,7 @@ def build_report(events, characters, backlog, pending, targets, web_research):
                        "day_unset": sum(event.get("day") is None for event in events),
                        "active_backlog": len(active), "resolved_backlog": len(completed), "adopted_inference_backlog": len(inference)},
             "active_backlog": active, "resolved_backlog": completed, "adopted_inference_backlog": inference,
+            "scope_exclusions": scope_exclusions, "excluded_event_ids": sorted(excluded_ids),
             "unverified_events": unverified,
             "hypothesis_event_ids": [event["id"] for event in events if event.get("verification_status") == "hypothesis"],
             "historical_records_absent_from_current_events": [key for key in old if key not in by_event]}
@@ -81,9 +87,15 @@ def render(report):
         ids = row["event_ids"] + row["character_ids"] + row.get("web_research_ids", [])
         lines += [f"### {row['id']}：{row['topic']}", "", f"状態：{row['status']}。対象：" + "、".join(ids[:12]) + (f" ほか（全{len(ids)}件）" if len(ids) > 12 else "") + "。", "",
                   f"必要な根拠：{row['required_source']}", "", "既存資料：" + "、".join(f"`{name}`" for name in row["evidence_paths"]), "", f"次の作業：{row['next_action']}", ""]
+    if report["scope_exclusions"]:
+        lines += ["## 今回の照合対象外", ""]
+        for exclusion in report["scope_exclusions"]:
+            lines += [f"- 第{min(exclusion['chapters'])}〜{max(exclusion['chapters'])}話：{exclusion['reason']}"]
+        lines += ["", "対象外の出来事は削除・確認済みへの変更を行わず、今回の照合作業からだけ外す。", ""]
     lines += ["## 現在の未照合イベント", "", "画像が保管場所で未発見のものと、画像のある部分保留・同定保留を分ける。判読不能と原作上の未明示の区別は各記録を読んで判断し、自動確定しない。", ""]
     for row in report["unverified_events"]:
-        lines += [f"- {row['event_id']}（第{row['chapter']}話、{row['review_kind']}）：{row['current_note']}"]
+        label = "今回の照合対象外・確認状態は維持" if row["excluded_from_current_review"] else row["review_kind"]
+        lines += [f"- {row['event_id']}（第{row['chapter']}話、{label}）：{row['current_note']}"]
     lines += ["", "## 維持する履歴と採用仮説", "",
               "解消済み：" + "、".join(row["id"] for row in report["resolved_backlog"]), "",
               "採用仮説を含む整理済み：" + "、".join(row["id"] for row in report["adopted_inference_backlog"]), "",
@@ -98,7 +110,7 @@ def render(report):
 def load_report(root=ROOT):
     contents = {name: (root / name).read_text(encoding="utf-8") for name in INPUTS}
     values = [json.loads(contents[name]) for name in INPUTS]
-    report = build_report(values[0], values[1], values[2], values[3], values[4]["targets"], values[5]["entries"])
+    report = build_report(values[0], values[1], values[2], values[3], values[4]["targets"], values[5]["entries"], values[4].get("scope_exclusions"))
     for row in report["active_backlog"]:
         for name in row["evidence_paths"]:
             assert (root / name).is_file() and (root / name).resolve().is_relative_to(root.resolve()), f"既存資料の参照切れ: {name}"

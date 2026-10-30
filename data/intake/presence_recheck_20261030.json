@@ -1,0 +1,708 @@
+{
+  "date": "2026-10-30",
+  "scope": "本人の在室・関係記録を区別する照合。直接再閲覧した画像と既存の全話原作照合記録を区別して各行に記す。確認状態・場所の確度を格上げしない。",
+  "records": [
+    {
+      "event_id": "E340-002",
+      "source_id": "user-original-ch340",
+      "evidence": "第340話写真7・10を再閲覧。会議の10名を確認し、欠席のジン・パリストンと区別。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E340-003",
+      "source_id": "user-original-ch340",
+      "evidence": "第340話の既存受領・照合索引の写真8〜9。ビヨンドと同行する10名を、氏名の確定と分けて扱う。",
+      "character_presence": {
+        "BYD-001": "present",
+        "BYD-003": "present",
+        "BYD-U01": "present",
+        "BYD-U02": "present",
+        "BYD-U03": "present",
+        "BYD-U04": "present",
+        "BYD-U05": "present",
+        "BYD-U06": "present",
+        "BYD-U07": "present",
+        "BYD-U08": "present",
+        "BYD-U09": "present"
+      }
+    },
+    {
+      "event_id": "E340-005",
+      "source_id": "user-original-ch340",
+      "evidence": "第340話写真10左を再閲覧。特命を受ける会議参加者10名。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E341-003",
+      "source_id": "user-original-ch341",
+      "evidence": "第341話の既存原作照合索引の写真7左〜8と、写真9の出頭への連続場面。",
+      "character_presence": {
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E341-004",
+      "source_id": "user-original-ch341",
+      "evidence": "第341話写真9を再閲覧。ビヨンドの前に10名がそろって描かれる。",
+      "character_presence": {
+        "BYD-001": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E342-001",
+      "source_id": "user-original-ch342",
+      "evidence": "第342話写真1を再閲覧。ビヨンドの拘束と10名の会議参加者。",
+      "character_presence": {
+        "BYD-001": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E342-004",
+      "source_id": "user-original-ch342",
+      "evidence": "第342話写真6を再閲覧。チードルらの応答とビヨンドへの会議の続き。",
+      "character_presence": {
+        "BYD-001": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "HA-009": "present",
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-012": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-015": "present",
+        "HA-016": "present"
+      }
+    },
+    {
+      "event_id": "E342-006",
+      "source_id": "user-original-ch342",
+      "evidence": "第342話の既存原作照合索引、写真9左〜10。ジンとパリストンの対面の会話。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E343-002",
+      "source_id": "user-original-ch343",
+      "evidence": "第343話原作再照合記録、写真3〜4。ジンとパリストンの対話。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E343-003",
+      "source_id": "user-original-ch343",
+      "evidence": "第343話原作再照合記録、写真5〜6。ジンとパリストンの対面。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E343-004",
+      "source_id": "user-original-ch343",
+      "evidence": "第343話写真7〜8を再閲覧。クラピカは当初不在と言われるが、写真8左下で本人が現れるため話題のみにはしない。",
+      "character_presence": {
+        "HA-002": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E344-002",
+      "source_id": "user-original-ch344",
+      "evidence": "第344話原作再照合記録、写真3〜5。前金とNo.2をめぐるジンとパリストンの対面。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E344-005",
+      "source_id": "user-original-ch344",
+      "evidence": "第344話原作再照合記録、写真6左のゴン本人。",
+      "character_presence": {
+        "HA-005": "present"
+      }
+    },
+    {
+      "event_id": "E345-002",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録、写真2〜3。ミトの家でゴン本人が話す。",
+      "character_presence": {
+        "HA-005": "present"
+      }
+    },
+    {
+      "event_id": "E345-003",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録、写真4〜6右。ジンとパリストンがその集団の中に描かれる。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E345-004",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録、写真6左〜8右。ホテルで迎える王子本人。女性の死亡はこの区分から推定しない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E345-005",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録、写真8左〜10右。チードルとビヨンドが契約書の署名場面に描かれる。",
+      "character_presence": {
+        "HA-009": "present",
+        "BYD-001": "present"
+      }
+    },
+    {
+      "event_id": "E345-006",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録、写真10。ミザイストムとクラピカが同じ車中で話す。",
+      "character_presence": {
+        "HA-002": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E340-004",
+      "source_id": "user-original-ch340",
+      "evidence": "第340話写真10右を再閲覧。ジン・パリストンは会議を欠席しており、脱退願受理の対象として言及される。",
+      "character_presence": {
+        "BYD-002": "mentioned",
+        "BYD-003": "mentioned",
+        "HA-009": "present"
+      }
+    },
+    {
+      "event_id": "E342-005",
+      "source_id": "user-original-ch342",
+      "evidence": "第342話原作照合索引の写真8。国王は募集映像側の人物で、会議や視聴者のいる場所への在室ではない。",
+      "character_presence": {
+        "KNG-001": "remote"
+      }
+    },
+    {
+      "event_id": "E344-004",
+      "source_id": "user-original-ch344",
+      "evidence": "第344話原作再照合記録の写真6。車中のクラピカ・ミザイストムと、通話先のレオリオを区別する。",
+      "character_presence": {
+        "HA-004": "remote",
+        "P14-H01": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E345-001",
+      "source_id": "user-original-ch345",
+      "evidence": "第345話原作再照合記録の写真1。ゴンが海辺で電話し、ジンは通話先の中庭にいる。",
+      "character_presence": {
+        "HA-005": "present",
+        "BYD-002": "remote"
+      }
+    },
+    {
+      "event_id": "E346-002",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真11〜14。合流したクラピカ、レオリオ、ミザイストムと説明するチードル。",
+      "character_presence": {
+        "P14-H01": "present",
+        "HA-002": "present",
+        "HA-004": "present",
+        "HA-009": "present"
+      }
+    },
+    {
+      "event_id": "E346-003",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真13。クラピカとミザイストムの内密の対話。",
+      "character_presence": {
+        "HA-002": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E346-004",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真15〜16。12名の職業紹介と各自の準備状況報告。紹介内容から別の所在や任務完了を推定しない。",
+      "character_presence": {
+        "HA-010": "present",
+        "HA-011": "present",
+        "HA-002": "present",
+        "HA-009": "present",
+        "HA-012": "present",
+        "HA-003": "present",
+        "HA-013": "present",
+        "HA-014": "present",
+        "HA-016": "present",
+        "HA-015": "present",
+        "HA-004": "present",
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E346-005",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真17〜18右。手遊び・古代語勝負をするジン本人。 第346話写真18右を直接再閲覧し、名指しされる教授クルリを既存ID BYD-U09へ対応させた。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-U09": "present"
+      }
+    },
+    {
+      "event_id": "E346-006",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真19〜20。ミュヘル、ジン、パリストンの対面。",
+      "character_presence": {
+        "BYD-004": "present",
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E348-003",
+      "source_id": "user-original-ch348",
+      "evidence": "第348話原作再照合記録、写真1〜3・7右。映像を確認しているクラピカとミザイストム。受験者本人は登録人物にはいない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E349-005",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話原作再照合記録、写真18左〜20右。クラピカとミザイストムの相談。対象のサイユウの拘束は未実行。",
+      "character_presence": {
+        "P14-H01": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E349-006",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話原作再照合記録、写真20左。同じ場にクラピカとミザイストムが描かれる。電話先の未同定人物は登録人物ではない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E350-001",
+      "source_id": "user-original-ch350",
+      "evidence": "第350話写真21〜22を再閲覧。クラピカと5人の協力者が説明を受け応答する。後の各警護先の配置と、この時点の集合を混同しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P10-H01": "present",
+        "P07-H01": "present",
+        "P12-H01": "present",
+        "P13-H02": "present",
+        "P06-H01": "present"
+      }
+    },
+    {
+      "event_id": "E350-002",
+      "source_id": "user-original-ch350",
+      "evidence": "第350話原作再照合記録、写真24〜30。クラピカ・オイト・ワブルの面会。後の船内1014号室ではない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E350-003",
+      "source_id": "user-original-ch350",
+      "evidence": "第350話原作再照合記録、写真24〜25右。依頼を比較するクラピカ本人。ハルケンブルグの経歴紹介を在室と扱わない。",
+      "character_presence": {
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E346-001",
+      "source_id": "user-original-ch346",
+      "evidence": "第346話原作再照合記録、写真18〜19右。ジン・パリストン・ミュヘルの会話。クラピカは試験の判定者をめぐる推測の対象で、彼らの場にはいない。",
+      "character_presence": {
+        "BYD-003": "present",
+        "BYD-002": "present",
+        "BYD-004": "present",
+        "P14-H01": "mentioned"
+      }
+    },
+    {
+      "event_id": "E348-001",
+      "source_id": "user-original-ch348",
+      "evidence": "第348話原作再照合記録、写真5左〜6。王子がテータから電話で試験結果を聞く。通話先を同室にしない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "remote"
+      }
+    },
+    {
+      "event_id": "E348-002",
+      "source_id": "user-original-ch348",
+      "evidence": "第348話原作再照合記録、写真9〜10。ミザイストムとサイユウは会合側、クラピカは別室のLIVE映像で判定する。",
+      "character_presence": {
+        "HA-002": "present",
+        "P14-H01": "remote",
+        "HA-010": "present"
+      }
+    },
+    {
+      "event_id": "E348-004",
+      "source_id": "user-original-ch348",
+      "evidence": "第348話原作再照合記録、写真3左〜5。ツェリードニヒと通話先のベンジャミンを同室にしない。",
+      "character_presence": {
+        "P04": "present",
+        "P01": "remote"
+      }
+    },
+    {
+      "event_id": "E349-002",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話原作再照合記録、写真17〜18。ミザイストムとビヨンドの面会をクラピカが監視映像で見る。",
+      "character_presence": {
+        "HA-002": "present",
+        "BYD-001": "present",
+        "P14-H01": "remote"
+      }
+    },
+    {
+      "event_id": "E349-003",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話原作再照合記録、写真12〜14。王族の紹介図。肖像と母の名は同一場所への集合を示すものではない。",
+      "character_presence": {
+        "KNG-001": "mentioned",
+        "P01": "mentioned",
+        "P02": "mentioned",
+        "P03": "mentioned",
+        "P04": "mentioned",
+        "P05": "mentioned",
+        "P06": "mentioned",
+        "P07": "mentioned",
+        "P08": "mentioned",
+        "P09": "mentioned",
+        "P10": "mentioned",
+        "P11": "mentioned",
+        "P12": "mentioned",
+        "P13": "mentioned",
+        "P14": "mentioned",
+        "Q01": "mentioned",
+        "Q02": "mentioned",
+        "Q03": "mentioned",
+        "Q04": "mentioned",
+        "Q05": "mentioned",
+        "Q06": "mentioned",
+        "Q07": "mentioned",
+        "Q08": "mentioned"
+      }
+    },
+    {
+      "event_id": "E349-004",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話原作再照合記録、写真18左〜19。クラピカとミザイストムが話し、サイユウの能力開示は会合映像側の記録。",
+      "character_presence": {
+        "HA-010": "remote",
+        "P14-H01": "present",
+        "HA-002": "present"
+      }
+    },
+    {
+      "event_id": "E359-001",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話写真2・4を再閲覧。出航は船の描写、ビヨンド本人は写真4右の拘束室。国王の在室はこの出航描写から確認できず未判定とする。",
+      "character_presence": {
+        "KNG-001": "unknown",
+        "BYD-001": "present"
+      },
+      "character_locations": {
+        "BYD-001": "1層 ビヨンド拘束室"
+      }
+    },
+    {
+      "event_id": "E359-003",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話写真10右を再閲覧。4名の遺体と、クラピカ・オイト・ワブルが描かれる。",
+      "character_presence": {
+        "P14-U01": "body",
+        "P14-U02": "body",
+        "P14-U03": "body",
+        "P14-U04": "body",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E359-004",
+      "source_id": "user-original-ch359",
+      "evidence": "死亡時刻の幅から過去の生存確認を想定した採用仮説。12:15時点での本人の姿は描かれた記録ではない。",
+      "character_presence": {
+        "P14-P02": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-007",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P13": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-008",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P12": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-009",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P11": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-011",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P09": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-012",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P08": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-013",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P07": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-014",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P06": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-015",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P05": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-016",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P03": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-017",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P02": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-018",
+      "source_id": "user-hypothesis-ceremony-exits-20261008",
+      "evidence": "出航式典の退室順をめぐる採用仮説。第359話の原作再照合記録では、この王子本人の退室を直接確認した記録ではない。仮説の時刻・内容を維持し、在室は未判定とする。",
+      "character_presence": {
+        "P01": "unknown"
+      }
+    },
+    {
+      "event_id": "E359-006",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話原作再照合記録、写真5左〜6右。クラピカらと帰室するオイトとワブル。",
+      "character_presence": {
+        "P14": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E359-010",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話原作再照合記録、写真6左。カチョウの退室を見送るフウゲツ。",
+      "character_presence": {
+        "P10": "present",
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E359-019",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話原作再照合記録、写真6左。退出時のカチョウとフウゲツの会話。",
+      "character_presence": {
+        "P10": "present",
+        "P11": "present"
+      }
+    },
+    {
+      "event_id": "E359-020",
+      "source_id": "user-original-ch359",
+      "evidence": "第359話写真4右を再閲覧。ビヨンド本人が拘束室の寝台に描かれる。",
+      "character_presence": {
+        "BYD-001": "present"
+      }
+    },
+    {
+      "event_id": "E360-002",
+      "source_id": "user-original-ch360",
+      "evidence": "第360話原作再照合記録、写真1〜5。1014号室の尋問。王室警護兵2名と協会員を区別し、他の王妃が同室にいるとは扱わない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P14-P01": "present",
+        "P14-H03": "present",
+        "P14-P04": "present",
+        "P14-P05": "present"
+      }
+    },
+    {
+      "event_id": "E360-003",
+      "source_id": "user-original-ch360",
+      "evidence": "第360話原作再照合記録、写真5左〜6。クラピカ・ビル・オイトの会話。",
+      "character_presence": {
+        "P14-H02": "present",
+        "P14-H01": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E361-007",
+      "source_id": "user-original-ch361",
+      "evidence": "第361話原作再照合記録と写真8右の再閲覧。クラピカ・ビル・拘束されたサイールドは本人が描かれる。",
+      "character_presence": {
+        "P14-P01": "present",
+        "P14-H01": "present",
+        "P14-H02": "present"
+      }
+    },
+    {
+      "event_id": "E361-004",
+      "source_id": "user-original-ch361",
+      "evidence": "第361話原作再照合記録、写真9。ハルケンブルグと国王の対話。",
+      "character_presence": {
+        "P09": "present",
+        "KNG-001": "present"
+      }
+    },
+    {
+      "event_id": "E360-001",
+      "source_id": "user-original-ch360",
+      "evidence": "第360話原作再照合記録、写真7〜10。1014号室の念獣と放送。センリツ・ビスケはそれぞれ別の部屋の受信側で、同室ではない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present",
+        "P14-H02": "present",
+        "P14-P01": "present",
+        "P14-H03": "present",
+        "P10-H01": "remote",
+        "P13-H02": "remote"
+      }
+    },
+    {
+      "event_id": "E361-001",
+      "source_id": "user-original-ch361",
+      "evidence": "第360話末尾と第361話冒頭の既存原作再照合。サイールドの襲撃と3名の遺体。操作念獣の持ち主は引き続き未確定。",
+      "character_presence": {
+        "P14-P01": "present",
+        "P14-H03": "body",
+        "P14-P04": "body",
+        "P14-P05": "body"
+      }
+    },
+    {
+      "event_id": "E361-006",
+      "source_id": "user-original-ch361",
+      "evidence": "第361話原作再照合記録、写真10。モモゼは12区に残り、セヴァンチ・マラヤーム・ハンゾーは移動する。モモゼ本人を移動先へ連れていったことにしない。",
+      "character_presence": {
+        "P12": "present",
+        "P13": "present",
+        "Q07": "present",
+        "P12-H01": "present"
+      },
+      "character_locations": {
+        "P12": "第12王子の居室（王子居住エリア12区）"
+      }
+    }
+  ]
+}

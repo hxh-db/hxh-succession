@@ -1,9 +1,9 @@
 const DATA = {
-  characters: "data/characters.json?v=20261028-temporal",
+  characters: "data/characters.json?v=20261030-presence",
   characterTags: "data/character_tags.json?v=20261027-integrated",
   characterImages: "data/character_images.json?v=20261027-integrated",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
-  events: "data/events.json?v=20261030-review",
+  events: "data/events.json?v=20261030-presence",
   openQuestions: "data/open_questions.json?v=20261008d",
   alliances: "data/alliances.json?v=20261002c",
   spiritBeasts: "data/spirit_beasts.json?v=20261020-notes-delta",

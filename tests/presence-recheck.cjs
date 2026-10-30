@@ -1,0 +1,31 @@
+const assert=require('node:assert/strict');
+const events=require('../data/events.json'),characters=require('../data/characters.json'),audit=require('../data/intake/presence_recheck_20261030.json');
+const byId=Object.fromEntries(events.map(event=>[event.id,event]));
+assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
+for(const row of audit.records){
+ const event=byId[row.event_id];assert.ok(event,row.event_id);
+ assert.deepEqual(row.character_presence,event.character_presence,row.event_id);
+ assert.deepEqual(Object.keys(row.character_presence).sort(),[...event.characters].sort(),row.event_id);
+ assert.ok(row.evidence && row.source_id===event.source_id);
+ if(row.character_locations)assert.deepEqual(row.character_locations,event.character_locations);
+ for(const kind of Object.values(row.character_presence))assert.ok(['present','body','remote','mentioned','unknown'].includes(kind));
+}
+assert.equal(byId['E340-004'].character_presence['BYD-002'],'mentioned');
+assert.equal(byId['E340-004'].character_presence['BYD-003'],'mentioned');
+assert.equal(byId['E343-004'].character_presence['P14-H01'],'present','Kurapika appears at the end of the visit scene');
+assert.equal(byId['E348-002'].character_presence['P14-H01'],'remote');
+assert.ok(Object.values(byId['E349-003'].character_presence).every(kind=>kind==='mentioned'),'portraits do not put the whole royal family in one room');
+assert.equal(byId['E359-003'].character_presence['P14-U01'],'body');
+assert.equal(byId['E359-007'].character_presence.P13,'unknown','an adopted departure hypothesis is not direct presence evidence');
+assert.equal(byId['E360-001'].character_presence['P10-H01'],'remote');
+assert.equal(byId['E361-001'].character_presence['P14-H03'],'body');
+assert.ok(byId['E361-006'].character_locations.P12.includes('第12王子'),'Momoze does not follow the others to the next room');
+const kururi=characters.find(person=>person.id==='BYD-U09');
+assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
+assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));
+assert.ok(kururi.image.endsWith('beyond-unnamed-i-ch340.png'));
+assert.equal(kururi.type,'expedition_member');assert.equal(kururi.nen_status,'unknown');
+assert.ok(kururi.role.includes('パーバード大教授'));
+assert.ok(byId['E346-005'].characters.includes(kururi.id));
+assert.equal(characters.length,401);assert.equal(events.length,465);
+console.log('PASS: source-backed presence decisions, remote/portrait/body/hypothesis boundaries and Kururi identity preserve IDs and uncertainty');

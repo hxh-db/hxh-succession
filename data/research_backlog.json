@@ -187,9 +187,9 @@
     "id": "BACKLOG-WEB-COIN-EDITIONS-20261026",
     "priority": "medium",
     "topic": "第390話の硬貨の版差指摘",
-    "reason": "WEB-014：本誌10→単行本1との比較指摘を発見。両版の直接比較は未実施。時系列・発動条件の解釈へ使う前に照合。",
+    "reason": "2026-10-30ユーザー指定：単行本37巻を基準にし、本誌との版差調査は対象から外す。比較照合を完了したという意味ではない。外部記事の10→1という指摘は採用せず、WEB-014を採用見送りへ更新。現在の原作画像とその内容の確認記録を保持する。",
     "required_source": "第390話の本誌と37巻の同一コマ",
-    "status": "needs_original_review"
+    "status": "resolved"
   },
   {
     "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",

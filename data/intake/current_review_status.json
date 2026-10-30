@@ -8,11 +8,11 @@
       "review_recorded": 429,
       "unverified": 13
     },
-    "with_presence": 92,
+    "with_presence": 157,
     "with_source_pages": 126,
     "day_unset": 64,
-    "active_backlog": 13,
-    "resolved_backlog": 9,
+    "active_backlog": 12,
+    "resolved_backlog": 10,
     "adopted_inference_backlog": 3
   },
   "active_backlog": [
@@ -64,78 +64,10 @@
       "next_action": "人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。",
       "event_ids": [
         "E340-001",
-        "E340-002",
-        "E340-003",
-        "E340-004",
-        "E340-005",
-        "E341-003",
-        "E341-004",
-        "E342-001",
-        "E342-004",
-        "E342-005",
-        "E342-006",
-        "E343-002",
-        "E343-003",
-        "E343-004",
-        "E344-002",
-        "E344-004",
-        "E344-005",
         "E344-006",
         "E344-007",
-        "E345-001",
-        "E345-002",
-        "E345-003",
-        "E345-004",
-        "E345-005",
-        "E345-006",
-        "E346-001",
-        "E346-002",
-        "E346-003",
-        "E346-004",
-        "E346-005",
-        "E346-006",
         "E347-001",
-        "E348-001",
-        "E348-002",
-        "E348-003",
-        "E348-004",
         "E349-001",
-        "E349-002",
-        "E349-003",
-        "E349-004",
-        "E349-005",
-        "E349-006",
-        "E350-001",
-        "E350-002",
-        "E350-003",
-        "E351-001",
-        "E357-001",
-        "E357-002",
-        "E359-001",
-        "E359-003",
-        "E359-004",
-        "E359-006",
-        "E359-007",
-        "E359-008",
-        "E359-009",
-        "E359-010",
-        "E359-011",
-        "E359-012",
-        "E359-013",
-        "E359-014",
-        "E359-015",
-        "E359-016",
-        "E359-017",
-        "E359-018",
-        "E359-019",
-        "E359-020",
-        "E360-001",
-        "E360-002",
-        "E360-003",
-        "E361-001",
-        "E361-004",
-        "E361-006",
-        "E361-007",
         "E362-001",
         "E362-002",
         "E362-005",
@@ -448,7 +380,6 @@
         "BYD-U06",
         "BYD-U07",
         "BYD-U08",
-        "BYD-U09",
         "EII-U01",
         "EII-U02",
         "HA-U01",
@@ -568,7 +499,6 @@
         "BYD-U06",
         "BYD-U07",
         "BYD-U08",
-        "BYD-U09",
         "EII-U01",
         "EII-U02",
         "HA-U01",
@@ -680,10 +610,6 @@
       "next_action": "現在も未照合の対象だけを確認する。削除済みE372-009と解消済みの照合項目を未解決へ戻さない。",
       "event_ids": [
         "E347-001",
-        "E351-001",
-        "E357-001",
-        "E357-002",
-        "E358-001",
         "E361-001",
         "E361-005",
         "E372-003",
@@ -733,33 +659,6 @@
       ],
       "next_action": "公式図録の原図で主系統・位置・修練度を個別判読する。二次情報だけで保留を解除しない。",
       "event_ids": []
-    },
-    {
-      "id": "BACKLOG-WEB-COIN-EDITIONS-20261026",
-      "priority": "medium",
-      "topic": "第390話の硬貨の版差指摘",
-      "reason": "WEB-014：本誌10→単行本1との比較指摘を発見。両版の直接比較は未実施。時系列・発動条件の解釈へ使う前に照合。",
-      "required_source": "第390話の本誌と37巻の同一コマ",
-      "status": "needs_original_review",
-      "chapters": [
-        390
-      ],
-      "character_ids": [
-        "P03"
-      ],
-      "web_research_ids": [
-        "WEB-014"
-      ],
-      "evidence_paths": [
-        "data/intake/web_research_20261026.md"
-      ],
-      "next_action": "本誌と37巻の同一コマを直接比較する。版差が確認できる前に発動条件へ用いない。",
-      "event_ids": [
-        "E390-001",
-        "E390-002",
-        "E390-003",
-        "E390-004"
-      ]
     },
     {
       "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",
@@ -864,6 +763,14 @@
       "reason": "既存12項目のID・メモを保持して19項目へ整理。参加資格と法、念、警護、戒厳令、講習、マフィア、加入条件、契約を区別し根拠リンクを追加。検索・目次・ネタバレ保護・スマホ表を実装。22検査合格、PC・スマホの代表操作を確認。全原作再照合ではなく既存の未判明事項は継続。data/intake/guide_review_20261016.md参照。",
       "required_source": "既存イベントと照合記録、第349話の参加条件資料、第362話写真3",
       "status": "resolved"
+    },
+    {
+      "id": "BACKLOG-WEB-COIN-EDITIONS-20261026",
+      "priority": "medium",
+      "topic": "第390話の硬貨の版差指摘",
+      "reason": "2026-10-30ユーザー指定：単行本37巻を基準にし、本誌との版差調査は対象から外す。比較照合を完了したという意味ではない。外部記事の10→1という指摘は採用せず、WEB-014を採用見送りへ更新。現在の原作画像とその内容の確認記録を保持する。",
+      "required_source": "第390話の本誌と37巻の同一コマ",
+      "status": "resolved"
     }
   ],
   "adopted_inference_backlog": [
@@ -892,6 +799,28 @@
       "status": "resolved_with_inference"
     }
   ],
+  "scope_exclusions": [
+    {
+      "chapters": [
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358
+      ],
+      "decided_at": "2026-10-30",
+      "reason": "ユーザー指定：第351〜358話のクロロとヒソカの戦いは今回の継承戦の原作再照合には関係しないため対象から外す。既存の背景記録は保持する。"
+    }
+  ],
+  "excluded_event_ids": [
+    "E351-001",
+    "E357-001",
+    "E357-002",
+    "E358-001"
+  ],
   "unverified_events": [
     {
       "event_id": "E347-001",
@@ -900,6 +829,7 @@
       "review_kind": "source_not_found",
       "current_note": "2026-10-16再照合：既存添付631ファイルを索引・SHA-256と突合したが、No.2承認の場面・第347話への対応に対応する画像は確認した保管場所で発見できなかった。 未確定：ジンのNo.2承認が描かれた原作ページと話数",
       "historical_outcome": "source_not_found",
+      "excluded_from_current_review": false,
       "historical_remaining": "ジンのNo.2承認が描かれた原作ページと話数",
       "existing_image_references": [],
       "evidence_paths": [
@@ -915,6 +845,7 @@
       "review_kind": "source_not_found",
       "current_note": "2026-10-16再照合：既存添付631ファイルを索引・SHA-256と突合したが、第351〜356話の戦闘経過と収録範囲に対応する画像は確認した保管場所で発見できなかった。 未確定：第351〜356話の戦闘開始・決着の原作ページ",
       "historical_outcome": "source_not_found",
+      "excluded_from_current_review": true,
       "historical_remaining": "第351〜356話の戦闘開始・決着の原作ページ",
       "existing_image_references": [],
       "evidence_paths": [
@@ -930,6 +861,7 @@
       "review_kind": "source_not_found",
       "current_note": "2026-10-16再照合：既存添付631ファイルを索引・SHA-256と突合したが、旅団乗船という旧登録の場面・話数に対応する画像は確認した保管場所で発見できなかった。 未確定：旅団が乗船したことを示す原作ページと話数",
       "historical_outcome": "source_not_found",
+      "excluded_from_current_review": true,
       "historical_remaining": "旅団が乗船したことを示す原作ページと話数",
       "existing_image_references": [],
       "evidence_paths": [
@@ -945,6 +877,7 @@
       "review_kind": "source_not_found",
       "current_note": "2026-10-16再照合：既存添付631ファイルを索引・SHA-256と突合したが、旅団員2名の被害者氏名・殺害場所・関係人物に対応する画像は確認した保管場所で発見できなかった。 未確定：第357話の殺害場面。旧登録のブラックホエール号という場所も未確認",
       "historical_outcome": "source_not_found",
+      "excluded_from_current_review": true,
       "historical_remaining": "第357話の殺害場面。旧登録のブラックホエール号という場所も未確認",
       "existing_image_references": [],
       "evidence_paths": [
@@ -960,6 +893,7 @@
       "review_kind": "source_not_found",
       "current_note": "2026-10-16再照合：既存添付631ファイルを索引・SHA-256と突合したが、出航前夜祭という旧登録の場面・参加者に対応する画像は確認した保管場所で発見できなかった。 未確定：第358話の該当場面。出航前夜祭が描かれているかの確認",
       "historical_outcome": "source_not_found",
+      "excluded_from_current_review": true,
       "historical_remaining": "第358話の該当場面。出航前夜祭が描かれているかの確認",
       "existing_image_references": [],
       "evidence_paths": [
@@ -975,6 +909,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "襲撃と3名の死亡は既存の原作照合記録による。サイールドを操った念獣の持ち主はこの記録では確定しない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "この説明と、サイールドを操作した小型念獣の個別の対応。第361話では持ち主名が語られない。",
       "existing_image_references": [
         "ch360-20261010/06.jpg",
@@ -999,6 +934,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：襲撃・鎖による制圧・裏窓の奪取・軍への引渡しを再確認。第372話40ページでは第12王子の念獣を半強制型と説明する。 未確定：この説明と、サイールドを操作した小型念獣の個別の対応。第361話では持ち主名が語られない。",
       "historical_outcome": null,
+      "excluded_from_current_review": false,
       "historical_remaining": "",
       "existing_image_references": [],
       "evidence_paths": [
@@ -1014,6 +950,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：警護11名から2名への減少、従事者2名の離脱希望を再確認。退室の希望と実際の離脱は分ける。 未確定：離脱を願い出た2名の氏名・実際に離脱した時点。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "離脱を願い出た2名の氏名・実際に離脱した時点。",
       "existing_image_references": [
         "ch361-20261010/08.jpg",
@@ -1032,6 +969,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "第372話の押さえ込みと第374話の死亡報告を結び付け、ユーザー指定の読解としてハンゾーによるタフディー殺害を採用。氏名・能力の対応は照合済みだが、死亡の瞬間と具体的な殺害手段の直接描写はないため、原作確認記録ありへは格上げしない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "第372話の画像は押さえ込む場面までで死亡の直接描写はない。自害は第374話で伝えられる情報。",
       "existing_image_references": [
         "ch366-20261010/02.jpg",
@@ -1052,6 +990,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：寝台と兵の無言の場面、第381話のウショウヒへの交代命令、第388話でサレサレの死を前提にツベッパが検討する場面を再確認。 未確定：第382話自体に死亡の明言・殺害方法の描写はない。後続話の暗殺の推測を実行者・方法の確定にしない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "第382話自体に死亡の明言・殺害方法の描写はない。後続話の暗殺の推測を実行者・方法の確定にしない。",
       "existing_image_references": [
         "ch381-20261010/09.jpg",
@@ -1072,6 +1011,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：第362話のサルコフの名指しと、第385話の修行場面・その後の会話を比較した。 未確定：写真4左の小さい背景の兵をサルコフとする対応。このコマでは役割・発言がなく断定しない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "写真4左の小さい背景の兵をサルコフとする対応。このコマでは役割・発言がなく断定しない。",
       "existing_image_references": [
         "ch362-20261010/06.jpg",
@@ -1092,6 +1032,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：現参加者18名、入門9名・初級9名、氏名・所属札、スラッカの参加申出を再確認。 未確定：18名の完全な名簿と、スラッカが表示人数に含まれるか。講師・在室者・申出者を自動加算しない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "18名の完全な名簿と、スラッカが表示人数に含まれるか。講師・在室者・申出者を自動加算しない。",
       "existing_image_references": [
         "ch411-20261010/04.jpg",
@@ -1113,6 +1054,7 @@
       "review_kind": "partial_or_identity_review",
       "current_note": "2026-10-16再照合：1007号室の刺突・遺体と額に印のある就寝者を再確認。休憩室で第7王子私設兵を殺害したことは第415話の証言による。 未確定：額に印のあるP07-U01の生死・個別の兵種。別人の遺体と混同しない。",
       "historical_outcome": "partial",
+      "excluded_from_current_review": false,
       "historical_remaining": "額に印のあるP07-U01の生死・個別の兵種。別人の遺体と混同しない。",
       "existing_image_references": [
         "ch389-20261010/01.jpg",
@@ -1158,11 +1100,11 @@
     "E372-009"
   ],
   "source_sha256": {
-    "data/events.json": "24b9e3b629bb5e526e911a8b1a1a4cf1843445754a4cf937159ca98cc46f145b",
-    "data/characters.json": "c7a4c5fd06331215df73d382c16c9dee07edca8db91b2f424e197962924449b7",
-    "data/research_backlog.json": "d3855360a932df0199fbaf01ffda432c361ba88f7ed3948061c96831ce03af73",
+    "data/events.json": "04e5fe6ce56349ca2a6e54c1cede694e3512829df76fb70804df0df7f7737917",
+    "data/characters.json": "57e50bedb87ce1061670565aba0e95180f7f7a325fb3e28a4df0d114f315206d",
+    "data/research_backlog.json": "4bc1b5589d494cb3bf408538945e8f90d4a2d43a98f9bcf8f8a3c340deb6e5c9",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
-    "data/intake/review_targets.json": "bfb987b52aadd275d9a37d484beadff151204acf5c9301061db80ae6b802daa6",
-    "data/web_research.json": "7a5ec884ca940486a12ab4281319309f7ad59724f7f5f42d63853ff5bdccf49e"
+    "data/intake/review_targets.json": "67b3904f535cd159ff9882553a5e93486da8a080c3fe9e887f29278a15ae248c",
+    "data/web_research.json": "9b9f4425ff3fab647625c290df012ea09a2eea39a5b1b20537a21cb0d6502666"
   }
 }

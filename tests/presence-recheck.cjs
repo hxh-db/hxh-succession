@@ -4,11 +4,13 @@ const byId=Object.fromEntries(events.map(event=>[event.id,event]));
 const secondAudit=require('../data/intake/presence_362_369_20261030.json');
 const thirdAudit=require('../data/intake/presence_370_380_20261030.json');
 const fourthAudit=require('../data/intake/presence_381_390_20261030.json');
+const fifthAudit=require('../data/intake/presence_391_400_20261030.json');
 assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
 assert.equal(secondAudit.records.length,53);
 assert.equal(thirdAudit.records.length,46);
 assert.equal(fourthAudit.records.length,44);
-const records=[...audit.records,...secondAudit.records,...thirdAudit.records,...fourthAudit.records];
+assert.equal(fifthAudit.records.length,30);
+const records=[...audit.records,...secondAudit.records,...thirdAudit.records,...fourthAudit.records,...fifthAudit.records];
 assert.equal(new Set(records.map(row=>row.event_id)).size,records.length);
 for(const row of records){
  const event=byId[row.event_id];assert.ok(event,row.event_id);
@@ -63,6 +65,14 @@ assert.ok(byId['E386-003'].character_locations['P09-P05'].includes('本体は睡
 assert.equal(byId['E389-006'].character_presence['P02-P02'],'mentioned','a curse assignment portrait does not place every soldier in the planning meeting');
 assert.equal(byId['E389-010'].character_presence['P07-P02'],'mentioned','earlier sleeping arrangements are not present-day presence');
 assert.equal(byId['E390-002'].character_presence['SWU-001'],'remote');
+assert.equal(byId['E340-001'].character_presence['KNG-001'],'remote','the declaration video is not the king attending the Zodiac meeting');
+assert.equal(byId['E347-001'].character_presence['BYD-002'],'unknown');
+assert.equal(byId['E347-001'].verification_status,'unverified','missing source cannot be promoted by presence annotation');
+assert.equal(byId['E392-001'].character_presence['EII-003'],'body','posthumous movement does not restore Padaille to life');
+assert.equal(byId['E392-001'].character_presence['EII-006'],'mentioned','Misha’s posthumous ability is not her own body');
+assert.ok(byId['E398-002'].character_locations['SPD-004'].includes('3101'));
+assert.ok(byId['E398-002'].character_locations['SWU-002'].includes('転送先'));
+for(const id of ['E400-004','E400-005','E400-006'])assert.equal(byId[id].character_presence.P10,'mentioned','the spirit beast is not Kacho’s own location');
 const kururi=characters.find(person=>person.id==='BYD-U09');
 assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
 assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));
@@ -71,4 +81,4 @@ assert.equal(kururi.type,'expedition_member');assert.equal(kururi.nen_status,'un
 assert.ok(kururi.role.includes('パーバード大教授'));
 assert.ok(byId['E346-005'].characters.includes(kururi.id));
 assert.equal(characters.length,401);assert.equal(events.length,465);
-console.log('PASS: source-backed presence decisions, remote/portrait/body/hypothesis boundaries and Kururi identity preserve IDs and uncertainty');
+console.log('PASS: reviewed presence boundaries, explicit unknowns, bodies/spirits and Kururi identity preserve IDs and uncertainty');

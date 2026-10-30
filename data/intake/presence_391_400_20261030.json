@@ -1,0 +1,319 @@
+{
+  "date": "2026-10-30",
+  "scope": "第391〜400話と第340・344・347・349話の所在区分。既存の全話原作照合記録と今回の画像再閲覧を区別し、所在の確度・日時・能力は変更しない。",
+  "records": [
+    {
+      "event_id": "E340-001",
+      "source_id": "user-original-ch340",
+      "evidence": "既存の第340話受領索引とイベント注記。カキンの宣言とビヨンド紹介は十二支ん会議で見る映像の連続場面。両名を十二支ん会議の在室者としない。",
+      "character_presence": {
+        "KNG-001": "remote",
+        "BYD-001": "remote"
+      }
+    },
+    {
+      "event_id": "E344-006",
+      "source_id": "user-original-ch344",
+      "evidence": "既存の第344話全話原作照合記録、写真7。ジン本人が一団へ説明する場面で、過去の遠征に本人が参加したことにはしない。",
+      "character_presence": {
+        "BYD-002": "present"
+      }
+    },
+    {
+      "event_id": "E344-007",
+      "source_id": "user-original-ch344",
+      "evidence": "既存の第344話全話原作照合記録、写真10。ジンの説明にパリストンが反応する対面場面。ドンを登場人物として追加しない。",
+      "character_presence": {
+        "BYD-002": "present",
+        "BYD-003": "present"
+      }
+    },
+    {
+      "event_id": "E347-001",
+      "source_id": "chapter-347-record-index",
+      "evidence": "原本未発見という既存の留保を維持する。ジンの登場・所在を今回の原作で確認できていないため未判定と明示し、verification_status=unverifiedを変えない。原作再照合を完了したという意味ではない。",
+      "character_presence": {
+        "BYD-002": "unknown"
+      }
+    },
+    {
+      "event_id": "E349-001",
+      "source_id": "user-original-ch349",
+      "evidence": "第349話の写真16を直接再閲覧し、写真11・14〜15の既存全話照合記録と比較。ツェリードニヒとヌグイの儀式、その後の国王がヌグイへ壺の由来を語る別場面。国王が第4王子の儀式に同席したことにはしない。",
+      "character_presence": {
+        "P04": "present",
+        "KNG-001": "present",
+        "KNG-002": "present"
+      },
+      "character_locations": {
+        "KNG-001": "壺の由来を語る別場面（第4王子の儀式への同席は未確認）"
+      }
+    },
+    {
+      "event_id": "E391-001",
+      "source_id": "user-original-ch391",
+      "evidence": "既存の第391話全話原作照合記録。ヒンリギがザクロ・リンチと分かれ、各々が捜索する一連の場面。映像の対象者を捜索側への同席としない。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "present"
+      }
+    },
+    {
+      "event_id": "E391-002",
+      "source_id": "user-original-ch391",
+      "evidence": "既存の第391話全話原作照合記録。ヒンリギと襲う3名が対面、バドイユが死亡し2名が逃げる。バドイユは後の遺体確認とも整合するbody。",
+      "character_presence": {
+        "SWU-002": "present",
+        "EII-003": "body",
+        "EII-004": "present",
+        "EII-005": "present"
+      }
+    },
+    {
+      "event_id": "E392-001",
+      "source_id": "user-original-ch392",
+      "evidence": "既存の第392話全話原作照合記録、写真1〜3。ヒンリギの倒したバドイユは死後の念で動く遺体。ミーシャ本人は既に死亡しており、死後の念の説明対象で、生身の在室でもミーシャの遺体でもない。",
+      "character_presence": {
+        "SWU-002": "present",
+        "EII-003": "body",
+        "EII-006": "mentioned"
+      }
+    },
+    {
+      "event_id": "E392-003",
+      "source_id": "user-original-ch392",
+      "evidence": "既存の第392話全話原作照合記録と後の同定記録。ザクロ・リンチとヒソカ姿のボノレノフ本人の対面。変装をヒソカ本人の登場へ戻さない。",
+      "character_presence": {
+        "SWU-003": "present",
+        "SWU-004": "present",
+        "SPD-007": "present"
+      }
+    },
+    {
+      "event_id": "E392-005",
+      "source_id": "user-original-ch392",
+      "evidence": "既存の第392話全話原作照合記録。シャ＝ア一家事務所の旅団3名と扉から顔を出すルイーニー。物理的な出現を単なる無線や話題としない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present",
+        "EII-002": "present"
+      }
+    },
+    {
+      "event_id": "E393-002",
+      "source_id": "user-original-ch393",
+      "evidence": "既存の第393話全話原作照合記録。アジトのモレナと構成員6名の会話・能力の相談。亡くなったルイーニーを生存の在室者に加えない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-011": "present",
+        "EII-012": "present",
+        "EII-013": "present",
+        "EII-014": "present",
+        "EII-015": "present",
+        "EII-016": "present"
+      }
+    },
+    {
+      "event_id": "E393-004",
+      "source_id": "user-original-ch393",
+      "evidence": "既存の第393話全話原作照合記録、写真5左〜7。ザクロはシネコン包囲の打合せ、ヒンリギはその後スクリーン内で隣に座る。ザクロも隣席にいたとはしない。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present"
+      },
+      "character_locations": {
+        "SWU-003": "シネコン包囲の打合せ側（スクリーン内の隣席ではない）"
+      }
+    },
+    {
+      "event_id": "E394-003",
+      "source_id": "user-original-ch394",
+      "evidence": "既存の第394話全話原作照合記録。第4王子私設兵の突入場面と、映像を確認するヒンリギの別カット。ヒンリギを突入隊の在室にしない。",
+      "character_presence": {
+        "SWU-002": "present"
+      },
+      "character_locations": {
+        "SWU-002": "C:31付近の録画を確認する別場面（突入現場への同席ではない）"
+      }
+    },
+    {
+      "event_id": "E394-005",
+      "source_id": "user-original-ch394",
+      "evidence": "既存の第394話全話原作照合記録。モレナが構成員へ捕獲と見張り・状況確認を指示するアジトの場面。指示先への到着は確定しない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-016": "present",
+        "EII-020": "present",
+        "EII-021": "present",
+        "EII-008": "present",
+        "EII-022": "present",
+        "EII-023": "present",
+        "EII-009": "present"
+      }
+    },
+    {
+      "event_id": "E395-001",
+      "source_id": "user-original-ch395",
+      "evidence": "既存の第395話全話原作照合記録。旅団3名が老人を先に隠し部屋へ入れ、調査する。引き揚げたと推測する敵を在室者へ追加しない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E395-002",
+      "source_id": "user-original-ch395",
+      "evidence": "既存の第395話全話原作照合記録。ヒンリギ本人が映像を確認し、罠と隠し通路を推理する。録画対象を現在の同席者としない。",
+      "character_presence": {
+        "SWU-002": "present"
+      }
+    },
+    {
+      "event_id": "E395-003",
+      "source_id": "user-original-ch395",
+      "evidence": "既存の第395話全話原作照合記録。マフィア側の会合でオウ本人が船内図を示す。別に調査中の旅団を会合へ移さない。",
+      "character_presence": {
+        "SAA-002": "present"
+      }
+    },
+    {
+      "event_id": "E398-001",
+      "source_id": "user-original-ch398",
+      "evidence": "既存の第398話全話原作照合記録。旅団3名が客室の罠を調べる。罠の向こうの術者の位置は推測のまま。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E398-002",
+      "source_id": "user-original-ch398",
+      "evidence": "既存の第398話全話原作照合記録。3101側でオウと旅団3名がヒンリギの提案を聞き、ヒンリギだけが転送先に移る。全員を転送先へ置かない。",
+      "character_presence": {
+        "SAA-002": "present",
+        "SWU-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      },
+      "character_locations": {
+        "SWU-002": "罠による転送先のタイル張りの部屋（場面後半）",
+        "SAA-002": "3101号室側（罠へ入る前の打合せ）",
+        "SPD-002": "3101号室側（罠へ入る前の打合せ）",
+        "SPD-003": "3101号室側（罠へ入る前の打合せ）",
+        "SPD-004": "3101号室側（罠へ入る前の打合せ）"
+      }
+    },
+    {
+      "event_id": "E398-003",
+      "source_id": "user-original-ch398",
+      "evidence": "既存の第398話全話原作照合記録。ヒンリギを追ったノブナガが転送先で合流し、互いに名乗って部屋を調べる。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SWU-002": "present"
+      }
+    },
+    {
+      "event_id": "E399-001",
+      "source_id": "user-original-ch399",
+      "evidence": "既存の第399話全話原作照合記録。扉を開けたヒンリギ・ノブナガと、刃を受けるトレベルム・ヨコタニが対面する。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SPD-002": "present",
+        "EII-017": "present",
+        "EII-008": "present"
+      }
+    },
+    {
+      "event_id": "E399-002",
+      "source_id": "user-original-ch399",
+      "evidence": "既存の第399話全話原作照合記録。同じ場の4名に対しヨコタニの衛兵が退去を執行する。新しい衛兵人物IDは作らない。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SPD-002": "present",
+        "EII-008": "present",
+        "EII-017": "present"
+      }
+    },
+    {
+      "event_id": "E399-003",
+      "source_id": "user-original-ch399",
+      "evidence": "既存の第399話全話原作照合記録。3101へ戻ったノブナガとヒンリギが話す。敵アジトへの在室を継続したことにしない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SWU-002": "present"
+      }
+    },
+    {
+      "event_id": "E400-001",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。フィンクス・フェイタンの調査にノブナガが合流して話す。フランクリンを連れて行く提案を到着・同席へ変えない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E400-003",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。1010号室でセイコ本人が電話し、通話後に考える。面会を求めるフウゲツの同席は主張しない。",
+      "character_presence": {
+        "Q06": "present"
+      }
+    },
+    {
+      "event_id": "E400-004",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。対面するセンリツとカイザルに、カチョウの姿で話すのは念獣。人物IDは維持するが、カチョウ本人の生還・在室の記録にはしない。",
+      "character_presence": {
+        "P10": "mentioned",
+        "P10-H01": "present",
+        "JUD-001": "present"
+      }
+    },
+    {
+      "event_id": "E400-005",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。カイザルとセンリツの相談、カチョウの姿の念獣の返答。念獣の行動をカチョウ本人の在室にしない。",
+      "character_presence": {
+        "JUD-001": "present",
+        "P10-H01": "present",
+        "P10": "mentioned"
+      }
+    },
+    {
+      "event_id": "E400-006",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。フウゲツ本人と、廊下ですれ違うセンリツ。カチョウ姿の念獣を死亡した本人の現在地としない。",
+      "character_presence": {
+        "P11": "present",
+        "P10": "mentioned",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E400-007",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。チョウライ本人が司法局へ面会に来てセンリツと対面する。単なる電話の要請と分ける。",
+      "character_presence": {
+        "P03": "present",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E400-008",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。センリツと訪問するヴァンタイン、その後のカイザルとの相談。第4王子本人は訪問していない。",
+      "character_presence": {
+        "P04-P05": "present",
+        "P10-H01": "present",
+        "JUD-001": "present"
+      }
+    }
+  ]
+}

@@ -1,21 +1,182 @@
 {
   "scope": "既存台帳の調査範囲・資料・次の作業。対象IDは確認範囲であり、事実の新しい認定ではない。",
   "targets": {
-    "BACKLOG-001": {"chapters":[415], "evidence_paths":["data/intake/event_chronology_audit_20261025.md"], "next_action":"既存の訂正記録を先に確認し、単行本・公式配信の対象コマと時刻表記を照合する。正しい数字は推測で補完しない。"},
-    "BACKLOG-002": {"event_ids":["E376-009","E400-010","E405-001","E405-005","E405-006"], "evidence_paths":["data/intake/remaining_review_20261013.md","data/intake/event_chronology_audit_20261025.md"], "next_action":"対象場面の日時表示・回想・前後関係と現行の留保を確認する。日付空欄そのものを不具合と数えない。"},
-    "BACKLOG-003": {"event_selector":"missing_presence", "evidence_paths":["data/intake/event_detail_review_20261016.md"], "next_action":"人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。"},
-    "BACKLOG-004": {"character_selector":"unnamed", "evidence_paths":["data/intake/remaining_review_20261013.md"], "next_action":"既存の顔資料と初登場・最新登場の紹介を突合する。人数枠を別人と数えず、名前が分からないことと画像不足を区別する。"},
-    "BACKLOG-005": {"chapters":[359], "evidence_paths":["data/intake/remaining_review_20261013.md"], "next_action":"定時報告の台詞と運用規則を確認する。報告時刻や全員共通の間隔を前後関係だけで確定しない。"},
-    "BACKLOG-006": {"chapters":[360,415], "evidence_paths":["data/intake/event_chronology_audit_20261025.md"], "next_action":"人物の概算・時点表示・版の訂正を比較し、どちらかの日付へ自動統一しない。"},
-    "BACKLOG-007": {"character_ids":["P14-H01"], "evidence_paths":["theories/emperor-time/index.html"], "next_action":"既存の時間整理と発動・解除の明示を照合する。未描写の連続発動や解除を補わない。"},
-    "BACKLOG-011": {"character_ids":["SWU-001","SAA-001"], "evidence_paths":["data/intake/remaining_review_20261013.md"], "next_action":"母親の同異を明示する描写・台詞を確認する。父を同じくする兄弟という既存整理を維持する。"},
-    "BACKLOG-REVIEW-20261008": {"character_ids":["P03","SPD-003","P14-H01"], "evidence_paths":["data/intake/remaining_review_20261013.md"], "next_action":"能力の名称・効果・条件を別々に照合する。撤回済みの断定を元に戻さない。"},
-    "BACKLOG-MEMO-20261008": {"character_selector":"unnamed", "evidence_paths":["data/intake/initial_personnel_coverage_20261013.md","data/intake/remaining_review_20261013.md"], "next_action":"既存人物との同一性・資格・初期在籍を別々に確認する。提供メモの採用済み内容を未実装として再適用しない。"},
-    "BACKLOG-CHARACTER-DETAIL-SOURCES-20261016": {"character_ids":["P01-P01","P04-P01","P09-P01","P09-P02","SPD-003","P14-H01"], "chapters":[361,372,417], "evidence_paths":["data/intake/pending23_recheck_20261016.md","data/intake/remaining_review_20261013.md"], "next_action":"原作の名前・持ち主・条件と既存索引を照合する。公式補助資料による名称確認と原作上の条件を区別する。"},
-    "BACKLOG-PENDING23-20261016": {"event_selector":"pending23_unverified", "evidence_paths":["data/intake/pending23_recheck_20261016.json","data/intake/pending23_recheck_20261016.md"], "next_action":"現在も未照合の対象だけを確認する。削除済みE372-009と解消済みの照合項目を未解決へ戻さない。"},
-    "BACKLOG-WEB-AUTHOR-SHEETS-20261026": {"web_research_ids":["WEB-003","WEB-004"], "evidence_paths":["data/intake/web_research_20261026.md","data/intake/initial_personnel_coverage_20261013.md"], "next_action":"DVDの該当欄を原寸判読し、氏名・顔・兵種・既存枠との対応を確認する。二次索引だけで増員しない。"},
-    "BACKLOG-WEB-NEN-CHART-20261026": {"character_ids":["P12-H01"], "web_research_ids":["WEB-005","WEB-006","WEB-007"], "evidence_paths":["data/intake/web_research_20261026.md"], "next_action":"公式図録の原図で主系統・位置・修練度を個別判読する。二次情報だけで保留を解除しない。"},
-    "BACKLOG-WEB-COIN-EDITIONS-20261026": {"chapters":[390], "character_ids":["P03"], "web_research_ids":["WEB-014"], "evidence_paths":["data/intake/web_research_20261026.md"], "next_action":"本誌と37巻の同一コマを直接比較する。版差が確認できる前に発動条件へ用いない。"},
-    "BACKLOG-WEB-HUNTER-SCRIPT-20261026": {"chapters":[406], "web_research_ids":["WEB-010"], "evidence_paths":["data/intake/web_research_20261026.md"], "next_action":"既存写真7と文字対応表を一字ずつ突合し、細字・名前の揺れを記録する。人物名・能力名を先に確定しない。"}
+    "BACKLOG-001": {
+      "chapters": [
+        415,
+        416
+      ],
+      "evidence_paths": [
+        "data/intake/backlog_recheck_20261030.md",
+        "data/intake/ch415_reconcile_20261010.md",
+        "data/intake/ch416_reconcile_20261010.md"
+      ],
+      "next_action": "時刻計算の誤りという旧仮説は撤回済み。11日目・水曜と12日目・木曜の日付差のみを公式訂正または修正版で確認する。"
+    },
+    "BACKLOG-002": {
+      "event_ids": [
+        "E376-009",
+        "E400-010",
+        "E405-001",
+        "E405-005",
+        "E405-006"
+      ],
+      "evidence_paths": [
+        "data/intake/remaining_review_20261013.md",
+        "data/intake/event_chronology_audit_20261025.md"
+      ],
+      "next_action": "対象場面の日時表示・回想・前後関係と現行の留保を確認する。日付空欄そのものを不具合と数えない。"
+    },
+    "BACKLOG-003": {
+      "event_selector": "missing_presence",
+      "evidence_paths": [
+        "data/intake/event_detail_review_20261016.md"
+      ],
+      "next_action": "人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。"
+    },
+    "BACKLOG-004": {
+      "character_selector": "unnamed",
+      "evidence_paths": [
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "既存の顔資料と初登場・最新登場の紹介を突合する。人数枠を別人と数えず、名前が分からないことと画像不足を区別する。"
+    },
+    "BACKLOG-005": {
+      "chapters": [
+        359
+      ],
+      "evidence_paths": [
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "定時報告の台詞と運用規則を確認する。報告時刻や全員共通の間隔を前後関係だけで確定しない。"
+    },
+    "BACKLOG-006": {
+      "chapters": [
+        360,
+        415
+      ],
+      "evidence_paths": [
+        "data/intake/event_chronology_audit_20261025.md"
+      ],
+      "next_action": "人物の概算・時点表示・版の訂正を比較し、どちらかの日付へ自動統一しない。"
+    },
+    "BACKLOG-007": {
+      "character_ids": [
+        "P14-H01"
+      ],
+      "evidence_paths": [
+        "theories/emperor-time/index.html"
+      ],
+      "next_action": "既存の時間整理と発動・解除の明示を照合する。未描写の連続発動や解除を補わない。"
+    },
+    "BACKLOG-011": {
+      "character_ids": [
+        "SWU-001",
+        "SAA-001"
+      ],
+      "evidence_paths": [
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "母親の同異を明示する描写・台詞を確認する。父を同じくする兄弟という既存整理を維持する。"
+    },
+    "BACKLOG-REVIEW-20261008": {
+      "character_ids": [
+        "P03",
+        "SPD-003",
+        "P14-H01"
+      ],
+      "evidence_paths": [
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "能力の名称・効果・条件を別々に照合する。撤回済みの断定を元に戻さない。"
+    },
+    "BACKLOG-MEMO-20261008": {
+      "character_selector": "unnamed",
+      "evidence_paths": [
+        "data/intake/initial_personnel_coverage_20261013.md",
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "既存人物との同一性・資格・初期在籍を別々に確認する。提供メモの採用済み内容を未実装として再適用しない。"
+    },
+    "BACKLOG-CHARACTER-DETAIL-SOURCES-20261016": {
+      "character_ids": [
+        "P01-P01",
+        "P04-P01",
+        "P09-P01",
+        "P09-P02",
+        "SPD-003",
+        "P14-H01"
+      ],
+      "chapters": [
+        361,
+        372,
+        417
+      ],
+      "evidence_paths": [
+        "data/intake/pending23_recheck_20261016.md",
+        "data/intake/remaining_review_20261013.md"
+      ],
+      "next_action": "原作の名前・持ち主・条件と既存索引を照合する。公式補助資料による名称確認と原作上の条件を区別する。"
+    },
+    "BACKLOG-PENDING23-20261016": {
+      "event_selector": "pending23_unverified",
+      "evidence_paths": [
+        "data/intake/pending23_recheck_20261016.json",
+        "data/intake/pending23_recheck_20261016.md"
+      ],
+      "next_action": "現在も未照合の対象だけを確認する。削除済みE372-009と解消済みの照合項目を未解決へ戻さない。"
+    },
+    "BACKLOG-WEB-AUTHOR-SHEETS-20261026": {
+      "web_research_ids": [
+        "WEB-003",
+        "WEB-004"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md",
+        "data/intake/initial_personnel_coverage_20261013.md"
+      ],
+      "next_action": "DVDの該当欄を原寸判読し、氏名・顔・兵種・既存枠との対応を確認する。二次索引だけで増員しない。"
+    },
+    "BACKLOG-WEB-NEN-CHART-20261026": {
+      "character_ids": [
+        "P12-H01"
+      ],
+      "web_research_ids": [
+        "WEB-005",
+        "WEB-006",
+        "WEB-007"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md"
+      ],
+      "next_action": "公式図録の原図で主系統・位置・修練度を個別判読する。二次情報だけで保留を解除しない。"
+    },
+    "BACKLOG-WEB-COIN-EDITIONS-20261026": {
+      "chapters": [
+        390
+      ],
+      "character_ids": [
+        "P03"
+      ],
+      "web_research_ids": [
+        "WEB-014"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md"
+      ],
+      "next_action": "本誌と37巻の同一コマを直接比較する。版差が確認できる前に発動条件へ用いない。"
+    },
+    "BACKLOG-WEB-HUNTER-SCRIPT-20261026": {
+      "chapters": [
+        406
+      ],
+      "web_research_ids": [
+        "WEB-010"
+      ],
+      "evidence_paths": [
+        "data/intake/web_research_20261026.md"
+      ],
+      "next_action": "既存写真7と文字対応表を一字ずつ突合し、細字・名前の揺れを記録する。人物名・能力名を先に確定しない。"
+    }
   }
 }

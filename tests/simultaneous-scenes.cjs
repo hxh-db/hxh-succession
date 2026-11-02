@@ -57,13 +57,18 @@ class Node {
   appendChild(child) { this.children.push(child); return child; }
   replaceChildren(...nodes) { this.children = nodes; }
   addEventListener(type, fn) { this.listeners[type] = fn; }
+  hasAttribute() { return false; }
 }
 const opened = [];
 const ctx = vm.createContext({
   eventsData: events, spoilersRevealed: false, URL, location: {href: 'http://127.0.0.1:8765/?t_chapter=400#timeline'},
   siteRootUrl: new URL('http://127.0.0.1:8765/'),
   document: {createElement: tag => new Node(tag), createTextNode: text => ({text})},
-  showDetailModal: (id, category) => opened.push([id, category])
+  openSceneEvent: (scene, link, url) => {
+    assert.equal(new URL(link.href).searchParams.get('event'), scene.id);
+    assert.equal(url.href, link.href);
+    opened.push([url.searchParams.get('event'), 'event']);
+  }
 });
 vm.runInContext(['sortKey', 'getSimultaneousScenes', 'fillSimultaneousScenes', 'makeSimultaneousScenesBlock'].map(extract).join('\n'), ctx);
 const links = block => block.children.filter(child => child.tagName === 'a');
@@ -78,6 +83,10 @@ assert.match(links(block)[0].href, /[?&]event=E400-001/);
 assert.doesNotMatch(links(block)[0].href, /t_chapter/);
 links(block)[0].listeners.click({preventDefault() {}, stopPropagation() {}});
 assert.deepEqual(opened.pop(), ['E400-001', 'event']);
+for (const input of [{ctrlKey:true}, {metaKey:true}, {shiftKey:true}, {altKey:true}, {button:1}, {button:2}, {defaultPrevented:true}]) {
+  links(block)[0].listeners.click({...input,preventDefault() {throw Error('native link was intercepted');},stopPropagation() {throw Error('native link was intercepted');}});
+  assert.equal(opened.length,0);
+}
 
 ctx.spoilersRevealed = true;
 block = ctx.makeSimultaneousScenesBlock(broadcast400);

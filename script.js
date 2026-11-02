@@ -3743,17 +3743,44 @@ function fillSimultaneousScenes(block, event) {
     url.searchParams.set("event", scene.id);
     const link = document.createElement("a");
     link.className = "simultaneous-scene-link";
+    link.dataset.sceneId = scene.id;
     link.href = url.href;
     const text = scene.title || scene.description;
     link.textContent = `第${scene.chapter}話 ${text.length > 40 ? `${text.slice(0, 40)}…` : text}`;
     link.title = `第${scene.chapter}話：${scene.description}`;
     link.addEventListener("click", (clickEvent) => {
+      if (clickEvent.defaultPrevented || clickEvent.button || clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.shiftKey || clickEvent.altKey
+          || link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
       clickEvent.preventDefault();
       clickEvent.stopPropagation();
-      showDetailModal(scene.id, "event", scene);
+      openSceneEvent(scene, link, url);
     });
     block.appendChild(link);
   });
+}
+
+function sceneLinkReadingState(link) {
+  const block = link?.closest(".simultaneous-scenes");
+  return block ? {sourceEventId:block.dataset.eventId, field:block.dataset.field || "simultaneous_with", eventId:link.dataset.sceneId} : null;
+}
+
+function findSceneReadingLink(container, state) {
+  return state && [...container.querySelectorAll(".simultaneous-scene-link")].find(link => {
+    const current = sceneLinkReadingState(link);
+    return current?.sourceEventId === state.sourceEventId && current.field === state.field && current.eventId === state.eventId;
+  });
+}
+
+function openSceneEvent(scene, link, url) {
+  if (openPersonEvent(scene, "scene", link)) return;
+  const modal = document.getElementById("detailModal");
+  if (!modal.classList.contains("hidden") && modal.dataset.eventId) {
+    const sourceUrl = new URL(location.href);
+    sourceUrl.searchParams.set("event", modal.dataset.eventId);
+    sourceUrl.hash = "timeline";
+    history.replaceState({...history.state}, "", sourceUrl.href);
+  }
+  navigateReadingUrl(url);
 }
 
 function makeSimultaneousScenesBlock(event, field = "simultaneous_with") {
@@ -5372,6 +5399,7 @@ function openPersonEvent(event, focusKind='event', origin=null) {
   if (!personId || !window.CharacterRoutes?.isActive()) return false;
   const modal=document.getElementById('detailModal');
   const snapshot={scrollTop:modal.querySelector('.modal-card').scrollTop,eventId:event.id,focusKind,
+    sceneLink:focusKind==='scene' ? sceneLinkReadingState(origin) : null,
     locationGroups:[...modal.querySelectorAll('details[data-location-group][open]')].map(el=>el.dataset.locationGroup),
     locationGroup:origin?.closest('details[data-location-group]')?.dataset.locationGroup,
     laterOpen:Boolean(modal.querySelector('.person-later-info')?.open),revealed:spoilersRevealed};
@@ -6246,7 +6274,9 @@ function setupPrimaryNavigation() {
     }
   });
   let scrollTimer;
-  window.addEventListener("scroll", () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(saveReadingState, 120); }, {passive:true});
+  const saveScroll = () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(saveReadingState, 120); };
+  window.addEventListener("scroll", saveScroll, {passive:true});
+  document.querySelector("#detailModal .modal-card").addEventListener("scroll", saveScroll, {passive:true});
   window.addEventListener("pagehide", saveReadingState);
   document.addEventListener("toggle", event => { if (event.target.closest?.("#guide, #characters, #chapterEventGroups")) saveReadingState(); }, true);
   activatePrimaryView(location.hash.slice(1) || "characters");
@@ -6528,6 +6558,11 @@ const VIEW_FILTER_CONTROLS = {
 
 // 履歴は全タブの条件を保持。共有URLは表示中のタブだけに絞る。
 function captureReadingState() {
+  const modal = document.getElementById("detailModal");
+  const sceneLink = sceneLinkReadingState(document.activeElement?.closest(".simultaneous-scene-link"));
+  const eventDetail = !modal.classList.contains("hidden") && modal.dataset.eventId
+    ? {eventId:modal.dataset.eventId, scrollTop:modal.querySelector(".modal-card").scrollTop,
+       sceneLink} : null;
   return {
     controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
     view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
@@ -6535,7 +6570,7 @@ function captureReadingState() {
     characterView: activeCharacterView, timelineView: activeTimelineView, period: activeTimelinePeriodId,
     hypotheses: document.getElementById("hideHypothesisEvents").checked,
     assignmentOnly: document.getElementById("assignmentOnly").checked,
-    characterCount: characterVisibleCount, scrollY: window.scrollY,
+    characterCount: characterVisibleCount, scrollY: window.scrollY, eventDetail, sceneLink:eventDetail ? null : sceneLink,
     details: [...document.querySelectorAll("#guide details[id], #characters details[id]")].filter(el=>el.open).map(el=>el.id),
     chapterDetails:Object.fromEntries([...document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]")].map(group=>[group.dataset.chapter,group.open])),
     characterFilters: document.querySelector(".character-tag-catalog").classList.contains("filters-open"),
@@ -6567,7 +6602,7 @@ function restoreReadingState(snapshot, url) {
       document.getElementById("assignmentOnly").checked = snapshot.assignmentOnly;
     }
     activatePrimaryView(snapshot?.view || restored.hash.slice(1));
-    restoreViewFromUrl(restored);
+    restoreViewFromUrl(restored, {preserveEventFilters:Boolean(snapshot)});
     if (snapshot) {
       extendCharacterDirectory(snapshot.characterCount);
       document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=(snapshot.details || []).includes(el.id);});
@@ -6588,6 +6623,16 @@ function restoreReadingState(snapshot, url) {
       const topic=findGuideTopic(new URL(location.href).searchParams.get('g_topic'));
       if(snapshot&&topic&&!topic.closest('section').hidden)pendingGuideTopicNavigation=false;
       else followGuideTopicLink(!snapshot);
+      const eventDetail = snapshot?.eventDetail, modal = document.getElementById("detailModal");
+      if (eventDetail && spoilersRevealed && !modal.classList.contains("hidden") && modal.dataset.eventId === eventDetail.eventId
+          && new URL(location.href).searchParams.get("event") === eventDetail.eventId) {
+        findSceneReadingLink(modal, eventDetail.sceneLink)?.focus({preventScroll:true});
+        modal.querySelector(".modal-card").scrollTop = eventDetail.scrollTop || 0;
+      }
+      if (!eventDetail && snapshot?.sceneLink && spoilersRevealed) {
+        const link = findSceneReadingLink(document.querySelector("[data-primary-panel]:not([hidden])"), snapshot.sceneLink);
+        if (link?.checkVisibility()) link.focus({preventScroll:true});
+      }
       if (history.state?.guideReturnFocusKey) {
         const origin = guideEventOrigins.get(history.state.guideReturnFocusKey);
         if (origin && origin.url === location.href && snapshot?.view === "guide" && document.contains(origin.link)) {
@@ -6704,7 +6749,7 @@ function retireDatedDirectoryScope(period) {
   return limited;
 }
 
-function restoreViewFromUrl(inputUrl) {
+function restoreViewFromUrl(inputUrl, {preserveEventFilters = false} = {}) {
   const url = new URL(inputUrl);
   clearParticipantCandidateSearch();
   ensureParticipantOption(url.searchParams.get('t_person'));
@@ -6762,9 +6807,11 @@ function restoreViewFromUrl(inputUrl) {
   updateGuideSearch();
   const event = eventsData.find((entry) => entry.id === url.searchParams.get("event"));
   if (event) {
-    document.getElementById("timelineSearch").value = "";
-    ["roomFilter", "typeFilter", "participantFilter", "seriesFilter"].forEach((id) => { document.getElementById(id).value = "all"; });
-    document.getElementById("chapterFilter").value = String(event.chapter); activeTimelinePeriodId = "all"; applyFilter();
+    if (!preserveEventFilters) {
+      document.getElementById("timelineSearch").value = "";
+      ["roomFilter", "typeFilter", "participantFilter", "seriesFilter"].forEach((id) => { document.getElementById(id).value = "all"; });
+      document.getElementById("chapterFilter").value = String(event.chapter); activeTimelinePeriodId = "all"; applyFilter();
+    }
     if (spoilersRevealed) showDetailModal(event.id, "event", event);
   }
   if (person && spoilersRevealed) {
@@ -7076,7 +7123,7 @@ async function init() {
           const modal=document.getElementById('detailModal'),later=modal.querySelector('.person-later-info');
           if (later && snapshot.revealed===spoilersRevealed) later.open=Boolean(snapshot.laterOpen);
           if (snapshot.revealed===spoilersRevealed) modal.querySelectorAll('details[data-location-group]').forEach(el=>{el.open=(snapshot.locationGroups || []).includes(el.dataset.locationGroup);});
-          const target=snapshot.focusKind==='location'
+          const target=snapshot.focusKind==='scene' ? findSceneReadingLink(modal,snapshot.sceneLink) : snapshot.focusKind==='location'
             ? [...modal.querySelectorAll('.latest-place-event-link')].find(el=>new URL(el.href).searchParams.get('event')===snapshot.eventId && (!snapshot.locationGroup || el.closest('details[data-location-group]')?.dataset.locationGroup===snapshot.locationGroup))
             : [...modal.querySelectorAll('.schedule-event')].find(el=>el.dataset.eventId===snapshot.eventId);
           if (target?.checkVisibility()) {

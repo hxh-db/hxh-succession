@@ -28,17 +28,18 @@ const fs=require('node:fs'),path=require('node:path');
   assert.equal(page.url(),originalUrl);assert.equal(await page.locator('#detailModal').getAttribute('data-event-id'),source);
   await popup.close();await page.bringToFront();
  }
- // A modal opened without an event URL still obtains an accurate source entry.
+ // A source opened from the list keeps its list return across scene navigation.
  await page.goto(base+'?t_search='+encodeURIComponent('テータ')+'&t_period=all&t_view=chapters#timeline');await ready(page);
  const chapter=page.locator('#timeline .chapter-group[data-chapter="385"]');if(!await chapter.evaluate(el=>el.open))await chapter.locator('summary').click();
  const listState=()=>page.evaluate(()=>({search:document.getElementById('timelineSearch').value,chapter:document.getElementById('chapterFilter').value,ids:filteredEventsData.map(e=>e.id),open:[...document.querySelectorAll('#chapterEventGroups details[open]')].map(el=>el.dataset.chapter)}));
  const beforeList=await listState();assert.ok(beforeList.ids.length>5);
+ const beforeListUrl=page.url();
  const card=page.locator('#timeline .schedule-event[data-event-id="E385-002"]');await card.focus();await card.press('Enter');
- assert.equal(new URL(page.url()).searchParams.has('event'),false);
+ await event('E385-002');
  const unlinked=scene('E385-002','E387-001','same_incident_with'),unlinkedTop=await prepare(unlinked);
  await unlinked.press('Enter');await event('E387-001');await page.goBack();await event('E385-002');
  assert.ok(Math.abs(await position()-unlinkedTop)<2);assert.ok(await unlinked.evaluate(el=>document.activeElement===el));
- await page.locator('#modalClose').click();assert.deepEqual(await listState(),beforeList,'returning to a source event must preserve the underlying search, chapter, results and open groups');
+ await page.locator('#modalClose').click();await page.waitForURL(beforeListUrl);await ready(page);assert.deepEqual(await listState(),beforeList,'returning to a source event must preserve the underlying search, chapter, results and open groups');
  // Scene navigation from a person's event must not inherit that person's return context.
  await page.goto(base+'?person=P04&detail=1#characters');await ready(page);
  const personUrl=page.url(),personCard=page.locator('#modalContent .schedule-event[data-event-id="E385-002"]');const personTop=await prepare(personCard);

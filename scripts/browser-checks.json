@@ -63,5 +63,6 @@
   {"name":"guide-topic-links","groups":["critical","navigation"]},
   {"name":"guide-table-reading","groups":["critical","navigation"]},
   {"name":"guide-event-return","groups":["critical","navigation"]},
-  {"name":"scene-link-navigation","groups":["critical","navigation"]}
+  {"name":"scene-link-navigation","groups":["critical","navigation"]},
+  {"name":"event-entry-return","groups":["critical","navigation","directory"]}
 ]

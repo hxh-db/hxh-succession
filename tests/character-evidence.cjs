@@ -16,6 +16,10 @@ for (const id of ['P14', 'Q08', 'P13-H02', 'P01-P06']) {
 assert.ok(!person('P14').notes.includes('替え玉と判明'));
 assert.ok(!person('Q08').notes.includes('すり替えが明らか'));
 assert.ok(!person('P13-H02').notes.includes('415話'));
+const biscuitClaim=person('P13-H02').review_claims.find(row=>row.event_ids.includes('E415-004'));
+assert.ok(!biscuitClaim.text.includes('原作未照合'));
+assert.ok(biscuitClaim.text.includes('戒厳令') && biscuitClaim.text.includes('籠城'));
+assert.ok(event('E415-004').notes.includes('1003') && event('E415-004').notes.includes('1013'));
 // 2026-10-10 ユーザー判断で P14 の確認情報は第411・412・414話の3件になった。第412話の行だけが参照先の確度に連動すること
 const p14Hypo = facts.claimRows(person('P14'), events.map(e => e.id === 'E412-002' ? {...e, verification_status:'hypothesis'} : e));
 assert.equal(p14Hypo.length, 3);

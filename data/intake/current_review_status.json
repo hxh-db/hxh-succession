@@ -783,7 +783,7 @@
   ],
   "source_sha256": {
     "data/events.json": "69413b56560a0984d2e0fca14b26309d6ae9d897e4d5f700202266f277521bff",
-    "data/characters.json": "57e50bedb87ce1061670565aba0e95180f7f7a325fb3e28a4df0d114f315206d",
+    "data/characters.json": "42356a6c0551216aacf16d23d4107d654ac32c06677ed7cc3c93dfef3cdd466f",
     "data/research_backlog.json": "1ebe5b5ac2dc5c29bb0025496a98c5f5e30f99e688c03fbcf01d2e2336bb2a47",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
     "data/intake/review_targets.json": "f172b718a9d92768d253e15a21753d1677b52acd6bafb8cab054014e3a1d014c",

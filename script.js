@@ -1,5 +1,5 @@
 const DATA = {
-  characters: "data/characters.json?v=20261030-presence",
+  characters: "data/characters.json?v=20261102-review-summary",
   characterTags: "data/character_tags.json?v=20261027-integrated",
   characterImages: "data/character_images.json?v=20261027-integrated",
   countOnlyCharacters: "data/count_only_characters.json?v=20261011f",
@@ -78,6 +78,7 @@ let activeCharacterView = "cards";
 let spoilersRevealed = false;
 let currentCharacterResults = [];
 let modalReturnFocus = null;
+let readingEventClosing = false;
 const guideEventOrigins = new Map();
 let guideEventOriginSequence = 0;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
@@ -4497,16 +4498,14 @@ function createScheduleEventCard(event, placement, { onOpen = null, interactiveL
   item.addEventListener("click", (clickEvent) => {
     if (clickEvent.target.closest("a, button")) return;
     if (onOpen) { onOpen(event); return; }
-    modalReturnFocus = item;
-    showDetailModal(event.id, "event", event);
+    openReadingEvent(event, item);
   });
   item.addEventListener("keydown", (keyEvent) => {
     if (keyEvent.target !== item) return;
     if (keyEvent.key !== "Enter" && keyEvent.key !== " ") return;
     keyEvent.preventDefault();
     if (onOpen) { onOpen(event); return; }
-    modalReturnFocus = item;
-    showDetailModal(event.id, "event", event);
+    openReadingEvent(event, item);
   });
   return item;
 }
@@ -5400,12 +5399,26 @@ function openPersonEvent(event, focusKind='event', origin=null) {
   const modal=document.getElementById('detailModal');
   const snapshot={scrollTop:modal.querySelector('.modal-card').scrollTop,eventId:event.id,focusKind,
     sceneLink:focusKind==='scene' ? sceneLinkReadingState(origin) : null,
+    claimKey:focusKind==='claim' ? origin?.dataset.claimKey : null,
     locationGroups:[...modal.querySelectorAll('details[data-location-group][open]')].map(el=>el.dataset.locationGroup),
     locationGroup:origin?.closest('details[data-location-group]')?.dataset.locationGroup,
     laterOpen:Boolean(modal.querySelector('.person-later-info')?.open),revealed:spoilersRevealed};
   if (!window.CharacterRoutes.suspendForEvent(snapshot)) return false;
   const url=new URL('index.html',siteRootUrl);url.searchParams.set('event',event.id);url.hash='timeline';
   closeDetailModal(true);navigateReadingUrl(url,{returnPersonId:personId,returnEventId:event.id});return true;
+}
+
+function openReadingEvent(event, origin) {
+  const sourceUrl = new URL(location.href);
+  sourceUrl.searchParams.delete("event");
+  history.replaceState({...history.state}, "", sourceUrl.href);
+  if (origin?.checkVisibility()) origin.focus({preventScroll:true});
+  const url = new URL(sourceUrl);
+  url.pathname = siteRootUrl.pathname;
+  url.searchParams.delete("person"); url.searchParams.delete("detail");
+  url.searchParams.set("event",event.id); url.hash = "timeline";
+  readingEventClosing = false;
+  navigateReadingUrl(url,{returnReadingEventId:event.id});
 }
 
 function showDetailModal(name, category, eventData = null) {
@@ -5765,6 +5778,11 @@ function showDetailModal(name, category, eventData = null) {
 function closeDetailModal(fromHistory = false) {
   if (fromHistory !== true && window.CharacterRoutes?.requestClose()) return;
   const modal = document.getElementById("detailModal");
+  if (fromHistory !== true && history.state?.returnReadingEventId === modal.dataset.eventId
+      && new URL(location.href).searchParams.get("event") === modal.dataset.eventId) {
+    if (!readingEventClosing) { readingEventClosing = true; history.back(); }
+    return;
+  }
   modal.classList.add("hidden");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
@@ -6252,6 +6270,7 @@ function setupPrimaryNavigation() {
     if (["characters","timeline","guide"].includes(target) && target!==document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel && !restoringReadingState && !window.CharacterRoutes?.isActive()) activatePrimaryView(target);
   });
   window.addEventListener("popstate", () => {
+    readingEventClosing = false;
     if (history.state?.hxhCharacterModal || window.CharacterRoutes?.isActive()) return;
     restoreReadingState(history.state?.readingSnapshot, new URL(location.href));
   });
@@ -6432,18 +6451,19 @@ function makeCharacterReviewPanel(person) {
   const heading = document.createElement("h4");
   heading.textContent = person.local_edited ? "公開データの出来事記録" : "出来事の記録から分かること";
   panel.appendChild(heading);
-  rows.forEach(row => {
+  rows.forEach((row, rowIndex) => {
     const paragraph = document.createElement("p");
     paragraph.textContent = row.text;
     panel.appendChild(paragraph);
-    row.event_ids.forEach(id => {
+    row.event_ids.forEach((id, eventIndex) => {
       const event = scopedEvents.find(e => e.id === id);
       if (!event) return;
       const link = document.createElement("button");
       link.type = "button";
+      link.dataset.claimKey = `${person.id}:${rowIndex}:${eventIndex}`;
       link.textContent = `第${event.chapter}話の出来事`;
       link.title = `場面ID ${id}`;
-      link.addEventListener("click", () => showDetailModal(id, "event", event));
+      link.addEventListener("click", () => { if (!openPersonEvent(event,"claim",link)) openReadingEvent(event,link); });
       panel.appendChild(link);
     });
   });
@@ -6563,6 +6583,9 @@ function captureReadingState() {
   const eventDetail = !modal.classList.contains("hidden") && modal.dataset.eventId
     ? {eventId:modal.dataset.eventId, scrollTop:modal.querySelector(".modal-card").scrollTop,
        sceneLink} : null;
+  const focus = document.activeElement;
+  const readingEventFocus = focus?.matches("#timeline .schedule-event") ? {eventId:focus.dataset.eventId}
+    : focus?.matches("#characters .character-review-panel button[data-claim-key]") ? {claimKey:focus.dataset.claimKey} : null;
   return {
     controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
     view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
@@ -6571,6 +6594,10 @@ function captureReadingState() {
     hypotheses: document.getElementById("hideHypothesisEvents").checked,
     assignmentOnly: document.getElementById("assignmentOnly").checked,
     characterCount: characterVisibleCount, scrollY: window.scrollY, eventDetail, sceneLink:eventDetail ? null : sceneLink,
+    readingEventFocus,
+    characterDisclosures:[...document.querySelectorAll("#characters .directory-character-card")]
+      .filter(card=>card.querySelector(".directory-character-details")?.open)
+      .map(card=>({id:card.dataset.characterId,laterOpen:Boolean(card.querySelector(".person-later-info")?.open),revealed:spoilersRevealed})),
     details: [...document.querySelectorAll("#guide details[id], #characters details[id]")].filter(el=>el.open).map(el=>el.id),
     chapterDetails:Object.fromEntries([...document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]")].map(group=>[group.dataset.chapter,group.open])),
     characterFilters: document.querySelector(".character-tag-catalog").classList.contains("filters-open"),
@@ -6605,6 +6632,12 @@ function restoreReadingState(snapshot, url) {
     restoreViewFromUrl(restored, {preserveEventFilters:Boolean(snapshot)});
     if (snapshot) {
       extendCharacterDirectory(snapshot.characterCount);
+      if (snapshot.characterDisclosures) document.querySelectorAll("#characters .directory-character-card").forEach(card=>{
+        const saved=snapshot.characterDisclosures.find(row=>row.id===card.dataset.characterId);
+        const details=card.querySelector(".directory-character-details"),later=card.querySelector(".person-later-info");
+        if(details) details.open=Boolean(saved);
+        if(later && saved?.revealed===spoilersRevealed) later.open=Boolean(saved.laterOpen);
+      });
       document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=(snapshot.details || []).includes(el.id);});
       document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]").forEach(group=>{
         if(Object.hasOwn(snapshot.chapterDetails || {},group.dataset.chapter)) group.open=Boolean(snapshot.chapterDetails[group.dataset.chapter]);
@@ -6632,6 +6665,13 @@ function restoreReadingState(snapshot, url) {
       if (!eventDetail && snapshot?.sceneLink && spoilersRevealed) {
         const link = findSceneReadingLink(document.querySelector("[data-primary-panel]:not([hidden])"), snapshot.sceneLink);
         if (link?.checkVisibility()) link.focus({preventScroll:true});
+      }
+      if (!eventDetail && snapshot?.readingEventFocus && modal.classList.contains("hidden")) {
+        const origin=snapshot.readingEventFocus;
+        const target=origin.claimKey ? [...document.querySelectorAll("#characters .character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===origin.claimKey)
+          : [...document.querySelectorAll("#timeline .schedule-event")].find(el=>el.dataset.eventId===origin.eventId && el.checkVisibility());
+        if(target?.checkVisibility()) target.focus({preventScroll:true});
+        else if(origin.claimKey) document.getElementById("characterSearch").focus({preventScroll:true});
       }
       if (history.state?.guideReturnFocusKey) {
         const origin = guideEventOrigins.get(history.state.guideReturnFocusKey);
@@ -7123,7 +7163,8 @@ async function init() {
           const modal=document.getElementById('detailModal'),later=modal.querySelector('.person-later-info');
           if (later && snapshot.revealed===spoilersRevealed) later.open=Boolean(snapshot.laterOpen);
           if (snapshot.revealed===spoilersRevealed) modal.querySelectorAll('details[data-location-group]').forEach(el=>{el.open=(snapshot.locationGroups || []).includes(el.dataset.locationGroup);});
-          const target=snapshot.focusKind==='scene' ? findSceneReadingLink(modal,snapshot.sceneLink) : snapshot.focusKind==='location'
+          const target=snapshot.focusKind==='claim' ? [...modal.querySelectorAll(".character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===snapshot.claimKey)
+            : snapshot.focusKind==='scene' ? findSceneReadingLink(modal,snapshot.sceneLink) : snapshot.focusKind==='location'
             ? [...modal.querySelectorAll('.latest-place-event-link')].find(el=>new URL(el.href).searchParams.get('event')===snapshot.eventId && (!snapshot.locationGroup || el.closest('details[data-location-group]')?.dataset.locationGroup===snapshot.locationGroup))
             : [...modal.querySelectorAll('.schedule-event')].find(el=>el.dataset.eventId===snapshot.eventId);
           if (target?.checkVisibility()) {

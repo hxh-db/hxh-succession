@@ -26,8 +26,28 @@
     "checked_at": "2026-10-16",
     "notes": "E374-001を2日目13:25頃に仮配置。13:25はE373-007の仮13:20に続く表示順用の値。フウゲツのE374-002の3日目01:27は原作の時計表示を維持。経過表示の逆算01:30は通話の時刻に流用せず、01:27との3分差も改変しない。"
   },
-  {"id":"togashi-x-20241217-p09","title":"冨樫義博 公式X：第9王子陣営の人物設定表（2024年12月17日 01:41 JST）","url":"https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482","media_url":"https://pbs.twimg.com/media/Ge7y2iObwAIBkxu?format=jpg&name=large","source_type":"author_official_x","verification_status":"primary_image_checked","checked_at":"2026-10-09","supports":"作者設定表の氏名・顔・私設兵14名欄・兵隊長表記。設定表としての一次資料。","notes":"公式アカウントの投稿本文・日時・添付原画像を直接確認。原作の登場話、最新の生死、念能力、現在地を確定する資料ではない。スミドリの名前は同日01:45の訂正版を優先。設定表の14名を原作人数表への増員として加算しない。"},
-  {"id":"togashi-x-20241217-p09-correction","title":"冨樫義博 公式X：第9王子陣営設定表の訂正（2024年12月17日 01:45 JST）","url":"https://x.com/Un4v5s8bgsVk9Xp/status/1868698940058845479","media_url":"https://pbs.twimg.com/media/Ge7zyABa8AEbGxW?format=jpg&name=large","source_type":"author_official_x","verification_status":"primary_image_checked","checked_at":"2026-10-09","supports":"スドミリの取り消しとスミドリへの訂正。","notes":"投稿本文はW。訂正版の原画像を直接確認。別陣営の設定表ではなく、同じ第9王子陣営表の訂正版。訂正前表記を別人として登録しない。"},
+  {
+    "id": "togashi-x-20241217-p09",
+    "title": "冨樫義博 公式X：第9王子陣営の人物設定表（2024年12月17日 01:41 JST）",
+    "url": "https://x.com/Un4v5s8bgsVk9Xp/status/1868697918624219482",
+    "media_url": "https://pbs.twimg.com/media/Ge7y2iObwAIBkxu?format=jpg&name=large",
+    "source_type": "author_official_x",
+    "verification_status": "primary_image_checked",
+    "checked_at": "2026-10-09",
+    "supports": "作者設定表の氏名・顔・私設兵14名欄・兵隊長表記。設定表としての一次資料。",
+    "notes": "公式アカウントの投稿本文・日時・添付原画像を直接確認。原作の登場話、最新の生死、念能力、現在地を確定する資料ではない。スミドリの名前は同日01:45の訂正版を優先。設定表の14名を原作人数表への増員として加算しない。"
+  },
+  {
+    "id": "togashi-x-20241217-p09-correction",
+    "title": "冨樫義博 公式X：第9王子陣営設定表の訂正（2024年12月17日 01:45 JST）",
+    "url": "https://x.com/Un4v5s8bgsVk9Xp/status/1868698940058845479",
+    "media_url": "https://pbs.twimg.com/media/Ge7zyABa8AEbGxW?format=jpg&name=large",
+    "source_type": "author_official_x",
+    "verification_status": "primary_image_checked",
+    "checked_at": "2026-10-09",
+    "supports": "スドミリの取り消しとスミドリへの訂正。",
+    "notes": "投稿本文はW。訂正版の原画像を直接確認。別陣営の設定表ではなく、同じ第9王子陣営表の訂正版。訂正前表記を別人として登録しない。"
+  },
   {
     "id": "official-viz-chapters",
     "title": "VIZ - Hunter x Hunter Chapters",
@@ -646,8 +666,8 @@
     "url": null,
     "source_type": "original_user_provided",
     "supports": "外殻側の設備通路、ノブナガの帰還、リンチ遺体の発見とヒンリギ・ザクロの推理、クロロの電話による探索、三種の神器と能力進化の盗みの条件",
-    "checked_at": "2026-10-08",
-    "notes": "再添付された全10枚を照合。No.406「神器」と印刷ページ109・114・115を確認。写真1右の人物画は本編場面に含めない。原ファイル名・SHA-256・添付順は私的索引に保存。全ページ画像は公開リポジトリに含めない。犯人に関する登場人物の推理と第405話で読者に明かされた事実を区別する。第407〜410話を今回再確認した記録ではない。"
+    "checked_at": "2026-11-02",
+    "notes": "再添付された全10枚を照合。No.406「神器」と印刷ページ109・114・115を確認。写真1右の人物画は本編場面に含めない。原ファイル名・SHA-256・添付順は私的索引に保存。全ページ画像は公開リポジトリに含めない。犯人に関する登場人物の推理と第405話で読者に明かされた事実を区別する。第407〜410話を今回再確認した記録ではない。 2026-11-02、写真7の本の名前・能力欄・説明文を日本テレビ公式のハンター文字一覧と独立照合。表音を採用し、名前の漢字・区切り、念系統、乗船、探索対象との同一性は補わない。"
   },
   {
     "id": "user-original-ch407",
@@ -703,72 +723,534 @@
     "checked_at": "2026-10-08",
     "notes": "既存の確定時刻・推測時刻は維持し、空欄の215件に表示用の仮時刻を登録。前後の時刻と明示された因果順の間を配分し、基準がない期間は09:00から5分刻みで仮置きした。日付・話数・登場人物・出来事の確度は変更しない。第1王子15:20退室後の指示15:22・入室15:24・制圧15:26・服毒15:28は表示のための仮配置。第409話の戒厳令放送14:15と第410話末の発令40分経過14:55を目安に、その間の場面も仮配置した。日付未確定の出来事や回想・設定説明にも時刻だけを表示用に与えているため、その時計値から実際の日時・所要時間・同時進行を確定しない。"
   },
-  {"id":"chapter-343-record-index","title":"第343話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第343話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-344-record-index","title":"第344話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第344話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-345-record-index","title":"第345話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第345話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-346-record-index","title":"第346話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第346話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-347-record-index","title":"第347話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第347話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-348-record-index","title":"第348話の登録場面索引（原作再照合待ち）","url":"data/intake/ch348_p01-10.md","source_type":"record_locator","supports":"既存の第348話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-349-record-index","title":"第349話の登録場面索引（原作再照合待ち）","url":"data/intake/ch349_p01-10.md","source_type":"record_locator","supports":"既存の第349話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-350-record-index","title":"第350話の登録場面索引（原作再照合待ち）","url":"data/intake/ch350_p01-10.md","source_type":"record_locator","supports":"既存の第350話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-351-record-index","title":"第351話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第351話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-357-record-index","title":"第357話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第357話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-358-record-index","title":"第358話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第358話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-359-record-index","title":"第359話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第359話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-360-record-index","title":"第360話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第360話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-361-record-index","title":"第361話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第361話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-362-record-index","title":"第362話の登録場面索引（原作再照合待ち）","url":"data/intake/ch362_p01-10.md","source_type":"record_locator","supports":"既存の第362話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-363-record-index","title":"第363話の登録場面索引（原作再照合待ち）","url":"data/intake/ch363_p01-10.md","source_type":"record_locator","supports":"既存の第363話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-364-record-index","title":"第364話の登録場面索引（原作再照合待ち）","url":"data/intake/ch364_p01-10.md","source_type":"record_locator","supports":"既存の第364話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-365-record-index","title":"第365話の登録場面索引（原作再照合待ち）","url":"data/intake/ch365_p01-10.md","source_type":"record_locator","supports":"既存の第365話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-366-record-index","title":"第366話の登録場面索引（原作再照合待ち）","url":"data/intake/ch366_p01-10.md","source_type":"record_locator","supports":"既存の第366話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-367-record-index","title":"第367話の登録場面索引（原作再照合待ち）","url":"data/intake/ch367_p01-10.md","source_type":"record_locator","supports":"既存の第367話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-368-record-index","title":"第368話の登録場面索引（原作再照合待ち）","url":"data/intake/ch368_p01-10.md","source_type":"record_locator","supports":"既存の第368話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-369-record-index","title":"第369話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第369話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-370-record-index","title":"第370話の登録場面索引（原作再照合待ち）","url":"data/intake/ch370_p01-10.md","source_type":"record_locator","supports":"既存の第370話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-371-record-index","title":"第371話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第371話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-372-record-index","title":"第372話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第372話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-373-record-index","title":"第373話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第373話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-374-record-index","title":"第374話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第374話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-375-record-index","title":"第375話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第375話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-376-record-index","title":"第376話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第376話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-377-record-index","title":"第377話の登録場面索引（原作再照合待ち）","url":"data/intake/ch377_p01-10.md","source_type":"record_locator","supports":"既存の第377話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-378-record-index","title":"第378話の登録場面索引（原作再照合待ち）","url":"data/intake/ch378_p01-10.md","source_type":"record_locator","supports":"既存の第378話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-379-record-index","title":"第379話の登録場面索引（原作再照合待ち）","url":"data/intake/ch379_p01-10.md","source_type":"record_locator","supports":"既存の第379話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-380-record-index","title":"第380話の登録場面索引（原作再照合待ち）","url":"data/intake/ch380_p01-10.md","source_type":"record_locator","supports":"既存の第380話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-381-record-index","title":"第381話の登録場面索引（原作再照合待ち）","url":"data/intake/ch381_p01-10.md","source_type":"record_locator","supports":"既存の第381話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-382-record-index","title":"第382話の登録場面索引（原作再照合待ち）","url":"data/intake/ch382_p01-10.md","source_type":"record_locator","supports":"既存の第382話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-383-record-index","title":"第383話の登録場面索引（原作再照合待ち）","url":"data/intake/ch383_p01-10.md","source_type":"record_locator","supports":"既存の第383話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-384-record-index","title":"第384話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第384話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-385-record-index","title":"第385話の登録場面索引（原作再照合待ち）","url":"data/intake/ch385_p01-10.md","source_type":"record_locator","supports":"既存の第385話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-386-record-index","title":"第386話の登録場面索引（原作再照合待ち）","url":"data/intake/ch386_p01-10.md","source_type":"record_locator","supports":"既存の第386話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-387-record-index","title":"第387話の登録場面索引（原作再照合待ち）","url":"data/intake/ch387_p01-10.md","source_type":"record_locator","supports":"既存の第387話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-388-record-index","title":"第388話の登録場面索引（原作再照合待ち）","url":"data/intake/ch388_p01-10.md","source_type":"record_locator","supports":"既存の第388話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-389-record-index","title":"第389話の登録場面索引（原作再照合待ち）","url":"data/intake/ch389_p01-10.md","source_type":"record_locator","supports":"既存の第389話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-390-record-index","title":"第390話の登録場面索引（原作再照合待ち）","url":"data/intake/ch390_p01-10.md","source_type":"record_locator","supports":"既存の第390話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-391-record-index","title":"第391話の登録場面索引（原作再照合待ち）","url":"data/intake/ch391_p01-10.md","source_type":"record_locator","supports":"既存の第391話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-392-record-index","title":"第392話の登録場面索引（原作再照合待ち）","url":"data/intake/ch392_p01-10.md","source_type":"record_locator","supports":"既存の第392話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-393-record-index","title":"第393話の登録場面索引（原作再照合待ち）","url":"data/intake/ch393_p01-10.md","source_type":"record_locator","supports":"既存の第393話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-394-record-index","title":"第394話の登録場面索引（原作再照合待ち）","url":"data/intake/ch394_p01-10.md","source_type":"record_locator","supports":"既存の第394話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-395-record-index","title":"第395話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第395話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-398-record-index","title":"第398話の登録場面索引（原作再照合待ち）","url":"data/intake/ch398_p01-10.md","source_type":"record_locator","supports":"既存の第398話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-399-record-index","title":"第399話の登録場面索引（原作再照合待ち）","url":"data/intake/ch399_p01-10.md","source_type":"record_locator","supports":"既存の第399話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-400-record-index","title":"第400話の登録場面索引（原作再照合待ち）","url":"data/intake/ch400_p01-10.md","source_type":"record_locator","supports":"既存の第400話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-401-record-index","title":"第401話の登録場面索引（原作再照合待ち）","url":"data/intake/ch401_p01-10.md","source_type":"record_locator","supports":"既存の第401話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-402-record-index","title":"第402話の登録場面索引（原作再照合待ち）","url":"data/intake/ch402_p01-10.md","source_type":"record_locator","supports":"既存の第402話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-403-record-index","title":"第403話の登録場面索引（原作再照合待ち）","url":"data/intake/ch403_p01-10.md","source_type":"record_locator","supports":"既存の第403話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-404-record-index","title":"第404話の登録場面索引（原作再照合待ち）","url":"data/intake/ch404_p01-10.md","source_type":"record_locator","supports":"既存の第404話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-405-record-index","title":"第405話の登録場面索引（原作再照合待ち）","url":"data/intake/ch405_p01-10.md","source_type":"record_locator","supports":"既存の第405話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-411-record-index","title":"第411話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第411話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-412-record-index","title":"第412話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第412話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-413-record-index","title":"第413話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第413話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-414-record-index","title":"第414話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第414話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-415-record-index","title":"第415話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第415話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-416-record-index","title":"第416話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第416話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-417-record-index","title":"第417話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第417話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-418-record-index","title":"第418話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第418話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-419-record-index","title":"第419話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第419話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
-  {"id":"chapter-420-record-index","title":"第420話の登録場面索引（原作再照合待ち）","url":null,"source_type":"record_locator","supports":"既存の第420話の登録場面・備考への索引。原作確認済みという意味ではない。","notes":"ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"},
+  {
+    "id": "chapter-343-record-index",
+    "title": "第343話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第343話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-344-record-index",
+    "title": "第344話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第344話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-345-record-index",
+    "title": "第345話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第345話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-346-record-index",
+    "title": "第346話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第346話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-347-record-index",
+    "title": "第347話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第347話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-348-record-index",
+    "title": "第348話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch348_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第348話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-349-record-index",
+    "title": "第349話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch349_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第349話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-350-record-index",
+    "title": "第350話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch350_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第350話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-351-record-index",
+    "title": "第351話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第351話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-357-record-index",
+    "title": "第357話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第357話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-358-record-index",
+    "title": "第358話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第358話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-359-record-index",
+    "title": "第359話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第359話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-360-record-index",
+    "title": "第360話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第360話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-361-record-index",
+    "title": "第361話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第361話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-362-record-index",
+    "title": "第362話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch362_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第362話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-363-record-index",
+    "title": "第363話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch363_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第363話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-364-record-index",
+    "title": "第364話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch364_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第364話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-365-record-index",
+    "title": "第365話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch365_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第365話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-366-record-index",
+    "title": "第366話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch366_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第366話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-367-record-index",
+    "title": "第367話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch367_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第367話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-368-record-index",
+    "title": "第368話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch368_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第368話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-369-record-index",
+    "title": "第369話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第369話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-370-record-index",
+    "title": "第370話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch370_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第370話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-371-record-index",
+    "title": "第371話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第371話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-372-record-index",
+    "title": "第372話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第372話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-373-record-index",
+    "title": "第373話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第373話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-374-record-index",
+    "title": "第374話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第374話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-375-record-index",
+    "title": "第375話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第375話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-376-record-index",
+    "title": "第376話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第376話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-377-record-index",
+    "title": "第377話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch377_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第377話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-378-record-index",
+    "title": "第378話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch378_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第378話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-379-record-index",
+    "title": "第379話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch379_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第379話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-380-record-index",
+    "title": "第380話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch380_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第380話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-381-record-index",
+    "title": "第381話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch381_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第381話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-382-record-index",
+    "title": "第382話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch382_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第382話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-383-record-index",
+    "title": "第383話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch383_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第383話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-384-record-index",
+    "title": "第384話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第384話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-385-record-index",
+    "title": "第385話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch385_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第385話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-386-record-index",
+    "title": "第386話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch386_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第386話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-387-record-index",
+    "title": "第387話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch387_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第387話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-388-record-index",
+    "title": "第388話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch388_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第388話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-389-record-index",
+    "title": "第389話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch389_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第389話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-390-record-index",
+    "title": "第390話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch390_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第390話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-391-record-index",
+    "title": "第391話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch391_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第391話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-392-record-index",
+    "title": "第392話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch392_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第392話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-393-record-index",
+    "title": "第393話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch393_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第393話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-394-record-index",
+    "title": "第394話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch394_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第394話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-395-record-index",
+    "title": "第395話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第395話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-398-record-index",
+    "title": "第398話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch398_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第398話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-399-record-index",
+    "title": "第399話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch399_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第399話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-400-record-index",
+    "title": "第400話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch400_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第400話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-401-record-index",
+    "title": "第401話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch401_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第401話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-402-record-index",
+    "title": "第402話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch402_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第402話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-403-record-index",
+    "title": "第403話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch403_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第403話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-404-record-index",
+    "title": "第404話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch404_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第404話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-405-record-index",
+    "title": "第405話の登録場面索引（原作再照合待ち）",
+    "url": "data/intake/ch405_p01-10.md",
+    "source_type": "record_locator",
+    "supports": "既存の第405話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-411-record-index",
+    "title": "第411話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第411話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-412-record-index",
+    "title": "第412話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第412話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-413-record-index",
+    "title": "第413話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第413話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-414-record-index",
+    "title": "第414話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第414話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-415-record-index",
+    "title": "第415話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第415話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-416-record-index",
+    "title": "第416話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第416話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-417-record-index",
+    "title": "第417話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第417話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-418-record-index",
+    "title": "第418話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第418話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-419-record-index",
+    "title": "第419話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第419話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
+  {
+    "id": "chapter-420-record-index",
+    "title": "第420話の登録場面索引（原作再照合待ち）",
+    "url": null,
+    "source_type": "record_locator",
+    "supports": "既存の第420話の登録場面・備考への索引。原作確認済みという意味ではない。",
+    "notes": "ページ番号・原作本文との対応は未照合。話数ごとの出来事IDを場面識別子として使う。"
+  },
   {
     "id": "user-original-ch343",
     "title": "ユーザー提供の原作画像 第343話「勧誘」",
@@ -823,7 +1305,15 @@
     "checked_at": "2026-10-11",
     "notes": "対象は E400-001（E404-008 と同じ11:30）、E403-013（E403-003 と同じ07:07）、E415-008・E416-005・E418-003（E416-001 の確定時刻14:15）と、根拠をこの方針に改めた E404-008・E408-008・E409-001。結んだ組の一覧と根拠は data/AUDIT.md の 2026-10-11「同時刻の場面の整理」節。"
   },
-  {"id": "editorial-scene-transition-days-20261011", "title": "場面転換のカットに置いた日付の経過と仮時刻（2026-10-11）", "url": null, "source_type": "user_hypothesis", "supports": "船の外観・水平線の太陽などの場面転換のカットは時間の経過を表し、第392話（10日目）から第400話（12日目）までの2日の経過は、こうしたカットやヒンリギの監視（映像内『数時間後』）の位置に置いてよいという、2026-10-11のユーザーの見解。作中で日付・時刻が表示されたことを意味しない。", "checked_at": "2026-10-11", "notes": "対象は E394-004（10日目→11日目、仮14:00→18:00）。切れ目は第394話写真09右上の上空から見た船のカット（E394-006 と E394-004 の間）と、第394話最終コマの水平線の太陽のカットから第395話冒頭のヒンリギの映像確認まで。18:00 は太陽を日没として仮置きした値で、日の出の可能性は残る。手がかりの一覧は data/AUDIT.md の 2026-10-11「場面転換のカットによる日付の見直し」節。"},
+  {
+    "id": "editorial-scene-transition-days-20261011",
+    "title": "場面転換のカットに置いた日付の経過と仮時刻（2026-10-11）",
+    "url": null,
+    "source_type": "user_hypothesis",
+    "supports": "船の外観・水平線の太陽などの場面転換のカットは時間の経過を表し、第392話（10日目）から第400話（12日目）までの2日の経過は、こうしたカットやヒンリギの監視（映像内『数時間後』）の位置に置いてよいという、2026-10-11のユーザーの見解。作中で日付・時刻が表示されたことを意味しない。",
+    "checked_at": "2026-10-11",
+    "notes": "対象は E394-004（10日目→11日目、仮14:00→18:00）。切れ目は第394話写真09右上の上空から見た船のカット（E394-006 と E394-004 の間）と、第394話最終コマの水平線の太陽のカットから第395話冒頭のヒンリギの映像確認まで。18:00 は太陽を日没として仮置きした値で、日の出の可能性は残る。手がかりの一覧は data/AUDIT.md の 2026-10-11「場面転換のカットによる日付の見直し」節。"
+  },
   {
     "id": "editorial-timeline-days-20261020",
     "title": "第380〜382話の日時整理（2026-10-20採用方針）",
@@ -964,7 +1454,7 @@
     "supports": "2024-11-11の記事。本のハンター文字を電話の能力名・元の持ち主・探索手順として解読した説。",
     "checked_at": "2026-10-26",
     "verification_status": "page_checked",
-    "notes": "名前は記事内にもマクガイド／マグガイドの揺れがある。原作の原寸文字と独立照合するまで人物名・能力名を確定しない。"
+    "notes": "名前は記事内にもマクガイド／マグガイドの揺れがある。原作の原寸文字と独立照合するまで人物名・能力名を確定しない。 2026-11-02に原作と公式文字一覧の独立照合を完了し、記事のマクガイド／マグガイドという表記は採用せず、原作の「マクガイトナルミ」を採用。"
   },
   {
     "id": "web-silent-anigala",
@@ -1145,5 +1635,16 @@
     "checked_at": "2026-10-26",
     "verification_status": "page_checked",
     "notes": "AI対話である旨を本文で確認。反響の広がり、設定の正否、作者の意図の根拠としては採用しない。"
+  },
+  {
+    "id": "ntv-hunter-character-chart",
+    "title": "日本テレビ HUNTER×HUNTER：下敷き（ハンター文字）の公式商品見本",
+    "url": "https://www.ntv.co.jp/hunterhunter/goods/goods02.html",
+    "source_type": "official_reference",
+    "supports": "ハンター文字と五十音の対応。第406話の名前・能力欄・説明文を照合するための文字表。第406話自体の掲載や人物紹介ではない。",
+    "checked_at": "2026-11-02",
+    "media_url": "https://www.ntv.co.jp/hunterhunter/goods/images/goodsitem08_l.jpg",
+    "verification_status": "page_and_image_checked",
+    "notes": "公式商品見本の五十音表を直接閲覧。ク／グ、ト／ドは濁点の有無を原作側で確認。原作ページ・商品見本画像は公開リポジトリに追加しない。"
   }
 ]

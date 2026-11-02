@@ -19,7 +19,7 @@
           "title": {"type": "string", "minLength": 1},
           "category": {"enum": ["作者資料", "人物・能力", "考察", "時系列・訂正", "採用見送り"]},
           "chapter": {"type": "integer", "minimum": 1},
-          "status": {"enum": ["confirmed_supplement", "already_recorded", "needs_primary", "hypothesis", "superseded", "excluded"]},
+          "status": {"enum": ["primary_checked", "confirmed_supplement", "already_recorded", "needs_primary", "hypothesis", "superseded", "excluded"]},
           "summary": {"type": "string", "minLength": 1},
           "database_comparison": {"type": "string", "minLength": 1},
           "assessment": {"type": "string", "minLength": 1},

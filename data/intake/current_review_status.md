@@ -6,7 +6,7 @@
 
 所在区分のある出来事449件（全関係人物の区分が揃ったもの449件。未判定を含む）、ページ根拠のある出来事126件、日付空欄64件。これらの差分を不具合や原作未確認の件数と読み替えない。
 
-今回の未解決の台帳9件、解消済み11件、採用仮説を含む整理済み3件、追加資料の候補2件。候補への移動は原本の確認完了を意味しない。
+今回の未解決の台帳8件、解消済み12件、採用仮説を含む整理済み3件、追加資料の候補2件。候補への移動は原本の確認完了を意味しない。
 
 ## 未解決の台帳
 
@@ -92,16 +92,6 @@
 
 次の作業：現在も未照合の対象だけを確認する。削除済みE372-009と解消済みの照合項目を未解決へ戻さない。
 
-### BACKLOG-WEB-HUNTER-SCRIPT-20261026：第406話の本の文字の独立解読
-
-状態：needs_original_review。対象：E406-001、E406-002、E406-003、E406-004、E406-005、E406-006、E406-007、E406-008、E406-009、WEB-010。
-
-必要な根拠：第406話の本の原寸画像と五十音対応表による一字ずつの照合
-
-既存資料：`data/intake/web_research_20261026.md`
-
-次の作業：既存写真7と文字対応表を一字ずつ突合し、細字・名前の揺れを記録する。人物名・能力名を先に確定しない。
-
 ## 追加資料の候補（今回の本編照合から分離）
 
 ユーザー指定により原本の入手後に再開する候補。調査完了・原作確認済みには数えない。
@@ -152,7 +142,7 @@ WEB-005〜007：公式商品説明で資料の存在は確認。旧強化系の�
 
 ## 維持する履歴と採用仮説
 
-解消済み：BACKLOG-002、BACKLOG-003、BACKLOG-005、BACKLOG-006、BACKLOG-012、BACKLOG-CHARACTER-UPDATES-20261013、BACKLOG-CH414-STATUS-20261013、BACKLOG-CHARACTER-DETAIL-20261016、BACKLOG-EVENT-DETAIL-20261016、BACKLOG-GUIDE-20261016、BACKLOG-WEB-COIN-EDITIONS-20261026
+解消済み：BACKLOG-002、BACKLOG-003、BACKLOG-005、BACKLOG-006、BACKLOG-012、BACKLOG-CHARACTER-UPDATES-20261013、BACKLOG-CH414-STATUS-20261013、BACKLOG-CHARACTER-DETAIL-20261016、BACKLOG-EVENT-DETAIL-20261016、BACKLOG-GUIDE-20261016、BACKLOG-WEB-COIN-EDITIONS-20261026、BACKLOG-WEB-HUNTER-SCRIPT-20261026
 
 採用仮説を含む整理済み：BACKLOG-008、BACKLOG-009、BACKLOG-010
 

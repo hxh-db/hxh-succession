@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LABELS = {
+    'primary_checked': '原作と文字表を照合',
     'confirmed_supplement': '公式資料で補足',
     'already_recorded': '既存収録を確認',
     'needs_primary': '一次資料の照合待ち',

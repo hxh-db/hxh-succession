@@ -12,8 +12,8 @@
     "with_complete_presence": 449,
     "with_source_pages": 126,
     "day_unset": 64,
-    "active_backlog": 9,
-    "resolved_backlog": 11,
+    "active_backlog": 8,
+    "resolved_backlog": 12,
     "adopted_inference_backlog": 3,
     "deferred_material_backlog": 2
   },
@@ -313,36 +313,6 @@
         "E414-001"
       ],
       "character_ids": []
-    },
-    {
-      "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",
-      "priority": "medium",
-      "topic": "第406話の本の文字の独立解読",
-      "reason": "WEB-010：電話名・元の持ち主・条件の解読記事あり。既存写真7を再閲覧したが名前の細字と記事内の揺れに留保。人物名・能力名は確定しない。",
-      "required_source": "第406話の本の原寸画像と五十音対応表による一字ずつの照合",
-      "status": "needs_original_review",
-      "chapters": [
-        406
-      ],
-      "web_research_ids": [
-        "WEB-010"
-      ],
-      "evidence_paths": [
-        "data/intake/web_research_20261026.md"
-      ],
-      "next_action": "既存写真7と文字対応表を一字ずつ突合し、細字・名前の揺れを記録する。人物名・能力名を先に確定しない。",
-      "event_ids": [
-        "E406-001",
-        "E406-002",
-        "E406-003",
-        "E406-004",
-        "E406-005",
-        "E406-006",
-        "E406-007",
-        "E406-008",
-        "E406-009"
-      ],
-      "character_ids": []
     }
   ],
   "resolved_backlog": [
@@ -432,6 +402,14 @@
       "topic": "第390話の硬貨の版差指摘",
       "reason": "2026-10-30ユーザー指定：単行本37巻を基準にし、本誌との版差調査は対象から外す。比較照合を完了したという意味ではない。外部記事の10→1という指摘は採用せず、WEB-014を採用見送りへ更新。現在の原作画像とその内容の確認記録を保持する。",
       "required_source": "第390話の本誌と37巻の同一コマ",
+      "status": "resolved"
+    },
+    {
+      "id": "BACKLOG-WEB-HUNTER-SCRIPT-20261026",
+      "priority": "medium",
+      "topic": "第406話の本の文字の独立解読",
+      "reason": "2026-11-02、既存の第406話写真7と日本テレビ公式のハンター文字一覧を一字ずつ独立照合。能力欄「コイノダイヤル6700／イマワシデンワ」、名前欄「マクガイトナルミ」と説明文を確認してE406-006・Q014・WEB-010に反映。名前の漢字・区切りや本の人物の乗船、探索対象との同一性、念系統、距離・回数の数値を補わず、本の文字の照合を完了した。",
+      "required_source": "第406話の本の原寸画像と五十音対応表による一字ずつの照合",
       "status": "resolved"
     }
   ],
@@ -804,11 +782,11 @@
     "E372-009"
   ],
   "source_sha256": {
-    "data/events.json": "b7bd4518479ec8cbab7f637a701e856dc6fc8263047838d95cd8e12283af09ef",
+    "data/events.json": "69413b56560a0984d2e0fca14b26309d6ae9d897e4d5f700202266f277521bff",
     "data/characters.json": "57e50bedb87ce1061670565aba0e95180f7f7a325fb3e28a4df0d114f315206d",
-    "data/research_backlog.json": "47d26d6387a58470f37ccc719cd4091eb75209922435127149b05f2145024e1a",
+    "data/research_backlog.json": "1ebe5b5ac2dc5c29bb0025496a98c5f5e30f99e688c03fbcf01d2e2336bb2a47",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
-    "data/intake/review_targets.json": "0a4dd396668c0b2b96ccc4a4febd863eee09d7c70da8496d20f6da849e26459f",
-    "data/web_research.json": "9b9f4425ff3fab647625c290df012ea09a2eea39a5b1b20537a21cb0d6502666"
+    "data/intake/review_targets.json": "f172b718a9d92768d253e15a21753d1677b52acd6bafb8cab054014e3a1d014c",
+    "data/web_research.json": "52caed388039cf5a85b582a184cba814fbf4cbd15a6cf182499a267c906cd3ab"
   }
 }

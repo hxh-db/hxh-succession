@@ -182,7 +182,8 @@
         "WEB-010"
       ],
       "evidence_paths": [
-        "data/intake/web_research_20261026.md"
+        "data/intake/web_research_20261026.md",
+        "data/intake/hunter_script_recheck_20261102.md"
       ],
       "next_action": "既存写真7と文字対応表を一字ずつ突合し、細字・名前の揺れを記録する。人物名・能力名を先に確定しない。"
     }

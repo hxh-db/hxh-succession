@@ -74,6 +74,24 @@ class WebResearchTests(unittest.TestCase):
                 self.assertEqual(error.exception.code, int(stale))
             self.assertIn('STALE:' if stale else 'PASS:', output.getvalue())
 
+    def test_book_translation_preserves_the_unknown_search_target(self):
+        research = next(row for row in self.data['entries'] if row['id'] == 'WEB-010')
+        self.assertEqual(research['status'], 'primary_checked')
+        self.assertIn('ntv-hunter-character-chart', research['source_ids'])
+        events = json.loads((BASE / 'events.json').read_text(encoding='utf-8'))
+        event = next(row for row in events if row['id'] == 'E406-006')
+        facts = '\n'.join(event['revealed_facts'])
+        for reading in ['マクガイトナルミ', 'コイノダイヤル6700', 'イマワシデンワ', '6〜20桁']:
+            self.assertIn(reading, facts)
+        self.assertEqual(event['characters'], ['SPD-001'])
+        self.assertEqual(event['character_presence'], {'SPD-001': 'present'})
+        self.assertIn('現在電話で探す人物の名前ではない', facts)
+        for limitation in ['探索範囲', '1日の有効利用回数']:
+            self.assertIn(limitation, ''.join(event['mysteries']))
+        question = next(row for row in json.loads((BASE / 'open_questions.json').read_text(encoding='utf-8')) if row['id'] == 'Q014')
+        self.assertEqual(question['status'], 'open')
+        self.assertIn('対象の正体', question['unknown'])
+
 
 if __name__ == '__main__':
     unittest.main()

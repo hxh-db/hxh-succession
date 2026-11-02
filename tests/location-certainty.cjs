@@ -206,6 +206,11 @@ console.log('PASS: location certainty labels, evidence links (spoiler-safe), sam
 // Every record in a grouped candidate is reachable; refresh preserves explicit opens only while revealed.
 ctx.spoilersRevealed=true;
 const morena=people.find(person=>person.id==='EII-001');
+const reviewedMorena=facts.latestLocation(morena,events);
+assert.equal(reviewedMorena.chapter,410,'the actual reviewed scene replaces the earlier unclassified candidates');
+assert.equal(reviewedMorena.presence,'present');
+assert.ok(!reviewedMorena.candidates.some(entry=>entry.chapter===408));
+ctx.eventsData=require('./helpers/location-candidate-scenario.cjs').unreviewedMorenaLocations(events);
 const morenaContent=ctx.makeLatestLocationContent(morena);
 const candidateGroup=morenaContent.querySelectorAll('details[data-location-group]').find(el=>el.dataset.locationGroup.split(',').length===6);
 assert.ok(candidateGroup);

@@ -1,0 +1,771 @@
+{
+  "date": "2026-10-30",
+  "scope": "第401〜410話の所在区分。既存の全話原作照合記録と今回の画像再閲覧を区別し、所在の確度・日時・能力は変更しない。",
+  "records": [
+    {
+      "event_id": "E401-001",
+      "source_id": "user-original-ch401",
+      "evidence": "既存の第401話全話原作照合記録、写真1〜3。奥の部屋でクラピカ・ロンギ・ビル、背後のオイトが対面する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P05-G01": "present",
+        "P14-H02": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E401-003",
+      "source_id": "user-original-ch401",
+      "evidence": "既存の第401話全話原作照合記録、写真6〜9。同じ4名の契約についての会談。説明中のビヨンドや標的王子を在室者へ加えない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P05-G01": "present",
+        "P14-H02": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E401-004",
+      "source_id": "user-original-ch401",
+      "evidence": "既存の第401話全話原作照合記録。退室するクラピカとロンギ、外で待つバビマイナの対面。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P05-G01": "present",
+        "P01-P04": "present"
+      }
+    },
+    {
+      "event_id": "E401-005",
+      "source_id": "user-original-ch401",
+      "evidence": "既存の第401話全話原作照合記録。拘束中のビヨンド本人が警備兵へ要求する。要求した相手の到着はまだ描かれない。",
+      "character_presence": {
+        "BYD-001": "present"
+      }
+    },
+    {
+      "event_id": "E402-001",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。1003号室でチョウライ本人が報告を受ける。",
+      "character_presence": {
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E402-002",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。1005号室でツベッパ本人が報告を受ける。",
+      "character_presence": {
+        "P05": "present"
+      }
+    },
+    {
+      "event_id": "E402-003",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録、写真2左〜3右。顔と頭部の傷で既に同定されたバルサミルコ本人の兵器準備。標的への感染はまだ実行されていない。",
+      "character_presence": {
+        "P01-P05": "present"
+      }
+    },
+    {
+      "event_id": "E402-004",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。1004号室で王子とヴァンタインが対面。招きたいセンリツを在室者へ加えない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-P05": "present"
+      }
+    },
+    {
+      "event_id": "E402-005",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。センリツへ写真を見せるカチョウ姿の存在は念獣。本人の生還・在室の記録にしない。",
+      "character_presence": {
+        "P10": "mentioned",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E402-006",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。カイザル・センリツと相談するカチョウの姿は念獣。標的のルズールスの同席や計画実行は追加しない。",
+      "character_presence": {
+        "JUD-001": "present",
+        "P10": "mentioned",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E402-007",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。カイザルとフウゲツがベンジャミンの部屋へ実際に面会に来る。",
+      "character_presence": {
+        "P11": "present",
+        "JUD-001": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E402-008",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。1007号室にフウゲツ・カイザル・ルズールス・バショウが描かれる。",
+      "character_presence": {
+        "P11": "present",
+        "P07": "present",
+        "JUD-001": "present",
+        "P07-H01": "present"
+      }
+    },
+    {
+      "event_id": "E402-009",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。クラピカ本人が手紙を読む。差出人を読書の場へ加えない。",
+      "character_presence": {
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E402-010",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。フウゲツと付き添いのカイザルにバショウが御守りを渡す。",
+      "character_presence": {
+        "P07-H01": "present",
+        "P11": "present",
+        "JUD-001": "present"
+      }
+    },
+    {
+      "event_id": "E402-011",
+      "source_id": "user-original-ch402",
+      "evidence": "既存の第402話全話原作照合記録。カイザル・センリツと計画を話すカチョウの姿は念獣。本人の所在や計画の実行としない。",
+      "character_presence": {
+        "P10": "mentioned",
+        "JUD-001": "present",
+        "P10-H01": "present"
+      }
+    },
+    {
+      "event_id": "E403-001",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真1。司法省ビルへ入るバルサミルコ本人の行動。",
+      "character_presence": {
+        "P01-P05": "present"
+      }
+    },
+    {
+      "event_id": "E403-003",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真3左〜4右。矢を放つハルケンブルグ本人に対し、バルサミルコは座標で示される離れた標的。命中の描写は確認されていない。",
+      "character_presence": {
+        "P09": "present",
+        "P01-P05": "mentioned"
+      }
+    },
+    {
+      "event_id": "E403-004",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真4〜5。1001号室のベンジャミンから司法省へ電話。兵隊長の肉体が応答するが、人格の入替りは本話では明示されない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "remote"
+      },
+      "character_locations": {
+        "P01-P05": "司法省側の通話（本話では話者の人格は未明示）"
+      }
+    },
+    {
+      "event_id": "E403-006",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真7左〜8。1014号室でクラピカとワブルを抱くオイトが相談する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E403-007",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録。チョウライ本人が硬貨を観察し連絡を命じる。クラピカの到着はこの記録では確認しない。",
+      "character_presence": {
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E403-010",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真10左。クラピカとワブルを抱くオイトの相談。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E403-011",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真10左末尾。クラピカ・オイト・ワブルが1003号室前へ到着する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14": "present"
+      }
+    },
+    {
+      "event_id": "E403-012",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録。ウンマの電話で呼びかけられる第9王子は遠隔の相手で、ウンマとの同室にはしない。",
+      "character_presence": {
+        "Q01": "present",
+        "P09": "remote"
+      }
+    },
+    {
+      "event_id": "E403-013",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真3右。司法省の廊下にバルサミルコとビクトの姿の人物がいて手話をする。ビクトの人格の主体や経緯はこの場面の外から確定しない。",
+      "character_presence": {
+        "P01-P05": "present",
+        "P01-P10": "present"
+      },
+      "character_locations": {
+        "P01-P10": "司法省ビルの廊下（ビクトの姿で手話。人格の主体は本話では未明示）"
+      }
+    },
+    {
+      "event_id": "E403-014",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録。カイザル・フウゲツが1001号室でベンジャミンへ手紙を渡す対面。手紙の噂を新しい血縁の確定根拠にしない。",
+      "character_presence": {
+        "P01": "present",
+        "P11": "present",
+        "JUD-001": "present"
+      }
+    },
+    {
+      "event_id": "E403-016",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録。カイザルがウォーリオに面会調取を行う対面。倒れた支援者全員の同席へ拡張しない。",
+      "character_presence": {
+        "JUD-001": "present",
+        "JUD-002": "present"
+      }
+    },
+    {
+      "event_id": "E403-017",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録、写真10右。1001号室のベンジャミンに対し兵隊長は電話、寝台の第9王子は医務室の別カット。本話で人格の主体を確定することはしない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "remote",
+        "P09": "remote"
+      },
+      "character_locations": {
+        "P09": "医務室の寝台（1001号室とは別カット）"
+      }
+    },
+    {
+      "event_id": "E404-001",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録。クラピカとチョウライが対面して硬貨を検証する。数字・絵柄の既存の観察記録は変更しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P03": "present"
+      }
+    },
+    {
+      "event_id": "E404-002",
+      "source_id": "user-original-ch404",
+      "evidence": "第404話写真5を直接再閲覧し、写真4左〜6右の既存照合記録と比較。病院側で実際に通話する肉体は兵隊長で、人格は第9王子と独白で判明する。第9王子の本体と通話中の人格を分け、ベンジャミンは遠隔。presentは描かれる肉体・人格の所在で、兵隊長自身が意思決定しているとの断定ではない。",
+      "character_presence": {
+        "P09": "present",
+        "P01-P05": "present",
+        "P01": "remote"
+      },
+      "character_locations": {
+        "P01-P05": "病院側で通話する兵隊長の肉体（第9王子の人格が使用）",
+        "P09": "人格は兵隊長の肉体で通話、本来の肉体は病院の寝台"
+      }
+    },
+    {
+      "event_id": "E404-003",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録。ツェリードニヒ本人が計測結果に応じる。名前不明の計測兵のIDは補わない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E404-004",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録、写真8左〜9右。クラピカがビルとシマヌに分担を指示する。参加を予告する第2王子の兵はまだ到着していない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P14-M02": "present"
+      }
+    },
+    {
+      "event_id": "E404-005",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録。心拍が停止するのは第9王子本来の肉体。別の肉体にいる人格の消滅とは扱わない。",
+      "character_presence": {
+        "P09": "body"
+      }
+    },
+    {
+      "event_id": "E404-006",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録、写真4左。意識のない第9王子本来の肉体をチードル・レオリオが処置する。死亡後の場面へ順序を変更しない。",
+      "character_presence": {
+        "P09": "present",
+        "HA-009": "present",
+        "HA-004": "present"
+      },
+      "character_locations": {
+        "P09": "搬送される本来の肉体（意識のない状態）"
+      }
+    },
+    {
+      "event_id": "E404-007",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録、写真10右。兵隊長の肉体にいる第9王子の人格が電話で報告する。ベンジャミンは遠隔。本人の遺体の葬送は予定で、この場面の実施結果ではない。",
+      "character_presence": {
+        "P01": "remote",
+        "P01-P05": "present",
+        "P09": "present"
+      },
+      "character_locations": {
+        "P01-P05": "通話する兵隊長の肉体（第9王子の人格が使用）",
+        "P09": "兵隊長の肉体で通話する人格（本来の肉体は逝去済み）"
+      }
+    },
+    {
+      "event_id": "E404-008",
+      "source_id": "user-original-ch404",
+      "evidence": "既存の第404話全話原作照合記録。放送を見た旅団3名が移動する場面。ヒンリギは残した発信器についての話題で、この移動には同行していない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SPD-004": "present",
+        "SPD-003": "present",
+        "SWU-002": "mentioned"
+      }
+    },
+    {
+      "event_id": "E405-002",
+      "source_id": "user-original-ch405",
+      "evidence": "既存の第405話全話原作照合記録。ノブナガ・フィンクス・フェイタンとオウの対面。モレナの紹介を本人の同席とはしない。",
+      "character_presence": {
+        "SAA-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E405-003",
+      "source_id": "user-original-ch405",
+      "evidence": "既存の第405話全話原作照合記録。同じ4名がエイ＝イの狙いを議論する。推測の殺人条件を新たに確定しない。",
+      "character_presence": {
+        "SAA-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E405-004",
+      "source_id": "user-original-ch405",
+      "evidence": "既存の第405話全話原作照合記録。アジトのモレナ・ドッグマン・ソドムの作戦会話。まだ葬列の捕獲実行にはしない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-009": "present",
+        "EII-020": "present"
+      }
+    },
+    {
+      "event_id": "E405-007",
+      "source_id": "user-original-ch405",
+      "evidence": "既存の第405話全話原作照合記録。モレナの説明場面に対し、旅団3名の移動は別カット。両者が同室にいるわけではない。",
+      "character_presence": {
+        "EII-001": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      },
+      "character_locations": {
+        "EII-001": "エイ＝イ本拠地側（旅団の移動とは別カット）"
+      }
+    },
+    {
+      "event_id": "E406-001",
+      "source_id": "user-original-ch406",
+      "evidence": "第406話写真5を直接再閲覧、写真4左の既存全話照合記録と比較。ヒンリギとザクロがリンチ本人の遺体を確認する。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "body"
+      }
+    },
+    {
+      "event_id": "E406-002",
+      "source_id": "user-original-ch406",
+      "evidence": "既存の第406話全話再照合記録、写真1〜2。オウと旅団3名が設備通路を進む。",
+      "character_presence": {
+        "SAA-002": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E406-003",
+      "source_id": "user-original-ch406",
+      "evidence": "第406話写真3を直接再閲覧。設備通路でノブナガが戻ると告げ、オウ・フィンクス・フェイタンと注意点を話す。戻るという意思表示を拠点への到着へ変えない。",
+      "character_presence": {
+        "SPD-002": "present",
+        "SAA-002": "present",
+        "SPD-003": "present",
+        "SPD-004": "present"
+      }
+    },
+    {
+      "event_id": "E406-005",
+      "source_id": "user-original-ch406",
+      "evidence": "第406話写真5を直接再閲覧し、写真6の既存照合記録と比較。ヒンリギとザクロは遺体確認後に移動しながら成り代わりを推理する。リンチはこの相談では話題のみで、遺体の新しい所在を推定しない。",
+      "character_presence": {
+        "SWU-002": "present",
+        "SWU-003": "present",
+        "SWU-004": "mentioned"
+      }
+    },
+    {
+      "event_id": "E406-006",
+      "source_id": "user-original-ch406",
+      "evidence": "既存の第406話全話再照合記録、写真7。クロロ本人が本の写真と電話を使う。解読不能の文字や探索先人物名は追加しない。",
+      "character_presence": {
+        "SPD-001": "present"
+      }
+    },
+    {
+      "event_id": "E406-007",
+      "source_id": "user-original-ch406",
+      "evidence": "既存の第406話全話再照合記録、写真8。クロロ本人の神器と能力についての独白。神器を既に盗んだとはしない。",
+      "character_presence": {
+        "SPD-001": "present"
+      }
+    },
+    {
+      "event_id": "E406-008",
+      "source_id": "user-original-ch406",
+      "evidence": "既存の第406話全話再照合記録、写真9。クロロ本人の次善策の独白。死後の仮定を死亡場面にしない。",
+      "character_presence": {
+        "SPD-001": "present"
+      }
+    },
+    {
+      "event_id": "E406-009",
+      "source_id": "user-original-ch406",
+      "evidence": "既存の第406話全話再照合記録、写真10。クロロ本人が電話の応答を聞く。探索対象は実際の同席者として追加しない。",
+      "character_presence": {
+        "SPD-001": "present"
+      }
+    },
+    {
+      "event_id": "E407-001",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。オトシンとモーモリーがボークセンの不在を確認する会話。ボークセン本人の同席ではない。",
+      "character_presence": {
+        "P04-L01": "present",
+        "P04-L02": "present",
+        "EII-T01": "mentioned"
+      }
+    },
+    {
+      "event_id": "E407-003",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。葬列で運ばれているのは第9王子本来の肉体の遺体。別の肉体で活動する人格とは分ける。",
+      "character_presence": {
+        "P09": "body"
+      },
+      "character_locations": {
+        "P09": "葬列で運ばれる本来の肉体の遺体"
+      }
+    },
+    {
+      "event_id": "E407-004",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。目覚めたボークセンと勧誘するモレナの対面。",
+      "character_presence": {
+        "EII-T01": "present",
+        "EII-001": "present"
+      }
+    },
+    {
+      "event_id": "E407-005",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。同じ交渉卓でモレナがボークセンへカードの進行を説明する。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E407-006",
+      "source_id": "user-original-ch407",
+      "evidence": "第407話写真9を直接再閲覧し、写真8・10の既存照合記録と比較。交渉卓の2名と、周囲から会話に応じるヨコタニ本人を確認。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present",
+        "EII-008": "present"
+      }
+    },
+    {
+      "event_id": "E407-007",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。目の前のモレナの説明をボークセンが警戒する独白。回想としての不在ではない。",
+      "character_presence": {
+        "EII-T01": "present",
+        "EII-001": "present"
+      }
+    },
+    {
+      "event_id": "E407-002",
+      "source_id": "user-original-ch407",
+      "evidence": "既存の第407話全話再照合記録。裏向きのカードを選ぶ条件について2名が対面で合意する。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-001",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真1左〜2。モレナとボークセンが目的のカードについて対面で話す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-002",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真3〜4右。生い立ちの説明をする現在のモレナと聞くボークセン。回想の本物のモレナや母を現在の人物へ追加しない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-003",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真4左〜5。交渉卓の2名がJoker廃棄・力のカード選択を進める。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-004",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真6〜7。ボークセンの素質を目の前のモレナが説明する。嗅覚の仲間本人は追加しない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-005",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真7左〜8。交渉卓の2名がYes廃棄・No説明を進める。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-006",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真9。同じ2名がNoとXの違いについて対面で話す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E408-007",
+      "source_id": "user-original-ch408",
+      "evidence": "既存の第408話全話再照合記録、写真10。交渉卓の2名がXを墓場へ送る。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-002",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真2〜3。モレナとボークセンが取引Dを対面で話す。放送する軍人を同席者へ加えない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-003",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真3〜4。2名がキスによる取引を終えてXを戻す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-004",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真5。2名が3枚を混ぜ直してXを再度送る。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-005",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真6〜7右。質問Aを交渉卓の2名が続ける。所在地の回答は過去の別話へ遡及させない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-006",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真7左。2名が人数や離脱条件について対面で話す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-007",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真8右。目の前のモレナへボークセンが目的変更を尋ねる。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-008",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真8左〜9。2名が最後のカードを同時に開く。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E409-009",
+      "source_id": "user-original-ch409",
+      "evidence": "既存の第409話全話再照合記録、写真10。ボークセンが対面のモレナへYesへの交換を示す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E410-004",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真1左〜2右。モレナとボークセンがYesを確認し不正について話す。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E410-005",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真2左〜3右。同じ2名がRの印と不正時の操作について話す。説明上の不正の回想と現在の場を混同しない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E410-001",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真3左〜4。モレナとボークセンが加入条件を対面で確認する。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E410-006",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真5。ボークセンが目の前のモレナへ仲間の案内を頼む。元の仲間への帰還完了とはしない。",
+      "character_presence": {
+        "EII-001": "present",
+        "EII-T01": "present"
+      }
+    },
+    {
+      "event_id": "E410-003",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真7左。ベンジャミン本人が指示を出す一方、第3・第7王子は所在不明の確保対象としての報告・想定。本人の到着・拘束の確認ではない。",
+      "character_presence": {
+        "P01": "present",
+        "P03": "mentioned",
+        "P07": "mentioned"
+      }
+    },
+    {
+      "event_id": "E410-008",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真7左。ベンジャミン本人の内心の時間見積り。昏睡・死亡はまだ起きていない。",
+      "character_presence": {
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E410-012",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真8。ベンジャミン本人の計画で、死亡場面ではない。子供の所在・登場も補わない。",
+      "character_presence": {
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E410-009",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真9。中央裁判所でベンジャミン・ミザイストム・ボトバイ・クレアパトロが対面する。",
+      "character_presence": {
+        "P01": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "JUD-003": "present"
+      }
+    },
+    {
+      "event_id": "E410-010",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真10右。同じ4名の対面で発令根拠を問う。疑われる第4・第9王子の同席・加害確定は追加しない。",
+      "character_presence": {
+        "P01": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "JUD-003": "present"
+      }
+    },
+    {
+      "event_id": "E410-011",
+      "source_id": "user-original-ch410",
+      "evidence": "既存の第410話全話再照合記録、写真10左。同じ4名の対面が続く。感染の推測と実際の死亡は分ける。",
+      "character_presence": {
+        "P01": "present",
+        "HA-002": "present",
+        "HA-003": "present",
+        "JUD-003": "present"
+      }
+    }
+  ]
+}

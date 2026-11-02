@@ -13,7 +13,8 @@ const rows = facts.assignmentRows(hanzo, people);
 assert.equal(rows[0].text, '初期：第12王子モモゼ／第1層 1012号室（第350話）');
 assert.equal(rows[1].text, '転属後：第13王子マラヤーム／第1層 1013号室（第361話）');
 const latest = facts.latestLocation(hanzo, events);
-assert.equal(latest.location, '第1層 1013号室');
+assert.equal(latest.location, '念空間内の1013号室側');
+assert.notEqual(events.find(e=>e.id==='E375-006').character_locations['P13-H01'],latest.location,'Belerainte outside the boundary is not in the same space as Hanzo');
 assert.equal(latest.chapter, 375);
 assert.equal(latest.review, 'review_recorded'); // 第375話の原作再照合（2026-10-10）で E375-005〜007 が review_recorded になった
 const html = fs.readFileSync(path.join(root, 'characters/P12-H01/index.html'), 'utf8');

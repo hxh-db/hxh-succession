@@ -30,9 +30,17 @@
     "BACKLOG-003": {
       "event_selector": "missing_presence",
       "evidence_paths": [
-        "data/intake/event_detail_review_20261016.md"
+        "data/intake/backlog_recheck_20261030.md",
+        "data/intake/presence_recheck_20261030.json",
+        "data/intake/presence_362_369_20261030.json",
+        "data/intake/presence_370_380_20261030.json",
+        "data/intake/presence_381_390_20261030.json",
+        "data/intake/presence_391_400_20261030.json",
+        "data/intake/presence_401_410_20261030.json",
+        "data/intake/presence_411_420_20261030.json",
+        "data/intake/presence_completion_20261102.json"
       ],
-      "next_action": "人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。"
+      "next_action": "今回対象内の補完は完了。今後の出来事追加時にも全関係人物に区分があるか検査する。unknownは調査不足・仮説・原作未明示を各記録の根拠で区別し、在室へ自動変換しない。"
     },
     "BACKLOG-004": {
       "character_selector": "unnamed",

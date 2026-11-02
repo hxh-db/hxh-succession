@@ -33,7 +33,7 @@ def build_report(events, characters, backlog, pending, targets, web_research, sc
         event_ids = set(scope.get("event_ids", []))
         event_ids.update(event["id"] for event in events if event["chapter"] in scope.get("chapters", []))
         if scope.get("event_selector") == "missing_presence":
-            event_ids.update(event["id"] for event in events if event.get("characters") and not event.get("character_presence"))
+            event_ids.update(event["id"] for event in events if set(event.get("characters", [])) - event.get("character_presence", {}).keys())
         elif scope.get("event_selector") == "pending23_unverified":
             event_ids.update(event["id"] for event in events if event["id"] in old and event.get("verification_status") == "unverified")
         else:
@@ -67,6 +67,7 @@ def build_report(events, characters, backlog, pending, targets, web_research, sc
             "counts": {"characters": len(characters), "events": len(events),
                        "event_verification": dict(sorted(Counter(event.get("verification_status", "unset") for event in events).items())),
                        "with_presence": sum(bool(event.get("character_presence")) for event in events),
+                       "with_complete_presence": sum(bool(event.get("characters")) and not (set(event["characters"]) - event.get("character_presence", {}).keys()) for event in events),
                        "with_source_pages": sum(bool(event.get("source_locator", {}).get("pages")) for event in events),
                        "day_unset": sum(event.get("day") is None for event in events),
                        "active_backlog": len(active), "resolved_backlog": len(completed), "adopted_inference_backlog": len(inference),
@@ -83,7 +84,7 @@ def render(report):
     counts = report["counts"]
     lines = ["# 現行の照合状況（自動集計）", "", report["scope"], "",
              f"人物{counts['characters']}件・出来事{counts['events']}件。確認状態：" + "、".join(f"{key} {value}件" for key, value in counts["event_verification"].items()) + "。", "",
-             f"所在区分のある出来事{counts['with_presence']}件、ページ根拠のある出来事{counts['with_source_pages']}件、日付空欄{counts['day_unset']}件。これらの差分を不具合や原作未確認の件数と読み替えない。", "",
+             f"所在区分のある出来事{counts['with_presence']}件（全関係人物の区分が揃ったもの{counts['with_complete_presence']}件。未判定を含む）、ページ根拠のある出来事{counts['with_source_pages']}件、日付空欄{counts['day_unset']}件。これらの差分を不具合や原作未確認の件数と読み替えない。", "",
              f"今回の未解決の台帳{counts['active_backlog']}件、解消済み{counts['resolved_backlog']}件、採用仮説を含む整理済み{counts['adopted_inference_backlog']}件、追加資料の候補{counts['deferred_material_backlog']}件。候補への移動は原本の確認完了を意味しない。", "",
              "## 未解決の台帳", "", "対象IDは比較する範囲であり、対象の全レコードが誤りという意味ではない。全IDと履歴は同名JSONを参照。", ""]
     for row in report["active_backlog"]:

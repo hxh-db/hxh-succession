@@ -8,11 +8,12 @@
       "review_recorded": 429,
       "unverified": 13
     },
-    "with_presence": 409,
+    "with_presence": 449,
+    "with_complete_presence": 449,
     "with_source_pages": 126,
     "day_unset": 64,
-    "active_backlog": 10,
-    "resolved_backlog": 10,
+    "active_backlog": 9,
+    "resolved_backlog": 11,
     "adopted_inference_backlog": 3,
     "deferred_material_backlog": 2
   },
@@ -48,62 +49,6 @@
         "E416-002",
         "E416-004",
         "E416-005"
-      ],
-      "character_ids": []
-    },
-    {
-      "id": "BACKLOG-003",
-      "priority": "medium",
-      "topic": "所在区分と最終確認場所の全件整理",
-      "reason": "初期配置・担当陣営・最終確認場所の分離と共通表示は実装済み。2026-10-16の出来事整理後は58イベントに本人・遺体・話題・遠隔等の所在区分がある。出来事詳細では未分類を「所在区分未判定」と表示する。未分類の関係人物を本人の所在へ自動確定しない仕組みは維持し、判断を左右する記録から区分と根拠を補う。",
-      "required_source": "人物ごとの最終登場話",
-      "status": "in_progress",
-      "event_selector": "missing_presence",
-      "evidence_paths": [
-        "data/intake/event_detail_review_20261016.md"
-      ],
-      "next_action": "人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。",
-      "event_ids": [
-        "E411-001",
-        "E411-002",
-        "E411-003",
-        "E411-004",
-        "E411-005",
-        "E412-002",
-        "E412-003",
-        "E412-004",
-        "E412-005",
-        "E413-001",
-        "E413-002",
-        "E413-003",
-        "E413-004",
-        "E413-005",
-        "E413-006",
-        "E413-007",
-        "E413-008",
-        "E414-002",
-        "E414-003",
-        "E414-004",
-        "E414-005",
-        "E415-001",
-        "E415-002",
-        "E415-006",
-        "E415-007",
-        "E415-008",
-        "E418-001",
-        "E418-002",
-        "E418-003",
-        "E418-004",
-        "E418-005",
-        "E418-006",
-        "E419-001",
-        "E419-002",
-        "E419-003",
-        "E419-004",
-        "E419-006",
-        "E420-001",
-        "E420-002",
-        "E420-003"
       ],
       "character_ids": []
     },
@@ -407,6 +352,14 @@
       "topic": "日付の確度と乗船後の未設定場面の確認",
       "reason": "2026-10-30に対象5件の場面と既存の全話照合記録を再点検。第376話写真7左は「今朝」のみで日付未明示、第400話写真3は日時未明示、第405話写真1・3の現在のカジノと写真4〜5の回想を区別した。E405-005・006をflashbackへ補正。日付未入力は確認済みの未明示事項であり、推測で埋める作業は行わない。既存の相対順序を保持してこの点検を完了。正確な発生日を確定した意味ではない。",
       "required_source": "該当場面の日時表示・前後関係。既存の添付索引と照合記録を優先",
+      "status": "resolved"
+    },
+    {
+      "id": "BACKLOG-003",
+      "priority": "medium",
+      "topic": "所在区分と最終確認場所の全件整理",
+      "reason": "2026-11-02、今回対象内の関係人物付き449記録で、全関係人物の所在区分を補完した。一部だけ区分がある44記録を拾えなかった集計も修正。原本未発見の第347話や退室仮説などはunknownと明示し、原作確認・在室へ格上げしない。第351〜358話の対象外3記録は未入力のまま保持。これは所在の入力漏れへの対応完了であり、全人物の所在が原作で判明したという意味ではない。",
+      "required_source": "人物ごとの最終登場話",
       "status": "resolved"
     },
     {
@@ -851,11 +804,11 @@
     "E372-009"
   ],
   "source_sha256": {
-    "data/events.json": "7c76667d41ad55f2bd5c5310e2ba945fcc0a93fcafad0248b336bbae67e4a9ff",
+    "data/events.json": "b7bd4518479ec8cbab7f637a701e856dc6fc8263047838d95cd8e12283af09ef",
     "data/characters.json": "57e50bedb87ce1061670565aba0e95180f7f7a325fb3e28a4df0d114f315206d",
-    "data/research_backlog.json": "99b69d77d40c08e97b9cb8fb32f5e757eeb456a8c637ba20c93adab2136071d5",
+    "data/research_backlog.json": "47d26d6387a58470f37ccc719cd4091eb75209922435127149b05f2145024e1a",
     "data/intake/pending23_recheck_20261016.json": "12d5173513fdb77b8d4817eb089f8e991b4da740648c1e7bef47701cfbb0b323",
-    "data/intake/review_targets.json": "73eea538c973368363e50383741daefb283e32be4cb9277bc882316fac0d7894",
+    "data/intake/review_targets.json": "0a4dd396668c0b2b96ccc4a4febd863eee09d7c70da8496d20f6da849e26459f",
     "data/web_research.json": "9b9f4425ff3fab647625c290df012ea09a2eea39a5b1b20537a21cb0d6502666"
   }
 }

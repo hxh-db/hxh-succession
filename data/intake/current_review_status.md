@@ -4,9 +4,9 @@
 
 人物401件・出来事465件。確認状態：hypothesis 23件、review_recorded 429件、unverified 13件。
 
-所在区分のある出来事409件、ページ根拠のある出来事126件、日付空欄64件。これらの差分を不具合や原作未確認の件数と読み替えない。
+所在区分のある出来事449件（全関係人物の区分が揃ったもの449件。未判定を含む）、ページ根拠のある出来事126件、日付空欄64件。これらの差分を不具合や原作未確認の件数と読み替えない。
 
-今回の未解決の台帳10件、解消済み10件、採用仮説を含む整理済み3件、追加資料の候補2件。候補への移動は原本の確認完了を意味しない。
+今回の未解決の台帳9件、解消済み11件、採用仮説を含む整理済み3件、追加資料の候補2件。候補への移動は原本の確認完了を意味しない。
 
 ## 未解決の台帳
 
@@ -21,16 +21,6 @@
 既存資料：`data/intake/backlog_recheck_20261030.md`、`data/intake/ch415_reconcile_20261010.md`、`data/intake/ch416_reconcile_20261010.md`
 
 次の作業：時刻計算の誤りという旧仮説は撤回済み。11日目・水曜と12日目・木曜の日付差のみを公式訂正または修正版で確認する。
-
-### BACKLOG-003：所在区分と最終確認場所の全件整理
-
-状態：in_progress。対象：E411-001、E411-002、E411-003、E411-004、E411-005、E412-002、E412-003、E412-004、E412-005、E413-001、E413-002、E413-003 ほか（全40件）。
-
-必要な根拠：人物ごとの最終登場話
-
-既存資料：`data/intake/event_detail_review_20261016.md`
-
-次の作業：人物の所在が判断を左右する場面から既存資料を確認する。言及・映像を本人の在室へ自動変換しない。
 
 ### BACKLOG-004：仮称人物の原作表記確認
 
@@ -162,7 +152,7 @@ WEB-005〜007：公式商品説明で資料の存在は確認。旧強化系の�
 
 ## 維持する履歴と採用仮説
 
-解消済み：BACKLOG-002、BACKLOG-005、BACKLOG-006、BACKLOG-012、BACKLOG-CHARACTER-UPDATES-20261013、BACKLOG-CH414-STATUS-20261013、BACKLOG-CHARACTER-DETAIL-20261016、BACKLOG-EVENT-DETAIL-20261016、BACKLOG-GUIDE-20261016、BACKLOG-WEB-COIN-EDITIONS-20261026
+解消済み：BACKLOG-002、BACKLOG-003、BACKLOG-005、BACKLOG-006、BACKLOG-012、BACKLOG-CHARACTER-UPDATES-20261013、BACKLOG-CH414-STATUS-20261013、BACKLOG-CHARACTER-DETAIL-20261016、BACKLOG-EVENT-DETAIL-20261016、BACKLOG-GUIDE-20261016、BACKLOG-WEB-COIN-EDITIONS-20261026
 
 採用仮説を含む整理済み：BACKLOG-008、BACKLOG-009、BACKLOG-010
 

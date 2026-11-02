@@ -62,6 +62,23 @@ class ReviewStatusTests(unittest.TestCase):
         self.assertTrue(report["unverified_events"][0]["excluded_from_current_review"])
         self.assertEqual(report["counts"]["event_verification"]["unverified"],1)
 
+    def test_presence_selector_catches_partially_classified_people(self):
+        fixture = self.fixture()
+        fixture[0][0].update(characters=["C1","C2"], character_presence={"C1":"present"})
+        fixture[0][1].update(characters=["C1"])
+        fixture[4]["open"].update(event_ids=[], event_selector="missing_presence")
+        before = copy.deepcopy(fixture)
+        report = review.build_report(*fixture)
+        self.assertEqual(fixture,before)
+        self.assertEqual(report["active_backlog"][0]["event_ids"],["E001-001","E002-001"])
+        self.assertEqual(report["counts"]["with_presence"],1)
+        self.assertEqual(report["counts"]["with_complete_presence"],0)
+        fixture[0][0]["character_presence"]["C2"] = "unknown"
+        report = review.build_report(*fixture)
+        self.assertEqual(report["active_backlog"][0]["event_ids"],["E002-001"])
+        self.assertEqual(report["counts"]["with_complete_presence"],1)
+        self.assertEqual(report["counts"]["event_verification"]["unverified"],1)
+
     def test_current_report_is_valid_and_check_never_writes(self):
         report=review.load_report()
         active={row["id"] for row in report["active_backlog"]}

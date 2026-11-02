@@ -1,0 +1,751 @@
+{
+  "date": "2026-11-02",
+  "scope": "部分入力だった44件の人物ごとの抜けを補完。既存の区分はタッシ死亡場面1件の訂正以外維持し、日時・確認状態・人物IDは変更しない。",
+  "records": [
+    {
+      "event_id": "E341-001",
+      "source_id": "user-original-ch341",
+      "evidence": "既存の第341話全話原作照合記録。会議でDVDを見る十二支ん10名を補完。ネテロの映像は既存のremoteを維持する。",
+      "character_presence": {
+        "HA-001": "remote",
+        "HA-010": "present",
+        "HA-003": "present",
+        "HA-013": "present",
+        "HA-011": "present",
+        "HA-002": "present",
+        "HA-012": "present",
+        "HA-009": "present",
+        "HA-015": "present",
+        "HA-016": "present",
+        "HA-014": "present"
+      },
+      "filled_character_ids": [
+        "HA-002",
+        "HA-003",
+        "HA-009",
+        "HA-010",
+        "HA-011",
+        "HA-012",
+        "HA-013",
+        "HA-014",
+        "HA-015",
+        "HA-016"
+      ]
+    },
+    {
+      "event_id": "E343-005",
+      "source_id": "user-original-ch343",
+      "evidence": "既存の第343話全話原作照合記録。ミザイストムとクラピカの対面を補完。第4王子の既存mentionedを維持。",
+      "character_presence": {
+        "P04": "mentioned",
+        "P14-H01": "present",
+        "HA-002": "present"
+      },
+      "filled_character_ids": [
+        "HA-002",
+        "P14-H01"
+      ]
+    },
+    {
+      "event_id": "E344-001",
+      "source_id": "user-original-ch344",
+      "evidence": "既存の第344話全話原作照合記録。ジン本人の説明を補完。ネテロとビヨンドは説明対象のまま。",
+      "character_presence": {
+        "HA-001": "mentioned",
+        "BYD-001": "mentioned",
+        "BYD-002": "present"
+      },
+      "filled_character_ids": [
+        "BYD-002"
+      ]
+    },
+    {
+      "event_id": "E344-003",
+      "source_id": "user-original-ch344",
+      "evidence": "既存の第344話全話原作照合記録。クラピカ本人の独白を補完。写真の第4王子を同席者にしない。",
+      "character_presence": {
+        "P04": "mentioned",
+        "P14-H01": "present"
+      },
+      "filled_character_ids": [
+        "P14-H01"
+      ]
+    },
+    {
+      "event_id": "E359-002",
+      "source_id": "user-original-ch359",
+      "evidence": "既存の第359話全話原作照合記録。ウッディーの遺体確認にいるクラピカ・ビル・サイールドを補完。ウッディーのbodyを維持。",
+      "character_presence": {
+        "P14-P02": "body",
+        "P14-H01": "present",
+        "P14-H02": "present",
+        "P14-P01": "present"
+      },
+      "filled_character_ids": [
+        "P14-H01",
+        "P14-H02",
+        "P14-P01"
+      ]
+    },
+    {
+      "event_id": "E363-004",
+      "source_id": "user-original-ch363",
+      "evidence": "既存の第363話全話原作照合記録。訪問したビンセントと室内のクラピカ・ビル・オイト・乳児を補完。サンドラのbodyを維持し、殺害の瞬間・手段は補わない。",
+      "character_presence": {
+        "P14-M01": "body",
+        "P14-H02": "present",
+        "P14": "present",
+        "P14-H01": "present",
+        "P01-P03": "present",
+        "Q08": "present"
+      },
+      "filled_character_ids": [
+        "P01-P03",
+        "P14",
+        "P14-H01",
+        "P14-H02",
+        "Q08"
+      ]
+    },
+    {
+      "event_id": "E366-001",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話原作照合記録、写真3左。目覚めたハルケンブルグ本人を補完。既存の警護兵の区分を変更しない。",
+      "character_presence": {
+        "P09-U01": "present",
+        "P09-U02": "present",
+        "P09": "present"
+      },
+      "filled_character_ids": [
+        "P09"
+      ]
+    },
+    {
+      "event_id": "E366-005",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話原作照合記録、写真6左〜7。チョウライとの会談と私設兵出向の場にいる8名を補完。説明のマンダムのunknownを維持し、全員が出向したとはしない。",
+      "character_presence": {
+        "Q02-S01": "unknown",
+        "P01-P11": "present",
+        "P03-P02": "present",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P03": "present",
+        "P03-G01": "present",
+        "P03-P03": "present",
+        "P14": "present"
+      },
+      "filled_character_ids": [
+        "P01-P11",
+        "P03",
+        "P03-G01",
+        "P03-P02",
+        "P03-P03",
+        "P14",
+        "P14-H01",
+        "Q08"
+      ]
+    },
+    {
+      "event_id": "E366-006",
+      "source_id": "user-original-ch366",
+      "evidence": "既存の第366話全話原作照合記録、写真1。1013のマラヤームとビスケを補完。ハンゾーの既存presentを維持。",
+      "character_presence": {
+        "P12-H01": "present",
+        "P13": "present",
+        "P13-H02": "present"
+      },
+      "filled_character_ids": [
+        "P13",
+        "P13-H02"
+      ]
+    },
+    {
+      "event_id": "E368-001",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話原作照合記録。襲撃・死亡のモモゼはbody。偵察で見るオイトの既存remoteを維持し、死亡時刻・加害者名は新たに確定しない。",
+      "character_presence": {
+        "Q08": "remote",
+        "P12": "body"
+      },
+      "filled_character_ids": [
+        "P12"
+      ]
+    },
+    {
+      "event_id": "E368-005",
+      "source_id": "user-original-ch368",
+      "evidence": "既存の第368話全話原作照合記録。搬送されるモモゼの遺体と、報告を聞くクラピカ・オイト・ビル・バビマイナ・サカタを補完。警護兵への既存mentionedを維持。",
+      "character_presence": {
+        "P12-G06": "mentioned",
+        "P01-P04": "present",
+        "P14-H02": "present",
+        "P03-P02": "present",
+        "P14-H01": "present",
+        "P12": "body",
+        "Q08": "present"
+      },
+      "filled_character_ids": [
+        "P01-P04",
+        "P03-P02",
+        "P12",
+        "P14-H01",
+        "P14-H02",
+        "Q08"
+      ]
+    },
+    {
+      "event_id": "E371-004",
+      "source_id": "user-original-ch371",
+      "evidence": "既存の第371話全話原作照合記録。モモゼの遺体の前で語るナスビー本人を補完。モモゼのbodyを維持。",
+      "character_presence": {
+        "P12": "body",
+        "KNG-001": "present"
+      },
+      "filled_character_ids": [
+        "KNG-001"
+      ]
+    },
+    {
+      "event_id": "E371-005",
+      "source_id": "user-original-ch371",
+      "evidence": "既存の第371話全話原作照合記録、写真3〜4。クラピカの質問を聞くシマヌとレオリオを補完。台詞だけのビルはmentionedのまま。",
+      "character_presence": {
+        "P14-H02": "mentioned",
+        "P14-H01": "present",
+        "HA-004": "present",
+        "P14-M02": "present"
+      },
+      "filled_character_ids": [
+        "HA-004",
+        "P14-H01",
+        "P14-M02"
+      ]
+    },
+    {
+      "event_id": "E371-007",
+      "source_id": "user-original-ch371",
+      "evidence": "既存の第371話全話原作照合記録。群衆を進むクロロ本人を補完。ヒソカへの既存mentionedを維持。",
+      "character_presence": {
+        "HA-008": "mentioned",
+        "SPD-001": "present"
+      },
+      "filled_character_ids": [
+        "SPD-001"
+      ]
+    },
+    {
+      "event_id": "E373-005",
+      "source_id": "user-original-ch373",
+      "evidence": "既存の第373話全話原作照合記録、写真10。1012の前で止められる分身のハンゾーを補完。死亡済みモモゼは説明対象のまま。",
+      "character_presence": {
+        "P12": "mentioned",
+        "P12-H01": "present"
+      },
+      "filled_character_ids": [
+        "P12-H01"
+      ]
+    },
+    {
+      "event_id": "E374-003",
+      "source_id": "user-original-ch374",
+      "evidence": "既存の第374話全話原作照合記録。1008のリハンとサレサレを補完。既存警護兵のpresentを維持。",
+      "character_presence": {
+        "P08-G02": "present",
+        "P08": "present",
+        "P01-P13": "present"
+      },
+      "filled_character_ids": [
+        "P01-P13",
+        "P08"
+      ]
+    },
+    {
+      "event_id": "E375-001",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話原作照合記録。黙祷するハルケンブルグ本人を補完。モモゼを黙祷への在室者にしない。",
+      "character_presence": {
+        "P12": "mentioned",
+        "P09": "present"
+      },
+      "filled_character_ids": [
+        "P09"
+      ]
+    },
+    {
+      "event_id": "E375-002",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話原作照合記録。監視中のシカクとハルケンブルグを補完。電話のベンジャミンと、過去の交替兵オルズニーの区分を維持。",
+      "character_presence": {
+        "P09-G01": "mentioned",
+        "P01": "remote",
+        "P07-G06": "present",
+        "P09": "present"
+      },
+      "filled_character_ids": [
+        "P07-G06",
+        "P09"
+      ]
+    },
+    {
+      "event_id": "E375-006",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話原作照合記録、写真9〜10。境界の確認にいるベレレインテ・ウェルゲー・ビスケを補完。ハンゾーのpresentと、主として語られる第13王子のmentionedを維持。",
+      "character_presence": {
+        "P13": "mentioned",
+        "P12-H01": "present",
+        "P13-H01": "present",
+        "P13-G03": "present",
+        "P13-H02": "present"
+      },
+      "filled_character_ids": [
+        "P13-G03",
+        "P13-H01",
+        "P13-H02"
+      ],
+      "character_locations": {
+        "P13-H01": "1013号室の扉の外（通常の船内）",
+        "P13-G03": "念空間内の1013号室側",
+        "P13-H02": "念空間内の1013号室側",
+        "P12-H01": "念空間内の1013号室側"
+      }
+    },
+    {
+      "event_id": "E375-009",
+      "source_id": "user-original-ch375",
+      "evidence": "既存の第375話全話原作照合記録、写真1〜2。挨拶するタイソンと、イズさんと呼ばれるイズナビを補完。解説枠の能力を当人たちの既知情報へ格上げしない。",
+      "character_presence": {
+        "P02": "mentioned",
+        "P05": "mentioned",
+        "P07": "mentioned",
+        "P06-H01": "present",
+        "P06": "present"
+      },
+      "filled_character_ids": [
+        "P06",
+        "P06-H01"
+      ]
+    },
+    {
+      "event_id": "E376-001",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話原作照合記録、写真2。法廷にいるカミーラとベンジャミンを補完。ムッセ・ヒュリコフ・ヴォルフは法廷での説明対象のまま。",
+      "character_presence": {
+        "P01-P08": "mentioned",
+        "P01-P06": "mentioned",
+        "P01-G01": "mentioned",
+        "P02": "present",
+        "P01": "present"
+      },
+      "filled_character_ids": [
+        "P01",
+        "P02"
+      ]
+    },
+    {
+      "event_id": "E376-008",
+      "source_id": "user-original-ch376",
+      "evidence": "既存の第376話全話原作照合記録、写真1。ゲートのハルケンブルグ本人を補完。預け先モリシへの同席は主張しない。",
+      "character_presence": {
+        "KNG-003": "mentioned",
+        "P09": "present"
+      },
+      "filled_character_ids": [
+        "P09"
+      ]
+    },
+    {
+      "event_id": "E377-003",
+      "source_id": "user-original-ch377",
+      "evidence": "既存の第377話全話原作照合記録。食堂に実際に集まる旅団10名を補完。既存のシャ＝ア側の区分を維持する。",
+      "character_presence": {
+        "SAA-006": "present",
+        "SAA-U01": "present",
+        "SAA-U02": "present",
+        "SAA-U03": "present",
+        "SAA-U04": "present",
+        "SAA-U05": "present",
+        "SAA-U06": "present",
+        "SPD-002": "present",
+        "SPD-007": "present",
+        "SPD-003": "present",
+        "SPD-006": "present",
+        "SPD-001": "present",
+        "SPD-008": "present",
+        "SPD-009": "present",
+        "SPD-010": "present",
+        "SPD-004": "present",
+        "SPD-005": "present"
+      },
+      "filled_character_ids": [
+        "SPD-001",
+        "SPD-002",
+        "SPD-003",
+        "SPD-004",
+        "SPD-005",
+        "SPD-006",
+        "SPD-007",
+        "SPD-008",
+        "SPD-009",
+        "SPD-010"
+      ]
+    },
+    {
+      "event_id": "E378-003",
+      "source_id": "user-original-ch378",
+      "evidence": "既存の第378話全話原作照合記録。倉庫の旅団3名と、壁の隙間から見ているルイーニーを補完。倉庫番のbodyを維持。",
+      "character_presence": {
+        "SAA-U07": "body",
+        "SPD-002": "present",
+        "SPD-004": "present",
+        "SPD-003": "present",
+        "EII-002": "present"
+      },
+      "filled_character_ids": [
+        "EII-002",
+        "SPD-002",
+        "SPD-003",
+        "SPD-004"
+      ]
+    },
+    {
+      "event_id": "E380-002",
+      "source_id": "user-original-ch380",
+      "evidence": "既存の第380話全話原作照合記録。事務所とモニター室のオウ・ノブナガ・フィンクスを補完。録画で見える犯人を現在の同席者には加えない。",
+      "character_presence": {
+        "SAA-005": "present",
+        "SPD-002": "present",
+        "SPD-003": "present",
+        "SAA-002": "present"
+      },
+      "filled_character_ids": [
+        "SAA-002",
+        "SPD-002",
+        "SPD-003"
+      ]
+    },
+    {
+      "event_id": "E383-001",
+      "source_id": "user-original-ch383",
+      "evidence": "既存の第383話全話原作照合記録、写真1〜2。舞台裏の双子とセンリツ・キーニを補完。司会者の既存presentと、演目で言及するバショウの区分を維持。",
+      "character_presence": {
+        "HA-006": "mentioned",
+        "MC-U01": "present",
+        "MC-U02": "present",
+        "P10-H01": "present",
+        "P10": "present",
+        "P10-H02": "present",
+        "P11": "present"
+      },
+      "filled_character_ids": [
+        "P10",
+        "P10-H01",
+        "P10-H02",
+        "P11"
+      ]
+    },
+    {
+      "event_id": "E383-002",
+      "source_id": "user-original-ch383",
+      "evidence": "既存の第383話全話原作照合記録、写真3右。ウェルゲー・ビスケと会話中の第13王子を補完。Hバッジの氏名不明者の区分を維持。",
+      "character_presence": {
+        "HA-U01": "present",
+        "P13-G03": "present",
+        "P13": "present",
+        "P13-H02": "present"
+      },
+      "filled_character_ids": [
+        "P13",
+        "P13-G03",
+        "P13-H02"
+      ]
+    },
+    {
+      "event_id": "E388-006",
+      "source_id": "user-original-ch388",
+      "evidence": "既存の第388話全話原作照合記録、写真10。ハイゼンへ指示するツベッパ本人を補完。暗殺に関する推理は確定しない。",
+      "character_presence": {
+        "P05-M01": "present",
+        "P05": "present"
+      },
+      "filled_character_ids": [
+        "P05"
+      ]
+    },
+    {
+      "event_id": "E389-001",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話原作照合記録、写真1〜3。ベンジャミン・バルサミルコ・報告するカンジドルを補完。過去の配置や推論対象の4名の区分は維持。",
+      "character_presence": {
+        "P07-P01": "mentioned",
+        "HA-006": "mentioned",
+        "P09": "mentioned",
+        "P07-G03": "mentioned",
+        "P01-P05": "present",
+        "P01-P09": "present",
+        "P01": "present"
+      },
+      "filled_character_ids": [
+        "P01",
+        "P01-P05",
+        "P01-P09"
+      ]
+    },
+    {
+      "event_id": "E389-003",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話原作照合記録、写真4左〜6右。ベンジャミンとバルサミルコの報告・指示側を補完。電話の相手は未描写で、別の人物を追加しない。",
+      "character_presence": {
+        "P09": "mentioned",
+        "P01-P05": "present",
+        "P01": "present"
+      },
+      "filled_character_ids": [
+        "P01",
+        "P01-P05"
+      ]
+    },
+    {
+      "event_id": "E389-011",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話原作照合記録、写真6右。第1王子側のベンジャミンとバルサミルコを補完し、特務課一行の扉前の別カットと区別。第9王子は拘束報告の話題のまま。",
+      "character_presence": {
+        "JUD-004": "present",
+        "JUD-005": "present",
+        "P09": "mentioned",
+        "P01-P05": "present",
+        "P01": "present"
+      },
+      "filled_character_ids": [
+        "P01",
+        "P01-P05"
+      ],
+      "character_locations": {
+        "P01": "第1王子側の報告場面（特務課一行の扉前とは別カット）",
+        "P01-P05": "第1王子側の報告場面（特務課一行の扉前とは別カット）"
+      }
+    },
+    {
+      "event_id": "E389-008",
+      "source_id": "user-original-ch389",
+      "evidence": "既存の第389話全話原作照合記録、写真9左〜10右。サラヘルとフカタキの相談を補完。ワブルは呪詛の標的としての話題のまま。",
+      "character_presence": {
+        "P14": "mentioned",
+        "P02-P13": "present",
+        "P02-P15": "present"
+      },
+      "filled_character_ids": [
+        "P02-P13",
+        "P02-P15"
+      ]
+    },
+    {
+      "event_id": "E392-002",
+      "source_id": "user-original-ch392",
+      "evidence": "既存の第392話全話原作照合記録。伍長と取引するヒンリギ本人を補完。",
+      "character_presence": {
+        "ARM-001": "present",
+        "SWU-002": "present"
+      },
+      "filled_character_ids": [
+        "SWU-002"
+      ]
+    },
+    {
+      "event_id": "E392-004",
+      "source_id": "user-original-ch392",
+      "evidence": "既存の第392話全話原作照合記録。報告を受けるオウ本人を補完。闇市を回る部下と同じ位置へ自動的に置かない。",
+      "character_presence": {
+        "SAA-005": "present",
+        "SAA-006": "present",
+        "SAA-U01": "present",
+        "SAA-U02": "present",
+        "SAA-U03": "present",
+        "SAA-U04": "present",
+        "SAA-U05": "present",
+        "SAA-U06": "present",
+        "SAA-002": "present"
+      },
+      "filled_character_ids": [
+        "SAA-002"
+      ],
+      "character_locations": {
+        "SAA-002": "部下から報告を受ける側（闇市の探索とは別場面）"
+      }
+    },
+    {
+      "event_id": "E393-001",
+      "source_id": "user-original-ch393",
+      "evidence": "既存の第393話全話原作照合記録。旅団3名と、ノブナガに斬られるルイーニーを補完。殺害後の首はbodyとする。",
+      "character_presence": {
+        "SAA-005": "present",
+        "SPD-002": "present",
+        "SPD-004": "present",
+        "SPD-003": "present",
+        "EII-002": "body"
+      },
+      "filled_character_ids": [
+        "EII-002",
+        "SPD-002",
+        "SPD-003",
+        "SPD-004"
+      ]
+    },
+    {
+      "event_id": "E393-005",
+      "source_id": "user-original-ch393",
+      "evidence": "既存の第393話全話原作照合記録。伍長の案内で3101へ行くヒンリギとオウを補完。伍長が消えた先・生死は補わない。",
+      "character_presence": {
+        "ARM-001": "present",
+        "SWU-002": "present",
+        "SAA-002": "present"
+      },
+      "filled_character_ids": [
+        "SAA-002",
+        "SWU-002"
+      ]
+    },
+    {
+      "event_id": "E393-006",
+      "source_id": "user-original-ch393",
+      "evidence": "既存の第393話全話原作照合記録。オウと金を持って合流するコナリーを補完。伍長の既存presentを維持。",
+      "character_presence": {
+        "ARM-001": "present",
+        "SWU-005": "present",
+        "SAA-002": "present"
+      },
+      "filled_character_ids": [
+        "SAA-002",
+        "SWU-005"
+      ]
+    },
+    {
+      "event_id": "E394-001",
+      "source_id": "user-original-ch394",
+      "evidence": "既存の第394話全話原作照合記録。3101のヒンリギとオウを補完。入室するタッシのpresentと不在の伍長のmentionedを維持。",
+      "character_presence": {
+        "ARM-001": "mentioned",
+        "EII-007": "present",
+        "SWU-002": "present",
+        "SAA-002": "present"
+      },
+      "filled_character_ids": [
+        "SAA-002",
+        "SWU-002"
+      ]
+    },
+    {
+      "event_id": "E394-002",
+      "source_id": "user-original-ch394",
+      "evidence": "第394話写真3を直接再閲覧。転送先で首を刺され死亡したタッシは、従来のpresentからbodyへ訂正する。処理側にいるトレベルム・モンブラン・シフォンを補完。運ばれる遺体が全てタッシだと追加で同定した意味ではない。",
+      "character_presence": {
+        "EII-007": "body",
+        "EII-019": "present",
+        "EII-018": "present",
+        "EII-017": "present"
+      },
+      "filled_character_ids": [
+        "EII-017",
+        "EII-018",
+        "EII-019"
+      ]
+    },
+    {
+      "event_id": "E394-004",
+      "source_id": "user-original-ch394",
+      "evidence": "既存の第394話全話原作照合記録。第3層へ転属したボークセンと同期兵5名の対面を補完。話題のギッパーをこの会話へ加えない。",
+      "character_presence": {
+        "P04-P06": "mentioned",
+        "P04-L02": "present",
+        "P04-L04": "present",
+        "P04-L05": "present",
+        "EII-T01": "present",
+        "P04-L01": "present",
+        "P04-L03": "present"
+      },
+      "filled_character_ids": [
+        "EII-T01",
+        "P04-L01",
+        "P04-L02",
+        "P04-L03",
+        "P04-L04",
+        "P04-L05"
+      ]
+    },
+    {
+      "event_id": "E394-006",
+      "source_id": "user-original-ch394",
+      "evidence": "既存の第394話全話原作照合記録。ギッパーに進言するオトシンと同じ部隊のモーモリーを補完。",
+      "character_presence": {
+        "P04-P06": "present",
+        "P04-L02": "present",
+        "P04-L01": "present"
+      },
+      "filled_character_ids": [
+        "P04-L01",
+        "P04-L02"
+      ]
+    },
+    {
+      "event_id": "E400-009",
+      "source_id": "user-original-ch400",
+      "evidence": "既存の第400話全話原作照合記録。シュタイナーへ物を託すカイザル本人を補完。",
+      "character_presence": {
+        "JUD-004": "present",
+        "JUD-001": "present"
+      },
+      "filled_character_ids": [
+        "JUD-001"
+      ]
+    },
+    {
+      "event_id": "E401-002",
+      "source_id": "user-original-ch401",
+      "evidence": "既存の第401話全話原作照合記録。ロンギ・クラピカ・ビル・オイトの対面を補完。名前だけのマカハのmentionedを維持。",
+      "character_presence": {
+        "P05-G02": "mentioned",
+        "P14-H02": "present",
+        "P14-H01": "present",
+        "Q08": "present",
+        "P05-G01": "present"
+      },
+      "filled_character_ids": [
+        "P05-G01",
+        "P14-H01",
+        "P14-H02",
+        "Q08"
+      ]
+    },
+    {
+      "event_id": "E403-015",
+      "source_id": "user-original-ch403",
+      "evidence": "既存の第403話全話原作照合記録。手紙を読む4王子の別々の場面に対し、司法省側のセンリツ・カイザル・眠るフウゲツを補完。カチョウの姿は念獣なので本人の在室にしない。",
+      "character_presence": {
+        "P07-H01": "mentioned",
+        "P03": "present",
+        "P02": "present",
+        "P05": "present",
+        "P06": "present",
+        "P10-H01": "present",
+        "P10": "mentioned",
+        "P11": "present",
+        "JUD-001": "present"
+      },
+      "filled_character_ids": [
+        "JUD-001",
+        "P10",
+        "P10-H01",
+        "P11"
+      ],
+      "character_locations": {
+        "P03": "第3王子側で手紙を読む場面",
+        "P02": "第2王子側で手紙を読む場面",
+        "P05": "第5王子側で手紙を読む場面",
+        "P06": "第6王子側で手紙を読む場面",
+        "P10-H01": "司法省側の報告・計画の場面",
+        "JUD-001": "司法省側の報告・計画の場面",
+        "P11": "司法省側で休む場面"
+      }
+    }
+  ]
+}

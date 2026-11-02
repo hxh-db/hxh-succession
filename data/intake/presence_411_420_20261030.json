@@ -1,0 +1,399 @@
+{
+  "date": "2026-10-30",
+  "scope": "第411〜420話の所在区分。既存の全話原作照合記録と今回の画像再閲覧を区別し、所在の確度・日時・能力は変更しない。",
+  "records": [
+    {
+      "event_id": "E411-001",
+      "source_id": "user-original-ch411",
+      "evidence": "既存の第411話全話原作照合記録。司法省側で電話する兵隊長の肉体と、1001側のベンジャミンの遠隔通話。第9王子の人格が兵隊長の肉体を使用する第404話以降の既存整理を維持。",
+      "character_presence": {
+        "P01-P05": "present",
+        "P01": "remote"
+      },
+      "character_locations": {
+        "P01-P05": "第2層 司法省（兵隊長の肉体。人格は第9王子）",
+        "P01": "第1層 1001号室"
+      }
+    },
+    {
+      "event_id": "E411-002",
+      "source_id": "user-original-ch411",
+      "evidence": "既存の第411話全話原作照合記録、写真3・6上と現行の注記。サラヘル本人の準備・講習会での内省に対し、カコは後任としての名指しだけ、第14王子は呪詛の対象の話題だけ。",
+      "character_presence": {
+        "P02-P13": "present",
+        "P02-P08": "mentioned",
+        "P14": "mentioned"
+      }
+    },
+    {
+      "event_id": "E411-003",
+      "source_id": "user-original-ch411",
+      "evidence": "既存の第411話全話原作照合記録。クラピカ・紹介済み受講者・参加を申し出るスラッカが講習会場に描かれる。全18名の名簿・入門初級の振分けの未確定部分は補わず、unverifiedを維持する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P13-H01": "present",
+        "P13-M01": "present",
+        "P11-M01": "present",
+        "P11-M02": "present",
+        "P11-M03": "present",
+        "P10-M02": "present",
+        "P10-M03": "present",
+        "P10-M04": "present",
+        "P07-G01": "present",
+        "P07-G07": "present",
+        "P07-G05": "present",
+        "P02-P13": "present",
+        "P03-P01": "present",
+        "P05-P01": "present",
+        "P04-P06": "present",
+        "P03-G01": "present"
+      }
+    },
+    {
+      "event_id": "E411-004",
+      "source_id": "user-original-ch411",
+      "evidence": "第411話写真11を直接再閲覧。発表するクラピカと、最後の別カットで寝台の乳児が描かれる。P14はユーザー指定により船内の乳児も同じIDで扱うが、本物の娘の船内在室を確認した意味にはしない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P14": "present"
+      },
+      "character_locations": {
+        "P14": "船内でワブルとして扱われる乳児の寝台（本物の娘の所在ではない）"
+      }
+    },
+    {
+      "event_id": "E411-005",
+      "source_id": "user-original-ch411",
+      "evidence": "既存の第411話全話原作照合記録。講習でクラピカ本人が継承戦の制約について推論を説明する。",
+      "character_presence": {
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E412-002",
+      "source_id": "user-original-ch412",
+      "evidence": "第412話写真5を直接再閲覧し、写真3〜7右の既存全話照合記録と比較。クラピカ・オイト・ビル・レオリオ・シマヌと船内の乳児が描かれる。P14の単一IDによる既存の扱いを維持するが、船外の娘本人の所在とは区別する。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14-H02": "present",
+        "HA-004": "present",
+        "P14-M02": "present",
+        "P14": "present"
+      },
+      "character_locations": {
+        "P14": "1014号室の乳児（オイトの妹の息子として説明。本物の娘は船外・所在不明）"
+      }
+    },
+    {
+      "event_id": "E412-003",
+      "source_id": "user-original-ch412",
+      "evidence": "既存の第412話全話原作照合記録。ビヨンドとクレアパトロが対面し、監視役は別に同席する。名前のない十二支ん2名のIDは補わない。",
+      "character_presence": {
+        "JUD-003": "present",
+        "BYD-001": "present"
+      }
+    },
+    {
+      "event_id": "E412-004",
+      "source_id": "user-original-ch412",
+      "evidence": "既存の第412話全話原作照合記録。クラピカ本人が反発へ答え開始時刻を変更する。",
+      "character_presence": {
+        "P14-H01": "present"
+      }
+    },
+    {
+      "event_id": "E412-005",
+      "source_id": "user-original-ch412",
+      "evidence": "既存の第412話全話原作照合記録。再開する場にクラピカ本人はいるが、スラッカは離脱済みとしての説明対象。",
+      "character_presence": {
+        "P14-H01": "present",
+        "P03-G01": "mentioned"
+      }
+    },
+    {
+      "event_id": "E413-001",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ナスビーとヌグイが前にする第9王子は本来の肉体の遺体。別の肉体で活動する人格とは分ける。",
+      "character_presence": {
+        "P09": "body",
+        "KNG-001": "present",
+        "KNG-002": "present"
+      }
+    },
+    {
+      "event_id": "E413-002",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。指示するベンジャミンと、兵隊長の肉体で考える第9王子の別カットを区別する。兵隊長の肉体を描くが兵隊長自身が自律的に考えるという断定ではない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "present",
+        "P09": "present"
+      },
+      "character_locations": {
+        "P01": "第1王子側の指揮場面",
+        "P01-P05": "兵隊長側の別場面（第9王子の人格が肉体を使用）",
+        "P09": "兵隊長の肉体で考える人格（本来の肉体の遺体とは別）"
+      }
+    },
+    {
+      "event_id": "E413-003",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ベンジャミンがヒュリコフに発令の通達を指示する対面。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E413-004",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ベンジャミンが容器を調べて独白する。兵隊長は持ち出した本数についての言及で、金庫確認への同席ではない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P05": "mentioned"
+      }
+    },
+    {
+      "event_id": "E413-005",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ベンジャミンの詰問にヒュリコフが対面で答える。説明上の第1王妃とビヨンドは加えない。",
+      "character_presence": {
+        "P01-P06": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E413-006",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。能力の解説と、ベンジャミン・ヒュリコフの対面の会話。武具の説明を計画の実現と取り違えない。",
+      "character_presence": {
+        "P01-P06": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E413-007",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ベンジャミンとヒュリコフの指示場面に対し、第2・第4王子は引き受けると名指しされた標的。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P06": "present",
+        "P02": "mentioned",
+        "P04": "mentioned"
+      }
+    },
+    {
+      "event_id": "E413-008",
+      "source_id": "user-original-ch413",
+      "evidence": "既存の第413話全話原作照合記録。ベンジャミンとヒュリコフが行動を開始する場面。配置図にある全居室へ両名を同席させない。",
+      "character_presence": {
+        "P01": "present",
+        "P01-P06": "present"
+      }
+    },
+    {
+      "event_id": "E414-002",
+      "source_id": "user-original-ch414",
+      "evidence": "既存の第414話全話原作照合記録。ルズールス本人が指示する場面。部屋前の兵士のIDは補わない。",
+      "character_presence": {
+        "P07": "present"
+      }
+    },
+    {
+      "event_id": "E414-003",
+      "source_id": "user-original-ch414",
+      "evidence": "既存の第414話全話原作照合記録、写真5左〜10と現行注記。クラピカ・オイト・ビルに対し、P14は捜索したい船外の本物の娘の話題。船内の乳児の共通IDから本人の所在を推測しない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present",
+        "P14-H02": "present",
+        "P14": "mentioned"
+      }
+    },
+    {
+      "event_id": "E414-004",
+      "source_id": "user-original-ch414",
+      "evidence": "既存の第414話全話原作照合記録。ウショウヒとチヤマシ本人が突入前に話す。部屋番号の小さな文字の留保は維持する。",
+      "character_presence": {
+        "P11-G01": "present",
+        "P01-P16": "present"
+      }
+    },
+    {
+      "event_id": "E414-005",
+      "source_id": "user-original-ch414",
+      "evidence": "既存の第414話全話原作照合記録。1014号室でシマヌ・ビル・クラピカ・オイトが実際に話す。ビヨンドの恩赦という案を実行結果にしない。",
+      "character_presence": {
+        "P14-M02": "present",
+        "P14-H02": "present",
+        "P14-H01": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E415-001",
+      "source_id": "user-original-ch415",
+      "evidence": "既存の第415話全話原作照合記録。出航2か月前のヒュリコフ本人と、電話のビヨンド。回想を現在の配置へ適用しない。",
+      "character_presence": {
+        "P01-P06": "present",
+        "BYD-001": "remote"
+      }
+    },
+    {
+      "event_id": "E415-002",
+      "source_id": "user-original-ch415",
+      "evidence": "既存の第415話全話原作照合記録。1005号室でツベッパ本人が国王軍に応対する。1001へ行く判断を到着済みとしない。",
+      "character_presence": {
+        "P05": "present"
+      }
+    },
+    {
+      "event_id": "E415-006",
+      "source_id": "user-original-ch415",
+      "evidence": "既存の第415話全話原作照合記録。同じ過去の通話でヒュリコフとビヨンドを区別。現在の船内で対面していることにはしない。",
+      "character_presence": {
+        "P01-P06": "present",
+        "BYD-001": "remote"
+      }
+    },
+    {
+      "event_id": "E415-007",
+      "source_id": "user-original-ch415",
+      "evidence": "既存の第415話全話原作照合記録。クラピカとオイトが葉書を相談する対面。日付表記の食い違いは修正・格上げしない。",
+      "character_presence": {
+        "P14-H01": "present",
+        "Q08": "present"
+      }
+    },
+    {
+      "event_id": "E415-008",
+      "source_id": "user-original-ch415",
+      "evidence": "既存の第415話全話原作照合記録。発令放送を聞くカミーラ本人が監視居住区に描かれる。他室の名前不明の人物IDは補わない。",
+      "character_presence": {
+        "P02": "present"
+      }
+    },
+    {
+      "event_id": "E418-001",
+      "source_id": "user-original-ch418",
+      "evidence": "既存の第418話全話原作照合記録。ツェリードニヒ本人の能力整理。図や回想に表れる人物を現在の在室者へ追加しない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E418-002",
+      "source_id": "user-original-ch418",
+      "evidence": "既存の第418話全話原作照合記録。ツェリードニヒとサルコフが対面で能力の検証を行う。",
+      "character_presence": {
+        "P04": "present",
+        "P04-P02": "present"
+      }
+    },
+    {
+      "event_id": "E418-003",
+      "source_id": "user-original-ch418",
+      "evidence": "既存の第418話全話原作照合記録。ツェリードニヒ・サルコフと入室して撃つベンジャミン。見せている死の偽装を本人の遺体にしない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-P02": "present",
+        "P01": "present"
+      }
+    },
+    {
+      "event_id": "E418-004",
+      "source_id": "user-original-ch418",
+      "evidence": "既存の第418話全話原作照合記録。王子本人が動き、サルコフが同席する。空の棺へ銃を詰める行動であって本人の納棺ではない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-P02": "present"
+      }
+    },
+    {
+      "event_id": "E418-005",
+      "source_id": "user-original-ch418",
+      "evidence": "第418話写真7を直接再閲覧、写真8の既存照合記録と比較。サルコフ・ヴァンタイン、覆面で拳銃を持つ実際のツェリードニヒが描かれる。棺や他者に見える姿を本人の死亡にしない。",
+      "character_presence": {
+        "P04-P02": "present",
+        "P04-P05": "present",
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E418-006",
+      "source_id": "user-original-ch418",
+      "evidence": "既存の第418話全話原作照合記録。テータと止めるサルコフ、覆面のツェリードニヒ本人が同じ場にいる。テータが本人に気付いたとは確定しない。",
+      "character_presence": {
+        "P04": "present",
+        "P04-M01": "present",
+        "P04-P02": "present"
+      }
+    },
+    {
+      "event_id": "E419-001",
+      "source_id": "user-original-ch419",
+      "evidence": "既存の第419話全話原作照合記録。覆面のツェリードニヒ本人が通路を進む。人に認知されない状態でも本人の行動は描かれる。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E419-002",
+      "source_id": "user-original-ch419",
+      "evidence": "既存の第419話全話原作照合記録。ツェリードニヒ本人が通路で検証する。能力の外の人物の個別IDは補わない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E419-003",
+      "source_id": "user-original-ch419",
+      "evidence": "既存の第419話全話原作照合記録。ツェリードニヒ本人が兵士と銃撃。煙のように消える姿を本人の遺体としない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E419-004",
+      "source_id": "user-original-ch419",
+      "evidence": "既存の第419話全話原作照合記録。ツェリードニヒ本人が兵士へ偽の合言葉を教える。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E419-006",
+      "source_id": "user-original-ch419",
+      "evidence": "既存の第419話全話原作照合記録。ツェリードニヒ本人がカジノ側へ移動する。計画する第2層への到着とはしない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E420-001",
+      "source_id": "user-original-ch420",
+      "evidence": "既存の第420話全話原作照合記録。ツェリードニヒ本人が無人のカジノを調べる。殺された兵士と接触した他の王子を推測で同席させない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    },
+    {
+      "event_id": "E420-002",
+      "source_id": "user-original-ch420",
+      "evidence": "既存の第420話全話原作照合記録。カジノでツェリードニヒとヒソカが対面する。斬られた『オレ』の視認と本人の確定死亡を取り違えない。",
+      "character_presence": {
+        "P04": "present",
+        "HA-008": "present"
+      }
+    },
+    {
+      "event_id": "E420-003",
+      "source_id": "user-original-ch420",
+      "evidence": "既存の第420話全話原作照合記録。逃れたツェリードニヒ本人の行動と独白。ヒソカをその後の移動に同行させない。",
+      "character_presence": {
+        "P04": "present"
+      }
+    }
+  ]
+}

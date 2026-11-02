@@ -6,13 +6,17 @@ const thirdAudit=require('../data/intake/presence_370_380_20261030.json');
 const fourthAudit=require('../data/intake/presence_381_390_20261030.json');
 const fifthAudit=require('../data/intake/presence_391_400_20261030.json');
 const sixthAudit=require('../data/intake/presence_401_410_20261030.json');
+const seventhAudit=require('../data/intake/presence_411_420_20261030.json');
+const completedPartial=require('../data/intake/presence_completion_20261102.json');
 assert.equal(new Set(audit.records.map(row=>row.event_id)).size,audit.records.length);
 assert.equal(secondAudit.records.length,53);
 assert.equal(thirdAudit.records.length,46);
 assert.equal(fourthAudit.records.length,44);
 assert.equal(fifthAudit.records.length,30);
 assert.equal(sixthAudit.records.length,79);
-const records=[...audit.records,...secondAudit.records,...thirdAudit.records,...fourthAudit.records,...fifthAudit.records,...sixthAudit.records];
+assert.equal(seventhAudit.records.length,40);
+assert.equal(completedPartial.records.length,44);
+const records=[...audit.records,...secondAudit.records,...thirdAudit.records,...fourthAudit.records,...fifthAudit.records,...sixthAudit.records,...seventhAudit.records,...completedPartial.records];
 assert.equal(new Set(records.map(row=>row.event_id)).size,records.length);
 for(const row of records){
  const event=byId[row.event_id];assert.ok(event,row.event_id);
@@ -86,6 +90,20 @@ assert.equal(byId['E406-005'].character_presence['SWU-004'],'mentioned','a later
 assert.equal(byId['E407-001'].character_presence['EII-T01'],'mentioned','Borksen is absent when her colleagues look for her');
 assert.equal(byId['E407-003'].character_presence.P09,'body');
 assert.equal(byId['E410-003'].character_presence.P03,'mentioned','an order to find a missing prince is not his capture');
+assert.equal(byId['E411-002'].character_presence['P02-P08'],'mentioned');
+assert.equal(byId['E411-002'].character_presence.P14,'mentioned');
+assert.ok(byId['E412-002'].character_locations.P14.includes('娘は船外'),'a shared legacy ID must not locate Oito’s real daughter aboard the ship');
+assert.equal(byId['E412-005'].character_presence['P03-G01'],'mentioned','Slakka has left when the class resumes');
+assert.equal(byId['E413-001'].character_presence.P09,'body');
+assert.equal(byId['E413-007'].character_presence.P02,'mentioned');
+assert.equal(byId['E414-003'].character_presence.P14,'mentioned');
+assert.equal(byId['E415-001'].character_presence['BYD-001'],'remote');
+assert.equal(byId['E418-005'].character_presence.P04,'present','the masked living prince is not the apparent corpse in the coffin');
+assert.equal(byId['E394-002'].character_presence['EII-007'],'body','Tassi dies after entering the trap');
+assert.equal(byId['E403-015'].character_presence.P10,'mentioned');
+for(const event of events.filter(event=>event.characters.length && !(event.chapter>=351&&event.chapter<=358))){
+ assert.deepEqual(Object.keys(event.character_presence||{}).sort(),[...event.characters].sort(),`${event.id}: partial maps must not be omitted from completion checks`);
+}
 const kururi=characters.find(person=>person.id==='BYD-U09');
 assert.equal(kururi.name,'クルリ');assert.equal(kururi.identity_status,'named');assert.equal(kururi.is_placeholder,false);
 assert.ok(kururi.aliases.includes('ビヨンド側の同行者I（第340話・仮称）'));

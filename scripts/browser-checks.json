@@ -60,5 +60,7 @@
   {"name":"theory-native-links","groups":["critical","navigation","research"]},
   {"name":"usability-reading","groups":["navigation"]},
   {"name":"guide-entry","groups":["critical","navigation"]},
-  {"name":"guide-topic-links","groups":["critical","navigation"]}
+  {"name":"guide-topic-links","groups":["critical","navigation"]},
+  {"name":"guide-table-reading","groups":["critical","navigation"]},
+  {"name":"guide-event-return","groups":["critical","navigation"]}
 ]

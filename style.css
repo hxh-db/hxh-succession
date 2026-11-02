@@ -294,6 +294,15 @@ body {
 .guide-table th, .guide-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
 .guide-table thead th { color: var(--accent); }
 .guide-table tbody th { white-space: nowrap; color: var(--text); }
+#guide .guide-prince-table { table-layout: fixed; border-collapse: separate; border-spacing: 0; min-width: calc(112px + 36em); }
+#guide .guide-initial-personnel-table { min-width: calc(112px + 72em); }
+#guide .guide-prince-table tr > :first-child {
+  position: sticky; left: 0; z-index: 1; box-sizing: border-box;
+  width: 112px; min-width: 112px; max-width: 112px;
+  white-space: normal; overflow-wrap: anywhere; background: var(--surface);
+  box-shadow: 1px 0 0 var(--border);
+}
+#guide .guide-prince-table thead tr > :first-child { z-index: 2; }
 .guide-card-table thead th, .guide-card-table td:not(:last-child) { white-space: nowrap; }
 .guide-status-summary { margin: 20px 0 0; font-weight: 700; color: var(--text) !important; }
 .overview-card h4 { margin: 0 0 12px; color: var(--accent); font-size: 1.05rem; }

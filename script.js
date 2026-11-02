@@ -78,6 +78,8 @@ let activeCharacterView = "cards";
 let spoilersRevealed = false;
 let currentCharacterResults = [];
 let modalReturnFocus = null;
+const guideEventOrigins = new Map();
+let guideEventOriginSequence = 0;
 let PRINCE_MAP = {}; // 王子の正式名 → { rank, short }
 let CHAR_MAP = {}; // id → character
 const LOCAL_DRAFTS_KEY = "hxh-succession-local-drafts-v1";
@@ -5508,6 +5510,11 @@ function showDetailModal(name, category, eventData = null) {
     const back = document.createElement("button"); back.type = "button";
     back.className = "local-editor-button secondary"; back.textContent = "元の人物へ戻る";
     back.addEventListener("click", closeDetailModal); content.appendChild(back);
+  } else if (category === "event" && history.state?.returnGuideKey && guideEventReturn(record.id)) {
+    const back = document.createElement("button"); back.type = "button";
+    back.className = "local-editor-button secondary"; back.textContent = "元の資料へ戻る";
+    back.addEventListener("click", () => { if (guideEventReturn(record.id)) history.back(); });
+    content.appendChild(back);
   }
   if (isPerson) {
     const actions = document.createElement("div"); actions.className = "local-editor-actions";
@@ -5745,6 +5752,12 @@ function personEventReturn(eventId=document.getElementById('detailModal').datase
     ? state.returnPersonId : null;
 }
 
+function guideEventReturn(eventId=document.getElementById('detailModal').dataset.eventId) {
+  const origin = guideEventOrigins.get(history.state?.returnGuideKey);
+  return origin && origin.eventId === eventId && new URL(location.href).searchParams.get('event') === eventId
+    && document.contains(origin.link) ? origin : null;
+}
+
 function setupBackToTop() {
   const button = document.getElementById("backToTop");
   const updateVisibility = () => button.classList.toggle("hidden", window.scrollY < 900);
@@ -5860,8 +5873,10 @@ function renderInitialPersonnelGuide(container) {
   }
   const wrap = document.createElement("div");
   wrap.className = "guide-table-wrap";
+  wrap.tabIndex = 0; wrap.setAttribute("role", "region");
+  wrap.setAttribute("aria-label", "出航時の王子別初期配置の表（左右にスクロールできます）");
   const table = document.createElement("table");
-  table.className = "guide-table";
+  table.className = "guide-table guide-prince-table guide-initial-personnel-table";
   const caption = document.createElement("caption");
   caption.textContent = "出航時の同行人員：王子・王妃本人を除く復元案";
   table.appendChild(caption);
@@ -5935,8 +5950,10 @@ function renderPersonnelSnapshot(container) {
 
   const tableWrap = document.createElement("div");
   tableWrap.className = "guide-table-wrap";
+  tableWrap.tabIndex = 0; tableWrap.setAttribute("role", "region");
+  tableWrap.setAttribute("aria-label", "王子別の警護人と王妃所属兵の表（左右にスクロールできます）");
   const table = document.createElement("table");
-  table.className = "guide-table";
+  table.className = "guide-table guide-prince-table";
   const head = document.createElement("thead");
   const headerRow = document.createElement("tr");
   ["王子", "私設兵", "母の所属兵（原図の記載）", "ハンター協会員", "従事者"].forEach((label) => {
@@ -5964,8 +5981,9 @@ function renderPersonnelSnapshot(container) {
       associationText,
       attendantsText
     ];
-    cells.forEach((value) => {
-      const cell = document.createElement("td");
+    cells.forEach((value, index) => {
+      const cell = document.createElement(index === 0 ? "th" : "td");
+      if (index === 0) cell.scope = "row";
       cell.textContent = value;
       row.appendChild(cell);
     });
@@ -6211,9 +6229,21 @@ function setupPrimaryNavigation() {
   });
   document.querySelector("#guide").addEventListener("click", event => {
     const link = event.target.closest("a[href]");
-    if (!link || event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    if (!link || event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
+        || link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
     const url = new URL(link.href);
-    if (url.origin === location.origin && url.searchParams.has("event")) { event.preventDefault(); navigateReadingUrl(url); }
+    if (url.origin === location.origin && url.searchParams.has("event")) {
+      event.preventDefault();
+      const eventId = url.searchParams.get("event");
+      if (!eventsData.some(record => record.id === eventId)) { navigateReadingUrl(url); return; }
+      for (const [key, origin] of guideEventOrigins) if (!document.contains(origin.link)) guideEventOrigins.delete(key);
+      const existing = [...guideEventOrigins].find(([, origin]) => origin.link === link && origin.url === location.href && origin.eventId === eventId);
+      const key = existing?.[0] || ++guideEventOriginSequence;
+      guideEventOrigins.set(key, {link, eventId, url:location.href});
+      saveReadingState();
+      history.replaceState({...history.state, guideReturnFocusKey:key}, "", location.href);
+      navigateReadingUrl(url, {returnGuideKey:key});
+    }
   });
   let scrollTimer;
   window.addEventListener("scroll", () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(saveReadingState, 120); }, {passive:true});
@@ -6558,6 +6588,12 @@ function restoreReadingState(snapshot, url) {
       const topic=findGuideTopic(new URL(location.href).searchParams.get('g_topic'));
       if(snapshot&&topic&&!topic.closest('section').hidden)pendingGuideTopicNavigation=false;
       else followGuideTopicLink(!snapshot);
+      if (history.state?.guideReturnFocusKey) {
+        const origin = guideEventOrigins.get(history.state.guideReturnFocusKey);
+        if (origin && origin.url === location.href && snapshot?.view === "guide" && document.contains(origin.link)) {
+          (origin.link.checkVisibility() ? origin.link : document.getElementById("guideSearch"))?.focus({preventScroll:true});
+        }
+      }
     });
   } catch (error) { restoringReadingState=false; throw error; }
 }

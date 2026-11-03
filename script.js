@@ -6201,7 +6201,14 @@ function renderOpenQuestions(container, category = activeQuestionCategory) {
       });
       const essayLink = document.createElement("a");
       essayLink.href = `theories/${encodeURIComponent(question.id)}/`;
+      essayLink.dataset.questionArticle = question.id;
       essayLink.textContent = "根拠と考察を読む →";
+      essayLink.addEventListener("click", event => {
+        if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
+            || essayLink.hasAttribute("download") || (essayLink.target && essayLink.target.toLowerCase() !== "_self")) return;
+        essayLink.focus({preventScroll:true});
+        saveReadingState();
+      });
       card.append(heading, meta, known, unknown, links, essayLink);
       container.appendChild(card);
     });
@@ -6601,7 +6608,8 @@ function captureReadingState() {
   const readingEventFocus = focus?.matches("#timeline .schedule-event") ? {eventId:focus.dataset.eventId}
     : focus?.matches("#characters .character-review-panel button[data-claim-key]") ? {claimKey:focus.dataset.claimKey}
     : location ? {locationPersonId:location.dataset.personId,locationIndex:[...location.querySelectorAll(".latest-place-event-link")].indexOf(focus),locationEventId:new URL(focus.href).searchParams.get("event")}
-    : focus?.matches("#questionDirectory button[data-question-key]") ? {questionKey:focus.dataset.questionKey} : null;
+    : focus?.matches("#questionDirectory button[data-question-key]") ? {questionKey:focus.dataset.questionKey}
+    : focus?.matches("#questionDirectory a[data-question-article]") ? {questionArticleId:focus.dataset.questionArticle} : null;
   return {
     controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
     view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
@@ -6694,12 +6702,13 @@ function restoreReadingState(snapshot, url) {
         const origin=snapshot.readingEventFocus;
         let target=origin.claimKey ? [...document.querySelectorAll("#characters .character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===origin.claimKey)
           : origin.questionKey ? [...document.querySelectorAll("#questionDirectory button[data-question-key]")].find(el=>el.dataset.questionKey===origin.questionKey)
+          : origin.questionArticleId ? [...document.querySelectorAll("#questionDirectory a[data-question-article]")].find(el=>el.dataset.questionArticle===origin.questionArticleId)
           : origin.locationPersonId ? [...document.querySelectorAll("#characters .latest-place-content")].find(el=>el.dataset.personId===origin.locationPersonId)?.querySelectorAll(".latest-place-event-link")[origin.locationIndex]
           : [...document.querySelectorAll("#timeline .schedule-event")].find(el=>el.dataset.eventId===origin.eventId && el.checkVisibility());
         if(origin.locationPersonId && target && new URL(target.href).searchParams.get("event")!==origin.locationEventId) target=null;
         if(target?.checkVisibility()) target.focus({preventScroll:true});
         else if(origin.claimKey || origin.locationPersonId) document.getElementById("characterSearch").focus({preventScroll:true});
-        else if(origin.questionKey) {
+        else if(origin.questionKey || origin.questionArticleId) {
           const gate=document.querySelector("#timelineSpoilerGate [data-reveal-global]");
           (gate?.checkVisibility() ? gate : document.getElementById("timeline-tab-questions")).focus({preventScroll:true});
         }

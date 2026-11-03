@@ -65,5 +65,6 @@
   {"name":"guide-event-return","groups":["critical","navigation"]},
   {"name":"scene-link-navigation","groups":["critical","navigation"]},
   {"name":"event-entry-return","groups":["critical","navigation","directory"]},
-  {"name":"location-question-return","groups":["critical","navigation","directory"]}
+  {"name":"location-question-return","groups":["critical","navigation","directory"]},
+  {"name":"question-article-return","groups":["critical","navigation","research"]}
 ]

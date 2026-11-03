@@ -65,6 +65,7 @@ function getUncollectedChapterMessage() {
   return UNCOLLECTED_CHAPTERS.has(chapter) ? `第${chapter}話は未収録です（${UNCOLLECTED_CHAPTERS.get(chapter)}）。出来事は登録していません。` : null;
 }
 let activeTimelineView = "schedule";
+let activeQuestionCategory = "all";
 let timelineVisibleCount = 30;
 let activeTimelinePeriodId = "day-1";
 let activeCharacterAffiliation = null;
@@ -2207,10 +2208,11 @@ function makeLocationPartNodes(parts) {
     link.textContent = part.text;
     link.title = `根拠の出来事を開く（第${event.chapter}話：${event.title || String(event.description || "").split("。")[0]}）`;
     link.addEventListener("click", (clickEvent) => {
-      if (clickEvent.button || clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.shiftKey || clickEvent.altKey) return;
+      if (clickEvent.defaultPrevented || clickEvent.button || clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.shiftKey || clickEvent.altKey
+          || link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
       clickEvent.preventDefault();
       clickEvent.stopPropagation();
-      if (!openPersonEvent(event,'location',link)) showDetailModal(event.id, "event", event);
+      if (!openPersonEvent(event,'location',link)) openReadingEvent(event,link);
     });
     fragment.appendChild(link);
   });
@@ -6133,13 +6135,16 @@ function setupPersonnelSnapshotGuide() {
   });
 }
 
-function renderOpenQuestions(container, category = "all") {
+function renderOpenQuestions(container, category = activeQuestionCategory) {
   container.replaceChildren();
   const filter = document.createElement("label");
   filter.className = "question-filter";
   filter.textContent = "分類 ";
   const select = document.createElement("select");
+  select.id = "questionCategory";
   const categories = ["all", ...new Set(openQuestionsData.map((question) => question.category))];
+  if (!categories.includes(category)) category = "all";
+  activeQuestionCategory = category;
   categories.forEach((value) => {
     const option = document.createElement("option");
     option.value = value;
@@ -6147,7 +6152,11 @@ function renderOpenQuestions(container, category = "all") {
     select.appendChild(option);
   });
   select.value = category;
-  select.addEventListener("change", () => renderOpenQuestions(container, select.value));
+  select.addEventListener("change", () => {
+    renderOpenQuestions(container, select.value);
+    container.querySelector(".question-filter select").focus({preventScroll:true});
+    updateViewPermalink();
+  });
   filter.appendChild(select);
   container.appendChild(filter);
   const storyHeading = document.createElement("h4");
@@ -6159,6 +6168,7 @@ function renderOpenQuestions(container, category = "all") {
     .forEach((question) => {
       const card = document.createElement("article");
       card.className = "question-card";
+      card.dataset.questionId = question.id;
       const heading = document.createElement("h4");
       heading.textContent = question.title;
       const meta = document.createElement("p");
@@ -6180,12 +6190,13 @@ function renderOpenQuestions(container, category = "all") {
       relatedEvents.forEach((event) => {
         const link = document.createElement("button");
         link.type = "button";
+        link.dataset.questionKey = `story:${question.id}:${event.id}`;
         const summaryText = getEventHeadline(event);
         link.textContent = chapterCounts.get(event.chapter) > 1
           ? `第${event.chapter}話：${summaryText.length > 18 ? `${summaryText.slice(0, 18)}…` : summaryText}`
           : `第${event.chapter}話の出来事`;
         link.title = `場面ID ${event.id}`;
-        link.addEventListener("click", () => showDetailModal(event.id, "event", event));
+        link.addEventListener("click", () => openReadingEvent(event,link));
         links.appendChild(link);
       });
       const essayLink = document.createElement("a");
@@ -6206,11 +6217,13 @@ function renderOpenQuestions(container, category = "all") {
     eventsData.filter(event => event.editorial_questions?.length).forEach(event => {
       const card = document.createElement("article");
       card.className = "question-card question-editorial";
+      card.dataset.eventId = event.id;
       const link = document.createElement("button");
       link.type = "button";
+      link.dataset.questionKey = `editorial:${event.id}`;
       link.textContent = `第${event.chapter}話の出来事`;
       link.title = `場面ID ${event.id}`;
-      link.addEventListener("click", () => showDetailModal(event.id, "event", event));
+      link.addEventListener("click", () => openReadingEvent(event,link));
       const list = document.createElement("ul");
       event.editorial_questions.forEach(text => { const item = document.createElement("li"); item.textContent = text; list.appendChild(item); });
       card.append(link, list);
@@ -6584,8 +6597,11 @@ function captureReadingState() {
     ? {eventId:modal.dataset.eventId, scrollTop:modal.querySelector(".modal-card").scrollTop,
        sceneLink} : null;
   const focus = document.activeElement;
+  const location = focus?.matches("#characters .latest-place-event-link") ? focus.closest(".latest-place-content") : null;
   const readingEventFocus = focus?.matches("#timeline .schedule-event") ? {eventId:focus.dataset.eventId}
-    : focus?.matches("#characters .character-review-panel button[data-claim-key]") ? {claimKey:focus.dataset.claimKey} : null;
+    : focus?.matches("#characters .character-review-panel button[data-claim-key]") ? {claimKey:focus.dataset.claimKey}
+    : location ? {locationPersonId:location.dataset.personId,locationIndex:[...location.querySelectorAll(".latest-place-event-link")].indexOf(focus),locationEventId:new URL(focus.href).searchParams.get("event")}
+    : focus?.matches("#questionDirectory button[data-question-key]") ? {questionKey:focus.dataset.questionKey} : null;
   return {
     controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
     view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
@@ -6597,7 +6613,9 @@ function captureReadingState() {
     readingEventFocus,
     characterDisclosures:[...document.querySelectorAll("#characters .directory-character-card")]
       .filter(card=>card.querySelector(".directory-character-details")?.open)
-      .map(card=>({id:card.dataset.characterId,laterOpen:Boolean(card.querySelector(".person-later-info")?.open),revealed:spoilersRevealed})),
+      .map(card=>({id:card.dataset.characterId,laterOpen:Boolean(card.querySelector(".person-later-info")?.open),revealed:spoilersRevealed,
+        locationGroups:[...card.querySelectorAll("details[data-location-group][open]")].map(el=>el.dataset.locationGroup)})),
+    questions:{category:activeQuestionCategory,editorialOpen:Boolean(document.querySelector("#questionDirectory .question-editorial-group")?.open)},
     details: [...document.querySelectorAll("#guide details[id], #characters details[id]")].filter(el=>el.open).map(el=>el.id),
     chapterDetails:Object.fromEntries([...document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]")].map(group=>[group.dataset.chapter,group.open])),
     characterFilters: document.querySelector(".character-tag-catalog").classList.contains("filters-open"),
@@ -6625,6 +6643,7 @@ function restoreReadingState(snapshot, url) {
       if (snapshot.assignmentOnly) restored.searchParams.delete("c_assignment"); else restored.searchParams.set("c_assignment","any");
       restored.searchParams.set("t_view",snapshot.timelineView);
       restored.searchParams.set("t_period",snapshot.period);
+      if(snapshot.questions) restored.searchParams.set("t_question",snapshot.questions.category);
       if (snapshot.hypotheses) restored.searchParams.set("t_hypotheses","hide"); else restored.searchParams.delete("t_hypotheses");
       document.getElementById("assignmentOnly").checked = snapshot.assignmentOnly;
     }
@@ -6637,7 +6656,12 @@ function restoreReadingState(snapshot, url) {
         const details=card.querySelector(".directory-character-details"),later=card.querySelector(".person-later-info");
         if(details) details.open=Boolean(saved);
         if(later && saved?.revealed===spoilersRevealed) later.open=Boolean(saved.laterOpen);
+        card.querySelectorAll("details[data-location-group]").forEach(group=>{group.open=spoilersRevealed && saved?.revealed===spoilersRevealed && (saved.locationGroups || []).includes(group.dataset.locationGroup);});
       });
+      if (snapshot.questions && spoilersRevealed) {
+        const editorial=document.querySelector("#questionDirectory .question-editorial-group");
+        if(editorial) editorial.open=Boolean(snapshot.questions.editorialOpen);
+      }
       document.querySelectorAll("#guide details[id], #characters details[id]").forEach(el=>{el.open=(snapshot.details || []).includes(el.id);});
       document.querySelectorAll("#chapterEventGroups .chapter-group[data-chapter]").forEach(group=>{
         if(Object.hasOwn(snapshot.chapterDetails || {},group.dataset.chapter)) group.open=Boolean(snapshot.chapterDetails[group.dataset.chapter]);
@@ -6668,10 +6692,17 @@ function restoreReadingState(snapshot, url) {
       }
       if (!eventDetail && snapshot?.readingEventFocus && modal.classList.contains("hidden")) {
         const origin=snapshot.readingEventFocus;
-        const target=origin.claimKey ? [...document.querySelectorAll("#characters .character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===origin.claimKey)
+        let target=origin.claimKey ? [...document.querySelectorAll("#characters .character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===origin.claimKey)
+          : origin.questionKey ? [...document.querySelectorAll("#questionDirectory button[data-question-key]")].find(el=>el.dataset.questionKey===origin.questionKey)
+          : origin.locationPersonId ? [...document.querySelectorAll("#characters .latest-place-content")].find(el=>el.dataset.personId===origin.locationPersonId)?.querySelectorAll(".latest-place-event-link")[origin.locationIndex]
           : [...document.querySelectorAll("#timeline .schedule-event")].find(el=>el.dataset.eventId===origin.eventId && el.checkVisibility());
+        if(origin.locationPersonId && target && new URL(target.href).searchParams.get("event")!==origin.locationEventId) target=null;
         if(target?.checkVisibility()) target.focus({preventScroll:true});
-        else if(origin.claimKey) document.getElementById("characterSearch").focus({preventScroll:true});
+        else if(origin.claimKey || origin.locationPersonId) document.getElementById("characterSearch").focus({preventScroll:true});
+        else if(origin.questionKey) {
+          const gate=document.querySelector("#timelineSpoilerGate [data-reveal-global]");
+          (gate?.checkVisibility() ? gate : document.getElementById("timeline-tab-questions")).focus({preventScroll:true});
+        }
       }
       if (history.state?.guideReturnFocusKey) {
         const origin = guideEventOrigins.get(history.state.guideReturnFocusKey);
@@ -6701,6 +6732,7 @@ function updateViewPermalink() {
   });
   const state = { c_group: activeCharacterSection, c_tags: [...activeCharacterTags.values()].join(","), c_affiliation: activeCharacterAffiliation,
     c_view: activeCharacterView, c_assignment: document.getElementById("assignmentOnly").checked ? "" : "any", t_period: activeTimelinePeriodId, t_view: activeTimelineView,
+    t_question:activeTimelineView === "questions" ? activeQuestionCategory : "",
     t_hypotheses: document.getElementById("hideHypothesisEvents")?.checked ? "hide" : "" };
   Object.entries(state).forEach(([key, value]) => {
     if (value && (key === "t_period" || !["all", "cards", "schedule"].includes(value))) url.searchParams.set(key, value); else url.searchParams.delete(key);
@@ -6733,7 +6765,7 @@ function setupLinkedRecordFilterEdits() {
     const id = event.target.id;
     const key = Object.entries(VIEW_FILTER_CONTROLS).find(([,control])=>control===id)?.[0];
     if (key?.startsWith("c_") || id === "assignmentOnly") detach("characters");
-    if (key?.startsWith("t_") || ["timelinePeriodSelect", "hideHypothesisEvents", "timeDisplayMode"].includes(id)) detach("timeline");
+    if (key?.startsWith("t_") || ["timelinePeriodSelect", "hideHypothesisEvents", "timeDisplayMode", "questionCategory"].includes(id)) detach("timeline");
   };
   document.addEventListener("input",onControl,true);
   document.addEventListener("change",onControl,true);
@@ -6791,6 +6823,9 @@ function retireDatedDirectoryScope(period) {
 
 function restoreViewFromUrl(inputUrl, {preserveEventFilters = false} = {}) {
   const url = new URL(inputUrl);
+  const questionCategory=url.searchParams.get("t_question");
+  activeQuestionCategory=openQuestionsData.some(question=>question.category===questionCategory) ? questionCategory : "all";
+  if(spoilersRevealed) renderOpenQuestions(document.getElementById("questionDirectory"),activeQuestionCategory);
   clearParticipantCandidateSearch();
   ensureParticipantOption(url.searchParams.get('t_person'));
   const readingUrl=new URL(location.href);const topic=url.searchParams.get('g_topic');

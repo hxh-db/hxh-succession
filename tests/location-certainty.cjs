@@ -91,6 +91,7 @@ class Node {
   append(...nodes) { this.children.push(...nodes); }
   replaceChildren(...nodes) { this.children = nodes; }
   addEventListener(type, fn) { this.listeners[type] = fn; }
+  hasAttribute() { return false; }
   querySelectorAll(selector) {
     assert.ok(['details[data-location-group]','details[data-location-group][open]'].includes(selector));
     const walk = node => (node.children || []).flatMap(child=>[child,...walk(child)]);
@@ -106,6 +107,7 @@ const ctx = vm.createContext({
   document: {createElement: tag => new Node(tag), createTextNode: value => ({text: value}), createDocumentFragment: () => new Node('#fragment')},
   showDetailModal: (id, category) => opened.push([id, category]),
   openPersonEvent: () => false,
+  openReadingEvent: (event, origin) => { assert.equal(origin.className,'latest-place-event-link'); opened.push([event.id,'event']); },
   formatPublicDetailText: value => value
 });
 vm.runInContext('function getPersonnelEvents() { return eventsData; }', ctx);
@@ -127,7 +129,8 @@ ctx.openPersonEvent=(event,focusKind)=>{routed.push([event.id,focusKind]);return
 first.listeners.click({preventDefault() {},stopPropagation() {}});
 assert.deepEqual(routed.pop(),[bLatest.eventId,'location']);
 assert.equal(opened.length,0,'the person return route must not open a second detail');
-first.listeners.click({ctrlKey:true,preventDefault(){throw new Error('modified links must keep native navigation');},stopPropagation(){}});
+for(const input of [{ctrlKey:true},{metaKey:true},{shiftKey:true},{altKey:true},{button:1},{button:2},{defaultPrevented:true}])
+  first.listeners.click({...input,preventDefault(){throw new Error('modified links must keep native navigation');},stopPropagation(){}});
 assert.equal(routed.length,0);
 ctx.openPersonEvent=()=>false;
 // History API後の人物URLにいても、新しいタブ・リンクコピー先は一覧の出来事へ。

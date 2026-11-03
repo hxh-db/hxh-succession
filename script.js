@@ -6317,6 +6317,12 @@ function setupPrimaryNavigation() {
   window.addEventListener("scroll", saveScroll, {passive:true});
   document.querySelector("#detailModal .modal-card").addEventListener("scroll", saveScroll, {passive:true});
   window.addEventListener("pagehide", saveReadingState);
+  window.addEventListener("pageshow", event => {
+    if (event.persisted && viewLinksReady && history.state?.readingSnapshot?.readingEventFocus?.questionArticleId
+        && !history.state?.hxhCharacterModal && !window.CharacterRoutes?.isActive()) {
+      restoreReadingState(history.state?.readingSnapshot, new URL(location.href));
+    }
+  });
   document.addEventListener("toggle", event => { if (event.target.closest?.("#guide, #characters, #chapterEventGroups")) saveReadingState(); }, true);
   activatePrimaryView(location.hash.slice(1) || "characters");
 }
@@ -6640,6 +6646,8 @@ function restoreReadingState(snapshot, url) {
   restoringReadingState = true;
   closeDetailModal(true);
   try {
+    const currentDisclosure=SpoilerPreferences.read();
+    if(currentDisclosure!==spoilersRevealed) setSpoilersRevealed(currentDisclosure,false);
     const restored = new URL(url);
     if (snapshot) {
       Object.entries(snapshot.controls).forEach(([key,value])=>restored.searchParams.set(key,value));

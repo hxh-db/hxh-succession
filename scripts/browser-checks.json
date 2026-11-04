@@ -67,5 +67,6 @@
   {"name":"event-entry-return","groups":["critical","navigation","directory"]},
   {"name":"location-question-return","groups":["critical","navigation","directory"]},
   {"name":"question-article-return","groups":["critical","navigation","research"]},
-  {"name":"coverage-reading-return","groups":["critical","navigation"]}
+  {"name":"coverage-reading-return","groups":["critical","navigation"]},
+  {"name":"guide-search-disclosures","groups":["critical","navigation"]}
 ]

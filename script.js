@@ -5018,21 +5018,45 @@ function normalizeGuideQuery(value) {
   return String(value).normalize("NFKC").toLocaleLowerCase("ja").replace(/\s+/g, " ").trim();
 }
 
+const guideSearchDisclosures = new Map();
+const guideSearchOpenState = new Map();
+
+function updateGuideSearchDisclosures(matching) {
+  for (const [details, state] of guideSearchOpenState) {
+    if (matching.has(details)) continue;
+    // Restore only the opening made by search; preserve a later manual choice.
+    if (!state.manual && details.open) details.open = state.wasOpen;
+    guideSearchOpenState.delete(details);
+  }
+  for (const details of matching) {
+    if (guideSearchOpenState.has(details)) continue;
+    guideSearchOpenState.set(details, {wasOpen:details.open, manual:false});
+    details.open = true;
+  }
+}
+
 function updateGuideSearch() {
   const input = document.getElementById("guideSearch");
   if (!input) return;
   const terms = normalizeGuideQuery(input.value).split(" ").filter(Boolean);
   let available = 0, matches = 0;
+  const matchingDisclosures = new Set();
   document.querySelectorAll("#guide > .guide-facts, #guide > .guide-data-section").forEach((section) => {
     const allowed = spoilersRevealed || section.classList.contains("guide-facts") || section.classList.contains("guide-initial-setting");
     const match = allowed && terms.every((term) => section.dataset.guideSearchText?.includes(term));
     if (allowed) available++;
     if (match) matches++;
     section.hidden = !match;
+    if (match && terms.length) {
+      for (const {details, text} of guideSearchDisclosures.get(section) || []) {
+        if (terms.some(term => text.includes(term))) matchingDisclosures.add(details);
+      }
+    }
     const target = section.getAttribute("aria-labelledby");
     const item = document.querySelector(`[data-guide-target="${target}"]`)?.closest("li");
     if (item) item.hidden = !match;
   });
+  updateGuideSearchDisclosures(matchingDisclosures);
   document.getElementById("guideSearchStatus").textContent = `${available}項目中${matches}項目を表示${spoilersRevealed ? "" : "（後の情報は非表示）"}`;
   document.getElementById("guideNoResults").hidden = matches !== 0;
   document.getElementById("guideSearchClear").hidden = terms.length === 0;
@@ -5053,6 +5077,17 @@ function setupGuideNavigation() {
     const copy = section.cloneNode(true);
     copy.querySelectorAll(".guide-local-memo, #princeStatusContent, #initialPersonnelContent, #personnelSnapshotContent").forEach((node) => node.remove());
     section.dataset.guideSearchText = normalizeGuideQuery(copy.textContent);
+    guideSearchDisclosures.set(section, [...section.querySelectorAll("details")].flatMap(details => {
+      if (details.closest(".guide-local-memo, #princeStatusContent, #initialPersonnelContent, #personnelSnapshotContent")) return [];
+      const body = details.cloneNode(true);
+      body.querySelectorAll(":scope > summary, .guide-local-memo, #princeStatusContent, #initialPersonnelContent, #personnelSnapshotContent").forEach(node => node.remove());
+      return [{details, text:normalizeGuideQuery(body.textContent)}];
+    }));
+  });
+  document.getElementById("guide").addEventListener("click", event => {
+    const summary = event.target.closest("summary");
+    const state = summary && guideSearchOpenState.get(summary.parentElement);
+    if (state && !event.defaultPrevented && event.button === 0) state.manual = true;
   });
   const clearTopicLink=()=>{
     const url=new URL(location.href);url.searchParams.delete('g_topic');

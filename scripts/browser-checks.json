@@ -66,5 +66,6 @@
   {"name":"scene-link-navigation","groups":["critical","navigation"]},
   {"name":"event-entry-return","groups":["critical","navigation","directory"]},
   {"name":"location-question-return","groups":["critical","navigation","directory"]},
-  {"name":"question-article-return","groups":["critical","navigation","research"]}
+  {"name":"question-article-return","groups":["critical","navigation","research"]},
+  {"name":"coverage-reading-return","groups":["critical","navigation"]}
 ]

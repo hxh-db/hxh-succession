@@ -5423,6 +5423,15 @@ function openReadingEvent(event, origin) {
   navigateReadingUrl(url,{returnReadingEventId:event.id});
 }
 
+function rememberReadingLink(link) {
+  link.addEventListener("click", event => {
+    if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
+        || link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
+    link.focus({preventScroll:true});
+    saveReadingState();
+  });
+}
+
 function showDetailModal(name, category, eventData = null) {
   if (["prince", "bodyguard"].includes(category) && charactersData.some((person) => person.id === name)) window.CharacterRoutes?.open(name);
   // 詳細を開いても全画面のネタバレ設定は変えない・保存しない。後の話は詳細内の折りたたみで扱う。
@@ -6203,12 +6212,7 @@ function renderOpenQuestions(container, category = activeQuestionCategory) {
       essayLink.href = `theories/${encodeURIComponent(question.id)}/`;
       essayLink.dataset.questionArticle = question.id;
       essayLink.textContent = "根拠と考察を読む →";
-      essayLink.addEventListener("click", event => {
-        if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
-            || essayLink.hasAttribute("download") || (essayLink.target && essayLink.target.toLowerCase() !== "_self")) return;
-        essayLink.focus({preventScroll:true});
-        saveReadingState();
-      });
+      rememberReadingLink(essayLink);
       card.append(heading, meta, known, unknown, links, essayLink);
       container.appendChild(card);
     });
@@ -6318,7 +6322,8 @@ function setupPrimaryNavigation() {
   document.querySelector("#detailModal .modal-card").addEventListener("scroll", saveScroll, {passive:true});
   window.addEventListener("pagehide", saveReadingState);
   window.addEventListener("pageshow", event => {
-    if (event.persisted && viewLinksReady && history.state?.readingSnapshot?.readingEventFocus?.questionArticleId
+    const origin=history.state?.readingSnapshot?.readingEventFocus;
+    if (event.persisted && viewLinksReady && (origin?.questionArticleId || origin?.coverageChapter)
         && !history.state?.hxhCharacterModal && !window.CharacterRoutes?.isActive()) {
       restoreReadingState(history.state?.readingSnapshot, new URL(location.href));
     }
@@ -6569,6 +6574,8 @@ function renderChapterCoverage() {
     [...url.searchParams.keys()].filter((key) => key.startsWith("t_") || ["person", "event"].includes(key)).forEach((key) => url.searchParams.delete(key));
     url.searchParams.set("t_chapter", String(chapter)); url.searchParams.set("t_period", "all");
     chapterLink.href = url.href; chapterLink.textContent = `第${chapter}話`;
+    chapterLink.dataset.coverageChapter = String(chapter);
+    rememberReadingLink(chapterLink);
     const text = document.createElement("span");
     text.textContent = events.length ? `${events.length}件・${reviewed ? `${reviewed}件に原作確認記録（登録範囲）` : "登録あり・原作再照合待ち"}`
       : UNCOLLECTED_CHAPTERS.has(chapter) ? `未収録（${UNCOLLECTED_CHAPTERS.get(chapter)}）・出来事は0件` : "未収録・入力と確認が必要";
@@ -6615,7 +6622,8 @@ function captureReadingState() {
     : focus?.matches("#characters .character-review-panel button[data-claim-key]") ? {claimKey:focus.dataset.claimKey}
     : location ? {locationPersonId:location.dataset.personId,locationIndex:[...location.querySelectorAll(".latest-place-event-link")].indexOf(focus),locationEventId:new URL(focus.href).searchParams.get("event")}
     : focus?.matches("#questionDirectory button[data-question-key]") ? {questionKey:focus.dataset.questionKey}
-    : focus?.matches("#questionDirectory a[data-question-article]") ? {questionArticleId:focus.dataset.questionArticle} : null;
+    : focus?.matches("#questionDirectory a[data-question-article]") ? {questionArticleId:focus.dataset.questionArticle}
+    : focus?.matches("#chapterCoverage a[data-coverage-chapter]") ? {coverageChapter:focus.dataset.coverageChapter,revealed:spoilersRevealed} : null;
   return {
     controls: Object.fromEntries(Object.entries(VIEW_FILTER_CONTROLS).map(([key,id]) => [key, document.getElementById(id)?.value || ""])),
     view: document.querySelector("[data-primary-panel]:not([hidden])")?.dataset.primaryPanel || "characters",
@@ -6711,17 +6719,22 @@ function restoreReadingState(snapshot, url) {
         let target=origin.claimKey ? [...document.querySelectorAll("#characters .character-review-panel button[data-claim-key]")].find(el=>el.dataset.claimKey===origin.claimKey)
           : origin.questionKey ? [...document.querySelectorAll("#questionDirectory button[data-question-key]")].find(el=>el.dataset.questionKey===origin.questionKey)
           : origin.questionArticleId ? [...document.querySelectorAll("#questionDirectory a[data-question-article]")].find(el=>el.dataset.questionArticle===origin.questionArticleId)
+          : origin.coverageChapter ? [...document.querySelectorAll("#chapterCoverage a[data-coverage-chapter]")].find(el=>el.dataset.coverageChapter===origin.coverageChapter)
           : origin.locationPersonId ? [...document.querySelectorAll("#characters .latest-place-content")].find(el=>el.dataset.personId===origin.locationPersonId)?.querySelectorAll(".latest-place-event-link")[origin.locationIndex]
           : [...document.querySelectorAll("#timeline .schedule-event")].find(el=>el.dataset.eventId===origin.eventId && el.checkVisibility());
         if(origin.locationPersonId && target && new URL(target.href).searchParams.get("event")!==origin.locationEventId) target=null;
-        if(target?.checkVisibility()) target.focus({preventScroll:true});
+        if(target?.checkVisibility()) {
+          target.focus({preventScroll:true});
+          if(origin.coverageChapter && origin.revealed!==spoilersRevealed) target.scrollIntoView({block:"center",inline:"nearest",behavior:"instant"});
+        }
+        else if(origin.coverageChapter) document.getElementById("guideSearch").focus();
         else if(origin.claimKey || origin.locationPersonId) document.getElementById("characterSearch").focus({preventScroll:true});
         else if(origin.questionKey || origin.questionArticleId) {
           const gate=document.querySelector("#timelineSpoilerGate [data-reveal-global]");
           (gate?.checkVisibility() ? gate : document.getElementById("timeline-tab-questions")).focus({preventScroll:true});
         }
       }
-      if (history.state?.guideReturnFocusKey) {
+      if (history.state?.guideReturnFocusKey && !snapshot?.readingEventFocus) {
         const origin = guideEventOrigins.get(history.state.guideReturnFocusKey);
         if (origin && origin.url === location.href && snapshot?.view === "guide" && document.contains(origin.link)) {
           (origin.link.checkVisibility() ? origin.link : document.getElementById("guideSearch"))?.focus({preventScroll:true});

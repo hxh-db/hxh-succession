@@ -16,6 +16,14 @@ const {fixture,ready}=require('./helpers/browser-fixture.cjs');
  // The summary is already visible: a summary-only hit need not open a body.
  await faq.locator('summary').click();await search.fill('辞退');assert.equal(await faq.evaluate(e=>e.open),false);await search.fill('');
  await section.evaluate(el=>{const d=document.createElement('details');d.className='guide-local-memo';d.innerHTML='<summary>この項目にメモ</summary><p>非公開検査語abc987</p>';el.append(d);return true;});await search.fill('非公開検査語abc987');assert.match(await p.locator('#guideSearchStatus').innerText(),/中0項目/);await search.fill('');
+ const ids=()=>p.locator('#guideContents li:not([hidden]) a').evaluateAll(links=>links.map(link=>link.dataset.guideTarget));
+ await search.fill('モレナ');const katakana=await ids();assert.ok(katakana.length>0);
+ for(const query of ['もれな','ﾓﾚﾅ']){await search.fill(query);assert.deepEqual(await ids(),katakana);}
+ await search.fill('モレナ ゲーム');const combined=await ids();assert.ok(combined.length>0&&combined.length<katakana.length);
+ await search.fill('もれな げーむ');assert.deepEqual(await ids(),combined);assert.equal(await search.inputValue(),'もれな げーむ');
+ assert.equal(new URL(await p.locator('#currentViewLink').getAttribute('href')).searchParams.get('g_search'),'もれな げーむ');
+ assert.ok(await p.locator('[aria-labelledby="negotiationGameTitle"] .guide-example').evaluate(el=>el.open));await p.reload();await ready(p);assert.equal(await search.inputValue(),'もれな げーむ');assert.deepEqual(await ids(),combined);
+ await p.locator('#spoilerRange').selectOption('basic');assert.ok(await p.locator('[aria-labelledby="negotiationGameTitle"]').isHidden());await p.locator('#spoilerRange').selectOption('all');assert.deepEqual(await ids(),combined);
  const fresh=await fixture(b,{width,local:false,prefix:'/hxh-succession'}),q=await fresh.context.newPage();await q.goto(share);await ready(q);assert.equal(await q.locator('#spoilerRange').inputValue(),'basic');assert.ok(await q.locator('#guide details').filter({has:q.locator('summary',{hasText:'辞退や船外への脱出'})}).isHidden());await q.locator('#spoilerRange').selectOption('all');await q.reload();await ready(q);const target=q.locator('#guide details').filter({has:q.locator('summary',{hasText:'辞退や船外への脱出'})});assert.ok(await target.locator('p').isVisible());await q.locator('#spoilerRange').selectOption('basic');assert.ok(await target.isHidden());assert.equal(await target.evaluate(e=>e.open),false);
  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);await fresh.context.close();await context.close();console.log(`PASS ${width}: matching authored explanations, selective folds, unchanged focus, clear/manual choices, summary hits, share/reload and basic disclosure`);
  }}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -4,7 +4,7 @@ const {fixture,ready}=require('./helpers/browser-fixture.cjs');
  const {context,base}=await fixture(b,{local:false,width,prefix:'/hxh-succession'}),p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.goto(base+'#guide');await ready(p);await p.locator('#spoilerRange').selectOption('all');await p.locator('#guideSearch').fill('戒厳令');
  const law=p.locator('[data-guide-target="lawGuideTitle"]');assert.equal(await law.evaluate(e=>e.tagName),'A');
- const nativeLink=await law.getAttribute('href');await law.click();assert.equal(await p.evaluate(()=>document.activeElement.id),'lawGuideTitle');
+ const nativeLink=await law.getAttribute('href');assert.equal(new URL(nativeLink,base).searchParams.get('g_search'),'戒厳令');await law.click();assert.equal(await p.evaluate(()=>document.activeElement.id),'lawGuideTitle');
  const share=await p.locator('#currentViewLink').getAttribute('href');assert.equal(new URL(share).searchParams.get('g_topic'),'lawGuideTitle');assert.equal(new URL(share).searchParams.get('g_search'),'戒厳令');
  const fresh=await fixture(b,{local:false,width,prefix:'/hxh-succession'}),recipient=await fresh.context.newPage();recipient.on('pageerror',e=>errors.push(e.message));
  await recipient.goto(share);await ready(recipient);assert.equal(await recipient.locator('#spoilerRange').inputValue(),'basic');
@@ -19,5 +19,19 @@ const {fixture,ready}=require('./helpers/browser-fixture.cjs');
  await recipient.locator('#clearRecordLink').click();await ready(recipient);assert.equal(new URL(recipient.url()).searchParams.has('g_topic'),false);assert.ok(await recipient.locator('#recordLinkStatus').isHidden());
  await p.locator('[data-primary-view="characters"]').click();await p.goBack();await ready(p);assert.equal(new URL(p.url()).searchParams.get('g_topic'),'lawGuideTitle');
  const opened=await context.newPage();await opened.goto(new URL(nativeLink,base).href);await ready(opened);assert.equal(await opened.evaluate(()=>document.activeElement.id),'lawGuideTitle');
+ assert.equal(await opened.locator('#guideSearch').inputValue(),'戒厳令');await opened.close();await p.bringToFront();
+ // A copied contents link and Ctrl-click must retain the same filtered explanation.
+ await p.locator('#guideSearch').fill('妨害した存在');const faq=p.locator('[data-guide-target="guideQuestionsTitle"]');
+ const copied=await faq.getAttribute('href'),sourceUrl=p.url();assert.equal(new URL(copied,base).searchParams.get('g_search'),'妨害した存在');
+ const popupPromise=context.waitForEvent('page');await faq.click({modifiers:['Control']});const popup=await popupPromise;await popup.bringToFront();await ready(popup);
+ const checkExplanation=async page=>{assert.equal(await page.locator('#guideSearch').inputValue(),'妨害した存在');assert.equal(new URL(page.url()).searchParams.get('g_topic'),'guideQuestionsTitle');assert.ok(await page.locator('[aria-labelledby="guideQuestionsTitle"] details').first().locator('p').isVisible());};
+ await checkExplanation(popup);assert.equal(p.url(),sourceUrl);await popup.close();await p.bringToFront();await faq.click();await checkExplanation(p);
+ assert.equal(await p.evaluate(()=>document.activeElement.id),'guideQuestionsTitle');await p.reload();await ready(p);await checkExplanation(p);
+ // A fresh recipient keeps basic disclosure even when the copied URL includes a search.
+ await recipient.locator('#spoilerRange').selectOption('basic');await recipient.goto(new URL(copied,base).href);await ready(recipient);
+ assert.equal(await recipient.locator('#spoilerRange').inputValue(),'basic');assert.equal(await recipient.locator('#guideSearch').inputValue(),'妨害した存在');assert.ok(await recipient.locator('[aria-labelledby="guideQuestionsTitle"]').isHidden());
+ await recipient.locator('#spoilerRange').selectOption('all');await recipient.waitForFunction(()=>document.activeElement.id==='guideQuestionsTitle');await checkExplanation(recipient);
+ await p.locator('#guideSearchClear').click();assert.equal(await p.evaluate(()=>document.activeElement.id),'guideSearch');
+ for(const href of await p.locator('[data-guide-target]').evaluateAll(links=>links.map(link=>link.href)))assert.equal(new URL(href).searchParams.has('g_search'),false);
  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.deepEqual(errors,[]);await fresh.context.close();await context.close();console.log(`PASS ${width}: native topic links, precise view URL, basic/all receivers, pending disclosure, search detachment, history and invalid target safety`);
 }}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

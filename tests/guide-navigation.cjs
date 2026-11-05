@@ -10,14 +10,17 @@ for(const m of html.matchAll(/href="\?event=([^"#]+)#timeline"/g))assert.ok(even
 for(const id of ['guideFactsTitle','shipMapTitle','princeStatusTitle','successionRulesTitle','royalTreasuresTitle','negotiationGameTitle','guardAssignmentTitle','initialPersonnelTitle','shipRolesTitle','soemonoTitle','beyondTeamTitle','darkContinentTitle'])assert.ok(ids.includes(id),'preserve memo key '+id);
 const controls=Object.fromEntries(['guideSearch','guideSearchStatus','guideNoResults','guideSearchClear'].map(id=>[id,{value:'',hidden:false,textContent:''}]));
 const rows=[['basic','guide-facts','船の構造'],['roles','guide-initial-setting','兵士の所属'],['secret','','契約違反で絶 レベル21']].map(([id,cls,text])=>({id,dataset:{guideSearchText:text},classList:{contains:x=>x===cls},getAttribute:()=>id,item:{hidden:false}}));
-const context=vm.createContext({document:{getElementById:id=>controls[id],querySelectorAll:()=>rows,querySelector:selector=>{const r=rows.find(r=>selector.includes(`"${r.id}"`));return {closest:()=>r.item};}}});
+const context=vm.createContext({URLSearchParams,document:{getElementById:id=>controls[id],querySelectorAll:()=>rows,querySelector:selector=>{const r=rows.find(r=>selector.includes(`"${r.id}"`));return r.link ||= {closest:()=>r.item};}}});
 vm.runInContext(`let spoilersRevealed=false; function updateViewPermalink() {} ${extract('normalizeGuideQuery')} ${extract('updateGuideSearchDisclosures')} ${extract('updateGuideSearch')}`,context);
+assert.equal(vm.runInContext("normalizeGuideQuery('もれな げーむ')",context),vm.runInContext("normalizeGuideQuery('ﾓﾚﾅ ゲーム')",context));
 const update=()=>vm.runInContext('updateGuideSearch()',context);
 update();assert.equal(rows[2].hidden,true);assert.equal(rows[2].item.hidden,true);assert.match(controls.guideSearchStatus.textContent,/2項目中2項目/);
 controls.guideSearch.value='契約';update();assert.equal(controls.guideNoResults.hidden,false);assert.match(controls.guideSearchStatus.textContent,/2項目中0項目/,'hidden topics must not leak in result counts');
 vm.runInContext('spoilersRevealed=true',context);update();assert.equal(rows[2].hidden,false);assert.equal(rows[0].hidden,true);
 controls.guideSearch.value='レベル２１ 契約';update();assert.equal(rows[2].hidden,false,'NFKC and AND search');
+for(const row of rows){const url=new URL(row.link.href,'https://example.test/');assert.equal(url.searchParams.get('g_search'),'レベル２１ 契約');assert.equal(url.searchParams.get('g_topic'),row.id);}
 vm.runInContext('spoilersRevealed=false',context);update();assert.equal(rows[2].hidden,true,'hide an active result immediately when spoilers are disabled');
 controls.guideSearch.value='';update();assert.equal(rows[0].hidden,false);assert.equal(controls.guideSearchClear.hidden,true);
+for(const row of rows)assert.equal(new URL(row.link.href,'https://example.test/').searchParams.has('g_search'),false);
 assert.match(extract('setupGuideNavigation'),/\.guide-local-memo/,'exclude private memo text from search');
 console.log('PASS: 19 topic targets, stable memo IDs, event links, query normalization, spoiler-safe search and toggle');

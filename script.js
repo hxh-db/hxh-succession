@@ -5015,7 +5015,9 @@ function getGuideMemoRecords() {
 }
 
 function normalizeGuideQuery(value) {
-  return String(value).normalize("NFKC").toLocaleLowerCase("ja").replace(/\s+/g, " ").trim();
+  return String(value).normalize("NFKC").toLocaleLowerCase("ja")
+    .replace(/[ぁ-ゖ]/g, character => String.fromCharCode(character.charCodeAt(0) + 0x60))
+    .replace(/\s+/g, " ").trim();
 }
 
 const guideSearchDisclosures = new Map();
@@ -5053,7 +5055,13 @@ function updateGuideSearch() {
       }
     }
     const target = section.getAttribute("aria-labelledby");
-    const item = document.querySelector(`[data-guide-target="${target}"]`)?.closest("li");
+    const link = document.querySelector(`[data-guide-target="${target}"]`);
+    if (link) {
+      const params = new URLSearchParams({g_topic:target});
+      if (input.value.trim()) params.set("g_search",input.value.trim());
+      link.href = `?${params}#guide`;
+    }
+    const item = link?.closest("li");
     if (item) item.hidden = !match;
   });
   updateGuideSearchDisclosures(matchingDisclosures);

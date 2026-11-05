@@ -3,7 +3,7 @@ function refreshArticleTitle() {
   const heading=document.querySelector('.spoiler-article .essay-title');
   if(heading) document.title=`${heading.closest('.spoiler-article').open ? heading.textContent : '考察記事'} | 王位継承戦データまとめ`;
 }
-(() => {
+const theorySpoilerControl = (() => {
   const container=document.getElementById('spoilerPreferences');
   if(!container)return;
   const update=(revealed,persist=true)=>{
@@ -14,7 +14,8 @@ function refreshArticleTitle() {
   };
   const control=SpoilerPreferences.mount(container,{latestChapter:Number(container.dataset.latestChapter),onChange:update});
   update(SpoilerPreferences.read(),false);
-  window.addEventListener('storage',event=>{if(event.key===SpoilerPreferences.STORAGE_KEY)update(event.newValue==='true',false);});
+  window.addEventListener('storage',event=>{if([SpoilerPreferences.STORAGE_KEY,SpoilerPreferences.ACTION_KEY].includes(event.key))update(SpoilerPreferences.read(),false);});
+  return {sync:()=>update(SpoilerPreferences.read(),false)};
 })();
 // Deep links never disclose a closed article. After an explicit open, resolve
 // the requested section without changing the shared preference.
@@ -76,6 +77,9 @@ if (!search) {
   });
 }
 if (search) {
+  const directory=search.closest('.spoiler-directory');
+  const clearReadingState=()=>{const state={...history.state};delete state.theoryDirectoryReading;return state;};
+  directory.querySelector(':scope > summary').addEventListener('click',()=>history.replaceState(clearReadingState(),'',location.href));
   document.querySelector('.essay-filters').hidden = false;
   const category = document.getElementById('essay-category');
   const readThrough = document.getElementById('essay-read-through');
@@ -95,14 +99,18 @@ if (search) {
     cards.slice().sort((a,b) => ranks.get(a) - ranks.get(b) || cards.indexOf(a) - cards.indexOf(b))
       .forEach(card => card.parentElement.appendChild(card));
     document.getElementById('essay-count').textContent = `${count}本の記事`;
-    document.getElementById('essay-empty').hidden = count !== 0;
+    const empty=document.getElementById('essay-empty');
+    empty.hidden = count !== 0;
+    empty.textContent=readThrough.value && !cards.some(card=>Number(card.dataset.chapter)<=Number(readThrough.value))
+      ? `第${readThrough.value}話までを対象にした記事はまだありません。`
+      : '該当する記事はありません。検索語や分類を変えてください。';
     const state = {q: search.value, category: category.value, read: readThrough.value};
     if (updateUrl) {
       const url = new URL(location.href);
       for (const key of ['q', 'category', 'read']) {
         if (state[key]) url.searchParams.set(key, state[key]); else url.searchParams.delete(key);
       }
-      history.replaceState(history.state, '', url);
+      history.replaceState(clearReadingState(), '', url);
     }
     cards.forEach(card => carryState(card.querySelector('a'), state));
   };
@@ -111,7 +119,33 @@ if (search) {
     category.value = [...category.options].some(option => option.value === state.category) ? state.category : '';
     readThrough.value = [...readThrough.options].some(option => option.value === state.read) ? state.read : '';
     filter(false);
+    theorySpoilerControl?.sync();
+    const saved=history.state?.theoryDirectoryReading;
+    if(!saved || saved.url!==location.href)return;
+    const samePreference=saved.revealed===SpoilerPreferences.read() && saved.revision===SpoilerPreferences.revision();
+    directory.open=SpoilerPreferences.read() || (samePreference && saved.open);
+    requestAnimationFrame(()=>{
+      const link=cards.map(card=>card.querySelector('a')).find(link=>link.href===saved.link && !link.closest('.essay-card').hidden);
+      if(directory.open && link){
+        link.focus({preventScroll:true});
+        window.scrollTo({top:Number.isFinite(saved.scrollY)?saved.scrollY:0,behavior:'instant'});
+      }else{
+        const summary=directory.querySelector(':scope > summary');
+        summary.focus({preventScroll:true});summary.scrollIntoView({block:'center',behavior:'instant'});
+      }
+    });
   };
+  cards.forEach(card=>{
+    const link=card.querySelector('a');
+    link.addEventListener('click',event=>{
+      if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
+        || link.hasAttribute('download') || (link.target && link.target.toLowerCase()!=='_self'))return;
+      link.focus({preventScroll:true});
+      history.scrollRestoration='manual';
+      history.replaceState({...history.state,theoryDirectoryReading:{url:location.href,link:link.href,scrollY:scrollY,
+        open:directory.open,revealed:SpoilerPreferences.read(),revision:SpoilerPreferences.revision()}},'',location.href);
+    });
+  });
   search.addEventListener('input', () => filter());
   category.addEventListener('change', () => filter());
   readThrough.addEventListener('change', () => filter());

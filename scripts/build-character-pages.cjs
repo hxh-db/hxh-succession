@@ -117,7 +117,7 @@ ${person.verification_status === 'unverified' || person.is_count_only || person.
 <link rel="canonical" href="${SITE}characters/${encodeURIComponent(person.id)}/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../${STYLE_URL}">
-<script src="../../spoiler-preferences.js?v=20261028-ui" defer></script>
+<script src="../../spoiler-preferences.js?v=20261106-actions" defer></script>
 <script src="../../character-page.js?v=20261028-ui" defer></script>
 </head><body class="standalone-character-page" data-character-id="${escape(person.id)}">
 <header class="site-header"><div class="header-inner"><p>HUNTER×HUNTER 王位継承戦データベース</p></div>
@@ -182,7 +182,7 @@ function expectedOutputs(onlyId = null) {
     outputs.set('characters/index.html', `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人物索引 | HUNTER×HUNTER 王位継承戦</title><meta name="description" content="王位継承戦の人物を名前から探す静的人物索引。"><link rel="canonical" href="${SITE}characters/"><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../${STYLE_URL}"></head><body><main class="page-container"><h1>人物索引</h1><p><a href="../#characters">検索・絞り込みができる人物一覧へ</a></p>
 <div id="spoilerPreferences" class="spoiler-preferences" data-latest-chapter="${Math.max(...events.map(event=>event.chapter))}" hidden></div>
 ${links}
-</main><script src="../spoiler-preferences.js?v=20261028-ui" defer></script><script src="../character-page.js?v=20261028-ui" defer></script></body></html>\n`);
+</main><script src="../spoiler-preferences.js?v=20261106-actions" defer></script><script src="../character-page.js?v=20261028-ui" defer></script></body></html>\n`);
     // 人数枠は閲覧できるようにするが、実在の個人として検索エンジンへ推薦しない。
     const urls = [SITE, SITE+'characters/', ...directory.filter(p=>!p.is_count_only && !countOnly.has(p.id)).map(p=>`${SITE}characters/${p.id}/`)];
     outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(url=>`<url><loc>${escape(url)}</loc></url>`).join('\n')+'\n</urlset>\n');

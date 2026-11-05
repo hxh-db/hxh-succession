@@ -1,7 +1,9 @@
 /* Two supported disclosure levels. Chapter-specific disclosure is not yet enabled. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.SpoilerPreferences=api;})(typeof globalThis==='object'?globalThis:this,function(){
   const STORAGE_KEY='hxh-succession-spoilers-revealed-v1';
+  const ACTION_KEY='hxh-succession-spoilers-action-v1';
   function read(storage){try{return (storage || globalThis.localStorage).getItem(STORAGE_KEY)==='true';}catch(_){return false;}}
+  function revision(storage){try{return (storage || globalThis.localStorage).getItem(ACTION_KEY);}catch(_){return null;}}
   function mount(container,{latestChapter,onChange}){
     const label=document.createElement('label');label.className='spoiler-range-label';
     label.appendChild(document.createTextNode('ネタバレ表示範囲'));
@@ -13,8 +15,12 @@
     const help=document.createElement('span');help.id='spoilerRangeHelp';help.className='spoiler-range-help';
     help.textContent='読み終えた範囲を選んでください。現在は基本情報／収録済み全情報の2段階です。';
     select.setAttribute('aria-describedby',help.id);label.appendChild(select);container.replaceChildren(label,help);
-    container.hidden=false;select.addEventListener('change',()=>onChange(select.value==='all'));
+    container.hidden=false;select.addEventListener('change',()=>{
+      // Re-selecting basic is an explicit choice, even when the stored value is unchanged.
+      try{globalThis.localStorage.setItem(ACTION_KEY,`${Date.now()}:${Math.random()}`);}catch(_){/* no storage */}
+      onChange(select.value==='all');
+    });
     return {setValue(revealed){select.value=revealed?'all':'basic';}};
   }
-  return {STORAGE_KEY,read,mount};
+  return {STORAGE_KEY,ACTION_KEY,read,revision,mount};
 });

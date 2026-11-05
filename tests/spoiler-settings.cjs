@@ -64,4 +64,7 @@ const select=container.children[0].children.find(node=>node.tagName==='select');
 assert.deepEqual(select.children.map(option=>option.value),['basic','all']);
 select.value='all';select.listeners.change();
 assert.equal(stored.get('hxh-succession-spoilers-revealed-v1'), 'true');
+const firstRevision=pageCtx.SpoilerPreferences.revision();
+select.listeners.change();
+assert.notEqual(pageCtx.SpoilerPreferences.revision(),firstRevision,'a same-value choice must invalidate older local disclosure restoration');
 console.log('PASS: opening a person card/modal/static page keeps the shared spoiler setting; later-chapter info is folded locally');

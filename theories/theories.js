@@ -3,6 +3,11 @@ function refreshArticleTitle() {
   const heading=document.querySelector('.spoiler-article .essay-title');
   if(heading) document.title=`${heading.closest('.spoiler-article').open ? heading.textContent : '考察記事'} | 王位継承戦データまとめ`;
 }
+function isSameTabLinkClick(event, link) {
+  return !event.defaultPrevented && event.button === 0 && !event.ctrlKey && !event.metaKey
+    && !event.shiftKey && !event.altKey && !link.hasAttribute('download')
+    && (!link.target || link.target.toLowerCase() === '_self');
+}
 const theorySpoilerControl = (() => {
   const container=document.getElementById('spoilerPreferences');
   if(!container)return;
@@ -22,6 +27,18 @@ const theorySpoilerControl = (() => {
 (() => {
   const article=document.querySelector('.spoiler-article .essay-title')?.closest('.spoiler-article');
   if(!article)return;
+  const folds = [article, ...article.querySelectorAll('details')];
+  const summaryFor = fold => fold?.querySelector(':scope > summary');
+  const evidenceLinks = [...article.querySelectorAll('a[href*="event="]')];
+  const savedReading = () => {
+    const saved = history.state?.theoryEvidenceReading;
+    return saved?.url === location.href ? saved : null;
+  };
+  const stateWithoutReading = () => {
+    const state = {...history.state};
+    delete state.theoryEvidenceReading;
+    return state;
+  };
   let focusOnOpen=false;
   const findSection=fragment=>[...article.querySelectorAll('[data-section]')].find(node=>node.dataset.section===fragment);
   const followFragment=(focus=false)=>{
@@ -39,19 +56,82 @@ const theorySpoilerControl = (() => {
       }
     });
   };
-  article.querySelector(':scope > summary').addEventListener('click',()=>{focusOnOpen=true;});
-  article.addEventListener('toggle',()=>{refreshArticleTitle();const focus=focusOnOpen;focusOnOpen=false;followFragment(focus);});
-  article.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{
-    if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || link.hasAttribute('download') || (link.target && link.target.toLowerCase()!=='_self'))return;
-    const url=new URL(link.href);if(!findSection(url.hash.slice(1)))return;
-    event.preventDefault();if(url.href!==location.href)history.pushState(history.state,'',url.href);followFragment(true);
+  const restoreView = () => {
+    const saved = savedReading();
+    if (!saved) {
+      followFragment(true);
+      return;
+    }
+
+    const revealed = SpoilerPreferences.read();
+    const samePreference = saved.revealed === revealed && saved.revision === SpoilerPreferences.revision();
+    theorySpoilerControl?.sync();
+    if (samePreference || revealed) {
+      folds.forEach((fold, index) => { fold.open = Boolean(saved.openFolds[index]); });
+      if (!samePreference) article.open = true;
+    }
+    refreshArticleTitle();
+    requestAnimationFrame(() => {
+      const link = evidenceLinks.find(candidate => candidate.href === saved.link);
+      if (article.open && link?.checkVisibility()) {
+        link.focus({preventScroll:true});
+        window.scrollTo({top:saved.scrollY,behavior:'instant'});
+        return;
+      }
+      const manualSummary = summaryFor(folds[saved.summaryIndex]);
+      const summary = manualSummary?.checkVisibility() ? manualSummary : summaryFor(article);
+      summary.focus({preventScroll:true});
+      summary.scrollIntoView({block:'center',behavior:'instant'});
+    });
+  };
+
+  evidenceLinks.forEach(link => link.addEventListener('click', event => {
+    if (!article.open || !isSameTabLinkClick(event, link)) return;
+    link.focus({preventScroll:true});
+    history.scrollRestoration = 'manual';
+    history.replaceState({...history.state, theoryEvidenceReading:{
+      url:location.href, link:link.href, scrollY:window.scrollY, openFolds:folds.map(fold => fold.open),
+      revealed:SpoilerPreferences.read(), revision:SpoilerPreferences.revision()
+    }}, '', location.href);
   }));
-  window.addEventListener('hashchange',()=>followFragment(true));
-  window.addEventListener('popstate',()=>followFragment(true));
+
+  folds.forEach((fold, summaryIndex) => summaryFor(fold)?.addEventListener('click', event => {
+    if (event.defaultPrevented) return;
+    if (fold === article && !article.open) {
+      focusOnOpen = true;
+      history.replaceState(stateWithoutReading(), '', location.href);
+      history.scrollRestoration = 'auto';
+      return;
+    }
+    const saved = savedReading();
+    if (!saved) return;
+    const openFolds = folds.map(item => item === fold ? !item.open : item.open);
+    history.replaceState({...history.state, theoryEvidenceReading:{...saved, link:null, openFolds, summaryIndex,
+      revealed:SpoilerPreferences.read(), revision:SpoilerPreferences.revision()
+    }}, '', location.href);
+  }));
+
+  article.addEventListener('toggle',()=>{
+    refreshArticleTitle();
+    const focus = focusOnOpen;
+    focusOnOpen = false;
+    if (!savedReading()) followFragment(focus);
+  });
+  article.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{
+    if (!isSameTabLinkClick(event, link)) return;
+    const url=new URL(link.href);if(!findSection(url.hash.slice(1)))return;
+    event.preventDefault();
+    if (url.href!==location.href) history.pushState(stateWithoutReading(),'',url.href);
+    else if (savedReading()) history.replaceState(stateWithoutReading(),'',url.href);
+    history.scrollRestoration = 'auto';
+    followFragment(true);
+  }));
+  window.addEventListener('hashchange',restoreView);
+  window.addEventListener('popstate',restoreView);
   // Resolve the initial target after the browser's native fragment navigation.
   // Otherwise its later focus/scroll can undo the destination set by the script.
-  window.addEventListener('pageshow',()=>followFragment(true));
-  refreshArticleTitle();if(document.readyState==='complete')followFragment(true);
+  window.addEventListener('pageshow',restoreView);
+  refreshArticleTitle();if(document.readyState==='complete')restoreView();
 })();
 const search = document.getElementById('essay-search');
 const articleState = () => {
@@ -138,8 +218,7 @@ if (search) {
   cards.forEach(card=>{
     const link=card.querySelector('a');
     link.addEventListener('click',event=>{
-      if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
-        || link.hasAttribute('download') || (link.target && link.target.toLowerCase()!=='_self'))return;
+      if (!isSameTabLinkClick(event, link)) return;
       link.focus({preventScroll:true});
       history.scrollRestoration='manual';
       history.replaceState({...history.state,theoryDirectoryReading:{url:location.href,link:link.href,scrollY:scrollY,

@@ -69,5 +69,6 @@
   {"name":"question-article-return","groups":["critical","navigation","research"]},
   {"name":"coverage-reading-return","groups":["critical","navigation"]},
   {"name":"guide-search-disclosures","groups":["critical","navigation"]},
-  {"name":"theory-directory-return","groups":["critical","navigation","research"]}
+  {"name":"theory-directory-return","groups":["critical","navigation","research"]},
+  {"name":"theory-evidence-return","groups":["critical","navigation","research"]}
 ]
